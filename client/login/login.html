@@ -1,0 +1,83 @@
+<template name="login">
+  <div class="bar bar-header bar-royal">
+    <h2 class="title">parti-O</h2>
+  </div>
+  
+  <div class="content has-header login-bg overflow-scroll"> 
+    
+    <div class="logo-container-login">
+      <img src="main_logo.png"/>&nbsp;
+    </div>
+
+    <div class="padding">
+      <button class="button button-block icon-left ion-social-facebook-outline button-positive">CONNECT WITH FACEBOOK</button>
+    </div>
+
+    <div class="list list-inset">
+      <label class="item item-input">
+        <i class="icon ion-ios-email energized placeholder-icon"></i>
+        &nbsp;<input type="email" name="email" placeholder="Email">
+      </label>
+
+      <label class="item item-input">
+        <i class="icon ion-ios-locked energized placeholder-icon"></i>
+        &nbsp;<input type="password" name="password" placeholder="Password">
+      </label>
+    </div>
+
+    <div class="padding-horizontal">
+      <button id="loginButton" class="button button-block button-energized">LOGIN</button>      
+    </div>
+
+    <div class="padding-horizontal center">
+      <button data-ion-modal="register" class="button button-clear button-energized">DON'T HAVE AN ACCOUNT? SIGN UP!</button>      
+    </div>
+  
+  </div>
+</template>
+
+
+<template name="register">
+  {{#ionModal customTemplate=true}}
+      <div class="bar bar-header bar-royal">
+        <button type="button" data-dismiss="modal" class="button ion-ios-arrow-back button-clear"> Login</button>
+        <h2 class="title">Sign Up</h2>
+      </div>
+      
+      <div class="content has-header login-bg overflow-scroll"> 
+
+        <div class="list list-inset">
+          <label class="item item-input">
+            <i class="icon ion-ios-person energized placeholder-icon"></i>
+            &nbsp;<input type="text" name="name" placeholder="Name">
+          </label>
+          <br>
+
+          <label class="item item-input">
+            <i class="icon ion-ios-email energized placeholder-icon"></i>
+            &nbsp;<input type="email" name="email" placeholder="Email">
+          </label>
+          <br>
+          <label class="item item-input">
+            <i class="icon ion-ios-locked energized placeholder-icon"></i>
+            &nbsp;<input type="password" name="password" placeholder="Password">
+          </label>
+          <br>
+          <label class="item item-input">
+            <i class="icon ion-university energized placeholder-icon"></i>
+            &nbsp;<input type="text" name="college" placeholder="College/University">
+          </label>
+          <br>
+          <label class="item item-input">
+            <i class="icon ion-iphone energized placeholder-icon"></i>
+            &nbsp;<input type="tel" name="mobile" placeholder="Mobile">
+          </label>
+        </div>
+
+        <div class="padding-horizontal">
+          <button id="registerButton" class="button button-block button-energized">REGISTER</button>      
+        </div>
+
+      </div>
+  {{/ionModal}}
+</template>

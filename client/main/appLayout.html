@@ -1,0 +1,110 @@
+<head>
+  <title>Partio</title>
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+</head>
+
+<body>
+</body>
+
+<template name="appLayout">
+  {{#ionBody}}
+    
+    {{#ionSideMenuContainer side="left"}}
+        {{#ionSideMenu}}
+          <div class="content">
+
+            <div class="logo-container">
+              <img src="main_logo.png"/>&nbsp;
+              <!-- <span class="logo-text">partio-O</span> -->
+          	</div>
+            
+
+          	<div class="list transparent-list">
+          		<a href="{{pathFor "main"}}" class="item" data-ion-menu-close>
+          			{{> ionIcon icon="document" class="energized"}} &nbsp;&nbsp; MY PRODUCTS
+          		</a>
+          		<a href="{{pathFor "main"}}" class="item" data-ion-menu-close>
+          			{{> ionIcon icon="flash" class="energized"}} &nbsp;&nbsp; PRODUCTS LENT
+          		</a>
+          		<a href="{{pathFor "main"}}" class="item" data-ion-menu-close>
+          			{{> ionIcon icon="bag" class="energized"}} &nbsp;&nbsp; TRANSACTIONS
+          		</a>
+          		<a href="{{pathFor "main"}}" class="item" data-ion-menu-close>
+          			{{> ionIcon icon="social-usd" class="energized"}} &nbsp;&nbsp; MY PROFILE
+          		</a>
+          		<a href="{{pathFor "main"}}" class="item" data-ion-menu-close>
+          			{{> ionIcon icon="podium" class="energized"}} &nbsp;&nbsp; ABOUT PARTIO-O
+          		</a>
+          		<a id="logout" class="item" data-ion-menu-close>
+          			{{> ionIcon icon="log-out" class="energized"}} &nbsp;&nbsp; LOGOUT
+          		</a>
+          	</div>
+
+
+
+
+            <p class="padding beta">beta v0.1.0</p>
+            
+          </div>
+        {{/ionSideMenu}}
+
+      {{#ionSideMenuContent}}
+        {{> ionNavBar class="bar-royal"}}
+        {{#ionNavView}}
+          {{> yield}}
+        {{/ionNavView}}
+      {{/ionSideMenuContent}}
+    {{/ionSideMenuContainer}}
+
+  {{/ionBody}}
+</template>
+
+
+<template name="main">
+  {{#contentFor "headerButtonLeft"}}
+      <button class="button button-clear pull-left" data-ion-menu-toggle="left">
+        {{#if isAndroid}}
+        {{> ionIcon icon='android-more-vertical'}}
+        {{else}}
+        {{> ionIcon icon='navicon' class="energized"}}
+        {{/if}}
+      </button>
+  {{/contentFor}}
+  
+  {{#contentFor "headerTitle"}}
+    <h1 class="title">partio-O</h1>
+  {{/contentFor}}
+
+  {{#contentFor "headerButtonRight"}}
+    {{> notifications}}
+  {{/contentFor}}
+
+  {{#ionView}}
+    {{#ionContent class="scroll-bg"}}
+	    <div id="bottom-triangle">
+	    	<div id="top-triangle"></div>
+	    </div>
+
+	    <div class="top-part flex-aligner">
+	    	<div class="top-part-margin center">
+	    		<img src="lend_white.png" class="lend-image">
+	    		<br><br>
+	    		{{> ionIcon icon='android-arrow-back' class=""}}
+	    		<span class="center">LEND</span>
+	    	</div>
+	    </div>
+
+	    <div class="bottom-part flex-aligner">
+	    	<div class="bottom-part-margin center">
+	    		<img src="borrow_white.png" class="borrow-image">
+	    		<br><br>
+		    	<span class="">BORROW&nbsp;</span>{{> ionIcon icon='android-arrow-forward' class=""}}
+	    	</div>
+	    </div>
+
+    {{/ionContent}}
+  {{/ionView}}
+</template>
+
+<template name="notifications">
+</template>
