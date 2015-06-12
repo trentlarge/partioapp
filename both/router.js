@@ -1,26 +1,32 @@
 Router.configure({ layoutTemplate: 'appLayout' });
 
-
 Router.route('/', { name: 'main' });
 Router.route('/login', { name: 'login' });
 Router.route('/borrow', {name: 'borrow' });
 Router.route('/lend', {name: 'lend' });
 
 Router.onBeforeAction(loginChecker);
-
+Router.onAfterAction(stopSpinner);
 
 function loginChecker() {
 	if (!Meteor.user()) {
+		// alert("not meteor.user");
 		if (Meteor.loggingIn()) {
+			// alert("meter loggin in.. startin chakram");
 			IonLoading.show();
 			this.next();
+			// alert("after logginIn this.next");
 		} else {
-			IonLoading.hide();
+			// alert("rendering login, no user found");
 			this.render('login');
 		}
 		
 	} else {
-		IonLoading.hide();
+		// alert("meteor user present, so logging in");
 		this.next();
 	}
+}
+
+function stopSpinner() {
+	IonLoading.hide();
 }

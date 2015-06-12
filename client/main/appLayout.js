@@ -1,7 +1,3 @@
-if (Meteor.isCordova) {
-	cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);	
-}
-
 Template.main.events({
 	// 'click .top-part': function() {
 	// 	console.log('top part');

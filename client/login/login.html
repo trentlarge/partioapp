@@ -1,19 +1,12 @@
 <template name="login">
-<!--   <div class="bar bar-header bar-royal">
-    <h2 class="title">Login</h2>
-  </div>
-  
-  <div class="content has-header overflow-scroll"> 
- -->    
-
 {{#contentFor "headerTitle"}}
-  <h1 class="title">Login_hideaccessory</h1>
+  <h1 class="title">Login</h1>
 {{/contentFor}}
 
 
 {{#ionView}}
   {{#ionContent class="ion-content has-header overflow-scroll"}}
-    <div class="logo-container-login">
+    <div class="logo-container-login hide-on-keyboard-open">
       <img src="main_logo.png"/>&nbsp;
     </div>
 
@@ -57,7 +50,7 @@
         <h2 class="title">Sign Up</h2>
       </div>
       
-      <div class="content has-header login-bg overflow-scroll"> 
+      <div class="content has-header overflow-scroll"> 
 
         <div class="list list-inset">
           <label class="item item-input">
