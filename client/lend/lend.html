@@ -1,0 +1,57 @@
+<template name="lend">
+	{{#ionModal customTemplate=true}}
+      <div class="bar bar-header bar-royal">
+        <button type="button" data-dismiss="modal" class="button ion-ios-arrow-back button-clear"> Back</button>
+        <h2 class="title">Share your Book</h2>
+      </div>
+      
+      <div class="content has-header login-bg overflow-scroll">
+      <br>
+      	<div id="viewfinder">
+      		<p>Scan Barcode</p>
+      	</div>
+
+      	<div class="list card">
+      	{{#with scanResult}}
+      		<a class="item item-icon-left">
+      			<i class="icon ion-ios-telephone"></i>
+      			Result
+      			<span>{{result}}</span>
+      		</a>
+
+      		<a class="item item-icon-left">
+      			<i class="icon ion-wifi"></i>
+      			Format
+      			<span>{{format}}</span>
+      		</a>
+
+      		<a class="item item-icon-left">
+      			<i class="icon ion-card"></i>
+      			Cancelled
+      			<span>{{cancelled}}</span>
+      		</a>
+      	{{/with}}
+      	</div>
+
+        <div class="list list-inset">
+          <label class="item item-input">
+            <i class="icon ion-ios-person energized placeholder-icon"></i>
+            &nbsp;<input type="text" name="name" placeholder="Name">
+          </label>
+          <br>
+
+        </div>
+
+        <div class="padding-horizontal">
+          <button id="registerButton" class="button button-block button-energized">REGISTER</button>      
+        </div>
+
+      </div>
+  	{{/ionModal}}
+</template>
+
+
+
+<template name="borrow">
+<p>BORROW</p>
+</template>

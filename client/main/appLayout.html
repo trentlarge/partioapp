@@ -18,30 +18,26 @@
               <!-- <span class="logo-text">partio-O</span> -->
           	</div>
             
-
           	<div class="list transparent-list">
           		<a href="{{pathFor "main"}}" class="item" data-ion-menu-close>
-          			{{> ionIcon icon="document" class="energized"}} &nbsp;&nbsp; MY PRODUCTS
+          			{{> ionIcon icon="ios-briefcase" class="energized"}} &nbsp;&nbsp; MY BOOKS
           		</a>
           		<a href="{{pathFor "main"}}" class="item" data-ion-menu-close>
-          			{{> ionIcon icon="flash" class="energized"}} &nbsp;&nbsp; PRODUCTS LENT
+          			{{> ionIcon icon="ios-browsers" class="energized"}} &nbsp;&nbsp; BOOKS LENT
           		</a>
           		<a href="{{pathFor "main"}}" class="item" data-ion-menu-close>
-          			{{> ionIcon icon="bag" class="energized"}} &nbsp;&nbsp; TRANSACTIONS
+          			{{> ionIcon icon="card" class="energized"}} &nbsp;&nbsp; TRANSACTIONS
           		</a>
           		<a href="{{pathFor "main"}}" class="item" data-ion-menu-close>
-          			{{> ionIcon icon="social-usd" class="energized"}} &nbsp;&nbsp; MY PROFILE
+          			{{> ionIcon icon="person" class="energized"}} &nbsp;&nbsp; MY PROFILE
           		</a>
           		<a href="{{pathFor "main"}}" class="item" data-ion-menu-close>
-          			{{> ionIcon icon="podium" class="energized"}} &nbsp;&nbsp; ABOUT PARTIO-O
+          			{{> ionIcon icon="ios-information" class="energized"}} &nbsp;&nbsp; ABOUT PARTIO-O
           		</a>
           		<a id="logout" class="item" data-ion-menu-close>
-          			{{> ionIcon icon="log-out" class="energized"}} &nbsp;&nbsp; LOGOUT
+          			{{> ionIcon icon="android-exit" class="energized"}} &nbsp;&nbsp; LOGOUT
           		</a>
           	</div>
-
-
-
 
             <p class="padding beta">beta v0.1.0</p>
             
@@ -80,17 +76,17 @@
   {{/contentFor}}
 
   {{#ionView}}
-    {{#ionContent class="scroll-bg"}}
+    {{#ionContent}}
 	    <div id="bottom-triangle">
 	    	<div id="top-triangle"></div>
 	    </div>
 
-	    <div class="top-part flex-aligner">
+	    <div class="top-part flex-aligner" data-ion-modal="lend">
 	    	<div class="top-part-margin center">
 	    		<img src="lend_white.png" class="lend-image">
 	    		<br><br>
 	    		{{> ionIcon icon='android-arrow-back' class=""}}
-	    		<span class="center">LEND</span>
+	    		<span class="center">LEND BOOK</span>
 	    	</div>
 	    </div>
 
@@ -98,7 +94,7 @@
 	    	<div class="bottom-part-margin center">
 	    		<img src="borrow_white.png" class="borrow-image">
 	    		<br><br>
-		    	<span class="">BORROW&nbsp;</span>{{> ionIcon icon='android-arrow-forward' class=""}}
+		    	<span class="">BORROW BOOK&nbsp;</span>{{> ionIcon icon='android-arrow-forward' class=""}}
 	    	</div>
 	    </div>
 

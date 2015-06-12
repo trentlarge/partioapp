@@ -7,10 +7,16 @@
 @import '.meteor/local/build/programs/server/assets/packages/meteoric_ionicons-sass/ionicons';
 
 
+.snap-drawer {
+	width: 270px !important;
+}
 
+body.keyboard-open .platform-android .content.overflow-scroll {
+  bottom: 0px !important;
+}
 
 ion-side-menu.menu-left.menu {
-  background-color: $dark !important;
+  background-color: red !important;
 }
 
 .menu-left {
@@ -90,12 +96,12 @@ ion-side-menu.menu-left.menu {
 
 .top-part {
 	height: 45vh;
-	font-size: 2em;
+	font-size: 1.5em;
 	color: white;
 }
 .bottom-part {
 	height: 47vh;
-	font-size: 2em;
+	font-size: 1.5em;
 	color: white;
 }
 
@@ -108,10 +114,7 @@ ion-side-menu.menu-left.menu {
 .center {
 	text-align: center;
 }
-.lend-borrow-text {
-	font-size: 1.5em;
-	color: white;
-}
+
 .flex-aligner {
   display: -webkit-box; /* OLD - iOS 6-, Safari 3.1-6 */
   display: -moz-box; /* OLD - Firefox 19- (buggy but mostly works) */
@@ -144,4 +147,35 @@ ion-side-menu.menu-left.menu {
 	margin-left: 40vw;
 }
 
+
+
+#viewfinder p {
+  word-break: break-all;
+  display: table-cell;
+  vertical-align: middle;
+}
+#viewfinder {
+	display: table;
+	position: relative;
+	width: 40%;
+	height: 20%;
+	background-color: white;
+	margin: 0 auto;
+	text-align: center;
+	line-height: 100%;
+}
+#viewfinder::before, #viewfinder::after {
+	position: absolute;
+	content: '';
+	width: 17px;
+	height: calc(100% + 4px);
+	top: -2px;
+	left: -2px;
+	background: -webkit-linear-gradient(pink, pink 20px, transparent 20px, transparent calc(100% - 20px), pink calc(100% - 20px));
+	background: linear-gradient(pink, pink 20px, transparent 20px, transparent calc(100% - 20px), pink calc(100% - 20px));
+	z-index: -1;
+}
+#viewfinder::after {
+	left: calc(100% - 15px);
+}
 

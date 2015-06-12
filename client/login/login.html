@@ -1,10 +1,18 @@
 <template name="login">
-  <div class="bar bar-header bar-royal">
-    <h2 class="title">parti-O</h2>
+<!--   <div class="bar bar-header bar-royal">
+    <h2 class="title">Login</h2>
   </div>
   
-  <div class="content has-header login-bg overflow-scroll"> 
-    
+  <div class="content has-header overflow-scroll"> 
+ -->    
+
+{{#contentFor "headerTitle"}}
+  <h1 class="title">Login_hideaccessory</h1>
+{{/contentFor}}
+
+
+{{#ionView}}
+  {{#ionContent class="ion-content has-header overflow-scroll"}}
     <div class="logo-container-login">
       <img src="main_logo.png"/>&nbsp;
     </div>
@@ -32,8 +40,13 @@
     <div class="padding-horizontal center">
       <button data-ion-modal="register" class="button button-clear button-energized">DON'T HAVE AN ACCOUNT? SIGN UP!</button>      
     </div>
+
+    <br>
+
+    {{/ionContent}}
+    {{/ionView}}
   
-  </div>
+  <!-- </div> -->
 </template>
 
 
