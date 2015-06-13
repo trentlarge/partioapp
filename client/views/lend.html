@@ -1,7 +1,7 @@
 <template name="lend">
 	{{#ionModal customTemplate=true}}
       <div class="bar bar-header bar-royal">
-        <button type="button" data-dismiss="modal" class="button ion-ios-arrow-back button-clear"> Cancel</button>
+        <button type="button" data-dismiss="modal" class="button button-clear"> Cancel</button>
         <h2 class="title">Share your Book</h2>
       </div>
       
@@ -69,7 +69,44 @@
   	{{/ionModal}}
 </template>
 
+<template name="mybooks">
+  {{#contentFor "headerButtonLeft"}}
+      <button class="button button-clear pull-left" data-ion-menu-toggle="left">
+        {{#if isAndroid}}
+        {{> ionIcon icon='android-more-vertical'}}
+        {{else}}
+        {{> ionIcon icon='navicon' class="energized"}}
+        {{/if}}
+      </button>
+  {{/contentFor}}
+  
+  {{#contentFor "headerTitle"}}
+    <h1 class="title">My Books</h1>
+  {{/contentFor}}
+
+  {{#contentFor "headerButtonRight"}}
+    <button class="button button-clear" data-ion-modal="lend">{{> ionIcon icon="ios-plus-outline" class="assertive"}}</button>
+  {{/contentFor}}
+
+  {{#ionView}}
+    {{#ionContent}}
+    
+    <div class="list">
+    {{#each myBooks}}
+      <!-- {{#ionItem path='showMerchantInventory' _id=this._id iconRight=true class="item-avatar"}} -->
+      {{#ionItem iconRight=true class="item-avatar"}}
+          <img src="{{thumbnail}}"/>
+          <h2>{{title}}</h2>
+          <p><span class="tinytext">Weekly Price: ${{customPrice}}</span></p>
+          {{> ionIcon icon="ios-arrow-right" class="priceFont"}}
+      {{/ionItem}}
+    {{/each}}
+    </div>
+
+    {{/ionContent}}
+  {{/ionView}}
+</template>
 
 <template name="borrow">
-<p>BORROW</p>
+  <p>BORROW</p>
 </template>

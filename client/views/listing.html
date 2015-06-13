@@ -1,0 +1,61 @@
+<template name="listing">
+  {{#contentFor "headerButtonLeft"}}
+      <button class="button button-clear pull-left" data-ion-menu-toggle="left">
+        {{#if isAndroid}}
+          {{> ionIcon icon='android-more-vertical'}}
+        {{else}}
+          {{> ionIcon icon='navicon'}}
+        {{/if}}
+      </button>
+  {{/contentFor}}
+  
+  {{#contentFor "headerTitle"}}
+    <h1 class="title">Browse Books</h1>
+  {{/contentFor}}
+
+<!--   {{#contentFor "headerButtonRight"}}
+    {{>checkout}}
+  {{/contentFor}} -->
+
+  {{#ionView}}
+    {{#ionContent}}  
+      {{> searchBox}}
+      {{> searchResult}}
+    {{/ionContent}}
+  {{/ionView}}
+</template>
+
+
+<template name="searchBox">
+  <div class="bar item-input-inset">
+    <label class="item-input-wrapper">
+      <i class="icon ion-ios-search placeholder-icon"></i>
+      <input type="text" id="search-box" placeholder="type keywords to search..." />
+    </label>
+  </div>  
+</template>
+
+<template name="searchResult">
+  <div id='search-result' class="list">
+    <div id="search-meta">
+      {{#if isLoading}}
+        {{>loadingTemplate}}
+      {{/if}}
+    </div>
+
+    {{#each getPackages}}
+
+        <div class="package">
+        <!-- {{#ionItem path='showMerchantInventory' _id=this._id iconRight=true class="item-avatar"}} -->
+        {{#ionItem iconRight=true class="item-avatar"}}
+          <img src="{{thumbnail}}"/>
+          <h2>{{{title}}}</h2>
+          <p><span class="tinytext">Weekly Price: ${{{customPrice}}}</span></p>
+          {{> ionIcon icon="ios-arrow-right" class="energized"}}
+        {{/ionItem}}
+        </div>
+    {{/each}}
+  </div>
+</template>
+
+<template name="loadingTemplate"></template>

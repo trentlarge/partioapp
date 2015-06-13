@@ -10,7 +10,7 @@ Template.lend.events({
             HTTP.get("https://www.googleapis.com/books/v1/volumes?q=isbn:"+ result.text, function(error,result) {
               if (!error) {
                 var scanData = {
-                  "price": 20,
+                  "price": _.random(20, 50),
                   "thumbnail":  result.data.items[0].volumeInfo.imageLinks.smallThumbnail,
                   "title":  result.data.items[0].volumeInfo.title,
                   "subtitle": result.data.items[0].volumeInfo.subtitle,
@@ -49,7 +49,7 @@ Template.lend.events({
         var insertData = _.extend(submitProduct, {
           "lendingPeriod": lendingPeriod,
           "userId": Meteor.userId(),
-          "customPrice": "notSet"
+          "customPrice": submitProduct.price * 0.2
         })
         Products.insert(insertData);
         IonLoading.hide();
@@ -102,3 +102,10 @@ Template.lend.helpers({
 Template.lend.destroyed = function() {
   Session.set('scanResult', null)
 }
+
+
+Template.mybooks.helpers({
+  myBooks: function() {
+    return Products.find({"userId": Meteor.userId()})
+  }
+})
