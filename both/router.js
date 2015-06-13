@@ -4,6 +4,8 @@ Router.route('/', { name: 'main' });
 Router.route('/login', { name: 'login' });
 Router.route('/borrow', {name: 'borrow' });
 Router.route('/lend', {name: 'lend' });
+Router.route('/mybooks', {name: 'mybooks'});
+Router.route('/listing', {name: 'listing'});
 
 Router.onBeforeAction(loginChecker);
 Router.onAfterAction(stopSpinner);

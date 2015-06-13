@@ -7,6 +7,11 @@
 @import '.meteor/local/build/programs/server/assets/packages/meteoric_ionicons-sass/ionicons';
 
 
+
+// .content.overflow-scroll {
+// bottom: 0px !important;
+// }
+
 .snap-drawer {
 	width: 270px !important;
 }
@@ -114,6 +119,12 @@ ion-side-menu.menu-left.menu {
 .center {
 	text-align: center;
 }
+.left-align {
+	text-align: left;
+}
+.right-align {
+	text-align: right;
+}
 
 .flex-aligner {
   display: -webkit-box; /* OLD - iOS 6-, Safari 3.1-6 */
@@ -149,12 +160,12 @@ ion-side-menu.menu-left.menu {
 
 
 
-#viewfinder p {
+.viewfinder p {
   word-break: break-all;
   display: table-cell;
   vertical-align: middle;
 }
-#viewfinder {
+.viewfinder {
 	display: table;
 	position: relative;
 	width: 40%;
@@ -164,7 +175,7 @@ ion-side-menu.menu-left.menu {
 	text-align: center;
 	line-height: 100%;
 }
-#viewfinder::before, #viewfinder::after {
+.viewfinder::before, .viewfinder::after {
 	position: absolute;
 	content: '';
 	width: 17px;
@@ -175,7 +186,25 @@ ion-side-menu.menu-left.menu {
 	background: linear-gradient(pink, pink 20px, transparent 20px, transparent calc(100% - 20px), pink calc(100% - 20px));
 	z-index: -1;
 }
-#viewfinder::after {
+.viewfinder::after {
 	left: calc(100% - 15px);
 }
 
+.viewfinder img {
+	height: 50%;
+	width: auto;
+}
+
+.scan-result p {
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+
+#right-align1 {
+	text-align: right;
+}
+#right-align2 {
+	text-align: right;
+}

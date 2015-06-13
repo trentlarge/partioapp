@@ -1,55 +1,73 @@
 <template name="lend">
 	{{#ionModal customTemplate=true}}
       <div class="bar bar-header bar-royal">
-        <button type="button" data-dismiss="modal" class="button ion-ios-arrow-back button-clear"> Back</button>
+        <button type="button" data-dismiss="modal" class="button ion-ios-arrow-back button-clear"> Cancel</button>
         <h2 class="title">Share your Book</h2>
       </div>
       
       <div class="content has-header login-bg overflow-scroll">
       <br>
-      	<div id="viewfinder">
-      		<p>Scan Barcode</p>
+      {{#if scanResult}}
+        {{#with scanResult}}
+      	<div class="viewfinder">
+      		<p><img src={{thumbnail}}/></p>
       	</div>
 
-      	<div class="list card">
-      	{{#with scanResult}}
-      		<a class="item item-icon-left">
-      			<i class="icon ion-ios-telephone"></i>
-      			Result
-      			<span>{{result}}</span>
-      		</a>
-
-      		<a class="item item-icon-left">
-      			<i class="icon ion-wifi"></i>
-      			Format
-      			<span>{{format}}</span>
-      		</a>
-
-      		<a class="item item-icon-left">
-      			<i class="icon ion-card"></i>
-      			Cancelled
-      			<span>{{cancelled}}</span>
-      		</a>
-      	{{/with}}
-      	</div>
+        <div class="card hide-on-keyboard-open">
+          <div class="row item">
+            <div class="col col-33">
+                <p>Original Price</p>
+                <p>Title</p>
+                <p>Subtitle</p>
+                <p>ISBN-10</p>
+                <p>Authors</p>
+                <p>Publisher</p>
+                <p>Language</p>
+                <p>PageCount</p>
+            </div>
+            <div class="col col-67 scan-result">
+                <p><strong>${{price}}</strong></p>
+                <p><strong>{{title}}</strong></p>
+                <p>{{subtitle}}</p>
+                <p>{{isbn10}}</p>
+                <p>{{author}}</p>
+                <p>{{publisher}}</p>
+                <p>{{language}}</p>
+                <p>{{pageCount}}</p>
+            </div>
+          </div>
+        </div>
 
         <div class="list list-inset">
-          <label class="item item-input">
-            <i class="icon ion-ios-person energized placeholder-icon"></i>
-            &nbsp;<input type="text" name="name" placeholder="Name">
-          </label>
-          <br>
-
+         <label class="item item-input">
+          <span class="input-label">Availability (weeks)</span>
+          <input id="lendingPeriod" class="center" type="number" placeholder="2">&nbsp;
+        </label>
+            <!-- <label class="item item-input item-select">
+              <div class="input-label"> Make Available for</div>
+              <select>
+                <option selected>2 weeks</option>
+                <option >3 weeks</option>
+                <option>4 weeks</option>
+                <option>Indefinite</option>
+              </select>
+            </label> -->
         </div>
 
         <div class="padding-horizontal">
-          <button id="registerButton" class="button button-block button-energized">REGISTER</button>      
+          <button id="submitProduct" class="button button-block button-energized">{{calculatedPrice}}</button>      
         </div>
+
+        {{/with}}
+      {{else}}
+        <div class="viewfinder">
+          <p>Scan Barcode</p>
+        </div>
+      {{/if}}
 
       </div>
   	{{/ionModal}}
 </template>
-
 
 
 <template name="borrow">
