@@ -16,7 +16,7 @@ function loginChecker() {
 		if (Meteor.loggingIn()) {
 			// alert("meter loggin in.. startin chakram");
 			IonLoading.show();
-			this.next();
+			// this.next();
 			// alert("after logginIn this.next");
 		} else {
 			// alert("rendering login, no user found");

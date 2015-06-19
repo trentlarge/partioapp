@@ -13,6 +13,7 @@ Template.appLayout.events({
 			title: 'Logging out',
 			template: '<div class="center">Are you sure you want to logout?</div>',
 			onOk: function() {
+				Router.go('/')
 				Meteor.logout();
 			},
 			onCancel: function() {

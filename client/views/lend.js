@@ -7,23 +7,41 @@ Template.lend.events({
          
           if (result.cancelled === 0) {
             IonLoading.show();
-            HTTP.get("https://www.googleapis.com/books/v1/volumes?q=isbn:"+ result.text, function(error,result) {
+            HTTP.get("https://www.googleapis.com/books/v1/volumes?q=isbn:"+ result.text, {timeout: 15000},
+              function(error,result) {
               if (!error) {
-                var scanData = {
-                  "price": _.random(20, 50),
-                  "thumbnail":  result.data.items[0].volumeInfo.imageLinks.smallThumbnail,
-                  "title":  result.data.items[0].volumeInfo.title,
-                  "subtitle": result.data.items[0].volumeInfo.subtitle,
-                  "isbn10": result.data.items[0].volumeInfo.industryIdentifiers[1].identifier,
-                  "publisher": result.data.items[0].volumeInfo.publisher,
-                  "language": result.data.items[0].volumeInfo.language,
-                  "author": result.data.items[0].volumeInfo.authors[0],
-                  "pageCount": result.data.items[0].volumeInfo.pageCount
+                if (result.data.totalItems === 0) {
+                  IonLoading.hide();
+                  IonPopup.show({
+                    title: 'No match found :( ',
+                    template: '<div class="center">You can manually check-in your book</div>',
+                    buttons: 
+                    [{
+                      text: 'OK',
+                      type: 'button-assertive',
+                      onTap: function() {
+                        IonPopup.close();
+                      }
+                    }]
+                  });
+                } else {
+                  var scanData = {
+                    "price": (_.random(20, 50)).toFixed(2),
+                    "thumbnail":  result.data.items[0].volumeInfo.imageLinks.smallThumbnail,
+                    "title":  result.data.items[0].volumeInfo.title,
+                    "subtitle": result.data.items[0].volumeInfo.subtitle,
+                    "isbn10": result.data.items[0].volumeInfo.industryIdentifiers[1].identifier,
+                    "publisher": result.data.items[0].volumeInfo.publisher,
+                    "language": result.data.items[0].volumeInfo.language,
+                    "author": result.data.items[0].volumeInfo.authors[0],
+                    "pageCount": result.data.items[0].volumeInfo.pageCount
+                  }
+                  IonLoading.hide();
+                  Session.set('scanResult', scanData);
                 }
-                IonLoading.hide();
-                Session.set('scanResult', scanData);
               } else {console.log(error)}
             });
+            Meteor.setTimeout(function(){IonLoading.hide()},15000)
           } else {
             IonLoading.hide();
           }
@@ -49,7 +67,7 @@ Template.lend.events({
         var insertData = _.extend(submitProduct, {
           "lendingPeriod": lendingPeriod,
           "userId": Meteor.userId(),
-          "customPrice": submitProduct.price * 0.2
+          "customPrice": (submitProduct.price / 5).toFixed(2)
         })
         Products.insert(insertData);
         IonLoading.hide();
@@ -92,7 +110,7 @@ Template.lend.helpers({
   },
   calculatedPrice: function() {
     if (Session.get('scanResult')) {
-      return "Share this book at $" + Session.get('scanResult').price * 0.2 + " per week"
+      return "Share this book at $" + (Session.get('scanResult').price / 5).toFixed(2) + " per week"
     } else {
       return "Scan to get price suggestion"
     }

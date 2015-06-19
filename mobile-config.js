@@ -1,7 +1,7 @@
 App.info({
-  id: 'com.beta.partio',
+  id: 'com.codefyne.parti-O',
   name: 'PARTIO',
-  description: 'Lend. Borrow. Party-o',
+  description: 'Share. Borrow. Party-o',
   author: 'Codefyne',
   website: 'http://www.codefyne.com',
   version: '0.1.0'
@@ -14,8 +14,8 @@ App.icons({
 });
 
 App.launchScreens({
-  'iphone': '',
-  'iphone5': ''
+  'iphone': 'public/Default~iphone.png',
+  'iphone5': 'public/Default@iphone5~iphone.png'
 });
 
 App.setPreference('StatusBarOverlaysWebView', true);
