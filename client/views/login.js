@@ -64,6 +64,37 @@ Template.login.events({
 			}
 		});
 
+	},
+	'click #fblogin': function() {
+		console.log("calling facebook");
+		Meteor.loginWithFacebook({}, function(err){
+			if (err) {
+				IonPopup.show({
+					title: 'Error connecting to Facebook',
+					template: '<div class="center">'+err+'</div>',
+					buttons: [{
+						text: 'OK',
+						type: 'button-calm',
+						onTap: function() {
+							IonPopup.close();
+						}
+					}]
+				});
+			} else {
+				IonPopup.show({
+					title: 'Great!',
+					template: '<div class="center">Logging in through your Facebook account...</div>',
+					buttons: [{
+						text: 'OK',
+						type: 'button-calm',
+						onTap: function() {
+							IonPopup.close();
+						}
+					}]
+				});
+			}
+		});
 	}
 })
+
 

@@ -3,6 +3,9 @@
   // Meteor.users.remove({});
   // SERVER FRESH START SEQUENCE
 
+// ServiceConfiguration.loginServiceConfiguration.remove({
+//     service: "facebook"
+// });
 
 SearchSource.defineSource('packages', function(searchText, options) {
   var options = {sort: {isoScore: -1}, limit: 20};

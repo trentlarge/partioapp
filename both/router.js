@@ -1,7 +1,12 @@
 Router.configure({ layoutTemplate: 'appLayout' });
 
 Router.route('/', { name: 'main' });
-Router.route('/login', { name: 'login' });
+Router.route('/login', { 
+	name: 'login',
+	waitOn:function(){
+		Accounts.loginServicesConfigured();
+	}
+});
 Router.route('/borrow', {name: 'borrow' });
 Router.route('/lend', {name: 'lend' });
 Router.route('/mybooks', {name: 'mybooks'});
