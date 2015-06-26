@@ -27,3 +27,46 @@ function buildRegExp(searchText) {
   var parts = searchText.trim().split(/[ \-\:]+/);
   return new RegExp("(" + parts.join('|') + ")", "ig");
 }
+
+
+
+Meteor.methods({
+  priceFromAmazon: function(isbn) {
+    var getAmazonPriceSearchSynchronously =  Meteor.wrapAsync(amazonPriceSearch);
+    var result = getAmazonPriceSearchSynchronously(isbn);
+
+    console.log(result.ItemLookupResponse.Items[0].Request[0].IsValid[0]);
+    if (result.ItemLookupResponse.Items[0].Request[0].IsValid[0] === "True") {
+      if (result.ItemLookupResponse.Items[0].Item[0].OfferSummary[0].LowestNewPrice) {
+        console.log(result.ItemLookupResponse.Items[0].Item[0].OfferSummary[0].LowestNewPrice);
+        returnPrice = result.ItemLookupResponse.Items[0].Item[0].OfferSummary[0].LowestNewPrice;
+        return returnPrice;
+      } else {
+        console.log(result.ItemLookupResponse.Items[0].Request[0].Errors[0].Error[0].Code[0]);
+        throw new Meteor.Error(result.ItemLookupResponse.Items[0].Request[0].Errors[0].Error[0].Code[0]);
+      } 
+    }
+    
+    // return result.ItemLookupResponse.Items[0].Item[0].OfferSummary[0].LowestNewPrice;
+  }
+})
+
+
+
+amazonPriceSearch = function(isbn, callback) {
+  OperationHelper = apac.OperationHelper;
+
+  var opHelper = new OperationHelper({
+    awsId:     'AKIAJ5R6HKU33B4DAF3A',
+    awsSecret: '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',
+    assocId:   'codefynecom06-20'
+  });
+
+  opHelper.execute('ItemLookup', {
+    'SearchIndex': 'All',
+    'ItemId': isbn,
+    'IdType': 'ISBN',
+    'ResponseGroup': 'OfferFull'
+  }, callback )
+}
+

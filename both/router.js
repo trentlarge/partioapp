@@ -10,7 +10,19 @@ Router.route('/login', {
 Router.route('/borrow', {name: 'borrow' });
 Router.route('/lend', {name: 'lend' });
 Router.route('/mybooks', {name: 'mybooks'});
+Router.route('/mybooks/:_id', {
+	name: 'mybookDetail',
+	data: function() {
+		return Products.findOne({_id: this.params._id});
+	}
+});
 Router.route('/listing', {name: 'listing'});
+Router.route('/listing/:_id', {
+	name: 'bookDetail',
+	data: function() {
+		return Products.findOne({_id: this.params._id});
+	}
+});
 
 Router.onBeforeAction(loginChecker);
 Router.onAfterAction(stopSpinner);

@@ -1,5 +1,6 @@
 Template.lend.events({
   'click .viewfinder': function() {
+    console.log('initiating Google and Amazon calls');
 
     if (Meteor.isCordova) {
       cordova.plugins.barcodeScanner.scan(
@@ -7,40 +8,49 @@ Template.lend.events({
          
           if (result.cancelled === 0) {
             IonLoading.show();
-            HTTP.get("https://www.googleapis.com/books/v1/volumes?q=isbn:"+ result.text, {timeout: 15000},
-              function(error,result) {
-              if (!error) {
-                if (result.data.totalItems === 0) {
-                  IonLoading.hide();
-                  IonPopup.show({
-                    title: 'No match found :( ',
-                    template: '<div class="center">You can manually check-in your book</div>',
-                    buttons: 
-                    [{
-                      text: 'OK',
-                      type: 'button-assertive',
-                      onTap: function() {
-                        IonPopup.close();
-                      }
-                    }]
-                  });
-                } else {
-                  var scanData = {
-                    "price": (_.random(20, 50)).toFixed(2),
-                    "thumbnail":  result.data.items[0].volumeInfo.imageLinks.smallThumbnail,
-                    "title":  result.data.items[0].volumeInfo.title,
-                    "subtitle": result.data.items[0].volumeInfo.subtitle,
-                    "isbn10": result.data.items[0].volumeInfo.industryIdentifiers[1].identifier,
-                    "publisher": result.data.items[0].volumeInfo.publisher,
-                    "language": result.data.items[0].volumeInfo.language,
-                    "author": result.data.items[0].volumeInfo.authors[0],
-                    "pageCount": result.data.items[0].volumeInfo.pageCount
+            var isbn = result.text;
+            Meteor.call('priceFromAmazon', isbn, function(err, res) {
+              console.log("what!");
+              var priceFromAmazon = "--";
+              if (!err) {
+                priceFromAmazon = res[0].FormattedPrice[0];
+              }
+                HTTP.get("https://www.googleapis.com/books/v1/volumes?q=isbn:"+ isbn, {timeout: 15000},
+                function(error,result) {
+                if (!error) {
+                  if (result.data.totalItems === 0) {
+                    IonLoading.hide();
+                    IonPopup.show({
+                      title: 'No match found :( ',
+                      template: '<div class="center">You can manually check-in your book</div>',
+                      buttons: 
+                      [{
+                        text: 'OK',
+                        type: 'button-assertive',
+                        onTap: function() {
+                          IonPopup.close();
+                        }
+                      }]
+                    });
+                  } else {
+                    var scanData = {
+                      "price": priceFromAmazon,
+                      "thumbnail":  result.data.items[0].volumeInfo.imageLinks.smallThumbnail,
+                      "title":  result.data.items[0].volumeInfo.title,
+                      "subtitle": result.data.items[0].volumeInfo.subtitle,
+                      "isbn10": result.data.items[0].volumeInfo.industryIdentifiers[1].identifier,
+                      "publisher": result.data.items[0].volumeInfo.publisher,
+                      "language": result.data.items[0].volumeInfo.language,
+                      "author": result.data.items[0].volumeInfo.authors[0],
+                      "pageCount": result.data.items[0].volumeInfo.pageCount
+                    }
+                    IonLoading.hide();
+                    Session.set('scanResult', scanData);
                   }
-                  IonLoading.hide();
-                  Session.set('scanResult', scanData);
-                }
-              } else {console.log(error)}
+                } else {console.log(error)}
+              });
             });
+            
             Meteor.setTimeout(function(){IonLoading.hide()},15000)
           } else {
             IonLoading.hide();
@@ -50,6 +60,52 @@ Template.lend.events({
           alert("Scanning failed: " + error);
         }
         );
+    } else {
+      IonLoading.show();
+            var isbn = '9780241184837';
+            Meteor.call('priceFromAmazon', isbn, function(err, res) {
+              console.log("what!");
+              var priceFromAmazon = "--";
+              if (!err) {
+                priceFromAmazon = res[0].FormattedPrice[0];
+              }
+                HTTP.get("https://www.googleapis.com/books/v1/volumes?q=isbn:"+ isbn, {timeout: 15000},
+                function(error,result) {
+                if (!error) {
+                  if (result.data.totalItems === 0) {
+                    IonLoading.hide();
+                    IonPopup.show({
+                      title: 'No match found :( ',
+                      template: '<div class="center">You can manually check-in your book</div>',
+                      buttons: 
+                      [{
+                        text: 'OK',
+                        type: 'button-assertive',
+                        onTap: function() {
+                          IonPopup.close();
+                        }
+                      }]
+                    });
+                  } else {
+                    var scanData = {
+                      "price": priceFromAmazon,
+                      "thumbnail":  result.data.items[0].volumeInfo.imageLinks.smallThumbnail,
+                      "title":  result.data.items[0].volumeInfo.title,
+                      "subtitle": result.data.items[0].volumeInfo.subtitle,
+                      "isbn10": result.data.items[0].volumeInfo.industryIdentifiers[1].identifier,
+                      "publisher": result.data.items[0].volumeInfo.publisher,
+                      "language": result.data.items[0].volumeInfo.language,
+                      "author": result.data.items[0].volumeInfo.authors[0],
+                      "pageCount": result.data.items[0].volumeInfo.pageCount
+                    }
+                    IonLoading.hide();
+                    Session.set('scanResult', scanData);
+                  }
+                } else {console.log(error)}
+              });
+            });
+            
+            Meteor.setTimeout(function(){IonLoading.hide()},15000)
     }
   }
 });
@@ -60,14 +116,14 @@ Template.lend.events({
     Meteor.setTimeout(function() {
       if (Session.get('scanResult')) {
         var submitProduct = Session.get('scanResult');
-        var lendingPeriod = (function() {
-          return (template.find('#lendingPeriod').value) ? template.find('#lendingPeriod').value : 2; 
-        }) ();
+        // var lendingPeriod = (function() {
+        //   return (template.find('#lendingPeriod').value) ? template.find('#lendingPeriod').value : 2; 
+        // }) ();
 
         var insertData = _.extend(submitProduct, {
-          "lendingPeriod": lendingPeriod,
+          // "lendingPeriod": lendingPeriod,
           "userId": Meteor.userId(),
-          "customPrice": (submitProduct.price / 5).toFixed(2)
+          "customPrice": Session.get('userPrice')
         })
         Products.insert(insertData);
         IonLoading.hide();
@@ -101,6 +157,9 @@ Template.lend.events({
         });
       }
     }, 500)  
+  },
+  'keyup #userPrice': function(e, template) {
+    Session.set('userPrice', e.target.value);
   }
 })
 
@@ -110,10 +169,18 @@ Template.lend.helpers({
   },
   calculatedPrice: function() {
     if (Session.get('scanResult')) {
-      return "Share this book at $" + (Session.get('scanResult').price / 5).toFixed(2) + " per week"
-    } else {
-      return "Scan to get price suggestion"
+      var priceValue = (Session.get('scanResult').price).split("$")[1];
+      Session.set('userPrice', (Number(priceValue)/5).toFixed(2));
+      return (Number(priceValue)/5).toFixed(2);
     }
+    // if (Session.get('scanResult')) {
+    //   return "Share this book at $" + (Session.get('scanResult').price / 5).toFixed(2) + " per week"
+    // } else {
+    //   return "Scan to get price suggestion"
+    // }
+  },
+  userPrice: function() {
+    return Session.get('userPrice');
   }
 });
 
@@ -127,3 +194,4 @@ Template.mybooks.helpers({
     return Products.find({"userId": Meteor.userId()})
   }
 })
+

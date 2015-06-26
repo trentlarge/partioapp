@@ -16,7 +16,7 @@
         <div class="card hide-on-keyboard-open">
           <div class="row item">
             <div class="col col-33">
-                <p>Original Price</p>
+                <p>Amazon Price</p>
                 <p>Title</p>
                 <p>Subtitle</p>
                 <p>ISBN-10</p>
@@ -26,7 +26,7 @@
                 <p>PageCount</p>
             </div>
             <div class="col col-67 scan-result">
-                <p><strong>${{price}}</strong></p>
+                <p><strong>{{price}}</strong></p>
                 <p><strong>{{title}}</strong></p>
                 <p>{{subtitle}}</p>
                 <p>{{isbn10}}</p>
@@ -38,24 +38,31 @@
           </div>
         </div>
 
-        <div class="list list-inset">
+<!--         <div class="list list-inset">
          <label class="item item-input">
           <span class="input-label">Availability (weeks)</span>
           <input id="lendingPeriod" class="center" type="number" placeholder="2">&nbsp;
         </label>
-            <!-- <label class="item item-input item-select">
-              <div class="input-label"> Make Available for</div>
-              <select>
-                <option selected>2 weeks</option>
-                <option >3 weeks</option>
-                <option>4 weeks</option>
-                <option>Indefinite</option>
-              </select>
-            </label> -->
+        <label class="item item-input item-select">
+          <div class="input-label"> Make Available for</div>
+          <select>
+            <option selected>2 weeks</option>
+            <option >3 weeks</option>
+            <option>4 weeks</option>
+            <option>Indefinite</option>
+          </select>
+        </label>
+        </div> -->
+
+        <div class="list list-inset">
+        <label class="item item-input">
+            <span class="input-label"><p>Set Rent/Week &nbsp;$</p></span>
+            <input type="number" id="userPrice" value="{{calculatedPrice}}">
+          </label>
         </div>
 
         <div class="padding-horizontal">
-          <button id="submitProduct" class="button button-block button-energized">{{calculatedPrice}}</button>      
+          <button id="submitProduct" class="button button-block button-energized">Lend this book at <strong>${{userPrice}}</strong> per week</button>      
         </div>
 
         {{/with}}
@@ -94,7 +101,7 @@
     <div class="list">
     {{#each myBooks}}
       <!-- {{#ionItem path='showMerchantInventory' _id=this._id iconRight=true class="item-avatar"}} -->
-      {{#ionItem iconRight=true class="item-avatar"}}
+      {{#ionItem path='mybookDetail' _id=this._id iconRight=true class="item-avatar"}}
           <img src="{{thumbnail}}"/>
           <h2>{{title}}</h2>
           <p><span class="tinytext">Weekly Price: ${{customPrice}}</span></p>

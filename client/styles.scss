@@ -158,7 +158,19 @@ ion-side-menu.menu-left.menu {
 	margin-left: 40vw;
 }
 
-
+.bookDetail-container {
+	width: 100%;
+	height: 20vh;
+	background-color: pink;
+	// margin: 0 auto;
+}
+.bookThumbnail {
+	min-width: 100%;
+	min-height: 100%;
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+}
 
 .viewfinder p {
   word-break: break-all;

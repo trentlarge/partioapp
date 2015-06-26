@@ -1,0 +1,112 @@
+<template name="bookDetail">
+  {{#contentFor "headerButtonLeft"}}
+      {{>ionNavBackButton path="listing"}}
+  {{/contentFor}}
+  
+  {{#contentFor "headerTitle"}}
+    <h1 class="title">Book Details</h1>
+  {{/contentFor}}
+
+
+  {{#ionView}}
+    {{#ionContent}}
+      <div class="card">
+        <div class="row item row-center">
+          <div class="col col-33">
+            <div class="bookDetail-container">
+              <div class="bookThumbnail" style="background-image: url('{{thumbnail}}'); "></div>
+            </div>
+          </div>
+          <div class="col col-67 item-text-wrap">
+            <h3>{{title}}</h3>
+            <p>{{subtitle}}</p>
+          </div>
+        </div>
+        <div class="row item">
+          <div class="col">
+            <p>Amazon Price</p>
+            <p>ISBN-10</p>
+            <p>Authors</p>
+            <p>Publisher</p>
+            <p>Language</p>
+            <p>PageCount</p>
+            <p>Owner</p>
+          </div>
+          <div class="col scan-result">
+            <p><strong>{{price}}</strong></p>
+            <p>{{isbn10}}</p>
+            <p>{{author}}</p>
+            <p>{{publisher}}</p>
+            <p>{{language}}</p>
+            <p>{{pageCount}}</p>
+            <p>{{owner}}</p>
+          </div>
+        </div>
+        <div class="row item">
+          <div class="col"><p><strong>You Pay/Week</strong></p></div>
+          <div class="col"><p><strong class="assertive">${{customPrice}}</strong></p></div>
+        </div>
+      </div>
+
+      <div class="padding-horizontal">
+        <button id="requestBook" class="button button-block button-assertive">REQUEST BOOK</button>      
+        </div>
+
+    {{/ionContent}}
+  {{/ionView}}
+</template>
+
+
+
+
+<template name="mybookDetail">
+  {{#contentFor "headerButtonLeft"}}
+      {{>ionNavBackButton path="mybooks"}}
+  {{/contentFor}}
+  
+  {{#contentFor "headerTitle"}}
+    <h1 class="title">Book Details</h1>
+  {{/contentFor}}
+
+
+  {{#ionView}}
+    {{#ionContent}}
+      <div class="card">
+        <div class="row item row-center">
+          <div class="col col-33">
+            <div class="bookDetail-container">
+              <div class="bookThumbnail" style="background-image: url('{{thumbnail}}'); "></div>
+            </div>
+          </div>
+          <div class="col col-67 item-text-wrap">
+            <h3>{{title}}</h3>
+            <p>{{subtitle}}</p>
+          </div>
+        </div>
+        <div class="row item">
+          <div class="col">
+            <p>Amazon Price</p>
+            <p>ISBN-10</p>
+            <p>Authors</p>
+            <p>Publisher</p>
+            <p>Language</p>
+            <p>PageCount</p>
+          </div>
+          <div class="col scan-result">
+            <p><strong>{{price}}</strong></p>
+            <p>{{isbn10}}</p>
+            <p>{{author}}</p>
+            <p>{{publisher}}</p>
+            <p>{{language}}</p>
+            <p>{{pageCount}}</p>
+          </div>
+        </div>
+        <div class="row item">
+          <div class="col"><p>Rent/Week</p></div>
+          <div class="col"><p><strong>${{customPrice}}</strong></p></div>
+        </div>
+      </div>
+
+    {{/ionContent}}
+  {{/ionView}}
+</template>
