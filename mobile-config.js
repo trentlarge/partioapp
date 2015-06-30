@@ -4,7 +4,7 @@ App.info({
   description: 'Share. Borrow. Party-o',
   author: 'Codefyne',
   website: 'http://www.codefyne.com',
-  version: '0.1.1'
+  version: '0.1.2'
 });
 
 App.icons({

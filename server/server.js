@@ -35,12 +35,14 @@ Meteor.methods({
     var getAmazonPriceSearchSynchronously =  Meteor.wrapAsync(amazonPriceSearch);
     var result = getAmazonPriceSearchSynchronously(isbn);
 
-    console.log(result.ItemLookupResponse.Items[0].Request[0].IsValid[0]);
+    console.log(JSON.stringify(result));
     if (result.ItemLookupResponse.Items[0].Request[0].IsValid[0] === "True") {
       if (result.ItemLookupResponse.Items[0].Item[0].OfferSummary[0].LowestNewPrice) {
-        console.log(result.ItemLookupResponse.Items[0].Item[0].OfferSummary[0].LowestNewPrice);
-        returnPrice = result.ItemLookupResponse.Items[0].Item[0].OfferSummary[0].LowestNewPrice;
-        return returnPrice;
+        // console.log(result.ItemLookupResponse.Items[0].Item[0].OfferSummary[0].LowestNewPrice);
+        formattedPrice = result.ItemLookupResponse.Items[0].Item[0].OfferSummary[0].LowestNewPrice[0].FormattedPrice[0];
+        productImage = result.ItemLookupResponse.Items[0].Item[0].LargeImage[0].URL[0];
+        console.log(productImage);
+        return {"formattedPrice": formattedPrice, "productImage": productImage};
       } else {
         console.log(result.ItemLookupResponse.Items[0].Request[0].Errors[0].Error[0].Code[0]);
         throw new Meteor.Error(result.ItemLookupResponse.Items[0].Request[0].Errors[0].Error[0].Code[0]);
@@ -63,10 +65,12 @@ amazonPriceSearch = function(isbn, callback) {
   });
 
   opHelper.execute('ItemLookup', {
-    'SearchIndex': 'All',
+    'SearchIndex': 'Books',
+    'ResponseGroup': ['Images', 'OfferSummary'],
+    'Operation': 'ItemLookup',
     'ItemId': isbn,
     'IdType': 'ISBN',
-    'ResponseGroup': 'OfferFull'
+    'IncludeReviewsSummary': true
   }, callback )
 }
 

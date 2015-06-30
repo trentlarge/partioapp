@@ -10,10 +10,12 @@ Template.lend.events({
             IonLoading.show();
             var isbn = result.text;
             Meteor.call('priceFromAmazon', isbn, function(err, res) {
-              console.log("what!");
+              console.log(res);
               var priceFromAmazon = "--";
+              var imageFromAmazon;
               if (!err) {
-                priceFromAmazon = res[0].FormattedPrice[0];
+                priceFromAmazon = res.formattedPrice;
+                imageFromAmazon = res.productImage;
               }
                 HTTP.get("https://www.googleapis.com/books/v1/volumes?q=isbn:"+ isbn, {timeout: 15000},
                 function(error,result) {
@@ -35,7 +37,7 @@ Template.lend.events({
                   } else {
                     var scanData = {
                       "price": priceFromAmazon,
-                      "thumbnail":  result.data.items[0].volumeInfo.imageLinks.smallThumbnail,
+                      "thumbnail":  imageFromAmazon,
                       "title":  result.data.items[0].volumeInfo.title,
                       "subtitle": result.data.items[0].volumeInfo.subtitle,
                       "isbn10": result.data.items[0].volumeInfo.industryIdentifiers[1].identifier,
@@ -64,10 +66,12 @@ Template.lend.events({
       IonLoading.show();
             var isbn = '9780241184837';
             Meteor.call('priceFromAmazon', isbn, function(err, res) {
-              console.log("what!");
+              console.log(res);
               var priceFromAmazon = "--";
+              var imageFromAmazon;
               if (!err) {
-                priceFromAmazon = res[0].FormattedPrice[0];
+                priceFromAmazon = res.formattedPrice;
+                imageFromAmazon = res.productImage;
               }
                 HTTP.get("https://www.googleapis.com/books/v1/volumes?q=isbn:"+ isbn, {timeout: 15000},
                 function(error,result) {
@@ -89,7 +93,7 @@ Template.lend.events({
                   } else {
                     var scanData = {
                       "price": priceFromAmazon,
-                      "thumbnail":  result.data.items[0].volumeInfo.imageLinks.smallThumbnail,
+                      "thumbnail":  imageFromAmazon,
                       "title":  result.data.items[0].volumeInfo.title,
                       "subtitle": result.data.items[0].volumeInfo.subtitle,
                       "isbn10": result.data.items[0].volumeInfo.industryIdentifiers[1].identifier,
