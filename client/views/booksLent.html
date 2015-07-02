@@ -1,0 +1,61 @@
+<template name="booksLent">
+  {{#contentFor "headerButtonLeft"}}
+      <button class="button button-clear pull-left" data-ion-menu-toggle="left">
+        {{#if isAndroid}}
+        {{> ionIcon icon='android-more-vertical'}}
+        {{else}}
+        {{> ionIcon icon='navicon' class="energized"}}
+        {{/if}}
+      </button>
+  {{/contentFor}}
+  
+  {{#contentFor "headerTitle"}}
+    <h1 class="title">Books Lent</h1>
+  {{/contentFor}}
+
+  {{#contentFor "headerButtonRight"}}
+    <button class="button button-clear" data-ion-modal="lend">{{> ionIcon icon="ios-plus-outline" class="assertive"}}</button>
+  {{/contentFor}}
+
+  {{#ionView}}
+    {{#ionContent}}
+    
+    {{#if dataExists}}
+
+      {{#if toBeApproved.count}}
+        <div class="list">
+        <div class="item item-divider">Waiting for Approval</div>
+        {{#each toBeApproved}}
+          {{#ionItem path='mybookDetail' _id=this._id class="item-avatar-2"}}
+              <img src="{{bookData.thumbnail}}"/>
+              <span class="badge badge-energized">{{status}}</span>
+              <h2>{{bookData.title}}</h2>
+              <p><span class="tinytext">Weekly Price: ${{bookData.customPrice}}</span></p>
+              <span class="badge-low badge">{{status}}</span>
+
+          {{/ionItem}}
+        {{/each}}
+        </div>
+      {{/if}}
+
+      {{#if currentlyBorrowed.count}}
+        <div class="list">
+        <div class="item item-divider">Currently Borrowed</div>
+        {{#each currentlyBorrowed}}
+          {{#ionItem path='mybookDetail' _id=this._id iconRight=true class="item-avatar-2"}}
+              <img src="{{thumbnail}}"/>
+              <h2>{{title}}</h2>
+              <p><span class="tinytext">Weekly Price: ${{customPrice}}</span></p>
+          {{/ionItem}}
+        {{/each}}
+        </div>
+      {{/if}}
+    {{else}}
+      <div class="Aligner">
+        <h6 class="dark">Browse listings on Parti-O and start renting!</h6>
+      </div>
+    {{/if}}
+
+    {{/ionContent}}
+  {{/ionView}}
+</template>

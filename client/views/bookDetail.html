@@ -11,6 +11,7 @@
   {{#ionView}}
     {{#ionContent}}
       <div class="card">
+        
         <div class="row item row-center">
           <div class="col col-33">
             <div class="bookDetail-container">
@@ -22,34 +23,63 @@
             <p>{{subtitle}}</p>
           </div>
         </div>
-        <div class="row item">
-          <div class="col">
-            <p>Amazon Price</p>
-            <p>ISBN-10</p>
-            <p>Authors</p>
-            <p>Publisher</p>
-            <p>Language</p>
-            <p>PageCount</p>
-            <p>Owner</p>
+
+<!--         <div class="row item row-center">
+          
+        </div> -->
+
+        <div class="item no-padding">
+
+          <div class="row row-center">
+            <div class="col-offset-10"></div>
+            <div class="col col-33">
+              <div class="profile-image-container-2">
+                {{#if noProfileYet}}
+                <div class="profile-avatar-2" style="background: url('profile_image_placeholder.jpg') no-repeat; background-size:cover; background-position: 50% 50%;"></div>
+                {{else}}
+                <div class="profile-avatar-2" style="background: url('{{profileImage}}') no-repeat; background-size:cover; background-position: 50% 50%;"></div>
+                {{/if}}
+              </div>
+            </div>
+            <div class="col col-67 item-text-wrap keep-inside-padding">
+              {{#with userInfo}}
+              <p class="dark"><strong>{{name}}</strong><br>{{college}}</p>
+              {{/with}}
+            </div>
           </div>
-          <div class="col scan-result">
-            <p><strong>{{price}}</strong></p>
-            <p>{{isbn10}}</p>
-            <p>{{author}}</p>
-            <p>{{publisher}}</p>
-            <p>{{language}}</p>
-            <p>{{pageCount}}</p>
-            <p>{{owner}}</p>
+          
+          <div class="row">
+            <div class="col-offset-10"></div>
+            <div class="col col-33">
+              <p>Amazon $</p>
+              <p>ISBN-10</p>
+              <p>Authors</p>
+              <p>Publisher</p>
+              <p>Language</p>
+              <p>PageCount</p>
+            </div>
+            <div class="col col-67 scan-result">
+              <p><strong>{{price}}</strong></p>
+              <p>{{isbn10}}</p>
+              <p>{{author}}</p>
+              <p>{{publisher}}</p>
+              <p>{{language}}</p>
+              <p>{{pageCount}}</p>
+            </div>
           </div>
+
         </div>
+
         <div class="row item">
-          <div class="col"><p><strong>You Pay/Week</strong></p></div>
-          <div class="col"><p><strong class="assertive">${{customPrice}}</strong></p></div>
+          <div class="col-offset-10">
+          </div>
+          <div class="col col-33"><p><strong>You Pay</strong></p></div>
+          <div class="col col-50"><p><strong class="assertive">${{customPrice}}/Week</strong></p></div>
         </div>
       </div>
 
       <div class="padding-horizontal">
-        <button id="requestBook" class="button button-block button-assertive">REQUEST BOOK</button>      
+        <button id="requestBook" class="button button-block button-assertive">REQUEST BOOK</button>   
         </div>
 
     {{/ionContent}}

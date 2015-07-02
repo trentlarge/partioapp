@@ -126,7 +126,7 @@ Template.lend.events({
 
         var insertData = _.extend(submitProduct, {
           // "lendingPeriod": lendingPeriod,
-          "userId": Meteor.userId(),
+          "ownerId": Meteor.userId(),
           "customPrice": Session.get('userPrice')
         })
         Products.insert(insertData);
@@ -193,9 +193,5 @@ Template.lend.destroyed = function() {
 }
 
 
-Template.mybooks.helpers({
-  myBooks: function() {
-    return Products.find({"userId": Meteor.userId()})
-  }
-})
+
 

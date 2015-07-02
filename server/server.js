@@ -1,6 +1,7 @@
   // SERVER FRESH START SEQUENCE
   // Products.remove({});
   // Meteor.users.remove({});
+  // Connections.remove({});
   // SERVER FRESH START SEQUENCE
 
 // ServiceConfiguration.loginServiceConfiguration.remove({
@@ -50,6 +51,19 @@ Meteor.methods({
     }
     
     // return result.ItemLookupResponse.Items[0].Item[0].OfferSummary[0].LowestNewPrice;
+  },
+  requestOwner: function(requestor, productId) {
+    console.log(requestor, productId);
+    var connection = {
+      requestor: requestor,
+      approved: false,
+      borrowed: false,
+      requestDate: new Date(),
+      borrowedDate: null,
+      bookData: Products.findOne(productId)
+    };
+    Meteor._sleepForMs(1000);
+    return Connections.insert(connection);
   }
 })
 

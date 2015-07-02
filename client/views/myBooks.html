@@ -1,0 +1,67 @@
+<template name="mybooks">
+  {{#contentFor "headerButtonLeft"}}
+      <button class="button button-clear pull-left" data-ion-menu-toggle="left">
+        {{#if isAndroid}}
+        {{> ionIcon icon='android-more-vertical'}}
+        {{else}}
+        {{> ionIcon icon='navicon' class="energized"}}
+        {{/if}}
+      </button>
+  {{/contentFor}}
+  
+  {{#contentFor "headerTitle"}}
+    <h1 class="title">My Books</h1>
+  {{/contentFor}}
+
+  {{#contentFor "headerButtonRight"}}
+    <button class="button button-clear" data-ion-modal="lend">{{> ionIcon icon="ios-plus-outline" class="assertive"}}</button>
+  {{/contentFor}}
+
+  {{#ionView}}
+    {{#ionContent}}
+    
+    {{#if dataExists}}
+      {{#if newRequests.count}}
+        <div class="list">
+        <div class="item item-divider">New Requests</div>
+        {{#each newRequests}}
+          {{#ionItem path='mybookDetail' _id=this._id iconRight=true class="item-avatar-2"}}
+              <img src="{{bookData.thumbnail}}"/>
+              <h2>{{bookData.title}}</h2>
+              <p><span class="tinytext">Weekly Price: ${{bookData.customPrice}}</span></p>
+              {{> ionIcon icon="ios-arrow-right" class="priceFont"}}
+          {{/ionItem}}
+        {{/each}}
+        </div>
+      {{/if}}
+
+      {{#if myBooks.count}}
+        <div class="list">
+        <div class="item item-divider">Shared Books</div>
+        {{#each myBooks}}
+          {{#ionItem path='mybookDetail' _id=this._id iconRight=true class="item-avatar-2"}}
+              <img src="{{thumbnail}}"/>
+              <h2>{{title}}</h2>
+              <p><span class="tinytext">Weekly Price: ${{customPrice}}</span></p>
+              {{> ionIcon icon="ios-arrow-right" class="priceFont"}}
+          {{/ionItem}}
+        {{/each}}
+        </div>
+      {{/if}}
+    {{else}}
+      <div class="Aligner">
+        <h6 class="dark">Start sharing your items on Parti-O!</h6>
+      </div>
+    {{/if}}
+
+    {{/ionContent}}
+  {{/ionView}}
+</template>
+
+
+
+
+
+<template name="borrow">
+  <p>BORROW</p>
+</template>

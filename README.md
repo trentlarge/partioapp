@@ -2,12 +2,18 @@
 LIGHT ORANGE: #f0970d 
 DARK ORANGE: #df5707
 
+Oportunidades Disfarcadas (Em Portugues do Brasil) - 9788575424858
+Problem scanning...
 
 *plugins*
 cordova:phonegap-plugin-barcodescanner@https://github.com/phonegap/phonegap-plugin-barcodescanner/tarball/70ca00be45a675b1b1d6963ad6f72430e579788e
 nl.x-services.plugins.launchmyapp
 
 iron:router fourseven:scss meteoric:ionic-sass meteoric:ionicons-sass meteoric:ionic
+
+<!-- cordova:biz.incoding.silentshot@https://github.com/ArchieGoodwin/SilentShot/tarball/d123cd881bb211d89c6402d317bfdd3b6302d66b -->
+cordova:cordova-plugin-camera@https://github.com/apache/cordova-plugin-camera/tarball/1e607ddcc856fd69208d1fb7e6202ab241adfa80
+
 
 
 *Amazon*

@@ -8,7 +8,8 @@ Template.register.events({
 	    var profile = {
 	    	name: template.find('[name=name]').value,
 	    	mobile: template.find('[name=mobile]').value,
-	    	college: template.find('[name=college]').value 
+	    	college: template.find('[name=college]').value,
+	    	avatar: "notSet"
 	    };
 	    console.log(email, password, profile.name, profile.mobile, profile.college);
 

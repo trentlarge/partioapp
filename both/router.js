@@ -16,6 +16,13 @@ Router.route('/mybooks/:_id', {
 		return Products.findOne({_id: this.params._id});
 	}
 });
+Router.route('/booksLent', {name: 'booksLent'});
+Router.route('/booksLent/:_id', {
+	name: 'booksLentDetail',
+	data: function() {
+		return Products.findOne({_id: this.params._id});
+	}
+});
 Router.route('/listing', {name: 'listing'});
 Router.route('/listing/:_id', {
 	name: 'bookDetail',
@@ -23,6 +30,8 @@ Router.route('/listing/:_id', {
 		return Products.findOne({_id: this.params._id});
 	}
 });
+Router.route('/transactions', {name: 'transactions'});
+Router.route('/profile', {name: 'profile'});
 
 Router.onBeforeAction(loginChecker);
 Router.onAfterAction(stopSpinner);

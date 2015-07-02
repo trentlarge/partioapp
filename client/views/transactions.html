@@ -1,0 +1,37 @@
+<template name="transactions">
+  {{#contentFor "headerButtonLeft"}}
+      <button class="button button-clear pull-left" data-ion-menu-toggle="left">
+        {{#if isAndroid}}
+        {{> ionIcon icon='android-more-vertical'}}
+        {{else}}
+        {{> ionIcon icon='navicon' class="energized"}}
+        {{/if}}
+      </button>
+  {{/contentFor}}
+  
+  {{#contentFor "headerTitle"}}
+    <h1 class="title">Transactions</h1>
+  {{/contentFor}}
+
+  {{#contentFor "headerButtonRight"}}
+    <button class="button button-clear" data-ion-modal="lend">{{> ionIcon icon="ios-plus-outline" class="assertive"}}</button>
+  {{/contentFor}}
+
+  {{#ionView}}
+    {{#ionContent}}
+    
+    <div class="list">
+    {{#each booksLent}}
+      <!-- {{#ionItem path='showMerchantInventory' _id=this._id iconRight=true class="item-avatar"}} -->
+      {{#ionItem path='mybookDetail' _id=this._id iconRight=true class="item-avatar"}}
+          <img src="{{thumbnail}}"/>
+          <h2>{{title}}</h2>
+          <p><span class="tinytext">Weekly Price: ${{customPrice}}</span></p>
+          {{> ionIcon icon="ios-arrow-right" class="priceFont"}}
+      {{/ionItem}}
+    {{/each}}
+    </div>
+
+    {{/ionContent}}
+  {{/ionView}}
+</template>

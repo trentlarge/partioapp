@@ -1,0 +1,146 @@
+<template name="profile">
+  {{#contentFor "headerButtonLeft"}}
+      {{#if profileEdit}}
+        <button id="cancelProfile" class="button button-clear button-stable">Cancel</button>
+      {{else}}
+        <button class="button button-clear pull-left" data-ion-menu-toggle="left">
+          {{#if isAndroid}}
+          {{> ionIcon icon='android-more-vertical'}}
+          {{else}}
+          {{> ionIcon icon='navicon' class="energized"}}
+          {{/if}}
+        </button>
+      {{/if}}
+  {{/contentFor}}
+  
+  {{#contentFor "headerTitle"}}
+    <h1 class="title">Profile</h1>
+  {{/contentFor}}
+
+  {{#contentFor "headerButtonRight"}}
+    {{#if profileEdit}}
+      <button id="saveProfile" class="button button-clear button-energized">Save</button>
+    {{/if}}
+  {{/contentFor}}
+
+  {{#ionView}}
+    {{#ionContent}}
+    
+      {{> settingsProfileImage}}
+      <!-- {{#with profile}} -->
+      
+      <div class="list list-inset">
+        <form id="profileEdit">
+          <label class="item item-input">
+            <span class="input-label">Name</span>
+            <input id="profilename" type="text" value="{{currentUser.profile.name}}">
+          </label>
+          <label class="item item-input">
+            <span class="input-label">University</span>
+            <input id="profileuniversity" type="text" value="{{currentUser.profile.college}}">
+          </label>
+          <label class="item item-input">
+            <span class="input-label">Mobile</span>
+            <input id="profilemobile" type="number" value="{{currentUser.profile.mobile}}">
+          </label>
+        </form>
+        <label class="item item-input">
+          <span class="input-label">Email</span>
+          <input disabled type="email" value="{{currentUser.emails.[0].address}}">
+        </label>
+        <label class="item item-input">
+          <span class="input-label">Password</span>
+          <input id="changePassword" type="password" value="123456">
+        </label>
+      </div>
+      <!-- {{/with}} -->
+
+    {{/ionContent}}
+  {{/ionView}}
+</template>
+
+<template name="settingsProfileImage">
+  <div class="profile-image-container">
+    {{#if noProfileYet}}
+    <div class="profile-avatar" style="background: url('profile_image_placeholder.jpg') no-repeat; background-size:cover; background-position: 50% 50%;"></div>
+    {{else}}
+    <div class="profile-avatar" style="background: url('{{profileImage}}') no-repeat; background-size:cover; background-position: 50% 50%;"></div>
+    {{/if}}
+  </div>
+</template>
+
+
+
+
+<!-- <template name="settings">
+  {{#contentFor "headerButtonLeft"}}
+    <button class="button button-clear pull-left" data-ion-menu-toggle="left">
+      {{#if isAndroid}}
+        {{> ionIcon icon='android-more-vertical'}}
+      {{else}}
+        {{> ionIcon icon='navicon'}}
+      {{/if}}
+    </button>
+  {{/contentFor}}
+  
+  {{#contentFor "headerTitle"}}
+    <h1 class="title">Settings</h1>
+  {{/contentFor}}
+
+  {{#ionView}}
+    {{#ionContent class="scroll-bg"}}
+
+    {{#with accountDetails}}
+      
+      {{> settingsProfileImage}}
+
+      <div class="list padding">
+        <div class="padding-horizontal">Name</div>
+        
+        <div data-ion-modal="settingsName">
+        {{#ionItem iconRight=true}}
+            <div class="">{{this.name}}</div>
+        {{/ionItem}}
+        </div>
+        
+        <br>
+        <div class="padding-horizontal">Store Name (shows up on Invoice)</div>
+        <div data-ion-modal="settingsStoreName">
+        {{#ionItem iconRight=true}}
+            <div class="">{{storeName}}</div>
+        {{/ionItem}}
+        </div>
+
+        <br>
+        <div class="padding-horizontal">Address</div>
+        <div data-ion-modal="settingsAddress">
+        {{#ionItem iconRight=true}}
+            <div class="">{{address1}} <br>{{address2}} <br> {{address3}} - {{address4}} </div>
+        {{/ionItem}}
+        </div>
+
+        <br>
+        <div class="padding-horizontal">Bank Details</div>
+        <div data-ion-modal="settingsBankDetails">
+        {{#ionItem iconRight=true}}
+            <div class="">{{bankName}}</div>
+        {{/ionItem}}
+        </div>
+
+        <br>
+        <div class="padding-horizontal">Initials (precedes Invoice/Product codes)</div>
+        <div data-ion-modal="settingsInitials">
+        {{#ionItem iconRight=true}}
+            <div class="capitalize">{{initials}}</div>
+        {{/ionItem}}
+        </div>
+        <br>
+        <br>
+      </div>
+
+    {{/with}}
+
+    {{/ionContent}}
+  {{/ionView}}
+
+</template> -->
