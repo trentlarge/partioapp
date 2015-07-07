@@ -11,19 +11,21 @@
     
     {{#ionSideMenuContainer side="left"}}
         {{#ionSideMenu}}
-          <div class="content">
+          <div class="container">
 
             <div class="logo-container">
-              <img src="main_logo.png"/>&nbsp;
-              <!-- <span class="logo-text">partio-O</span> -->
+              <a href="/" data-ion-menu-close><img src="main_logo.png"/></a>&nbsp;
           	</div>
             
           	<div class="list transparent-list">
+              <a href="{{pathFor "listing"}}" class="item" data-ion-menu-close>
+                {{> ionIcon icon="search" class="energized"}} &nbsp;&nbsp; SEARCH
+              </a>
           		<a href="{{pathFor "mybooks"}}" class="item" data-ion-menu-close>
-          			{{> ionIcon icon="ios-briefcase" class="energized"}} &nbsp;&nbsp; MY BOOKS
+          			{{> ionIcon icon="ios-briefcase" class="energized"}} &nbsp;&nbsp; OWNED
           		</a>
           		<a href="{{pathFor "booksLent"}}" class="item" data-ion-menu-close>
-          			{{> ionIcon icon="ios-browsers" class="energized"}} &nbsp;&nbsp; BOOKS LENT
+          			{{> ionIcon icon="ios-browsers" class="energized"}} &nbsp;&nbsp; RENT
           		</a>
           		<a href="{{pathFor "transactions"}}" class="item" data-ion-menu-close>
           			{{> ionIcon icon="card" class="energized"}} &nbsp;&nbsp; TRANSACTIONS
@@ -31,16 +33,14 @@
           		<a href="{{pathFor "profile"}}" class="item" data-ion-menu-close>
           			{{> ionIcon icon="person" class="energized"}} &nbsp;&nbsp; MY PROFILE
           		</a>
-          		<a href="{{pathFor "main"}}" class="item" data-ion-menu-close>
-          			{{> ionIcon icon="ios-information" class="energized"}} &nbsp;&nbsp; ABOUT PARTIO-O
-          		</a>
+          		<!-- <a href="{{pathFor "main"}}" class="item" data-ion-menu-close>
+          			{{> ionIcon icon="ios-information" class="energized"}} &nbsp;&nbsp; ABOUT
+          		</a> -->
           		<a id="logout" class="item" data-ion-menu-close>
           			{{> ionIcon icon="android-exit" class="energized"}} &nbsp;&nbsp; LOGOUT
           		</a>
           	</div>
-
-            <p class="padding beta">beta v0.1.2</p>
-            
+            <p class="padding beta">beta v0.1.4</p>
           </div>
         {{/ionSideMenu}}
 
@@ -86,7 +86,7 @@
 	    		<img src="lend_white.png" class="lend-image">
 	    		<br><br>
 	    		{{> ionIcon icon='android-arrow-back' class=""}}
-	    		<span class="center">LEND BOOK</span>
+	    		<span class="center">SHARE &nbsp;&nbsp;&nbsp;&nbsp;</span>
 	    	</div>
 	    </div>
 
@@ -94,7 +94,7 @@
 	    	<div class="bottom-part-margin center">
 	    		<img src="borrow_white.png" class="borrow-image">
 	    		<br><br>
-		    	<span class="">BORROW BOOK&nbsp;</span>{{> ionIcon icon='android-arrow-forward' class=""}}
+		    	<span class="">RENT&nbsp;</span>{{> ionIcon icon='android-arrow-forward' class=""}}
 	    	</div>
 	    </div>
 

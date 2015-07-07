@@ -10,7 +10,7 @@
   {{/contentFor}}
   
   {{#contentFor "headerTitle"}}
-    <h1 class="title">My Books</h1>
+    <h1 class="title">Owned</h1>
   {{/contentFor}}
 
   {{#contentFor "headerButtonRight"}}
@@ -25,11 +25,11 @@
         <div class="list">
         <div class="item item-divider">New Requests</div>
         {{#each newRequests}}
-          {{#ionItem path='mybookDetail' _id=this._id iconRight=true class="item-avatar-2"}}
+          {{#ionItem path='connect' _id=this._id class="item-avatar-2"}}
               <img src="{{bookData.thumbnail}}"/>
+              <span class="badge badge-energized">{{status}}</span>
               <h2>{{bookData.title}}</h2>
               <p><span class="tinytext">Weekly Price: ${{bookData.customPrice}}</span></p>
-              {{> ionIcon icon="ios-arrow-right" class="priceFont"}}
           {{/ionItem}}
         {{/each}}
         </div>
@@ -37,7 +37,7 @@
 
       {{#if myBooks.count}}
         <div class="list">
-        <div class="item item-divider">Shared Books</div>
+        <div class="item item-divider"><h3>Owned Products</h3></div>
         {{#each myBooks}}
           {{#ionItem path='mybookDetail' _id=this._id iconRight=true class="item-avatar-2"}}
               <img src="{{thumbnail}}"/>
@@ -61,7 +61,3 @@
 
 
 
-
-<template name="borrow">
-  <p>BORROW</p>
-</template>

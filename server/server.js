@@ -60,7 +60,8 @@ Meteor.methods({
       borrowed: false,
       requestDate: new Date(),
       borrowedDate: null,
-      bookData: Products.findOne(productId)
+      bookData: Products.findOne(productId),
+      chat: [  ]
     };
     Meteor._sleepForMs(1000);
     return Connections.insert(connection);

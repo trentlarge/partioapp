@@ -12,6 +12,14 @@
 // bottom: 0px !important;
 // }
 
+.italic {
+	font-style: italic;
+}
+
+.line-height-one {
+	line-height: 1.1em;
+}
+
 .snap-drawer {
 	width: 270px !important;
 }
@@ -49,7 +57,7 @@ ion-side-menu.menu-left.menu {
 	-webkit-align-items: center;
 	align-items: center;
 	-webkit-justify-content: center;
-	height: 35vh;
+	height: 30vh;
 }
 .logo-container img {
 	height: 18vh;
@@ -194,8 +202,8 @@ ion-side-menu.menu-left.menu {
 	height: calc(100% + 4px);
 	top: -2px;
 	left: -2px;
-	background: -webkit-linear-gradient(pink, pink 20px, transparent 20px, transparent calc(100% - 20px), pink calc(100% - 20px));
-	background: linear-gradient(pink, pink 20px, transparent 20px, transparent calc(100% - 20px), pink calc(100% - 20px));
+	background: -webkit-linear-gradient(#f0970d, #f0970d 20px, transparent 20px, transparent calc(100% - 20px), #f0970d calc(100% - 20px));
+	background: linear-gradient(#f0970d, #f0970d 20px, transparent 20px, transparent calc(100% - 20px), #f0970d calc(100% - 20px));
 	z-index: -1;
 }
 .viewfinder::after {
@@ -249,7 +257,7 @@ ion-side-menu.menu-left.menu {
 
 .profile-image-container-2 {
 	min-width: 100%;
-	margin-left: -5px;
+	margin-left: -3px;
 }
 
 .profile-avatar {
@@ -307,7 +315,7 @@ ion-side-menu.menu-left.menu {
 	margin: 0;
 }
 
-.no-padding p {
+.small-font p {
 	font-size: 0.8em;
 }
 
@@ -315,6 +323,12 @@ ion-side-menu.menu-left.menu {
 	padding-right: 30px;
 }
 
+.connect-thumbnail {
+	max-width: 50px;
+	max-height: 75px;
+	width: auto;
+	height: auto;
+}
 
 // .item-avatar-2.item-complex, .item-avatar-left.item-complex, .item-thumbnail-left.item-complex {
 //   padding-top: 0px;
@@ -332,3 +346,60 @@ ion-side-menu.menu-left.menu {
 //   height: 100%;
 //   border-radius: 1%;
 // }
+
+
+.bubble {
+	position: relative;
+	width: 75vw;
+	padding: 4px;
+	margin-top: 5px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+
+.bubble:after {
+	content: '';
+	position: absolute;
+	border-style: solid;
+	display: block;
+	width: 0;
+	z-index: 1;
+	margin-top: -0px;
+	top: 20%;
+}
+
+.bubble-right {
+	margin-right: 22px;
+	float: right;
+	background: #FFD479;
+}
+.bubble-right:after {
+	border-color: transparent #FFD479;
+	right: -24px;
+	border-width: 8px 0 8px 26px;
+}
+
+.bubble-left {
+	margin-left: 22px;
+	float: left;
+	background: #eceff1;
+}
+.bubble-left:after {
+	border-color: transparent #eceff1;
+	left: -24px;
+	border-width: 8px 26px 8px 0;
+}
+.discussion {
+	margin-bottom: 44px;
+}
+
+
+
+
+
+
+
+
+
+

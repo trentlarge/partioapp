@@ -3,18 +3,18 @@ Template.bookDetail.helpers({
 		return Meteor.users.findOne(this.userId).profile.name;
 	},
 	noProfileYet: function() {
-    if (Meteor.users.findOne(this.ownerId).profile.avatar === "notSet") {
-      return true;
-    } else {
-      return false;
-    }
-  },
-  profileImage: function() {
-    return Meteor.users.findOne(this.ownerId).profile.avatar;
-  },
-  userInfo: function() {
-  	return Meteor.users.findOne(this.ownerId).profile;
-  }
+		if (Meteor.users.findOne(this.ownerId).profile.avatar === "notSet") {
+			return true;
+		} else {
+			return false;
+		}
+	},
+	profileImage: function() {
+		return Meteor.users.findOne(this.ownerId).profile.avatar;
+	},
+	userInfo: function() {
+		return Meteor.users.findOne(this.ownerId).profile;
+	}
 });
 
 Template.bookDetail.events({

@@ -10,12 +10,12 @@
   {{/contentFor}}
   
   {{#contentFor "headerTitle"}}
-    <h1 class="title">Books Lent</h1>
+    <h1 class="title">Rent</h1>
   {{/contentFor}}
 
-  {{#contentFor "headerButtonRight"}}
+<!--   {{#contentFor "headerButtonRight"}}
     <button class="button button-clear" data-ion-modal="lend">{{> ionIcon icon="ios-plus-outline" class="assertive"}}</button>
-  {{/contentFor}}
+  {{/contentFor}} -->
 
   {{#ionView}}
     {{#ionContent}}
@@ -26,7 +26,7 @@
         <div class="list">
         <div class="item item-divider">Waiting for Approval</div>
         {{#each toBeApproved}}
-          {{#ionItem path='mybookDetail' _id=this._id class="item-avatar-2"}}
+          {{#ionItem path='connectRent' _id=this._id class="item-avatar-2"}}
               <img src="{{bookData.thumbnail}}"/>
               <span class="badge badge-energized">{{status}}</span>
               <h2>{{bookData.title}}</h2>
@@ -40,12 +40,12 @@
 
       {{#if currentlyBorrowed.count}}
         <div class="list">
-        <div class="item item-divider">Currently Borrowed</div>
+        <div class="item item-divider">Currently Renting</div>
         {{#each currentlyBorrowed}}
           {{#ionItem path='mybookDetail' _id=this._id iconRight=true class="item-avatar-2"}}
-              <img src="{{thumbnail}}"/>
-              <h2>{{title}}</h2>
-              <p><span class="tinytext">Weekly Price: ${{customPrice}}</span></p>
+              <img src="{{bookData.thumbnail}}"/>
+              <h2>{{bookData.title}}</h2>
+              <p><span class="tinytext">Weekly Price: ${{bookData.customPrice}}</span></p>
           {{/ionItem}}
         {{/each}}
         </div>

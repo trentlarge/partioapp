@@ -164,6 +164,53 @@ Template.lend.events({
   },
   'keyup #userPrice': function(e, template) {
     Session.set('userPrice', e.target.value);
+  },
+  'click #manualSubmit': function(e, template) {
+    IonLoading.show();
+    var manualCode = template.find('#manualInput').value;
+    Meteor.call('priceFromAmazon', manualCode, function(err, res) {
+      console.log(res);
+      var priceFromAmazon = "--";
+      var imageFromAmazon;
+      if (!err) {
+        priceFromAmazon = res.formattedPrice;
+        imageFromAmazon = res.productImage;
+      }
+      HTTP.get("https://www.googleapis.com/books/v1/volumes?q=isbn:"+ manualCode, {timeout: 15000},
+        function(error,result) {
+          if (!error) {
+            if (result.data.totalItems === 0) {
+              IonLoading.hide();
+              IonPopup.show({
+                title: 'No match found :( ',
+                  template: '<div class="center">You can manually check-in your book</div>',
+                  buttons: 
+                  [{
+                    text: 'OK',
+                    type: 'button-assertive',
+                    onTap: function() {
+                      IonPopup.close();
+                    }
+                  }]
+                });
+            } else {
+              var scanData = {
+                "price": priceFromAmazon,
+                "thumbnail":  imageFromAmazon,
+                "title":  result.data.items[0].volumeInfo.title,
+                "subtitle": result.data.items[0].volumeInfo.subtitle,
+                "isbn10": result.data.items[0].volumeInfo.industryIdentifiers[1].identifier,
+                "publisher": result.data.items[0].volumeInfo.publisher,
+                "language": result.data.items[0].volumeInfo.language,
+                "author": result.data.items[0].volumeInfo.authors[0],
+                "pageCount": result.data.items[0].volumeInfo.pageCount
+              }
+              IonLoading.hide();
+              Session.set('scanResult', scanData);
+            }
+          } else {console.log(error)}
+        });
+});
   }
 })
 

@@ -2,13 +2,13 @@
 	{{#ionModal customTemplate=true}}
       <div class="bar bar-header bar-royal">
         <button type="button" data-dismiss="modal" class="button button-clear"> Cancel</button>
-        <h2 class="title">Share your Book</h2>
+        <h2 class="title">Share Product</h2>
       </div>
       
-      <div class="content has-header login-bg overflow-scroll">
-      <br>
+      <div class="content has-header overflow-scroll">
       {{#if scanResult}}
         {{#with scanResult}}
+        <br>
       	<div class="viewfinder">
       		<p><img src="{{thumbnail}}"/></p>
       	</div>
@@ -67,9 +67,20 @@
 
         {{/with}}
       {{else}}
+        <div class="list">
+          <div class="item item-input-inset">
+            <label class="item-input-wrapper">
+              <input id="manualInput" type="tel" placeholder="Enter barcode number">
+            </label>
+            <button id="manualSubmit" class="button button-small button-energized button-outline">Submit</button>
+          </div>
+        </div>
+        <p class="stable center">OR</p>
+        <br>
         <div class="viewfinder">
           <p>Scan Barcode</p>
         </div>
+
       {{/if}}
 
       </div>

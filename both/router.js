@@ -7,7 +7,6 @@ Router.route('/login', {
 		Accounts.loginServicesConfigured();
 	}
 });
-Router.route('/borrow', {name: 'borrow' });
 Router.route('/lend', {name: 'lend' });
 Router.route('/mybooks', {name: 'mybooks'});
 Router.route('/mybooks/:_id', {
@@ -16,11 +15,23 @@ Router.route('/mybooks/:_id', {
 		return Products.findOne({_id: this.params._id});
 	}
 });
+Router.route('/mybooks/connect/:_id', {
+	name: 'connect',
+	data: function() {
+		return Connections.findOne({_id: this.params._id});
+	}
+});
 Router.route('/booksLent', {name: 'booksLent'});
 Router.route('/booksLent/:_id', {
 	name: 'booksLentDetail',
 	data: function() {
 		return Products.findOne({_id: this.params._id});
+	}
+});
+Router.route('/booksLent/connect/:_id', {
+	name: 'connectRent',
+	data: function() {
+		return Connections.findOne({_id: this.params._id});
 	}
 });
 Router.route('/listing', {name: 'listing'});

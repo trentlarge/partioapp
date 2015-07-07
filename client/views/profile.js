@@ -19,7 +19,7 @@ Template.profile.events({
     console.log('changePassword');
     IonPopup.alert({
       title: 'Changing Password',
-      template: '<div class="center">Yet to be implemented</div>',
+      template: '<div class="center">Work in progress</div>',
       okText: 'Got It!'
     });
   }

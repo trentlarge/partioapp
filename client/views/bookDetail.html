@@ -20,15 +20,11 @@
           </div>
           <div class="col col-67 item-text-wrap">
             <h3>{{title}}</h3>
-            <p>{{subtitle}}</p>
+            <p class="line-height-one">{{subtitle}}</p>
           </div>
         </div>
 
-<!--         <div class="row item row-center">
-          
-        </div> -->
-
-        <div class="item no-padding">
+        <div class="item no-padding small-font">
 
           <div class="row row-center">
             <div class="col-offset-10"></div>
@@ -43,7 +39,8 @@
             </div>
             <div class="col col-67 item-text-wrap keep-inside-padding">
               {{#with userInfo}}
-              <p class="dark"><strong>{{name}}</strong><br>{{college}}</p>
+              <p class="dark"><strong>{{name}}</strong></p>
+              <p class="dark line-height-one">{{college}}</p>
               {{/with}}
             </div>
           </div>
@@ -58,7 +55,7 @@
               <p>Language</p>
               <p>PageCount</p>
             </div>
-            <div class="col col-67 scan-result">
+            <div class="col col-67 scan-result keep-inside-padding">
               <p><strong>{{price}}</strong></p>
               <p>{{isbn10}}</p>
               <p>{{author}}</p>
@@ -73,8 +70,8 @@
         <div class="row item">
           <div class="col-offset-10">
           </div>
-          <div class="col col-33"><p><strong>You Pay</strong></p></div>
-          <div class="col col-50"><p><strong class="assertive">${{customPrice}}/Week</strong></p></div>
+          <div class="col col-33"><p>You Pay</p></div>
+          <div class="col col-50"><p><strong class="assertive">${{customPrice}} / week</strong></p></div>
         </div>
       </div>
 

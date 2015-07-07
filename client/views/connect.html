@@ -1,0 +1,140 @@
+<template name="connect">
+  {{#contentFor "headerButtonLeft"}}
+      {{>ionNavBackButton path="mybooks"}}
+  {{/contentFor}}
+  
+  {{#contentFor "headerTitle"}}
+    <h1 class="title">Requesting Item</h1>
+  {{/contentFor}}
+
+
+  {{#ionView}}
+    {{#ionContent}}
+      <div class="card">
+
+        {{#with userInfo}}
+        <div class="item">
+          <div class="profile-image-container">
+            {{#if noProfileYet}}
+            <div class="profile-avatar" style="background: url('profile_image_placeholder.jpg') no-repeat; background-size:cover; background-position: 50% 50%;"></div>
+            {{else}}
+            <div class="profile-avatar" style="background: url('{{avatar}}') no-repeat; background-size:cover; background-position: 50% 50%;"></div>
+            {{/if}}
+          </div>
+
+          <div class="center">
+            <p class="dark"><strong>{{name}}</strong></p>
+            <p class="line-height-one">{{college}}</p>
+          </div>
+        </div>
+        {{/with}}
+
+        <div class="item small-font line-height-one">
+          <div class="center">
+            <img class="connect-thumbnail" src="{{bookData.thumbnail}}">
+            <p><strong>{{bookData.title}}</strong></p>
+            <p>{{bookData.subtitle}}</p>
+            <p>Amazon Price: {{bookData.price}}</p>
+            <h3 class="dark">Your Price: ${{bookData.customPrice}} / week</h3>
+          </div>
+          
+        </div>
+
+        <div class="item tabs tabs-icon-left">
+          <a class="tab-item" href="tel:{{phoneNumber}}">
+            <i class="icon ion-ios-telephone assertive"></i>
+            CALL
+          </a>
+          <a class="tab-item" href="#" id="startChatOwner">
+            <i class="icon ion-ios-chatboxes assertive"></i>
+            CHAT
+          </a>
+          <a class="tab-item" href="#">
+            <i class="icon ion-ios-close"></i>
+            REJECT
+          </a>
+        </div>
+
+      </div>
+
+      <div class="padding-horizontal">
+      {{#if alreadyApproved}}
+        <button id="ownerAccept" class="disabled button button-block button-energized">Rented at ${{bookData.customPrice}} / week</button>
+      {{else}}
+        <button id="ownerAccept" class="button button-block button-energized">Accept renting at ${{bookData.customPrice}} / week</button>
+      {{/if}}
+      
+      </div>
+    {{/ionContent}}
+  {{/ionView}}
+</template>
+
+
+
+<template name="connectRent">
+  {{#contentFor "headerButtonLeft"}}
+      {{>ionNavBackButton path="lentBooks"}}
+  {{/contentFor}}
+  
+  {{#contentFor "headerTitle"}}
+    <h1 class="title">Awaiting Approval</h1>
+  {{/contentFor}}
+
+
+  {{#ionView}}
+    {{#ionContent}}
+      <div class="card">
+
+        {{#with userInfo}}
+        <div class="item">
+          <div class="profile-image-container">
+            {{#if noProfileYet}}
+            <div class="profile-avatar" style="background: url('profile_image_placeholder.jpg') no-repeat; background-size:cover; background-position: 50% 50%;"></div>
+            {{else}}
+            <div class="profile-avatar" style="background: url('{{avatar}}') no-repeat; background-size:cover; background-position: 50% 50%;"></div>
+            {{/if}}
+          </div>
+
+          <div class="center">
+            <p class="dark"><strong>{{name}}</strong></p>
+            <p class="line-height-one">{{college}}</p>
+          </div>
+        </div>
+        {{/with}}
+
+        <div class="item small-font line-height-one">
+          <div class="center">
+            <img class="connect-thumbnail" src="{{bookData.thumbnail}}">
+            <p><strong>{{bookData.title}}</strong></p>
+            <p>{{bookData.subtitle}}</p>
+            <p>Amazon Price: {{bookData.price}}</p>
+            <h3 class="dark">Your Price: ${{bookData.customPrice}} / week</h3>
+          </div>
+          
+        </div>
+
+        <div class="item tabs tabs-icon-left">
+          <a class="tab-item" href="tel:{{phoneNumber}}">
+            <i class="icon ion-ios-telephone assertive"></i>
+            CALL
+          </a>
+          <a class="tab-item" href="#" id="startChat">
+            <i class="icon ion-ios-chatboxes assertive"></i>
+            CHAT
+          </a>
+          <a class="tab-item" href="#">
+            <i class="icon ion-ios-close"></i>
+            CANCEL
+          </a>
+        </div>
+
+      </div>
+
+      <div class="padding-horizontal">
+        <button id="payAndRent" class="button button-block button-assertive {{approvedStatus}}">ACCEPT & PAY ${{bookData.customPrice}}/week</button>   
+      </div>
+
+    {{/ionContent}}
+  {{/ionView}}
+</template>
+

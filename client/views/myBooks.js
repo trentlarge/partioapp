@@ -7,5 +7,8 @@ Template.mybooks.helpers({
   },
   dataExists: function() {
   	return (Products.find({"ownerId": Meteor.userId()}).count() || Connections.find({"bookData.ownerId": Meteor.userId(), "approved": false}).count()) ? true : false;
+  },
+  status: function() {
+  	return Connections.findOne(this._id).approved ? "ACCEPTED" : "WAITING" ;
   }
 })

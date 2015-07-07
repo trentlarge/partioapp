@@ -5,6 +5,9 @@ DARK ORANGE: #df5707
 Oportunidades Disfarcadas (Em Portugues do Brasil) - 9788575424858
 Problem scanning...
 
+HOKO Link:
+iOS: 0c04116d2f0214546ba8b8dd5951b942ddf5af95
+
 *plugins*
 cordova:phonegap-plugin-barcodescanner@https://github.com/phonegap/phonegap-plugin-barcodescanner/tarball/70ca00be45a675b1b1d6963ad6f72430e579788e
 nl.x-services.plugins.launchmyapp
