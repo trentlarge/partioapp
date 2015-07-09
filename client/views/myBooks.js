@@ -3,12 +3,31 @@ Template.mybooks.helpers({
     return Products.find({"ownerId": Meteor.userId()})
   },
   newRequests: function() {
-  	return Connections.find({"bookData.ownerId": Meteor.userId(), "approved": false})
+  	return Connections.find({"bookData.ownerId": Meteor.userId()}, {state: {$ne: "IN USE"}})
   },
   dataExists: function() {
-  	return (Products.find({"ownerId": Meteor.userId()}).count() || Connections.find({"bookData.ownerId": Meteor.userId(), "approved": false}).count()) ? true : false;
+  	return (Products.find({"ownerId": Meteor.userId()}).count() || Connections.find({"bookData.ownerId": Meteor.userId()}, {state: {$ne: "IN USE"}}).count()) ? true : false;
   },
   status: function() {
-  	return Connections.findOne(this._id).approved ? "ACCEPTED" : "WAITING" ;
+  	return Connections.findOne(this._id).approved ? "IN USE" : "WAITING" ;
+  }
+});
+
+Template.mybookDetail.events({
+  'click #editSave': function(e, template) {
+    console.log("saving");
+
+    var edited = template.find('#editPrice').value;
+    Products.update({_id: this._id}, {$set: {customPrice: edited}});
+    Session.set('editMode', false);
+  }
+});
+
+Template.mybookDetail.helpers({
+  editMode: function() {
+    return Session.get('editMode') ? true : false;
+  },
+  bookResult: function() {
+    return (this.category === "Book") ? true : false;
   }
 })

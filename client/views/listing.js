@@ -11,7 +11,7 @@ var options = {
   keepHistory: 1000 * 60 * 5,
   localSearch: true
 };
-var fields = ['title', 'subtitle'];
+var fields = ['title', 'authors'];
 
 PackageSearch = new SearchSource('packages', fields, options);
 

@@ -20,7 +20,7 @@ App.launchScreens({
 
 App.setPreference('StatusBarOverlaysWebView', true);
 App.setPreference('StatusBarStyle', 'default');
-
+App.accessRule('*');
 
 App.configurePlugin('nl.x-services.plugins.launchmyapp', {
   URL_SCHEME: 'parti-O'

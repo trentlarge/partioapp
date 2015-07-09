@@ -13,6 +13,9 @@ Template.chat.helpers({
 	bubble: function(sender) {
 		return (sender === Meteor.userId()) ? "bubble-right": "bubble-left";
 	}
+	// chattingWith: function() {
+	// 	return Meteor.users.findOne(this.bookData.ownerId).profile.name;
+	// }
 	// readMessage: function() {
 		// var msgs = Connections.findOne({_id: this._id}).chat;
 		// var msgsRead = [];
@@ -45,6 +48,12 @@ Template.chat.events({
 			}
 		});
 		$('#messageInput').focus();
+	},
+	'focus input#messageInput': function (evt) {
+		console.log("focus keyboard shit")
+		setTimeout(function(){
+			$('.discussion').scrollTop($('.discussion')[0].scrollHeight);
+		}, 500);
 	}
 });
 

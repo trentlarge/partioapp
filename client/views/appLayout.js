@@ -20,5 +20,15 @@ Template.appLayout.events({
 				console.log('Cancelled');
 			}
 		});
+	},
+	'click #editCurrent': function() {
+		Session.set('editMode', true);
+	},
+	'click .backFromEdit': function() {
+		Session.set('editMode', false);
+	},
+	'change #payToggle': function(event) {
+		console.log("toggling!");
+		Session.set('testPay', event.target.checked);
 	}
 })

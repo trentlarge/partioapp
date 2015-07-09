@@ -23,13 +23,13 @@
     {{#if dataExists}}
       {{#if newRequests.count}}
         <div class="list">
-        <div class="item item-divider">New Requests</div>
+        <div class="item item-divider"><h3>Renting</h3></div>
         {{#each newRequests}}
           {{#ionItem path='connect' _id=this._id class="item-avatar-2"}}
-              <img src="{{bookData.thumbnail}}"/>
-              <span class="badge badge-energized">{{status}}</span>
-              <h2>{{bookData.title}}</h2>
-              <p><span class="tinytext">Weekly Price: ${{bookData.customPrice}}</span></p>
+              <img src="{{bookData.image}}"/>
+              <h3>{{bookData.title}}</h3>
+              <p><span class="tinytext">Rent/Week: ${{bookData.customPrice}}</span></p>
+              <span class="badge badge-low badge-energized">{{state}}</span>
           {{/ionItem}}
         {{/each}}
         </div>
@@ -40,10 +40,10 @@
         <div class="item item-divider"><h3>Owned Products</h3></div>
         {{#each myBooks}}
           {{#ionItem path='mybookDetail' _id=this._id iconRight=true class="item-avatar-2"}}
-              <img src="{{thumbnail}}"/>
-              <h2>{{title}}</h2>
-              <p><span class="tinytext">Weekly Price: ${{customPrice}}</span></p>
-              {{> ionIcon icon="ios-arrow-right" class="priceFont"}}
+              <img src="{{image}}"/>
+              <h3>{{title}}</h3>
+              <p><span class="tinytext">Rent/Week: ${{customPrice}}</span></p>
+              {{> ionIcon icon="ios-arrow-right"}}
           {{/ionItem}}
         {{/each}}
         </div>
@@ -59,5 +59,109 @@
 </template>
 
 
+<template name="mybookDetail">
+  {{#contentFor "headerButtonLeft"}}
+      {{>ionNavBackButton path="mybooks" class="backFromEdit"}}
+  {{/contentFor}}
+  
+  {{#contentFor "headerTitle"}}
+    <h1 class="title">Product Details</h1>
+  {{/contentFor}}
 
+  {{#contentFor "headerButtonRight"}}
+    <button class="button button-clear icon ion-ios-compose-outline button-energized" id="editCurrent"></button>
+  {{/contentFor}}
+
+  {{#ionView}}
+    {{#ionContent}}
+      <div class="card">
+        
+        <div class="row item row-center">
+          <div class="col col-33">
+            <div class="bookDetail-container">
+              <div class="bookThumbnail" style="background-image: url('{{image}}'); "></div>
+            </div>
+          </div>
+          <div class="col col-67 item-text-wrap">
+            <h3>{{title}}</h3>
+            <p class="line-height-one">{{authors}}</p>
+          </div>
+        </div>
+
+        <div class="item no-padding small-font">
+
+          <div class="row row-center">
+            <div class="col-offset-10"></div>
+            <div class="col col-33">
+            </div>
+            <div class="col col-67 item-text-wrap keep-inside-padding">
+              {{#with userInfo}}
+              <p class="dark"><strong>{{name}}</strong></p>
+              <p class="dark line-height-one">{{college}}</p>
+              {{/with}}
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-offset-10"></div>
+            {{#if bookResult}}
+              <div class="col col-33">
+                <p>Amazon $</p>
+                <p>Publisher</p>
+                <p>Binding</p>
+                <p>Pages</p>
+                <p>EAN</p>
+              </div>
+              <div class="col col-67 scan-result keep-inside-padding">
+                <p><strong>{{price}}</strong></p>
+                <p>{{publisher}}</p>
+                <p>{{binding}}</p>
+                <p>{{pages}}</p>
+                <p>{{ean}}</p>
+              </div>
+            {{else}}
+              <div class="col col-33">
+                <p>Amazon $</p>
+                <p>Manufacturer</p>
+                <p>Model</p>
+                <p>ASIN</p>
+              </div>
+              <div class="col col-67 scan-result keep-inside-padding">
+                <p><strong>{{price}}</strong></p>
+                <p>{{manufacturer}}</p>
+                <p>{{model}}</p>
+                <p>{{asin}}</p>
+              </div>
+            {{/if}}
+          </div>
+
+        </div>
+
+        {{#if editMode}}
+        <div class="row item">
+          <div class="col-offset-10">
+          </div>
+          <div class="col col-33"><p>Edit Price $</p></div>
+          <input class="col col-50" type="number" id="editPrice" value="{{customPrice}}">
+        </div>
+        {{else}}
+        <div class="row item">
+          <div class="col-offset-10">
+          </div>
+          <div class="col col-33"><p>Rent</p></div>
+          <div class="col col-50"><p><strong class="assertive">${{customPrice}} / week</strong></p></div>
+        </div>
+        {{/if}}
+
+      </div>
+
+      {{#if editMode}}
+      <div class="padding-horizontal">
+        <button id="editSave" class="button button-block button-energized">SAVE</button>   
+      </div>
+      {{/if}}
+
+    {{/ionContent}}
+  {{/ionView}}
+</template>
 

@@ -1,6 +1,6 @@
 <template name="listing">
   {{#contentFor "headerButtonLeft"}}
-      <button class="button button-clear pull-left" data-ion-menu-toggle="left">
+      <button class="button button-clear " data-ion-menu-toggle="left">
         {{#if isAndroid}}
           {{> ionIcon icon='android-more-vertical'}}
         {{else}}
@@ -13,9 +13,9 @@
     <h1 class="title">Search Products</h1>
   {{/contentFor}}
 
-<!--   {{#contentFor "headerButtonRight"}}
-    {{>checkout}}
-  {{/contentFor}} -->
+  {{#contentFor "headerButtonRight"}}
+    <button data-ion-modal="filter" class="button button-clear custom-icon ion-ios-keypad button-energized"></button>
+  {{/contentFor}}
 
   {{#ionView}}
     {{#ionContent}}  
@@ -23,6 +23,47 @@
       {{> searchResult}}
     {{/ionContent}}
   {{/ionView}}
+</template>
+
+<template name="filter">
+  {{#ionModal customTemplate=true}}
+      <div class="bar bar-header bar-stable">
+        <button class="button icon button-clear ion-ios-checkmark-outline"></button>
+        <h2 class="title">Categories</h2>
+        <button type="button" data-dismiss="modal" class="button button-clear">Done</button>
+      </div>
+      
+      <div class="content has-header overflow-scroll"> 
+
+        <ul class="list">
+
+          <li class="item item-checkbox">
+           <label class="checkbox-energized checkbox">
+             <input type="checkbox" checked>
+           </label>Books
+         </li>
+
+         <li class="item item-checkbox">
+           <label class="checkbox-energized checkbox">
+             <input type="checkbox">
+           </label>Electronics
+         </li>
+
+         <li class="item item-checkbox">
+           <label class="checkbox-energized checkbox">
+             <input type="checkbox">
+           </label>Sports
+         </li>
+
+         <li class="item item-checkbox">
+           <label class="checkbox-energized checkbox">
+             <input type="checkbox">
+           </label>Others
+         </li>
+       </ul>
+
+      </div>
+  {{/ionModal}}
 </template>
 
 
@@ -46,9 +87,8 @@
     {{#each getPackages}}
 
         <div class="package">
-        <!-- {{#ionItem path='showMerchantInventory' _id=this._id iconRight=true class="item-avatar"}} -->
         {{#ionItem path='bookDetail' _id=this._id iconRight=true class="item-avatar-2"}}
-          <img src="{{thumbnail}}"/>
+          <img src="{{image}}"/>
           <h2>{{{title}}}</h2>
           <p><span class="tinytext">Weekly Price: ${{{customPrice}}}</span></p>
           {{> ionIcon icon="ios-arrow-right" class="energized"}}

@@ -1,14 +1,17 @@
 Template.booksLent.helpers({
   toBeApproved: function() {
-    return Connections.find({"requestor": Meteor.userId(), "approved": false})
+    return Connections.find({"requestor": Meteor.userId(), "state": {$ne: "IN USE"}})
   },
   currentlyBorrowed: function() {
-  	return Connections.find({"requestor": Meteor.userId(), "approved": true});
+  	return Connections.find({"requestor": Meteor.userId(), "state": "IN USE"});
   },
   dataExists: function() {
-  	return (Connections.find({"requestor": Meteor.userId(), "approved": false}).count() || Connections.find({"requestor": Meteor.userId(), "approved": true}).count()) ? true : false;
-  },
-  status: function() {
-  	return Connections.findOne({"requestor": Meteor.userId()}).approved ? "ACCEPTED" : "WAITING" ;
+  	return (Connections.find({"requestor": Meteor.userId(), "state": {$ne: "IN USE"}}).count() || Connections.find({"requestor": Meteor.userId(), "state": "IN USE"}).count()) ? true : false;
   }
+});
+
+Template.booksLent.events({
+	'click .borrowedBookDetail': function() {
+		Router.go('/listing/'+this.bookData._id);
+	}
 })

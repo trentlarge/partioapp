@@ -1,7 +1,7 @@
 <template name="lend">
 	{{#ionModal customTemplate=true}}
       <div class="bar bar-header bar-royal">
-        <button type="button" data-dismiss="modal" class="button button-clear"> Cancel</button>
+        <button type="button" data-dismiss="modal" id="cancelScan" class="button button-clear"> Cancel</button>
         <h2 class="title">Share Product</h2>
       </div>
       
@@ -10,33 +10,51 @@
         {{#with scanResult}}
         <br>
       	<div class="viewfinder">
-      		<p><img src="{{thumbnail}}"/></p>
+      		<p><img src="{{image}}"/></p>
       	</div>
 
         <div class="card hide-on-keyboard-open">
-          <div class="row item">
-            <div class="col col-33">
+          {{#if bookResult}}
+            <div class="row item">
+              <div class="col col-33">
                 <p>Amazon Price</p>
                 <p>Title</p>
-                <p>Subtitle</p>
-                <p>ISBN-10</p>
-                <p>Authors</p>
+                <p>Author</p>
                 <p>Publisher</p>
-                <p>Language</p>
-                <p>PageCount</p>
-            </div>
-            <div class="col col-67 scan-result">
+                <p>Binding</p>
+                <p>Pages</p>
+                <p>EAN</p>
+              </div>
+              <div class="col col-67 scan-result">
                 <p><strong>{{price}}</strong></p>
                 <p><strong>{{title}}</strong></p>
-                <p>{{subtitle}}</p>
-                <p>{{isbn10}}</p>
-                <p>{{author}}</p>
+                <p>{{authors}}</p>
                 <p>{{publisher}}</p>
-                <p>{{language}}</p>
-                <p>{{pageCount}}</p>
+                <p>{{binding}}</p>
+                <p>{{pages}}</p>
+                <p>{{ean}}</p>
+              </div>
             </div>
-          </div>
+          {{else}}
+              <div class="row item">
+                <div class="col col-33">
+                  <p>Amazon Price</p>
+                  <p>Title</p>
+                  <p>Manufacturer</p>
+                  <p>Model</p>
+                  <p>ASIN</p>
+                </div>
+                <div class="col col-67 scan-result">
+                  <p><strong>{{price}}</strong></p>
+                  <p><strong>{{title}}</strong></p>
+                  <p>{{manufacturer}}</p>
+                  <p>{{model}}</p>
+                  <p>{{asin}}</p>
+                </div>
+              </div>
+          {{/if}}
         </div>
+
 
 <!--         <div class="list list-inset">
          <label class="item item-input">
@@ -62,7 +80,13 @@
         </div>
 
         <div class="padding-horizontal">
-          <button id="submitProduct" class="button button-block button-energized">Lend this book at <strong>${{userPrice}}</strong> per week</button>      
+          <button id="submitProduct" class="button button-block button-energized" {{waitingForPrice}}>
+          {{#if userPrice}}
+            Lend this item at <strong>${{userPrice}}</strong> per week
+          {{else}}
+            Enter your price above
+          {{/if}}
+          </button>      
         </div>
 
         {{/with}}

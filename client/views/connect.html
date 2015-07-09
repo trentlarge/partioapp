@@ -4,7 +4,7 @@
   {{/contentFor}}
   
   {{#contentFor "headerTitle"}}
-    <h1 class="title">Requesting Item</h1>
+    <h1 class="title">Rent Request</h1>
   {{/contentFor}}
 
 
@@ -31,7 +31,7 @@
 
         <div class="item small-font line-height-one">
           <div class="center">
-            <img class="connect-thumbnail" src="{{bookData.thumbnail}}">
+            <img class="connect-thumbnail" src="{{bookData.image}}">
             <p><strong>{{bookData.title}}</strong></p>
             <p>{{bookData.subtitle}}</p>
             <p>Amazon Price: {{bookData.price}}</p>
@@ -59,7 +59,7 @@
 
       <div class="padding-horizontal">
       {{#if alreadyApproved}}
-        <button id="ownerAccept" class="disabled button button-block button-energized">Rented at ${{bookData.customPrice}} / week</button>
+        <button class="disabled button button-block button-energized">Rented at ${{bookData.customPrice}} / week</button>
       {{else}}
         <button id="ownerAccept" class="button button-block button-energized">Accept renting at ${{bookData.customPrice}} / week</button>
       {{/if}}
@@ -73,7 +73,7 @@
 
 <template name="connectRent">
   {{#contentFor "headerButtonLeft"}}
-      {{>ionNavBackButton path="lentBooks"}}
+      {{>ionNavBackButton path="booksLent"}}
   {{/contentFor}}
   
   {{#contentFor "headerTitle"}}
@@ -104,11 +104,11 @@
 
         <div class="item small-font line-height-one">
           <div class="center">
-            <img class="connect-thumbnail" src="{{bookData.thumbnail}}">
+            <img class="connect-thumbnail" src="{{bookData.image}}">
             <p><strong>{{bookData.title}}</strong></p>
             <p>{{bookData.subtitle}}</p>
             <p>Amazon Price: {{bookData.price}}</p>
-            <h3 class="dark">Your Price: ${{bookData.customPrice}} / week</h3>
+            <h3 class="dark">Rent Price: ${{bookData.customPrice}} / week</h3>
           </div>
           
         </div>
@@ -131,7 +131,7 @@
       </div>
 
       <div class="padding-horizontal">
-        <button id="payAndRent" class="button button-block button-assertive {{approvedStatus}}">ACCEPT & PAY ${{bookData.customPrice}}/week</button>   
+        <button id="payAndRent" class="button button-block button-assertive ">ACCEPT & PAY ${{bookData.customPrice}}/week</button>   
       </div>
 
     {{/ionContent}}
