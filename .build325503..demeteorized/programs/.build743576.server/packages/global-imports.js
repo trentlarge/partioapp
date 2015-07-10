@@ -1,0 +1,44 @@
+/* Imports for global scope */
+
+Router = Package['iron:router'].Router;
+RouteController = Package['iron:router'].RouteController;
+Platform = Package['meteoric:ionic'].Platform;
+IonActionSheet = Package['meteoric:ionic'].IonActionSheet;
+IonBackdrop = Package['meteoric:ionic'].IonBackdrop;
+IonHeaderBar = Package['meteoric:ionic'].IonHeaderBar;
+IonKeyboard = Package['meteoric:ionic'].IonKeyboard;
+IonLoading = Package['meteoric:ionic'].IonLoading;
+IonModal = Package['meteoric:ionic'].IonModal;
+IonNavigation = Package['meteoric:ionic'].IonNavigation;
+IonPopover = Package['meteoric:ionic'].IonPopover;
+IonPopup = Package['meteoric:ionic'].IonPopup;
+IonSideMenu = Package['meteoric:ionic'].IonSideMenu;
+Accounts = Package['accounts-base'].Accounts;
+HTTP = Package.http.HTTP;
+HTTPInternals = Package.http.HTTPInternals;
+SearchSource = Package['meteorhacks:search-source'].SearchSource;
+apac = Package['alexsmr:apac'].apac;
+Async = Package['meteorhacks:async'].Async;
+Meteor = Package.meteor.Meteor;
+WebApp = Package.webapp.WebApp;
+main = Package.webapp.main;
+WebAppInternals = Package.webapp.WebAppInternals;
+Log = Package.logging.Log;
+Tracker = Package.deps.Tracker;
+Deps = Package.deps.Deps;
+DDP = Package.livedata.DDP;
+DDPServer = Package.livedata.DDPServer;
+MongoInternals = Package.mongo.MongoInternals;
+Mongo = Package.mongo.Mongo;
+Blaze = Package.ui.Blaze;
+UI = Package.ui.UI;
+Handlebars = Package.ui.Handlebars;
+Spacebars = Package.spacebars.Spacebars;
+check = Package.check.check;
+Match = Package.check.Match;
+_ = Package.underscore._;
+Random = Package.random.Random;
+EJSON = Package.ejson.EJSON;
+Iron = Package['iron:core'].Iron;
+HTML = Package.htmljs.HTML;
+

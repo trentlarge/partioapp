@@ -38,7 +38,7 @@ Template.bookDetail.events({
 					}
 				}]
 			});
-		} else if (Meteor.userId() === Connections.findOne({"bookData._id": this._id}).requestor) {
+		} else if ( Connections.findOne({"bookData._id": this._id}) && (Meteor.userId() === Connections.findOne({"bookData._id": this._id}).requestor)) {
 			IonPopup.show({
 				title: 'You already borrowed this item!',
 				template: '',

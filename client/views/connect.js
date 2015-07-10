@@ -58,9 +58,9 @@ Template.connectRent.helpers({
 	userInfo: function() {
 		return Meteor.users.findOne(this.bookData.ownerId).profile;
 	},
-	// approvedStatus: function() {
-	// 	return Connections.findOne(this._id).state !== ? '' : 'disabled';
-	// },
+	approvedStatus: function() {
+		return Connections.findOne(this._id).state !== 'WAITING' ? '' : 'disabled';
+	},
 	phoneNumber: function() {
 		return Meteor.users.findOne(this.bookData.ownerId).profile.mobile;
 	}
