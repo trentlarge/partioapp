@@ -18,8 +18,9 @@ App.launchScreens({
   'iphone5': 'public/Default@iphone5~iphone.png'
 });
 
-App.setPreference('StatusBarOverlaysWebView', true);
-App.setPreference('StatusBarStyle', 'default');
+App.setPreference('StatusBarOverlaysWebView', false);
+App.setPreference('StatusBarBackgroundColor', '#293E51');
+
 App.accessRule('*');
 
 App.configurePlugin('nl.x-services.plugins.launchmyapp', {

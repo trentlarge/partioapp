@@ -27,12 +27,12 @@ Template.chat.events({
 			}
 		});
 		$('#messageInput').focus();
-	},
-	'focus input#messageInput': function (evt) {
-		setTimeout(function(){
-			$('.discussion').scrollTop($('.discussion')[0].scrollHeight);
-		}, 500);
 	}
+	// 'focus input#messageInput': function (evt) {
+	// 	setTimeout(function(){
+	// 		$('.discussion').scrollTop($('.discussion')[0].scrollHeight);
+	// 	}, 500);
+	// }
 });
 
 Template.chat.rendered = function() {
@@ -43,7 +43,7 @@ Template.chat.rendered = function() {
 	// 	Session.set('window_focus', false);
 	// });
 
-	$('.discussion').scrollTop($('.discussion')[0].scrollHeight);	
+	$('.discussion').scrollTop($('.discussion')[0].scrollHeight);
 }
 
 
