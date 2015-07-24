@@ -5,16 +5,17 @@
         <h2 class="title">Share Product</h2>
       </div>
       
-      <div class="content has-header overflow-scroll">
+      <div class="content has-header">
       {{#if scanResult}}
         {{#with scanResult}}
-        <br>
-      	<div class="viewfinder">
-      		<p><img src="{{image}}"/></p>
-      	</div>
 
-        <div class="card hide-on-keyboard-open">
-          {{#if bookResult}}
+        <div class="card">
+          <div class="item no-padding">
+            <div class="center">
+              <img class="scanResult-thumbnail" src="{{image}}">
+            </div>
+          </div>
+
             <div class="row item">
               <div class="col col-33">
                 <p>Amazon Price</p>
@@ -35,42 +36,8 @@
                 <p>{{ean}}</p>
               </div>
             </div>
-          {{else}}
-              <div class="row item">
-                <div class="col col-33">
-                  <p>Amazon Price</p>
-                  <p>Title</p>
-                  <p>Manufacturer</p>
-                  <p>Model</p>
-                  <p>ASIN</p>
-                </div>
-                <div class="col col-67 scan-result">
-                  <p><strong>{{price}}</strong></p>
-                  <p><strong>{{title}}</strong></p>
-                  <p>{{manufacturer}}</p>
-                  <p>{{model}}</p>
-                  <p>{{asin}}</p>
-                </div>
-              </div>
-          {{/if}}
+
         </div>
-
-
-<!--         <div class="list list-inset">
-         <label class="item item-input">
-          <span class="input-label">Availability (weeks)</span>
-          <input id="lendingPeriod" class="center" type="number" placeholder="2">&nbsp;
-        </label>
-        <label class="item item-input item-select">
-          <div class="input-label"> Make Available for</div>
-          <select>
-            <option selected>2 weeks</option>
-            <option >3 weeks</option>
-            <option>4 weeks</option>
-            <option>Indefinite</option>
-          </select>
-        </label>
-        </div> -->
 
         <div class="list list-inset">
         <label class="item item-input">
@@ -88,9 +55,55 @@
           {{/if}}
           </button>      
         </div>
-
         {{/with}}
+
+
       {{else}}
+
+        {{#if manualEntry}}
+        
+          {{> takePhoto}}
+
+          <div class="list list-inset">
+            <form>
+              <label class="item item-input">
+                <span class="input-label"><p>Title</p></span>
+                <input id="manualtitle" type="text" value="">
+              </label>
+              <label class="item item-input">
+                <span class="input-label"><p>Author</p></span>
+                <input id="manualauthor" type="text" value="">
+              </label>
+              <label class="item item-input">
+                <span class="input-label"><p>Publisher</p></span>
+                <input id="manualpublisher" type="number" value="">
+              </label>
+            </form>
+            <label class="item item-input">
+              <textarea id="manualcomments" placeholder="Comments"></textarea>
+            </label>
+          </div>
+
+          <div class="list list-inset">
+            <label class="item item-input">
+              <span class="input-label"><p>Set Rent/Week &nbsp;$</p></span>
+              <input type="number" class="userPrice" value="">
+            </label>
+          </div>
+
+          <div class="padding-horizontal">
+            <button class="submitProduct button button-block button-energized" {{waitingForPrice}}>
+              {{#if userPrice}}
+              Lend this item at <strong>${{userPrice}}</strong> per week
+              {{else}}
+              Enter your price above
+              {{/if}}
+            </button>      
+          </div>
+
+        {{/if}}
+
+        {{#if barcodeEntry}}
         <div class="list">
           <div class="item item-input-inset">
             <label class="item-input-wrapper">
@@ -99,15 +112,40 @@
             <button id="manualSubmit" class="button button-small button-energized button-outline">Submit</button>
           </div>
         </div>
-        <p class="stable center">OR</p>
-        <br>
-        <div class="viewfinder">
+        {{/if}}
+
+        {{#if viewFinder}}
+        <div class="viewfinder hide-on-keyboard-open">
           <p>Scan Barcode</p>
         </div>
+        {{/if}}
 
       {{/if}}
 
       </div>
+
+      {{#if viewFinder}}
+        {{#unless scanResult}}
+          <div class="bar-footer bar button-footer">
+            <div class="row">
+              <div class="col"><button id="barcode-entry" class="button button-large button-full button-energized"><h5 class="stable">Enter Barcode</h5></button></div>
+              <div class="col"><button id="manual-entry" class="button button-large button-full button-orange1"><h5 class="stable">Manual Entry</h5></button></div>
+            </div>
+          </div>
+        {{/unless}}
+      {{/if}}
+
   	{{/ionModal}}
 </template>
+
+
+<template name="takePhoto">
+  <div class="">
+    <div class="center">
+    <br>
+      <img class="scanResult-thumbnail" src=" {{#if photoTaken}} {{photoTaken}} {{else}} bookplaceholder.jpg {{/if}} ">
+    </div>
+  </div>
+</template>
+
 

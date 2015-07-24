@@ -188,12 +188,13 @@ ion-side-menu.menu-left.menu {
 .viewfinder {
 	display: table;
 	position: relative;
-	width: 40%;
-	height: 20%;
+	width: 175px;
+	height: 150px;
 	background-color: white;
 	margin: 0 auto;
 	text-align: center;
 	line-height: 100%;
+	margin-top: 22vh;
 }
 .viewfinder::before, .viewfinder::after {
 	position: absolute;
@@ -330,6 +331,14 @@ ion-side-menu.menu-left.menu {
 	height: auto;
 }
 
+.scanResult-thumbnail {
+	max-width: 150px;
+	max-height: 150px;
+	width: auto;
+	height: auto;
+	margin: 4px;
+}
+
 // .item-avatar-2.item-complex, .item-avatar-left.item-complex, .item-thumbnail-left.item-complex {
 //   padding-top: 0px;
 //   padding-left: 0px; }
@@ -416,6 +425,29 @@ ion-side-menu.menu-left.menu {
 }
 
 
+.graytext {
+	color: #bdc3c7; 
+}
 
+.button-footer, .button-footer .row, .button-footer .col  {
+	padding: 0;
+	margin: 0;
+}
+.button-footer .button {
+	margin: 0;
+	min-height: 45px;
+}
 
+.button-orange1 {
+	background-color: #FFBF49;
+	border-color: #FFD479;
+}
 
+.button-orange2 {
+	background-color: #FFD479;
+	border-color: #FFD479;
+}
+
+textarea {
+	height: 60px;
+}

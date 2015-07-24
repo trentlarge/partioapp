@@ -33,12 +33,12 @@ function buildRegExp(searchText) {
 
 
 Meteor.methods({
-  priceFromAmazon: function(barcode, format) {
-    var originalFormat = format;
+  priceFromAmazon: function(barcode) {
+    // var originalFormat = format;
     var originalBarcode = barcode;
-    console.log("originFormat: "+originalFormat+ ",originalBarcode: "+ originalBarcode);
+    console.log("originalBarcode: "+ originalBarcode);
     var getAmazonPriceSearchSynchronously =  Meteor.wrapAsync(amazonPriceSearch);
-    var result = getAmazonPriceSearchSynchronously(barcode, format);
+    var result = getAmazonPriceSearchSynchronously(barcode);
 
     if (result.html && (result.html.body[0].b[0] === "Http/1.1 Service Unavailable")) {
       console.log(result.html.body[0].b[0]);
@@ -46,24 +46,9 @@ Meteor.methods({
     } else {
         if (result.ItemLookupResponse.Items[0].Item && (result.ItemLookupResponse.Items[0].Request[0].IsValid[0] === "True")) {
           return amazonResultProcessing(result);
-      } else {
-        if (result.ItemLookupResponse.Items[0].Request[0].Errors[0].Error[0].Code[0] === "AWS.InvalidParameterValue") {
-          var newformat = (function() {
-            return (originalFormat === "UPC") ? "EAN" : "UPC"
-          })();
-          console.log("newFormat: "+ newformat);
-          var resultAgain = getAmazonPriceSearchSynchronously(barcode, newformat);
-          if (resultAgain.html && (resultAgain.html.body[0].b[0] === "Http/1.1 Service Unavailable")) {
-            throw new Meteor.Error("Error from Amazon - Service Unavailable");
-          } else {
-            return amazonResultProcessing(resultAgain);  
-          }
-          
         } else {
           console.log(result.ItemLookupResponse.Items[0].Request[0].Errors[0].Error[0].Code[0]);
           throw new Meteor.Error(result.ItemLookupResponse.Items[0].Request[0].Errors[0].Error[0].Code[0]);
-        }
-        
       }
     }
   },
@@ -113,20 +98,7 @@ var amazonResultProcessing = function(result) {
           // } catch(e) {console.log(e)}
           return necessaryFields;
         } else {
-          // try {
-            var necessaryFields = {
-              price : (function() {return result.ItemLookupResponse.Items[0].Item[0].Offers[0].Offer ? result.ItemLookupResponse.Items[0].Item[0].Offers[0].Offer[0].OfferListing[0].Price[0].FormattedPrice[0] : "--"})(),
-              title : result.ItemLookupResponse.Items[0].Item[0].ItemAttributes[0].Title[0],
-              category : result.ItemLookupResponse.Items[0].Item[0].ItemAttributes[0].ProductGroup[0],
-              manufacturer : result.ItemLookupResponse.Items[0].Item[0].ItemAttributes[0].Manufacturer[0],
-              brand : (function() {return result.ItemLookupResponse.Items[0].Item[0].ItemAttributes[0].Brand ? result.ItemLookupResponse.Items[0].Item[0].ItemAttributes[0].Brand[0] : "--"})(),
-              image: result.ItemLookupResponse.Items[0].Item[0].MediumImage[0].URL[0],
-              asin: result.ItemLookupResponse.Items[0].Item[0].ASIN[0],
-              pageUrl: result.ItemLookupResponse.Items[0].Item[0].DetailPageURL[0],
-              model: (function() {return result.ItemLookupResponse.Items[0].Item[0].ItemAttributes[0].Model ? result.ItemLookupResponse.Items[0].Item[0].ItemAttributes[0].Model[0] : "--"})()
-            }
-          // } catch(e) {console.log(e)}
-          return necessaryFields;
+          throw new Meteor.Error("No match for this item. Are you sure you're scanning a Book?")
         }
   } else {
     console.log(result.ItemLookupResponse.Items[0].Request[0].Errors[0].Error[0].Code[0]);
@@ -134,7 +106,7 @@ var amazonResultProcessing = function(result) {
   }
 }
 
-amazonPriceSearch = function(barcode, format, callback) {
+amazonPriceSearch = function(barcode, callback) {
   OperationHelper = apac.OperationHelper;
 
   var opHelper = new OperationHelper({
@@ -147,7 +119,7 @@ amazonPriceSearch = function(barcode, format, callback) {
     'SearchIndex': 'All',
     'Operation': 'ItemLookup',
     'ItemId': barcode,
-    'IdType': format,
+    'IdType': 'ISBN',
     'ResponseGroup': ['ItemAttributes', 'Images', 'OfferListings'],
     'IncludeReviewsSummary': false,
     'VariationPage': 1
