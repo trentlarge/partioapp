@@ -8,16 +8,14 @@
 //     service: "facebook"
 // });
 
-SearchSource.defineSource('products', function(searchText, searchOptions) {
-  // console.log(searchOptions);
-  var options = {sort: {isoScore: -1}, limit: 100};
+SearchSource.defineSource('packages', function(searchText, options) {
+  var options = {sort: {isoScore: -1}, limit: 20};
 
   if(searchText) {
     var regExp = buildRegExp(searchText);
     var selector = {$or: [
       {title: regExp},
-      {authors: regExp},
-      {category: regExp}
+      {subtitle: regExp}
     ]};
     return Products.find(selector, options).fetch();
   } else {
@@ -26,6 +24,7 @@ SearchSource.defineSource('products', function(searchText, searchOptions) {
 });
 
 function buildRegExp(searchText) {
+
   var parts = searchText.trim().split(/[ \-\:]+/);
   return new RegExp("(" + parts.join('|') + ")", "ig");
 }

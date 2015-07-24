@@ -15,8 +15,8 @@ Template.bookDetail.helpers({
 	userInfo: function() {
 		return Meteor.users.findOne(this.ownerId).profile;
 	},
-	bookResult: function() {
-		return (this.category === "Book") ? true : false;
+	manualEntry: function() {
+		return (this.manualEntry) ? true : false;
 	}
 });
 

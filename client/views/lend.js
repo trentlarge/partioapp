@@ -36,6 +36,8 @@ Template.lend.events({
                   });
               }
             });
+          } else {
+            IonLoading.hide();
           }
         },
         function(error) {
@@ -91,7 +93,7 @@ Template.lend.events({
         IonLoading.hide();
         IonPopup.show({
           title: 'Your Product sucessfully submitted',
-          template: '<div class="center">You can find this shared product under "Owned" in the left menu</div>',
+          template: '<div class="center">You can find this shared item in your Repository</div>',
           buttons: 
           [{
             text: 'OK',
@@ -272,7 +274,7 @@ Template.takePhoto.helpers({
 })
 
 Template.takePhoto.events({
-  'click .scanResult-thumbnail': function(event, template) {
+  'click .scanResult-thumbnail2': function(event, template) {
     IonActionSheet.show({
       buttons: [
         { text: 'Take Photo' },

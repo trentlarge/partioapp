@@ -11,7 +11,7 @@
     
     {{#ionSideMenuContainer side="left"}}
         {{#ionSideMenu}}
-          <div class="container">
+          <div class="">
 
             <div class="logo-container">
               <a href="/" data-ion-menu-close><img src="main_logo.png"/></a>&nbsp;
@@ -22,10 +22,10 @@
                 {{> ionIcon icon="search" class="energized"}} &nbsp;&nbsp; SEARCH
               </a>
           		<a href="{{pathFor "mybooks"}}" class="item" data-ion-menu-close>
-          			{{> ionIcon icon="ios-briefcase" class="energized"}} &nbsp;&nbsp; OWNED
+          			{{> ionIcon icon="ios-briefcase" class="energized"}} &nbsp;&nbsp; INVENTORY
           		</a>
           		<a href="{{pathFor "booksLent"}}" class="item" data-ion-menu-close>
-          			{{> ionIcon icon="ios-browsers" class="energized"}} &nbsp;&nbsp; BORROWED
+          			{{> ionIcon icon="ios-browsers" class="energized"}} &nbsp;&nbsp; RENTING
           		</a>
           		<a href="{{pathFor "transactions"}}" class="item" data-ion-menu-close>
           			{{> ionIcon icon="card" class="energized"}} &nbsp;&nbsp; TRANSACTIONS
@@ -68,7 +68,7 @@
   {{/contentFor}}
   
   {{#contentFor "headerTitle"}}
-    <h1 class="title">partio-O</h1>
+    <h1 class="title">parti-O</h1>
   {{/contentFor}}
 
   {{#contentFor "headerButtonRight"}}

@@ -13,58 +13,16 @@
     <h1 class="title">Search Products</h1>
   {{/contentFor}}
 
-  {{#contentFor "headerButtonRight"}}
+<!--   {{#contentFor "headerButtonRight"}}
     <button data-ion-modal="filter" class="button button-clear custom-icon ion-ios-keypad button-energized"></button>
-    <!-- <button id="bookFilter" class="button button-clear custom-icon ion-ios-keypad button-energized"></button> -->
-  {{/contentFor}}
+  {{/contentFor}} -->
 
   {{#ionView}}
-    {{#ionContent}}  
+    {{#ionContent class="overflow-scroll"}}
       {{> searchBox}}
       {{> searchResult}}
     {{/ionContent}}
   {{/ionView}}
-</template>
-
-<template name="filter">
-  {{#ionModal customTemplate=true}}
-      <div class="bar bar-header bar-stable">
-        <button class="button icon button-clear ion-ios-checkmark-outline"></button>
-        <h2 class="title">Categories</h2>
-        <button type="button" data-dismiss="modal" class="button button-clear">Done</button>
-      </div>
-      
-      <div class="content has-header overflow-scroll"> 
-
-        <ul class="list">
-
-          <li class="item item-checkbox">
-           <label class="checkbox-energized checkbox">
-             <input id="checkBooks" type="checkbox" checked="{{checkBooks}}">
-           </label>Books
-         </li>
-
-         <li class="item item-checkbox">
-           <label class="checkbox-energized checkbox">
-             <input id="checkElectronics" type="checkbox" checked="{{checkElectronics}}">
-           </label>Electronics
-         </li>
-
-         <li class="item item-checkbox">
-           <label class="checkbox-energized checkbox">
-             <input id="checkSports" type="checkbox" checked="{{checkSports}}">
-           </label>Sports
-         </li>
-
-         <li class="item item-checkbox">
-           <label class="checkbox-energized checkbox">
-             <input id="checkOthers" type="checkbox" checked="{{checkOthers}}">
-           </label>Others
-         </li>
-       </ul>
-
-      </div>
-  {{/ionModal}}
 </template>
 
 
@@ -88,10 +46,10 @@
     {{#each getPackages}}
         <div class="package">
         {{#ionItem path='bookDetail' _id=this._id iconRight=true class="item-avatar-2"}}
-          <img src="{{image}}"/>
-          <h3>{{{title}}}</h3>
-          <p><span class="tinytext">Weekly Price: ${{{customPrice}}}</span></p>
-          {{> ionIcon icon="ios-arrow-right" class="energized"}}
+          <div class="book-avatar"><div class="book-avatar-inner" style="background: url('{{image}}') no-repeat; background-size:cover; background-position: 50% 20%;"></div></div>
+          <p class="main-title-text">{{{title}}}</p>
+          <p class="main-sub-text">Weekly Price: ${{{customPrice}}}</p>
+          {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
         {{/ionItem}}
         </div>
     {{/each}}

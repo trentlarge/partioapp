@@ -10,7 +10,7 @@
   {{/contentFor}}
   
   {{#contentFor "headerTitle"}}
-    <h1 class="title">Owned</h1>
+    <h1 class="title">Inventory</h1>
   {{/contentFor}}
 
   {{#contentFor "headerButtonRight"}}
@@ -23,27 +23,29 @@
     {{#if dataExists}}
       {{#if newRequests.count}}
         <div class="list">
-        <div class="item item-divider"><h3>Renting</h3></div>
+        <div class="item item-divider"><h3>Requests from others</h3></div>
         {{#each newRequests}}
           {{#ionItem path='connect' _id=this._id class="item-avatar-2"}}
-              <img src="{{bookData.image}}"/>
-              <h3>{{bookData.title}}</h3>
-              <p><span class="tinytext">Rent/Week: ${{bookData.customPrice}}</span></p>
+              <div class="book-avatar"><div class="book-avatar-inner" style="background: url('{{bookData.image}}') no-repeat; background-size:cover; background-position: 50% 20%;"></div></div>
+              <p class="main-title-text">{{bookData.title}}</p>
+              <p class="main-sub-text">Rent/Week: ${{bookData.customPrice}}</p>
               <span class="badge badge-low badge-energized">{{state}}</span>
           {{/ionItem}}
+
         {{/each}}
         </div>
       {{/if}}
 
       {{#if myBooks.count}}
         <div class="list">
-        <div class="item item-divider"><h3>Owned Products</h3></div>
+        <div class="item item-divider"><h3>My Products</h3></div>
         {{#each myBooks}}
+
           {{#ionItem path='mybookDetail' _id=this._id iconRight=true class="item-avatar-2"}}
-              <img src="{{image}}"/>
-              <h3>{{title}}</h3>
-              <p><span class="tinytext">Rent/Week: ${{customPrice}}</span></p>
-              {{> ionIcon icon="ios-arrow-right"}}
+              <div class="book-avatar"><div class="book-avatar-inner" style="background: url('{{image}}') no-repeat; background-size:cover; background-position: 50% 20%;"></div></div>
+              <p class="main-title-text">{{title}}</p>
+              <p class="main-sub-text">Rent/Week: ${{customPrice}}</p>
+              {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
           {{/ionItem}}
         {{/each}}
         </div>
@@ -73,7 +75,8 @@
   {{/contentFor}}
 
   {{#ionView}}
-    {{#ionContent}}
+<!--     {{#ionContent}} -->
+  <div class="content has-header">
       <div class="card">
         
         <div class="row item row-center">
@@ -104,7 +107,16 @@
 
           <div class="row">
             <div class="col-offset-10"></div>
-            {{#if bookResult}}
+            {{#if manualEntry}}
+              <div class="col col-33">
+                <p>Publisher</p>
+                <p>Description</p>
+              </div>
+              <div class="col col-67 scan-result keep-inside-padding">
+                <p>{{publisher}}</p>
+                <p>{{comments}}</p>
+              </div>
+            {{else}}
               <div class="col col-33">
                 <p>Amazon $</p>
                 <p>Publisher</p>
@@ -118,19 +130,6 @@
                 <p>{{binding}}</p>
                 <p>{{pages}}</p>
                 <p>{{ean}}</p>
-              </div>
-            {{else}}
-              <div class="col col-33">
-                <p>Amazon $</p>
-                <p>Manufacturer</p>
-                <p>Model</p>
-                <p>ASIN</p>
-              </div>
-              <div class="col col-67 scan-result keep-inside-padding">
-                <p><strong>{{price}}</strong></p>
-                <p>{{manufacturer}}</p>
-                <p>{{model}}</p>
-                <p>{{asin}}</p>
               </div>
             {{/if}}
           </div>
@@ -160,8 +159,8 @@
         <button id="editSave" class="button button-block button-energized">SAVE</button>   
       </div>
       {{/if}}
-
-    {{/ionContent}}
+      </div>
+    <!-- {{/ionContent}} -->
   {{/ionView}}
 </template>
 

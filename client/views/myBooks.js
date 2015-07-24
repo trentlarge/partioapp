@@ -27,7 +27,7 @@ Template.mybookDetail.helpers({
   editMode: function() {
     return Session.get('editMode') ? true : false;
   },
-  bookResult: function() {
-    return (this.category === "Book") ? true : false;
+  manualEntry: function() {
+    return (this.manualEntry) ? true : false;
   }
 })

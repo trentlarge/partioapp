@@ -42,12 +42,12 @@
         <div class="list list-inset">
         <label class="item item-input">
             <span class="input-label"><p>Set Rent/Week &nbsp;$</p></span>
-            <input type="number" id="userPrice" value="{{calculatedPrice}}">
+            <input type="number" class="userPrice" value="{{calculatedPrice}}">
           </label>
         </div>
 
         <div class="padding-horizontal">
-          <button id="submitProduct" class="button button-block button-energized" {{waitingForPrice}}>
+          <button class="submitProduct button button-block button-energized" {{waitingForPrice}}>
           {{#if userPrice}}
             Lend this item at <strong>${{userPrice}}</strong> per week
           {{else}}
@@ -143,7 +143,7 @@
   <div class="">
     <div class="center">
     <br>
-      <img class="scanResult-thumbnail" src=" {{#if photoTaken}} {{photoTaken}} {{else}} bookplaceholder.jpg {{/if}} ">
+      <img class="scanResult-thumbnail2" src=" {{#if photoTaken}} {{photoTaken}} {{else}} bookplaceholder.jpg {{/if}} ">
     </div>
   </div>
 </template>
