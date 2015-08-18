@@ -76,6 +76,8 @@ Template.connectRent.events({
 		var payerCustomerId = Meteor.user().profile.cards.data[0].customer;
 		var recipientAccountId = Meteor.users.findOne(this.bookData.ownerId).profile.stripeAccount.id;
 		var amount = this.bookData.customPrice;
+		var transactionsId = Meteor.user().profile.transactionsId;
+		var transactionsRecipientId = Meteor.users.findOne(this.bookData.ownerId).profile.transactionsId;
 
 		IonPopup.confirm({
 			cancelText: 'Cancel',
@@ -86,8 +88,22 @@ Template.connectRent.events({
 				console.log('Cancelled')
 			},
 			onOk: function() {
-				Meteor.call('chargeCard', payerCustomerId, payerCardId, recipientAccountId, amount, connectionId, function(error, result) {
-					console.log(error, result);
+				Meteor.call('chargeCard', payerCustomerId, payerCardId, recipientAccountId, amount, connectionId, transactionsId, transactionsRecipientId, function(error, result) {
+					if (!error) {
+						IonPopup.show({
+							title: 'Payment Successful!',
+							template: '<div class="center">A record of this payment is stored under Transactions History</div>',
+							buttons: 
+							[{
+								text: 'OK',
+								type: 'button-assertive',
+								onTap: function() {
+									IonPopup.close();
+									Router.go('/transactions');
+								}
+							}]
+						});
+					}
 				})
 			}
 

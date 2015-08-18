@@ -100,10 +100,11 @@ Meteor.methods({
       }
     )
   },
-  'chargeCard': function(payerCustomerId, payerCardId, recipientAccountId, amount, connectionId) {
+  'chargeCard': function(payerCustomerId, payerCardId, recipientAccountId, amount, connectionId, transactionsId, transactionsRecipientId) {
     this.unblock();
-    console.log(payerCustomerId, payerCardId, recipientAccountId, amount, connectionId);
+    console.log(payerCustomerId, payerCardId, recipientAccountId, amount, connectionId, transactionsId, transactionsRecipientId);
     var formattedAmount = amount * 100;
+
     try{
       var result = Stripe.charges.create({
         amount: formattedAmount,
@@ -114,7 +115,21 @@ Meteor.methods({
       });
       console.log(result);
       if (result.status === 'succeeded') {
+        var payerTrans = {
+          date: result.created,
+          productName: Connections.findOne(connectionId).bookData.title,
+          paidAmount: result.amount/100
+        }
+
+        var recipientTrans = {
+          date: result.created,
+          productName: Connections.findOne(connectionId).bookData.title,
+          receivedAmount: result.amount/100
+        }
+
         Connections.update({_id: connectionId}, {$set: {state: "IN USE", payment: result}});
+        Transactions.update({_id: transactionsId}, {$push: {spending: payerTrans}});
+        Transactions.update({_id: transactionsRecipientId}, {$push: {earning: recipientTrans}});
       }
 
     } catch(e) {

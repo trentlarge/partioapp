@@ -15,6 +15,11 @@ Template.stripeAccount.events({
 		Meteor.call('createStripeAccount', firstname, lastname, ssn, routingnumber, bankaccount, Meteor.userId(), function(error, result) {
 			IonLoading.hide();
 			if (!error) {
+				var userTransId = Transactions.insert({
+					earning: [],
+					spending: []
+				});
+				Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.transactionsId": userTransId}});
 				Meteor.call('createCustomer', Meteor.userId(), function(erorr, result) {
 					if (!error) {
 						IonLoading.show({
