@@ -1,0 +1,45 @@
+<template name="venmoAuth">
+	{{#contentFor "headerButtonLeft"}}
+      {{>ionNavBackButton path="profile"}}
+  	{{/contentFor}}
+  
+  	{{#contentFor "headerTitle"}}
+    	<h1 class="title">Payment Account</h1>
+  	{{/contentFor}}
+
+  	{{#ionView}}
+	{{#ionContent}}
+	<div class="list card">
+
+		<div class="item">
+			<div class="center"><img src="venmo.png"></div>
+			<p class="subdued center">Your Venmo account is successfuly linked to parti-O</p>
+		</div>
+
+		{{#with venmoDetails}}
+		<a class="item" href="#">
+			<p>Name <span class="item-note dark">{{venmo.user.display_name}}</span></p>
+		</a>
+		<a class="item" href="#">
+			<p>Username <span class="item-note dark">{{venmo.user.username}}</span></p>
+		</a>
+		<a class="item" href="#">
+			<p>Email <span class="item-note dark">{{venmo.user.email}}</span></p>
+		</a>
+		<a class="item" href="#">
+			<p>Balance <span class="item-note dark">$ {{venmo.balance}}</span></p>
+		</a>
+		{{/with}}
+
+		<div class="item tabs tabs-secondary tabs-icon-left">
+			<a class="tab-item" href="#">
+				<i class="icon ion-ios-close"></i>
+				UNLINK VENMO
+			</a>
+		</div>
+
+	</div>
+
+	{{/ionContent}}
+	{{/ionView}}
+</template>

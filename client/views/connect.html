@@ -23,7 +23,7 @@
           </div>
 
           <div class="center">
-            <p class="dark"><strong>{{name}}</strong></p>
+            <p class="dark">{{name}}</p>
             <p class="line-height-one">{{college}}</p>
           </div>
         </div>
@@ -32,7 +32,7 @@
         <div class="item small-font line-height-one">
           <div class="center">
             <img class="connect-thumbnail" src="{{bookData.image}}">
-            <p><strong>{{bookData.title}}</strong></p>
+            <p>{{bookData.title}}</p>
             <p>{{bookData.authors}}</p>
             <p>Amazon Price: {{bookData.price}}</p>
             <h3 class="dark">Your Price: ${{bookData.customPrice}} / week</h3>
@@ -61,7 +61,7 @@
       {{#if alreadyApproved}}
         <button class="disabled button button-block button-energized">Rented at ${{bookData.customPrice}} / week</button>
       {{else}}
-        <button id="ownerAccept" class="button button-block button-energized">Accept renting at ${{bookData.customPrice}} / week</button>
+        <button id="ownerAccept" class="button button-block button-energized">Allow renting at ${{bookData.customPrice}} / week</button>
       {{/if}}
       
       </div>
@@ -96,7 +96,7 @@
           </div>
 
           <div class="center">
-            <p class="dark"><strong>{{name}}</strong></p>
+            <p class="dark">{{name}}</p>
             <p class="line-height-one">{{college}}</p>
           </div>
         </div>
@@ -105,8 +105,7 @@
         <div class="item small-font line-height-one">
           <div class="center">
             <img class="connect-thumbnail" src="{{bookData.image}}">
-            <p><strong>{{bookData.title}}</strong></p>
-            <p>{{bookData.subtitle}}</p>
+            <p>{{bookData.title}}</p>
             <p>Amazon Price: {{bookData.price}}</p>
             <h3 class="dark">Rent Price: ${{bookData.customPrice}} / week</h3>
           </div>

@@ -18,7 +18,8 @@
 }
 
 .menu-content {
-	box-shadow: -5px 0px 10px rgba(0, 0, 0, 0.5), 1px 0px 2px rgba(0, 0, 0, 0.5);
+	box-shadow: -5px 0px 10px rgba(0, 0, 0, 0.5) !important;
+	-webkit-box-shadow: -5px 0px 10px rgba(0, 0, 0, 0.5) !important;
 }
 
 .italic {
@@ -519,3 +520,6 @@ ion-side-menu.menu-left.menu {
 	text-align: right !important;
 }
 
+.capitalize {
+	text-transform: uppercase;
+}

@@ -137,7 +137,7 @@ Template.lend.events({
         IonLoading.hide();
         IonPopup.show({
           title: 'Your Product sucessfully submitted',
-          template: '<div class="center">You can find this shared product under "Owned" in the left menu</div>',
+          template: '<div class="center">And saved to your Repository</div>',
           buttons: 
           [{
             text: 'OK',

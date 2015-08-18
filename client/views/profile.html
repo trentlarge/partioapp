@@ -33,26 +33,49 @@
       <div class="list list-inset">
         <form id="profileEdit">
           <label class="item item-input">
-            <span class="input-label">Name</span>
+            <span class="input-label"><p>Name</p></span>
             <input id="profilename" type="text" value="{{currentUser.profile.name}}">
           </label>
           <label class="item item-input">
-            <span class="input-label">University</span>
+            <span class="input-label"><p>University</p></span>
             <input id="profileuniversity" type="text" value="{{currentUser.profile.college}}">
           </label>
           <label class="item item-input">
-            <span class="input-label">Mobile</span>
+            <span class="input-label"><p>Mobile</p></span>
             <input id="profilemobile" type="number" value="{{currentUser.profile.mobile}}">
           </label>
         </form>
         <label class="item item-input">
-          <span class="input-label">Email</span>
+          <span class="input-label"><p>Email</p></span>
           <input disabled type="email" value="{{currentUser.emails.[0].address}}">
         </label>
         <label class="item item-input">
-          <span class="input-label">Password</span>
+          <span class="input-label"><p>Password</p></span>
           <input id="changePassword" type="password" value="123456">
         </label>
+      </div>
+      <div class="padding-horizontal">
+      
+      {{#if alreadyStriped}}
+          <a class="item item-icon-right" href="{{pathFor 'stripeAccount'}}">
+            <p>Payment Account</p>
+            {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
+          </a>
+      {{else}}
+        <a type="button" class="button button-energized button-block item-icon-right" href="{{pathFor 'stripeAccount'}}">
+          Connect Payment
+        </a>
+      {{/if}}
+
+<!--       {{#if venmoExists}}
+          <a class="item item-icon-right" href="/venmo">
+            <p>Payment Account</p>
+            {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
+          </a>
+      {{else}}
+        <a type="button" href="https://api.venmo.com/v1/oauth/authorize?client_id=2865&scope=make_payments%20access_profile%20access_email%20access_phone%20access_balance&response_type=code&state={{venmoUser}}" id="venmo-connect" class="button button-block button-energized">Connect Venmo Account</a>
+      {{/if}} -->
+            
       </div>
       <!-- {{/with}} -->
 </div>

@@ -8,7 +8,7 @@ Template.register.events({
 	    var profile = {
 	    	name: template.find('[name=name]').value,
 	    	mobile: template.find('[name=mobile]').value,
-	    	college: template.find('[name=college]').value,
+	    	college: template.find('#college').value,
 	    	avatar: "notSet"
 	    };
 	    console.log(email, password, profile.name, profile.mobile, profile.college);
@@ -98,9 +98,9 @@ Template.login.events({
 	}
 })
 
-// Template.login.rendered = function() {
-// 	StatusBar.styleBlackTranslucent();
-// }
+
+
+// https://api.venmo.com/v1/oauth/authorize?client_id=017d7cc0c478a5d7b471ab10a507eae50a0c29ed2153936d9747e390408b9af1&scope=make_payments%20access_profile%20access_email%20access_phone%20access_balance
 
 
 

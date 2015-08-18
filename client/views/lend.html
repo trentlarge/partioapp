@@ -1,7 +1,7 @@
 <template name="lend">
 	{{#ionModal customTemplate=true}}
       <div class="bar bar-header bar-royal">
-        <button type="button" data-dismiss="modal" id="cancelScan" class="button button-clear"> Cancel</button>
+        <button type="button" data-dismiss="modal" id="cancelScan" class="button button-clear"> <h6 class="light">CANCEL</h6></button>
         <h2 class="title">Share Product</h2>
       </div>
       
@@ -27,8 +27,8 @@
                 <p>EAN</p>
               </div>
               <div class="col col-67 scan-result">
-                <p><strong>{{price}}</strong></p>
-                <p><strong>{{title}}</strong></p>
+                <p>{{price}}</p>
+                <p>{{title}}</p>
                 <p>{{authors}}</p>
                 <p>{{publisher}}</p>
                 <p>{{binding}}</p>
@@ -49,7 +49,7 @@
         <div class="padding-horizontal">
           <button class="submitProduct button button-block button-energized" {{waitingForPrice}}>
           {{#if userPrice}}
-            Lend this item at <strong>${{userPrice}}</strong> per week
+            Lend this item at ${{userPrice}} per week
           {{else}}
             Enter your price above
           {{/if}}
@@ -76,7 +76,7 @@
               </label>
               <label class="item item-input">
                 <span class="input-label"><p>Publisher</p></span>
-                <input id="manualpublisher" type="number" value="">
+                <input id="manualpublisher" type="text" value="">
               </label>
             </form>
             <label class="item item-input">
@@ -94,7 +94,7 @@
           <div class="padding-horizontal">
             <button class="submitProduct button button-block button-energized" {{waitingForPrice}}>
               {{#if userPrice}}
-              Lend this item at <strong>${{userPrice}}</strong> per week
+              Lend this item at ${{userPrice}} per week
               {{else}}
               Enter your price above
               {{/if}}
@@ -128,8 +128,10 @@
         {{#unless scanResult}}
           <div class="bar-footer bar button-footer">
             <div class="row">
-              <div class="col"><button id="barcode-entry" class="button button-large button-full button-energized"><h5 class="stable">Enter Barcode</h5></button></div>
-              <div class="col"><button id="manual-entry" class="button button-large button-full button-orange1"><h5 class="stable">Manual Entry</h5></button></div>
+              <div class="col"><button id="barcode-entry" class="button button-large button-full button-energized">
+              <h5 class="stable">ENTER BARCODE</h5></button></div>
+              <div class="col"><button id="manual-entry" class="button button-large button-full button-orange1">
+              <h5 class="stable">MANUAL ENTRY</h5></button></div>
             </div>
           </div>
         {{/unless}}

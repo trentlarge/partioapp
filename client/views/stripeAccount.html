@@ -1,0 +1,65 @@
+<template name="stripeAccount">
+	{{#contentFor "headerButtonLeft"}}
+      {{>ionNavBackButton path="profile"}}
+  	{{/contentFor}}
+  
+  	{{#contentFor "headerTitle"}}
+    	<h1 class="title">Stripe Account</h1>
+  	{{/contentFor}}
+
+  	{{#ionView}}
+		{{#ionContent}}
+
+    {{#if noStripeYet}}
+		<div class="list list-inset">
+      <label class="item item-input">
+        <input type="text" placeholder="First Name" id="stripe-firstname">
+      </label>
+
+      <label class="item item-input">
+        <input type="text" placeholder="Last Name" id="stripe-lastname">
+      </label>
+
+      <label class="item item-input">
+        <input type="tel" placeholder="Last 4 Digits of SSN" id="stripe-ssn">
+      </label>
+
+      <label class="item item-input">
+        <input type="tel" placeholder="Routing Number (110000000)" id="stripe-routingnumber" disabled>
+      </label>
+
+      <label class="item item-input">
+        <input type="tel" placeholder="Bank Account (000123456789)" id="stripe-bankaccount" disabled>
+      </label>
+    </div>
+
+    <div class="padding-horizontal">
+     <a type="button" class="button button-block button-energized" id="stripe-create">Authorize Connection</a>
+   </div>
+
+   {{else}}
+
+   <div class="list">
+
+   {{#each addedCards}}
+    <label class="item item-radio">
+      <input type="radio" name="group" value="{{last4}}" checked="checked">
+      <div class="item-content center"><span class="capitalize">{{brand}}</span> &nbsp;&nbsp; XXXX-{{last4}}</div>
+      <i class="radio-icon ion-checkmark"></i>
+    </label>
+  {{/each}}
+
+  </div>
+
+   <div class="padding-horizontal center">
+     <a type="button" class="button button-outline icon-left button-small ion-card button-balanced" id="stripe-card">ADD CARD</a>
+   </div>
+
+   {{/if}}
+
+
+
+		{{/ionContent}}
+
+	{{/ionView}}
+</template>

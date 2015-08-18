@@ -31,4 +31,8 @@ Template.appLayout.events({
 		console.log("toggling!");
 		Session.set('testPay', event.target.checked);
 	}
-})
+});
+
+Meteor.startup(function() {
+    Stripe.setPublishableKey('pk_test_OYfO9mHIQFha7How6lNpwUiQ');
+});

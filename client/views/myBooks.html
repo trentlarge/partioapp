@@ -99,7 +99,7 @@
             </div>
             <div class="col col-67 item-text-wrap keep-inside-padding">
               {{#with userInfo}}
-              <p class="dark"><strong>{{name}}</strong></p>
+              <p class="dark">{{name}}</p>
               <p class="dark line-height-one">{{college}}</p>
               {{/with}}
             </div>
@@ -112,7 +112,7 @@
                 <p>Publisher</p>
                 <p>Description</p>
               </div>
-              <div class="col col-67 scan-result keep-inside-padding">
+              <div class="col col-67 item-text-wrap keep-inside-padding">
                 <p>{{publisher}}</p>
                 <p>{{comments}}</p>
               </div>
@@ -125,7 +125,7 @@
                 <p>EAN</p>
               </div>
               <div class="col col-67 scan-result keep-inside-padding">
-                <p><strong>{{price}}</strong></p>
+                <p>{{price}}</p>
                 <p>{{publisher}}</p>
                 <p>{{binding}}</p>
                 <p>{{pages}}</p>
@@ -148,7 +148,7 @@
           <div class="col-offset-10">
           </div>
           <div class="col col-33"><p>Rent</p></div>
-          <div class="col col-50"><p><strong class="assertive">${{customPrice}} / week</strong></p></div>
+          <div class="col col-50"><p>${{customPrice}} / week</p></div>
         </div>
         {{/if}}
 
