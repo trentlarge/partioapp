@@ -2,9 +2,9 @@ App.info({
   id: 'com.codefyne.parti-O',
   name: 'parti-O',
   description: 'Share. Borrow. Party-o',
-  author: 'Codefyne',
+  author: 'InsaneInc',
   website: 'http://www.codefyne.com',
-  version: '0.1.6'
+  version: '0.2.1'
 });
 
 App.icons({

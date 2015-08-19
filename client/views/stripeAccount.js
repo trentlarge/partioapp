@@ -13,7 +13,6 @@ Template.stripeAccount.events({
 
 		console.log(firstname, lastname, ssn, routingnumber, bankaccount);
 		Meteor.call('createStripeAccount', firstname, lastname, ssn, routingnumber, bankaccount, Meteor.userId(), function(error, result) {
-			IonLoading.hide();
 			if (!error) {
 				var userTransId = Transactions.insert({
 					earning: [],
@@ -21,6 +20,7 @@ Template.stripeAccount.events({
 				});
 				Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.transactionsId": userTransId}});
 				Meteor.call('createCustomer', Meteor.userId(), function(erorr, result) {
+					IonLoading.hide();
 					if (!error) {
 						IonLoading.show({
 							duration: 1500,
@@ -33,11 +33,14 @@ Template.stripeAccount.events({
 		})
 	},
 	'click #stripe-card': function(e) {
+		e.preventDefault();
+		IonLoading.show();
 		var handler = StripeCheckout.configure({
 			key: 'pk_test_OYfO9mHIQFha7How6lNpwUiQ',
 			token: function(token) {
 				console.log(token);
 				Meteor.call('addCard', token.id, Meteor.user().profile.customer.id, Meteor.userId(), function(error, result) {
+					IonLoading.hide();
 					console.log(error);
 					console.log(result);
 				})
@@ -51,7 +54,6 @@ Template.stripeAccount.events({
 			email: Meteor.user().emails[0].address,
 			allowRememberMe: false
 		});
-		e.preventDefault();
 	},
 	'click #list-cards': function() {
 		Meteor.call('listCards', function(error, result) {
@@ -62,7 +64,7 @@ Template.stripeAccount.events({
 
 Template.stripeAccount.helpers({
 	noStripeYet: function() {
-		if (! Meteor.user().profile.stripeAccount) {
+		if (Meteor.user() && ! Meteor.user().profile.stripeAccount) {
 			return true; 
 		}
 	},

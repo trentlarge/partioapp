@@ -8,10 +8,6 @@
 //     service: "facebook"
 // });
 
-Meteor.startup(function() {
-  process.env.STRIPE_SECRET = 'sk_test_UpziLCYrUdRv1n4x2kJvsuev';
-});
-
 SearchSource.defineSource('packages', function(searchText, options) {
   var options = {sort: {isoScore: -1}, limit: 20};
 
