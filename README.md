@@ -1,3 +1,20 @@
+KNOWN ISSUES:
+
+- Facebook de-link account since there's no password concept
+- Facebook wait until service configuration loaded
+
+
+Maps
+Project ID: testpartio-1044
+key: AIzaSyDMyxBlvIc4b4hoWqTw4lGr5OviU8FlQc8
+
+
+
+http://graph.facebook.com/418093848371137/picture?
+"https://www.facebook.com/app_scoped_user_id/418093848371137/"
+
+
+
 <Committing in Branch: books>
 
 *color codes*

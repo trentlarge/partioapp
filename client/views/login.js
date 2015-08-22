@@ -5,15 +5,16 @@ Template.register.events({
 	    var email = template.find('[name=email]').value;
 	    var password = template.find('[name=password]').value;
 
-	    var profile = {
+	    var profileDetails = {
 	    	name: template.find('[name=name]').value,
 	    	mobile: template.find('[name=mobile]').value,
 	    	college: template.find('#college').value,
 	    	avatar: "notSet"
 	    };
-	    console.log(email, password, profile.name, profile.mobile, profile.college);
 
-	    Accounts.createUser({email: email, password: password, profile: profile}, function(error) {
+	    console.log(email, password, profileDetails);
+
+	    Accounts.createUser({email: email, password: password, profileDetails: profileDetails}, function(error) {
 	    	console.log(error);
 
 	    	if (error) {

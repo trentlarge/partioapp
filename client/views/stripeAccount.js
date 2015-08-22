@@ -33,27 +33,20 @@ Template.stripeAccount.events({
 		})
 	},
 	'click #stripe-card': function(e) {
-		e.preventDefault();
 		IonLoading.show();
-		var handler = StripeCheckout.configure({
-			key: 'pk_test_OYfO9mHIQFha7How6lNpwUiQ',
-			token: function(token) {
-				console.log(token);
-				Meteor.call('addCard', token.id, Meteor.user().profile.customer.id, Meteor.userId(), function(error, result) {
-					IonLoading.hide();
-					console.log(error);
-					console.log(result);
-				})
-			}
-		});
-		handler.open({
+		
+		stripeHandler.open({
 			name: 'parti-O',
 			description: 'Add Card',
 			zipCode: false,
 			panelLabel: 'Save Card',
-			email: Meteor.user().emails[0].address,
-			allowRememberMe: false
+			email: Meteor.user().profile.email,
+			allowRememberMe: false,
+			opened: function() {
+				IonLoading.hide();
+			}
 		});
+		e.preventDefault();
 	},
 	'click #list-cards': function() {
 		Meteor.call('listCards', function(error, result) {
@@ -61,6 +54,20 @@ Template.stripeAccount.events({
 		});
 	}
 });
+
+Template.stripeAccount.created = function() {
+	stripeHandler = StripeCheckout.configure({
+		key: 'pk_test_OYfO9mHIQFha7How6lNpwUiQ',
+		token: function(token) {
+			console.log(token);
+			Meteor.call('addCard', token.id, Meteor.user().profile.customer.id, Meteor.userId(), function(error, result) {
+				IonLoading.hide();
+				console.log(error);
+				console.log(result);
+			})
+		}
+	});
+}
 
 Template.stripeAccount.helpers({
 	noStripeYet: function() {
