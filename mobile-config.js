@@ -4,7 +4,7 @@ App.info({
   description: 'Share. Borrow. Party-o',
   author: 'InsaneInc',
   website: 'http://www.codefyne.com',
-  version: '0.2.1'
+  version: '0.2.2'
 });
 
 App.icons({
@@ -27,7 +27,12 @@ App.configurePlugin('nl.x-services.plugins.launchmyapp', {
   URL_SCHEME: 'parti-O'
 });
 
+// App.configurePlugin('com.phonegap.plugins.facebookconnect', {
+//     APP_ID: '453646108150424',
+//     APP_NAME: 'Parti-O'
+// });
+
 App.configurePlugin('com.phonegap.plugins.facebookconnect', {
-    APP_ID: '453646108150424',
+    APP_ID: '471948676320936',
     APP_NAME: 'Parti-O'
 });

@@ -79,21 +79,6 @@
           <br>
 
           <label class="item item-input item-select">
-          <i class="icon ion-ios-location energized placeholder-icon"></i>
-          <div class="input-label"><p>&nbsp;City</p></div>
-          <select>
-            <option selected><p>Select</p></option>
-            <option>City 1</option>
-            <option>City 2</option>
-            <option>City 3</option>
-            <option>City 4</option>
-            <option>City 5</option>
-            <option>City 6</option>
-          </select>
-        </label>
-          <br>
-
-          <label class="item item-input item-select">
           <i class="icon ion-university energized placeholder-icon"></i>
           <div class="input-label"><p>College</p></div>
           <select id="college">
@@ -107,6 +92,19 @@
           </select>
         </label>
           <br>
+
+          <label class="item item-input" data-ion-modal="map">
+            <i class="icon ion-ios-location energized placeholder-icon"></i>
+            <div class="location-box"><p>{{fetchedLocation}}</p></div>
+          </label>
+
+<!--           <a class="item item-icon-left" href="#">
+            <i class="icon ion-ios-location energized placeholder-icon"></i>
+            <p>Record album</p>
+            <span class="item-note">
+              Grammy
+            </span>
+          </a> -->
 
         </div>
 

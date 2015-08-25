@@ -35,4 +35,10 @@ Template.appLayout.events({
 
 Meteor.startup(function() {
     Stripe.setPublishableKey('pk_test_OYfO9mHIQFha7How6lNpwUiQ');
+
+    GoogleMaps.load({
+    	key: 'AIzaSyDMyxBlvIc4b4hoWqTw4lGr5OviU8FlQc8',
+    	libraries: 'places'
+    });
+
 });

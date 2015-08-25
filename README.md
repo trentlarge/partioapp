@@ -2,6 +2,7 @@ KNOWN ISSUES:
 
 - Facebook de-link account since there's no password concept
 - Facebook wait until service configuration loaded
+- Facebook login needs additional fields for complete user registration -> location, college, phone number
 
 
 Maps
