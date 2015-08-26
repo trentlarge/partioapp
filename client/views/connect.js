@@ -16,6 +16,9 @@ Template.connect.helpers({
 	},
 	phoneNumber: function() {
 		return Meteor.users.findOne(this.requestor).profile.mobile;
+	},
+	preferredLocation: function() {
+		return Connections.findOne(this._id).meetupLocation ? Connections.findOne(this._id).meetupLocation : "-";
 	}
 });
 
@@ -26,11 +29,11 @@ Template.connect.events({
 	'click #ownerAccept': function() {
 		var requestor = this.requestor;
 		console.log(requestor);
-		Meteor.call('ownerAccept', this._id, function(error, result) {
+		Meteor.call('ownerAccept', this._id, requestor, function(error, result) {
 			if (!error) {
 				IonPopup.show({
 	    			title: 'Great!',
-	    			template: '<div class="center">Make sure you pass on the item to <strong>'+ Meteor.users.findOne(requestor).profile.name+'</strong> once you receive the payment. </div>',
+	    			template: '<div class="center">Make sure you setup a meeting location and pass on the item to <strong>'+ Meteor.users.findOne(requestor).profile.name+'</strong> once you receive the payment. </div>',
 	    			buttons: 
 	    			[{
 	    				text: 'OK',
@@ -42,6 +45,12 @@ Template.connect.events({
 	    		});
 			}
 		});
+	},
+	'click #changeMeetupLocation': function() {
+		var essentialData = {};
+		essentialData.meetupLatLong = this.meetupLatLong;
+		essentialData.connectionId = this._id;
+		IonModal.open('mapChat', essentialData);
 	}
 })
 
@@ -63,6 +72,9 @@ Template.connectRent.helpers({
 	},
 	phoneNumber: function() {
 		return Meteor.users.findOne(this.bookData.ownerId).profile.mobile;
+	},
+	preferredLocation: function() {
+		return Connections.findOne(this._id).meetupLocation;
 	}
 })
 
@@ -112,40 +124,10 @@ Template.connectRent.events({
 
 		});
 
+	},
+	'click #showMap': function() {
+		IonModal.open('onlyMap', this.meetupLatLong);
 	}
 });
-
-
-// IonPopup.show({
-// 			title: 'Work in Progress!',
-// 			template: '<div class="center">Payment gateway integration to be done <br><br> <div class="item item-toggle">TEST PAY<label class="toggle"><input id="payToggle" type="checkbox"><div class="track"><div class="handle"></div></div></label></div></div>',
-// 			buttons: 
-// 			[{
-// 				text: 'OK',
-// 				type: 'button-assertive',
-// 				onTap: function(event) {
-// 						if (Session.get('testPay')) {
-// 							IonPopup.close();
-// 							Meteor.call('payNow', connectionId, function(error, result) {
-// 								console.log(result);
-
-// 								IonLoading.show({
-// 									duration: 2000,
-// 									delay: 400,
-// 									customTemplate: '<div class="center"><h5>Payment Successfully Processed</h5></div>',
-// 								});
-// 								Meteor.setTimeout(function() {
-// 									Router.go('/booksLent');
-// 								}, 2500)
-
-// 							})
-// 						} else {
-// 							IonPopup.close();
-// 						}
-// 				}
-// 			}]
-// 		});
-
-
 
 

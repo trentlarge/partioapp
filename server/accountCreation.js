@@ -24,8 +24,8 @@ Accounts.onCreateUser(function(options,user) {
 		user.profile.college = options.profileDetails.college;
 		user.profile.mobile = options.profileDetails.mobile;
 		user.profile.name = options.profileDetails.name;
-		user.profile.location = options.profileDetails.location.address;
-		user.profile.latLong = options.profileDetails.location.latLong;
+		user.profile.address = options.profileDetails.location ? options.profileDetails.location.address : "-" ;
+		user.profile.latLong = options.profileDetails.location ? options.profileDetails.location.latLong : "-";
 
 		console.log('finished MANUAL user creation...')
 		return user;

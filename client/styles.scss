@@ -309,6 +309,12 @@ ion-side-menu.menu-left.menu {
 	margin-top: 19px;
 }
 
+.badge-mid {
+	margin-top: 9px;
+	font-size: 0.8rem;
+	margin-right: 0px;
+}
+
 .item-avatar-2, .item-avatar-2 .item-content, .item-avatar-left, .item-avatar-left .item-content {
   padding-left: 80px;
   min-height: 72px; }
@@ -560,6 +566,10 @@ ion-side-menu.menu-left.menu {
 	height: 100vh;
 	width: 100%;
 }
+#mapchat-box {
+	height: 100vh;
+	width: 100%;
+}
 
 .location-box {
 	padding: 7px 10px 7px 0px	
@@ -626,5 +636,15 @@ ion-side-menu.menu-left.menu {
   transition: none !important;
 }
 
+.request-notify {
+	top: 30px !important;
+}
 
+.item-button-right > .request-lower {
+	top: 20px !important;
+}
+
+.item.item-button-right .badge {
+	right: 24px;
+}
 

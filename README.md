@@ -4,6 +4,35 @@ KNOWN ISSUES:
 - Facebook wait until service configuration loaded
 - Facebook login needs additional fields for complete user registration -> location, college, phone number
 
+- Over a period of time, an Amazon call is not always necessary. What if the book is already there in Partio databsae? Why waste a call to Amazon?
+- Both 10 and 13 need to be added in Search Collection for users searching for either of them
+- 
+
+
+
+{
+  "apn": {
+    "passphrase": "xxxxxxxxx",  
+    "key": "apnProdKey.pem",
+    "cert": "apnProdCert.pem"
+  },
+  "apn-dev": {
+    "passphrase": "xxxxxxxxx",
+    "key": "apnDevKey.pem",
+    "cert": "apnDevCert.pem"
+  },  
+  "gcm": {
+    "apiKey": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+    "projectNumber": xxxxxxxxxxxx
+  },
+  "production": true,
+  // "badge": true,
+  // "sound": true,
+  // "alert": true,
+  // "vibrate": true,
+  // "sendInterval": 15000,  Configurable interval between sending notifications
+  // "sendBatchSize": 1  Configurable number of notifications to send per batch
+}
 
 Maps
 Project ID: testpartio-1044

@@ -15,7 +15,7 @@ Template.register.events({
 
 	    console.log(email, password, profileDetails);
 
-	    if (email && password && profileDetails.name && profileDetails.mobile && profileDetails.college && profileDetails.location) {
+	    if (email && password && profileDetails.name && profileDetails.mobile && profileDetails.college) {
 	    	Accounts.createUser({email: email, password: password, profileDetails: profileDetails}, function(error) {
 	    		console.log(error);
 

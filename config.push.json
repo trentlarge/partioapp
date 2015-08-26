@@ -1,0 +1,17 @@
+{
+  "apn": {
+    "passphrase": "partio2021",  
+    "key": "partioKey.pem",
+    "cert": "partioProdCert.pem"
+  },
+  "apn-dev": {
+    "passphrase": "partio2021",
+    "key": "partioKey.pem",
+    "cert": "partioCert.pem"
+  },
+  "production": false,
+  "badge": true,
+  "sound": true,
+  "alert": true,
+  "vibrate": true
+}

@@ -1,4 +1,4 @@
-Template.booksLent.helpers({
+Template.renting.helpers({
   toBeApproved: function() {
     return Connections.find({"requestor": Meteor.userId(), "state": {$ne: "IN USE"}})
   },
@@ -10,7 +10,7 @@ Template.booksLent.helpers({
   }
 });
 
-Template.booksLent.events({
+Template.renting.events({
 	'click .borrowedBookDetail': function() {
 		Router.go('/listing/'+this.bookData._id);
 	}

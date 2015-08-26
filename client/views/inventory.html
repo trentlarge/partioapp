@@ -1,4 +1,4 @@
-<template name="mybooks">
+<template name="inventory">
   {{#contentFor "headerButtonLeft"}}
       <button class="button button-clear pull-left" data-ion-menu-toggle="left">
         {{#if isAndroid}}
@@ -25,11 +25,15 @@
         <div class="list">
         <div class="item item-divider"><h3>Requests from others</h3></div>
         {{#each newRequests}}
-          {{#ionItem path='connect' _id=this._id class="item-avatar-2"}}
+          {{#ionItem path='connect' _id=this._id class="item-avatar-2 item-button-right"}}
               <div class="book-avatar"><div class="book-avatar-inner" style="background: url('{{bookData.image}}') no-repeat; background-size:cover; background-position: 50% 20%;"></div></div>
               <p class="main-title-text">{{bookData.title}}</p>
               <p class="main-sub-text">Rent/Week: ${{bookData.customPrice}}</p>
+              {{#if statusWaiting}}
+              <button id="yesAccept" class="button request-lower"><p>Accept</p></button>
+              {{else}}
               <span class="badge badge-low badge-energized">{{state}}</span>
+              {{/if}}
           {{/ionItem}}
 
         {{/each}}
@@ -41,7 +45,7 @@
         <div class="item item-divider"><h3>My Products</h3></div>
         {{#each myBooks}}
 
-          {{#ionItem path='mybookDetail' _id=this._id iconRight=true class="item-avatar-2"}}
+          {{#ionItem path='inventoryDetail' _id=this._id iconRight=true class="item-avatar-2"}}
               <div class="book-avatar"><div class="book-avatar-inner" style="background: url('{{image}}') no-repeat; background-size:cover; background-position: 50% 20%;"></div></div>
               <p class="main-title-text">{{title}}</p>
               <p class="main-sub-text">Rent/Week: ${{customPrice}}</p>
@@ -61,9 +65,9 @@
 </template>
 
 
-<template name="mybookDetail">
+<template name="inventoryDetail">
   {{#contentFor "headerButtonLeft"}}
-      {{>ionNavBackButton path="mybooks" class="backFromEdit"}}
+      {{>ionNavBackButton path="inventory" class="backFromEdit"}}
   {{/contentFor}}
   
   {{#contentFor "headerTitle"}}

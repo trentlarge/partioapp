@@ -1,5 +1,6 @@
   // SERVER FRESH START SEQUENCE
   // Products.remove({});
+  // Search.remove({});
   // Meteor.users.remove({});
   // Connections.remove({});
   // SERVER FRESH START SEQUENCE
@@ -13,13 +14,10 @@ SearchSource.defineSource('packages', function(searchText, options) {
 
   if(searchText) {
     var regExp = buildRegExp(searchText);
-    var selector = {$or: [
-      {title: regExp},
-      {subtitle: regExp}
-    ]};
-    return Products.find(selector, options).fetch();
+    var selector = {$or: [{title: regExp},{authors: regExp},{ean: searchText}]};
+    return Search.find(selector, options).fetch();
   } else {
-    return Products.find({}, options).fetch();
+    return Search.find({}, options).fetch();
   }
 });
 
@@ -51,21 +49,51 @@ Meteor.methods({
       }
     }
   },
-  requestOwner: function(requestor, productId) {
-    console.log(requestor, productId);
+  requestOwner: function(requestor, productId, owner) {
+    console.log(requestor, productId, owner);
+
+    Push.send({
+      from: 'parti-O',
+      title: 'Book Request',
+      text: 'You got a new book request',
+      badge: 1,
+      sound: 'check',
+      query: {
+        userId: owner
+      }
+    });
+
+    var ownerProfile = Meteor.users.findOne(owner).profile;
+
     var connection = {
       requestor: requestor,
       state: 'WAITING',
       requestDate: new Date(),
       borrowedDate: null,
       bookData: Products.findOne(productId),
-      chat: [  ]
+      chat: [  ],
+      meetupLocation: ownerProfile.address,
+      meetupLatLong: ownerProfile.latLong
     };
-    Meteor._sleepForMs(1000);
+    // Meteor._sleepForMs(1000);
     return Connections.insert(connection);
   },
-  'ownerAccept': function(connectionId) {
-    Connections.update({_id: connectionId}, {$set: {state: "PAYMENT"}});
+  'ownerAccept': function(connectionId, requestor) {
+    console.log(connectionId)
+
+    Push.send({
+      from: 'parti-O',
+      title: 'Approved',
+      text: 'Your request is approved!',
+      badge: 1,
+      sound: 'check',
+      query: {
+        userId: requestor
+      }
+    });
+    Meteor._sleepForMs(1000);
+    console.log("changing status from Waiting to Payment")
+    return Connections.update({_id: connectionId}, {$set: {state: "PAYMENT"}});
   },
   'payNow': function(payer) {
     console.log(payer);

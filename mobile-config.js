@@ -1,10 +1,10 @@
 App.info({
-  id: 'com.codefyne.parti-O',
+  id: 'com.partioapp.partio',
   name: 'parti-O',
   description: 'Share. Borrow. Party-o',
   author: 'InsaneInc',
-  website: 'http://www.codefyne.com',
-  version: '0.2.2'
+  website: 'http://www.partioapp.com',
+  version: '0.2.3'
 });
 
 App.icons({

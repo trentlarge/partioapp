@@ -100,7 +100,7 @@ Template.lend.events({
             type: 'button-assertive',
             onTap: function() {
               IonPopup.close();
-              Router.go('/mybooks');
+              Router.go('/inventory');
               IonModal.close();
             }
           }]
@@ -144,7 +144,7 @@ Template.lend.events({
             type: 'button-assertive',
             onTap: function() {
               IonPopup.close();
-              Router.go('/mybooks');
+              Router.go('/inventory');
               IonModal.close();
             }
           }]

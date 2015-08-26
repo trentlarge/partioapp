@@ -1,6 +1,6 @@
 <template name="connect">
   {{#contentFor "headerButtonLeft"}}
-      {{>ionNavBackButton path="mybooks"}}
+      {{>ionNavBackButton path="inventory"}}
   {{/contentFor}}
   
   {{#contentFor "headerTitle"}}
@@ -57,9 +57,16 @@
 
       </div>
 
-      <div class="padding-horizontal">
+      <div class="padding-horizontal list">
       {{#if alreadyApproved}}
-        <button class="disabled button button-block button-energized">Rented at ${{bookData.customPrice}} / week</button>
+        <!-- <button class="disabled button button-block button-energized">Rented at ${{bookData.customPrice}} / week</button> -->
+        <div class="item item-divider"><h3>Set Meetup Location</h3></div>
+
+          <a class="item item-button-right" id="changeMeetupLocation" href="#">
+            <p>{{preferredLocation}}</p>
+            <button class="button button-outline button-energized"><i class="icon ion-ios-location"></i></button>
+          </a>
+
       {{else}}
         <button id="ownerAccept" class="button button-block button-energized">Allow renting at ${{bookData.customPrice}} / week</button>
       {{/if}}
@@ -73,7 +80,7 @@
 
 <template name="connectRent">
   {{#contentFor "headerButtonLeft"}}
-      {{>ionNavBackButton path="booksLent"}}
+      {{>ionNavBackButton path="renting"}}
   {{/contentFor}}
   
   {{#contentFor "headerTitle"}}
@@ -130,6 +137,14 @@
       </div>
 
       <div class="padding-horizontal">
+
+        <div class="item item-divider"><h3>Meetup Location</h3></div>
+
+        <a class="item item-button-right" href="#" id="showMap">
+          <p>{{preferredLocation}}</p>
+          <!-- <button class="button button-outline button-energized" data-ion-modal="map"><i class="icon ion-ios-location"></i></button> -->
+        </a>
+
         <button id="payAndRent" class="button button-block button-assertive {{approvedStatus}}">ACCEPT & PAY ${{bookData.customPrice}}/week</button>   
       </div>
 
