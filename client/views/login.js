@@ -16,10 +16,12 @@ Template.register.events({
 	    console.log(email, password, profileDetails);
 
 	    if (email && password && profileDetails.name && profileDetails.mobile && profileDetails.college) {
+	    	// IonLoading.show();
 	    	Accounts.createUser({email: email, password: password, profileDetails: profileDetails}, function(error) {
 	    		console.log(error);
 
 	    		if (error) {
+	    			IonLoading.hide();
 	    			IonPopup.show({
 	    				title: 'Error while Signing up. Please try again.',
 	    				template: '<div class="center">'+error.reason+'</div>',
@@ -33,6 +35,20 @@ Template.register.events({
 	    				}]
 	    			});
 	    		} else {
+	    			Meteor.call('createCustomer', Meteor.userId(), function(error, result) {
+	    				if (!error) {
+	    					console.log("Stripe Customer creation in progress!");
+	    					var userTransId = Transactions.insert({
+	    						earning: [],
+	    						spending: []
+	    					});
+	    					Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.transactionsId": userTransId}});
+	    					IonLoading.hide();
+	    				} else {
+	    					IonLoading.hide();
+	    					console.log(error);
+	    				}
+	    			})
 	    			IonModal.close();
 	    		}
 	    	});
@@ -84,6 +100,7 @@ Template.login.events({
 	},
 	'click #fblogin': function() {
 		console.log("calling facebook");
+		IonLoading.show();
 		Meteor.loginWithFacebook({}, function(err){
 			if (err) {
 				IonPopup.show({
@@ -98,17 +115,34 @@ Template.login.events({
 					}]
 				});
 			} else {
-				IonPopup.show({
-					title: 'Great!',
-					template: '<div class="center">Logging in through your Facebook account...</div>',
-					buttons: [{
-						text: 'OK',
-						type: 'button-calm',
-						onTap: function() {
-							IonPopup.close();
-						}
-					}]
-				});
+				Meteor.call('createCustomer', Meteor.userId(), function(error, result) {
+					if (!error) {
+						console.log("Stripe Customer creation in progress!");
+						var userTransId = Transactions.insert({
+							earning: [],
+							spending: []
+						});
+						Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.transactionsId": userTransId}});
+						IonLoading.hide();
+
+						IonPopup.show({
+							title: 'Great!',
+							template: '<div class="center">Logging in through your Facebook account...</div>',
+							buttons: [{
+								text: 'OK',
+								type: 'button-calm',
+								onTap: function() {
+									IonPopup.close();
+								}
+							}]
+						});
+
+					} else {
+						IonLoading.hide();
+						console.log(error);
+					}
+				})
+
 			}
 		});
 	}

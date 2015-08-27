@@ -56,16 +56,21 @@
       </div>
       <div class="padding-horizontal">
       
-      {{#if alreadyStriped}}
-          <a class="item item-icon-right" href="{{pathFor 'stripeAccount'}}">
-            <p>Payment Account</p>
+      <!-- {{#if alreadyStriped}} -->
+          <a class="item item-icon-right" href="{{pathFor 'savedCards'}}" >
+            <p>Saved Cards</p>
             {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
           </a>
-      {{else}}
+
+          <a class="item item-icon-right" href="{{pathFor 'bankAccount'}}">
+            <p>Bank Account</p>
+            {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
+          </a>
+<!--       {{else}}
         <a type="button" class="button button-energized button-block item-icon-right" href="{{pathFor 'stripeAccount'}}">
           Connect Payment
         </a>
-      {{/if}}
+      {{/if}} -->
 
 <!--       {{#if venmoExists}}
           <a class="item item-icon-right" href="/venmo">
@@ -94,77 +99,3 @@
 </template>
 
 
-
-
-<!-- <template name="settings">
-  {{#contentFor "headerButtonLeft"}}
-    <button class="button button-clear pull-left" data-ion-menu-toggle="left">
-      {{#if isAndroid}}
-        {{> ionIcon icon='android-more-vertical'}}
-      {{else}}
-        {{> ionIcon icon='navicon'}}
-      {{/if}}
-    </button>
-  {{/contentFor}}
-  
-  {{#contentFor "headerTitle"}}
-    <h1 class="title">Settings</h1>
-  {{/contentFor}}
-
-  {{#ionView}}
-    {{#ionContent class="scroll-bg"}}
-
-    {{#with accountDetails}}
-      
-      {{> settingsProfileImage}}
-
-      <div class="list padding">
-        <div class="padding-horizontal">Name</div>
-        
-        <div data-ion-modal="settingsName">
-        {{#ionItem iconRight=true}}
-            <div class="">{{this.name}}</div>
-        {{/ionItem}}
-        </div>
-        
-        <br>
-        <div class="padding-horizontal">Store Name (shows up on Invoice)</div>
-        <div data-ion-modal="settingsStoreName">
-        {{#ionItem iconRight=true}}
-            <div class="">{{storeName}}</div>
-        {{/ionItem}}
-        </div>
-
-        <br>
-        <div class="padding-horizontal">Address</div>
-        <div data-ion-modal="settingsAddress">
-        {{#ionItem iconRight=true}}
-            <div class="">{{address1}} <br>{{address2}} <br> {{address3}} - {{address4}} </div>
-        {{/ionItem}}
-        </div>
-
-        <br>
-        <div class="padding-horizontal">Bank Details</div>
-        <div data-ion-modal="settingsBankDetails">
-        {{#ionItem iconRight=true}}
-            <div class="">{{bankName}}</div>
-        {{/ionItem}}
-        </div>
-
-        <br>
-        <div class="padding-horizontal">Initials (precedes Invoice/Product codes)</div>
-        <div data-ion-modal="settingsInitials">
-        {{#ionItem iconRight=true}}
-            <div class="capitalize">{{initials}}</div>
-        {{/ionItem}}
-        </div>
-        <br>
-        <br>
-      </div>
-
-    {{/with}}
-
-    {{/ionContent}}
-  {{/ionView}}
-
-</template> -->

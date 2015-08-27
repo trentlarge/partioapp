@@ -46,11 +46,11 @@
     {{#each getPackages}}
         <div class="package">
         <!-- {{#ionItem path='bookDetail' _id=this._id iconRight=true class="item-avatar-2"}} -->
-        {{#ionItem path='search' _id=this._id iconRight=true class="item-avatar-2"}}
+        {{#ionItem path='search' _id=this._id iconRight=true class="item-avatar-2 qty-check"}}
           <div class="book-avatar"><div class="book-avatar-inner" style="background: url('{{image}}') no-repeat; background-size:cover; background-position: 50% 20%;"></div></div>
           <p class="main-title-text">{{{title}}}</p>
           <p class="main-sub-text">{{{authors}}}</p>
-          <span class="badge badge-mid badge-balanced">{{qty}}</span>
+          <span class="badge badge-mid {{qtyClass qty}}">{{qtyFormat qty}}</span>
           {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
         {{/ionItem}}
         </div>
@@ -71,17 +71,20 @@
     {{#ionContent class="overflow-scroll"}}
     <div class="item item-divider"><h2>{{commonBookTitle}}</h2></div>
 
-    
       <div class="list">
         {{#each peopleList}}
         <a class="item item-avatar item-button-right" href="#">
           <img src="{{userThumbnail ownerId}}">
-          <h2>{{userName ownerId}}</h2>
-          <p>Rating</p>
+          <p class="main-title-text">{{userName ownerId}} </p>
+          <p>${{customPrice}}&nbsp;&nbsp; {{#if ratingExists ownerId}}<span class="rating-box">{{avgRating ownerId}}</span>{{/if}}</p>
           {{#if requestSent}}
           <span class="badge badge-mid">Request Sent</span>
           {{else}}
-          <button id="requestBook" class="button request-lower"><p>Request</p></button>
+            {{#if qtynotZero}}
+            <button id="requestBook" class="button request-lower"><p>Request</p></button>
+            {{else}}
+            <span class="badge badge-mid badge-stable">Unavailable</span>
+            {{/if}}
           {{/if}}
         </a>
         {{/each}}

@@ -123,7 +123,9 @@ Template.mapChat.events({
   },
   'click #updateMeetup': function() {
     var connectionId = this.connectionId;
-    Connections.update({_id: connectionId}, {$set: {meetupLocation: Session.get('newLocation').address, meetupLatLong: Session.get('newLocation').latLong}});
+    if (Session.get('newLocation')) {
+      Connections.update({_id: connectionId}, {$set: {meetupLocation: Session.get('newLocation').address, meetupLatLong: Session.get('newLocation').latLong}});
+    }
   }
 })
 
@@ -145,12 +147,22 @@ Template.onlyMap.helpers({
   exampleMapOptions: function() {
     console.log(this);
 
-    if (GoogleMaps.loaded()) {
-      return {
-        center: new google.maps.LatLng(this.G, this.K),
-        zoom: 16
-      };
+    if (this.lat) {
+      if (GoogleMaps.loaded()) {
+        return {
+          center: new google.maps.LatLng(this.lat, this.lng),
+          zoom: 16
+        };
+      }
+    } else {
+      if (GoogleMaps.loaded()) {
+        return {
+          center: new google.maps.LatLng(this.G, this.K),
+          zoom: 16
+        };
+      }
     }
+    
   }
 });
 

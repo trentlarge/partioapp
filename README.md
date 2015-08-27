@@ -38,7 +38,7 @@ Maps
 Project ID: testpartio-1044
 key: AIzaSyDMyxBlvIc4b4hoWqTw4lGr5OviU8FlQc8
 
-
+STRIPE_SECRET=sk_test_z3FwqB2S5uJxnQGRGKBA1Hzh meteor
 
 http://graph.facebook.com/418093848371137/picture?
 "https://www.facebook.com/app_scoped_user_id/418093848371137/"
@@ -112,70 +112,3 @@ msavin:mongol                                1.0.97  The insanely handy developm
 raix:push                                    2.6.10  Isomorphic Push notifications for APN and GCM
 
 
-
-*FINAL GBOOKS API LINK*
-https://www.googleapis.com/books/v1/volumes?q=isbn:9780241184837
-
-
-
-
-
-
-
-<?xml version="1.0" encoding="UTF-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom" xmlns:batch="http://schemas.google.com/gdata/batch" xmlns:dc="http://purl.org/dc/terms" xmlns:gbs="http://schemas.google.com/books/2008" xmlns:gd="http://schemas.google.com/g/2005" xmlns:openSearch="http://a9.com/-/spec/opensearchrss/1.0/">
-   <id>http://www.google.com/books/feeds/volumes</id>
-   <updated>2015-06-12T12:23:50.000Z</updated>
-   <category scheme="http://schemas.google.com/g/2005#kind" term="http://schemas.google.com/books/2008#volume" />
-   <title type="text">Search results for isbn:9780241184837</title>
-   <link rel="alternate" type="text/html" href="http://www.google.com" />
-   <link rel="http://schemas.google.com/g/2005#feed" type="application/atom+xml" href="https://www.google.com/books/feeds/volumes" />
-   <link rel="self" type="application/atom+xml" href="https://www.google.com/books/feeds/volumes?q=isbn%3A9780241184837" />
-   <author>
-      <name>Google Books Search</name>
-      <uri>http://www.google.com</uri>
-   </author>
-   <generator version="beta">Google Book Search data API</generator>
-   <openSearch:totalResults>1</openSearch:totalResults>
-   <openSearch:startIndex>1</openSearch:startIndex>
-   <openSearch:itemsPerPage>1</openSearch:itemsPerPage>
-   <entry>
-      <id>http://www.google.com/books/feeds/volumes/YNZZoAEACAAJ</id>
-      <updated>2015-06-12T12:23:50.000Z</updated>
-      <category scheme="http://schemas.google.com/g/2005#kind" term="http://schemas.google.com/books/2008#volume" />
-      <title type="text">Hooked</title>
-      <link rel="http://schemas.google.com/books/2008/thumbnail" type="image/x-unknown" href="http://books.google.com/books/content?id=YNZZoAEACAAJ&amp;printsec=frontcover&amp;img=1&amp;zoom=5&amp;source=gbs_gdata" />
-      <link rel="http://schemas.google.com/books/2008/info" type="text/html" href="http://books.google.com/books?id=YNZZoAEACAAJ&amp;dq=isbn:9780241184837&amp;ie=ISO-8859-1&amp;source=gbs_gdata" />
-      <link rel="http://schemas.google.com/books/2008/preview" type="text/html" href="http://books.google.com/books?id=YNZZoAEACAAJ&amp;dq=isbn:9780241184837&amp;ie=ISO-8859-1&amp;cd=1&amp;source=gbs_gdata" />
-      <link rel="http://schemas.google.com/books/2008/annotation" type="application/atom+xml" href="http://www.google.com/books/feeds/users/me/volumes" />
-      <link rel="alternate" type="text/html" href="http://books.google.com/books?id=YNZZoAEACAAJ&amp;dq=isbn:9780241184837&amp;ie=ISO-8859-1" />
-      <link rel="self" type="application/atom+xml" href="https://www.google.com/books/feeds/volumes/YNZZoAEACAAJ" />
-      <gbs:contentVersion>preview-1.0.0</gbs:contentVersion>
-      <gbs:embeddability value="http://schemas.google.com/books/2008#not_embeddable" />
-      <gbs:openAccess value="http://schemas.google.com/books/2008#disabled" />
-      <gbs:viewability value="http://schemas.google.com/books/2008#view_no_pages" />
-      <dc:creator>Nir Eyal</dc:creator>
-      <dc:creator>Ryan K. Hoover</dc:creator>
-      <dc:date>2014-11-06</dc:date>
-      <dc:description>Hooked is based on Eyal&amp;#39;s years of research, consulting, and practical experience. He wrote the book he wished had been available to him as a start-up founder - not abstract theory, but a how-to guide for building better products.</dc:description>
-      <dc:format>256 pages</dc:format>
-      <dc:format>book</dc:format>
-      <dc:identifier>YNZZoAEACAAJ</dc:identifier>
-      <dc:identifier>ISBN:0241184835</dc:identifier>
-      <dc:identifier>ISBN:9780241184837</dc:identifier>
-      <dc:language>en</dc:language>
-      <dc:publisher>Portfolio (Hardcover)</dc:publisher>
-      <dc:subject>Business &amp; Economics</dc:subject>
-      <dc:title>Hooked</dc:title>
-      <dc:title>How to Build Habit-Forming Products</dc:title>
-   </entry>
-</feed>
-
-http://books.google.com/books?id=YNZZoAEACAAJ&printsec=frontcover&img=1&zoom=1&sig=ACfU3U3QO7Xydd5JLjfwOD3xehYYUUtlSg&source=gbs_gdata
-
-href="http://books.google.com/books/content?id=YNZZoAEACAAJ&amp;printsec=frontcover&amp;img=1&amp;zoom=5&amp;source=gbs_gdata" />
-href="http://books.google.com/books?id=YNZZoAEACAAJ&amp;dq=isbn:9780241184837&amp;ie=ISO-8859-1&amp;source=gbs_gdata" />
-href="http://books.google.com/books?id=YNZZoAEACAAJ&amp;dq=isbn:9780241184837&amp;ie=ISO-8859-1&amp;cd=1&amp;source=gbs_gdata" />
-href="http://www.google.com/books/feeds/users/me/volumes" />
-href="http://books.google.com/books?id=YNZZoAEACAAJ&amp;dq=isbn:9780241184837&amp;ie=ISO-8859-1" />
-href="https://www.google.com/books/feeds/volumes/YNZZoAEACAAJ" />

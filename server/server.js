@@ -49,6 +49,12 @@ Meteor.methods({
       }
     }
   },
+  'submitRating': function(rating, personId) {
+    Meteor.users.update({_id: personId}, {$push: {"profile.rating": rating}})
+  },
+  returnBook: function(ean) {
+    Search.update({"ean": ean}, {$inc: {qty: 1}});
+  },
   requestOwner: function(requestor, productId, owner) {
     console.log(requestor, productId, owner);
 
@@ -127,7 +133,7 @@ Meteor.methods({
   'chargeCard': function(payerCustomerId, payerCardId, recipientAccountId, amount, connectionId, transactionsId, transactionsRecipientId) {
     this.unblock();
     console.log(payerCustomerId, payerCardId, recipientAccountId, amount, connectionId, transactionsId, transactionsRecipientId);
-    var formattedAmount = amount * 100;
+    var formattedAmount = (amount * 100).toFixed(0);
 
     try{
       var result = Stripe.charges.create({
@@ -152,8 +158,23 @@ Meteor.methods({
         }
 
         Connections.update({_id: connectionId}, {$set: {state: "IN USE", payment: result}});
+        Search.update({"ean": Connections.findOne(connectionId).bookData.ean}, {$inc: {qty: -1}})
         Transactions.update({_id: transactionsId}, {$push: {spending: payerTrans}});
         Transactions.update({_id: transactionsRecipientId}, {$push: {earning: recipientTrans}});
+
+        var thisConnectionData = Connections.findOne(connectionId)
+        var moneyGiver = Meteor.users.findOne(thisConnectionData.requestor).profile.name
+        Push.send({
+          from: 'parti-O',
+          title: 'Payment Received',
+          text: 'You received a payment of $' + amount + ' from ' + moneyGiver,
+          badge: 1,
+          sound: 'check',
+          query: {
+            userId: thisConnectionData.bookData.ownerId
+          }
+        });
+
       }
 
     } catch(e) {
@@ -161,6 +182,7 @@ Meteor.methods({
     }
   },
   'createCustomer': function(MeteorUserId) {
+    console.log("creating customer for stripe on server using this ID ---> "+MeteorUserId);
     this.unblock();
     try {
       var result = Stripe.customers.create({
@@ -171,7 +193,7 @@ Meteor.methods({
         Meteor.users.update({"_id": MeteorUserId}, {$set: {"profile.customer": result}})
       }
     } catch(e) {
-      console.log(e);
+      // console.log(e);
       throw new Meteor.Error('Error while adding user as a customer to payment profile');
     }
   },

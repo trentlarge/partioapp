@@ -42,15 +42,19 @@
         <div class="list">
         <div class="item item-divider"><h3>Rented Products</h3></div>
         {{#each currentlyBorrowed}}
-        <div class="borrowedBookDetail">
+        <!-- <div class="borrowedBookDetail"> -->
 
-          {{#ionItem iconRight=true class="item-avatar-2"}}
+          {{#ionItem path="connectRent" iconRight=true class="item-avatar-2"}}
               <div class="book-avatar"><div class="book-avatar-inner" style="background: url('{{bookData.image}}') no-repeat; background-size:cover; background-position: 50% 20%;"></div></div>
               <p class="main-title-text">{{bookData.title}}</p>
               <p class="main-sub-text">Rent/Week: ${{bookData.customPrice}}</p>
-              {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
+              {{#if itemReturned}}
+                <span class="badge badge-stable">RETURNED</span>
+              {{else}}
+                {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
+              {{/if}}
           {{/ionItem}}
-        </div>
+        <!-- </div> -->
         {{/each}}
         </div>
       {{/if}}

@@ -14,6 +14,7 @@ var fields = ['title', 'authors', 'ean'];
 
 PackageSearch = new SearchSource('packages', fields, options);
 
+
 Template.searchResult.helpers({
   getPackages: function() {
     return PackageSearch.getData({ sort: {isoScore: -1} });
@@ -21,8 +22,20 @@ Template.searchResult.helpers({
   
   isLoading: function() {
     return PackageSearch.getStatus().loading;
+  },
+  qtyFormat: function(qty) {
+    return qty === 0 ? "NA" : qty
+  },
+  qtyClass: function(qty) {
+    return qty === 0 ? "badge-assertive" : "badge-balanced"
   }
 });
+
+Template.searchResult.events({
+  'click .qty-check': function() {
+    Session.set('currentQty', Search.findOne(this._id).qty);
+  }
+})
 
 Template.searchResult.rendered = function() {
   PackageSearch.search('');
@@ -53,8 +66,25 @@ Template.search.helpers({
     return Products.findOne({"ean": ean}).title;
   },
   requestSent: function() {
-    console.log(this);
     return Connections.findOne({"requestor": Meteor.userId(), "bookData.ownerId": this.ownerId, "bookData._id": this._id}) ? true: false;
+  },
+  qtynotZero: function() {
+    return Session.get('currentQty');
+  },
+  avgRating: function(userId) {
+    if (Meteor.users.findOne(userId).profile.rating) {
+      var ratingArray = Meteor.users.findOne(userId).profile.rating;
+      var totalCount = ratingArray.length;
+      var sum = _.reduce(ratingArray, function(memo, num) {
+        return (Number(memo) + Number(num))/totalCount; 
+      });
+      return parseFloat(sum).toFixed(1);
+    } else {
+      return null;
+    }
+  },
+  ratingExists: function(userId){
+    return Meteor.users.findOne(userId).profile.rating
   }
 });
 

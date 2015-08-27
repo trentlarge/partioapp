@@ -137,7 +137,7 @@ Template.lend.events({
         IonLoading.hide();
         IonPopup.show({
           title: 'Your Product sucessfully submitted',
-          template: '<div class="center">And saved to your Repository</div>',
+          template: '<div class="center">And saved to your Inventory</div>',
           buttons: 
           [{
             text: 'OK',
@@ -146,6 +146,25 @@ Template.lend.events({
               IonPopup.close();
               Router.go('/inventory');
               IonModal.close();
+
+              Meteor.setTimeout(function() {
+                if (! Meteor.user().profile.stripeAccount) {
+                  IonPopup.show({
+                    title: 'ATTENTION!',
+                    template: '<div class="center">A bank account should be linked to receive payments for your shared goods!</div>',
+                    buttons: 
+                    [{
+                      text: 'Setup Bank Account',
+                      type: 'button-balanced',
+                      onTap: function() {
+                        IonPopup.close();
+                        Router.go('/profile/bankAccount');
+                      }
+                    }]
+                  });
+                }
+              }, 1500)
+
             }
           }]
         });

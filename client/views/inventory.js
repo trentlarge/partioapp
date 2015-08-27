@@ -3,10 +3,10 @@ Template.inventory.helpers({
     return Products.find({"ownerId": Meteor.userId()})
   },
   newRequests: function() {
-  	return Connections.find({"bookData.ownerId": Meteor.userId()}, {state: {$ne: "IN USE"}})
+  	return Connections.find({"bookData.ownerId": Meteor.userId(), "state": {$ne: "DONE"} })
   },
   dataExists: function() {
-  	return (Products.find({"ownerId": Meteor.userId()}).count() || Connections.find({"bookData.ownerId": Meteor.userId()}, {state: {$ne: "IN USE"}}).count()) ? true : false;
+  	return (Products.find({"ownerId": Meteor.userId()}).count() || Connections.find({"bookData.ownerId": Meteor.userId(), "state": {$ne: "IN USE"}}).count()) ? true : false;
   },
   status: function() {
   	return Connections.findOne(this._id).approved ? "IN USE" : "WAITING" ;

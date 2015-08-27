@@ -1,4 +1,4 @@
-Template.stripeAccount.events({
+Template.bankAccount.events({
 	'click #stripe-create': function(e, template) {
 		IonLoading.show();
 		console.log('creating a new stripe account');
@@ -14,24 +14,26 @@ Template.stripeAccount.events({
 		console.log(firstname, lastname, ssn, routingnumber, bankaccount);
 		Meteor.call('createStripeAccount', firstname, lastname, ssn, routingnumber, bankaccount, Meteor.userId(), function(error, result) {
 			if (!error) {
-				var userTransId = Transactions.insert({
-					earning: [],
-					spending: []
-				});
-				Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.transactionsId": userTransId}});
-				Meteor.call('createCustomer', Meteor.userId(), function(erorr, result) {
-					IonLoading.hide();
-					if (!error) {
-						IonLoading.show({
-							duration: 1500,
-							delay: 400,
-							customTemplate: '<div class="center"><h5>Payment profile created!</h5></div>',
-						});
-					}
-				})
+				IonLoading.hide();
+			} else {
+				console.log(error);
 			}
 		})
+	}
+});
+
+Template.bankAccount.helpers({
+	noStripeYet: function() {
+		if (Meteor.user() && ! Meteor.user().profile.stripeAccount) {
+			return true; 
+		}
 	},
+	stripeAccount: function() {
+		return Meteor.user().profile.stripeAccount;
+	}
+})
+
+Template.savedCards.events({
 	'click #stripe-card': function(e) {
 		IonLoading.show();
 		
@@ -55,7 +57,7 @@ Template.stripeAccount.events({
 	}
 });
 
-Template.stripeAccount.created = function() {
+Template.savedCards.created = function() {
 	stripeHandler = StripeCheckout.configure({
 		key: 'pk_test_OYfO9mHIQFha7How6lNpwUiQ',
 		token: function(token) {
@@ -64,17 +66,15 @@ Template.stripeAccount.created = function() {
 				IonLoading.hide();
 				console.log(error);
 				console.log(result);
+				if (Session.get('payRedirect')) {
+					Router.go('/renting/connect/'+Session.get('payRedirect'));
+				}
 			})
 		}
 	});
 }
 
-Template.stripeAccount.helpers({
-	noStripeYet: function() {
-		if (Meteor.user() && ! Meteor.user().profile.stripeAccount) {
-			return true; 
-		}
-	},
+Template.savedCards.helpers({
 	addedCards: function() {
 		if (!!Meteor.user().profile.cards) {
 			return Meteor.user().profile.cards.data;
