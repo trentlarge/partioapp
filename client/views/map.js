@@ -1,7 +1,6 @@
 Template.map.onRendered(function() {
-  var currentLocation = Geolocation.latLng();
-  if (currentLocation) {
-    reverseGeocode.getLocation(currentLocation.lat, currentLocation.lng, function(location){
+  if (Session.get('initialLoc')) {
+    reverseGeocode.getLocation(Session.get('initialLoc').lat, Session.get('initialLoc').lng, function(location){
       Session.set('newLocation', {
         address: reverseGeocode.getAddrStr(),
         latLong: currentLocation
@@ -14,7 +13,7 @@ Template.map.onRendered(function() {
     if (GoogleMaps.loaded()) {
       $("#map-search").geocomplete({
         map: "#map-box",
-        location: [currentLocation.lat, currentLocation.lng],
+        location: [Session.get('initialLoc').lat, Session.get('initialLoc').lng],
         componentRestrictions: {
           country: 'US'
         },

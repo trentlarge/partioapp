@@ -4,7 +4,7 @@ App.info({
   description: 'Share. Borrow. Party-o',
   author: 'InsaneInc',
   website: 'http://www.partioapp.com',
-  version: '0.2.3'
+  version: '0.2.7'
 });
 
 App.icons({
@@ -15,7 +15,10 @@ App.icons({
 
 App.launchScreens({
   'iphone': 'public/Default~iphone.png',
-  'iphone5': 'public/Default@iphone5~iphone.png'
+  'iphone_2x': 'public/Default~iphone_640x960.png',
+  'iphone5': 'public/Default@iphone5~iphone.png',
+  'iphone6': 'public/Default@iphone6~iphone.png'
+
 });
 
 App.setPreference('StatusBarOverlaysWebView', false);

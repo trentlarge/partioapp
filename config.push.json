@@ -9,7 +9,7 @@
     "key": "partioKey.pem",
     "cert": "partioCert.pem"
   },
-  "production": false,
+  "production": true,
   "badge": true,
   "sound": true,
   "alert": true,

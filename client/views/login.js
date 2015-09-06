@@ -69,6 +69,30 @@ Template.register.events({
 });
 
 Template.login.events({
+	'click #triggerGPS': function() {
+		if (!Session.get('initialLoc')) {
+
+			var onSuccess = function(position) {
+				Session.set('initialLoc', {lat: position.coords.latitude, lng: position.coords.longitude});
+			};
+
+			function onError(error) {
+				IonPopup.show({
+					title: error.message,
+					template: '<div class="center">Please enable Location services for this app from Settings > Privacy > Location Services</div>',
+					buttons: [{
+						text: 'OK',
+						type: 'button-calm',
+						onTap: function() {
+							IonPopup.close();
+							IonModal.close();
+						}
+					}]
+				});
+			}
+			navigator.geolocation.getCurrentPosition(onSuccess, onError);
+		}
+	},
 	'click #loginButton': function(e, template) {
 		e.preventDefault();
 
@@ -158,29 +182,59 @@ Template.register.helpers({
 	}
 })
 
-Template.register.created = function() {
-	Session.set('newLocation', null);
-	console.log(Geolocation.error());
-	var locationCheck = Geolocation.error();
-	if (locationCheck && locationCheck.code === 1) {
-		IonPopup.show({
-			title: locationCheck.message,
-			template: '<div class="center">Please enable Location services for this app from Settings > Privacy > Location Services</div>',
-			buttons: [{
-				text: 'OK',
-				type: 'button-calm',
-				onTap: function() {
-					IonPopup.close();
-				}
-			}]
-		});
+// Template.register.created = function() {
+
+// 	Session.set('newLocation', null);
+// 	console.log(Geolocation.error());
+// 	var locationCheck = Geolocation.error();
+// 	if (locationCheck && locationCheck.code === 1) {
+// 		IonPopup.show({
+// 			title: locationCheck.message,
+// 			template: '<div class="center">Please enable Location services for this app from Settings > Privacy > Location Services</div>',
+// 			buttons: [{
+// 				text: 'OK',
+// 				type: 'button-calm',
+// 				onTap: function() {
+// 					IonPopup.close();
+// 				}
+// 			}]
+// 		});
+// 	}
+// 	console.log(Geolocation.error());
+
+// }
+
+
+
+
+Template.login.rendered = function() {
+
+	var onSuccess = function(position) {
+		Session.set('initialLoc', {lat: position.coords.latitude, lng: position.coords.longitude});
+	};
+
+	function onError(error) {
+			// alert(error.code +", "+ error.message);
+			IonPopup.show({
+				title: error.message,
+				template: '<div class="center">Please enable Location services for this app from Settings > Privacy > Location Services</div>',
+				buttons: [{
+					text: 'OK',
+					type: 'button-calm',
+					onTap: function() {
+						IonPopup.close();
+						IonModal.close();
+					}
+				}]
+			});
+		}
+
+		navigator.geolocation.getCurrentPosition(onSuccess, onError);
+
+		document.addEventListener("resume", function(){
+			console.log("RESUMED!!")
+			navigator.geolocation.getCurrentPosition(onSuccess, onError);
+		}, false);
 	}
-	console.log(Geolocation.error());
-
-}
-
-
-// https://api.venmo.com/v1/oauth/authorize?client_id=017d7cc0c478a5d7b471ab10a507eae50a0c29ed2153936d9747e390408b9af1&scope=make_payments%20access_profile%20access_email%20access_phone%20access_balance
-
 
 

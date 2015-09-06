@@ -41,4 +41,122 @@ Meteor.startup(function() {
     	libraries: 'places'
     });
 
+    Alerts = new Meteor.Collection(null);
+
 });
+
+
+
+
+// Template.appLayout.rendered = function() {
+// 	var self = this;
+
+// 	self.autorun(function() {
+// 		var query1 = Notifications.find({"userId": Meteor.userId()})
+
+// 		query1.observeChanges({	
+// 			changed: function(id,fields) {
+// 				console.log(fields);
+
+// 				IonPopup.show({
+// 					title: 'Alert',
+// 					template: '<div class="center">You got a new book request!</div>',
+// 					buttons: 
+// 					[{
+// 						text: 'OK',
+// 						type: 'button-positive',
+// 						onTap: function() {
+// 							IonPopup.close();
+// 							Notifications.update({_id: id, "userId": Meteor.userId(), "alerts.unread": true}, {$set: {"alerts.$.unread": false}})
+// 						}
+// 					}]
+// 				});
+
+// 			}
+// 		})
+// 	})
+// }
+
+Template.appLayout.rendered = function() {
+	var self = this;
+
+	self.autorun(function() {
+		var query1 = Connections.find({"bookData.ownerId": Meteor.userId()});
+		var query2 = Connections.find({"requestor": Meteor.userId(), "state": "PAYMENT"});
+
+		query1.observeChanges({
+			added: function(id, fields) {
+				console.log(fields);
+
+				if (!Alerts.findOne({connectionId: id, unread: true})) {
+					var currentOne = Alerts.insert({
+						connectionId: id,
+						type: "request",
+						unread: true
+					})
+					
+					IonPopup.show({
+						title: 'Alert',
+						template: '<div class="center">You got a new book request</div>',
+						buttons: 
+						[{
+							text: 'OK',
+							type: 'button-positive',
+							onTap: function() {
+								IonPopup.close();
+								Meteor.setTimeout(function(){
+									Alerts.update({_id: currentOne}, {$set: {unread: false}})
+									Router.go('inventory');
+								},1000)
+							}
+						}]
+					});
+
+				}
+
+			}
+		});
+
+		query2.observeChanges({
+			added: function(id, fields) {
+				console.log(fields);
+
+				if (!Alerts.findOne({connectionId: id, unread: true})) {
+					var currentOne = Alerts.insert({
+						connectionId: id,
+						type: "approval",
+						unread: true
+					})
+					
+					IonPopup.show({
+						title: 'Alert',
+						template: '<div class="center">Your request is approved</div>',
+						buttons: 
+						[{
+							text: 'OK',
+							type: 'button-positive',
+							onTap: function() {
+								IonPopup.close();
+								Meteor.setTimeout(function(){
+									Alerts.update({_id: currentOne}, {$set: {unread: false}})
+									Router.go('renting');
+								},1000)
+							}
+						}]
+					});
+
+				}
+			}
+		})
+
+	});
+}
+
+
+
+
+
+
+
+
+

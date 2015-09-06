@@ -1,8 +1,9 @@
   // SERVER FRESH START SEQUENCE
-  // Products.remove({});
-  // Search.remove({});
-  // Meteor.users.remove({});
-  // Connections.remove({});
+  Products.remove({});
+  Search.remove({});
+  Meteor.users.remove({});
+  Connections.remove({});
+  Notifications.remove({});
   // SERVER FRESH START SEQUENCE
 
 // ServiceConfiguration.loginServiceConfiguration.remove({
@@ -70,6 +71,7 @@ Meteor.methods({
     });
 
     var ownerProfile = Meteor.users.findOne(owner).profile;
+    var requestorProfile = Meteor.users.findOne(requestor).profile;
 
     var connection = {
       requestor: requestor,
@@ -81,6 +83,11 @@ Meteor.methods({
       meetupLocation: ownerProfile.address,
       meetupLatLong: ownerProfile.latLong
     };
+    Notifications.update({"userId": owner}, {$push: {"alerts": {
+      type: "request",
+      unread: true,
+      from: requestorProfile.name
+    }}})
     // Meteor._sleepForMs(1000);
     return Connections.insert(connection);
   },

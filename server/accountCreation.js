@@ -14,6 +14,10 @@ Accounts.onCreateUser(function(options,user) {
 		user.profile.avatar = options.profile.avatar;
 		user.profile.college = '';
 		user.profile.mobile = '';
+		Notifications.insert({
+			userId: meteorUserId,
+			alerts: []
+		})
 
 		console.log('finished FACEBOOK user creation...');
 		return user;
@@ -28,6 +32,10 @@ Accounts.onCreateUser(function(options,user) {
 		user.profile.address = options.profileDetails.location ? options.profileDetails.location.address : "-" ;
 		user.profile.latLong = options.profileDetails.location ? options.profileDetails.location.latLong : "-";
 
+		Notifications.insert({
+			userId: meteorUserId,
+			alerts: []
+		})
 		console.log('finished MANUAL user creation...');
 		return user;
 	}
