@@ -1,17 +1,20 @@
-Template.map.onRendered(function() {
-  if (Session.get('initialLoc')) {
+Template.map.onRendered(function() 
+{
+  if (Session.get('initialLoc')) 
+  {
     reverseGeocode.getLocation(Session.get('initialLoc').lat, Session.get('initialLoc').lng, function(location){
       Session.set('newLocation', {
         address: reverseGeocode.getAddrStr(),
-        latLong: currentLocation
+        latLong: [Session.get('currentLoc').lat, Session.get('currentLoc').lng]
       });
     });
   }
 
-  console.log(Geolocation.latLng());
-  this.autorun(function () {
-    if (GoogleMaps.loaded()) {
-      $("#map-search").geocomplete({
+  this.autorun(function () 
+  {
+    if (GoogleMaps.loaded()) 
+    {
+      var map = $("#map-search").geocomplete({
         map: "#map-box",
         location: [Session.get('initialLoc').lat, Session.get('initialLoc').lng],
         componentRestrictions: {
@@ -28,9 +31,26 @@ Template.map.onRendered(function() {
           });
         });
       });
+
+      //Add aditional marker
+      map = $("#map-search").geocomplete("map");
+      addAdditionalCurrentLocationMarker(map);      
     }
   });
 });
+
+function addAdditionalCurrentLocationMarker(mapObject)
+{
+  var image = '/icon-40.png';
+
+  var marker = new google.maps.Marker({
+      position: {lat: Session.get('initialLoc').lat, lng: Session.get('initialLoc').lng},
+      map: mapObject,
+      icon: 'http://localhost:3000/icon-40.png'
+    });
+
+  marker.setMap(mapObject);
+}
 
 Template.map.events({
   'click button': function() {
@@ -39,30 +59,33 @@ Template.map.events({
 })
 
 Template.map.helpers({
-  newLocation: function() {
-    if (Session.get('newLocation')) {
+  newLocation: function() 
+  {
+    if (Session.get('newLocation')) 
+    {
       return Session.get('newLocation').address;
     }
-  }
+  }  
 })
-
 
 
 
 Template.mapChat.onRendered(function() {
   var latLong = this.data.meetupLatLong;
   console.log(latLong);
+  console.log('Session Loc: ' + Session.get('initialLoc').lat);
 
   if (latLong === "-") {
     var geoReady = function() {
-      var realPosition = Geolocation.latLng();
+      var realPosition = Geolocation.latLng(); 
       console.log(realPosition);
+
 
       // this.autorun(function () {
         if (GoogleMaps.loaded()) {
           $("#mapchat-search").geocomplete({
             map: "#mapchat-box",
-            location: [realPosition.lat, realPosition.lng],
+            location: [Session.get('initialLoc').lat, Session.get('initialLoc').lng],
             componentRestrictions: {
               country: 'US'
             },
@@ -84,10 +107,11 @@ Template.mapChat.onRendered(function() {
     }
 
     this.autorun(function (computation) {
-      if (Geolocation.currentLocation()) {
-        geoReady();
-        computation.stop();
-      }
+      // if (Geolocation.currentLocation()) {
+      //   geoReady();
+      //   computation.stop();
+      // }
+
     });
   } else {
     

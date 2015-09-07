@@ -73,13 +73,76 @@ Template.connect.events({
 			}
 		});
 	},
-	'click #changeMeetupLocation': function() {
-		var essentialData = {};
-		essentialData.meetupLatLong = this.meetupLatLong;
-		essentialData.connectionId = this._id;
-		IonModal.open('mapChat', essentialData);
+	'click #changeMeetupLocation': function() 
+	{
+		// var essentialData = {};
+		// essentialData.meetupLatLong = this.meetupLatLong;
+		// essentialData.connectionId = this._id;
+		// IonModal.open('mapChat', essentialData);
+// 
+		if(!currentPosition)
+		{
+			CheckLocatioOn();	
+		}	
+		else
+		{
+			console.log('currentPosition exits!');
+			Session.set('initialLoc', {lat: currentPosition.coords.latitude, lng: currentPosition.coords.longitude});
+			Session.set('currentLoc', {lat: currentPosition.coords.latitude, lng: currentPosition.coords.longitude});
+
+			console.log('initial: ' + Session.get('initialLoc'));
+			console.log('currentLoc: ' + Session.get('currentLoc'));
+
+			var essentialData = {};
+			essentialData.meetupLatLong = Session.get('initialLoc');
+			essentialData.connectionId = this._id;
+			IonModal.open('map', essentialData);
+		}
+
 	}
 })
+
+var currentPosition;
+var onSuccess = function(position) 
+{
+	currentPosition = position;
+	console.log('onSuccess');
+
+	Session.set('initialLoc', {lat: position.coords.latitude, lng: position.coords.longitude});
+	Session.set('currentLoc', {lat: position.coords.latitude, lng: position.coords.longitude});
+
+	console.log('initial: ' + Session.get('initialLoc'));
+	console.log('currentLoc: ' + Session.get('currentLoc'));
+
+	var essentialData = {};
+	essentialData.meetupLatLong = Session.get('initialLoc');
+	essentialData.connectionId = this._id;
+	IonModal.open('map', essentialData);
+};
+
+function onError(error) {
+	
+	console.log('onError');
+
+	IonPopup.show({
+		title: "Location Services Unavailable.",
+		template: '<div class="center">Please enable Location services for this app from Settings > Privacy > Location Services</div>',
+		buttons: [{
+			text: 'OK',
+			type: 'button-calm',
+			onTap: function() {
+				IonPopup.close();
+				IonModal.close();
+			}
+		}]
+	});
+}
+
+function CheckLocatioOn()
+{
+	navigator.geolocation.getCurrentPosition(onSuccess, onError);
+	console.log('getCurrentPosition');
+}
 
 
 

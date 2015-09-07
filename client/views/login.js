@@ -72,25 +72,7 @@ Template.login.events({
 	'click #triggerGPS': function() {
 		if (!Session.get('initialLoc')) {
 
-			var onSuccess = function(position) {
-				Session.set('initialLoc', {lat: position.coords.latitude, lng: position.coords.longitude});
-			};
-
-			function onError(error) {
-				IonPopup.show({
-					title: error.message,
-					template: '<div class="center">Please enable Location services for this app from Settings > Privacy > Location Services</div>',
-					buttons: [{
-						text: 'OK',
-						type: 'button-calm',
-						onTap: function() {
-							IonPopup.close();
-							IonModal.close();
-						}
-					}]
-				});
-			}
-			navigator.geolocation.getCurrentPosition(onSuccess, onError);
+			//CheckLocatioOn();
 		}
 	},
 	'click #loginButton': function(e, template) {
@@ -205,10 +187,8 @@ Template.register.helpers({
 // }
 
 
-
-
-Template.login.rendered = function() {
-
+function CheckLocatioOn()
+{
 	var onSuccess = function(position) {
 		Session.set('initialLoc', {lat: position.coords.latitude, lng: position.coords.longitude});
 	};
@@ -216,7 +196,7 @@ Template.login.rendered = function() {
 	function onError(error) {
 			// alert(error.code +", "+ error.message);
 			IonPopup.show({
-				title: error.message,
+				title: "Location Services Unavailable.",
 				template: '<div class="center">Please enable Location services for this app from Settings > Privacy > Location Services</div>',
 				buttons: [{
 					text: 'OK',
@@ -229,11 +209,16 @@ Template.login.rendered = function() {
 			});
 		}
 
-		navigator.geolocation.getCurrentPosition(onSuccess, onError);
+	navigator.geolocation.getCurrentPosition(onSuccess, onError);
+}
+
+
+
+Template.login.rendered = function() {
 
 		document.addEventListener("resume", function(){
 			console.log("RESUMED!!")
-			navigator.geolocation.getCurrentPosition(onSuccess, onError);
+			//CheckLocatioOn();
 		}, false);
 	}
 
