@@ -45,8 +45,7 @@ function addAdditionalCurrentLocationMarker(mapObject)
 
   var marker = new google.maps.Marker({
       position: {lat: Session.get('initialLoc').lat, lng: Session.get('initialLoc').lng},
-      map: mapObject,
-      icon: 'http://localhost:3000/icon-40.png'
+      map: mapObject
     });
 
   marker.setMap(mapObject);
