@@ -84,70 +84,97 @@ Template.appLayout.rendered = function() {
 		var query1 = Connections.find({"bookData.ownerId": Meteor.userId()});
 		var query2 = Connections.find({"requestor": Meteor.userId(), "state": "PAYMENT"});
 
-		// query1.observeChanges({
-		// 	added: function(id, fields) {
-		// 		console.log(fields);
+		query1.observeChanges({
+			added: function(id, fields) {
+				console.log(fields);
 
-		// 		if (!Alerts.findOne({connectionId: id, unread: true})) {
-		// 			var currentOne = Alerts.insert({
-		// 				connectionId: id,
-		// 				type: "request",
-		// 				unread: true
-		// 			})
+				if (!Alerts.findOne({connectionId: id, unread: true})) 
+				{
+					var currentOne = Alerts.insert({
+						connectionId: id,
+						type: "request",
+						unread: false
+					})
 					
-		// 			IonPopup.show({
-		// 				title: 'Alert',
-		// 				template: '<div class="center">You got a new book request</div>',
-		// 				buttons: 
-		// 				[{
-		// 					text: 'OK',
-		// 					type: 'button-positive',
-		// 					onTap: function() {
-		// 						IonPopup.close();
-		// 						Meteor.setTimeout(function(){
-		// 							Alerts.update({_id: currentOne}, {$set: {unread: false}})
-		// 							Router.go('inventory');
-		// 						},1000)
-		// 					}
-		// 				}]
-		// 			});
+					console.log('currentOne: ' + currentOne);
+					console.log('connectionId: ' + id);
 
-		// 		}
+					IonPopup.show({
+						title: 'Alert',
+						template: '<div class="center">You got a new book request</div>',
+						buttons: 
+						[{
+							text: 'OK',
+							type: 'button-positive',
+							onTap: function() {
+								IonPopup.close();
+								Meteor.setTimeout(function(){
+									//Alerts.update({connectionId: id}, {$set: {unread: false}})
+									var currentPage = Iron.Location.get().path;
 
-		// 	}
-		// });
+									if(currentPage.indexOf("inventory")>=0)
+									{
+									    //do something you want
+									}
+									else
+									{
+										Router.go('inventory');
+									}
+									
+									
+								},1000)
+							}
+						}]	
+					});
 
-		// query2.observeChanges({
-		// 	added: function(id, fields) {
-		// 		console.log(fields);
+				}
 
-		// 		if (!Alerts.findOne({connectionId: id, unread: true})) {
-		// 			var currentOne = Alerts.insert({
-		// 				connectionId: id,
-		// 				type: "approval",
-		// 				unread: true
-		// 			})
+			}
+		});
+
+		query2.observeChanges({
+			added: function(id, fields) {
+				console.log(fields);
+
+				if (!Alerts.findOne({connectionId: id, unread: true})) {
+					var currentOne = Alerts.insert({
+						connectionId: id,
+						type: "approval",
+						unread: false
+					})
 					
-		// 			IonPopup.show({
-		// 				title: 'Alert',
-		// 				template: '<div class="center">Your request is approved</div>',
-		// 				buttons: 
-		// 				[{
-		// 					text: 'OK',
-		// 					type: 'button-positive',
-		// 					onTap: function() {
-		// 						IonPopup.close();
-		// 						Meteor.setTimeout(function(){
-		// 							Alerts.update({_id: currentOne}, {$set: {unread: false}})
-		// 							Router.go('renting');
-		// 						},1000)
-		// 					}
-		// 				}]
-		// 			});
+					IonPopup.show({
+						title: 'Alert',
+						template: '<div class="center">Your request is approved</div>',
+						buttons: 
+						[{
+							text: 'OK',
+							type: 'button-positive',
+							onTap: function() {
+								IonPopup.close();
+								Meteor.setTimeout(function(){
+									// Alerts.update({_id: currentOne}, {$set: {unread: false}})
+									//Router.go('renting');
 
-		// 		}
-		// 	}
-		// })
+									var currentPage = Iron.Location.get().path;
+
+									if(currentPage.indexOf("renting")>=0)
+									{
+									    //do something you want
+									}
+									else
+									{
+										Router.go('renting');
+									}
+
+								},1000)
+							}
+						}]
+					});
+
+				}
+			}
+		})
 
 	});
 }
