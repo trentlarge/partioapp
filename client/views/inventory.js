@@ -53,15 +53,10 @@ Template.inventory.events({
       },
       onCancel: function() 
       {
-        Connections.remove({"connectionId": this._id});
+        Connections.remove({"_id": connectionId});
         console.log('Request Declined!');
       }
     });
-  },
-
-  'click .respondToReq': function() {
-    console.log('respondToReq');
-    console.log(this);
   }
 
 })
