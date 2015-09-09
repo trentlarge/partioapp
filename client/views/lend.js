@@ -90,6 +90,12 @@ Template.lend.events({
           "image": Session.get('photoTaken')
         }
         console.log(manualBook);
+
+        if(!ValidateInputs(manualBook))
+        {
+          IonLoading.hide();
+          return;
+        }
         
         if (manualBook.title && manualBook.authors && manualBook.customPrice) 
         {
@@ -152,6 +158,7 @@ Template.lend.events({
     Session.set('userPrice', e.target.value);
   },
   'click #cancelScan': function() {
+    ClearData();
     IonLoading.hide();
   },
   'click #manualSubmit': function(e, template) {
@@ -198,6 +205,58 @@ Template.lend.events({
     Session.set('viewFinder', false)
   }
 })
+
+function ValidateInputs(BookDetails)
+{
+  if(!BookDetails.title ||
+    BookDetails.title < 1)
+  {
+    showInvalidPopUp('Invalid Inputs', 'Please enter a valid Title.');
+    return false;
+  }
+
+  if(!BookDetails.authors ||
+    BookDetails.authors < 1)
+  {
+    showInvalidPopUp('Invalid Inputs', 'Please enter a valid Author Name.');
+    return false;
+  }
+
+  if(!BookDetails.customPrice ||
+    BookDetails.customPrice < 1)
+  {
+    showInvalidPopUp('Invalid Inputs', 'Please enter a valid Price.');
+    return false;
+  }
+
+  var xPrice = parseInt(BookDetails.customPrice, 10);
+  console.log('xPrice ' + xPrice);  
+  if(xPrice > 1000)
+  {
+    showInvalidPopUp('Invalid Inputs', 'Please enter a Price < 1000.');
+    return false;
+  }
+
+  return true;
+}
+
+function showInvalidPopUp(strTitle, strMessage)
+{
+  IonPopup.show({
+          title: strTitle,
+          template: '<div class="center">'+strMessage+'</div>',
+          buttons: 
+          [{
+            text: 'OK',
+            type: 'button-assertive',
+            onTap: function() 
+            {
+              IonPopup.close();
+            }
+          }]
+        });
+}
+
 
 function AddProductToInventoryManually()
 {
@@ -326,6 +385,15 @@ Template.lend.destroyed = function() {
   Session.set('photoTaken', null)
 }
 
+function ClearData()
+{
+  console.log('ClearData');
+  Session.set('scanResult', null);
+  Session.set('userPrice', null);
+  Session.set('barcodeEntry', null);
+  Session.set('manualEntry', null);
+  Session.set('photoTaken', null)
+}
 
 Template.lend.rendered = function() {
   Session.set('viewFinder', true);

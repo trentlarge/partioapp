@@ -131,17 +131,17 @@ Template.login.events({
 						Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.transactionsId": userTransId}});
 						IonLoading.hide();
 
-						IonPopup.show({
-							title: 'Great!',
-							template: '<div class="center">Logging in through your Facebook account...</div>',
-							buttons: [{
-								text: 'OK',
-								type: 'button-calm',
-								onTap: function() {
-									IonPopup.close();
-								}
-							}]
-						});
+						// IonPopup.show({
+						// 	title: 'Great!',
+						// 	template: '<div class="center">Logging in through your Facebook account...</div>',
+						// 	buttons: [{
+						// 		text: 'OK',
+						// 		type: 'button-calm',
+						// 		onTap: function() {
+						// 			IonPopup.close();
+						// 		}
+						// 	}]
+						// });
 
 					} else {
 						IonLoading.hide();

@@ -110,6 +110,7 @@ function showInvalidPopUp(strTitle, strMessage)
 function AddProductToInventoryManually()
 {
   Products.insert(Session.get('manualBook'));
+  Session.set('userPrice', null);
           IonLoading.hide();
           IonPopup.show({
             title: 'Your Product sucessfully submitted',
@@ -138,6 +139,7 @@ function AddProductToInventory()
   });
 
   Products.insert(insertData);
+  Session.set('userPrice', null);
         IonLoading.hide();
         IonPopup.show({
           title: 'Your Product sucessfully submitted',

@@ -74,24 +74,6 @@ Template.settingsProfileImage.helpers({
   }
 });
 
-function uploadImageConfirmation()
-{
-  IonPopup.confirm({
-          cancelText: 'No',
-          okText: 'Apply',
-          title: 'Profile Image',
-          template: '<div class="center"><p> Do you wish to apply this pic as your profile image? </p></div>',
-          onCancel: function() 
-          {
-            console.log('Cancelled')
-            return false;
-          },
-          onOk: function()
-          {
-            return true; 
-          }
-        });
-}
 
 Template.settingsProfileImage.events({
   'click .profile-avatar': function(event, template) {
@@ -121,10 +103,21 @@ Template.settingsProfileImage.events({
           {
             console.log('camera working!');
             // Session.set("imageAdded", "data:image/jpeg;base64," + imageData);
-            if(uploadImageConfirmation())
-            {
-              Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.avatar": "data:image/jpeg;base64," + imageData}});
-            }
+
+            IonPopup.confirm({
+              cancelText: 'No',
+              okText: 'Apply',
+              title: 'Profile Image',
+              template: '<div class="center"><p> Do you wish to apply this pic as your profile image? </p></div>',
+              onCancel: function() 
+              {
+                console.log('Cancelled')                
+              },
+              onOk: function()
+              {
+                Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.avatar": "data:image/jpeg;base64," + imageData}});                
+              }
+            });
             
             return false;
           }
@@ -154,10 +147,20 @@ Template.settingsProfileImage.events({
             console.log('photo library working!');
             // Session.set("imageAdded", "data:image/jpeg;base64," + imageData);
 
-            if(uploadImageConfirmation())
-            {
-              Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.avatar": "data:image/jpeg;base64," + imageData}});
-            }
+            IonPopup.confirm({
+              cancelText: 'No',
+              okText: 'Apply',
+              title: 'Profile Image',
+              template: '<div class="center"><p> Do you wish to apply this pic as your profile image? </p></div>',
+              onCancel: function() 
+              {
+                console.log('Cancelled')                
+              },
+              onOk: function()
+              {
+                Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.avatar": "data:image/jpeg;base64," + imageData}});                
+              }
+            });
             
             return false;
           }

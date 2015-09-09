@@ -17,15 +17,16 @@ Template.inventory.helpers({
 });
 
 Template.inventory.events({
-  'click #yesAccept': function() {
+  'click #respondToReq': function() 
+  {
     var requestor = this.requestor;
     var connectionId = this._id;
 
     IonPopup.confirm({
       okText: 'Yes, Share!',
-      cancelText: 'Cancel',
-      title: 'Are you sure?',
-      template: '<div class="center">The requestor will be able to contact you for taking the book. The payment will be initiated once the book is handed over</div>',
+      cancelText: 'Decline',
+      title: 'Respond To Request',
+      template: '<div class="center">Do you want to share the item with the user?</div>',
       onOk: function() {
         IonPopup.close();
         console.log("proceeding with connection");
@@ -40,7 +41,9 @@ Template.inventory.events({
               [{
                 text: 'OK',
                 type: 'button-assertive',
-                onTap: function() {
+                onTap: function() 
+                {
+                  Router.go('/inventory/connect/'+connectionId);
                   IonPopup.close();
                 }
               }]
@@ -48,12 +51,19 @@ Template.inventory.events({
           }
         });
       },
-      onCancel: function() {
-        console.log('Cancelled');
+      onCancel: function() 
+      {
+        Connections.remove({"connectionId": this._id});
+        console.log('Request Declined!');
       }
     });
+  },
 
+  'click .respondToReq': function() {
+    console.log('respondToReq');
+    console.log(this);
   }
+
 })
 
 Template.inventoryDetail.events({

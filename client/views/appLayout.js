@@ -82,7 +82,7 @@ Template.appLayout.rendered = function() {
 
 	self.autorun(function() {
 		var query1 = Connections.find({"bookData.ownerId": Meteor.userId(),
-										"state": {$ne : "DONE"}});
+										"state": "WAITING"});
 		var query2 = Connections.find({"requestor": Meteor.userId(), "state": "PAYMENT"});
 
 		query1.observeChanges({
