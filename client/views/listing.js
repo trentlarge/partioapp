@@ -44,7 +44,16 @@ Template.searchResult.rendered = function() {
 Template.searchBox.events({
   "keyup #search-box": _.throttle(function(e) {
     var text = $(e.target).val().trim();
-    PackageSearch.search(text);
+    console.log('Search Query: ' + text);
+    if(text.length > 1)
+    {
+      PackageSearch.search(text);
+    }
+    else
+    {
+      IonLoading.hide();
+    }
+    
   }, 200)
 });
 
@@ -72,15 +81,18 @@ Template.search.helpers({
     return Session.get('currentQty');
   },
   avgRating: function(userId) {
-    if (Meteor.users.findOne(userId).profile.rating) {
+    var ratingObj = Meteor.users.findOne(userId).profile.rating;
+
+    if (ratingObj && ratingObj.length > 1) {
       var ratingArray = Meteor.users.findOne(userId).profile.rating;
       var totalCount = ratingArray.length;
+
       var sum = _.reduce(ratingArray, function(memo, num) {
         return (Number(memo) + Number(num))/totalCount; 
       });
       return parseFloat(sum).toFixed(1);
     } else {
-      return null;
+      return '1.0';
     }
   },
   ratingExists: function(userId){

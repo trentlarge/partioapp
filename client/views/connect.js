@@ -39,7 +39,9 @@ Template.connect.events({
 				console.log('Cancelled')
 			},
 			onOk: function() {
-				Connections.update({_id: connectionId}, {$set: {"state": "DONE"}});
+				// Connections.update({_id: connectionId}, {$set: {"state": "DONE"}});
+				Connections.remove({_id: connectionId});
+
 				// Search.update({"ean": ean}, {$inc: {qty: 1}});
 				Meteor.call('returnBook', ean, function(error, result) {
 					console.log(error, result);

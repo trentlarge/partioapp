@@ -74,6 +74,25 @@ Template.settingsProfileImage.helpers({
   }
 });
 
+function uploadImageConfirmation()
+{
+  IonPopup.confirm({
+          cancelText: 'No',
+          okText: 'Apply',
+          title: 'Profile Image',
+          template: '<div class="center"><p> Do you wish to apply this pic as your profile image? </p></div>',
+          onCancel: function() 
+          {
+            console.log('Cancelled')
+            return false;
+          },
+          onOk: function()
+          {
+            return true; 
+          }
+        });
+}
+
 Template.settingsProfileImage.events({
   'click .profile-avatar': function(event, template) {
     IonActionSheet.show({
@@ -85,9 +104,12 @@ Template.settingsProfileImage.events({
       cancel: function() {
         console.log('Cancelled!');
       },
-      buttonClicked: function(index) {
-        if (index === 0) {
-          navigator.camera.getPicture(onSuccess1, onFail1, {
+      buttonClicked: function(index) 
+      {
+        if (index === 0) 
+        {
+          navigator.camera.getPicture(onSuccess1, onFail1, 
+          {
             targetWidth: 200,
             targetHeight: 200,
             quality: 50,
@@ -95,15 +117,20 @@ Template.settingsProfileImage.events({
             sourceType: Camera.PictureSourceType.CAMERA
           });
 
-          function onSuccess1(imageData) {
+          function onSuccess1(imageData) 
+          {
             console.log('camera working!');
             // Session.set("imageAdded", "data:image/jpeg;base64," + imageData);
+            if(uploadImageConfirmation())
+            {
+              Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.avatar": "data:image/jpeg;base64," + imageData}});
+            }
             
-            Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.avatar": "data:image/jpeg;base64," + imageData}});
             return false;
           }
 
-          function onFail1(message) {
+          function onFail1(message) 
+          {
             IonPopup.alert({
               title: 'Camera Operation',
               template: message,
@@ -111,8 +138,10 @@ Template.settingsProfileImage.events({
             });
           }
         }
-        if (index === 1) {
-          navigator.camera.getPicture(onSuccess2, onFail2, {
+        if (index === 1) 
+        {
+          navigator.camera.getPicture(onSuccess2, onFail2, 
+          {
             targetWidth: 200,
             targetHeight: 200,
             quality: 50,
@@ -120,15 +149,23 @@ Template.settingsProfileImage.events({
             sourceType: Camera.PictureSourceType.PHOTOLIBRARY
           });
 
-          function onSuccess2(imageData) {
+          function onSuccess2(imageData) 
+          {
             console.log('photo library working!');
             // Session.set("imageAdded", "data:image/jpeg;base64," + imageData);
-            Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.avatar": "data:image/jpeg;base64," + imageData}});
+
+            if(uploadImageConfirmation())
+            {
+              Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.avatar": "data:image/jpeg;base64," + imageData}});
+            }
+            
             return false;
           }
 
-          function onFail2(message) {
-            IonPopup.alert({
+          function onFail2(message) 
+          {
+            IonPopup.alert(
+            {
               title: 'Camera Operation',
               template: message,
               okText: 'Got It.'

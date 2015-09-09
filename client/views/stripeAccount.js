@@ -1,6 +1,6 @@
 Template.bankAccount.events({
 	'click #stripe-create': function(e, template) {
-		IonLoading.show();
+		
 		console.log('creating a new stripe account');
 		
 		var firstname = template.find('#stripe-firstname').value;
@@ -11,16 +11,155 @@ Template.bankAccount.events({
 		// var bankaccount = template.find('#stripe-bankaccount').value;
 		var bankaccount = "000123456789";
 
-		console.log(firstname, lastname, ssn, routingnumber, bankaccount);
-		Meteor.call('createStripeAccount', firstname, lastname, ssn, routingnumber, bankaccount, Meteor.userId(), function(error, result) {
-			if (!error) {
-				IonLoading.hide();
-			} else {
-				console.log(error);
-			}
-		})
+		if(ValidateInputs(firstname, lastname, ssn, routingnumber, bankaccount))
+		{
+			IonLoading.show();
+			console.log(firstname, lastname, ssn, routingnumber, bankaccount);
+			Meteor.call('createStripeAccount', firstname, lastname, ssn, routingnumber, bankaccount, Meteor.userId(), function(error, result) {
+				if (!error) 
+				{
+					console.log('On successfully completing the transaction, add the book to the inventory');
+					
+					if(Session.get('BookAddType') == 'MANUAL')
+					{
+						AddProductToInventoryManually();
+					}
+					else
+					{
+						if(Session.get('scanResult') != null)
+						{
+							AddProductToInventory();								
+						}
+					}
+									
+					IonLoading.hide();
+				} 
+				else 
+				{
+					console.log(error);
+				}
+			})
+		}		
 	}
 });
+
+function ValidateInputs(strfirstname, strlastname, strssn, strroutingnumber, strbankaccount)
+{
+	if(!strfirstname ||
+		strfirstname.length < 1)
+	{
+		showInvalidPopUp('Invalid Inputs', 'Please enter a valid First Name.');
+		return false;
+	}
+
+	if(!strlastname ||
+		strlastname.length < 1)
+	{
+		showInvalidPopUp('Invalid Inputs', 'Please enter a valid Last Name.');
+		return false;
+	}
+
+	if(!strssn ||
+		strssn.length < 1)
+	{
+		showInvalidPopUp('Invalid Inputs', 'Please enter a valid SSN.');
+		return false;
+	}
+
+	if(strssn &&
+		(strssn.length < 4 || strssn.length > 4))
+	{
+		showInvalidPopUp('Invalid Inputs', 'Please enter last 4 digits of your SSN.');
+		return false;
+	}
+
+	// if(!strfirstname ||
+	// 	strfirstname.length < 1)
+	// {
+	// 	showInvalidPopUp('Invalid Inputs', 'Please enter a valid First Name.');
+	// 	return false;
+	// }
+
+	// if(!strfirstname ||
+	// 	strfirstname.length < 1)
+	// {
+	// 	showInvalidPopUp('Invalid Inputs', 'Please enter a valid First Name.');
+	// 	return false;
+	// }
+
+	return true;
+}
+
+function showInvalidPopUp(strTitle, strMessage)
+{
+	IonPopup.show({
+          title: strTitle,
+          template: '<div class="center">'+strMessage+'</div>',
+          buttons: 
+          [{
+            text: 'OK',
+            type: 'button-assertive',
+            onTap: function() 
+            {
+            	IonPopup.close();
+            }
+          }]
+        });
+}
+
+function AddProductToInventoryManually()
+{
+  Products.insert(Session.get('manualBook'));
+          IonLoading.hide();
+          IonPopup.show({
+            title: 'Your Product sucessfully submitted',
+            template: '<div class="center">You can find this shared item in your Repository</div>',
+            buttons: 
+            [{
+              text: 'OK',
+              type: 'button-assertive',
+              onTap: function() {
+                IonPopup.close();
+                Router.go('/inventory');
+                IonModal.close();
+              }
+            }]
+          });
+}
+
+function AddProductToInventory()
+{
+  var submitProduct = Session.get('scanResult');
+  var insertData = _.extend(submitProduct, 
+  {
+          // "lendingPeriod": lendingPeriod,
+          "ownerId": Meteor.userId(),
+          "customPrice": Session.get('userPrice')
+  });
+
+  Products.insert(insertData);
+        IonLoading.hide();
+        IonPopup.show({
+          title: 'Your Product sucessfully submitted',
+          template: '<div class="center">And saved to your Inventory</div>',
+          buttons: 
+          [{
+            text: 'OK',
+            type: 'button-assertive',
+            onTap: function() {
+            Session.set('scanResult', null);
+              IonPopup.close();
+              Router.go('/inventory');
+              IonModal.close();
+
+              // Meteor.setTimeout(function() {
+              //   //CheckStripeAccount();
+              // }, 1500)
+
+            }
+          }]
+        });
+}
 
 Template.bankAccount.helpers({
 	noStripeYet: function() {

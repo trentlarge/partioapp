@@ -75,8 +75,10 @@ Template.lend.events({
 Template.lend.events({
   'click .submitProduct': function(e, template) {
     IonLoading.show();
-    Meteor.setTimeout(function() {
-      if (Session.get('manualEntry')) {
+    Meteor.setTimeout(function() 
+    {
+      if (Session.get('manualEntry')) 
+      {
         var manualBook = {
           "title": template.find('#manualtitle').value,
           "authors": template.find('#manualauthor').value,
@@ -88,24 +90,18 @@ Template.lend.events({
           "image": Session.get('photoTaken')
         }
         console.log(manualBook);
-        if (manualBook.title && manualBook.authors && manualBook.customPrice) {
-          Products.insert(manualBook);
-        IonLoading.hide();
-        IonPopup.show({
-          title: 'Your Product sucessfully submitted',
-          template: '<div class="center">You can find this shared item in your Repository</div>',
-          buttons: 
-          [{
-            text: 'OK',
-            type: 'button-assertive',
-            onTap: function() {
-              IonPopup.close();
-              Router.go('/inventory');
-              IonModal.close();
-            }
-          }]
-        });
-      } else {
+        
+        if (manualBook.title && manualBook.authors && manualBook.customPrice) 
+        {
+          Session.set('manualBook', manualBook);
+          Session.set('BookAddType', 'MANUAL');
+
+          if(CheckStripeAccount())
+          {
+            AddProductToInventoryManually();
+          }
+        } 
+        else {
         IonLoading.hide();
         IonPopup.show({
           title: 'Missing data!',
@@ -122,52 +118,18 @@ Template.lend.events({
       }
 
       } else {
-        if (Session.get('scanResult')) {
-        var submitProduct = Session.get('scanResult');
+        if (Session.get('scanResult')) 
+        {
         // var lendingPeriod = (function() {
         //   return (template.find('#lendingPeriod').value) ? template.find('#lendingPeriod').value : 2; 
         // }) ();
 
-        var insertData = _.extend(submitProduct, {
-          // "lendingPeriod": lendingPeriod,
-          "ownerId": Meteor.userId(),
-          "customPrice": Session.get('userPrice')
-        })
-        Products.insert(insertData);
-        IonLoading.hide();
-        IonPopup.show({
-          title: 'Your Product sucessfully submitted',
-          template: '<div class="center">And saved to your Inventory</div>',
-          buttons: 
-          [{
-            text: 'OK',
-            type: 'button-assertive',
-            onTap: function() {
-              IonPopup.close();
-              Router.go('/inventory');
-              IonModal.close();
-
-              Meteor.setTimeout(function() {
-                if (! Meteor.user().profile.stripeAccount) {
-                  IonPopup.show({
-                    title: 'ATTENTION!',
-                    template: '<div class="center">A bank account should be linked to receive payments for your shared goods!</div>',
-                    buttons: 
-                    [{
-                      text: 'Setup Bank Account',
-                      type: 'button-balanced',
-                      onTap: function() {
-                        IonPopup.close();
-                        Router.go('/profile/bankAccount');
-                      }
-                    }]
-                  });
-                }
-              }, 1500)
-
-            }
-          }]
-        });
+        if(CheckStripeAccount())
+        {
+          Session.set('BookAddType', 'SCAN');
+          AddProductToInventory();
+        }
+        
       } else {
         IonLoading.hide();
         IonPopup.show({
@@ -237,6 +199,90 @@ Template.lend.events({
   }
 })
 
+function AddProductToInventoryManually()
+{
+  Products.insert(Session.get('manualBook'));
+  Session.set('userPrice', null);
+          IonLoading.hide();
+          IonPopup.show({
+            title: 'Your Product sucessfully submitted',
+            template: '<div class="center">You can find this shared item in your Repository</div>',
+            buttons: 
+            [{
+              text: 'OK',
+              type: 'button-assertive',
+              onTap: function() {
+                IonPopup.close();
+                Router.go('/inventory');
+                IonModal.close();
+              }
+            }]
+          });
+}
+
+function AddProductToInventory()
+{
+  var submitProduct = Session.get('scanResult');
+  var insertData = _.extend(submitProduct, 
+  {
+          // "lendingPeriod": lendingPeriod,
+          "ownerId": Meteor.userId(),
+          "customPrice": Session.get('userPrice')
+  });
+
+  Products.insert(insertData);
+  Session.set('userPrice', null);
+        IonLoading.hide();
+        IonPopup.show({
+          title: 'Your Product sucessfully submitted',
+          template: '<div class="center">And saved to your Inventory</div>',
+          buttons: 
+          [{
+            text: 'OK',
+            type: 'button-assertive',
+            onTap: function() {
+              Session.set('scanResult', null);
+              IonPopup.close();
+              Router.go('/inventory');
+              IonModal.close();
+
+              // Meteor.setTimeout(function() {
+              //   //CheckStripeAccount();
+              // }, 1500)
+
+            }
+          }]
+        });
+}
+
+function CheckStripeAccount () {
+  if (! Meteor.user().profile.stripeAccount) 
+  {
+    IonLoading.hide();
+    IonPopup.show({
+      title: 'ATTENTION!',
+      template: '<div class="center">A bank account should be linked to receive payments for your shared goods!</div>',
+      buttons: 
+      [{
+        text: 'Setup Bank Account',
+        type: 'button-balanced',
+        onTap: function() 
+        {
+          IonPopup.close();
+          Router.go('/profile/bankAccount');
+          IonModal.close();
+        }
+      }]
+    });
+
+    return false;
+  }
+  else
+  {
+    return true;
+  }
+}
+
 Template.lend.helpers({
   barcodeEntry: function() {
     return Session.get('barcodeEntry');
@@ -265,6 +311,7 @@ Template.lend.helpers({
     return Session.get('userPrice') ? "": "disabled";
   },
   userPrice: function() {
+    console.log('price rendered: ' + Session.get('userPrice'));
     return Session.get('userPrice');
   },
   bookResult: function() {
@@ -273,7 +320,7 @@ Template.lend.helpers({
 });
 
 Template.lend.destroyed = function() {
-  Session.set('scanResult', null);
+  // Session.set('scanResult', null);
   Session.set('barcodeEntry', null);
   Session.set('manualEntry', null);
   Session.set('photoTaken', null)
