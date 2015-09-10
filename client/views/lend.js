@@ -16,7 +16,8 @@ Template.lend.events({
             Meteor.call('priceFromAmazon', barcode, function(error, result) {
               console.log(result);
               var resultFromAmazon = {};
-              if (!error) {
+              if (!error) 
+              {
                 Session.set('scanResult', result);
                 IonLoading.hide();
               } else {
@@ -71,6 +72,82 @@ Template.lend.events({
 }
 })
 
+var RentingTimeSpan; //ONE_DAY, ONE_WEEK, ONE_MONTH, FOUR_MONTHS
+var RentingOneDayPercentage;
+var RentingOneWeekPercentage;
+var RentingOneMonthPercentage;
+var RentingFourMonthsPercentage;
+var RentingPartioSharePercentage;
+var RentingStripeFeePercent;
+var RentingStripeAdditionalFee;
+var RentingAmazonPrice;
+var RentingAmazonRentalPrice;
+var RentingFinalPrice;
+
+function CalculateRentingCharges()
+{
+  if(RentingTimeSpan == 'ONE_DAY')
+  {
+    RentingFinalPrice = parseFloat((RentingOneDayPercentage/100) * RentingAmazonPrice);
+  }
+  else if(RentingTimeSpan == 'ONE_WEEK')
+  {
+    RentingFinalPrice = parseFloat((RentingOneWeekPercentage/100) * RentingAmazonPrice);
+    RentingFinalPrice = parseFloat(RentingFinalPrice * 7);
+  }
+  else if(RentingTimeSpan == 'ONE_MONTH')
+  {
+    RentingFinalPrice = parseFloat((RentingOneMonthPercentage/100) * RentingAmazonPrice);
+    RentingFinalPrice = parseFloat(RentingFinalPrice * 30);    
+  }
+  else if(RentingTimeSpan == 'FOUR_MONTHS')
+  {
+    RentingFinalPrice = parseFloat((RentingFourMonthsPercentage/100) * RentingAmazonPrice);    
+    RentingFinalPrice = parseFloat(RentingFinalPrice * 30 * 4);    
+  }
+
+  console.log('RentingTimeSpan: ' + RentingTimeSpan);
+  console.log('RentingAmazonPrice: ' + RentingAmazonPrice);
+  console.log('RentingAmazonRentalPrice: ' + RentingAmazonRentalPrice);
+
+  RentingFinalPrice += parseFloat((RentingStripeFeePercent/100) * RentingFinalPrice);
+  RentingFinalPrice += parseFloat(RentingStripeAdditionalFee);
+
+  RentingFinalPrice += parseFloat((RentingPartioSharePercentage/100) * RentingFinalPrice);
+
+  if(RentingFinalPrice > RentingAmazonRentalPrice)
+  {
+    RentingFinalPrice =  parseFloat(RentingAmazonRentalPrice - (RentingAmazonRentalPrice * 0.1));
+  }
+
+  RentingFinalPrice = Number((RentingFinalPrice).toFixed(1));
+  console.log('RentingFinalPrice: ' + RentingFinalPrice);
+
+  return RentingFinalPrice;
+  
+}
+
+function GetRentingPercentages(strRentingTimeSpan)
+{
+  //default
+  RentingAmazonPrice = parseFloat(Session.get('userPrice'));
+  RentingTimeSpan = strRentingTimeSpan;
+  RentingOneDayPercentage = 2;
+  RentingOneWeekPercentage = 1;
+  RentingOneMonthPercentage = 0.5;
+  RentingFourMonthsPercentage = 0.25;
+
+  RentingPartioSharePercentage = 10;
+
+  RentingStripeFeePercent = 2.9;
+  RentingStripeAdditionalFee = 0.3;
+
+  //test value
+  RentingAmazonRentalPrice = 100.0;
+
+  CalculateRentingCharges();
+}
+
 
 Template.lend.events({
   'click .submitProduct': function(e, template) {
@@ -86,7 +163,7 @@ Template.lend.events({
           "comments": template.find('#manualcomments').value,
           "manualEntry": true,
           "ownerId": Meteor.userId(),
-          "customPrice": Session.get('userPrice'),
+          "customPrice": GetRentingPercentages('ONE_WEEK'),
           "image": Session.get('photoTaken')
         }
         console.log(manualBook);
@@ -96,6 +173,9 @@ Template.lend.events({
           IonLoading.hide();
           return;
         }
+
+        //TEST
+        //GetRentingPercentages('ONE_WEEK');
         
         if (manualBook.title && manualBook.authors && manualBook.customPrice) 
         {
@@ -129,6 +209,9 @@ Template.lend.events({
         // var lendingPeriod = (function() {
         //   return (template.find('#lendingPeriod').value) ? template.find('#lendingPeriod').value : 2; 
         // }) ();
+        
+        //TEST
+        GetRentingPercentages('ONE_WEEK');
 
         if(CheckStripeAccount())
         {
@@ -172,7 +255,8 @@ Template.lend.events({
     Meteor.call('priceFromAmazon', manualCode, codeFormat, function(error, result) {
       console.log(result);
       var resultFromAmazon = {};
-      if (!error) {
+      if (!error) 
+      {
         Session.set('scanResult', result);
         IonLoading.hide();
       } else {

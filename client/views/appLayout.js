@@ -100,34 +100,11 @@ Template.appLayout.rendered = function() {
 					console.log('currentOne: ' + currentOne);
 					console.log('connectionId: ' + id);
 
-					IonPopup.show({
-						title: 'Alert',
-						template: '<div class="center">You got a new book request</div>',
-						buttons: 
-						[{
-							text: 'OK',
-							type: 'button-positive',
-							onTap: function() {
-								IonPopup.close();
-								Meteor.setTimeout(function(){
-									//Alerts.update({connectionId: id}, {$set: {unread: false}})
-									var currentPage = Iron.Location.get().path;
+					//TEST
+					//RandomPopup()
+					//TEST
 
-									if(currentPage.indexOf("inventory")>=0)
-									{
-									    //do something you want
-									}
-									else
-									{
-										Router.go('inventory');
-									}
-									
-									
-								},1000)
-							}
-						}]	
-					});
-
+					ShowRequestPopUp();
 				}
 
 			}
@@ -137,46 +114,120 @@ Template.appLayout.rendered = function() {
 			added: function(id, fields) {
 				console.log(fields);
 
-				if (!Alerts.findOne({connectionId: id, unread: true})) {
+				if (!Alerts.findOne({connectionId: id, unread: true})) 
+				{
 					var currentOne = Alerts.insert({
 						connectionId: id,
 						type: "approval",
 						unread: false
 					})
 					
-					IonPopup.show({
-						title: 'Alert',
-						template: '<div class="center">Your request is approved</div>',
-						buttons: 
-						[{
-							text: 'OK',
-							type: 'button-positive',
-							onTap: function() {
-								IonPopup.close();
-								Meteor.setTimeout(function(){
-									// Alerts.update({_id: currentOne}, {$set: {unread: false}})
-									//Router.go('renting');
-
-									var currentPage = Iron.Location.get().path;
-
-									if(currentPage.indexOf("renting")>=0)
-									{
-									    //do something you want
-									}
-									else
-									{
-										Router.go('renting');
-									}
-
-								},1000)
-							}
-						}]
-					});
+					ShowApprovalPopUp()
 
 				}
 			}
 		})
 
+	});
+}
+
+var IsPopUpOpen;
+function ShowRequestPopUp()
+{
+	if(IsPopUpOpen)
+	{
+		//PopUp is open already, no need for a new one.
+		return;
+	}
+
+	IsPopUpOpen = true;
+	IonPopup.show({
+		title: 'Alert',
+		template: '<div class="center">You got a new book request</div>',
+		buttons: 
+		[{
+			text: 'OK',
+			type: 'button-positive',
+			onTap: function() {
+				IonPopup.close();
+				IsPopUpOpen = false;
+				Meteor.setTimeout(function(){
+					//Alerts.update({connectionId: id}, {$set: {unread: false}})
+					var currentPage = Iron.Location.get().path;
+
+					if(currentPage.indexOf("inventory")>=0)
+					{
+					    //do something you want
+					}
+					else
+					{
+						Router.go('inventory');
+					}
+					
+					
+				},1000)
+			}
+		}]	
+	});
+}
+
+function RandomPopup()
+{
+	IsPopUpOpen = true;
+
+	IonPopup.show({
+		title: 'Alert',
+		template: '<div class="center">Random Kingdom</div>',
+		buttons: 
+		[{
+			text: 'OK',
+			type: 'button-positive',
+			onTap: function() {
+				IsPopUpOpen = false;
+
+				IonPopup.close();				
+			}
+		}]
+	});
+}
+
+function ShowApprovalPopUp()
+{
+	if(IsPopUpOpen)
+	{
+		//PopUp is open already, no need for a new one.
+		return;
+	}
+
+	IsPopUpOpen = true;
+
+	IonPopup.show({
+		title: 'Alert',
+		template: '<div class="center">Your request is approved</div>',
+		buttons: 
+		[{
+			text: 'OK',
+			type: 'button-positive',
+			onTap: function() {
+				IonPopup.close();
+				Meteor.setTimeout(function(){
+					// Alerts.update({_id: currentOne}, {$set: {unread: false}})
+					//Router.go('renting');
+
+					var currentPage = Iron.Location.get().path;
+
+					if(currentPage.indexOf("renting")>=0)
+					{
+					    //do something you want
+					}
+					else
+					{
+						Router.go('renting');
+					}
+
+				},1000)
+			}
+		}]
 	});
 }
 
