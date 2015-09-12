@@ -34,6 +34,7 @@ Template.searchResult.helpers({
 Template.searchResult.events({
   'click .qty-check': function() {
     Session.set('currentQty', Search.findOne(this._id).qty);
+    console.log('CHECK currentQty: ' + Session.get('currentQty'));
   }
 })
 
@@ -78,7 +79,18 @@ Template.search.helpers({
     return Connections.findOne({"requestor": Meteor.userId(), "bookData.ownerId": this.ownerId, "bookData._id": this._id}) ? true: false;
   },
   qtynotZero: function() {
-    return Session.get('currentQty');
+
+    console.log('ID: ' + this._id);
+    console.log('qtynotZero: ' + Session.get('currentQty'));
+    if(parseFloat(Session.get('currentQty')) < 1)
+    {
+      return false;
+    }
+    else
+    {
+      return true;
+    }
+    // return Session.get('currentQty');
   },
   avgRating: function(userId) {
     var ratingObj = Meteor.users.findOne(userId).profile.rating;

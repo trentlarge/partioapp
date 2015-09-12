@@ -123,7 +123,6 @@ function CalculateRentingCharges()
   RentingFinalPrice = Number((RentingFinalPrice).toFixed(1));
   console.log('RentingFinalPrice: ' + RentingFinalPrice);
 
-  return RentingFinalPrice;
   
 }
 
@@ -148,6 +147,11 @@ function GetRentingPercentages(strRentingTimeSpan)
   CalculateRentingCharges();
 }
 
+function ClearRentingValue()
+{
+  RentingFinalPrice = 0.0; 
+}
+
 
 Template.lend.events({
   'click .submitProduct': function(e, template) {
@@ -163,7 +167,7 @@ Template.lend.events({
           "comments": template.find('#manualcomments').value,
           "manualEntry": true,
           "ownerId": Meteor.userId(),
-          "customPrice": GetRentingPercentages('ONE_WEEK'),
+          "customPrice": Session.get('userPrice'),
           "image": Session.get('photoTaken')
         }
         console.log(manualBook);
@@ -211,7 +215,7 @@ Template.lend.events({
         // }) ();
         
         //TEST
-        GetRentingPercentages('ONE_WEEK');
+        //GetRentingPercentages('ONE_WEEK');
 
         if(CheckStripeAccount())
         {
@@ -219,7 +223,9 @@ Template.lend.events({
           AddProductToInventory();
         }
         
-      } else {
+      } 
+      else 
+      {
         IonLoading.hide();
         IonPopup.show({
           title: 'Nothing to add!',
@@ -375,6 +381,7 @@ function AddProductToInventory()
 
   Products.insert(insertData);
   Session.set('userPrice', null);
+  RentingFinalPrice = 0.0;
         IonLoading.hide();
         IonPopup.show({
           title: 'Your Product sucessfully submitted',
@@ -440,13 +447,28 @@ Template.lend.helpers({
     return Session.get('scanResult');
   },
   calculatedPrice: function() {
-    if (Session.get('scanResult')) {
+    if (Session.get('scanResult') &&
+        Session.get('BookAddType') != 'MANUAL') {
       if (Session.get('scanResult').price === "--") {
         return false;
-      } else {
-        var priceValue = (Session.get('scanResult').price).split("$")[1];
-        Session.set('userPrice', (Number(priceValue)/5).toFixed(2));
-        return (Number(priceValue)/5).toFixed(2);
+      } 
+      else 
+      {
+        if(RentingFinalPrice == null ||
+          RentingFinalPrice == 0)
+        {
+          var priceValue = (Session.get('scanResult').price).split("$")[1];
+          Session.set('userPrice', (Number(priceValue)/5).toFixed(2));
+
+          GetRentingPercentages('ONE_WEEK');
+          Session.set('userPrice', RentingFinalPrice);
+          console.log('session price');
+          
+          // return (Number(priceValue)/5).toFixed(2);        
+          return RentingFinalPrice;
+        }
+
+        return RentingFinalPrice;
       }
     }
   },

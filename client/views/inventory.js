@@ -21,6 +21,8 @@ Template.inventory.events({
   {
     var requestor = this.requestor;
     var connectionId = this._id;
+    var bookId = this.bookData._id;
+    var searchCollectionId = Search.findOne({productUniqueId: bookId})._id;
 
     IonPopup.confirm({
       okText: 'Yes, Share!',
@@ -32,8 +34,20 @@ Template.inventory.events({
         console.log("proceeding with connection");
         IonLoading.show();
         Meteor.call('ownerAccept', connectionId, requestor, function(error, result) {
-          if (!error) {
+          if (!error) 
+          {
+            // var connectionObj = Connections.findOne({_id: connectionId});            
+            // var jsonConnect = JSON.stringify(connectionObj);
+            // console.log('book ID: ' + jsonConnect);
+
+            // var seachResult = Search.findOne({productUniqueId: });
+            // console.log('seachResult: ' + JSON.stringify(seachResult));
+
+            //Once the book request is approved, decrease the count based on Book ID
+            var result = Search.update({_id: searchCollectionId}, {$inc: {qty: -1}})
+            console.log('Update result: ' + result);
             IonLoading.hide();
+
             IonPopup.show({
               title: 'Great!',
               template: '<div class="center">Make sure you setup a meeting location and pass on the item to <strong>'+ Meteor.users.findOne(requestor).profile.name+'</strong> once you receive the payment. </div>',
@@ -65,11 +79,36 @@ Template.inventoryDetail.events({
   'click #editSave': function(e, template) {
     console.log("saving");
 
+    var xPrice = parseInt(template.find('#editPrice').value, 10);
+    console.log('Edit xPrice ' + xPrice);  
+    if(xPrice > 1000)
+    {
+      showInvalidPopUp('Invalid Inputs', 'Please enter a Price < 1000.');
+      return false;
+    }
+
     var edited = template.find('#editPrice').value;
     Products.update({_id: this._id}, {$set: {customPrice: edited}});
     Session.set('editMode', false);
   }
 });
+
+function showInvalidPopUp(strTitle, strMessage)
+{
+  IonPopup.show({
+          title: strTitle,
+          template: '<div class="center">'+strMessage+'</div>',
+          buttons: 
+          [{
+            text: 'OK',
+            type: 'button-assertive',
+            onTap: function() 
+            {
+              IonPopup.close();
+            }
+          }]
+        });
+}
 
 Template.inventoryDetail.helpers({
   editMode: function() {
