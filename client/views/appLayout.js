@@ -42,9 +42,7 @@ Meteor.startup(function() {
     });
 
     Alerts = new Meteor.Collection(null);
-
 });
-
 
 
 
