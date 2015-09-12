@@ -4,6 +4,7 @@
   Meteor.users.remove({});
   Connections.remove({});
   Notifications.remove({});
+  Transactions.remove({});
   // SERVER FRESH START SEQUENCE
 
 // ServiceConfiguration.loginServiceConfiguration.remove({
@@ -91,7 +92,7 @@ Meteor.methods({
     // Meteor._sleepForMs(1000);
     return Connections.insert(connection);
   },
-  'ownerAccept': function(connectionId, requestor) {
+  'ownerAccept': function(connectionId, requestor, productId) {
     console.log(connectionId)
 
     Push.send({
@@ -105,7 +106,8 @@ Meteor.methods({
       }
     });
     Meteor._sleepForMs(1000);
-    console.log("changing status from Waiting to Payment")
+    console.log("changing status from Waiting to Payment");
+    Connections.remove({"bookData._id": productId, "requestor": {$ne: requestor}});
     return Connections.update({_id: connectionId}, {$set: {state: "PAYMENT"}});
   },
   'payNow': function(payer) {
