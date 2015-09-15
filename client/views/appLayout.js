@@ -41,7 +41,7 @@ Meteor.startup(function() {
     	libraries: 'places'
     });
 
-    Alerts = new Meteor.Collection(null);
+    //Alerts = new Meteor.Collection(null);
 
 });
 
@@ -83,8 +83,13 @@ Template.appLayout.rendered = function() {
 	self.autorun(function() {
 		var query1 = Connections.find({"bookData.ownerId": Meteor.userId(),
 										"state": "WAITING"});
-		var query2 = Connections.find({"requestor": Meteor.userId(), "state": "PAYMENT"});
 
+		var query2 = Connections.find({"requestor": Meteor.userId(), "state": "PAYMENT"});
+		
+		var query3 = Connections.find({"bookData.ownerId": Meteor.userId(),
+										"state": "IN USE"});
+
+		
 		query1.observeChanges({
 			added: function(id, fields) {
 				console.log(fields);
@@ -94,7 +99,7 @@ Template.appLayout.rendered = function() {
 					var currentOne = Alerts.insert({
 						connectionId: id,
 						type: "request",
-						unread: false
+						unread: true
 					})
 					
 					console.log('currentOne: ' + currentOne);
@@ -111,24 +116,60 @@ Template.appLayout.rendered = function() {
 		});
 
 		query2.observeChanges({
-			added: function(id, fields) {
-				console.log(fields);
-
-				if (!Alerts.findOne({connectionId: id, unread: true})) 
-				{
-					var currentOne = Alerts.insert({
-						connectionId: id,
-						type: "approval",
-						unread: false
-					})
+				added: function(id, fields) {
 					
-					ShowApprovalPopUp()
+					console.log('query2:' + JSON.stringify(id));
+					
+					var alertObj = Alerts.findOne({connectionId: id, unread: true});
+					console.log('query2 alertObj:' + alertObj);
+
+					if (alertObj) 
+					{
+						var currentOne = Alerts.update({
+							_id: alertObj._id},
+							{type: "approval",
+							unread: false}
+						)
+						
+						ShowApprovalPopUp();
+
+					}
+					
+				}
+			})
+
+			query3.observeChanges({
+
+				added: function (id, currentValue) {
+
+					console.log('query3:' + JSON.stringify(id));
+					
+					var alertObj = Alerts.findOne({connectionId: id});
+					console.log('query3 alertObj:' + alertObj);
+
+					
+					if (alertObj.unread) 
+					{
+						var currentOne = Alerts.update({
+							_id: alertObj._id},
+							{type: "payment",
+							unread: false}
+						)
+						
+						console.log('currentOne: ' + currentOne);
+						console.log('connectionId: ' + id);
+
+						//TEST
+						//RandomPopup()
+						//TEST
+
+						ShowPaymentPopUp();
+					}					
 
 				}
-			}
-		})
+			});
 
-	});
+		});
 }
 
 var IsPopUpOpen;
@@ -224,6 +265,33 @@ function ShowApprovalPopUp()
 					{
 						Router.go('renting');
 					}
+
+				},1000)
+			}
+		}]
+	});
+}
+
+function ShowPaymentPopUp()
+{
+	if(IsPopUpOpen)
+	{
+		//PopUp is open already, no need for a new one.
+		return;
+	}
+
+	IsPopUpOpen = true;
+
+	IonPopup.show({
+		title: 'Alert',
+		template: '<div class="center">You have received a payment</div>',
+		buttons: 
+		[{
+			text: 'OK',
+			type: 'button-positive',
+			onTap: function() {
+				IonPopup.close();
+				Meteor.setTimeout(function(){
 
 				},1000)
 			}

@@ -120,34 +120,46 @@ Template.login.events({
 						}
 					}]
 				});
-			} else {
-				Meteor.call('createCustomer', Meteor.userId(), function(error, result) {
-					if (!error) {
-						console.log("Stripe Customer creation in progress!");
-						var userTransId = Transactions.insert({
-							earning: [],
-							spending: []
-						});
-						Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.transactionsId": userTransId}});
-						IonLoading.hide();
+			} 
+			else 
+			{
+				//If Meteor.userId() exists
+				var UserExists = Meteor.users.find({_id: Meteor.userId()}, {$ne:{"profile.transactionsId": null}});
+				if(Meteor.user().profile.transactionsId)
+				{
+					console.log('User Existed!');
+				}
+				else
+				{
+					Meteor.call('createCustomer', Meteor.userId(), function(error, result) {
+						if (!error) {
+							console.log("Stripe Customer creation in progress!");
+							var userTransId = Transactions.insert({
+								earning: [],
+								spending: []
+							});
+							Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.transactionsId": userTransId}});
+							IonLoading.hide();
 
-						// IonPopup.show({
-						// 	title: 'Great!',
-						// 	template: '<div class="center">Logging in through your Facebook account...</div>',
-						// 	buttons: [{
-						// 		text: 'OK',
-						// 		type: 'button-calm',
-						// 		onTap: function() {
-						// 			IonPopup.close();
-						// 		}
-						// 	}]
-						// });
+							// IonPopup.show({
+							// 	title: 'Great!',
+							// 	template: '<div class="center">Logging in through your Facebook account...</div>',
+							// 	buttons: [{
+							// 		text: 'OK',
+							// 		type: 'button-calm',
+							// 		onTap: function() {
+							// 			IonPopup.close();
+							// 		}
+							// 	}]
+							// });
 
-					} else {
-						IonLoading.hide();
-						console.log(error);
-					}
-				})
+						} else {
+							IonLoading.hide();
+							console.log(error);
+						}
+					})
+				}
+				
 
 			}
 		});

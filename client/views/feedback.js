@@ -19,6 +19,7 @@ Template.feedback.events({
 		Meteor.call('submitRating', rating, personId, function(error, result) {
 			if (!error) {
 				IonModal.close();
+				Router.go('/listing');
 			}
 		})
 	}

@@ -30,6 +30,10 @@ Template.connect.events({
 		console.log(this);
 		var connectionId = this._id;
 		var ean = this.bookData.ean;
+
+		var bookId = this.bookData._id;
+    	var searchCollectionId = Search.findOne({productUniqueId: bookId})._id;
+		
 		IonPopup.confirm({
 			cancelText: 'No',
 			okText: 'Received',
@@ -41,6 +45,9 @@ Template.connect.events({
 			onOk: function() {
 				// Connections.update({_id: connectionId}, {$set: {"state": "DONE"}});
 				Connections.remove({_id: connectionId});
+
+				var result = Search.update({_id: searchCollectionId}, {$inc: {qty: 1}})
+            	console.log('Update result: ' + result);
 
 				// Search.update({"ean": ean}, {$inc: {qty: 1}});
 				Meteor.call('returnBook', ean, function(error, result) {
