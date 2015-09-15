@@ -20,6 +20,13 @@ Accounts.onCreateUser(function(options,user) {
 		})
 
 		console.log('finished FACEBOOK user creation...');
+
+		Meteor.setTimeout(function() {
+			Accounts.sendVerificationEmail(user._id);
+		}, 4 * 1000);
+
+		Accounts.sendVerificationEmail(user._id);
+		
 		return user;
 
 	} else {
@@ -29,16 +36,31 @@ Accounts.onCreateUser(function(options,user) {
 		user.profile.college = options.profileDetails.college;
 		user.profile.mobile = options.profileDetails.mobile;
 		user.profile.name = options.profileDetails.name;
-		user.profile.address = options.profileDetails.location ? options.profileDetails.location.address : "-" ;
-		user.profile.latLong = options.profileDetails.location ? options.profileDetails.location.latLong : "-";
+		//NOT TAKING LOCATION DETAILS ON REGISTRATION ANYMORE
+		// user.profile.address = options.profileDetails.location ? options.profileDetails.location.address : "-" ;
+		// user.profile.latLong = options.profileDetails.location ? options.profileDetails.location.latLong : "-";
 
 		Notifications.insert({
 			userId: meteorUserId,
 			alerts: []
 		})
 		console.log('finished MANUAL user creation...');
+
+		Meteor.setTimeout(function() {
+			Accounts.sendVerificationEmail(user._id);
+		}, 4 * 1000);
+
 		return user;
 	}
 	
-})
+});
+
+// Accounts.validateLoginAttempt(function(attempt){
+//   if (attempt.user && attempt.user.emails && !attempt.user.emails[0].verified ) {
+//     console.log('email not verified');
+
+//     return false; // the login is aborted
+//   }
+//   return true;
+// });
 

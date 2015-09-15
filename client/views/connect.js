@@ -18,7 +18,7 @@ Template.connect.helpers({
 		return Meteor.users.findOne(this.requestor).profile.mobile;
 	},
 	preferredLocation: function() {
-		return Connections.findOne(this._id).meetupLocation ? Connections.findOne(this._id).meetupLocation : "-";
+		return Connections.findOne(this._id).meetupLocation;
 	},
 	returnItem: function() {
 		return Connections.findOne(this._id).state === "RETURN" ? true : false;
@@ -43,18 +43,15 @@ Template.connect.events({
 				console.log('Cancelled')
 			},
 			onOk: function() {
-				// Connections.update({_id: connectionId}, {$set: {"state": "DONE"}});
-				Connections.remove({_id: connectionId});
 
-				var result = Search.update({_id: searchCollectionId}, {$inc: {qty: 1}})
-            	console.log('Update result: ' + result);
-
-				// Search.update({"ean": ean}, {$inc: {qty: 1}});
 				Meteor.call('returnBook', ean, function(error, result) {
 					console.log(error, result);
 				})
+
+				var result = Search.update({_id: searchCollectionId}, {$inc: {qty: 1}})
+
 				IonPopup.close();
-				Router.go('/inventory');
+				IonModal.open("feedbackborrower", Connections.findOne(connectionId));
 			}
 
 		});
@@ -269,7 +266,11 @@ Template.connectRent.events({
 		}
 	},
 	'click #showMap': function() {
-		IonModal.open('onlyMap', this.meetupLatLong);
+		if (this.meetupLatLong === "Location not set") {
+			return false;
+		} else {
+			IonModal.open('onlyMap', this.meetupLatLong);
+		}
 	}
 });
 

@@ -93,23 +93,38 @@ Template.search.helpers({
     // return Session.get('currentQty');
   },
   avgRating: function(userId) {
-    var ratingObj = Meteor.users.findOne(userId).profile.rating;
+    // var ratingObj = Meteor.users.findOne(userId).profile.rating;
 
-    if (ratingObj && ratingObj.length > 1) {
-      var ratingArray = Meteor.users.findOne(userId).profile.rating;
-      var totalCount = ratingArray.length;
+    // if (ratingObj && ratingObj.length > 1) {
+    //   var ratingArray = Meteor.users.findOne(userId).profile.rating;
+    //   var totalCount = ratingArray.length;
 
-      var sum = _.reduce(ratingArray, function(memo, num) {
-        return (Number(memo) + Number(num))/totalCount; 
-      });
-      return parseFloat(sum).toFixed(1);
+    //   var sum = _.reduce(ratingArray, function(memo, num) {
+    //     return (Number(memo) + Number(num))/totalCount; 
+    //   });
+    //   return parseFloat(sum).toFixed(1);
+    // } else {
+    //   return '1.0';
+    // }
+
+    if (Meteor.users.findOne(userId).profile.rating) {
+      if (Meteor.users.findOne(userId).profile.rating.length > 1) {
+        var ratingArray = Meteor.users.findOne(userId).profile.rating;
+        var totalCount = ratingArray.length;
+        var sum = _.reduce(ratingArray, function(memo, num) {
+          return (Number(memo) + Number(num))/totalCount; 
+        });
+        return parseFloat(sum).toFixed(1);
+      }
     } else {
-      return '1.0';
+      return "1.0";
     }
-  },
-  ratingExists: function(userId){
-    return Meteor.users.findOne(userId).profile.rating
+
   }
+  //NOT NEEDED ANYMORE SINCE DEFAULT RATING IS 1
+  // ratingExists: function(userId){
+  //   return Meteor.users.findOne(userId).profile.rating
+  // }
 });
 
 Template.search.events({

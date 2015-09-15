@@ -4,11 +4,34 @@
   Meteor.users.remove({});
   Connections.remove({});
   Notifications.remove({});
+  Transactions.remove({});
   // SERVER FRESH START SEQUENCE
 
 // ServiceConfiguration.loginServiceConfiguration.remove({
 //     service: "facebook"
 // });
+
+  Meteor.startup(function() {
+    process.env.MAIL_URL="smtp://partio.missioncontrol%40gmail.com:partio2021@smtp.gmail.com:465/";
+
+    Accounts.emailTemplates.from = 'partio.missioncontrol@gmail.com';
+
+    Accounts.emailTemplates.siteName = 'partiO';
+
+    Accounts.emailTemplates.verifyEmail.subject = function(user) {
+      return 'Welcome to partiO!';
+    };
+    Accounts.emailTemplates.verifyEmail.text = function(user, url) {
+      return "Hello there! \n\n" +
+      "Welcome aboard partiO! \n" +
+      "The things you own end up making money for you! Sounds familiar? Er..nevermind! To make this happen, it all starts with one link. \n" +
+      "The below link. Click to verify and get sharing! \n\n" +
+      url + "\n\n" +
+      "For any queries or support, feel free to contact partio.missioncontrol@gmail.com \n" +
+      "Best\n" +
+      "partiO team"
+    };
+  });
 
 SearchSource.defineSource('packages', function(searchText, options) {
   var options = {sort: {isoScore: -1}, limit: 20};
@@ -80,8 +103,8 @@ Meteor.methods({
       borrowedDate: null,
       bookData: Products.findOne(productId),
       chat: [  ],
-      meetupLocation: ownerProfile.address,
-      meetupLatLong: ownerProfile.latLong
+      meetupLocation: "Location not set",
+      meetupLatLong: "Location not set"
     };
     Notifications.update({"userId": owner}, {$push: {"alerts": {
       type: "request",
@@ -91,7 +114,7 @@ Meteor.methods({
     // Meteor._sleepForMs(1000);
     return Connections.insert(connection);
   },
-  'ownerAccept': function(connectionId, requestor) {
+  'ownerAccept': function(connectionId, requestor, productId) {
     console.log(connectionId)
 
     Push.send({
@@ -105,7 +128,8 @@ Meteor.methods({
       }
     });
     Meteor._sleepForMs(1000);
-    console.log("changing status from Waiting to Payment")
+    console.log("changing status from Waiting to Payment");
+    Connections.remove({"bookData._id": productId, "requestor": {$ne: requestor}});
     return Connections.update({_id: connectionId}, {$set: {state: "PAYMENT"}});
   },
   'payNow': function(payer) {

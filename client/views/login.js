@@ -1,6 +1,32 @@
 Template.register.events({
 	'click #registerButton': function(e, template) {
 		e.preventDefault();
+		var collegeEmails = {
+			"Duke University": "duke.edu",
+			"Rollins College": "rollins.edu",
+			"Test Gmail IDs": "gmail.com"
+		}
+
+		var emailCheck = function(college, email) {
+			console.log(college, email);
+			if (email.split("@")[1] !== collegeEmails[college]) {
+				IonPopup.show({
+					title: 'Please enter a valid college email ID',
+					template: '<div class="center">Your email address has to match the official College email ID</div>',
+					buttons: 
+					[{
+						text: 'OK',
+						type: 'button-assertive',
+						onTap: function() {
+							IonPopup.close();
+						}
+					}]
+				});
+				return false;
+			} else {
+				return true;
+			}
+		}
 
 	    var email = template.find('[name=email]').value;
 	    var password = template.find('[name=password]').value;
@@ -17,41 +43,43 @@ Template.register.events({
 
 	    if (email && password && profileDetails.name && profileDetails.mobile && profileDetails.college) {
 	    	// IonLoading.show();
-	    	Accounts.createUser({email: email, password: password, profileDetails: profileDetails}, function(error) {
-	    		console.log(error);
+	    	if (emailCheck(profileDetails.college, email)) {
+	    		Accounts.createUser({email: email, password: password, profileDetails: profileDetails}, function(error) {
+	    			console.log(error);
 
-	    		if (error) {
-	    			IonLoading.hide();
-	    			IonPopup.show({
-	    				title: 'Error while Signing up. Please try again.',
-	    				template: '<div class="center">'+error.reason+'</div>',
-	    				buttons: 
-	    				[{
-	    					text: 'OK',
-	    					type: 'button-assertive',
-	    					onTap: function() {
-	    						IonPopup.close();
+	    			if (error) {
+	    				IonLoading.hide();
+	    				IonPopup.show({
+	    					title: 'Error while Signing up. Please try again.',
+	    					template: '<div class="center">'+error.reason+'</div>',
+	    					buttons: 
+	    					[{
+	    						text: 'OK',
+	    						type: 'button-assertive',
+	    						onTap: function() {
+	    							IonPopup.close();
+	    						}
+	    					}]
+	    				});
+	    			} else {
+	    				Meteor.call('createCustomer', Meteor.userId(), function(error, result) {
+	    					if (!error) {
+	    						console.log("Stripe Customer creation in progress!");
+	    						var userTransId = Transactions.insert({
+	    							earning: [],
+	    							spending: []
+	    						});
+	    						Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.transactionsId": userTransId}});
+	    						IonLoading.hide();
+	    					} else {
+	    						IonLoading.hide();
+	    						console.log(error);
 	    					}
-	    				}]
-	    			});
-	    		} else {
-	    			Meteor.call('createCustomer', Meteor.userId(), function(error, result) {
-	    				if (!error) {
-	    					console.log("Stripe Customer creation in progress!");
-	    					var userTransId = Transactions.insert({
-	    						earning: [],
-	    						spending: []
-	    					});
-	    					Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.transactionsId": userTransId}});
-	    					IonLoading.hide();
-	    				} else {
-	    					IonLoading.hide();
-	    					console.log(error);
-	    				}
-	    			})
-	    			IonModal.close();
-	    		}
-	    	});
+	    				})
+	    				IonModal.close();
+	    			}
+	    		});
+	    	}
 	    } else {
 	    	IonPopup.show({
 	    		title: 'Missing fields',
