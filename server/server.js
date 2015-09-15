@@ -103,8 +103,8 @@ Meteor.methods({
       borrowedDate: null,
       bookData: Products.findOne(productId),
       chat: [  ],
-      meetupLocation: ownerProfile.address,
-      meetupLatLong: ownerProfile.latLong
+      meetupLocation: "Location not set",
+      meetupLatLong: "Location not set"
     };
     Notifications.update({"userId": owner}, {$push: {"alerts": {
       type: "request",

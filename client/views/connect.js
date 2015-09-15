@@ -18,7 +18,7 @@ Template.connect.helpers({
 		return Meteor.users.findOne(this.requestor).profile.mobile;
 	},
 	preferredLocation: function() {
-		return Connections.findOne(this._id).meetupLocation ? Connections.findOne(this._id).meetupLocation : "-";
+		return Connections.findOne(this._id).meetupLocation;
 	},
 	returnItem: function() {
 		return Connections.findOne(this._id).state === "RETURN" ? true : false;
@@ -258,7 +258,11 @@ Template.connectRent.events({
 		}
 	},
 	'click #showMap': function() {
-		IonModal.open('onlyMap', this.meetupLatLong);
+		if (this.meetupLatLong === "Location not set") {
+			return false;
+		} else {
+			IonModal.open('onlyMap', this.meetupLatLong);
+		}
 	}
 });
 

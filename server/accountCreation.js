@@ -36,8 +36,9 @@ Accounts.onCreateUser(function(options,user) {
 		user.profile.college = options.profileDetails.college;
 		user.profile.mobile = options.profileDetails.mobile;
 		user.profile.name = options.profileDetails.name;
-		user.profile.address = options.profileDetails.location ? options.profileDetails.location.address : "-" ;
-		user.profile.latLong = options.profileDetails.location ? options.profileDetails.location.latLong : "-";
+		//NOT TAKING LOCATION DETAILS ON REGISTRATION ANYMORE
+		// user.profile.address = options.profileDetails.location ? options.profileDetails.location.address : "-" ;
+		// user.profile.latLong = options.profileDetails.location ? options.profileDetails.location.latLong : "-";
 
 		Notifications.insert({
 			userId: meteorUserId,

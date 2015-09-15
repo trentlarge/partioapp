@@ -76,7 +76,7 @@
         <a class="item item-avatar item-button-right" href="#">
           <img src="{{userThumbnail ownerId}}">
           <p class="main-title-text">{{userName ownerId}} </p>
-          <p>${{customPrice}}&nbsp;&nbsp; {{#if ratingExists ownerId}}<span class="rating-box">{{avgRating ownerId}}</span>{{/if}}</p>
+          <p>${{customPrice}}&nbsp;&nbsp; <span class="rating-box">{{avgRating ownerId}}</span></p>
           {{#if requestSent}}
           <span class="badge badge-mid">Request Sent</span>
           {{else}}
