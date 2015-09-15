@@ -21,6 +21,10 @@ Accounts.onCreateUser(function(options,user) {
 
 		console.log('finished FACEBOOK user creation...');
 
+		Meteor.setTimeout(function() {
+			Accounts.sendVerificationEmail(user._id);
+		}, 4 * 1000);
+
 		Accounts.sendVerificationEmail(user._id);
 		
 		return user;
@@ -48,5 +52,14 @@ Accounts.onCreateUser(function(options,user) {
 		return user;
 	}
 	
-})
+});
+
+// Accounts.validateLoginAttempt(function(attempt){
+//   if (attempt.user && attempt.user.emails && !attempt.user.emails[0].verified ) {
+//     console.log('email not verified');
+
+//     return false; // the login is aborted
+//   }
+//   return true;
+// });
 
