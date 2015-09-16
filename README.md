@@ -9,6 +9,11 @@ KNOWN ISSUES:
 - 
 
 
+{   "facebook": {     "appId": "453646108150424",     "secret": "668cabf44fb9f88b7a3d213f1bb0000b"     },        "public": {       "facebook":        {         "permissions": [         "public_profile",         "email",         "user_friends"]       }     }   }
+
+
+{   "facebook": {     "appId": "471948676320936",     "secret": "0d40af3ec52bb41316106e1dfeeaef06"   },   "public": {     "facebook": {       "permissions": [         "public_profile",          "email",          "user_friends"       ]     }   } }
+
 
 {
   "apn": {
@@ -38,7 +43,7 @@ Maps
 Project ID: testpartio-1044
 key: AIzaSyDMyxBlvIc4b4hoWqTw4lGr5OviU8FlQc8
 
-STRIPE_SECRET=sk_test_z3FwqB2S5uJxnQGRGKBA1Hzh meteor
+STRIPE_SECRET=sk_test_z3FwqB2S5uJxnQGRGKBA1Hzh meteor run --settings settings.json
 
 http://graph.facebook.com/418093848371137/picture?
 "https://www.facebook.com/app_scoped_user_id/418093848371137/"

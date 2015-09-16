@@ -3,7 +3,6 @@
   Search.remove({});
   Meteor.users.remove({});
   Connections.remove({});
-  Notifications.remove({});
   Transactions.remove({});
   // SERVER FRESH START SEQUENCE
 

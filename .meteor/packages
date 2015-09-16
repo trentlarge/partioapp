@@ -28,3 +28,4 @@ matb33:collection-hooks
 raix:push
 mrt:googlemaps
 email
+mdg:reload-on-resume

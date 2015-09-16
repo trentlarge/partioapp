@@ -134,9 +134,10 @@ Template.login.events({
 	},
 	'click #fblogin': function() {
 		console.log("calling facebook");
-		IonLoading.show();
+		// IonLoading.show();
 		Meteor.loginWithFacebook({}, function(err){
 			if (err) {
+				console.log(err);
 				IonPopup.show({
 					title: 'Error connecting to Facebook',
 					template: '<div class="center">'+err+'</div>',
@@ -152,7 +153,7 @@ Template.login.events({
 			else 
 			{
 				//If Meteor.userId() exists
-				var UserExists = Meteor.users.find({_id: Meteor.userId()}, {$ne:{"profile.transactionsId": null}});
+				// var UserExists = Meteor.users.find({_id: Meteor.userId()}, {$ne:{"profile.transactionsId": null}});
 				if(Meteor.user().profile.transactionsId)
 				{
 					console.log('User Existed!');

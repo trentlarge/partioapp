@@ -4,7 +4,7 @@ App.info({
   description: 'Share. Borrow. Party-o',
   author: 'InsaneInc',
   website: 'http://www.partioapp.com',
-  version: '0.2.7'
+  version: '0.3.0'
 });
 
 App.icons({
@@ -26,11 +26,11 @@ App.setPreference('StatusBarBackgroundColor', '#263238');
 
 App.accessRule('*');
 
-App.configurePlugin('nl.x-services.plugins.launchmyapp', {
-    URL_SCHEME: 'partioapp'
-});
+// App.configurePlugin('nl.x-services.plugins.launchmyapp', {
+//     URL_SCHEME: 'partioapp'
+// });
 
 App.configurePlugin('com.phonegap.plugins.facebookconnect', {
-    APP_ID: '471948676320936',
+    APP_ID: '453646108150424',
     APP_NAME: 'Parti-O'
 });
