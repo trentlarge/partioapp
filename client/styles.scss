@@ -356,6 +356,10 @@ ion-side-menu.menu-left.menu {
 	margin: 0;
 }
 
+.reduce-bottom-margin {
+	margin-bottom: 5px;
+}
+
 .small-font p {
 	font-size: 0.8em;
 }
@@ -485,6 +489,10 @@ ion-side-menu.menu-left.menu {
 
 .graytext {
 	color: #bdc3c7; 
+}
+
+.grayer-text {
+	color: #6C7A89;
 }
 
 .button-footer, .button-footer .row, .button-footer .col  {
@@ -723,7 +731,37 @@ fieldset {
 }
 
 
+.college-select select {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	position: absolute;
+	top: 0;
+	left: 35%;
+	padding: 14px 48px 16px 10px;
+	min-width: 65%;
+	border: none;
+	background: #fff;
+	color: #A1A1A1;
+	text-indent: .01px;
+	text-overflow: '';
+	white-space: nowrap;
+	font-size: 14px;
+	cursor: pointer;
+	direction: ltr;
+}
 
 
+
+textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"] {
+	display: block;
+	padding-top: 2px;
+	padding-left: 4px;
+	height: 34px;
+	color: #111;
+	vertical-align: middle;
+	font-size: 14px;
+	line-height: 16px;
+}
 
 

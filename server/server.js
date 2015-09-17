@@ -24,7 +24,7 @@
       return "Hello there! \n\n" +
       "Welcome aboard partiO! \n" +
       "The things you own end up making money for you! Sounds familiar? Er..nevermind! To make this happen, it all starts with one link. \n" +
-      "The below link. Click to verify and get sharing! \n\n" +
+      "The one below. Click to verify and get sharing! \n\n" +
       url + "\n\n" +
       "For any queries or support, feel free to contact partio.missioncontrol@gmail.com \n" +
       "Best\n" +
@@ -71,6 +71,13 @@ Meteor.methods({
           throw new Meteor.Error(result.ItemLookupResponse.Items[0].Request[0].Errors[0].Error[0].Code[0]);
       }
     }
+  },
+  'updateOfficialEmail': function(userId, college, email) {
+    Meteor.users.update({"_id": userId}, {$set: {"emails": [{"address": email, "verified": false}], "profile.college": college}}, function(error) {
+      if (!error) {
+        Accounts.sendVerificationEmail(userId);
+      }
+    });
   },
   'submitRating': function(rating, personId) {
     Meteor.users.update({_id: personId}, {$push: {"profile.rating": rating}})

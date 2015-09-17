@@ -1,7 +1,38 @@
 <template name="emailverification">
 	{{#ionView}}
 	{{#ionContent}}
-	<p class="Aligner"><a href="partioapp://">Redirecting to partiO</a></p>
+	<!-- <p class="Aligner"><a href="partioapp://">Redirecting to partiO</a></p> -->
+	<div class="Aligner">
+		<div class="logo-container-login">
+			<img src="/main_logo.png"/>
+		</div>
+	</div>
 	{{/ionContent}}
+	{{/ionView}}
+</template>
+
+<template name="resetpassword">
+	{{#ionView}}
+	<div class="content has-header">
+		<div class="logo-container-login">
+			<img src="/main_logo.png"/>&nbsp;
+		</div>
+
+		<div class="list list-inset">
+			<label class="item item-input">
+				&nbsp;<input type="password" name="password1" placeholder="New Password">
+			</label>
+
+			<label class="item item-input">
+				&nbsp;<input type="password" name="password2" placeholder="Re-enter Password">
+			</label>
+		</div>
+
+		<div class="padding-horizontal">
+			<button id="new-password" class="button button-block button-energized">Set Password</button>      
+		</div>
+
+		<br>
+	</div>
 	{{/ionView}}
 </template>

@@ -28,7 +28,6 @@
     <div class="content has-header">
     
       {{> settingsProfileImage}}
-      <!-- {{#with profile}} -->
       
       <div class="list list-inset">
         <form id="profileEdit">
@@ -36,53 +35,67 @@
             <span class="input-label"><p>Name</p></span>
             <input id="profilename" type="text" value="{{currentUser.profile.name}}">
           </label>
-          <label class="item item-input">
+<!--           <label class="item item-input">
             <span class="input-label"><p>University</p></span>
             <input id="profileuniversity" type="text" value="{{currentUser.profile.college}}">
-          </label>
-          <label class="item item-input">
+          </label> -->
+<!--           <label class="item item-input">
             <span class="input-label"><p>Mobile</p></span>
             <input id="profilemobile" type="number" value="{{currentUser.profile.mobile}}">
-          </label>
+          </label> -->
         </form>
+       {{#if emailSet}} 
+         <label class="item item-input">
+          <span class="input-label"><p>University</p></span>
+          <input disabled id="profileuniversity" type="text" value="{{currentUser.profile.college}}">
+        </label>
         <label class="item item-input">
           <span class="input-label"><p>Email</p></span>
-          <input disabled type="email" value="{{currentUser.profile.email}}">
+          <input disabled type="email" value="{{currentUser.emails.[0].address}}">
         </label>
+       {{else}}
+         <label class="item item-input item-select college-select">
+          <div class="input-label"><p>College</p></div>
+          <select id="profileuniversity">
+            <option selected style="color:green;">Select</option>
+            <option>Duke University</option>
+            <option>Rollins College</option>
+            <option>Test Gmail IDs</option>
+          </select>
+        </label>
+        <label class="item item-input">
+          <span class="input-label"><p>Email</p></span>
+          <input type="email" value="{{currentUser.email.[0].address}}" placeholder="Enter Email" id="profileemail">
+        </label>
+        {{/if}}
+
         <label class="item item-input">
           <span class="input-label"><p>Password</p></span>
           <input id="changePassword" type="password" value="123456">
         </label>
       </div>
       <div class="padding-horizontal">
-      
-      <!-- {{#if alreadyStriped}} -->
-          <a class="item item-icon-right" href="{{pathFor 'savedCards'}}" >
-            <p>Saved Cards</p>
-            {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
-          </a>
-
-          <a class="item item-icon-right" href="{{pathFor 'bankAccount'}}">
-            <p>Bank Account</p>
-            {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
-          </a>
-<!--       {{else}}
-        <a type="button" class="button button-energized button-block item-icon-right" href="{{pathFor 'stripeAccount'}}">
-          Connect Payment
+      {{#if currentUser.emails.[0].verified}}
+        <a class="item item-icon-right" href="{{pathFor 'savedCards'}}" >
+          <p>Saved Cards</p>
+          {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
         </a>
-      {{/if}} -->
 
-<!--       {{#if venmoExists}}
-          <a class="item item-icon-right" href="/venmo">
-            <p>Payment Account</p>
-            {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
-          </a>
+        <a class="item item-icon-right" href="{{pathFor 'bankAccount'}}">
+          <p>Bank Account</p>
+          {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
+        </a>
       {{else}}
-        <a type="button" href="https://api.venmo.com/v1/oauth/authorize?client_id=2865&scope=make_payments%20access_profile%20access_email%20access_phone%20access_balance&response_type=code&state={{venmoUser}}" id="venmo-connect" class="button button-block button-energized">Connect Venmo Account</a>
-      {{/if}} -->
-            
+        {{#if emailSet}}
+          <br>
+          <p class="assertive center">Verify your email address to proceed</p>
+        {{else}}
+          <p class="dark center">Your Email should be your official college email address</p>
+          <br>
+          <button id="save-college-email" class="button button-block button-energized">SAVE</button>
+        {{/if}}
+      {{/if}}
       </div>
-      <!-- {{/with}} -->
 </div>
     <!-- {{/ionContent}} -->
   {{/ionView}}
