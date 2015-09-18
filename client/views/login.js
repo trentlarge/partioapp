@@ -1,39 +1,40 @@
+collegeEmails = {
+	"Duke University": "duke.edu",
+	"Rollins College": "rollins.edu",
+	"Test Gmail IDs": "gmail.com"
+}
+
+emailCheck = function(college, email) {
+	console.log(college, email);
+	if (email.split("@")[1] !== collegeEmails[college]) {
+		IonPopup.show({
+			title: 'Please enter a valid college email ID',
+			template: '<div class="center">Your email address has to match the official College email ID</div>',
+			buttons: 
+			[{
+				text: 'OK',
+				type: 'button-assertive',
+				onTap: function() {
+					IonPopup.close();
+				}
+			}]
+		});
+		return false;
+	} else {
+		return true;
+	}
+}
+
 Template.register.events({
 	'click #registerButton': function(e, template) {
 		e.preventDefault();
-		var collegeEmails = {
-			"Duke University": "duke.edu",
-			"Rollins College": "rollins.edu",
-			"Test Gmail IDs": "gmail.com"
-		}
-
-		var emailCheck = function(college, email) {
-			console.log(college, email);
-			if (email.split("@")[1] !== collegeEmails[college]) {
-				IonPopup.show({
-					title: 'Please enter a valid college email ID',
-					template: '<div class="center">Your email address has to match the official College email ID</div>',
-					buttons: 
-					[{
-						text: 'OK',
-						type: 'button-assertive',
-						onTap: function() {
-							IonPopup.close();
-						}
-					}]
-				});
-				return false;
-			} else {
-				return true;
-			}
-		}
 
 	    var email = template.find('[name=email]').value;
 	    var password = template.find('[name=password]').value;
 
 	    var profileDetails = {
 	    	name: template.find('[name=name]').value,
-	    	mobile: template.find('[name=mobile]').value,
+	    	// mobile: template.find('[name=mobile]').value,
 	    	college: template.find('#college').value,
 	    	avatar: "notSet",
 	    	location: Session.get('newLocation')
@@ -41,7 +42,7 @@ Template.register.events({
 
 	    console.log(email, password, profileDetails);
 
-	    if (email && password && profileDetails.name && profileDetails.mobile && profileDetails.college) {
+	    if (email && password && profileDetails.name && profileDetails.college) {
 	    	// IonLoading.show();
 	    	if (emailCheck(profileDetails.college, email)) {
 	    		Accounts.createUser({email: email, password: password, profileDetails: profileDetails}, function(error) {
@@ -130,6 +131,38 @@ Template.login.events({
 				console.log('user: '+ email +' Logged-In successfully!');
 			}
 		});
+
+	},
+	'click #forgot-password': function() {
+
+		IonPopup.prompt({
+			cancelText: 'Cancel',
+			title: 'Reset Password',
+			template: '<div class="center">Reset link will be sent to this Email<br><br></div>',
+			okText: 'Submit',
+			inputType: 'email',
+			inputPlaceholder: 'Enter Email ID',
+			onOk: function(event, response) {
+				console.log(response);
+				Accounts.forgotPassword({email: response}, function(error){
+					if (!error) {
+						IonLoading.show({
+							duration: 2000,
+							customTemplate: '<div class="center"><h5>Email with password reset link sent</h5></div>',
+						});
+					} else {
+						IonLoading.show({
+							duration: 2000,
+							customTemplate: '<div class="center"><h5>No user found with this email</h5></div>',
+						});
+					}
+				});
+			},
+			onCancel: function() {
+				console.log('Cancelled')
+			}
+		})
+
 
 	},
 	'click #fblogin': function() {

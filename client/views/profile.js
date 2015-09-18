@@ -16,6 +16,15 @@ Template.profile.helpers({
     if (!! Meteor.user().profile.stripeAccount) {
       return true; 
     }
+  },
+  emailSet: function() {
+    // if (Meteor.user.emails) {
+    //   var email = Meteor.user.emails[0].address;
+    //   if (email.split("@")[1].split(".")[1] == "edu") {
+    //     return true;
+    //   }
+    // }
+    return Meteor.user().emails[0].address;
   }
 })
 
@@ -35,6 +44,40 @@ Template.profile.events({
       template: '<div class="center">Work in progress</div>',
       okText: 'Got It!'
     });
+  },
+  'click #save-college-email': function() {
+
+    var college = $('#profileuniversity').val();
+    var email = $('#profileemail').val();
+
+    if (college && email) {
+      if (emailCheck(college, email)) {
+        Meteor.call('updateOfficialEmail', Meteor.userId(), college, email, function(error, result){
+          if (!error) {
+            console.log(result);
+            console.log(error);
+          }
+        })
+        // Meteor.users.update({"_id": Meteor.userId()}, {$set: {"emails[0].address": email, "emails[0].verified": false, "profile.college": college}}
+        // Meteor.users.update({"_id": Meteor.userId()}, {
+        //     $addToSet: { "emails": {
+        //       'address': email,
+        //       'verified': false
+        //     }}
+        //   }, function(error) {
+        //   if (!error) {
+        //     Meteor.call('sendVerificationEmail', Meteor.userId(), function(error, result) {
+        //       if (!error) {
+        //         console.log(result);
+        //         console.log(error);
+        //       }
+        //     });
+        //     IonLoading.hide();
+        //     console.log("success!");
+        //   }
+        // });        
+      }
+    }
   }
 });
 
@@ -47,11 +90,11 @@ Template.appLayout.events({
     IonLoading.show();
     var updatedProfile = {
       "name": $('#profilename').val(),
-      "college": $('#profileuniversity').val(),
-      "mobile": $('#profilemobile').val()
+      "college": $('#profileuniversity').val()
+      // "mobile": $('#profilemobile').val()
     }
     console.log(updatedProfile);
-    Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.name": updatedProfile.name, "profile.college": updatedProfile.college, "profile.mobile": updatedProfile.mobile }}, function(error) {
+    Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.name": updatedProfile.name, "profile.college": updatedProfile.college}}, function(error) {
       if (!error) {
         IonLoading.hide();
         console.log("success!");
