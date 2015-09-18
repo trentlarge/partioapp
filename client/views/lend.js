@@ -192,54 +192,72 @@ Template.lend.events({
           }
         } 
         else {
-        IonLoading.hide();
-        IonPopup.show({
-          title: 'Missing data!',
-          template: '<div class="center">Please fill mandatory fields</div>',
-          buttons: 
-          [{
-            text: 'OK',
-            type: 'button-assertive',
-            onTap: function() {
-              IonPopup.close();
-            }
-          }]
-        });
-      }
-
-      } else {
-        if (Session.get('scanResult')) 
-        {
-        // var lendingPeriod = (function() {
-        //   return (template.find('#lendingPeriod').value) ? template.find('#lendingPeriod').value : 2; 
-        // }) ();
-        
-        //TEST
-        //GetRentingPercentages('ONE_WEEK');
-
-        if(CheckStripeAccount())
-        {
-          Session.set('BookAddType', 'SCAN');
-          AddProductToInventory();
+          IonLoading.hide();
+          IonPopup.show({
+            title: 'Missing data!',
+            template: '<div class="center">Please fill mandatory fields</div>',
+            buttons: 
+            [{
+              text: 'OK',
+              type: 'button-assertive',
+              onTap: function() {
+                IonPopup.close();
+              }
+            }]
+          });
         }
-        
+
       } 
       else 
       {
-        IonLoading.hide();
-        IonPopup.show({
-          title: 'Nothing to add!',
-          template: '<div class="center">Scan or add a product to make it available on parti-O for others to find</div>',
-          buttons: 
-          [{
-            text: 'OK',
-            type: 'button-assertive',
-            onTap: function() {
-              IonPopup.close();
-            }
-          }]
-        });
-      }
+        if (Session.get('scanResult')) 
+        {
+          // var lendingPeriod = (function() {
+          //   return (template.find('#lendingPeriod').value) ? template.find('#lendingPeriod').value : 2; 
+          // }) ();
+          
+          //TEST
+          //GetRentingPercentages('ONE_WEEK');
+
+          var xPrice = parseFloat(Session.get('userPrice'), 10);
+          console.log('xPrice ' + xPrice);  
+          if(xPrice < 0.5)
+          {
+            IonLoading.hide();
+            showInvalidPopUp('Invalid Inputs', 'Please valid rent price.');
+            return;
+          }
+
+          if(xPrice > 1000)
+          {
+            IonLoading.hide();
+            showInvalidPopUp('Invalid Inputs', 'Please rent price < $1000.');
+            return;
+          }
+
+          if(CheckStripeAccount())
+          {
+            Session.set('BookAddType', 'SCAN');
+            AddProductToInventory();
+          }
+        
+        } 
+        else 
+        {
+          IonLoading.hide();
+          IonPopup.show({
+            title: 'Nothing to add!',
+            template: '<div class="center">Scan or add a product to make it available on parti-O for others to find</div>',
+            buttons: 
+            [{
+              text: 'OK',
+              type: 'button-assertive',
+              onTap: function() {
+                IonPopup.close();
+              }
+            }]
+          });
+        }
       }
     }, 500)  
   },

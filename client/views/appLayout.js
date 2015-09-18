@@ -140,19 +140,69 @@ Template.appLayout.rendered = function() {
 
 					console.log('query3:' + JSON.stringify(id));
 					
-					var alertObj = Alerts.findOne({connectionId: id});
+					var alertObj = Alerts.findOne({_id: id});
+					var alertConnection = Alerts.findOne({_id: id, unread: false});
+
 					console.log('query3 alertObj:' + alertObj);
+					console.log('query3 alertConnection:' + alertConnection);
 
 					var connectionObj = Connections.findOne({"_id": id});
+					var connectionBookName = connectionObj.bookData.title;
+					var connectionPayment = connectionObj.payment;
+					var connectionPaymentAmount;
 
-					if (alertObj) {
-						var currentOne = Alerts.update({
-							_id: alertObj._id},
+					if(connectionPayment)
+					{
+						connectionPaymentAmount = parseFloat(connectionPayment.amount, 10);
+						connectionPaymentAmount = connectionPaymentAmount/100;
+					}
+					else
+					{
+						connectionPaymentAmount = 0.0;
+					}
+
+					if (!alertObj) 
+					{
+						console.log('#3 Alerts.update!');
+						var currentOne = Alerts.insert(
+						{
+							_id: id},
 							{type: "approval",
 							unread: false}
 						)
-						ShowPaymentPopUp();
+
+						ShowPaymentPopUp(connectionBookName, connectionPaymentAmount);	
 					}
+
+
+					// if (!alertObj || !alertConnection) 
+					// {
+					// 	console.log('#3 Alerts.update!');
+					// 	var currentOne = Alerts.update(
+					// 	{
+					// 		_id: id},
+					// 		{type: "approval",
+					// 		unread: false}
+					// 	)
+
+					// 	if(!alertConnection)
+					// 	{
+					// 		ShowPaymentPopUp(connectionBookName, connectionPaymentAmount);	
+					// 	}						
+					// }
+
+					// else
+					// {
+					// 	console.log('Connection ID: ' + id);
+					// 	var currentOne = Alerts.update(
+					// 	{
+					// 		_id: id},
+					// 		{type: "approval",
+					// 		unread: false}
+					// 	)
+
+					// 	ShowPaymentPopUp(connectionBookName, connectionPaymentAmount);
+					// }
 					
 				}
 			});
@@ -172,7 +222,7 @@ Template.appLayout.rendered = function() {
 					
 					if (alertObj) 
 					{
-						var currentOne = Alerts.update({
+						var currentOne = Alerts.insert({
 							_id: alertObj._id},
 							{type: "approval",
 							unread: false}
@@ -290,7 +340,7 @@ function ShowApprovalPopUp()
 	});
 }
 
-function ShowPaymentPopUp()
+function ShowPaymentPopUp(bookNameString, paymentAmountInt)
 {
 	if(IsPopUpOpen)
 	{
@@ -302,7 +352,7 @@ function ShowPaymentPopUp()
 
 	IonPopup.show({
 		title: 'Alert',
-		template: '<div class="center">You have received a payment</div>',
+		template: '<div class="center">You have received a payment of $'+ paymentAmountInt +' for '+ bookNameString +'</div>',
 		buttons: 
 		[{
 			text: 'OK',

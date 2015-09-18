@@ -18,6 +18,7 @@ Template.connect.helpers({
 		return Meteor.users.findOne(this.requestor).profile.mobile;
 	},
 	preferredLocation: function() {
+		console.log('Meet Up Location CONNECT JS: ' + Connections.findOne(this._id).meetupLocation);
 		return Connections.findOne(this._id).meetupLocation;
 	},
 	returnItem: function() {
@@ -80,7 +81,10 @@ Template.connect.events({
 		});
 	},
 	'click #changeMeetupLocation': function() 
-	{
+	{	
+		connectionId = this._id;
+		console.log('connectionId: '+ connectionId);
+
 		// var essentialData = {};
 		// essentialData.meetupLatLong = this.meetupLatLong;
 		// essentialData.connectionId = this._id;
@@ -92,22 +96,26 @@ Template.connect.events({
 		}	
 		else
 		{
-			console.log('currentPosition exits!');
+			// console.log('currentPosition exits!');
 			Session.set('initialLoc', {lat: currentPosition.coords.latitude, lng: currentPosition.coords.longitude});
 			Session.set('currentLoc', {lat: currentPosition.coords.latitude, lng: currentPosition.coords.longitude});
 
-			console.log('initial: ' + Session.get('initialLoc'));
-			console.log('currentLoc: ' + Session.get('currentLoc'));
+			// console.log('initial: ' + Session.get('initialLoc'));
+			// console.log('currentLoc: ' + Session.get('currentLoc'));
 
 			var essentialData = {};
 			essentialData.meetupLatLong = Session.get('initialLoc');
-			essentialData.connectionId = this._id;
+			essentialData.connectionId = connectionId;
+
+			console.log('essentialData: ' + essentialData);
+
 			IonModal.open('map', essentialData);
 		}
 
 	}
 })
 
+var connectionId;
 var currentPosition;
 var onSuccess = function(position) 
 {
@@ -122,7 +130,7 @@ var onSuccess = function(position)
 
 	var essentialData = {};
 	essentialData.meetupLatLong = Session.get('initialLoc');
-	essentialData.connectionId = this._id;
+	essentialData.connectionId = connectionId;
 	IonModal.open('map', essentialData);
 };
 

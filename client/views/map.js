@@ -1,5 +1,7 @@
 Template.map.onRendered(function() 
 {
+  var connectionId = this.data.connectionId;
+
   if (Session.get('initialLoc')) 
   {
     reverseGeocode.getLocation(Session.get('initialLoc').lat, Session.get('initialLoc').lng, function(location){
@@ -12,6 +14,10 @@ Template.map.onRendered(function()
 
   this.autorun(function () 
   {
+    
+
+    console.log('connectionId: ' + connectionId);
+
     if (GoogleMaps.loaded()) 
     {
       var map = $("#map-search").geocomplete({
@@ -23,12 +29,21 @@ Template.map.onRendered(function()
         markerOptions: {
           draggable: true
         },
-      }).bind("geocode:dragged", function(event, result){
-        reverseGeocode.getLocation(result.G, result.K, function(location){
+      }).bind("geocode:dragged", function(event, result)
+      {
+        console.log('geocode:dragged result: ' + JSON.stringify(result));
+        reverseGeocode.getLocation(result.H, result.L, function(location){
           Session.set('newLocation', {
             address: reverseGeocode.getAddrStr(),
             latLong: result
           });
+
+          Connections.update({_id: connectionId}, 
+            {$set: {meetupLocation: Session.get('newLocation').address, 
+            meetupLatLong: Session.get('newLocation').latLong}});
+          
+          console.log('connectionId: ' + connectionId);
+
         });
       });
 
@@ -52,8 +67,12 @@ function addAdditionalCurrentLocationMarker(mapObject)
 }
 
 Template.map.events({
-  'click button': function() {
-    $("#map-search").trigger("geocode");
+  // 'click button': function() {
+  //   $("#map-search").trigger("geocode");
+  // },
+  'click #update-map-location': function() {
+    console.log(this);
+    console.log(this.essentialData);
   }
 })
 
@@ -93,7 +112,7 @@ Template.mapChat.onRendered(function() {
             },
           }).bind("geocode:dragged", function(event, result){
             console.log(result);
-            reverseGeocode.getLocation(result.G, result.K, function(location){
+            reverseGeocode.getLocation(result.H, result.L, function(location){
               Session.set('newLocation', {
                 address: reverseGeocode.getAddrStr(),
                 latLong: result
@@ -117,7 +136,7 @@ Template.mapChat.onRendered(function() {
     if (GoogleMaps.loaded()) {
       $("#mapchat-search").geocomplete({
         map: "#mapchat-box",
-        location: [latLong.G, latLong.K],
+        location: [latLong.H, latLong.L],
         componentRestrictions: {
           country: 'US'
         },
@@ -126,7 +145,7 @@ Template.mapChat.onRendered(function() {
         },
       }).bind("geocode:dragged", function(event, result){
         console.log(result);
-        reverseGeocode.getLocation(result.G, result.K, function(location){
+        reverseGeocode.getLocation(result.H, result.L, function(location){
           Session.set('newLocation', {
             address: reverseGeocode.getAddrStr(),
             latLong: result
@@ -179,7 +198,7 @@ Template.onlyMap.helpers({
     } else {
       if (GoogleMaps.loaded()) {
         return {
-          center: new google.maps.LatLng(this.G, this.K),
+          center: new google.maps.LatLng(this.H, this.L),
           zoom: 16
         };
       }
