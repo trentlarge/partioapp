@@ -44,9 +44,23 @@ Template.inventory.events({
             // console.log('seachResult: ' + JSON.stringify(seachResult));
 
             //Once the book request is approved, decrease the count based on Book ID
-            var result = Search.update({_id: searchCollectionId}, {$inc: {qty: -1}})
-            console.log('Update result: ' + result);
-            IonLoading.hide();
+            // var result = Search.update({_id: searchCollectionId}, {$inc: {qty: -1}})
+            // console.log('Update result: ' + result);
+            
+            //Connections.find({"requestor": Meteor.userId(), "state": "PAYMENT"});
+
+            Connections.find({'bookData._id': bookId, 'requestor': {$ne: requestor}})
+            .map(function(item) {
+              console.log('connectionforBookID: ' + item);
+              Connections.update({_id: item._id}, {$set: {"state": "DENIED"}});
+            });
+            //console.log('connectionforBookID: ' + connectionforBookID);  
+
+            // connectionforBookID.forEach(function(item) {
+            //   console.log('connectionforBookID: ' + item);  
+            // });         
+
+            IonLoading.hide();  
 
             IonPopup.show({
               title: 'Great!',

@@ -83,6 +83,8 @@ Template.appLayout.rendered = function() {
 										"state": "WAITING"});
 
 		var query2 = Connections.find({"requestor": Meteor.userId(), "state": "PAYMENT"});
+
+		var query4 = Connections.find({"requestor": Meteor.userId(), "state": "DENIED"});
 		
 		var query3 = Connections.find({"bookData.ownerId": Meteor.userId(),
 										"state": "IN USE"});
@@ -102,10 +104,6 @@ Template.appLayout.rendered = function() {
 					
 					console.log('currentOne: ' + currentOne);
 					console.log('connectionId: ' + id);
-
-					//TEST
-					//RandomPopup()
-					//TEST
 
 					ShowRequestPopUp();
 				}
@@ -145,29 +143,51 @@ Template.appLayout.rendered = function() {
 					var alertObj = Alerts.findOne({connectionId: id});
 					console.log('query3 alertObj:' + alertObj);
 
-					
-					if (alertObj.unread) 
-					{
+					var connectionObj = Connections.findOne({"_id": id});
+
+					if (alertObj) {
 						var currentOne = Alerts.update({
 							_id: alertObj._id},
-							{type: "payment",
+							{type: "approval",
 							unread: false}
 						)
-						
-						console.log('currentOne: ' + currentOne);
-						console.log('connectionId: ' + id);
-
-						//TEST
-						//RandomPopup()
-						//TEST
-
 						ShowPaymentPopUp();
-					}					
-
+					}
+					
 				}
 			});
 
-		});
+
+			query4.observeChanges({
+
+				added: function (id, currentValue) {
+
+					console.log('query4:' + JSON.stringify(id));
+					
+					var alertObj = Alerts.findOne({connectionId: id});
+					console.log('query4 alertObj:' + alertObj);
+
+					var connectionObj = Connections.findOne({"_id": id});
+
+					
+					if (alertObj) 
+					{
+						var currentOne = Alerts.update({
+							_id: alertObj._id},
+							{type: "approval",
+							unread: false}
+						)
+						
+						ShowRequestDeniedPopUp(connectionObj.bookData.title);
+						Connections.remove({"_id": id});
+
+					}
+
+					
+				}
+			});
+	});
+	
 }
 
 var IsPopUpOpen;
@@ -283,6 +303,33 @@ function ShowPaymentPopUp()
 	IonPopup.show({
 		title: 'Alert',
 		template: '<div class="center">You have received a payment</div>',
+		buttons: 
+		[{
+			text: 'OK',
+			type: 'button-positive',
+			onTap: function() {
+				IonPopup.close();
+				Meteor.setTimeout(function(){
+
+				},1000)
+			}
+		}]
+	});
+}
+
+function ShowRequestDeniedPopUp(bookName)
+{
+	if(IsPopUpOpen)
+	{
+		//PopUp is open already, no need for a new one.
+		return;
+	}
+
+	IsPopUpOpen = true;
+
+	IonPopup.show({
+		title: 'Alert',
+		template: '<div class="center">Your request for - '+bookName+' - has been denied! :( Shall we throw the owner to the lions?!</div>',
 		buttons: 
 		[{
 			text: 'OK',
