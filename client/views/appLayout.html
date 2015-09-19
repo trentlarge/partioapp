@@ -36,11 +36,15 @@
           		<!-- <a href="{{pathFor "main"}}" class="item" data-ion-menu-close>
           			{{> ionIcon icon="ios-information" class="energized"}} &nbsp;&nbsp; ABOUT
           		</a> -->
-          		<a id="logout" class="item" data-ion-menu-close>
+          		<!-- <a id="logout" class="item" data-ion-menu-close>
           			{{> ionIcon icon="android-exit" class="energized"}} &nbsp;&nbsp; LOGOUT
-          		</a>
+          		</a> -->
+              <a href="{{pathFor "notifications"}}" class="item" data-ion-menu-close>
+                {{> ionIcon icon="android-notifications" class="energized"}} &nbsp;&nbsp; NOTIFICATIONS
+                <span class="badge badge-alert badge-assertive">{{alertCount}}</span>
+              </a>
           	</div>
-            <p class="padding beta">beta v0.2.5</p>
+            <p class="padding beta">beta v0.3.1</p>
           </div>
         {{/ionSideMenu}}
 
@@ -102,7 +106,3 @@
   {{/ionView}}
 </template>
 
-
-
-<template name="notifications">
-</template>

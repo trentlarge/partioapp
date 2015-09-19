@@ -1,0 +1,38 @@
+<template name="notifications">
+  {{#contentFor "headerButtonLeft"}}
+        <button class="button button-clear pull-left" data-ion-menu-toggle="left">
+          {{#if isAndroid}}
+          {{> ionIcon icon='android-more-vertical'}}
+          {{else}}
+          {{> ionIcon icon='navicon' class="energized"}}
+          {{/if}}
+        </button>
+  {{/contentFor}}
+  
+  {{#contentFor "headerTitle"}}
+    <h1 class="title">Notifications</h1>
+  {{/contentFor}}
+
+  {{#contentFor "headerButtonRight"}}
+    {{#if profileEdit}}
+      <!-- <button id="saveProfile" class="button button-clear button-energized">Save</button> -->
+    {{/if}}
+  {{/contentFor}}
+
+  {{#ionView}}
+    {{#ionContent}}
+
+    <ul class="list">
+      {{#each notifications}}
+      <li class="item item-icon-left">
+        {{> ionIcon icon="ios-information-outline" class="energized little-icon"}}
+        <h4 class="dark">You got a {{type}}</h4>
+      </li>
+      {{/each}}
+    </ul>
+
+    {{/ionContent}}
+  {{/ionView}}
+</template>
+
+

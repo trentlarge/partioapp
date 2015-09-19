@@ -3,8 +3,8 @@
 @import 'app-variables';
 
 // Ionic
-@import '.meteor/local/build/programs/server/assets/packages/meteoric_ionic-sass/packages/meteoric_ionic-sass/_ionic';
-@import '.meteor/local/build/programs/server/assets/packages/meteoric_ionicons-sass/packages/meteoric_ionicons-sass/_ionicons';
+@import '.meteor/local/build/programs/server/assets/packages/meteoric_ionic-sass/_ionic';
+@import '.meteor/local/build/programs/server/assets/packages/meteoric_ionicons-sass/_ionicons';
 
 
 
@@ -250,6 +250,12 @@ ion-side-menu.menu-left.menu {
 .badge {
 	margin-right: -10px;
 	font-size: 0.5em;
+	font-weight: 200;
+}
+
+.badge-alert {
+	margin-right: -10px;
+	font-size: 0.7em;
 	font-weight: 200;
 }
 
@@ -764,4 +770,7 @@ textarea, input[type="text"], input[type="password"], input[type="datetime"], in
 	line-height: 16px;
 }
 
+.little-icon {
+	font-size: 20px !important;
+}
 

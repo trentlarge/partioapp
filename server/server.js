@@ -1,9 +1,9 @@
   // SERVER FRESH START SEQUENCE
-  Products.remove({});
-  Search.remove({});
-  Meteor.users.remove({});
-  Connections.remove({});
-  Transactions.remove({});
+  // Products.remove({});
+  // Search.remove({});
+  // Meteor.users.remove({});
+  // Connections.remove({});
+  // Transactions.remove({});
 
   Connections.allow({
     insert: function () { return true; },
