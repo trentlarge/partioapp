@@ -32,7 +32,7 @@ Template.emailverification.onRendered(function() {
 						onTap: function() {
 							IonPopup.close();
 							// <a href="mycoolapp://">Open my app</a>
-							window.location = "http://partioapp.com"
+							window.location = "http://partio.xyz"
 						}
 					}]
 				});
@@ -55,7 +55,7 @@ Template.resetpassword.events({
 						duration: 2000,
 						customTemplate: '<div class="center"><h5>Successfully set!</h5></div>',
 					});
-					window.location = "http://partioapp.com"
+					window.location = "http://partio.xyz"
 				} else {
 					IonPopup.show({
 						title: 'Error!',

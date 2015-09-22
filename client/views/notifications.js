@@ -1,8 +1,7 @@
 Template.notifications.helpers({
 	notifications: function() {
 
-		return Alerts.find({ $or: [{ messageTo: Meteor.userId() }, 
-			{ messageTo : Meteor.userId() } ] })
+		return Alerts.find({messageTo: Meteor.userId()})
 
 
 		//return Alerts.find();
@@ -11,10 +10,8 @@ Template.notifications.helpers({
 
 
 Template.notifications.events({ 
-    'click #showMessage': function() {
-             console.log( this )
-        var AlertsObj = Alerts.find("_id":this._id);
-        ShowNotificationMessage(AlertsObj.message);
+    'click .show-message': function() {
+        ShowNotificationMessage(this.message);
      }
 })
 
@@ -29,9 +26,6 @@ function ShowNotificationMessage(strMessage)
 			type: 'button-positive',
 			onTap: function() {
 				IonPopup.close();
-				Meteor.setTimeout(function(){
-
-				},1000)
 			}
 		}]
 	});

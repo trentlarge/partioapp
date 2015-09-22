@@ -4,7 +4,7 @@ App.info({
   description: 'Share. Borrow. Party-o',
   author: 'InsaneInc',
   website: 'http://www.partioapp.com',
-  version: '0.3.0'
+  version: '0.3.3'
 });
 
 App.icons({
