@@ -24,9 +24,9 @@
 
     <ul class="list">
       {{#each notifications}}
-      <li class="item item-icon-left">
+      <li class="item item-icon-left .showMessage">
         {{> ionIcon icon="ios-information-outline" class="energized little-icon"}}
-        <h4 class="dark">You got a {{type}}</h4>
+        <h4 class="dark">{{message}}</h4>
       </li>
       {{/each}}
     </ul>

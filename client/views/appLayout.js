@@ -100,18 +100,32 @@ Template.appLayout.rendered = function() {
 			added: function(id, fields) {
 				console.log(fields);
 
+				var connectionObj = Connections.findOne({"_id": id});
+				var bookOwnerID = connectionObj.bookData.ownerId;
+				var borrowerID = connectionObj.requestor;
+
+				console.log('bookOwnerID: '+ bookOwnerID);
+				console.log('borrowerID: '+ borrowerID);
+
+				var connectionBookName = connectionObj.bookData.title;
+
 				if (!Alerts.findOne({connectionId: id, unread: true})) 
 				{
 					var currentOne = Alerts.insert({
 						connectionId: id,
+						_id: id,
+						bookOwner: bookOwnerID,
+						borrower: borrowerID,
+						messageTo: bookOwnerID,
 						type: "request",
+						message:'You have a book request for ' + connectionBookName,
 						unread: true
 					})
 					
 					console.log('currentOne: ' + currentOne);
 					console.log('connectionId: ' + id);
 
-					ShowRequestPopUp();
+					ShowRequestPopUp(connectionBookName);
 				}
 
 			}
@@ -125,15 +139,25 @@ Template.appLayout.rendered = function() {
 					var alertObj = Alerts.findOne({connectionId: id, unread: true});
 					console.log('query2 alertObj:' + alertObj);
 
+					var connectionObj = Connections.findOne({"_id": id});
+					var connectionBookName = connectionObj.bookData.title;
+					var bookOwnerID = connectionObj.bookData.ownerId;
+					var borrowerID = connectionObj.requestor;
+
 					if (alertObj) 
 					{
 						var currentOne = Alerts.update({
 							_id: alertObj._id},
 							{type: "approval",
+							connectionId: id,
+							bookOwner: bookOwnerID,
+							borrower: borrowerID,
+							messageTo: borrowerID,
+							message:'Your request for ' + connectionBookName + ' has been approved.',
 							unread: false}
 						)
 						
-						ShowApprovalPopUp();
+						ShowApprovalPopUp(connectionBookName);
 
 					}
 					
@@ -156,6 +180,8 @@ Template.appLayout.rendered = function() {
 					var connectionBookName = connectionObj.bookData.title;
 					var connectionPayment = connectionObj.payment;
 					var connectionPaymentAmount;
+					var bookOwnerID = connectionObj.bookData.ownerId;
+					var borrowerID = connectionObj.requestor;
 
 					if(connectionPayment)
 					{
@@ -174,41 +200,17 @@ Template.appLayout.rendered = function() {
 						{
 							_id: id},
 							{type: "approval",
+							connectionId: id,
+							bookOwner: bookOwnerID,
+							borrower: borrowerID,
+							messageTo: bookOwnerID,
+							message: 'You have received a payment of $'+ connectionPaymentAmount +' for '+ connectionBookName,
 							unread: false}
 						)
 
 						ShowPaymentPopUp(connectionBookName, connectionPaymentAmount);	
 					}
 
-
-					// if (!alertObj || !alertConnection) 
-					// {
-					// 	console.log('#3 Alerts.update!');
-					// 	var currentOne = Alerts.update(
-					// 	{
-					// 		_id: id},
-					// 		{type: "approval",
-					// 		unread: false}
-					// 	)
-
-					// 	if(!alertConnection)
-					// 	{
-					// 		ShowPaymentPopUp(connectionBookName, connectionPaymentAmount);	
-					// 	}						
-					// }
-
-					// else
-					// {
-					// 	console.log('Connection ID: ' + id);
-					// 	var currentOne = Alerts.update(
-					// 	{
-					// 		_id: id},
-					// 		{type: "approval",
-					// 		unread: false}
-					// 	)
-
-					// 	ShowPaymentPopUp(connectionBookName, connectionPaymentAmount);
-					// }
 					
 				}
 			});
@@ -224,6 +226,9 @@ Template.appLayout.rendered = function() {
 					console.log('query4 alertObj:' + alertObj);
 
 					var connectionObj = Connections.findOne({"_id": id});
+					var connectionBookName = connectionObj.bookData.title;
+					var bookOwnerID = connectionObj.bookData.ownerId;
+					var borrowerID = connectionObj.requestor;
 
 					
 					if (alertObj) 
@@ -231,6 +236,11 @@ Template.appLayout.rendered = function() {
 						var currentOne = Alerts.insert({
 							_id: alertObj._id},
 							{type: "approval",
+							connectionId: id,
+							bookOwner: bookOwnerID,
+							borrower: borrowerID,
+							messageTo: borrowerID,
+							message: 'Your request for '+ connectionBookName + ' has been rejected.',
 							unread: false}
 						)
 						
@@ -247,7 +257,7 @@ Template.appLayout.rendered = function() {
 }
 
 var IsPopUpOpen;
-function ShowRequestPopUp()
+function ShowRequestPopUp(strBookName)
 {
 	if(IsPopUpOpen)
 	{
@@ -258,7 +268,7 @@ function ShowRequestPopUp()
 	IsPopUpOpen = true;
 	IonPopup.show({
 		title: 'Alert',
-		template: '<div class="center">You got a new book request</div>',
+		template: '<div class="center">You got a new book request for '+strBookName+'</div>',
 		buttons: 
 		[{
 			text: 'OK',
@@ -306,7 +316,7 @@ function RandomPopup()
 	});
 }
 
-function ShowApprovalPopUp()
+function ShowApprovalPopUp(strBookName)
 {
 	if(IsPopUpOpen)
 	{
@@ -318,7 +328,7 @@ function ShowApprovalPopUp()
 
 	IonPopup.show({
 		title: 'Alert',
-		template: '<div class="center">Your request is approved</div>',
+		template: '<div class="center">Your request for ' + strBookName + ' has been approved.</div>',
 		buttons: 
 		[{
 			text: 'OK',

@@ -11,10 +11,11 @@ Template.lend.events({
             console.log(result.text, result.format);
 
             var barcode = result.text;
+            console.log('barcode: ' + barcode);
             // var format = result.format;
             // var cleanFormat = format.split('_')[0];
             Meteor.call('priceFromAmazon', barcode, function(error, result) {
-              console.log(result);
+              //console.log(result);
               var resultFromAmazon = {};
               if (!error) 
               {
@@ -93,7 +94,10 @@ function CalculateRentingCharges()
   else if(RentingTimeSpan == 'ONE_WEEK')
   {
     RentingFinalPrice = parseFloat((RentingOneWeekPercentage/100) * RentingAmazonPrice);
-    RentingFinalPrice = parseFloat(RentingFinalPrice * 7);
+    console.log('RentingOneWeekPercentage: ' + RentingFinalPrice);
+
+    RentingFinalPrice = parseFloat(RentingFinalPrice * 7);    
+    console.log('Pricex7: ' + RentingFinalPrice);
   }
   else if(RentingTimeSpan == 'ONE_MONTH')
   {
@@ -111,9 +115,12 @@ function CalculateRentingCharges()
   console.log('RentingAmazonRentalPrice: ' + RentingAmazonRentalPrice);
 
   RentingFinalPrice += parseFloat((RentingStripeFeePercent/100) * RentingFinalPrice);
+  console.log('RentingStripeFeePercent: ' + RentingFinalPrice);
   RentingFinalPrice += parseFloat(RentingStripeAdditionalFee);
+  console.log('RentingStripeAdditionalFee: ' + RentingFinalPrice);
 
   RentingFinalPrice += parseFloat((RentingPartioSharePercentage/100) * RentingFinalPrice);
+  console.log('RentingPartioSharePercentage: ' + RentingFinalPrice);
 
   if(RentingFinalPrice > RentingAmazonRentalPrice)
   {
@@ -128,8 +135,7 @@ function CalculateRentingCharges()
 
 function GetRentingPercentages(strRentingTimeSpan)
 {
-  //default
-  RentingAmazonPrice = parseFloat(Session.get('userPrice'));
+  RentingAmazonPrice = parseFloat(Session.get('priceValue'));
   RentingTimeSpan = strRentingTimeSpan;
   RentingOneDayPercentage = 2;
   RentingOneWeekPercentage = 1;
@@ -261,8 +267,9 @@ Template.lend.events({
       }
     }, 500)  
   },
-  'keyup .userPrice': function(e, template) {
-    Session.set('userPrice', e.target.value);
+  'keyup .userPrice': function(e, template) 
+  {
+    Session.set('userPrice', e.target.value);    
   },
   'click #cancelScan': function() {
     ClearData();
@@ -331,7 +338,7 @@ function ValidateInputs(BookDetails)
   }
 
   if(!BookDetails.customPrice ||
-    BookDetails.customPrice < 1)
+    BookDetails.customPrice < 0.5)
   {
     showInvalidPopUp('Invalid Inputs', 'Please enter a valid Price.');
     return false;
@@ -370,6 +377,7 @@ function AddProductToInventoryManually()
 {
   Products.insert(Session.get('manualBook'));
   Session.set('userPrice', null);
+  Session.set('priceValue', null);
           IonLoading.hide();
           IonPopup.show({
             title: 'Your Product sucessfully submitted',
@@ -476,11 +484,13 @@ Template.lend.helpers({
           RentingFinalPrice == 0)
         {
           var priceValue = (Session.get('scanResult').price).split("$")[1];
+          console.log('priceValue: ' + priceValue);
+          Session.set('priceValue', priceValue);
+
           Session.set('userPrice', (Number(priceValue)/5).toFixed(2));
 
           GetRentingPercentages('ONE_WEEK');
           Session.set('userPrice', RentingFinalPrice);
-          console.log('session price');
           
           // return (Number(priceValue)/5).toFixed(2);        
           return RentingFinalPrice;
@@ -514,6 +524,7 @@ function ClearData()
   console.log('ClearData');
   Session.set('scanResult', null);
   Session.set('userPrice', null);
+  Session.set('priceValue', null);
   Session.set('barcodeEntry', null);
   Session.set('manualEntry', null);
   Session.set('photoTaken', null)

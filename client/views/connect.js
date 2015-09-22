@@ -58,7 +58,28 @@ Template.connect.events({
 		});
 	},
 	'click #startChatOwner': function() {
-		IonModal.open("chat", Connections.findOne(this));
+		IonModal.open("chat", Connections.findOne(this));		
+	},
+	'click #cancelRequest': function() {
+		connectionId = this._id;
+		console.log('Cancelling Book Request');
+
+		IonPopup.confirm({
+			cancelText: 'No',
+			okText: 'Yes',
+			title: 'Book Request Cancel',
+			template: '<div class="center"><p> Do you wish to cancel the request? </p></div>',
+			onCancel: function() {
+				console.log('Cancelled')
+			},
+			onOk: function() {
+
+				Connections.remove({"_id": connectionId});
+				IonPopup.close();
+				Router.go('/inventory');
+			}
+	
+		});	
 	},
 	'click #ownerAccept': function() {
 		var requestor = this.requestor;
@@ -74,6 +95,7 @@ Template.connect.events({
 	    				type: 'button-assertive',
 	    				onTap: function() {
 	    					IonPopup.close();
+
 	    				}
 	    			}]
 	    		});

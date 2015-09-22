@@ -9,7 +9,7 @@ Template.inventory.helpers({
   	return (Products.find({"ownerId": Meteor.userId()}).count() || Connections.find({"bookData.ownerId": Meteor.userId(), "state": {$ne: "IN USE"}}).count()) ? true : false;
   },
   status: function() {
-  	return Connections.findOne(this._id).approved ? "IN USE" : "WAITING" ;
+    return Connections.findOne(this._id).approved ? "IN USE" : "WAITING" ;
   },
   statusWaiting: function() {
     return Connections.findOne(this._id).state === "WAITING" ? true: false;
@@ -95,6 +95,13 @@ Template.inventoryDetail.events({
 
     var xPrice = parseInt(template.find('#editPrice').value, 10);
     console.log('Edit xPrice ' + xPrice);  
+    
+    if(xPrice > 0.5)
+    {
+      showInvalidPopUp('Invalid Inputs', 'Please enter a valid price.');
+      return false;
+    }
+
     if(xPrice > 1000)
     {
       showInvalidPopUp('Invalid Inputs', 'Please enter a Price < 1000.');
@@ -124,8 +131,23 @@ function showInvalidPopUp(strTitle, strMessage)
         });
 }
 
+var bookID;
 Template.inventoryDetail.helpers({
   editMode: function() {
+
+    var ConnectionObj = Connections.findOne({'bookData._id': this._id});
+    
+    if(ConnectionObj)
+    {
+      var ConnectionStatus = ConnectionObj.state;
+
+      if(ConnectionStatus != "DONE")
+      {
+        //Check if book is in RENTING mode and disable edit option
+        return false;
+      }
+    }
+
     return Session.get('editMode') ? true : false;
   },
   manualEntry: function() {
