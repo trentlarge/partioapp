@@ -41,7 +41,7 @@
           		</a> -->
               <a href="{{pathFor "notifications"}}" class="item" data-ion-menu-close>
                 {{> ionIcon icon="android-notifications" class="energized"}} &nbsp;&nbsp; NOTIFICATIONS
-                <span class="badge badge-alert badge-assertive">{{alertCount}}</span>
+                <span class="badge badge-alert badge-assertive">{{#if alertCount}}{{alertCount}}{{/if}}</span>
               </a>
           	</div>
             <p class="padding beta">beta v0.3.3</p>
@@ -73,10 +73,6 @@
   
   {{#contentFor "headerTitle"}}
     <h1 class="title">parti-O</h1>
-  {{/contentFor}}
-
-  {{#contentFor "headerButtonRight"}}
-    {{> notifications}}
   {{/contentFor}}
 
   {{#ionView}}
