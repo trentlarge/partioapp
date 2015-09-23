@@ -1,10 +1,10 @@
   //SERVER FRESH START SEQUENCE
-  // Products.remove({});
-  // Search.remove({});
   // Meteor.users.remove({});
-  // Connections.remove({});
-  // Transactions.remove({});
-  // Alerts.remove({});
+  Products.remove({});
+  Search.remove({});
+  Connections.remove({});
+  Transactions.remove({}); 
+  Notifications.remove({});
 
   Connections.allow({
     insert: function () { return true; },
@@ -57,6 +57,29 @@ function buildRegExp(searchText) {
   return new RegExp("(" + parts.join('|') + ")", "ig");
 }
 
+var sendNotification = function(toId, fromId, message) {
+  Notifications.insert({
+    toId: toId,
+    fromId: fromId,
+    message: message,
+    read: false,
+    timestamp: new Date()
+  })
+}
+
+var sendPush = function(toId, message) {
+  Push.send({
+    from: 'partiO',
+    title: 'New activity on partiO',
+    text: message,
+    badge: 1,
+    sound: 'check',
+    query: {
+      userId: toId
+    }
+  });
+}
+
 
 
 Meteor.methods({
@@ -92,58 +115,47 @@ Meteor.methods({
   returnBook: function(ean) {
     Search.update({"ean": ean}, {$inc: {qty: 1}});
   },
-  requestOwner: function(requestor, productId, owner) {
-    console.log(requestor, productId, owner);
+  requestOwner: function(requestorId, productId, ownerId) {
+    console.log(requestorId, productId, ownerId);
 
-    Push.send({
-      from: 'parti-O',
-      title: 'Book Request',
-      text: 'You got a new book request',
-      badge: 1,
-      sound: 'check',
-      query: {
-        userId: owner
-      }
-    });
-
-    var ownerProfile = Meteor.users.findOne(owner).profile;
-    var requestorProfile = Meteor.users.findOne(requestor).profile;
+    var requestorName = Meteor.users.findOne(requestorId).profile.name;
+    var book = Products.findOne(productId); 
 
     var connection = {
-      requestor: requestor,
+      requestor: requestorId,
       state: 'WAITING',
       requestDate: new Date(),
       borrowedDate: null,
-      bookData: Products.findOne(productId),
+      bookData: book,
       chat: [  ],
       meetupLocation: "Location not set",
       meetupLatLong: "Location not set"
     };
-    Notifications.update({"userId": owner}, {$push: {"alerts": {
-      type: "request",
-      unread: true,
-      from: requestorProfile.name
-    }}})
-    // Meteor._sleepForMs(1000);
-    return Connections.insert(connection);
-  },
-  'ownerAccept': function(connectionId, requestor, productId) {
-    console.log(connectionId)
 
-    Push.send({
-      from: 'parti-O',
-      title: 'Approved',
-      text: 'Your request is approved!',
-      badge: 1,
-      sound: 'check',
-      query: {
-        userId: requestor
-      }
-    });
+    Connections.insert(connection);
+    
+    var message = "<strong>" + requestorName + "</strong> sent you a request for " + book.title  
+    sendPush(ownerId, message);
+    sendNotification(ownerId, requestorId, message);
+
+    return true;
+
+  },
+  'ownerAccept': function(connectionId) {
     Meteor._sleepForMs(1000);
     console.log("changing status from Waiting to Payment");
-    Connections.remove({"bookData._id": productId, "requestor": {$ne: requestor}});
-    return Connections.update({_id: connectionId}, {$set: {state: "PAYMENT"}});
+
+    var connect = Connections.findOne(connectionId);
+    var ownerName = Meteor.users.findOne(connect.bookData.ownerId).profile.name;
+ 
+    Connections.remove({"bookData._id": connect.bookData._id, "requestor": {$ne: connect.requestor}});
+    Connections.update({_id: connectionId}, {$set: {state: "PAYMENT"}});
+
+    var message = ownerName + " <strong>accepted</strong> your request for " + connect.bookData.title; 
+    sendPush(connect.requestor, message);
+    sendNotification(connect.requestor, connect.bookData.ownerId, message);
+
+    return true;
   },
   'payNow': function(payer) {
     console.log(payer);
@@ -187,6 +199,7 @@ Meteor.methods({
         source: payerCardId,
         destination: recipientAccountId
       });
+
       console.log(result);
       if (result.status === 'succeeded') {
         var payerTrans = {
@@ -208,16 +221,10 @@ Meteor.methods({
 
         var thisConnectionData = Connections.findOne(connectionId)
         var moneyGiver = Meteor.users.findOne(thisConnectionData.requestor).profile.name
-        Push.send({
-          from: 'parti-O',
-          title: 'Payment Received',
-          text: 'You received a payment of $' + amount + ' from ' + moneyGiver,
-          badge: 1,
-          sound: 'check',
-          query: {
-            userId: thisConnectionData.bookData.ownerId
-          }
-        });
+        var message = 'You received a payment of <strong>$' + amount + '</strong> from ' + moneyGiver
+        sendPush(thisConnectionData.bookData.ownerId, message);
+        sendNotification(thisConnectionData.bookData.ownerId, thisConnectionData.requestor, message)
+
 
       }
 

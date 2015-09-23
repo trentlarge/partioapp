@@ -33,7 +33,7 @@ Template.inventory.events({
         IonPopup.close();
         console.log("proceeding with connection");
         IonLoading.show();
-        Meteor.call('ownerAccept', connectionId, requestor, function(error, result) {
+        Meteor.call('ownerAccept', connectionId, function(error, result) {
           if (!error) 
           {
             // var connectionObj = Connections.findOne({_id: connectionId});            
@@ -48,12 +48,17 @@ Template.inventory.events({
             // console.log('Update result: ' + result);
             
             //Connections.find({"requestor": Meteor.userId(), "state": "PAYMENT"});
+            // Connections.find(
+            //   {'bookData._id': bookId, 'requestor': {$ne: requestor}}, 
+            //   {$set: {state: "DENIED"}},
+            //   {multi: true}
+            //   );
 
-            Connections.find({'bookData._id': bookId, 'requestor': {$ne: requestor}})
-            .map(function(item) {
-              console.log('connectionforBookID: ' + item);
-              Connections.update({_id: item._id}, {$set: {"state": "DENIED"}});
-            });
+            // Connections.find({'bookData._id': bookId, 'requestor': {$ne: requestor}})
+            // .map(function(item) {
+            //   console.log('connectionforBookID: ' + item);
+            //   Connections.update({_id: item._id}, {$set: {"state": "DENIED"}});
+            // });
             //console.log('connectionforBookID: ' + connectionforBookID);  
 
             // connectionforBookID.forEach(function(item) {
