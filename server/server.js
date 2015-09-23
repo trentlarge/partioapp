@@ -57,13 +57,14 @@ function buildRegExp(searchText) {
   return new RegExp("(" + parts.join('|') + ")", "ig");
 }
 
-var sendNotification = function(toId, fromId, message) {
+var sendNotification = function(toId, fromId, message, type) {
   Notifications.insert({
     toId: toId,
     fromId: fromId,
     message: message,
     read: false,
-    timestamp: new Date()
+    timestamp: new Date(),
+    type: type
   })
 }
 
@@ -102,6 +103,7 @@ Meteor.methods({
       }
     }
   },
+
   'updateOfficialEmail': function(userId, college, email) {
     Meteor.users.update({"_id": userId}, {$set: {"emails": [{"address": email, "verified": false}], "profile.college": college}}, function(error) {
       if (!error) {
@@ -109,12 +111,39 @@ Meteor.methods({
       }
     });
   },
-  'submitRating': function(rating, personId) {
-    Meteor.users.update({_id: personId}, {$push: {"profile.rating": rating}})
+
+  'submitRating': function(rating, personId, ratedBy) {
+    Meteor.users.update({_id: personId}, {$push: {"profile.rating": rating}});
+    var ratedByName = Meteor.users.findOne(ratedBy).profile.name;
+    var message = 'You got a rating of ' + rating + ' from ' + ratedByName;
+
+    sendPush(personId, message)
+    sendNotification(personId, ratedBy, message, "info")
+
   },
-  returnBook: function(ean) {
-    Search.update({"ean": ean}, {$inc: {qty: 1}});
+
+  returnBook: function(connectionId) {
+    var connect = Connections.findOne(connectionId);
+    var borrowerName = Meteor.users.findOne(connect.requestor).profile.name;
+     
+    Connections.update({_id: connectionId}, {$set: {"state": "RETURN"}});
+
+    var message = borrowerName + " wants to return the book " + connect.bookData.title;
+    sendPush(connect.bookData.ownerId, message);
+    sendNotification(connect.bookData.ownerId, connect.requestor, message, "info");
   },
+
+  confirmReturn: function(searchId, connectionId) {
+    var connect = Connections.findOne(connectionId);
+    var ownerName = Meteor.users.findOne(connect.bookData.ownerId).profile.name;
+    
+    Search.update({_id: searchId}, {$inc: {qty: 1}});
+
+    var message = ownerName + " confirmed your return of " + connect.bookData.title;
+    sendPush(connect.requestor, message);
+    sendNotification(connect.requestor, connect.bookData.ownerId, message, "info");
+  },
+
   requestOwner: function(requestorId, productId, ownerId) {
     console.log(requestorId, productId, ownerId);
 
@@ -136,7 +165,7 @@ Meteor.methods({
     
     var message = "<strong>" + requestorName + "</strong> sent you a request for " + book.title  
     sendPush(ownerId, message);
-    sendNotification(ownerId, requestorId, message);
+    sendNotification(ownerId, requestorId, message, "request");
 
     return true;
 
@@ -153,7 +182,7 @@ Meteor.methods({
 
     var message = ownerName + " <strong>accepted</strong> your request for " + connect.bookData.title; 
     sendPush(connect.requestor, message);
-    sendNotification(connect.requestor, connect.bookData.ownerId, message);
+    sendNotification(connect.requestor, connect.bookData.ownerId, message, "approved");
 
     return true;
   },
@@ -162,29 +191,6 @@ Meteor.methods({
     Meteor._sleepForMs(1000);
     Connections.update({_id: payer}, {$set: {state: "IN USE"}});
     return "yes, payment done"
-  },
-  'venmoVerification': function(authCode, userId) {
-    console.log("from server Method");
-    console.log(authCode +', '+ userId)
-    HTTP.call("POST", "https://api.venmo.com/v1/oauth/access_token", {
-      data: {
-        client_id: 2865,
-        code: authCode,
-        client_secret: "DfHDu2aLy4tXLCFDRe9BLYsmXDy9HK2u"
-      }},
-      function(error, result) {
-        if (!error) {
-          console.log('got users venmo account');
-          console.log(result);
-          Meteor.users.find({_id: userId})
-          Meteor.users.update({"_id": userId}, {$set: {"profile.venmo": result.data}});
-          console.log("venmo user saved");
-
-        } else {
-          console.log(error)
-        }
-      }
-    )
   },
   'chargeCard': function(payerCustomerId, payerCardId, recipientAccountId, amount, connectionId, transactionsId, transactionsRecipientId) {
     this.unblock();
@@ -223,8 +229,7 @@ Meteor.methods({
         var moneyGiver = Meteor.users.findOne(thisConnectionData.requestor).profile.name
         var message = 'You received a payment of <strong>$' + amount + '</strong> from ' + moneyGiver
         sendPush(thisConnectionData.bookData.ownerId, message);
-        sendNotification(thisConnectionData.bookData.ownerId, thisConnectionData.requestor, message)
-
+        sendNotification(thisConnectionData.bookData.ownerId, thisConnectionData.requestor, message, "info")
 
       }
 

@@ -16,12 +16,19 @@ Template.feedback.events({
 		var personId = this.bookData.ownerId;
 		var rating = $('input[name=rating]:checked').val();
 
-		Meteor.call('submitRating', rating, personId, function(error, result) {
-			if (!error) {
-				IonModal.close();
-				Router.go('/listing');
-			}
-		})
+		if (rating) {
+			Meteor.call('submitRating', rating, personId, Meteor.userId(), function(error, result) {
+				if (!error) {
+					IonModal.close();
+					Router.go('/listing');
+				}
+			})
+		} else {
+			IonLoading.show({
+				duration: 1500,
+				customTemplate: '<div class="center"><h5>Please enter your feedback</h5></div>',
+			});
+		}
 	}
 });
 
@@ -47,12 +54,19 @@ Template.feedbackborrower.events({
 		var connectionId = this._id;
 		var rating = $('input[name=rating]:checked').val();
 
-		Meteor.call('submitRating', rating, personId, function(error, result) {
-			if (!error) {
-				IonModal.close();
-			}
-		});
-		Router.go('/inventory');
-		Connections.remove({_id: connectionId});
+		if (rating) {
+			Meteor.call('submitRating', rating, personId, Meteor.userId(), function(error, result) {
+				if (!error) {
+					IonModal.close();
+					Router.go('/inventory');
+					Connections.remove({_id: connectionId});
+				}
+			})
+		} else {
+			IonLoading.show({
+				duration: 1500,
+				customTemplate: '<div class="center"><h5>Please enter your feedback</h5></div>',
+			});
+		}
 	}
 })

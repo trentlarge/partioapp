@@ -44,12 +44,11 @@ Template.connect.events({
 				console.log('Cancelled')
 			},
 			onOk: function() {
-
-				Meteor.call('returnBook', ean, function(error, result) {
+				Meteor.call('confirmReturn', searchCollectionId, connectionId, function(error, result) {
 					console.log(error, result);
 				})
 
-				var result = Search.update({_id: searchCollectionId}, {$inc: {qty: 1}})
+				// var result = Search.update({_id: searchCollectionId}, {$inc: {qty: 1}})
 
 				IonPopup.close();
 				IonModal.open("feedbackborrower", Connections.findOne(connectionId));
@@ -225,18 +224,11 @@ Template.connectRent.events({
 				console.log('Cancelled')
 			},
 			onOk: function() {
-				Connections.update({_id: connectionId}, {$set: {"state": "RETURN"}});
+				Meteor.call('returnBook', connectionId, function(error, result) {
+					console.log(error, result)
+				})
+				
 				IonPopup.close();
-				Push.send({
-					from: 'parti-O',
-					title: 'Returns',
-					text: requestorName+ ' wants to return your book',
-					badge: 1,
-					sound: 'check',
-					query: {
-						userId: ownerId
-					}
-				});
 				IonModal.open("feedback", Connections.findOne(connectionId));
 			}
 
