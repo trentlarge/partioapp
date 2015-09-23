@@ -183,6 +183,7 @@ Template.savedCards.events({
 			description: 'Add Card',
 			zipCode: false,
 			panelLabel: 'Save Card',
+			currency: 'USD',
 			email: Meteor.user().profile.email,
 			allowRememberMe: false,
 			opened: function() {
@@ -202,7 +203,7 @@ Template.savedCards.created = function() {
 	stripeHandler = StripeCheckout.configure({
 		key: 'pk_test_OYfO9mHIQFha7How6lNpwUiQ',
 		token: function(token) {
-			console.log(token);
+			console.log('card token: '+token);
 			Meteor.call('addCard', token.id, Meteor.user().profile.customer.id, Meteor.userId(), function(error, result) {
 				IonLoading.hide();
 				console.log(error);
