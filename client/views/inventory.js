@@ -101,7 +101,7 @@ Template.inventoryDetail.events({
     var xPrice = parseInt(template.find('#editPrice').value, 10);
     console.log('Edit xPrice ' + xPrice);  
     
-    if(xPrice > 0.5)
+    if(xPrice < 0.5)
     {
       showInvalidPopUp('Invalid Inputs', 'Please enter a valid price.');
       return false;
@@ -142,7 +142,7 @@ Template.inventoryDetail.helpers({
 
     var ConnectionObj = Connections.findOne({'bookData._id': this._id});
     
-    if(ConnectionObj)
+    if(ConnectionObj) 
     {
       var ConnectionStatus = ConnectionObj.state;
 

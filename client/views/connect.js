@@ -107,6 +107,8 @@ Template.connect.events({
 		connectionId = this._id;
 		console.log('connectionId: '+ connectionId);
 
+		meetingCoordinates = Connections.findOne(this._id).meetupLatLong;
+
 		// var essentialData = {};
 		// essentialData.meetupLatLong = this.meetupLatLong;
 		// essentialData.connectionId = this._id;
@@ -118,8 +120,8 @@ Template.connect.events({
 		}	
 		else
 		{
-			// console.log('currentPosition exits!');
-			Session.set('initialLoc', {lat: currentPosition.coords.latitude, lng: currentPosition.coords.longitude});
+			console.log('meeting lat: ' + meetingCoordinates.lat);
+			Session.set('initialLoc', {lat: meetingCoordinates.H, lng: meetingCoordinates.L});
 			Session.set('currentLoc', {lat: currentPosition.coords.latitude, lng: currentPosition.coords.longitude});
 
 			// console.log('initial: ' + Session.get('initialLoc'));
@@ -137,18 +139,30 @@ Template.connect.events({
 	}
 })
 
+var meetingCoordinates;
 var connectionId;
 var currentPosition;
 var onSuccess = function(position) 
 {
+	meetingCoordinates = Connections.findOne(connectionId).meetupLatLong;
 	currentPosition = position;
 	console.log('onSuccess');
 
-	Session.set('initialLoc', {lat: position.coords.latitude, lng: position.coords.longitude});
+	console.log('meeting lat: ' + JSON.stringify(meetingCoordinates));
+	if(meetingCoordinates.H &&
+		JSON.stringify(meetingCoordinates) != 'Location not set')
+	{
+		Session.set('initialLoc', {lat: meetingCoordinates.H, lng: meetingCoordinates.L});
+	}
+	else
+	{
+		Session.set('initialLoc', {lat: position.coords.latitude, lng: position.coords.longitude});
+	}
+	
 	Session.set('currentLoc', {lat: position.coords.latitude, lng: position.coords.longitude});
 
-	console.log('initial: ' + Session.get('initialLoc'));
-	console.log('currentLoc: ' + Session.get('currentLoc'));
+	console.log('initial: ' + JSON.stringify(Session.get('initialLoc')));
+	console.log('currentLoc: ' + JSON.stringify(Session.get('currentLoc')));
 
 	var essentialData = {};
 	essentialData.meetupLatLong = Session.get('initialLoc');
@@ -295,13 +309,40 @@ Template.connectRent.events({
 			Router.go('/profile/savedcards');
 		}
 	},
-	'click #showMap': function() {
-		if (this.meetupLatLong === "Location not set") {
+	'click #showMap': function() 
+	{
+		if (this.meetupLatLong === "Location not set") 
+		{
 			return false;
-		} else {
+		} 
+		else 
+		{
+			if(!currentTakerPosition)
+			{
+				CheckLocatioOnForTaker();
+			}
+
+			console.log('taker pos: '+ JSON.stringify(currentTakerPosition));
+
 			IonModal.open('onlyMap', this.meetupLatLong);
 		}
 	}
 });
+
+var currentTakerPosition;
+function CheckLocatioOnForTaker()
+{
+	navigator.geolocation.getCurrentPosition(onSuccessMethod, onErrorMethod);	
+}
+
+var onSuccessMethod = function(position)
+{
+	currentTakerPosition = position;
+	console.log('taker pos: '+ JSON.stringify(position));
+}
+
+function onErrorMethod(error) {
+	console.log('Err: '+ error);
+}
 
 
