@@ -1,10 +1,10 @@
   //SERVER FRESH START SEQUENCE
-  // Meteor.users.remove({});
-  // Products.remove({});
-  // Search.remove({});
-  // Connections.remove({});
-  // Transactions.remove({}); 
-  // Notifications.remove({});
+  Meteor.users.remove({});
+  Products.remove({});
+  Search.remove({});
+  Connections.remove({});
+  Transactions.remove({}); 
+  Notifications.remove({});
 
   Connections.allow({
     insert: function () { return true; },
@@ -37,6 +37,9 @@
       "Best\n" +
       "partiO team"
     };
+
+    // Stripe = StripeSync('sk_test_RBrpczGtVbB1tSaG66gglMTH');
+
   });
 
 SearchSource.defineSource('packages', function(searchText, options) {
@@ -192,9 +195,9 @@ Meteor.methods({
     Connections.update({_id: payer}, {$set: {state: "IN USE"}});
     return "yes, payment done"
   },
-  'chargeCard': function(payerCustomerId, payerCardId, recipientAccountId, amount, connectionId, transactionsId, transactionsRecipientId) {
+  'chargeCard': function(payerCustomerId, payerCardId, recipientDebitId, amount, connectionId, transactionsId, transactionsRecipientId) {
     this.unblock();
-    console.log(payerCustomerId, payerCardId, recipientAccountId, amount, connectionId, transactionsId, transactionsRecipientId);
+    console.log(payerCustomerId, payerCardId, recipientDebitId, amount, connectionId, transactionsId, transactionsRecipientId);
     var formattedAmount = (amount * 100).toFixed(0);
 
     try{
@@ -203,7 +206,7 @@ Meteor.methods({
         currency: "usd",
         customer: payerCustomerId,
         source: payerCardId,
-        destination: recipientAccountId
+        destination: recipientDebitId
       });
 
       console.log(result);
@@ -262,7 +265,8 @@ Meteor.methods({
       console.log(e)
     }
   },
-  'addCard': function(tokenId, customerId, MeteorUserId) {
+
+  'addCreditCard': function(tokenId, customerId, MeteorUserId) {
     console.log(tokenId, customerId, MeteorUserId);
     this.unblock();
     try {
@@ -279,6 +283,59 @@ Meteor.methods({
       throw new Meteor.Error('Error while adding card to account');
     }
   },
+
+  'addDebitCard': function(tokenId, stripeAccountId, MeteorUserId) {
+    console.log(tokenId, stripeAccountId, MeteorUserId);
+    this.unblock();
+    try {
+
+      var cardToken = Stripe.tokens.create({
+        "card[number]": '4000056655665556',
+         "card[exp_month]": 12,
+         "card[exp_year]": 2016,
+         "card[cvc]": '123',
+         "card[currency]": 'usd'
+      });
+      console.log(cardToken);
+
+      var result = Stripe.accounts.update( stripeAccountId, {
+        external_account: cardToken.id
+      });
+
+      if (result.id) {
+        Meteor.users.update({"_id": MeteorUserId}, {$set: {"profile.payoutCard": result}})
+      }
+    } catch(e) {
+      console.log(e);
+      throw new Meteor.Error('Error while adding card to account');
+    }
+  },
+
+  'createDebitAccount': function(MeteorUserId) {
+    var email = Meteor.users.findOne(MeteorUserId).profile.email;
+    this.unblock();
+
+    if (! Meteor.users.findOne(MeteorUserId).profile.stripeAccount) {
+      try {
+        var result = Stripe.accounts.create({
+          managed: true,
+          country: 'US',
+          email: email
+        });
+        console.log(result);
+
+        if (result.id) {
+          Meteor.users.update({"_id": MeteorUserId}, {$set: {"profile.stripeAccount": result}})
+        }
+      } catch(error) {
+        console.log(error)
+      }
+    } else {
+      console.log("Stripe Account already exists");
+      return true;
+    }
+  },
+
   'createStripeAccount': function(firstname, lastname, ssn, routingnumber, bankaccount, MeteorUserId) {
     this.unblock();
 

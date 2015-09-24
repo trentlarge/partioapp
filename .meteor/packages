@@ -20,7 +20,6 @@ mrt:accounts-facebook-cordova
 alexsmr:apac
 meteorhacks:async
 practicalmeteor:wkwebview
-benjick:stripe-native
 jaymc:google-reverse-geocode
 jeremy:geocomplete
 mdg:geolocation
@@ -30,3 +29,4 @@ mrt:googlemaps
 email
 mdg:reload-on-resume
 momentjs:moment
+benjick:stripe-native

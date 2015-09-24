@@ -18,12 +18,6 @@ Template.profile.helpers({
     }
   },
   emailSet: function() {
-    // if (Meteor.user.emails) {
-    //   var email = Meteor.user.emails[0].address;
-    //   if (email.split("@")[1].split(".")[1] == "edu") {
-    //     return true;
-    //   }
-    // }
     return Meteor.user().emails[0].address;
   }
 })
@@ -57,25 +51,7 @@ Template.profile.events({
             console.log(result);
             console.log(error);
           }
-        })
-        // Meteor.users.update({"_id": Meteor.userId()}, {$set: {"emails[0].address": email, "emails[0].verified": false, "profile.college": college}}
-        // Meteor.users.update({"_id": Meteor.userId()}, {
-        //     $addToSet: { "emails": {
-        //       'address': email,
-        //       'verified': false
-        //     }}
-        //   }, function(error) {
-        //   if (!error) {
-        //     Meteor.call('sendVerificationEmail', Meteor.userId(), function(error, result) {
-        //       if (!error) {
-        //         console.log(result);
-        //         console.log(error);
-        //       }
-        //     });
-        //     IonLoading.hide();
-        //     console.log("success!");
-        //   }
-        // });        
+        })    
       }
     }
   },

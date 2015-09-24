@@ -203,18 +203,6 @@ Template.login.events({
 							Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.transactionsId": userTransId}});
 							IonLoading.hide();
 
-							// IonPopup.show({
-							// 	title: 'Great!',
-							// 	template: '<div class="center">Logging in through your Facebook account...</div>',
-							// 	buttons: [{
-							// 		text: 'OK',
-							// 		type: 'button-calm',
-							// 		onTap: function() {
-							// 			IonPopup.close();
-							// 		}
-							// 	}]
-							// });
-
 						} else {
 							IonLoading.hide();
 							console.log(error);
@@ -290,10 +278,10 @@ function CheckLocatioOn()
 
 Template.login.rendered = function() {
 
-		document.addEventListener("resume", function(){
-			console.log("RESUMED!!")
+	document.addEventListener("resume", function(){
+		console.log("RESUMED!!")
 			//CheckLocatioOn();
 		}, false);
-	}
+}
 
 
