@@ -10,6 +10,7 @@ Template.map.onRendered(function()
         latLong: [Session.get('currentLoc').lat, Session.get('currentLoc').lng]
       });
     });
+    
   }
 
   this.autorun(function () 
@@ -18,6 +19,7 @@ Template.map.onRendered(function()
 
     if (GoogleMaps.loaded()) 
     {
+      var image = '/icon-40.png';
       var map = $("#map-search").geocomplete({
         map: "#map-box",
         location: [Session.get('initialLoc').lat, Session.get('initialLoc').lng],
@@ -39,31 +41,40 @@ Template.map.onRendered(function()
           Session.set('initialLoc', {
             address: reverseGeocode.getAddrStr(),
             latLong: result
+
           });
+
+          var Locn = {lat: result.H, lng: result.L};
+          console.log(Locn);
+
+          directionsDisplay.setMap(null);
+          calcRoute(map, Session.get('currentLoc') , Locn);    
 
           Connections.update({_id: connectionId}, 
             {$set: {meetupLocation: Session.get('newLocation').address, 
             meetupLatLong: Session.get('newLocation').latLong}});
           
-          meetingCoordinates = Connections.findOne(connectionId).meetupLatLong;
-          console.log('meetingCoordinates: ' + JSON.stringify(meetingCoordinates));
+            meetingCoordinates = Connections.findOne(connectionId).meetupLatLong;
+            console.log('meetingCoordinates: ' + JSON.stringify(meetingCoordinates));
 
-        });
+          });
       });
 
-      //Add aditional marker
       map = $("#map-search").geocomplete("map");
-      addAdditionalCurrentLocationMarker(map);   
+      addAdditionalCurrentLocationMarker(map);
     }
   });
 });
 
 var meetingCoordinates;
 
+
 function addAdditionalCurrentLocationMarker(mapObject)
 {
   var image = '/icon-current-location.png';
   var latitude, longitude;
+
+  console.log(Session.get('currentLoc'));
 
   latitude = Session.get('currentLoc').lat;
   longitude = Session.get('currentLoc').lng;
@@ -77,7 +88,7 @@ function addAdditionalCurrentLocationMarker(mapObject)
 
   marker.setMap(mapObject);
 
-  calcRoute(mapObject, Session.get('currentLoc') , Session.get('initialLoc'));   
+  calcRoute(mapObject, Session.get('currentLoc') , Session.get('initialLoc'));    
 }
 
 Template.map.events({
@@ -104,9 +115,7 @@ Template.map.helpers({
 
 Template.mapChat.onRendered(function() {
   var latLong = this.data.meetupLatLong;
-  console.log(latLong);
-  console.log('Session Loc: ' + Session.get('initialLoc').lat);
-
+  
   if (latLong === "-") {
     var geoReady = function() {
       var realPosition = Geolocation.latLng(); 
@@ -204,11 +213,13 @@ Template.mapChat.helpers({
 var currentTakerLoc;
 Template.onlyMap.helpers({
   exampleMapOptions: function() {
-    console.log('H: ' + this.H);
-    currentTakerLoc = {lat: this.H, lng: this.L};
 
-    if (this.lat) {
+    if (this.lat) 
+    {
     
+      currentTakerLoc = {lat: this.lat, lng: this.lng};
+      console.log('Lat/Lng');
+      console.log(this.meetupLatLong);
 
       if (GoogleMaps.loaded()) {
         return {
@@ -216,7 +227,13 @@ Template.onlyMap.helpers({
           zoom: 16
         };
       }
-    } else {
+    } 
+    else 
+    {
+      currentTakerLoc = {lat: this.H, lng: this.L};
+      console.log('H/L');
+      console.log(this.meetupLatLong);
+
       if (GoogleMaps.loaded()) {
         return {
           center: new google.maps.LatLng(this.H, this.L),
@@ -230,23 +247,28 @@ Template.onlyMap.helpers({
 
 Template.onlyMap.onCreated(function() {
 
+
   GoogleMaps.ready('exampleMap', function(map) {
 
-    var marker = new google.maps.Marker({
-      position: map.options.center,
-      map: map.instance
-    });
+    // marker1 = new google.maps.Marker({
+    //   position: map.options.center,
+    //   map: map.instance
+    // });
 
     addAdditionalTakerCurrentLocationMarker(map.instance);
+    
     var end = new google.maps.LatLng(Session.get('takerCurrentPosition').lat, 
     Session.get('takerCurrentPosition').lng);
+    var start = new google.maps.LatLng(currentTakerLoc.lat, currentTakerLoc.lng)
 
-  var start = new google.maps.LatLng(currentTakerLoc.lat, currentTakerLoc.lng)
+    // var end = marker1.position;
+    // var start = marker2.position;
 
     calcRoute(map.instance, end, start);
   });
 });
 
+var marker1, marker2;
 var takerMap;
 function addAdditionalTakerCurrentLocationMarker(mapObject)
 {
@@ -258,22 +280,47 @@ function addAdditionalTakerCurrentLocationMarker(mapObject)
   longitude = Session.get('takerCurrentPosition').lng;
 
   
-  var marker = new google.maps.Marker({
+    marker2 = new google.maps.Marker({
       position: {lat: latitude, lng: longitude},
       map: mapObject,
       icon: image
     });
 }
 
-
-function calcRoute(map, end, start) 
+var icons;
+function getIcons()
 {
-  var directionsDisplay = new google.maps.DirectionsRenderer();
-  var directionsService = new google.maps.DirectionsService();
+  icons = {
+  start: new google.maps.MarkerImage(
+   // URL
+     '/icon-small.png',
+     // (width,height)
+     new google.maps.Size( 44, 32 ),
+     // The origin point (x,y)
+     new google.maps.Point( 0, 0 ),
+     // The anchor point (x,y)
+     new google.maps.Point( 22, 32 )
+    ),
+    end: new google.maps.MarkerImage(
+    '/icon-current-location.png',
+     new google.maps.Size( 44, 32 ),
+     // The origin point (x,y)
+     new google.maps.Point( 0, 0 ),
+     // The anchor point (x,y)
+     new google.maps.Point( 22, 32 )
+    )
+   };
+}
+
+var directionsDisplay, directionsService;
+function calcRoute(map, start, end) 
+{
+  directionsDisplay = new google.maps.DirectionsRenderer();
+  directionsService = new google.maps.DirectionsService();
   directionsDisplay.setMap(map);
 
-  console.log(end + start)
-;  
+  getIcons();
+  
   var request = {
     origin:start,
     destination:end,
@@ -283,6 +330,21 @@ function calcRoute(map, end, start)
   {
     if (status == google.maps.DirectionsStatus.OK) {
       directionsDisplay.setDirections(result);
+      var leg = result.routes[ 0 ].legs[ 0 ];
+      // makeMarker( leg.start_location, icons.start, "title", map );
+      // makeMarker( leg.end_location, icons.end, 'title', map );
     }
   });
 }
+
+function makeMarker( position, icon, title, map ) {
+ new google.maps.Marker({
+  position: position,
+  map: map,
+  icon: '/icon-small.png',
+  title: title,
+  draggable: true
+ });
+}
+
+

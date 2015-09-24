@@ -113,27 +113,29 @@ Template.connect.events({
 		// essentialData.connectionId = this._id;
 		// IonModal.open('mapChat', essentialData);
 // 
-		if(!currentPosition)
-		{
-			CheckLocatioOn();	
-		}	
-		else
-		{
-			console.log('meeting lat: ' + meetingCoordinates.lat);
-			Session.set('initialLoc', {lat: meetingCoordinates.H, lng: meetingCoordinates.L});
-			Session.set('currentLoc', {lat: currentPosition.coords.latitude, lng: currentPosition.coords.longitude});
+		CheckLocatioOn();	
+		
+		// if(!currentPosition)
+		// {
+		// 	CheckLocatioOn();	
+		// }	
+		// else
+		// {
+		// 	console.log('meeting lat: ' + meetingCoordinates.lat);
+		// 	Session.set('initialLoc', {lat: meetingCoordinates.H, lng: meetingCoordinates.L});
+		// 	Session.set('currentLoc', {lat: currentPosition.coords.latitude, lng: currentPosition.coords.longitude});
 
-			// console.log('initial: ' + Session.get('initialLoc'));
-			// console.log('currentLoc: ' + Session.get('currentLoc'));
+		// 	// console.log('initial: ' + Session.get('initialLoc'));
+		// 	// console.log('currentLoc: ' + Session.get('currentLoc'));
 
-			var essentialData = {};
-			essentialData.meetupLatLong = Session.get('initialLoc');
-			essentialData.connectionId = connectionId;
+		// 	var essentialData = {};
+		// 	essentialData.meetupLatLong = Session.get('initialLoc');
+		// 	essentialData.connectionId = connectionId;
 
-			console.log('essentialData: ' + essentialData);
+		// 	console.log('essentialData: ' + essentialData);
 
-			IonModal.open('map', essentialData);
-		}
+		// 	IonModal.open('map', essentialData);
+		// }
 
 	}
 })
@@ -324,29 +326,23 @@ Template.connectRent.events({
 	},
 	'click #showMap': function() 
 	{
+		this.meetupLocation = Connections.findOne(this._id).meetupLocation;
+
+		
+
 		if (this.meetupLatLong === "Location not set") 
 		{
 			return false;
 		} 
 		else 
 		{
-			if(!currentTakerPosition)
-			{
-				CheckLocatioOnForTaker();
-			}
-			else
-			{
-				Session.set('takerCurrentPosition', {lat: currentTakerPosition.coords.latitude, lng: currentTakerPosition.coords.longitude});
-				console.log('coords: ' + Session.get('takerCurrentPosition').lat);
-
-				IonModal.open('onlyMap', this.meetupLatLong);	
-			}
-
+			argMeetupLatLong = Connections.findOne(this._id).meetupLatLong;
+			CheckLocatioOnForTaker();
 		}
 	}
 });
 
-var currentTakerPosition;
+var currentTakerPosition, argMeetupLatLong;
 function CheckLocatioOnForTaker()
 {
 	navigator.geolocation.getCurrentPosition(onSuccessMethod, onErrorMethod);	
@@ -358,7 +354,8 @@ var onSuccessMethod = function(position)
 	
 	Session.set('takerCurrentPosition', {lat: currentTakerPosition.coords.latitude, lng: currentTakerPosition.coords.longitude});
 	console.log('coords: ' + Session.get('takerCurrentPosition').lat);
-	IonModal.open('onlyMap', this.meetupLatLong);	
+	console.log(argMeetupLatLong);
+	IonModal.open('onlyMap', argMeetupLatLong);	
 }
 
 function onErrorMethod(error) {
