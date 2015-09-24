@@ -53,6 +53,14 @@
           <span class="input-label"><p>Email</p></span>
           <input disabled type="email" value="{{currentUser.emails.[0].address}}">
         </label>
+        <label class="item item-input" id="changePassword">
+          <span class="input-label"><p>Change Password</p></span>
+          <!-- <input id="changePassword" type="text" value=""> -->
+        </label>
+        <label class="item item-input" id="logout">
+          <span class="input-label"><p>Logout</p></span>
+          <!-- <input id="logout" type="text" value=""> -->
+        </label>
        {{else}}
          <label class="item item-input item-select college-select">
           <div class="input-label"><p>College</p></div>
@@ -69,14 +77,6 @@
         </label>
         {{/if}}
 
-        <label class="item item-input">
-          <span class="input-label"><p>Change Password</p></span>
-          <input id="changePassword" type="text" value="">
-        </label>
-        <label class="item item-input">
-          <span class="input-label"><p>Logout</p></span>
-          <input id="logout" type="text" value="">
-        </label>
       </div>
       <div class="padding-horizontal">
       {{#if currentUser.emails.[0].verified}}
@@ -85,10 +85,10 @@
           {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
         </a>
 
-        <a class="item item-icon-right" href="{{pathFor 'bankAccount'}}">
+        <!-- <a class="item item-icon-right" href="{{pathFor 'bankAccount'}}">
           <p>Bank Account</p>
           {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
-        </a>
+        </a> -->
       {{else}}
         {{#if emailSet}}
           <br>

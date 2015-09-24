@@ -439,15 +439,15 @@ function CheckStripeAccount () {
     IonLoading.hide();
     IonPopup.show({
       title: 'ATTENTION!',
-      template: '<div class="center">A bank account should be linked to receive payments for your shared goods!</div>',
+      template: '<div class="center">A Debit Card should be linked to receive payments for your shared goods!</div>',
       buttons: 
       [{
-        text: 'Setup Bank Account',
+        text: 'Add Card',
         type: 'button-balanced',
         onTap: function() 
         {
           IonPopup.close();
-          Router.go('/profile/bankAccount');
+          Router.go('/profile/savedcards');
           IonModal.close();
         }
       }]

@@ -1,4 +1,77 @@
-<template name="bankAccount">
+<template name="savedCards">
+    {{#contentFor "headerButtonLeft"}}
+      {{>ionNavBackButton path="profile"}}
+    {{/contentFor}}
+    
+    {{#contentFor "headerTitle"}}
+      <h1 class="title">Saved Cards</h1>
+    {{/contentFor}}
+    
+    {{#ionView}}
+      {{#ionContent}}
+
+        <br>
+        <div class="padding list">
+          <div class="item item-divider"><h3>Receive Funds</h3></div>
+          
+          {{#with addedDebitCard}}
+          <a class="item item-icon-right">
+            <p>{{brand}}&nbsp;&nbsp; XXXX-{{last4}}</p>
+            <i class="icon ion-checkmark balanced custom-icon"></i>
+          </a>
+          {{else}}
+            <a class="item item-icon-left" id="add-debit-card">
+            <i class="icon ion-ios-plus-outline energized custom-icon"></i>
+            <p class="graytext">Add Debit Card</p>
+          </a>
+          {{/with}}
+
+        </div>
+
+        <div class="padding-horizontal list">
+          <div class="item item-divider"><h3>Credit Cards</h3></div>
+          <!-- {{#each addedCards}}
+          <a class="item item-icon-right">
+            <p>{{brand}}&nbsp;&nbsp; XXXX-{{last4}}</p>
+            {{#if addedCards.[0]}}<i class="icon ion-checkmark balanced custom-icon"></i>{{/if}}
+          </a>
+          {{/each}} -->
+          {{#each addedCards}}
+          <label class="item item-radio">
+            <input type="radio" name="group" value="{{last4}}" checked="checked">
+            <div class="item-content"><p>{{brand}}&nbsp;&nbsp; XXXX-{{last4}}</p></div>
+            <i class="radio-icon ion-checkmark balanced"></i>
+          </label>
+          {{/each}}
+          <a class="item item-icon-left" id="add-credit-card">
+            <i class="icon ion-ios-plus-outline energized custom-icon"></i>
+            <p class="graytext">Add Credit Card</p>
+          </a>
+        </div>
+
+<!--         <div class="list">
+         {{#each addedCards}}
+         <div class="item item-divider"><h3>Cards for Payment</h3></div>
+         <label class="item item-radio">
+          <input type="radio" name="group" value="{{last4}}" checked="checked">
+          <div class="item-content center"><span class="capitalize">{{brand}}</span> &nbsp;&nbsp; XXXX-{{last4}}</div>
+          <i class="radio-icon ion-checkmark"></i>
+        </label>
+        {{/each}}
+      </div> -->
+
+        {{/ionContent}}
+      {{/ionView}}
+</template>
+
+
+
+
+
+
+
+
+<!-- <template name="bankAccount">
 	{{#contentFor "headerButtonLeft"}}
       {{>ionNavBackButton path="profile"}}
   	{{/contentFor}}
@@ -8,7 +81,6 @@
   	{{/contentFor}}
 
   	{{#ionView}}
-		<!-- {{#ionContent}} -->
     <div class="content has-header">
     {{#if noStripeYet}}
 
@@ -76,45 +148,9 @@
 
 
     </div>
-		<!-- {{/ionContent}} -->
 
 	{{/ionView}}
-</template>
-
-
-
-<template name="savedCards">
-    {{#contentFor "headerButtonLeft"}}
-      {{>ionNavBackButton path="profile"}}
-    {{/contentFor}}
-    
-    {{#contentFor "headerTitle"}}
-      <h1 class="title">Saved Cards</h1>
-    {{/contentFor}}
-    
-    {{#ionView}}
-      <div class="content has-header"> 
-
-        <div class="list">
-
-         {{#each addedCards}}
-         <label class="item item-radio">
-          <input type="radio" name="group" value="{{last4}}" checked="checked">
-          <div class="item-content center"><span class="capitalize">{{brand}}</span> &nbsp;&nbsp; XXXX-{{last4}}</div>
-          <i class="radio-icon ion-checkmark"></i>
-        </label>
-        {{/each}}
-
-      </div>
-
-      <div class="padding-horizontal center">
-       <a type="button" class="button button-outline icon-left button-small ion-card button-balanced" id="stripe-card">ADD CARD</a>
-     </div>
-
-
-      </div>
-      {{/ionView}}
-</template>
+</template> -->
 
 
 

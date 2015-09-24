@@ -286,6 +286,7 @@ Template.connectRent.events({
 			var amount = (Number(this.bookData.customPrice) * Session.get('sliderValue')).toFixed(2);
 			var transactionsId = Meteor.user().profile.transactionsId;
 			var transactionsRecipientId = Meteor.users.findOne(this.bookData.ownerId).profile.transactionsId;
+			var recipientDebitId = Meteor.users.findOne(this.bookData.ownerId).profile.payoutCard.id;
 
 			IonPopup.confirm({
 				cancelText: 'Cancel',
@@ -297,7 +298,7 @@ Template.connectRent.events({
 				},
 				onOk: function() {
 					IonLoading.show();
-					Meteor.call('chargeCard', payerCustomerId, payerCardId, recipientAccountId, amount, connectionId, transactionsId, transactionsRecipientId, function(error, result) {
+					Meteor.call('chargeCard', payerCustomerId, payerCardId, recipientDebitId, amount, connectionId, transactionsId, transactionsRecipientId, function(error, result) {
 						if (!error) {
 							IonLoading.hide();
 							IonPopup.show({
