@@ -44,12 +44,11 @@ Template.connect.events({
 				console.log('Cancelled')
 			},
 			onOk: function() {
-
-				Meteor.call('returnBook', ean, function(error, result) {
+				Meteor.call('confirmReturn', searchCollectionId, connectionId, function(error, result) {
 					console.log(error, result);
 				})
 
-				var result = Search.update({_id: searchCollectionId}, {$inc: {qty: 1}})
+				// var result = Search.update({_id: searchCollectionId}, {$inc: {qty: 1}})
 
 				IonPopup.close();
 				IonModal.open("feedbackborrower", Connections.findOne(connectionId));
@@ -195,6 +194,9 @@ function CheckLocatioOn()
 }
 
 
+Template.connectRent.onRendered(function() {
+	Session.set('sliderValue', 4);
+})
 
 Template.connectRent.helpers({
 	noProfileYet: function() {
@@ -221,6 +223,21 @@ Template.connectRent.helpers({
 	},
 	itemReturnDone: function() {
 		return (Connections.findOne(this._id).state === "RETURN" || Connections.findOne(this._id).state === "DONE" ) ? true : false;
+	},
+	paymentPending: function() {
+		return Connections.findOne(this._id).state === "PAYMENT" ? true : false;
+	},
+	sliderValue: function() {
+		return Session.get('sliderValue')
+	},
+	todaysDate: function() {
+		return moment().format('MM/DD'); 
+	},
+	endDate: function() {
+		return moment().add(Session.get('sliderValue'), 'w').format('MM/DD');
+	},
+	calculatedPrice: function() {
+		return (Number(this.bookData.customPrice) * Session.get('sliderValue')).toFixed(2);
 	}
 })
 
@@ -239,23 +256,19 @@ Template.connectRent.events({
 				console.log('Cancelled')
 			},
 			onOk: function() {
-				Connections.update({_id: connectionId}, {$set: {"state": "RETURN"}});
+				Meteor.call('returnBook', connectionId, function(error, result) {
+					console.log(error, result)
+				})
+				
 				IonPopup.close();
-				Push.send({
-					from: 'parti-O',
-					title: 'Returns',
-					text: requestorName+ ' wants to return your book',
-					badge: 1,
-					sound: 'check',
-					query: {
-						userId: ownerId
-					}
-				});
 				IonModal.open("feedback", Connections.findOne(connectionId));
 			}
 
 		});
 		
+	},
+	'change #slider': function(e) {
+		Session.set('sliderValue', e.target.value);
 	},
 	'click #startChat': function() {
 		IonModal.open("chat", Connections.findOne(this));
@@ -268,7 +281,7 @@ Template.connectRent.events({
 			var connectionId = this._id;
 			var payerCustomerId = Meteor.user().profile.cards.data[0].customer;
 			var recipientAccountId = Meteor.users.findOne(this.bookData.ownerId).profile.stripeAccount.id;
-			var amount = Number(this.bookData.customPrice).toFixed(2);
+			var amount = (Number(this.bookData.customPrice) * Session.get('sliderValue')).toFixed(2);
 			var transactionsId = Meteor.user().profile.transactionsId;
 			var transactionsRecipientId = Meteor.users.findOne(this.bookData.ownerId).profile.transactionsId;
 

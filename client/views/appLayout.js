@@ -7,7 +7,7 @@ Template.main.events({
 
 Template.appLayout.helpers({
 	'alertCount': function() {
-		return Notifications.find({toId: Meteor.userId(), read: false}).count();
+		return Session.get('alertCount');
 	}
 })
 
@@ -46,10 +46,71 @@ Meteor.startup(function() {
     	key: 'AIzaSyDMyxBlvIc4b4hoWqTw4lGr5OviU8FlQc8',
     	libraries: 'places'
     });
-
-    //Alerts = new Meteor.Collection(null);
 });
 
+Template.registerHelper('cleanDate', function() {
+	return moment(this.timestamp).fromNow();
+});
+
+Session.set('alertCount', 0);
+Template.appLayout.onRendered(function() {
+	var self = this;
+
+	self.autorun(function() {
+		var query1 = Notifications.find({toId: Meteor.userId(), read: false});
+
+		query1.observeChanges({
+			added: function(id, fields) {
+
+				if (fields.type === "request") {
+					IonPopup.show({
+						title: 'Alert',
+						template: '<div class="center">'+ fields.message +'</div>',
+						buttons: 
+						[{
+							text: 'OK',
+							type: 'button-positive',
+							onTap: function() {
+								IonPopup.close();
+								Meteor.setTimeout(function(){
+									Router.go('/inventory');
+									Notifications.update({_id: id}, {$set: {read: true}});
+									Session.set('alertCount', Session.get('alertCount') + 1);
+								},500)
+							}
+						}]
+					});
+				} else if (fields.type === "approved") {
+					IonPopup.show({
+						title: 'Alert',
+						template: '<div class="center">'+ fields.message +'</div>',
+						buttons: 
+						[{
+							text: 'OK',
+							type: 'button-positive',
+							onTap: function() {
+								IonPopup.close();
+								Meteor.setTimeout(function(){
+									Router.go('/renting');
+									Notifications.update({_id: id}, {$set: {read: true}});
+									Session.set('alertCount', Session.get('alertCount') + 1);
+								},500)
+							}
+						}]
+					});
+				} else {
+					IonLoading.show({
+						duration: 2000,
+						customTemplate: '<div class="center"><h5>'+ fields.message 	+'</h5></div>',
+					});
+					Notifications.update({_id: id}, {$set: {read: true}});
+					Session.set('alertCount', Session.get('alertCount') + 1);
+				}
+
+			}
+		})
+	})
+})
 
 // Template.appLayout.rendered = function() {
 // 	var self = this;
