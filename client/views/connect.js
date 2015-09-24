@@ -321,10 +321,14 @@ Template.connectRent.events({
 			{
 				CheckLocatioOnForTaker();
 			}
+			else
+			{
+				Session.set('takerCurrentPosition', {lat: currentTakerPosition.coords.latitude, lng: currentTakerPosition.coords.longitude});
+				console.log('coords: ' + Session.get('takerCurrentPosition').lat);
 
-			console.log('taker pos: '+ JSON.stringify(currentTakerPosition));
+				IonModal.open('onlyMap', this.meetupLatLong);	
+			}
 
-			IonModal.open('onlyMap', this.meetupLatLong);
 		}
 	}
 });
@@ -338,7 +342,10 @@ function CheckLocatioOnForTaker()
 var onSuccessMethod = function(position)
 {
 	currentTakerPosition = position;
-	console.log('taker pos: '+ JSON.stringify(position));
+	
+	Session.set('takerCurrentPosition', {lat: currentTakerPosition.coords.latitude, lng: currentTakerPosition.coords.longitude});
+	console.log('coords: ' + Session.get('takerCurrentPosition').lat);
+	IonModal.open('onlyMap', this.meetupLatLong);	
 }
 
 function onErrorMethod(error) {

@@ -53,10 +53,12 @@ Template.map.onRendered(function()
 
       //Add aditional marker
       map = $("#map-search").geocomplete("map");
-      addAdditionalCurrentLocationMarker(map);      
+      addAdditionalCurrentLocationMarker(map);   
     }
   });
 });
+
+var meetingCoordinates;
 
 function addAdditionalCurrentLocationMarker(mapObject)
 {
@@ -74,6 +76,8 @@ function addAdditionalCurrentLocationMarker(mapObject)
     });
 
   marker.setMap(mapObject);
+
+  calcRoute(mapObject, Session.get('currentLoc') , Session.get('initialLoc'));   
 }
 
 Template.map.events({
@@ -197,12 +201,15 @@ Template.mapChat.helpers({
 
 
 
-
+var currentTakerLoc;
 Template.onlyMap.helpers({
   exampleMapOptions: function() {
-    console.log(this);
+    console.log('H: ' + this.H);
+    currentTakerLoc = {lat: this.H, lng: this.L};
 
     if (this.lat) {
+    
+
       if (GoogleMaps.loaded()) {
         return {
           center: new google.maps.LatLng(this.lat, this.lng),
@@ -229,5 +236,53 @@ Template.onlyMap.onCreated(function() {
       position: map.options.center,
       map: map.instance
     });
+
+    addAdditionalTakerCurrentLocationMarker(map.instance);
+    var end = new google.maps.LatLng(Session.get('takerCurrentPosition').lat, 
+    Session.get('takerCurrentPosition').lng);
+
+  var start = new google.maps.LatLng(currentTakerLoc.lat, currentTakerLoc.lng)
+
+    calcRoute(map.instance, end, start);
   });
 });
+
+var takerMap;
+function addAdditionalTakerCurrentLocationMarker(mapObject)
+{
+  var image = '/icon-current-location.png';
+  var latitude, longitude;
+
+
+  latitude = Session.get('takerCurrentPosition').lat;
+  longitude = Session.get('takerCurrentPosition').lng;
+
+  
+  var marker = new google.maps.Marker({
+      position: {lat: latitude, lng: longitude},
+      map: mapObject,
+      icon: image
+    });
+}
+
+
+function calcRoute(map, end, start) 
+{
+  var directionsDisplay = new google.maps.DirectionsRenderer();
+  var directionsService = new google.maps.DirectionsService();
+  directionsDisplay.setMap(map);
+
+  console.log(end + start)
+;  
+  var request = {
+    origin:start,
+    destination:end,
+    travelMode: google.maps.TravelMode.DRIVING
+  };
+  directionsService.route(request, function(result, status) 
+  {
+    if (status == google.maps.DirectionsStatus.OK) {
+      directionsDisplay.setDirections(result);
+    }
+  });
+}

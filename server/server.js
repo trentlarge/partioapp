@@ -1,5 +1,5 @@
   //SERVER FRESH START SEQUENCE
-  // Meteor.users.remove({});
+  Meteor.users.remove({});
   Products.remove({});
   Search.remove({});
   Connections.remove({});
