@@ -17,8 +17,10 @@ Template.lend.events({
             Meteor.call('priceFromAmazon', barcode, function(error, result) {
               //console.log(result);
               var resultFromAmazon = {};
+              console.log('error: '+ error);
               if (!error) 
               {
+                console.log('result: '+ result);
                 Session.set('scanResult', result);
                 IonLoading.hide();
               } else {
@@ -389,7 +391,7 @@ function AddProductToInventoryManually()
               onTap: function() {
                 IonPopup.close();
                 Router.go('/inventory');
-                IonModal.close();
+                IonModal.close();                 
               }
             }]
           });
@@ -522,7 +524,9 @@ Template.lend.destroyed = function() {
 function ClearData()
 {
   console.log('ClearData');
+  RentingFinalPrice = null;
   Session.set('scanResult', null);
+  Session.set('priceValue', null);
   Session.set('userPrice', null);
   Session.set('priceValue', null);
   Session.set('barcodeEntry', null);

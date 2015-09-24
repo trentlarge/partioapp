@@ -14,8 +14,6 @@ Template.map.onRendered(function()
 
   this.autorun(function () 
   {
-    
-
     console.log('connectionId: ' + connectionId);
 
     if (GoogleMaps.loaded()) 
@@ -38,11 +36,17 @@ Template.map.onRendered(function()
             latLong: result
           });
 
+          Session.set('initialLoc', {
+            address: reverseGeocode.getAddrStr(),
+            latLong: result
+          });
+
           Connections.update({_id: connectionId}, 
             {$set: {meetupLocation: Session.get('newLocation').address, 
             meetupLatLong: Session.get('newLocation').latLong}});
           
-          console.log('connectionId: ' + connectionId);
+          meetingCoordinates = Connections.findOne(connectionId).meetupLatLong;
+          console.log('meetingCoordinates: ' + JSON.stringify(meetingCoordinates));
 
         });
       });
@@ -56,11 +60,17 @@ Template.map.onRendered(function()
 
 function addAdditionalCurrentLocationMarker(mapObject)
 {
-  var image = '/icon-40.png';
+  var image = '/icon-current-location.png';
+  var latitude, longitude;
 
+  latitude = Session.get('currentLoc').lat;
+  longitude = Session.get('currentLoc').lng;
+
+  
   var marker = new google.maps.Marker({
-      position: {lat: Session.get('initialLoc').lat, lng: Session.get('initialLoc').lng},
-      map: mapObject
+      position: {lat: latitude, lng: longitude},
+      map: mapObject,
+      icon: image
     });
 
   marker.setMap(mapObject);
@@ -108,7 +118,9 @@ Template.mapChat.onRendered(function() {
               country: 'US'
             },
             markerOptions: {
-              draggable: true
+              draggable: true,
+              animation: google.maps.Animation.DROP,
+              title:"Meet Up Location"
             },
           }).bind("geocode:dragged", function(event, result){
             console.log(result);
@@ -141,7 +153,9 @@ Template.mapChat.onRendered(function() {
           country: 'US'
         },
         markerOptions: {
-          draggable: true
+          draggable: true,
+          animation: google.maps.Animation.DROP,
+          title:"Meet Up Location"
         },
       }).bind("geocode:dragged", function(event, result){
         console.log(result);
