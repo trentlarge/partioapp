@@ -180,6 +180,9 @@ function CheckLocatioOn()
 }
 
 
+Template.connectRent.onRendered(function() {
+	Session.set('sliderValue', 4);
+})
 
 Template.connectRent.helpers({
 	noProfileYet: function() {
@@ -206,6 +209,21 @@ Template.connectRent.helpers({
 	},
 	itemReturnDone: function() {
 		return (Connections.findOne(this._id).state === "RETURN" || Connections.findOne(this._id).state === "DONE" ) ? true : false;
+	},
+	paymentPending: function() {
+		return Connections.findOne(this._id).state === "PAYMENT" ? true : false;
+	},
+	sliderValue: function() {
+		return Session.get('sliderValue')
+	},
+	todaysDate: function() {
+		return moment().format('MM/DD'); 
+	},
+	endDate: function() {
+		return moment().add(Session.get('sliderValue'), 'w').format('MM/DD');
+	},
+	calculatedPrice: function() {
+		return (Number(this.bookData.customPrice) * Session.get('sliderValue')).toFixed(2);
 	}
 })
 
@@ -235,6 +253,9 @@ Template.connectRent.events({
 		});
 		
 	},
+	'change #slider': function(e) {
+		Session.set('sliderValue', e.target.value);
+	},
 	'click #startChat': function() {
 		IonModal.open("chat", Connections.findOne(this));
 	},
@@ -246,7 +267,7 @@ Template.connectRent.events({
 			var connectionId = this._id;
 			var payerCustomerId = Meteor.user().profile.cards.data[0].customer;
 			var recipientAccountId = Meteor.users.findOne(this.bookData.ownerId).profile.stripeAccount.id;
-			var amount = Number(this.bookData.customPrice).toFixed(2);
+			var amount = (Number(this.bookData.customPrice) * Session.get('sliderValue')).toFixed(2);
 			var transactionsId = Meteor.user().profile.transactionsId;
 			var transactionsRecipientId = Meteor.users.findOne(this.bookData.ownerId).profile.transactionsId;
 

@@ -1,10 +1,10 @@
   //SERVER FRESH START SEQUENCE
   // Meteor.users.remove({});
-  Products.remove({});
-  Search.remove({});
-  Connections.remove({});
-  Transactions.remove({}); 
-  Notifications.remove({});
+  // Products.remove({});
+  // Search.remove({});
+  // Connections.remove({});
+  // Transactions.remove({}); 
+  // Notifications.remove({});
 
   Connections.allow({
     insert: function () { return true; },

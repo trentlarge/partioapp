@@ -142,23 +142,49 @@
 
       </div>
 
+      {{#if paymentPending}}
+        <div class="padding-horizontal">
+          <div class="item item-divider"><h3>Weeks to Rent</h3></div>
+          <div class="list">
+            <div class="item range range-energized">
+              <i class="icon ion-ios-clock-outline"></i>
+              <input id="slider" type="range" name="volume" min="1" max="12" value="{{sliderValue}}">
+              <i class="">{{sliderValue}}</i>
+            </div>
+          </div>
+        </div>
+
+        <div class="padding-horizontal">
+        <h5 class="dark">Lending period<span class="float-right">{{todaysDate}} to {{endDate}}</span></h5>
+        </div>
+        <br>
+      {{else}}
+
+        <div class="padding-horizontal">
+          <div class="item item-divider"><h3>Meetup Location</h3></div>
+          <a class="item item-button-right" href="#" id="showMap">
+            <p>{{preferredLocation}}</p>
+            <!-- <button class="button button-outline button-energized" data-ion-modal="map"><i class="icon ion-ios-location"></i></button> -->
+          </a>
+        </div>
+
+      {{/if}}
+
       <div class="padding-horizontal">
-
-        <div class="item item-divider"><h3>Meetup Location</h3></div>
-
-        <a class="item item-button-right" href="#" id="showMap">
-          <p>{{preferredLocation}}</p>
-          <!-- <button class="button button-outline button-energized" data-ion-modal="map"><i class="icon ion-ios-location"></i></button> -->
-        </a>
-
         {{#if paymentDone}}
-          {{#unless itemReturnDone}}
-          <button id="returnItem" class="button button-block">RETURN ITEM</button>
-          {{/unless}}
-        
+
+        {{#unless itemReturnDone}}
+        <button id="returnItem" class="button button-block">RETURN ITEM</button>
+        {{/unless}}
+
         {{else}}
-        <button id="payAndRent" class="button button-block button-assertive {{approvedStatus}}">ACCEPT & PAY ${{bookData.customPrice}}/week</button>{{/if}}   
-      </div>
+        <button id="payAndRent" class="button button-block button-assertive {{approvedStatus}}">
+          PAY TOTAL &nbsp; ${{calculatedPrice}}</button>
+          {{/if}}   
+        </div>
+
+
+      
 
     {{/ionContent}}
   {{/ionView}}
