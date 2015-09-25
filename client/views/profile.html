@@ -57,10 +57,7 @@
           <span class="input-label"><p>Change Password</p></span>
           <!-- <input id="changePassword" type="text" value=""> -->
         </label>
-        <label class="item item-input" id="logout">
-          <span class="input-label"><p>Logout</p></span>
-          <!-- <input id="logout" type="text" value=""> -->
-        </label>
+        
        {{else}}
          <label class="item item-input item-select college-select">
           <div class="input-label"><p>College</p></div>
@@ -77,7 +74,11 @@
         </label>
         {{/if}}
 
+        <label class="item item-input" id="logout">
+          <span class="input-label"><p>Logout</p></span>
+        </label>
       </div>
+
       <div class="padding-horizontal">
       {{#if currentUser.emails.[0].verified}}
         <a class="item item-icon-right" href="{{pathFor 'savedCards'}}" >
