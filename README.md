@@ -43,7 +43,11 @@ Maps
 Project ID: testpartio-1044
 key: AIzaSyDMyxBlvIc4b4hoWqTw4lGr5OviU8FlQc8
 
-STRIPE_SECRET=sk_test_z3FwqB2S5uJxnQGRGKBA1Hzh meteor run --settings settings.json
+FOR LOCALHOST TESTING ->
+*STRIPE_SECRET=sk_test_z3FwqB2S5uJxnQGRGKBA1Hzh meteor run --settings settings.json*
+
+BUILD TO XCODE -> 
+*meteor run ios-device --mobile-server http://stagingpartio-50559.onmodulus.net --production*
 
 http://graph.facebook.com/418093848371137/picture?
 "https://www.facebook.com/app_scoped_user_id/418093848371137/"

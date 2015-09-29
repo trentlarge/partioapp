@@ -167,7 +167,7 @@ Meteor.methods({
 
     Connections.insert(connection);
     
-    var message = "<strong>" + requestorName + "</strong> sent you a request for " + book.title  
+    var message = requestorName + " sent you a request for " + book.title  
     sendPush(ownerId, message);
     sendNotification(ownerId, requestorId, message, "request");
 
@@ -184,7 +184,7 @@ Meteor.methods({
     Connections.remove({"bookData._id": connect.bookData._id, "requestor": {$ne: connect.requestor}});
     Connections.update({_id: connectionId}, {$set: {state: "PAYMENT"}});
 
-    var message = ownerName + " <strong>accepted</strong> your request for " + connect.bookData.title; 
+    var message = ownerName + " accepted your request for " + connect.bookData.title; 
     sendPush(connect.requestor, message);
     sendNotification(connect.requestor, connect.bookData.ownerId, message, "approved");
 
@@ -231,7 +231,7 @@ Meteor.methods({
 
         var thisConnectionData = Connections.findOne(connectionId)
         var moneyGiver = Meteor.users.findOne(thisConnectionData.requestor).profile.name
-        var message = 'You received a payment of <strong>$' + amount + '</strong> from ' + moneyGiver
+        var message = 'You received a payment of $' + amount + ' from ' + moneyGiver
         sendPush(thisConnectionData.bookData.ownerId, message);
         sendNotification(thisConnectionData.bookData.ownerId, thisConnectionData.requestor, message, "info")
 
