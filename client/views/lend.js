@@ -129,8 +129,8 @@ function CalculateRentingCharges()
     RentingFinalPrice =  parseFloat(RentingAmazonRentalPrice - (RentingAmazonRentalPrice * 0.1));
   }
 
-  RentingFinalPrice = Number((RentingFinalPrice).toFixed(1));
-  console.log('RentingFinalPrice: ' + RentingFinalPrice);
+  RentingFinalPrice = Math.round(Number((RentingFinalPrice).toFixed(1))).toFixed(2);
+  console.log('RentingFinalPrice: ' + Math.round(RentingFinalPrice));
 
   
 }
@@ -255,7 +255,7 @@ Template.lend.events({
           IonLoading.hide();
           IonPopup.show({
             title: 'Nothing to add!',
-            template: '<div class="center">Scan or add a product to make it available on parti-O for others to find</div>',
+            template: '<div class="center">Scan or add a product to make it available on partiO for others to find</div>',
             buttons: 
             [{
               text: 'OK',
