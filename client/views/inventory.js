@@ -86,8 +86,20 @@ Template.inventory.events({
       },
       onCancel: function() 
       {
-        Connections.remove({"_id": connectionId});
-        console.log('Request Declined!');
+        // Connections.remove({"_id": connectionId});
+        // console.log('Request Declined!');
+
+        Meteor.call('ownerDecline', connectionId, function(error, result) {
+          if(!error)
+          {
+            console.log('Request Declined!');            
+          }
+          else
+          {
+            console.log('Declined Error: ' + error);             
+          }
+          
+        });
       }
     });
   }

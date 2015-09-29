@@ -190,6 +190,20 @@ Meteor.methods({
 
     return true;
   },
+  'ownerDecline': function(connectionId) {
+    Meteor._sleepForMs(1000);
+    
+    var connect = Connections.findOne(connectionId);
+    var ownerName = Meteor.users.findOne(connect.bookData.ownerId).profile.name;
+    
+    var message =  "Your request for " + connect.bookData.title + " has been declined."; 
+    sendPush(connect.requestor, message);
+    sendNotification(connect.requestor, connect.bookData.ownerId, message, "declined");
+
+    Connections.remove(connectionId);
+
+    return true;
+  },
   'payNow': function(payer) {
     console.log(payer);
     Meteor._sleepForMs(1000);

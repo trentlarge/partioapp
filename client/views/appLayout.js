@@ -48,6 +48,15 @@ Template.appLayout.onRendered(function() {
 			added: function(id, fields) {
 
 				if (fields.type === "request") {
+
+					if(IsPopUpOpen)
+					{
+						//PopUp is open already, no need for a new one.
+						return;
+					}
+
+					IsPopUpOpen = true;
+
 					IonPopup.show({
 						title: 'Alert',
 						template: '<div class="center">'+ fields.message +'</div>',
@@ -56,6 +65,7 @@ Template.appLayout.onRendered(function() {
 							text: 'OK',
 							type: 'button-positive',
 							onTap: function() {
+								IsPopUpOpen = false;
 								IonPopup.close();
 								Meteor.setTimeout(function(){
 									Router.go('/inventory');
@@ -66,6 +76,15 @@ Template.appLayout.onRendered(function() {
 						}]
 					});
 				} else if (fields.type === "approved") {
+
+					if(IsPopUpOpen)
+					{
+						//PopUp is open already, no need for a new one.
+						return;
+					}
+
+					IsPopUpOpen = true;
+
 					IonPopup.show({
 						title: 'Alert',
 						template: '<div class="center">'+ fields.message +'</div>',
@@ -74,6 +93,38 @@ Template.appLayout.onRendered(function() {
 							text: 'OK',
 							type: 'button-positive',
 							onTap: function() {
+								IsPopUpOpen = false;
+								
+								IonPopup.close();
+								Meteor.setTimeout(function(){
+									Router.go('/renting');
+									Notifications.update({_id: id}, {$set: {read: true}});
+									Session.set('alertCount', Session.get('alertCount') + 1);
+								},500)
+							}
+						}]
+					});
+				}
+				else if (fields.type === "declined") {
+
+					if(IsPopUpOpen)
+					{
+						//PopUp is open already, no need for a new one.
+						return;
+					}
+
+					IsPopUpOpen = true;
+
+					IonPopup.show({
+						title: 'Alert',
+						template: '<div class="center">'+ fields.message +'</div>',
+						buttons: 
+						[{
+							text: 'OK',
+							type: 'button-positive',
+							onTap: function() {
+								IsPopUpOpen = false;
+								
 								IonPopup.close();
 								Meteor.setTimeout(function(){
 									Router.go('/renting');
@@ -275,6 +326,8 @@ Template.appLayout.onRendered(function() {
 var IsPopUpOpen;
 function ShowRequestPopUp(strBookName)
 {
+	console.log('IsPopUpOpen: ' + IsPopUpOpen);
+
 	if(IsPopUpOpen)
 	{
 		//PopUp is open already, no need for a new one.
