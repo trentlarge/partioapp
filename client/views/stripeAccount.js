@@ -9,9 +9,8 @@ Template.savedCards.events({
 			panelLabel: 'Save Card',
 			email: Meteor.user().profile.email,
 			allowRememberMe: false,
-			opened: function() {
-				IonLoading.hide();
-			}
+			opened: function() { IonLoading.hide() },
+			closed: function() { IonLoading.hide() }
 		});
 		e.preventDefault();
 	},
@@ -28,13 +27,58 @@ Template.savedCards.events({
 				stripeHandlerDebit.open({
 					email: Meteor.user().profile.email,
 					allowRememberMe: false,
-					opened: function() {
-						IonLoading.hide();
-					}
+					opened: function() { IonLoading.hide() },
+					closed: function() { IonLoading.hide() }
 				});
 			}
 		});
 		e.preventDefault();
+	},
+	'click #test-card-1': function() {
+		IonPopup.show({
+			title: 'Test DEBIT cards',
+			template: 	'<div class="center dark">\
+							5200 8282 8282 8210<br>\
+							4000 0566 5566 5556<br>\
+							<br>\
+							Expiry: Future Date<br>\
+							CVV: Any 3 digits<br>\
+						</div>',
+			buttons: 
+			[{
+				text: 'OK',
+				type: 'button-assertive',
+				onTap: function() {
+					IonPopup.close();
+				}
+			}]
+		});
+	},
+	'click #test-card-2': function() {
+		IonPopup.show({
+			title: 'Test cards',
+			template: 	'<div class="center dark">\
+							CREDIT CARDS<br>\
+							4242 4242 4242 4242<br>\
+							5555 5555 5555 4444<br>\
+							6011 1111 1111 1117<br>\
+							<br>\
+							DEBIT CARDS<br>\
+							5200 8282 8282 8210<br>\
+							4000 0566 5566 5556<br>\
+							<br>\
+							Expiry: Future Date<br>\
+							CVV: Any 3 digits<br>\
+						</div>',
+			buttons: 
+			[{
+				text: 'OK',
+				type: 'button-assertive',
+				onTap: function() {
+					IonPopup.close();
+				}
+			}]
+		});
 	}
 });
 
@@ -42,8 +86,9 @@ Template.savedCards.onRendered(function() {
 	stripeHandlerCredit = StripeCheckout.configure({
 		key: 'pk_test_OYfO9mHIQFha7How6lNpwUiQ',
 		token: function(token) {
+			IonLoading.show();
 			console.log(token);
-			Meteor.call('addCreditCard', token.id, Meteor.user().profile.customer.id, Meteor.userId(), function(error, result) {
+			Meteor.call('addPaymentCard', token.id, Meteor.user().profile.customer.id, Meteor.userId(), function(error, result) {
 				IonLoading.hide();
 				console.log(error);
 				console.log(result);
@@ -63,6 +108,7 @@ Template.savedCards.onRendered(function() {
 		default_for_currency : true,
 		panelLabel: 'Save Card',
 		token: function(token) {
+			IonLoading.show();
 			console.log(token);
 			Meteor.call('addDebitCard', token.id, Meteor.user().profile.stripeAccount.id, Meteor.userId(), function(error, result) {
 				IonLoading.hide();
@@ -97,7 +143,7 @@ Template.savedCards.helpers({
 		}
 	},
 	addedDebitCard: function() {
-		if (!!Meteor.user().profile.payoutCard.external_accounts.data) {
+		if (Meteor.user().profile.payoutCard && Meteor.user().profile.payoutCard.external_accounts.data) {
 			return Meteor.user().profile.payoutCard.external_accounts.data[0];
 		}	
 	}

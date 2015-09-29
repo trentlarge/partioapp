@@ -1,10 +1,10 @@
   //SERVER FRESH START SEQUENCE
-  Meteor.users.remove({});
-  Products.remove({});
-  Search.remove({});
-  Connections.remove({});
-  Transactions.remove({}); 
-  Notifications.remove({});
+  // Meteor.users.remove({});
+  // Products.remove({});
+  // Search.remove({});
+  // Connections.remove({});
+  // Transactions.remove({}); 
+  // Notifications.remove({});
 
 
   Connections.allow({
@@ -267,7 +267,7 @@ Meteor.methods({
     }
   },
 
-  'addCreditCard': function(tokenId, customerId, MeteorUserId) {
+  'addPaymentCard': function(tokenId, customerId, MeteorUserId) {
     console.log(tokenId, customerId, MeteorUserId);
     this.unblock();
     try {

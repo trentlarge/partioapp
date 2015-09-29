@@ -281,7 +281,7 @@ Template.connectRent.events({
 			Session.set('payRedirect', false);
 			var payerCardId = Meteor.user().profile.cards.data[0].id;
 			var connectionId = this._id;
-			var payerCustomerId = Meteor.user().profile.cards.data[0].customer;
+			var payerCustomerId = Meteor.user().profile.customer.id;
 			var recipientAccountId = Meteor.users.findOne(this.bookData.ownerId).profile.stripeAccount.id;
 			var amount = (Number(this.bookData.customPrice) * Session.get('sliderValue')).toFixed(2);
 			var transactionsId = Meteor.user().profile.transactionsId;
