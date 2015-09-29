@@ -5,10 +5,7 @@
   Connections.remove({});
   Transactions.remove({}); 
   Notifications.remove({});
-<<<<<<< HEAD
 
-=======
->>>>>>> refs/remotes/origin/books
 
   Connections.allow({
     insert: function () { return true; },
