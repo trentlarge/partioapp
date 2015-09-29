@@ -325,6 +325,27 @@ Template.connectRent.events({
 			Router.go('/profile/savedcards');
 		}
 	},
+	'click #cancel-request': function() {
+		connectionId = this._id;
+		console.log('Cancelling Book Request');
+
+		IonPopup.confirm({
+			cancelText: 'No',
+			okText: 'Yes',
+			title: 'Book Request Cancel',
+			template: '<div class="center"><p> Do you wish to cancel the request? </p></div>',
+			onCancel: function() {
+				console.log('Cancelled')
+			},
+			onOk: function() {
+
+				Connections.remove({"_id": connectionId});
+				IonPopup.close();
+				Router.go('/listing');
+			}
+	
+		});	
+	},
 	'click #showMap': function() 
 	{
 		this.meetupLocation = Connections.findOne(this._id).meetupLocation;
