@@ -65,17 +65,9 @@ cordova:cordova-plugin-camera@https://github.com/apache/cordova-plugin-camera/ta
 
 
 
-*Amazon*
-http://webservices.amazon.com/onca/xml?
-  Service=AWSECommerceService
-  &Operation=ItemLookup
-  &ResponseGroup=Large
-  &SearchIndex=All
-  &IdType=ISBN
-  &ItemId=076243631X
-  &AWSAccessKeyId=[Your_AWSAccessKeyID]
-  &AssociateTag=[Your_AssociateTag]
-  &Timestamp=[YYYY-MM-DDThh:mm:ssZ]
-  &Signature=[Request_Signature]
 
+
+
+*Issues*
+Squished images
 

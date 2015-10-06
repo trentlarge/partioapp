@@ -276,17 +276,17 @@ ion-side-menu.menu-left.menu {
 	-webkit-justify-content: center;
 }
 
-.profile-image-container-2 {
-	min-width: 100%;
-	margin-left: -3px;
-}
-
 .profile-avatar {
 	margin: 10px 0;
 	width: 100px;
 	height: 100px;
 	border-radius: 50%;
 	border: 2px solid #fafafa;
+}
+
+.profile-image-container-2 {
+	min-width: 100%;
+	margin-left: -3px;
 }
 
 .profile-avatar-2 {
@@ -326,17 +326,6 @@ ion-side-menu.menu-left.menu {
 .item-avatar-2, .item-avatar-2 .item-content, .item-avatar-left, .item-avatar-left .item-content {
   padding-left: 80px;
   min-height: 72px; }
-  
-// .item-avatar-2 > img:first-child, .item-avatar-2 .item-image, .item-avatar-2 .item-content > img:first-child, .item-avatar-2 .item-content .item-image, .item-avatar-left > img:first-child, .item-avatar-left .item-image, .item-avatar-left .item-content > img:first-child, .item-avatar-left .item-content .item-image {
-//     position: absolute;
-//     top: 5px;
-//     left: 12px;
-//     max-width: 58px;
-//     max-height: 64px;
-//     width: auto;
-//     height: auto;
-//     border-radius: 0%;
-// }
 
 .item-avatar-2 .book-avatar {
 	position: absolute;
@@ -396,23 +385,6 @@ ion-side-menu.menu-left.menu {
 	height: auto;
 	margin: 4px;
 }
-
-// .item-avatar-2.item-complex, .item-avatar-left.item-complex, .item-thumbnail-left.item-complex {
-//   padding-top: 0px;
-//   padding-left: 0px; }
-
-
-
-// .item-avatar-2 > img:first-child, .item-avatar-2 .item-image, .item-avatar-2 .item-content > img:first-child, .item-avatar-2 .item-content .item-image, .item-avatar-left > img:first-child, .item-avatar-left .item-image, .item-avatar-left .item-content > img:first-child, .item-avatar-left .item-content .item-image {
-//   position: absolute;
-//   top: 5px;
-//   left: 5px;
-//   max-width: 58px;
-//   max-height: 64px;
-//   width: 100%;
-//   height: 100%;
-//   border-radius: 1%;
-// }
 
 
 .bubble {
@@ -593,64 +565,64 @@ ion-side-menu.menu-left.menu {
 
 
 
-/**
-* Platform
-* --------------------------------------------------
-* Platform specific tweaks
-*/
+// /**
+// * Platform
+// * --------------------------------------------------
+// * Platform specific tweaks
+// */
 
-.platform-ios.platform-cordova {
-  // iOS7/8 has a status bar which sits on top of the header.
-  // Bump down everything to make room for it. However, if
-  // if its in Cordova, and set to fullscreen, then disregard the bump.
-  &:not(.fullscreen) {
-    .bar-header:not(.bar-subheader) {
-      height: $bar-height + $ios-statusbar-height;
+// .platform-ios.platform-cordova {
+//   // iOS7/8 has a status bar which sits on top of the header.
+//   // Bump down everything to make room for it. However, if
+//   // if its in Cordova, and set to fullscreen, then disregard the bump.
+//   &:not(.fullscreen) {
+//     .bar-header:not(.bar-subheader) {
+//       height: $bar-height + $ios-statusbar-height;
 
-      &.item-input-inset .item-input-wrapper {
-        margin-top: 0px !important;
-      }
+//       &.item-input-inset .item-input-wrapper {
+//         margin-top: 0px !important;
+//       }
 
-      > * {
-        margin-top: $ios-statusbar-height;
-      }
-    }
-    .tabs-top > .tabs,
-    .tabs.tabs-top {
-      top: $bar-height + $ios-statusbar-height;
-    }
+//       > * {
+//         margin-top: $ios-statusbar-height;
+//       }
+//     }
+//     .tabs-top > .tabs,
+//     .tabs.tabs-top {
+//       top: $bar-height + $ios-statusbar-height;
+//     }
 
-    .has-header,
-    .bar-subheader {
-      top: $bar-height + $ios-statusbar-height;
-    }
-    .has-subheader {
-      top: $bar-height + $bar-subheader-height + $ios-statusbar-height;
-    }
-    .has-tabs-top {
-      top: $bar-height + $tabs-height + $ios-statusbar-height;
-    }
-    .has-header.has-subheader.has-tabs-top {
-      top: $bar-height + $bar-subheader-height + $tabs-height + $ios-statusbar-height;
-    }
-  }
-  &.status-bar-hide {
-    // Cordova doesn't adjust the body height correctly, this makes up for it
-    margin-bottom: 20px;
-  }
-}
+//     .has-header,
+//     .bar-subheader {
+//       top: $bar-height + $ios-statusbar-height;
+//     }
+//     .has-subheader {
+//       top: $bar-height + $bar-subheader-height + $ios-statusbar-height;
+//     }
+//     .has-tabs-top {
+//       top: $bar-height + $tabs-height + $ios-statusbar-height;
+//     }
+//     .has-header.has-subheader.has-tabs-top {
+//       top: $bar-height + $bar-subheader-height + $tabs-height + $ios-statusbar-height;
+//     }
+//   }
+//   &.status-bar-hide {
+//     // Cordova doesn't adjust the body height correctly, this makes up for it
+//     margin-bottom: 20px;
+//   }
+// }
 
-@media (orientation:landscape) {
-  .platform-ios.platform-browser.platform-ipad {
-    position: fixed; // required for iPad 7 Safari
-  }
-}
+// @media (orientation:landscape) {
+//   .platform-ios.platform-browser.platform-ipad {
+//     position: fixed; // required for iPad 7 Safari
+//   }
+// }
 
-.platform-c:not(.enable-transitions) * {
-  // disable transitions on grade-c devices (Android 2)
-  -webkit-transition: none !important;
-  transition: none !important;
-}
+// .platform-c:not(.enable-transitions) * {
+//   // disable transitions on grade-c devices (Android 2)
+//   -webkit-transition: none !important;
+//   transition: none !important;
+// }
 
 .request-notify {
 	top: 30px !important;
@@ -665,8 +637,6 @@ ion-side-menu.menu-left.menu {
 }
 
 
-
-
 .rating {
     float:left;
 }
@@ -677,9 +647,6 @@ fieldset {
 	margin: 0;
 }
 
-/* :not(:checked) is a filter, so that browsers that don’t support :checked don’t 
-   follow these rules. Every browser that supports :checked also supports :not(), so
-   it doesn’t make the test unnecessarily selective */
 .rating:not(:checked) > input {
     position:absolute;
     top:-9999px;
@@ -695,7 +662,6 @@ fieldset {
     font-size:200%;
     line-height:1.2;
     color:#ddd;
-    // text-shadow:1px 1px #bbb, 2px 2px #666, .1em .1em .2em rgba(0,0,0,.5);
 }
 
 .rating:not(:checked) > label:before {
@@ -704,13 +670,11 @@ fieldset {
 
 .rating > input:checked ~ label {
     color: #f70;
-    // text-shadow:1px 1px #c60, 2px 2px #940, .1em .1em .2em rgba(0,0,0,.5);
 }
 
 .rating:not(:checked) > label:hover,
 .rating:not(:checked) > label:hover ~ label {
     color: $energized;
-    // text-shadow:1px 1px goldenrod, 2px 2px #B57340, .1em .1em .2em rgba(0,0,0,.5);
 }
 
 .rating > input:checked + label:hover,
@@ -719,7 +683,6 @@ fieldset {
 .rating > input:checked ~ label:hover ~ label,
 .rating > label:hover ~ input:checked ~ label {
     color: #ea0;
-    // text-shadow:1px 1px goldenrod, 2px 2px #B57340, .1em .1em .2em rgba(0,0,0,.5);
 }
 
 .rating > label:active {
@@ -793,3 +756,36 @@ textarea, input[type="text"], input[type="password"], input[type="datetime"], in
 .push-up h6 {
 	text-decoration: underline;
 }
+
+#browser-file-upload {
+	position: absolute;
+	opacity: 0;
+	left: -1000px;
+}
+
+.item-avatar-custom {
+	padding-left: 72px;
+	min-height: 72px; 
+}
+
+.item-avatar-custom-circle {
+	position: absolute;
+	top: 16px;
+	left: 16px;
+	max-width: 40px;
+	max-height: 40px;
+	width: 100%;
+	height: 100%;
+	border-radius: 50%;
+}
+
+
+
+
+
+
+
+
+
+
+

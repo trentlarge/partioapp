@@ -113,7 +113,8 @@ Template.settingsProfileImage.helpers({
 
 Template.settingsProfileImage.events({
   'click .profile-avatar': function(event, template) {
-    IonActionSheet.show({
+    if (Meteor.isCordova) {
+      IonActionSheet.show({
       buttons: [
         { text: 'Take Photo' },
         { text: 'Choose from Library' },
@@ -214,7 +215,22 @@ Template.settingsProfileImage.events({
         return true;
       }
     });
+} else {
+    console.log('file upload click');
+    $('#browser-file-upload').click();
   }
+},
+'change #browser-file-upload': function(input) {
+
+    console.log(input.target.files[0]);
+    var FR = new FileReader();
+    FR.onload = function(e) {
+     var newImage = e.target.result;
+     Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.avatar": newImage}});
+   };
+   FR.readAsDataURL( input.target.files[0] );
+
+}
 })
 
 

@@ -73,8 +73,17 @@
 
       <div class="list">
         {{#each peopleList}}
-        <a class="item item-avatar item-button-right" href="#">
-          <img src="{{userThumbnail ownerId}}">
+        <a class="item item-avatar-custom item-button-right" href="#">
+          
+          <div class="profile-image-container-small">
+            {{#if noProfileYet}}
+            <div class="item-avatar-custom-circle" style="background: url('profile_image_placeholder.jpg') no-repeat; background-size:cover; background-position: 50% 50%;"></div>
+            {{else}}
+            <div class="item-avatar-custom-circle" style="background: url({{userThumbnail ownerId}}) no-repeat; background-size:cover; background-position: 50% 50%;"></div>
+            {{/if}}
+          </div>
+          <!-- <img src="{{userThumbnail ownerId}}"> -->
+          
           <p class="main-title-text">{{userName ownerId}} </p>
           <p>${{customPrice}}&nbsp;&nbsp; <span class="rating-box">{{avgRating ownerId}}</span></p>
           {{#if requestSent}}
