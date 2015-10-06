@@ -27,7 +27,7 @@ Template.searchResult.helpers({
     return qty === 0 ? "NA" : qty
   },
   qtyClass: function(qty) {
-    return qty === 0 ? "badge-assertive" : "badge-balanced"
+    return qty === 0 ? "badge-assertive" : "badge-energized"
   }
 });
 
@@ -140,7 +140,7 @@ Template.search.events({
         buttons: 
         [{
           text: 'OK',
-          type: 'button-positive',
+          type: 'button-energized',
           onTap: function() {
             IonPopup.close();
           }
@@ -153,7 +153,7 @@ Template.search.events({
         buttons: 
         [{
           text: 'OK',
-          type: 'button-positive',
+          type: 'button-energized',
           onTap: function() {
             IonPopup.close();
           }

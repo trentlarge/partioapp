@@ -32,7 +32,7 @@ Template.lend.events({
                     buttons: 
                     [{
                       text: 'OK',
-                      type: 'button-assertive',
+                      type: 'button-energized',
                       onTap: function() {
                         IonPopup.close();
                       }
@@ -63,7 +63,7 @@ Template.lend.events({
                   buttons: 
                   [{
                     text: 'OK',
-                    type: 'button-assertive',
+                    type: 'button-energized',
                     onTap: function() {
                       IonPopup.close();
                     }
@@ -207,7 +207,7 @@ Template.lend.events({
             buttons: 
             [{
               text: 'OK',
-              type: 'button-assertive',
+              type: 'button-energized',
               onTap: function() {
                 IonPopup.close();
               }
@@ -259,7 +259,7 @@ Template.lend.events({
             buttons: 
             [{
               text: 'OK',
-              type: 'button-assertive',
+              type: 'button-energized',
               onTap: function() {
                 IonPopup.close();
               }
@@ -301,7 +301,7 @@ Template.lend.events({
             buttons: 
             [{
               text: 'OK',
-              type: 'button-assertive',
+              type: 'button-energized',
               onTap: function() {
                 IonPopup.close();
               }
@@ -365,7 +365,7 @@ function showInvalidPopUp(strTitle, strMessage)
           buttons: 
           [{
             text: 'OK',
-            type: 'button-assertive',
+            type: 'button-energized',
             onTap: function() 
             {
               IonPopup.close();
@@ -387,7 +387,7 @@ function AddProductToInventoryManually()
             buttons: 
             [{
               text: 'OK',
-              type: 'button-assertive',
+              type: 'button-energized',
               onTap: function() {
                 IonPopup.close();
                 Router.go('/inventory');
@@ -417,7 +417,7 @@ function AddProductToInventory()
           buttons: 
           [{
             text: 'OK',
-            type: 'button-assertive',
+            type: 'button-energized',
             onTap: function() {
               Session.set('scanResult', null);
               IonPopup.close();
@@ -443,7 +443,7 @@ function CheckStripeAccount () {
       buttons: 
       [{
         text: 'Add Card',
-        type: 'button-balanced',
+        type: 'button-energized',
         onTap: function() 
         {
           IonPopup.close();

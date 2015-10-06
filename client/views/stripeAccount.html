@@ -17,7 +17,7 @@
           {{#with addedDebitCard}}
           <a class="item item-icon-right">
             <p>{{brand}}&nbsp;&nbsp; XXXX-{{last4}}</p>
-            <i class="icon ion-checkmark balanced custom-icon"></i>
+            <i class="icon ion-checkmark energized custom-icon"></i>
           </a>
           {{else}}
             <a class="item item-icon-left" id="add-debit-card">
@@ -33,14 +33,14 @@
           <!-- {{#each addedCards}}
           <a class="item item-icon-right">
             <p>{{brand}}&nbsp;&nbsp; XXXX-{{last4}}</p>
-            {{#if addedCards.[0]}}<i class="icon ion-checkmark balanced custom-icon"></i>{{/if}}
+            {{#if addedCards.[0]}}<i class="icon ion-checkmark energized custom-icon"></i>{{/if}}
           </a>
           {{/each}} -->
           {{#each addedCards}}
           <label class="item item-radio">
             <input type="radio" name="group" value="{{last4}}" checked="checked">
             <div class="item-content"><p>{{brand}}&nbsp;&nbsp; XXXX-{{last4}}</p></div>
-            <i class="radio-icon ion-checkmark balanced"></i>
+            <i class="radio-icon ion-checkmark energized"></i>
           </label>
           {{/each}}
           <a class="item item-icon-left" id="add-credit-card">

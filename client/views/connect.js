@@ -1,3 +1,11 @@
+Template.connectRent.onCreated(function() {
+	IonSideMenu.snapper.disable();
+});
+
+Template.connectRent.onDestroyed(function() {
+	IonSideMenu.snapper.enable();
+});
+
 Template.connect.helpers({
 	noProfileYet: function() {
 		if (this.avatar === "notSet") {

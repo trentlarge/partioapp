@@ -23,7 +23,7 @@ function ShowNotificationMessage(strMessage)
 		buttons: 
 		[{
 			text: 'OK',
-			type: 'button-positive',
+			type: 'button-energized',
 			onTap: function() {
 				IonPopup.close();
 			}
