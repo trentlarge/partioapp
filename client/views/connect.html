@@ -145,7 +145,7 @@
       {{#if paymentPending}}
         <div class="padding-horizontal">
           <div class="item item-divider"><h3>Weeks to Rent</h3></div>
-          <div class="list">
+          <div class="list" id="slider-container">
             <div class="item range range-energized">
               <i class="icon ion-ios-clock-outline"></i>
               <input id="slider" type="range" name="volume" min="1" max="12" value="{{sliderValue}}">
@@ -178,7 +178,7 @@
         {{/unless}}
 
         {{else}}
-        <button id="payAndRent" class="button button-block button-assertive {{approvedStatus}}">
+        <button id="payAndRent" class="button button-block button-energized {{approvedStatus}}">
           PAY TOTAL &nbsp; ${{calculatedPrice}}</button>
           {{/if}}   
         </div>

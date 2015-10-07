@@ -70,4 +70,6 @@ cordova:cordova-plugin-camera@https://github.com/apache/cordova-plugin-camera/ta
 
 *Issues*
 Squished images
+slider propagation
+
 
