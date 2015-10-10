@@ -32,7 +32,7 @@ Template.bookDetail.events({
 				buttons: 
 				[{
 					text: 'OK',
-					type: 'button-positive',
+					type: 'button-energized',
 					onTap: function() {
 						IonPopup.close();
 					}
@@ -45,7 +45,7 @@ Template.bookDetail.events({
 				buttons: 
 				[{
 					text: 'OK',
-					type: 'button-positive',
+					type: 'button-energized',
 					onTap: function() {
 						IonPopup.close();
 					}

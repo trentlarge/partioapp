@@ -27,6 +27,19 @@ Template.chat.events({
 			}
 		});
 		$('#messageInput').focus();
+	},
+	'keypress #messageInput': function(e, template) {
+		if (e.which === 13) {
+			var message = template.find('input').value;
+			Meteor.call('sendMessage', message, Meteor.userId(), this._id, function(error, result) {
+				if (!error) {
+					$('.discussion').scrollTop($('.discussion')[0].scrollHeight);
+					$('#messageInput').val('');
+					console.log("posted message");
+				}
+			});
+			$('#messageInput').focus();
+		}
 	}
 	// 'focus input#messageInput': function (evt) {
 	// 	setTimeout(function(){

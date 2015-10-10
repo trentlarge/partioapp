@@ -1,3 +1,12 @@
+//Instead of disabling side menu completely, attempting to stop propagation on slider
+// Template.connectRent.onCreated(function() {
+// 	IonSideMenu.snapper.disable();
+// });
+
+// Template.connectRent.onDestroyed(function() {
+// 	IonSideMenu.snapper.enable();
+// });
+
 Template.connect.helpers({
 	noProfileYet: function() {
 		if (this.avatar === "notSet") {
@@ -271,6 +280,9 @@ Template.connectRent.events({
 	},
 	'change #slider': function(e) {
 		Session.set('sliderValue', e.target.value);
+	},
+	'touchstart #slider-container': function(e) {
+		e.stopPropagation();
 	},
 	'click #startChat': function() {
 		IonModal.open("chat", Connections.findOne(this));

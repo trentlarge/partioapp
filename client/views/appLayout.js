@@ -63,7 +63,7 @@ Template.appLayout.onRendered(function() {
 						buttons: 
 						[{
 							text: 'OK',
-							type: 'button-positive',
+							type: 'button-energized',
 							onTap: function() {
 								IsPopUpOpen = false;
 								IonPopup.close();
@@ -91,7 +91,7 @@ Template.appLayout.onRendered(function() {
 						buttons: 
 						[{
 							text: 'OK',
-							type: 'button-positive',
+							type: 'button-energized',
 							onTap: function() {
 								IsPopUpOpen = false;
 								
@@ -121,7 +121,7 @@ Template.appLayout.onRendered(function() {
 						buttons: 
 						[{
 							text: 'OK',
-							type: 'button-positive',
+							type: 'button-energized',
 							onTap: function() {
 								IsPopUpOpen = false;
 								
@@ -341,7 +341,7 @@ function ShowRequestPopUp(strBookName)
 		buttons: 
 		[{
 			text: 'OK',
-			type: 'button-positive',
+			type: 'button-energized',
 			onTap: function() {
 				IonPopup.close();
 				IsPopUpOpen = false;
@@ -375,7 +375,7 @@ function RandomPopup()
 		buttons: 
 		[{
 			text: 'OK',
-			type: 'button-positive',
+			type: 'button-energized',
 			onTap: function() {
 				IsPopUpOpen = false;
 
@@ -401,7 +401,7 @@ function ShowApprovalPopUp(strBookName)
 		buttons: 
 		[{
 			text: 'OK',
-			type: 'button-positive',
+			type: 'button-energized',
 			onTap: function() {
 				IonPopup.close();
 				Meteor.setTimeout(function(){
@@ -441,7 +441,7 @@ function ShowPaymentPopUp(bookNameString, paymentAmountInt)
 		buttons: 
 		[{
 			text: 'OK',
-			type: 'button-positive',
+			type: 'button-energized',
 			onTap: function() {
 				IonPopup.close();
 				Meteor.setTimeout(function(){
@@ -468,7 +468,7 @@ function ShowRequestDeniedPopUp(bookName)
 		buttons: 
 		[{
 			text: 'OK',
-			type: 'button-positive',
+			type: 'button-energized',
 			onTap: function() {
 				IonPopup.close();
 				Meteor.setTimeout(function(){
