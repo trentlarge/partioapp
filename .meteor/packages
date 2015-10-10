@@ -30,3 +30,5 @@ email
 mdg:reload-on-resume
 momentjs:moment
 benjick:stripe-native
+cfs:standard-packages
+cfs:filesystem
