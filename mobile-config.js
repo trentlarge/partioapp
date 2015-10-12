@@ -1,6 +1,6 @@
 App.info({
   id: 'com.partioapp.partio',
-  name: 'parti-O',
+  name: 'partiO',
   description: 'Share. Borrow. Party-o',
   author: 'InsaneInc',
   website: 'http://www.partioapp.com',
@@ -23,6 +23,7 @@ App.launchScreens({
 
 App.setPreference('StatusBarOverlaysWebView', false);
 App.setPreference('StatusBarBackgroundColor', '#263238');
+// App.setPreference('HideKeyboardFormAccessoryBar', true);
 
 App.accessRule('*');
 
@@ -32,5 +33,5 @@ App.accessRule('*');
 
 App.configurePlugin('com.phonegap.plugins.facebookconnect', {
     APP_ID: '453646108150424',
-    APP_NAME: 'Parti-O'
+    APP_NAME: 'partiO'
 });
