@@ -217,13 +217,13 @@ Template.login.events({
 })
 
 Template.register.helpers({
-	fetchedLocation: function() {
-		if (Session.get('newLocation')) {
-			return Session.get('newLocation').address
-		} else {
-			return "Location";
-		}
-	}
+	// fetchedLocation: function() {
+	// 	if (Session.get('newLocation')) {
+	// 		return Session.get('newLocation').address
+	// 	} else {
+	// 		return "Location";
+	// 	}
+	// }
 })
 
 // Template.register.created = function() {
@@ -271,17 +271,17 @@ function CheckLocatioOn()
 			});
 		}
 
-	navigator.geolocation.getCurrentPosition(onSuccess, onError);
+	// navigator.geolocation.getCurrentPosition(onSuccess, onError);
 }
 
 
 
 Template.login.rendered = function() {
 
-	document.addEventListener("resume", function(){
-		console.log("RESUMED!!")
-			//CheckLocatioOn();
-		}, false);
+	// document.addEventListener("resume", function(){
+	// 	console.log("RESUMED!!")
+	// 		//CheckLocatioOn();
+	// 	}, false);
 }
 
 
