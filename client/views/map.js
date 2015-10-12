@@ -15,6 +15,7 @@ Template.map.onRendered(function()
 
   this.autorun(function () 
   {
+    meetingCoordinates = Connections.findOne(connectionId).meetupLatLong;
     console.log('connectionId: ' + connectionId);
 
     if (GoogleMaps.loaded()) 
@@ -34,41 +35,41 @@ Template.map.onRendered(function()
         }
       }).bind("geocode:dragged", function(event, result)
       {
-        console.log('geocode:dragged result: ' + JSON.stringify(result));
-        // console.log('test: ' + result[result.keys(result)[0]]);
+        // console.log('geocode:dragged result: ' + JSON.stringify(result));
+        // // console.log('test: ' + result[result.keys(result)[0]]);
 
-        reverseGeocode.getLocation(result.J, result.M, function(location){
-          Session.set('newLocation', {
-            address: reverseGeocode.getAddrStr(),
-            latLong: result
-          });
+        // reverseGeocode.getLocation(result.J, result.M, function(location){
+        //   Session.set('newLocation', {
+        //     address: reverseGeocode.getAddrStr(),
+        //     latLong: result
+        //   });
 
-          Session.set('initialLoc', {
-            address: reverseGeocode.getAddrStr(),
-            latLong: result
+        //   Session.set('initialLoc', {
+        //     address: reverseGeocode.getAddrStr(),
+        //     latLong: result
 
-          });
+        //   });
 
-          var Locn = {lat: result.J, lng: result.M};
-          console.log(Locn);
+        //   var Locn = {lat: result.J, lng: result.M};
+        //   console.log(Locn);
 
-          directionsDisplay.setMap(null);
-          calcRoute(map, Session.get('currentLoc') , Locn);    
+        //   directionsDisplay.setMap(null);
+        //   calcRoute(map, Session.get('currentLoc') , Locn);    
 
-          Connections.update({_id: connectionId}, 
-            {$set: {meetupLocation: Session.get('newLocation').address, 
-            meetupLatLong: Session.get('newLocation').latLong}});
+        //   Connections.update({_id: connectionId}, 
+        //     {$set: {meetupLocation: Session.get('newLocation').address, 
+        //     meetupLatLong: Session.get('newLocation').latLong}});
           
-            meetingCoordinates = Connections.findOne(connectionId).meetupLatLong;
-            console.log('meetingCoordinates: ' + JSON.stringify(meetingCoordinates));
+        //     meetingCoordinates = Connections.findOne(connectionId).meetupLatLong;
+        //     console.log('meetingCoordinates: ' + JSON.stringify(meetingCoordinates));
 
-          });
+        //   });
       });   
 
-      map = $("#map-search").geocomplete("map");
-      addAdditionalCurrentLocationMarker(map);   
-
+      map = $("#map-search").geocomplete("map");     
     }
+
+     addAdditionalCurrentLocationMarker(map);   
   });
 
   
@@ -76,62 +77,129 @@ Template.map.onRendered(function()
 });
 
 var meetingCoordinates;
+var marker;
+var map;
 
 
 function addAdditionalCurrentLocationMarker(mapObject)
 {
   var image = '/icon-current-location.png';
   var latitude, longitude;
+  var addressLoc;
+  var meetingLocationExists = false;
 
-  console.log(Session.get('initialLoc'));
+  console.log('newLocation');
+  console.log(meetingCoordinates);
 
-  latitude = Session.get('initialLoc').lat;
-  longitude = Session.get('initialLoc').lng;
+  if(meetingCoordinates && meetingCoordinates.J)
+  {
+    latitude = meetingCoordinates.J;
+    longitude = meetingCoordinates.M;
 
-  var marker = new google.maps.Marker({
+    meetingLocationExists = true;
+    addressLoc = Session.get('newLocation').address;
+  }
+  else if(meetingCoordinates && meetingCoordinates.lat)
+  {
+    latitude = meetingCoordinates.lat;
+    longitude = meetingCoordinates.lng;
+
+    meetingLocationExists = true;
+    addressLoc = Session.get('newLocation').address;
+  }
+  else
+  {
+    latitude = Session.get('initialLoc').lat;
+    longitude = Session.get('initialLoc').lng;
+
+    meetingLocationExists = false;
+    addressLoc = Session.get('initialLoc').address;
+  }
+
+
+  
+  // 
+
+  if(marker)
+  {
+    marker.setMap(null);
+  }
+  
+  marker = new google.maps.Marker({
       position: {lat: latitude, lng: longitude},
       map: mapObject,
       draggable: true
-    });
+    });  
+  
 
-  marker.setMap(mapObject);
+  var Locn = {lat: latitude, lng: longitude};
+
+  console.log(Session.get('currentLoc'));
+  console.log(Locn);
+
+  if(meetingLocationExists)
+  {
+    calcRoute(mapObject, Session.get('currentLoc') , Locn);      
+  }
+  
+
+  // Connections.update({_id: connectionId}, 
+  // {$set: {meetupLocation: addressLoc, 
+  // meetupLatLong: Locn}});
+
+  meetingCoordinates = Connections.findOne(connectionId).meetupLatLong;
+  console.log('meetingCoordinates: ' + JSON.stringify(meetingCoordinates));
+
+
   marker.addListener('dragend', function() {
 
     console.log('drag end!');
-    console.log(marker.getPosition());
+    
 
-    reverseGeocode.getLocation(marker.getPosition().J, marker.getPosition().M, function(location){
+    if(marker.getPosition() && marker.getPosition().J)
+    {
+      latitude = marker.getPosition().J;
+      longitude = marker.getPosition().M;
+    }
+    else
+    {
+      latitude = Session.get('initialLoc').lat;
+      longitude = Session.get('initialLoc').lng;
+    }
+
+    var Locn2 = {lat: latitude, lng: longitude};
+    console.log(Locn2);
+
+    reverseGeocode.getLocation(latitude,longitude, function(location){
       
       Session.set('newLocation', {
         address: reverseGeocode.getAddrStr(),
-        latLong: marker.getPosition()
+        latLong: Locn2
       });
 
-    //   Session.set('initialLoc', {
-    //     address: reverseGeocode.getAddrStr(),
-    //     latLong: marker.getPosition()
-    //   });
+      // Session.set('initialLoc', {
+      //   address: reverseGeocode.getAddrStr(),
+      //   latLong: Locn2
+      // });
+
+      if(directionsDisplay)
+      {
+        directionsDisplay.setMap(null);
+      }
+
+    //   var Locn = {lat: marker.getPosition().J, lng: marker.getPosition().M};
+    //       console.log(connectionId + ' ' + Session.get('newLocation').address);
+
+          calcRoute(mapObject, Session.get('currentLoc') , Locn2);   
+          
+          Connections.update({_id: connectionId}, 
+            {$set: {meetupLocation: Session.get('newLocation').address, 
+            meetupLatLong: Session.get('newLocation').latLong}});
+          
+            meetingCoordinates = Connections.findOne(connectionId).meetupLatLong;
+    //         console.log('meetingCoordinates: ' + JSON.stringify(meetingCoordinates));
 
     });
-
-    if(directionsDisplay)
-    {
-      directionsDisplay.setMap(null);
-    }
-
-    var Locn = {lat: marker.getPosition().J, lng: marker.getPosition().M};
-        console.log(Locn + ' ' + connectionId);
-
-        calcRoute(mapObject, Session.get('currentLoc') , Locn);    
-
-        Connections.update({_id: connectionId}, 
-          {$set: {meetupLocation: Session.get('newLocation').address, 
-          meetupLatLong: Session.get('newLocation').latLong}});
-        
-          meetingCoordinates = Connections.findOne(connectionId).meetupLatLong;
-          console.log('meetingCoordinates: ' + JSON.stringify(meetingCoordinates));
-
-
   });
 
   // mapObject.addListener('dragend', function() {
@@ -182,6 +250,7 @@ Template.map.events({
   //   $("#map-search").trigger("geocode");
   // },
   'click #update-map-location': function() {
+    console.log('Done Clicked!');
     console.log(this);
     console.log(this.essentialData);
   }
@@ -258,7 +327,7 @@ Template.mapChat.onRendered(function() {
         },
       }).bind("geocode:dragged", function(event, result){
         console.log(result);
-        reverseGeocode.getLocation(result.J, result.M, function(location){
+        reverseGeocode.getLocation(result.L, result.M, function(location){
           Session.set('newLocation', {
             address: reverseGeocode.getAddrStr(),
             latLong: result
@@ -278,6 +347,8 @@ Template.mapChat.events({
   },
   'click #updateMeetup': function() {
     connectionId = this.connectionId;
+    console.log('Done Clicked!');
+    console.log(connectionId);
     if (Session.get('newLocation')) {
       Connections.update({_id: connectionId}, {$set: {meetupLocation: Session.get('newLocation').address, meetupLatLong: Session.get('newLocation').latLong}});
     }
@@ -317,13 +388,13 @@ Template.onlyMap.helpers({
     } 
     else 
     {
-      currentTakerLoc = {lat: this.J, lng: this.M};
+      currentTakerLoc = {lat: this.L, lng: this.M};
       console.log('H/L');
       console.log(this.meetupLatLong);
 
       if (GoogleMaps.loaded()) {
         return {
-          center: new google.maps.LatLng(this.J, this.M),
+          center: new google.maps.LatLng(this.L, this.M),
           zoom: 16
         };
       }
@@ -407,8 +478,19 @@ function calcRoute(map, start, end)
   directionsService = new google.maps.DirectionsService();
   directionsDisplay.setMap(map);
 
-  getIcons();
-  
+  // if(marker)
+  // {
+  //   marker.setMap(null);
+  // }
+
+  // for (i = 0; i < markerArray.length; i++) {
+  //   markerArray[i].setMap(null);
+  // }
+
+  // getIcons();
+
+  var markerArray = [];
+  var myRoute;
   var request = {
     origin:start,
     destination:end,
@@ -418,11 +500,12 @@ function calcRoute(map, start, end)
   {
     if (status == google.maps.DirectionsStatus.OK) {
       directionsDisplay.setDirections(result);
-      var leg = result.routes[ 0 ].legs[ 0 ];
+      myRoute = result.routes[ 0 ].legs[ 0 ];
       // makeMarker( leg.start_location, icons.start, "title", map );
-      // makeMarker( leg.end_location, icons.end, 'title', map );
+      // makeMarker( leg.end_location, icons.end, 'title', map );      
     }
   });
+
 }
 
 function makeMarker( position, icon, title, map ) {
