@@ -60,6 +60,7 @@ Template.feedbackborrower.events({
 					IonModal.close();
 					Router.go('/inventory');
 					Connections.remove({_id: connectionId});
+					Chat.remove({connectionId: connectionId})
 				}
 			})
 		} else {

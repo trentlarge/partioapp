@@ -3,8 +3,8 @@
 @import 'app-variables';
 
 // Ionic
-@import '.meteor/local/build/programs/server/assets/packages/meteoric_ionic-sass/packages/meteoric_ionic-sass/_ionic';
-@import '.meteor/local/build/programs/server/assets/packages/meteoric_ionicons-sass/packages/meteoric_ionicons-sass/_ionicons';
+@import '.meteor/local/build/programs/server/assets/packages/meteoric_ionic-sass/_ionic';
+@import '.meteor/local/build/programs/server/assets/packages/meteoric_ionicons-sass/_ionicons';
 
 
 
@@ -14,9 +14,9 @@
 // bottom: 0px !important;
 // }
 
-.prevent-keyboardglitch {
-	bottom: 0px !important;
-}
+// .prevent-keyboardglitch {
+// 	bottom: 0px !important;
+// }
 
 .scroll-bar-indicator
 {
@@ -445,15 +445,6 @@ ion-side-menu.menu-left.menu {
 	left: -24px;
 	border-width: 8px 26px 8px 0;
 }
-.discussion {
-	// padding-bottom: 106px;
-	// margin-bottom: 44px;
-	height: 100%;
-	// background: linear-gradient(
- //      rgba(189, 195, 199, 0.2),
- //      rgba(189, 195, 199, 0.2)
- //    ), url('/square_bg_@2X.png') repeat fixed center;
-}
 
 .custom-icon {
   font-size: 25px !important;
@@ -566,67 +557,6 @@ ion-side-menu.menu-left.menu {
 .location-box {
 	padding: 7px 10px 7px 0px	
 }
-
-
-
-// /**
-// * Platform
-// * --------------------------------------------------
-// * Platform specific tweaks
-// */
-
-// .platform-ios.platform-cordova {
-//   // iOS7/8 has a status bar which sits on top of the header.
-//   // Bump down everything to make room for it. However, if
-//   // if its in Cordova, and set to fullscreen, then disregard the bump.
-//   &:not(.fullscreen) {
-//     .bar-header:not(.bar-subheader) {
-//       height: $bar-height + $ios-statusbar-height;
-
-//       &.item-input-inset .item-input-wrapper {
-//         margin-top: 0px !important;
-//       }
-
-//       > * {
-//         margin-top: $ios-statusbar-height;
-//       }
-//     }
-//     .tabs-top > .tabs,
-//     .tabs.tabs-top {
-//       top: $bar-height + $ios-statusbar-height;
-//     }
-
-//     .has-header,
-//     .bar-subheader {
-//       top: $bar-height + $ios-statusbar-height;
-//     }
-//     .has-subheader {
-//       top: $bar-height + $bar-subheader-height + $ios-statusbar-height;
-//     }
-//     .has-tabs-top {
-//       top: $bar-height + $tabs-height + $ios-statusbar-height;
-//     }
-//     .has-header.has-subheader.has-tabs-top {
-//       top: $bar-height + $bar-subheader-height + $tabs-height + $ios-statusbar-height;
-//     }
-//   }
-//   &.status-bar-hide {
-//     // Cordova doesn't adjust the body height correctly, this makes up for it
-//     margin-bottom: 20px;
-//   }
-// }
-
-// @media (orientation:landscape) {
-//   .platform-ios.platform-browser.platform-ipad {
-//     position: fixed; // required for iPad 7 Safari
-//   }
-// }
-
-// .platform-c:not(.enable-transitions) * {
-//   // disable transitions on grade-c devices (Android 2)
-//   -webkit-transition: none !important;
-//   transition: none !important;
-// }
 
 .request-notify {
 	top: 30px !important;
@@ -794,7 +724,7 @@ textarea, input[type="text"], input[type="password"], input[type="datetime"], in
 .bar-footer textarea {
   resize: none;
   // height: 22px !important;
-  max-height: 100px;
+  // max-height: 100px;
 }
 
 button.ion-android-send {
@@ -847,17 +777,16 @@ img.profile-pic.right {
   margin-bottom: -6px;
 }
 
-.bar.item-input-inset .item-input-wrapper textarea {
-  width: 100% !important;
-}
-
 .message-wrapper {
-  position: relative;
-  padding-bottom: 40px;
+  // position: absolute;
+  padding: 5px 5px 60px 5px;
+  display: table-cell;
+  vertical-align: bottom;
+  width: 100vw;
 }
 
 .message-wrapper:last-child {
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
 
 .chat-bubble {
@@ -866,7 +795,7 @@ img.profile-pic.right {
   padding: 4px 8px 0px 8px;
   position: relative;
   margin: 10px;
-  max-width: 80%;
+  max-width: 60%;
 }
 
 .chat-bubble:before {
@@ -879,13 +808,15 @@ img.profile-pic.right {
 }
 
 .chat-bubble.left {
-  background-color: #e6e5eb;
+  background-color: #fff;
+  // background-color: #e6e5eb;
   // float: left;
   // margin-left: 10px;
 }
 
 .chat-bubble.left:before {
-  background-color: #e6e5eb;
+	background-color: #fff;
+  // background-color: #e6e5eb;
   left: 10px;
   -webkit-transform: rotate(70deg) skew(5deg);
 }
@@ -924,9 +855,18 @@ img.profile-pic.right {
   top: -3px;
 }
 
-// input, textarea, .item-input, .item-input-wrapper {
-	.item-input-wrapper textarea {
-  background-color: #f4f4f4 !important;
+.bar.item-input-inset .item-input-wrapper textarea {
+  width: 100% !important;
+}
+
+.chat-footer .item-input-wrapper textarea {
+  // background-color: #f4f4f4 !important;
+  background-color: #fff !important;
+}
+
+.chat-footer .item-input-wrapper {
+	background-color: #fff;
+	overflow: auto;
 }
 
 .bold {
@@ -1001,12 +941,18 @@ a.autolinker {
 }
 
 
+.chat-footer {
+	height: auto !important;
+	padding: 4px !important;
+}
 
 
 
 
-
-
+.s-alert-info.s-alert-effect-jelly {
+    background: #f0970d;
+    color: #fff
+}
 
 
 

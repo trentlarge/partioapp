@@ -7,6 +7,8 @@ KNOWN ISSUES:
 - Over a period of time, an Amazon call is not always necessary. What if the book is already there in Partio databsae? Why waste a call to Amazon?
 - Both 10 and 13 need to be added in Search Collection for users searching for either of them
 
+- ProductUniqueId in Search is referencing the first item in Products.findOne. Possible Error
+
 Sample Debit Card:
 5200828282828210  MasterCard (debit)
 

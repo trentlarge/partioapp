@@ -1,44 +1,48 @@
 <template name="chat">
-  {{#ionModal customTemplate=true}}
-  <div class="bar bar-header bar-royal">
-    <button type="button" data-dismiss="modal" class="button button-clear"> Close</button>
-    <h2 class="title"><i class="icon ion-chatbubble user-messages-top-icon"></i> <div class="msg-header-username">{{chatWith}}</div></h2>
-  </div>
 
-<div class="content overflow-scroll discussion">
-    <div class="message-wrapper has-header has-footer">
+  {{#contentFor "headerButtonLeft"}}
+      {{>ionNavBackButton}}
+  {{/contentFor}}
+  
+  {{#contentFor "headerTitle"}}
+    <h2 class="title"><i class="icon ion-ios-chatboxes-outline user-messages-top-icon"></i> <div class="msg-header-username">{{chatWith}}</div></h2>
+  {{/contentFor}}
 
-    {{#each messages}}
-      <div class="each-chatblock {{direction}}">
+  {{#ionView}}
+    {{#ionContent}}
+        <div class="message-wrapper" data-keyboard-attach>
+        {{#each messages}}
+          <div class="each-chatblock {{direction}}">
 
-        <div class="chat-bubble {{direction}}">
-          <div class="message">
-            {{message}}
+            <div class="chat-bubble {{direction}}">
+              <div class="message">
+                {{message}}
+              </div>
+
+              <div class="message-detail small-font">
+                <p>{{cleanDate}}</p>
+              </div>
+            </div>
+            <img class="profile-pic {{direction}}" src={{avatar}}>
+
           </div>
+        {{/each}}
 
-          <div class="message-detail small-font">
-            <p>{{cleanDate}}</p>
-          </div>
-        </div>
-        <img class="profile-pic {{direction}}" src={{avatar}}>
+        <div class="cf"></div>
 
       </div>
-    {{/each}}
+    {{/ionContent}}
 
-    <div class="cf"></div>
+    <form>
+      <div class="bar bar-footer chat-footer item-input-inset" data-keyboard-attach>
+        <label class="item-input-wrapper">
+          <textarea id="messageInput" type="text" rows="1" placeholder="Write your message..."></textarea>
+        </label>
+        <button id="chatSubmit" class="button-assertive button button-clear disabled">Send</button>
+      </div>
+    </form>
 
-  </div>
-</div>
+    {{/ionView}}
 
-
-  <form>
-    <div class="bar bar-footer item-input-inset">
-      <label class="item-input-wrapper">
-        <textarea id="messageInput" type="text" rows="1"></textarea>
-      </label>
-      <button id="chatSubmit" class="button-assertive button button-clear disabled">Send</button>
-    </div>
-  </form>
-
-  {{/ionModal}}
 </template>
+

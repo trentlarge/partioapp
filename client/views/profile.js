@@ -4,14 +4,6 @@ Template.profile.helpers({
   profileEdit: function() {
     return Session.get('profileEdit');
   },
-  venmoUser: function() {
-    return Meteor.userId();
-  },
-  venmoExists: function() {
-    if (Meteor.user().profile.venmo) {
-      return true;
-    }
-  },
   alreadyStriped: function() {
     if (!! Meteor.user().profile.stripeAccount) {
       return true; 

@@ -4,31 +4,44 @@
 # 'meteor add' and 'meteor remove' will edit this file for you,
 # but you can also edit it by hand.
 
-meteor-platform
-autopublish
-insecure
+meteor-base             # Packages every Meteor app needs to have
+mobile-experience       # Packages for a great mobile UX
+mongo                   # The database Meteor supports right now
+blaze-html-templates    # Compile .html files into Meteor Blaze views
+session                 # Client-side reactive dictionary for your app
+jquery                  # Helpful client-side library
+tracker                 # Meteor's client-side reactive programming library
+
+standard-minifiers      # JS/CSS minifiers run for production mode
+es5-shim                # ECMAScript 5 compatibility for older browsers.
+ecmascript              # Enable ECMAScript2015+ syntax in app code
+
+autopublish             # Publish all data to the clients (for prototyping)
+insecure                # Allow all DB writes from clients (for prototyping)
+
+accounts-base
+accounts-password
+alexsmr:apac
+benjick:stripe-native
+check
+ejson
+email
+http
 iron:router
-fourseven:scss@2.1.1
+jaymc:google-reverse-geocode
+jeremy:geocomplete
+juliancwirko:s-alert
+juliancwirko:s-alert-jelly
+matb33:collection-hooks
+mdg:geolocation
+meteorhacks:async
+meteorhacks:search-source
+momentjs:moment
+raix:push
 meteoric:ionic-sass
 meteoric:ionicons-sass
 meteoric:ionic
-accounts-base
-accounts-password
-http
-meteorhacks:search-source
-mrt:accounts-facebook-cordova
-alexsmr:apac
-meteorhacks:async
-practicalmeteor:wkwebview
-jaymc:google-reverse-geocode
-jeremy:geocomplete
-mdg:geolocation
-matb33:collection-hooks
-raix:push
-mrt:googlemaps
-email
+fourseven:scss@=3.2.0
 mdg:reload-on-resume
-momentjs:moment
-benjick:stripe-native
-cfs:standard-packages
-cfs:filesystem
+
+mrt:accounts-facebook-cordova

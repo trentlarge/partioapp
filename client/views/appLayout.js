@@ -24,13 +24,40 @@ Template.appLayout.events({
 	}
 });
 
+Template.sAlertCustom.events({
+	'click .whichalert': function() {
+		Router.go(this.goToChat)
+	},
+	'click .s-alert-close': function(e) {
+		e.stopPropagation();
+	}
+})
+
+
+
 Meteor.startup(function() {
+
     Stripe.setPublishableKey('pk_test_OYfO9mHIQFha7How6lNpwUiQ');
 
     GoogleMaps.load({
     	key: 'AIzaSyDMyxBlvIc4b4hoWqTw4lGr5OviU8FlQc8',
     	libraries: 'places'
     });
+
+    sAlert.config({
+        effect: 'jelly',
+        position: 'bottom',
+        timeout: 10000,
+        html: false,
+        onRouteClose: true,
+        stack: {
+            spacing: 1, // in px
+            limit: 3 // when fourth alert appears all previous ones are cleared
+        },
+        offset: 0, // in px - will be added to first alert (bottom or top - depends of the position in config)
+        beep: '/alert.mp3'  // or you can pass an object:
+    });
+
 });
 
 Template.registerHelper('cleanDate', function() {
@@ -38,11 +65,43 @@ Template.registerHelper('cleanDate', function() {
 });
 
 Session.set('alertCount', 0);
+
+//CREATING a local collection for Chat
+Chat = new Meteor.Collection(null);
+
 Template.appLayout.onRendered(function() {
 	var self = this;
 
 	self.autorun(function() {
 		var query1 = Notifications.find({toId: Meteor.userId(), read: false});
+		// var query2 = Connections.find({
+		// 	$or: [{requestor: Meteor.userId()}, {"bookData.ownerId": Meteor.userId()}], 
+		// 	"chat.state": "new", 
+		// 	"chat.sender": {$ne: Meteor.userId()}
+		// });
+
+		var chatQuery = Connections.find({ $or: [{requestor: Meteor.userId()}, {"bookData.ownerId": Meteor.userId()}] });
+
+		chatQuery.observeChanges({
+			changed: function(id, fields) {
+				console.log(id);
+				console.log(fields);
+				
+				fields.chat.forEach(function(item) {
+					if (item.sender !== Meteor.userId && !Chat.findOne({connectionId: id, timestamp: item.timestamp})) {
+						Chat.insert({
+							connectionId: id,
+							message: item.message,
+							state: "new",
+							timestamp: item.timestamp
+						})
+					}
+				})
+				if (Iron.Location.get().path !== '/chat/' + id ) {
+					sAlert.info({goToChat: '/chat/' + id, message: Chat.find({connectionId: id, state: "new"}).count() + ' New chat message(s)'});
+				}
+			}
+		})
 
 		query1.observeChanges({
 			added: function(id, fields) {
@@ -478,11 +537,6 @@ function ShowRequestDeniedPopUp(bookName)
 		}]
 	});
 }
-
-
-
-
-
 
 
 

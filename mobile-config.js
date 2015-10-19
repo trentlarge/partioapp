@@ -22,7 +22,10 @@ App.launchScreens({
 });
 
 App.setPreference('StatusBarOverlaysWebView', false);
-App.setPreference('StatusBarBackgroundColor', '#263238');
+App.setPreference('StatusBarStyle', 'default');
+
+// App.setPreference('StatusBarOverlaysWebView', false);
+// App.setPreference('StatusBarBackgroundColor', '#263238');
 // App.setPreference('HideKeyboardFormAccessoryBar', true);
 
 App.accessRule('*');

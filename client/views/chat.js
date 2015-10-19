@@ -3,8 +3,10 @@ Template.chat.helpers({
 		var chatCursor = Connections.find({_id: this._id});
 		chatCursor.observe({
 			changed: function(newDoc, oldDoc) {
+				// console.log(newDoc);
+				// console.log(oldDoc);
 				setTimeout(function(){
-					$('.discussion').scrollTop($('.discussion')[0].scrollHeight);
+					$('.content').scrollTop($('.message-wrapper')[0].scrollHeight);
 				},0);
 			}
 		})
@@ -31,7 +33,7 @@ Template.chat.events({
 		if (message.length > 0) {
 			Meteor.call('sendMessage', message, Meteor.userId(), this._id, function(error, result) {
 				if (!error) {
-					$('.discussion').scrollTop($('.discussion')[0].scrollHeight);
+					$('.content').scrollTop($('.message-wrapper')[0].scrollHeight);
 					$('#messageInput').val('');
 					autosize.update($('textarea'));
 					console.log("posted message");
@@ -44,42 +46,37 @@ Template.chat.events({
 	'input textarea': function(e, template) {
 		if (e.target.value.length > 0) {
 			$("#chatSubmit").removeClass("disabled");
-			// autosize($('textarea'));
 		} else {
 			$("#chatSubmit").addClass("disabled");
 		}
 	}
-	// 'keypress #messageInput': function(e, template) {
-	// 	if (e.which === 13) {
-	// 		var message = template.find('input').value;
-	// 		Meteor.call('sendMessage', message, Meteor.userId(), this._id, function(error, result) {
-	// 			if (!error) {
-	// 				$('.discussion').scrollTop($('.discussion')[0].scrollHeight);
-	// 				$('#messageInput').val('');
-	// 				console.log("posted message");
-	// 			}
-	// 		});
-	// 		$('#messageInput').focus();
-	// 	}
-	// }
-	// 'focus input#messageInput': function (evt) {
-	// 	setTimeout(function(){
-	// 		$('.discussion').scrollTop($('.discussion')[0].scrollHeight);
-	// 	}, 500);
-	// }
 });
 
 Template.chat.rendered = function() {
-	// Session.set('window_focus', document.hasFocus());
-	// $(window).focus(function() {
-	// 	Session.set('window_focus', true);
-	// }).blur(function() {
-	// 	Session.set('window_focus', false);
-	// });
-	// $('#messageInput').autosize().show().trigger('autosize.resize');
-	// Keyboard.hideFormAccessoryBar(true);
+	var dataContext = this.data;
+	//Chat input textarea auto-resize when more than 1 line is entered
 	autosize($('textarea'));
-	$('.discussion').scrollTop($('.discussion')[0].scrollHeight);
+
+	//Scroll to bottom of the screen
+	$('.content').scrollTop( $('.message-wrapper')[0].scrollHeight );
+
+	//Adjust scroll when keyboard is fired up
+	if (window.cordova && window.cordova.plugins.Keyboard) {
+		cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+		
+		window.addEventListener('native.keyboardshow', function() {
+			console.log('keyboard is closing');
+			$('.content').scrollTop( $('.message-wrapper')[0].scrollHeight );
+		});
+	}
+
+	//Make messages as READ
+	this.autorun(function() {
+		if (Chat.find({connectionId: dataContext._id, state: "new"}).count()) {
+			console.log("Messages are now Read: " + Chat.find({connectionId: dataContext._id, state: "new"}).count());
+			Chat.update({connectionId: dataContext._id, state: "new"}, {$set: {state: "read"}}, {multi: true})
+		}
+	})
 }
 
 

@@ -277,6 +277,16 @@ function CheckLocatioOn()
 
 
 Template.login.rendered = function() {
+	if(window.cordova && window.cordova.plugins.Keyboard) {
+		// cordova.plugins.Keyboard.disableScroll(true);
+		// cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+	}
+
+	// window.addEventListener('native.keyboardhide', function() {
+	// 	console.log('keyboard is closing');
+	// 	$(".content.overflow-scroll").css("bottom", "0px");
+	// });
+
 
 	// document.addEventListener("resume", function(){
 	// 	console.log("RESUMED!!")

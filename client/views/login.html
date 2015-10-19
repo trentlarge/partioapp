@@ -5,10 +5,11 @@
 
 
 {{#ionView}}
+  {{#ionContent}}
   <!-- {{#ionContent class="ion-content has-header overflow-scroll"}} -->
-  <div class="content has-header">
-    <div class="logo-container-login">
-      <img src="main_logo.png"/>&nbsp;
+  <!-- <div class="content has-header"> -->
+    <div class="logo-container-login hide-on-keyboard-open">
+      <img src="main_logo.png">
     </div>
 
     <div class="padding">
@@ -16,15 +17,17 @@
     </div>
 
     <div class="list list-inset reduce-bottom-margin">
-      <label class="item item-input">
-        <i class="icon ion-ios-email energized placeholder-icon"></i>
-        &nbsp;<input type="email" name="email" placeholder="Email">
-      </label>
+      <!-- <form> -->
+        <label class="item item-input">
+          <i class="icon ion-ios-email energized placeholder-icon"></i>
+          &nbsp;<input type="email" name="email" placeholder="Email">
+        </label>
 
-      <label class="item item-input">
-        <i class="icon ion-ios-locked energized placeholder-icon"></i>
-        &nbsp;<input type="password" name="password" placeholder="Password">
-      </label>
+        <label class="item item-input">
+          <i class="icon ion-ios-locked energized placeholder-icon"></i>
+          &nbsp;<input type="password" name="password" placeholder="Password">
+        </label>
+      <!-- </form> -->
     </div>
     <div class="padding-horizontal"><h6 id="forgot-password" class="right-align graytext">Forgot Password?</h6></div>
 
@@ -37,9 +40,9 @@
     </div>
 
     <br>
-    </div>
+    <!-- </div> -->
 
-    <!-- {{/ionContent}} -->
+    {{/ionContent}}
     {{/ionView}}
   
   <!-- </div> -->

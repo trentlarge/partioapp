@@ -83,6 +83,7 @@ Template.connect.events({
 			onOk: function() {
 
 				Connections.remove({"_id": connectionId});
+				Chat.remove({connectionId: connectionId})
 				IonPopup.close();
 				Router.go('/inventory');
 			}
@@ -352,6 +353,7 @@ Template.connectRent.events({
 			onOk: function() {
 
 				Connections.remove({"_id": connectionId});
+				Chat.remove({connectionId: connectionId})
 				IonPopup.close();
 				Router.go('/listing');
 			}
