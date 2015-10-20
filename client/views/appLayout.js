@@ -64,6 +64,10 @@ Template.registerHelper('cleanDate', function() {
 	return moment(this.timestamp).fromNow();
 });
 
+Template.registerHelper('profilePic', function(avatar) {
+	return (avatar === "notSet") ? "/profile_image_placeholder.jpg" : avatar;
+})
+
 Session.set('alertCount', 0);
 
 //CREATING a local collection for Chat

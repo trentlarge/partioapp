@@ -747,7 +747,8 @@ img.profile-pic {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  border: 1px #bdc3c7 solid;
+  // border: 1px #bdc3c7 solid;
+  border: 1px #fff solid;
 }
 
 img.profile-pic.left {
@@ -780,7 +781,7 @@ img.profile-pic.right {
 .message-wrapper {
   // position: absolute;
   padding: 5px 5px 60px 5px;
-  display: table-cell;
+  display: table;
   vertical-align: bottom;
   width: 100vw;
 }
@@ -945,9 +946,6 @@ a.autolinker {
 	height: auto !important;
 	padding: 4px !important;
 }
-
-
-
 
 .s-alert-info.s-alert-effect-jelly {
     background: #f0970d;
