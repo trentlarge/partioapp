@@ -28,9 +28,10 @@ Template.chat.helpers({
 Template.chat.events({
 	'submit form': function(e, template) {
 		e.preventDefault();
-		var message = template.find('textarea').value.trim();
+		var message = template.find('#messageInput').value.trim();
 
 		if (message.length > 0) {
+			$('#messageInput').val('');
 			Meteor.call('sendMessage', message, Meteor.userId(), this._id, function(error, result) {
 				if (!error) {
 					$('.content').scrollTop($('.message-wrapper')[0].scrollHeight);
@@ -38,6 +39,8 @@ Template.chat.events({
 					autosize.update($('textarea'));
 					console.log("posted message");
 					$("#chatSubmit").addClass("disabled");
+				} else {
+					$('#messageInput').val(message);
 				}
 			});
 		}

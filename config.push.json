@@ -1,13 +1,13 @@
 {
   "apn": {
     "passphrase": "partio2021",  
-    "key": "partioKey.pem",
-    "cert": "partioProdCert.pem"
+    "key": "PushChatKey.pem",
+    "cert": "PushChatCert.pem"
   },
   "apn-dev": {
     "passphrase": "partio2021",
-    "key": "partioKey.pem",
-    "cert": "partioCert.pem"
+    "key": "PushChatKey.pem",
+    "cert": "PushChatCertProduction.pem"
   },
   "production": true,
   "badge": true,

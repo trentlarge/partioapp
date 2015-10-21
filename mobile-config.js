@@ -1,10 +1,10 @@
 App.info({
-  id: 'com.partioapp.partio',
+  id: 'com.partio.partiobeta',
   name: 'partiO',
   description: 'Share. Borrow. Party-o',
   author: 'InsaneInc',
   website: 'http://www.partioapp.com',
-  version: '0.4.1'
+  version: '0.5'
 });
 
 App.icons({
@@ -21,7 +21,7 @@ App.launchScreens({
 
 });
 
-App.setPreference('StatusBarOverlaysWebView', false);
+App.setPreference('StatusBarOverlaysWebView', true);
 App.setPreference('StatusBarStyle', 'default');
 
 // App.setPreference('StatusBarOverlaysWebView', false);

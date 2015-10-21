@@ -724,7 +724,7 @@ textarea, input[type="text"], input[type="password"], input[type="datetime"], in
 .bar-footer textarea {
   resize: none;
   // height: 22px !important;
-  // max-height: 100px;
+  max-height: 150px;
 }
 
 button.ion-android-send {
