@@ -30,9 +30,16 @@ Template.chat.events({
 		e.preventDefault();
 		var message = template.find('#messageInput').value.trim();
 
+		var cRequestor = this.requestor;
+		var cOwner = this.bookData.ownerId;
+
+		var recipient = (function() {
+					return (cRequestor === Meteor.userId()) ? cOwner : cRequestor;
+				}) ();
+
 		if (message.length > 0) {
 			$('#messageInput').val('');
-			Meteor.call('sendMessage', message, Meteor.userId(), this._id, function(error, result) {
+			Meteor.call('sendMessage', message, Meteor.userId(), recipient, this._id, function(error, result) {
 				if (!error) {
 					$('.content').scrollTop($('.message-wrapper')[0].scrollHeight);
 					$('#messageInput').val('');
