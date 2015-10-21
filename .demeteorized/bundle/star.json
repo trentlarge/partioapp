@@ -1,0 +1,37 @@
+{
+  "format": "site-archive-pre1",
+  "builtBy": "Meteor METEOR@1.2.0.2",
+  "programs": [
+    {
+      "name": "web.browser",
+      "arch": "web.browser",
+      "path": "programs/web.browser/program.json"
+    },
+    {
+      "name": "web.cordova",
+      "arch": "web.cordova",
+      "path": "programs/web.cordova/program.json",
+      "cordovaDependencies": {
+        "cordova-plugin-geolocation": "1.0.1",
+        "com.ionic.keyboard": "1.0.4",
+        "cordova-plugin-inappbrowser": "1.0.1",
+        "com.phonegap.plugins.PushPlugin": "https://github.com/raix/PushPlugin/tarball/c4e3aa69c66bde45472e81ac303a9e39020c9cc7",
+        "cordova-plugin-device": "1.0.1",
+        "cordova-plugin-legacy-whitelist": "1.1.0",
+        "com.meteor.cordova-update": "https://github.com/practicalmeteor/com.meteor.cordova-update.git#a7e98f27a26b727288da81dcfd8047eccb5f6036",
+        "cordova-plugin-statusbar": "1.0.0",
+        "cordova-plugin-splashscreen": "2.1.0",
+        "cordova-plugin-file": "2.1.0",
+        "cordova-plugin-file-transfer": "1.2.0",
+        "cordova-plugin-camera": "https://github.com/apache/cordova-plugin-camera.git#1e607ddcc856fd69208d1fb7e6202ab241adfa80",
+        "phonegap-plugin-barcodescanner": "https://github.com/phonegap/phonegap-plugin-barcodescanner.git#70ca00be45a675b1b1d6963ad6f72430e579788e"
+      }
+    },
+    {
+      "name": "server",
+      "arch": "os.linux.x86_64",
+      "path": "programs/server/boot.js"
+    }
+  ],
+  "meteorRelease": "METEOR@1.2.0.2"
+}

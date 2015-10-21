@@ -282,10 +282,10 @@ Template.login.rendered = function() {
 		// cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
 	}
 
-	// window.addEventListener('native.keyboardhide', function() {
-	// 	console.log('keyboard is closing');
-	// 	$(".content.overflow-scroll").css("bottom", "0px");
-	// });
+	window.addEventListener('native.keyboardhide', function() {
+		console.log('keyboard is closing');
+		$(".content.dont-slice-screen").css("bottom", "0px");
+	});
 
 
 	// document.addEventListener("resume", function(){

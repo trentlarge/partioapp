@@ -1,0 +1,245 @@
+{
+  "format": "web-program-pre1",
+  "manifest": [
+    {
+      "path": "582a21b3fe5444efc1f72224cd750ba3cd43c26c.js",
+      "where": "client",
+      "type": "js",
+      "cacheable": true,
+      "url": "/582a21b3fe5444efc1f72224cd750ba3cd43c26c.js?meteor_js_resource=true",
+      "size": 809333,
+      "hash": "582a21b3fe5444efc1f72224cd750ba3cd43c26c"
+    },
+    {
+      "path": "3c799a298514d13829d94a8f614f273e2e81f040.css",
+      "where": "client",
+      "type": "css",
+      "cacheable": true,
+      "url": "/3c799a298514d13829d94a8f614f273e2e81f040.css?meteor_css_resource=true",
+      "size": 218694,
+      "hash": "3c799a298514d13829d94a8f614f273e2e81f040"
+    },
+    {
+      "path": "packages/meteoric_ionicons-sass/fonts/ionicons.eot",
+      "where": "client",
+      "type": "asset",
+      "cacheable": false,
+      "url": "/packages/meteoric_ionicons-sass/fonts/ionicons.eot",
+      "size": 121036,
+      "hash": "72b24f245d6746f63000100742da9406ef850b01"
+    },
+    {
+      "path": "packages/meteoric_ionicons-sass/fonts/ionicons.svg",
+      "where": "client",
+      "type": "asset",
+      "cacheable": false,
+      "url": "/packages/meteoric_ionicons-sass/fonts/ionicons.svg",
+      "size": 334283,
+      "hash": "aa56b884945b32444dbcb649852c4a5a2b2d7aff"
+    },
+    {
+      "path": "packages/meteoric_ionicons-sass/fonts/ionicons.ttf",
+      "where": "client",
+      "type": "asset",
+      "cacheable": false,
+      "url": "/packages/meteoric_ionicons-sass/fonts/ionicons.ttf",
+      "size": 188724,
+      "hash": "a7f729edc4624182c4274b40ec83f524459978ed"
+    },
+    {
+      "path": "packages/meteoric_ionicons-sass/fonts/ionicons.woff",
+      "where": "client",
+      "type": "asset",
+      "cacheable": false,
+      "url": "/packages/meteoric_ionicons-sass/fonts/ionicons.woff",
+      "size": 68060,
+      "hash": "9ba4bf64c6450f6726dc6542965e46db554f3290"
+    },
+    {
+      "path": "app/Default@iphone5~iphone.png",
+      "where": "client",
+      "type": "asset",
+      "cacheable": false,
+      "url": "/Default@iphone5~iphone.png",
+      "size": 84439,
+      "hash": "1f5aae43e982fdb42220916e031118c1842144f7"
+    },
+    {
+      "path": "app/Default@iphone6~iphone.png",
+      "where": "client",
+      "type": "asset",
+      "cacheable": false,
+      "url": "/Default@iphone6~iphone.png",
+      "size": 112639,
+      "hash": "36580c42ce9b3835c225812f945f89852b5354cb"
+    },
+    {
+      "path": "app/Default~iphone.png",
+      "where": "client",
+      "type": "asset",
+      "cacheable": false,
+      "url": "/Default~iphone.png",
+      "size": 22631,
+      "hash": "eb97618511d11512294d4e438f35d47641922e83"
+    },
+    {
+      "path": "app/Default~iphone_640x960.png",
+      "where": "client",
+      "type": "asset",
+      "cacheable": false,
+      "url": "/Default~iphone_640x960.png",
+      "size": 81784,
+      "hash": "a92b595d35353d473a69accc80aa4683ea3304ce"
+    },
+    {
+      "path": "app/Icon-40@2x.png",
+      "where": "client",
+      "type": "asset",
+      "cacheable": false,
+      "url": "/Icon-40@2x.png",
+      "size": 8866,
+      "hash": "946efaa82ed2276170725711ddf7d8995e8463b3"
+    },
+    {
+      "path": "app/Icon-40@3x.png",
+      "where": "client",
+      "type": "asset",
+      "cacheable": false,
+      "url": "/Icon-40@3x.png",
+      "size": 19577,
+      "hash": "ba45e34992afc91471a82cdfbd496decd92f69c1"
+    },
+    {
+      "path": "app/Icon-60@2x.png",
+      "where": "client",
+      "type": "asset",
+      "cacheable": false,
+      "url": "/Icon-60@2x.png",
+      "size": 19577,
+      "hash": "ba45e34992afc91471a82cdfbd496decd92f69c1"
+    },
+    {
+      "path": "app/Icon-60@3x.png",
+      "where": "client",
+      "type": "asset",
+      "cacheable": false,
+      "url": "/Icon-60@3x.png",
+      "size": 44984,
+      "hash": "2ad3716ec8578fde06aac5286fac390df95a98fc"
+    },
+    {
+      "path": "app/Icon-76.png",
+      "where": "client",
+      "type": "asset",
+      "cacheable": false,
+      "url": "/Icon-76.png",
+      "size": 8068,
+      "hash": "55a9615ee6984802858fb0ece172ef56d31fc042"
+    },
+    {
+      "path": "app/Icon-76@2x.png",
+      "where": "client",
+      "type": "asset",
+      "cacheable": false,
+      "url": "/Icon-76@2x.png",
+      "size": 31670,
+      "hash": "0043ef6546b1963378d35d78f81fa097bf5fba7f"
+    },
+    {
+      "path": "app/Icon-Small.png",
+      "where": "client",
+      "type": "asset",
+      "cacheable": false,
+      "url": "/Icon-Small.png",
+      "size": 1652,
+      "hash": "e68753ddec9121b9aaa0a8fb5a9b05bae6eb3cf1"
+    },
+    {
+      "path": "app/Icon-Small@2x.png",
+      "where": "client",
+      "type": "asset",
+      "cacheable": false,
+      "url": "/Icon-Small@2x.png",
+      "size": 4954,
+      "hash": "862c04a526ba4070dc9ebe68995695a6f7482f64"
+    },
+    {
+      "path": "app/Icon-Small@3x.png",
+      "where": "client",
+      "type": "asset",
+      "cacheable": false,
+      "url": "/Icon-Small@3x.png",
+      "size": 10475,
+      "hash": "bc56865dbd2c9f4f2655ebb0c50383467684cec3"
+    },
+    {
+      "path": "app/alert.mp3",
+      "where": "client",
+      "type": "asset",
+      "cacheable": false,
+      "url": "/alert.mp3",
+      "size": 3008,
+      "hash": "1dd841f5e3588cb2b2ba4a1443b5f2b9e2119d54"
+    },
+    {
+      "path": "app/bookplaceholder.jpg",
+      "where": "client",
+      "type": "asset",
+      "cacheable": false,
+      "url": "/bookplaceholder.jpg",
+      "size": 5380,
+      "hash": "a07d85e3dfafef067dacc386c75731d4a32baae2"
+    },
+    {
+      "path": "app/borrow_white.png",
+      "where": "client",
+      "type": "asset",
+      "cacheable": false,
+      "url": "/borrow_white.png",
+      "size": 4027,
+      "hash": "d7777c3e0a91e0680c2cdfe5a84acb73d6fae092"
+    },
+    {
+      "path": "app/icon-current-location.png",
+      "where": "client",
+      "type": "asset",
+      "cacheable": false,
+      "url": "/icon-current-location.png",
+      "size": 1993,
+      "hash": "83cbd37ac054c8e68484c0cc34a35d71c1ee93ac"
+    },
+    {
+      "path": "app/lend_white.png",
+      "where": "client",
+      "type": "asset",
+      "cacheable": false,
+      "url": "/lend_white.png",
+      "size": 5395,
+      "hash": "31f88cbaa98912625a421ed8ba001d08835f7a2f"
+    },
+    {
+      "path": "app/main_logo.png",
+      "where": "client",
+      "type": "asset",
+      "cacheable": false,
+      "url": "/main_logo.png",
+      "size": 265577,
+      "hash": "b2a61e2df07e37d56fe187d0507149585fa9106d"
+    },
+    {
+      "path": "app/profile_image_placeholder.jpg",
+      "where": "client",
+      "type": "asset",
+      "cacheable": false,
+      "url": "/profile_image_placeholder.jpg",
+      "size": 5974,
+      "hash": "c992244cd152003e7766050dfaf861571891405f"
+    },
+    {
+      "path": "head.html",
+      "where": "internal",
+      "type": "head",
+      "hash": "573bef1effb913e4f3f8dd6850df6a9b9da96651"
+    }
+  ]
+}

@@ -37,7 +37,6 @@ mdg:geolocation
 meteorhacks:async
 meteorhacks:search-source
 momentjs:moment
-raix:push
 meteoric:ionic-sass
 meteoric:ionicons-sass
 meteoric:ionic
@@ -45,3 +44,4 @@ fourseven:scss@=3.2.0
 mdg:reload-on-resume
 
 mrt:accounts-facebook-cordova
+raix:push@=2.6.12
