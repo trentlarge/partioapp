@@ -55,8 +55,59 @@
   </div>
 </template>
 
-<!-- MANUAL ENTRY -->
 
+<!--
+TABS
+///////// -->
+
+<!-- TAB 1 - CAMFIND -->
+<template name="camfind">
+	<div class="list">
+		<div class="item item-input-inset">
+			<label class="item-input-wrapper">
+				<input id="manualInput" type="tel" placeholder="Search product">
+			</label>
+			<button id="manualSubmit" class="button button-small button-energized button-outline">Submit</button>
+		</div>
+	</div>
+
+	 {{>camfindPhoto}}
+</template>
+
+	<template name="camfindPhoto">
+		<div class="content has-header">
+	    <div class="viewfinder hide-on-keyboard-open" id="cam-find">
+	      <p>TAKE IMAGE</p>
+	    </div>
+	  </div>
+	</template>
+
+<!-- TAB 2 - BARCODE -->
+<template name="barcode">
+	<div class="list">
+		<div class="item item-input-inset">
+			<label class="item-input-wrapper">
+				<input id="manualInput" type="tel" placeholder="Enter barcode number">
+			</label>
+			<button id="manualSubmit" class="button button-small button-energized button-outline">Submit</button>
+		</div>
+	</div>
+
+	{{>barcodeTakePhoto}}
+</template>
+
+	<template name="barcodeTakePhoto">
+			<div class="content has-header">
+				<div class="container">
+			    <div class="viewfinder hide-on-keyboard-open" id="cam-find">
+			      <p>SCAN BARCODE</p>
+			    </div>
+				</div>
+		</div>
+	</template>
+
+
+<!-- TAB 3 - CAMFIND -->
 <template name="manual">
 	{{> takePhoto}}
 
@@ -99,40 +150,6 @@
 
 </template>
 
-<!-- BARCODE -->
-<template name="barcode">
-
-	<div class="list">
-		<div class="item item-input-inset">
-			<label class="item-input-wrapper">
-				<input id="manualInput" type="tel" placeholder="Enter barcode number">
-			</label>
-			<button id="manualSubmit" class="button button-small button-energized button-outline">Submit</button>
-		</div>
-	</div>
-	
-	{{>barcodeTakePhoto}}
-</template>
-
-<template name="barcodeTakePhoto">
-		<div class="content has-header">
-			<div class="container">
-		    <div class="viewfinder hide-on-keyboard-open" id="cam-find">
-		      <p>SCAN BARCODE</p>
-		    </div>
-			</div>
-	</div>
-</template>
-
-<!-- CAMFIND -->
-
-<template name="camfind">
-  <div class="content has-header">
-    <div class="viewfinder hide-on-keyboard-open" id="cam-find">
-      <p>Take Image</p>
-    </div>
-  </div>
-</template>
 
 <!-- ITEM -->
 <template name="item">
