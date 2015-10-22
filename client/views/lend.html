@@ -46,6 +46,8 @@
           </label>
         </div>
 
+
+
         <div class="padding-horizontal">
           <button class="submitProduct button button-block button-energized" {{waitingForPrice}}>
           {{#if userPrice}}
@@ -63,6 +65,13 @@
         {{#if manualEntry}}
         
           {{> takePhoto}}
+
+
+          
+
+
+
+
 
           <div class="list list-inset">
             <form>
@@ -115,9 +124,14 @@
         {{/if}}
 
         {{#if viewFinder}}
-        <div class="viewfinder hide-on-keyboard-open">
+<!--         <div class="viewfinder hide-on-keyboard-open">
           <p>Scan Barcode</p>
-        </div>
+        </div> -->
+
+        {{> camfind}}
+
+
+
         {{/if}}
 
       {{/if}}
@@ -150,6 +164,23 @@
       <img class="scanResult-thumbnail2" src=" {{#if photoTaken}} {{photoTaken}} {{else}} bookplaceholder.jpg {{/if}} ">
     </div>
   </div>
+</template>
+
+
+<template name="camfind">
+  
+      <!-- <div class="bar bar-header bar-royal">
+        <button type="button" data-dismiss="modal" class="cancel-scan button button-clear"> <h6 class="light">CANCEL</h6></button>
+        <h2 class="title">Scan Product - camfind</h2>
+      </div>
+       -->
+      <div class="content has-header">
+          
+        <div class="viewfinder hide-on-keyboard-open" id="cam-find">
+          <p>Scan Image - CAMFIND</p>
+        </div>
+        
+      </div>
 </template>
 
 

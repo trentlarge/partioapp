@@ -734,4 +734,89 @@ Template.takePhoto.events({
   }
 });
 
+Template.camfind.events({
+  'click #cam-find': function() {
+    IonLoading.show();
+    navigator.camera.getPicture(onSuccess1, onFail1, {
+      targetWidth: 400,
+      targetHeight: 400,
+      quality: 50,
+      destinationType: Camera.DestinationType.DATA_URL,
+      sourceType: Camera.PictureSourceType.CAMERA
+    });
 
+    function onSuccess1(imageData) {
+      console.log('capture done as base64');
+
+      var imageBlob = b64toBlob("data:image/jpeg;base64," + imageData);
+      console.log(imageBlob);
+
+      var uploader = new Slingshot.Upload("myFileUploads");
+      uploader.send(imageBlob, function (error, downloadUrl) {
+        if (error) {
+          console.error('Error uploading', uploader.xhr.response);
+          alert (error);
+        }
+        else {
+          console.log(downloadUrl);
+          initiateCamfind(downloadUrl, function(response) {
+            IonPopup.show({
+              title: response,
+                template: '',
+                buttons: 
+                [{
+                  text: 'OK',
+                  type: 'button-assertive',
+                  onTap: function() {
+                    IonPopup.close();
+                  }
+                }]
+              });
+          })
+
+        }
+      });
+
+      return false;
+    }
+
+    function onFail1(message) {
+      IonPopup.alert({
+        title: 'Camera Operation',
+        template: message,
+        okText: 'Got It.'
+      });
+    }
+  }
+});
+
+var initiateCamfind = function(downloadUrl, callback) {
+  console.log("------INITIATING CAMFIND------")
+  Meteor.call('camfindCall', downloadUrl, function(error, result) {
+    if (!error) {
+      console.log("----got some data from server Camfind----");
+      console.log(result);
+      
+      if (result.status == "completed") {
+        IonLoading.hide();
+        callback(result.name);
+        return result.name;
+      } else {
+        initiateCamfind(downloadUrl);
+      }
+    }
+  });
+}
+
+
+
+var b64toBlob = function(dataURI) {
+  var byteString = atob(dataURI.split(',')[1]);
+  var ab = new ArrayBuffer(byteString.length);
+  var ia = new Uint8Array(ab);
+
+  for (var i = 0; i < byteString.length; i++) {
+    ia[i] = byteString.charCodeAt(i);
+  }
+  return new Blob([ab], { type: 'image/jpeg' });
+}
