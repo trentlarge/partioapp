@@ -44,17 +44,6 @@
   {{/ionTabs}}
 </template>
 
-<!-- TAKE PHOTO -->
-
-<template name="takePhoto">
-  <div class="">
-    <div class="center">
-    <br>
-      <img class="scanResult-thumbnail2" src=" {{#if photoTaken}} {{photoTaken}} {{else}} bookplaceholder.jpg {{/if}} ">
-    </div>
-  </div>
-</template>
-
 
 <!--
 TABS
@@ -93,10 +82,10 @@ TABS
 		</div>
 	</div>
 
-	{{>barcodeTakePhoto}}
+	{{>barcodePhoto}}
 </template>
 
-	<template name="barcodeTakePhoto">
+	<template name="barcodePhoto">
 			<div class="content has-header">
 				<div class="container">
 			    <div class="viewfinder hide-on-keyboard-open" id="cam-find">
@@ -106,8 +95,18 @@ TABS
 		</div>
 	</template>
 
+<!-- TAB 3 - MANUAL -->
 
-<!-- TAB 3 - CAMFIND -->
+	<!-- TAKE PHOTO -->
+	<template name="takePhoto">
+	  <div class="">
+	    <div class="center">
+	    <br>
+	      <img class="scanResult-thumbnail2" src=" {{#if photoTaken}} {{photoTaken}} {{else}} bookplaceholder.jpg {{/if}} ">
+	    </div>
+	  </div>
+	</template>
+
 <template name="manual">
 	{{> takePhoto}}
 
