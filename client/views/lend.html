@@ -1,168 +1,50 @@
 <template name="lend">
 
 	<!-- MODAL -->
-
 	{{#ionModal customTemplate=true}}
-      <div class="bar bar-header bar-royal">
-        <button type="button" data-dismiss="modal" id="cancelScan" class="button button-clear"> <h6 class="light">CANCEL</h6></button>
-        <h2 class="title">Share Product</h2>
-      </div>
+    <div class="bar bar-header bar-royal">
+      <button type="button" data-dismiss="modal" id="cancelScan" class="button button-clear"> <h6 class="light">CANCEL</h6></button>
+      <h2 class="title">Share Product</h2>
+    </div>
 
-      <div class="content has-header">
-
+    <div class="content has-header">
 			<!-- WITH RESULTS -->
 
-			{{#if scanResult}}
-        {{#with scanResult}}
-
-        <div class="card">
-          <div class="item no-padding">
-            <div class="center">
-              <img class="scanResult-thumbnail" src="{{image}}">
-            </div>
-          </div>
-
-            <div class="row item">
-              <div class="col col-33">
-                <p>Amazon Price</p>
-                <p>Title</p>
-                <p>Author</p>
-                <p>Publisher</p>
-                <p>Binding</p>
-                <p>Pages</p>
-                <p>EAN</p>
-              </div>
-              <div class="col col-67 scan-result">
-                <p>{{price}}</p>
-                <p>{{title}}</p>
-                <p>{{authors}}</p>
-                <p>{{publisher}}</p>
-                <p>{{binding}}</p>
-                <p>{{pages}}</p>
-                <p>{{ean}}</p>
-              </div>
-            </div>
-
-        </div>
-
-        <div class="list list-inset">
-        <label class="item item-input">
-            <span class="input-label"><p>Set Rent/Week &nbsp;$</p></span>
-            <input type="number" class="userPrice" value="{{calculatedPrice}}">
-          </label>
-        </div>
-
-        <div class="padding-horizontal">
-          <button class="submitProduct button button-block button-energized" {{waitingForPrice}}>
-          {{#if userPrice}}
-            Lend this item at ${{userPrice}} per week
-          {{else}}
-            Enter your price above
-          {{/if}}
-          </button>
-        </div>
-        {{/with}}
-
-      {{else}}
-
-        {{#if manualEntry}}
-          {{> takePhoto}}
-
-          <div class="list list-inset">
-            <form>
-              <label class="item item-input">
-                <span class="input-label"><p>Title</p></span>
-                <input id="manualtitle" type="text" value="">
-              </label>
-              <label class="item item-input">
-                <span class="input-label"><p>Author</p></span>
-                <input id="manualauthor" type="text" value="">
-              </label>
-              <label class="item item-input">
-                <span class="input-label"><p>Publisher</p></span>
-                <input id="manualpublisher" type="text" value="">
-              </label>
-            </form>
-            <label class="item item-input">
-              <textarea id="manualcomments" placeholder="Comments"></textarea>
-            </label>
-          </div>
-
-          <div class="list list-inset">
-            <label class="item item-input">
-              <span class="input-label"><p>Set Rent/Week &nbsp;$</p></span>
-              <input type="number" class="userPrice" value="">
-            </label>
-          </div>
-
-          <div class="padding-horizontal">
-            <button class="submitProduct button button-block button-energized" {{waitingForPrice}}>
-              {{#if userPrice}}
-              Lend this item at ${{userPrice}} per week
-              {{else}}
-              Enter your price above
-              {{/if}}
-            </button>
-          </div>
-
-        {{/if}}
-
-        {{#if barcodeEntry}}
-        <div class="list">
-          <div class="item item-input-inset">
-            <label class="item-input-wrapper">
-              <input id="manualInput" type="tel" placeholder="Enter barcode number">
-            </label>
-            <button id="manualSubmit" class="button button-small button-energized button-outline">Submit</button>
-          </div>
-        </div>
-        {{/if}}
-
-        {{#if viewFinder}}
-					<!-- <div class="viewfinder hide-on-keyboard-open">
-					<p>Scan Barcode</p>
-					</div> -->
-        	{{> camfind}}
-
-        {{/if}}
-
+		{{#if scanResult}}
+      {{#with scanResult}}
+      	{{>item}}
+      {{/with}}
+    {{else}}
+      {{#if manualEntry}}
+        {{> takePhoto}}
+        {{>manualentry}}
       {{/if}}
+      {{#if barcodeEntry}}
+      {{/if}}
+    {{/if}}
 
-      </div>
+		<!-- TAB TEMPLATES  -->
+		{{> UI.dynamic template=dynamicTemplate}}
+	</div>
 
-      <!-- {{#if viewFinder}}
-        {{#unless scanResult}}
-          <!-- <div class="bar-footer bar button-footer">
-            <div class="row">
-              <div class="col"><button id="barcode-entry" class="button button-large button-full button-energized">
-              <h5 class="stable">BARCODE</h5></button></div>
-              <div class="col"><button id="camfind-entry" class="button button-large button-full button-orange1">
-              <h5 class="stable">IMAGE SEARCH</h5></button></div>
-              <div class="col"><button id="manual-entry" class="button button-large button-full button-orange1">
-              <h5 class="stable">MANUAL</h5></button></div>
-            </div>
-          </div>
-      	{{/unless}}
-      {{/if}} -->
+		<!-- NEW TAB -->
+		{{>lendTabs}}
 
-			<div class="bar-footer bar button-footer">
-				<div class="row">
-					<div class="col"><button id="barcode-entry" class="button button-large button-full button-energized">
-					<h5 class="stable">BARCODE</h5></button></div>
-					<div class="col"><button id="camfind-entry" class="button button-large button-full button-orange1">
-					<h5 class="stable">IMAGE SEARCH</h5></button></div>
-					<div class="col"><button id="manual-entry" class="button button-large button-full button-orange1">
-					<h5 class="stable">MANUAL</h5></button></div>
-				</div>
-			</div>
-
-  	{{/ionModal}}
-
-		<!-- END MODAL -->
+  {{/ionModal}}
+	<!-- END MODAL -->
 
 </template>
 
-<!-- IMAGE SEACH -->
+<!-- NEW TAB -->
+<template name="lendTabs">
+  {{#ionTabs style="ios" class="tabs-background-dark tabs-color-light"}}
+		<a class="tab-item" data-id="camfind"><i class="icon ion-android-image"></i>IMAGE SEARCH</a>
+  	<a class="tab-item" data-id="barcode"><i class="icon ion-ios-barcode"></i>BARCODE</a>
+  	<a class="tab-item" data-id="manual"><i class="icon ion-ios-compose"></i>MANUAL ENTRY</a>
+  {{/ionTabs}}
+</template>
+
+<!-- TAKE PHOTO -->
 
 <template name="takePhoto">
   <div class="">
@@ -173,12 +55,131 @@
   </div>
 </template>
 
+<!-- MANUAL ENTRY -->
+
+<template name="manual">
+	{{> takePhoto}}
+
+	<div class="list list-inset">
+		<form>
+			<label class="item item-input">
+				<span class="input-label"><p>Title</p></span>
+				<input id="manualtitle" type="text" value="">
+			</label>
+			<label class="item item-input">
+				<span class="input-label"><p>Author</p></span>
+				<input id="manualauthor" type="text" value="">
+			</label>
+			<label class="item item-input">
+				<span class="input-label"><p>Publisher</p></span>
+				<input id="manualpublisher" type="text" value="">
+			</label>
+		</form>
+		<label class="item item-input">
+			<textarea id="manualcomments" placeholder="Comments"></textarea>
+		</label>
+	</div>
+
+	<div class="list list-inset">
+		<label class="item item-input">
+			<span class="input-label"><p>Set Rent/Week &nbsp;$</p></span>
+			<input type="number" class="userPrice" value="">
+		</label>
+	</div>
+
+	<div class="padding-horizontal">
+		<button class="submitProduct button button-block button-energized" {{waitingForPrice}}>
+			{{#if userPrice}}
+			Lend this item at ${{userPrice}} per week
+			{{else}}
+			Enter your price above
+			{{/if}}
+		</button>
+	</div>
+
+</template>
+
+<!-- BARCODE -->
+<template name="barcode">
+
+	<div class="list">
+		<div class="item item-input-inset">
+			<label class="item-input-wrapper">
+				<input id="manualInput" type="tel" placeholder="Enter barcode number">
+			</label>
+			<button id="manualSubmit" class="button button-small button-energized button-outline">Submit</button>
+		</div>
+	</div>
+	
+	{{>barcodeTakePhoto}}
+</template>
+
+<template name="barcodeTakePhoto">
+		<div class="content has-header">
+			<div class="container">
+		    <div class="viewfinder hide-on-keyboard-open" id="cam-find">
+		      <p>SCAN BARCODE</p>
+		    </div>
+			</div>
+	</div>
+</template>
+
 <!-- CAMFIND -->
 
 <template name="camfind">
   <div class="content has-header">
     <div class="viewfinder hide-on-keyboard-open" id="cam-find">
-      <p>Scan Image - CAMFIND</p>
+      <p>Take Image</p>
     </div>
   </div>
+</template>
+
+<!-- ITEM -->
+<template name="item">
+	<div class="card">
+		<div class="item no-padding">
+			<div class="center">
+				<img class="scanResult-thumbnail" src="{{image}}">
+			</div>
+		</div>
+
+			<div class="row item">
+				<div class="col col-33">
+					<p>Amazon Price</p>
+					<p>Title</p>
+					<p>Author</p>
+					<p>Publisher</p>
+					<p>Binding</p>
+					<p>Pages</p>
+					<p>EAN</p>
+				</div>
+				<div class="col col-67 scan-result">
+					<p>{{price}}</p>
+					<p>{{title}}</p>
+					<p>{{authors}}</p>
+					<p>{{publisher}}</p>
+					<p>{{binding}}</p>
+					<p>{{pages}}</p>
+					<p>{{ean}}</p>
+				</div>
+			</div>
+
+	</div>
+
+	<div class="list list-inset">
+	<label class="item item-input">
+			<span class="input-label"><p>Set Rent/Week &nbsp;$</p></span>
+			<input type="number" class="userPrice" value="{{calculatedPrice}}">
+		</label>
+	</div>
+
+	<div class="padding-horizontal">
+		<button class="submitProduct button button-block button-energized" {{waitingForPrice}}>
+		{{#if userPrice}}
+			Lend this item at ${{userPrice}} per week
+		{{else}}
+			Enter your price above
+		{{/if}}
+		</button>
+	</div>
 </template>

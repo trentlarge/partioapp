@@ -733,6 +733,19 @@ Template.takePhoto.events({
   }
 });
 
+
+// NEW
+Template.lend.rendered = function(){
+  Session.set('lendTab', 'camfind')
+  $('.tab-item[data-id=camfind]').addClass('active');
+};
+
+Template.lend.helpers({
+  dynamicTemplate: function(){
+    return Session.get('lendTab');
+  }
+})
+
 // CAMFIND BRANCH CODE
 
 Template.camfind.events({

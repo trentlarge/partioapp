@@ -115,10 +115,10 @@ ion-side-menu.menu-left.menu {
   z-index: -1;
 }
 
-#top-triangle { 
-  width: 0; 
-  height: 0; 
-  border-top: 94vh solid  #FFBF49; 
+#top-triangle {
+  width: 0;
+  height: 0;
+  border-top: 94vh solid  #FFBF49;
   border-right: 100vw solid transparent;
   position: absolute;
   z-index: -1;
@@ -211,7 +211,7 @@ ion-side-menu.menu-left.menu {
 	margin: 0 auto;
 	text-align: center;
 	line-height: 100%;
-	margin-top: 22vh;
+	// margin-top: 22vh;
 }
 .viewfinder::before, .viewfinder::after {
 	position: absolute;
@@ -461,7 +461,7 @@ ion-side-menu.menu-left.menu {
 
 
 .graytext {
-	color: #bdc3c7 !important; 
+	color: #bdc3c7 !important;
 }
 
 .grayer-text {
@@ -555,7 +555,7 @@ ion-side-menu.menu-left.menu {
 }
 
 .location-box {
-	padding: 7px 10px 7px 0px	
+	padding: 7px 10px 7px 0px
 }
 
 .request-notify {
@@ -699,7 +699,7 @@ textarea, input[type="text"], input[type="password"], input[type="datetime"], in
 
 .item-avatar-custom {
 	padding-left: 72px;
-	min-height: 72px; 
+	min-height: 72px;
 }
 
 .item-avatar-custom-circle {
@@ -732,14 +732,14 @@ button.ion-android-send {
 }
 
 .footer-btn-wrap {
-  position: relative; 
-  height: 100%; 
-  width: 50px; 
+  position: relative;
+  height: 100%;
+  width: 50px;
   top: 7px;
 }
 
 .footer-btn {
-  position: absolute !important; 
+  position: absolute !important;
   bottom: 0;
 }
 
@@ -954,19 +954,6 @@ a.autolinker {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+.land-tabs {
+	background:$base-background-color
+}
