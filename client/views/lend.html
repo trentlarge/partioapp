@@ -7,25 +7,17 @@
       <h2 class="title">Share Product</h2>
     </div>
 
-    <div class="content has-header">
+    {{#ionContent class="padding"}}
 			<!-- WITH RESULTS -->
 
-		{{#if scanResult}}
-      {{#with scanResult}}
-      	{{>item}}
-      {{/with}}
-    {{else}}
-      {{#if manualEntry}}
-        {{> takePhoto}}
-        {{>manualentry}}
-      {{/if}}
-      {{#if barcodeEntry}}
-      {{/if}}
-    {{/if}}
-
-		<!-- TAB TEMPLATES  -->
-		{{> UI.dynamic template=dynamicTemplate}}
-	</div>
+			{{#if scanResult}}
+	      {{#with scanResult}}
+	      	{{>item}}
+	      {{/with}}
+	    {{else}}
+	      {{> UI.dynamic template=dynamicTemplate}}
+	    {{/if}}
+		{{/ionContent}}
 
 		<!-- NEW TAB -->
 		{{>lendTabs}}

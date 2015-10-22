@@ -5,6 +5,5 @@ Template.lendTabs.events({
 
      $('.tab-item').removeClass('active');
      $('.tab-item[data-id='+tabName+']').addClass('active');
-
   }
 });

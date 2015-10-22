@@ -1,5 +1,3 @@
-// EVENTS
-
 Template.lend.events({
   'click .viewfinder': function() {
     IonLoading.show();
@@ -159,7 +157,10 @@ function testCamFindMethod()
             //     console.log(errorMessage);
             //   });
 
-            //template.imageData.set(imageData)
+            //template.imageData.set(imageData);
+
+
+
             return false;
           }
 
@@ -433,12 +434,14 @@ Template.lend.events({
       }
     });
   },
+
   'click #barcode-entry': function() {
     Session.set('barcodeEntry', true);
     Session.set('manualEntry', false);
     Session.set('viewFinder', false)
     $('#manualInput').focus();
   },
+
   'click #manual-entry': function() {
     Session.set('manualEntry', true);
     Session.set('barcodeEntry', false);
@@ -634,11 +637,12 @@ Template.lend.helpers({
   },
   bookResult: function() {
     return (Session.get('scanResult').category === "Book") ? true : false;
-  }
+  },
+
 });
 
 Template.lend.destroyed = function() {
-  // Session.set('scanResult', null);
+  Session.set('scanResult', null);
   Session.set('barcodeEntry', null);
   Session.set('manualEntry', null);
   Session.set('photoTaken', null)
@@ -659,8 +663,19 @@ function ClearData()
 
 Template.lend.rendered = function() {
   Session.set('viewFinder', true);
+  Session.set('lendTab', 'camfind')
+  //reseting results
+  Session.set('scanResult', null);
+
+  Session.set('lendTab', 'camfind')
+  $('.tab-item[data-id=camfind]').addClass('active');
 }
 
+Template.lend.helpers({
+  dynamicTemplate: function(){
+    return Session.get('lendTab');
+  }
+})
 
 
 Template.takePhoto.helpers({
@@ -732,103 +747,3 @@ Template.takePhoto.events({
     });
   }
 });
-
-
-// NEW
-Template.lend.rendered = function(){
-  Session.set('lendTab', 'camfind')
-  $('.tab-item[data-id=camfind]').addClass('active');
-};
-
-Template.lend.helpers({
-  dynamicTemplate: function(){
-    return Session.get('lendTab');
-  }
-})
-
-// CAMFIND BRANCH CODE
-
-Template.camfind.events({
-  'click #cam-find': function() {
-    IonLoading.show();
-    navigator.camera.getPicture(onSuccess1, onFail1, {
-      targetWidth: 400,
-      targetHeight: 400,
-      quality: 50,
-      destinationType: Camera.DestinationType.DATA_URL,
-      sourceType: Camera.PictureSourceType.CAMERA
-    });
-
-    function onSuccess1(imageData) {
-      console.log('capture done as base64');
-
-      var imageBlob = b64toBlob("data:image/jpeg;base64," + imageData);
-      console.log(imageBlob);
-
-      var uploader = new Slingshot.Upload("myFileUploads");
-      uploader.send(imageBlob, function (error, downloadUrl) {
-        if (error) {
-          console.error('Error uploading', uploader.xhr.response);
-          alert (error);
-        }
-        else {
-          console.log(downloadUrl);
-          initiateCamfind(downloadUrl, function(response) {
-            IonPopup.show({
-              title: response,
-                template: '',
-                buttons:
-                [{
-                  text: 'OK',
-                  type: 'button-assertive',
-                  onTap: function() {
-                    IonPopup.close();
-                  }
-                }]
-              });
-          })
-
-        }
-      });
-
-      return false;
-    }
-
-    function onFail1(message) {
-      IonPopup.alert({
-        title: 'Camera Operation',
-        template: message,
-        okText: 'Got It.'
-      });
-    }
-  }
-});
-
-var initiateCamfind = function(downloadUrl, callback) {
-  console.log("------INITIATING CAMFIND------")
-  Meteor.call('camfindCall', downloadUrl, function(error, result) {
-    if (!error) {
-      console.log("----got some data from server Camfind----");
-      console.log(result);
-
-      if (result.status == "completed") {
-        IonLoading.hide();
-        callback(result.name);
-        return result.name;
-      } else {
-        initiateCamfind(downloadUrl);
-      }
-    }
-  });
-}
-
-var b64toBlob = function(dataURI) {
-  var byteString = atob(dataURI.split(',')[1]);
-  var ab = new ArrayBuffer(byteString.length);
-  var ia = new Uint8Array(ab);
-
-  for (var i = 0; i < byteString.length; i++) {
-    ia[i] = byteString.charCodeAt(i);
-  }
-  return new Blob([ab], { type: 'image/jpeg' });
-}
