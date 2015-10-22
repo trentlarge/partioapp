@@ -1,3 +1,5 @@
+// EVENTS
+
 Template.lend.events({
   'click .viewfinder': function() {
     IonLoading.show();
@@ -18,7 +20,7 @@ Template.lend.events({
               //console.log(result);
               var resultFromAmazon = {};
               console.log('error: '+ error);
-              if (!error) 
+              if (!error)
               {
                 console.log('result: '+ result);
                 Session.set('scanResult', result);
@@ -29,7 +31,7 @@ Template.lend.events({
                 IonPopup.show({
                   title: 'No match found :( ',
                     template: '<div class="center">You can manually checkin your product</div>',
-                    buttons: 
+                    buttons:
                     [{
                       text: 'OK',
                       type: 'button-energized',
@@ -60,7 +62,7 @@ Template.lend.events({
               IonPopup.show({
                 title: 'Please try again or manually enter your product :( ',
                   template: '<div class="center">'+ error.message + '</div>',
-                  buttons: 
+                  buttons:
                   [{
                     text: 'OK',
                     type: 'button-energized',
@@ -77,7 +79,7 @@ Template.lend.events({
 
 function testCamFindMethod()
 {
-  if (Meteor.isCordova) 
+  if (Meteor.isCordova)
   {
     IonActionSheet.show({
       buttons: [
@@ -122,7 +124,7 @@ function testCamFindMethod()
             sourceType: Camera.PictureSourceType.PHOTOLIBRARY
           });
 
-          function onSuccess2(imageData) 
+          function onSuccess2(imageData)
           {
             console.log('photo library working!');
 
@@ -134,9 +136,9 @@ function testCamFindMethod()
             // var imageBlob = b64toBlob("data:image/jpeg;base64," + imageData);
 
             // window.resolveLocalFileSystemURL(imagePath, function(fileEntry) {
-                
+
             //     fileEntry.file(function(file) {
-                  
+
             //       var reader = new FileReader();
             //       reader.onloadend = function (evt) {
             //         console.log("read success");
@@ -157,10 +159,7 @@ function testCamFindMethod()
             //     console.log(errorMessage);
             //   });
 
-            //template.imageData.set(imageData);
-
-            
-
+            //template.imageData.set(imageData)
             return false;
           }
 
@@ -175,8 +174,8 @@ function testCamFindMethod()
         return true;
       }
     });
-  } 
-  else 
+  }
+  else
   {
     console.log('file upload click');
     $('#myFile3').click();
@@ -218,18 +217,18 @@ function CalculateRentingCharges()
     RentingFinalPrice = parseFloat((RentingOneWeekPercentage/100) * RentingAmazonPrice);
     console.log('RentingOneWeekPercentage: ' + RentingFinalPrice);
 
-    RentingFinalPrice = parseFloat(RentingFinalPrice * 7);    
+    RentingFinalPrice = parseFloat(RentingFinalPrice * 7);
     console.log('Pricex7: ' + RentingFinalPrice);
   }
   else if(RentingTimeSpan == 'ONE_MONTH')
   {
     RentingFinalPrice = parseFloat((RentingOneMonthPercentage/100) * RentingAmazonPrice);
-    RentingFinalPrice = parseFloat(RentingFinalPrice * 30);    
+    RentingFinalPrice = parseFloat(RentingFinalPrice * 30);
   }
   else if(RentingTimeSpan == 'FOUR_MONTHS')
   {
-    RentingFinalPrice = parseFloat((RentingFourMonthsPercentage/100) * RentingAmazonPrice);    
-    RentingFinalPrice = parseFloat(RentingFinalPrice * 30 * 4);    
+    RentingFinalPrice = parseFloat((RentingFourMonthsPercentage/100) * RentingAmazonPrice);
+    RentingFinalPrice = parseFloat(RentingFinalPrice * 30 * 4);
   }
 
   console.log('RentingTimeSpan: ' + RentingTimeSpan);
@@ -252,7 +251,7 @@ function CalculateRentingCharges()
   RentingFinalPrice = Math.round(Number((RentingFinalPrice).toFixed(1))).toFixed(2);
   console.log('RentingFinalPrice: ' + Math.round(RentingFinalPrice));
 
-  
+
 }
 
 function GetRentingPercentages(strRentingTimeSpan)
@@ -277,16 +276,16 @@ function GetRentingPercentages(strRentingTimeSpan)
 
 function ClearRentingValue()
 {
-  RentingFinalPrice = 0.0; 
+  RentingFinalPrice = 0.0;
 }
 
 
 Template.lend.events({
   'click .submitProduct': function(e, template) {
     IonLoading.show();
-    Meteor.setTimeout(function() 
+    Meteor.setTimeout(function()
     {
-      if (Session.get('manualEntry')) 
+      if (Session.get('manualEntry'))
       {
         var manualBook = {
           "title": template.find('#manualtitle').value,
@@ -308,8 +307,8 @@ Template.lend.events({
 
         //TEST
         //GetRentingPercentages('ONE_WEEK');
-        
-        if (manualBook.title && manualBook.authors && manualBook.customPrice) 
+
+        if (manualBook.title && manualBook.authors && manualBook.customPrice)
         {
           Session.set('manualBook', manualBook);
           Session.set('BookAddType', 'MANUAL');
@@ -318,13 +317,13 @@ Template.lend.events({
           {
             AddProductToInventoryManually();
           }
-        } 
+        }
         else {
           IonLoading.hide();
           IonPopup.show({
             title: 'Missing data!',
             template: '<div class="center">Please fill mandatory fields</div>',
-            buttons: 
+            buttons:
             [{
               text: 'OK',
               type: 'button-energized',
@@ -335,20 +334,20 @@ Template.lend.events({
           });
         }
 
-      } 
-      else 
+      }
+      else
       {
-        if (Session.get('scanResult')) 
+        if (Session.get('scanResult'))
         {
           // var lendingPeriod = (function() {
-          //   return (template.find('#lendingPeriod').value) ? template.find('#lendingPeriod').value : 2; 
+          //   return (template.find('#lendingPeriod').value) ? template.find('#lendingPeriod').value : 2;
           // }) ();
-          
+
           //TEST
           //GetRentingPercentages('ONE_WEEK');
 
           var xPrice = parseFloat(Session.get('userPrice'), 10);
-          console.log('xPrice ' + xPrice);  
+          console.log('xPrice ' + xPrice);
           if(xPrice < 0.5)
           {
             IonLoading.hide();
@@ -368,15 +367,15 @@ Template.lend.events({
             Session.set('BookAddType', 'SCAN');
             AddProductToInventory();
           }
-        
-        } 
-        else 
+
+        }
+        else
         {
           IonLoading.hide();
           IonPopup.show({
             title: 'Nothing to add!',
             template: '<div class="center">Scan or add a product to make it available on partiO for others to find</div>',
-            buttons: 
+            buttons:
             [{
               text: 'OK',
               type: 'button-energized',
@@ -387,11 +386,11 @@ Template.lend.events({
           });
         }
       }
-    }, 500)  
+    }, 500)
   },
-  'keyup .userPrice': function(e, template) 
+  'keyup .userPrice': function(e, template)
   {
-    Session.set('userPrice', e.target.value);    
+    Session.set('userPrice', e.target.value);
   },
   'click #cancelScan': function() {
     ClearData();
@@ -405,14 +404,14 @@ Template.lend.events({
     IonLoading.show();
     var manualCode = template.find('#manualInput').value;
     var codeFormat = (function() {
-      return (manualCode.length === 12) ? "UPC" : "EAN"; 
+      return (manualCode.length === 12) ? "UPC" : "EAN";
     })();
     console.log(manualCode, codeFormat);
-    
+
     Meteor.call('priceFromAmazon', manualCode, codeFormat, function(error, result) {
       console.log(result);
       var resultFromAmazon = {};
-      if (!error) 
+      if (!error)
       {
         Session.set('scanResult', result);
         IonLoading.hide();
@@ -422,7 +421,7 @@ Template.lend.events({
         IonPopup.show({
           title: 'Please try again or manually enter your product :( ',
             template: '<div class="center">'+ error.message + '</div>',
-            buttons: 
+            buttons:
             [{
               text: 'OK',
               type: 'button-energized',
@@ -471,7 +470,7 @@ function ValidateInputs(BookDetails)
   }
 
   var xPrice = parseInt(BookDetails.customPrice, 10);
-  console.log('xPrice ' + xPrice);  
+  console.log('xPrice ' + xPrice);
   if(xPrice > 1000)
   {
     showInvalidPopUp('Invalid Inputs', 'Please enter a Price < 1000.');
@@ -486,11 +485,11 @@ function showInvalidPopUp(strTitle, strMessage)
   IonPopup.show({
           title: strTitle,
           template: '<div class="center">'+strMessage+'</div>',
-          buttons: 
+          buttons:
           [{
             text: 'OK',
             type: 'button-energized',
-            onTap: function() 
+            onTap: function()
             {
               IonPopup.close();
             }
@@ -508,14 +507,14 @@ function AddProductToInventoryManually()
           IonPopup.show({
             title: 'Your Product sucessfully submitted',
             template: '<div class="center">You can find this shared item in your Repository</div>',
-            buttons: 
+            buttons:
             [{
               text: 'OK',
               type: 'button-energized',
               onTap: function() {
                 IonPopup.close();
                 Router.go('/inventory');
-                IonModal.close();                 
+                IonModal.close();
               }
             }]
           });
@@ -524,7 +523,7 @@ function AddProductToInventoryManually()
 function AddProductToInventory()
 {
   var submitProduct = Session.get('scanResult');
-  var insertData = _.extend(submitProduct, 
+  var insertData = _.extend(submitProduct,
   {
           // "lendingPeriod": lendingPeriod,
           "ownerId": Meteor.userId(),
@@ -538,7 +537,7 @@ function AddProductToInventory()
         IonPopup.show({
           title: 'Your Product sucessfully submitted',
           template: '<div class="center">And saved to your Inventory</div>',
-          buttons: 
+          buttons:
           [{
             text: 'OK',
             type: 'button-energized',
@@ -558,17 +557,17 @@ function AddProductToInventory()
 }
 
 function CheckStripeAccount () {
-  if (! Meteor.user().profile.stripeAccount) 
+  if (! Meteor.user().profile.stripeAccount)
   {
     IonLoading.hide();
     IonPopup.show({
       title: 'ATTENTION!',
       template: '<div class="center">A Debit Card should be linked to receive payments for your shared goods!</div>',
-      buttons: 
+      buttons:
       [{
         text: 'Add Card',
         type: 'button-energized',
-        onTap: function() 
+        onTap: function()
         {
           IonPopup.close();
           Router.go('/profile/savedcards');
@@ -603,8 +602,8 @@ Template.lend.helpers({
         Session.get('BookAddType') != 'MANUAL') {
       if (Session.get('scanResult').price === "--") {
         return false;
-      } 
-      else 
+      }
+      else
       {
         if(RentingFinalPrice == null ||
           RentingFinalPrice == 0)
@@ -617,8 +616,8 @@ Template.lend.helpers({
 
           GetRentingPercentages('ONE_WEEK');
           Session.set('userPrice', RentingFinalPrice);
-          
-          // return (Number(priceValue)/5).toFixed(2);        
+
+          // return (Number(priceValue)/5).toFixed(2);
           return RentingFinalPrice;
         }
 
@@ -734,6 +733,8 @@ Template.takePhoto.events({
   }
 });
 
+// CAMFIND BRANCH CODE
+
 Template.camfind.events({
   'click #cam-find': function() {
     IonLoading.show();
@@ -763,7 +764,7 @@ Template.camfind.events({
             IonPopup.show({
               title: response,
                 template: '',
-                buttons: 
+                buttons:
                 [{
                   text: 'OK',
                   type: 'button-assertive',
@@ -796,7 +797,7 @@ var initiateCamfind = function(downloadUrl, callback) {
     if (!error) {
       console.log("----got some data from server Camfind----");
       console.log(result);
-      
+
       if (result.status == "completed") {
         IonLoading.hide();
         callback(result.name);
@@ -807,8 +808,6 @@ var initiateCamfind = function(downloadUrl, callback) {
     }
   });
 }
-
-
 
 var b64toBlob = function(dataURI) {
   var byteString = atob(dataURI.split(',')[1]);

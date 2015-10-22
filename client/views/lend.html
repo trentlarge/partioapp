@@ -1,12 +1,18 @@
 <template name="lend">
+
+	<!-- MODAL -->
+
 	{{#ionModal customTemplate=true}}
       <div class="bar bar-header bar-royal">
         <button type="button" data-dismiss="modal" id="cancelScan" class="button button-clear"> <h6 class="light">CANCEL</h6></button>
         <h2 class="title">Share Product</h2>
       </div>
-      
+
       <div class="content has-header">
-      {{#if scanResult}}
+
+			<!-- WITH RESULTS -->
+
+			{{#if scanResult}}
         {{#with scanResult}}
 
         <div class="card">
@@ -46,8 +52,6 @@
           </label>
         </div>
 
-
-
         <div class="padding-horizontal">
           <button class="submitProduct button button-block button-energized" {{waitingForPrice}}>
           {{#if userPrice}}
@@ -55,23 +59,14 @@
           {{else}}
             Enter your price above
           {{/if}}
-          </button>      
+          </button>
         </div>
         {{/with}}
-
 
       {{else}}
 
         {{#if manualEntry}}
-        
           {{> takePhoto}}
-
-
-          
-
-
-
-
 
           <div class="list list-inset">
             <form>
@@ -107,7 +102,7 @@
               {{else}}
               Enter your price above
               {{/if}}
-            </button>      
+            </button>
           </div>
 
         {{/if}}
@@ -124,13 +119,10 @@
         {{/if}}
 
         {{#if viewFinder}}
-<!--         <div class="viewfinder hide-on-keyboard-open">
-          <p>Scan Barcode</p>
-        </div> -->
-
-        {{> camfind}}
-
-
+					<!-- <div class="viewfinder hide-on-keyboard-open">
+					<p>Scan Barcode</p>
+					</div> -->
+        	{{> camfind}}
 
         {{/if}}
 
@@ -138,24 +130,39 @@
 
       </div>
 
-      {{#if viewFinder}}
+      <!-- {{#if viewFinder}}
         {{#unless scanResult}}
-          <div class="bar-footer bar button-footer">
+          <!-- <div class="bar-footer bar button-footer">
             <div class="row">
               <div class="col"><button id="barcode-entry" class="button button-large button-full button-energized">
-              <h5 class="stable">ENTER BARCODE</h5></button></div>
+              <h5 class="stable">BARCODE</h5></button></div>
               <div class="col"><button id="camfind-entry" class="button button-large button-full button-orange1">
-              <h5 class="stable">ENTER CAMFIND</h5></button></div>
+              <h5 class="stable">IMAGE SEARCH</h5></button></div>
               <div class="col"><button id="manual-entry" class="button button-large button-full button-orange1">
-              <h5 class="stable">MANUAL ENTRY</h5></button></div>
+              <h5 class="stable">MANUAL</h5></button></div>
             </div>
           </div>
-        {{/unless}}
-      {{/if}}
+      	{{/unless}}
+      {{/if}} -->
+
+			<div class="bar-footer bar button-footer">
+				<div class="row">
+					<div class="col"><button id="barcode-entry" class="button button-large button-full button-energized">
+					<h5 class="stable">BARCODE</h5></button></div>
+					<div class="col"><button id="camfind-entry" class="button button-large button-full button-orange1">
+					<h5 class="stable">IMAGE SEARCH</h5></button></div>
+					<div class="col"><button id="manual-entry" class="button button-large button-full button-orange1">
+					<h5 class="stable">MANUAL</h5></button></div>
+				</div>
+			</div>
 
   	{{/ionModal}}
+
+		<!-- END MODAL -->
+
 </template>
 
+<!-- IMAGE SEACH -->
 
 <template name="takePhoto">
   <div class="">
@@ -166,21 +173,12 @@
   </div>
 </template>
 
+<!-- CAMFIND -->
 
 <template name="camfind">
-  
-      <!-- <div class="bar bar-header bar-royal">
-        <button type="button" data-dismiss="modal" class="cancel-scan button button-clear"> <h6 class="light">CANCEL</h6></button>
-        <h2 class="title">Scan Product - camfind</h2>
-      </div>
-       -->
-      <div class="content has-header">
-          
-        <div class="viewfinder hide-on-keyboard-open" id="cam-find">
-          <p>Scan Image - CAMFIND</p>
-        </div>
-        
-      </div>
+  <div class="content has-header">
+    <div class="viewfinder hide-on-keyboard-open" id="cam-find">
+      <p>Scan Image - CAMFIND</p>
+    </div>
+  </div>
 </template>
-
-
