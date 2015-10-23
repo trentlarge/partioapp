@@ -37,6 +37,7 @@ mdg:geolocation
 meteorhacks:async
 meteorhacks:search-source
 momentjs:moment
+edgee:slingshot
 meteoric:ionic-sass
 meteoric:ionicons-sass
 meteoric:ionic

@@ -3,7 +3,7 @@
   // Products.remove({});
   // Search.remove({});
   // Connections.remove({});
-  // Transactions.remove({}); 
+  // Transactions.remove({});
   // Notifications.remove({});
 
 
@@ -47,6 +47,26 @@
     // Stripe = StripeSync('sk_test_RBrpczGtVbB1tSaG66gglMTH');
 
   });
+
+// Slingshot.createDirective("myFileUploads", Slingshot.S3Storage, {
+//   bucket: "wiggletest",
+//   acl: "public-read",
+//   region: "ap-southeast-1",
+//
+//   authorize: function () {
+//     if (!this.userId) {
+//       var message = "Please login before posting files";
+//       throw new Meteor.Error("Login Required", message);
+//     }
+//
+//     return true;
+//   },
+//
+//   key: function (file) {
+//     return  "partio/" + moment().format('YYYYMMDDhmmss') + ".jpg" ;
+//   }
+// });
+
 
 SearchSource.defineSource('packages', function(searchText, options) {
   var options = {sort: {isoScore: -1}, limit: 20};
@@ -93,6 +113,36 @@ var sendPush = function(toId, message) {
 
 
 Meteor.methods({
+  camfindCall: function(imageUrl) {
+
+  var firstCamfindCall = function(imageUrl, callback) {
+    HTTP.post('https://camfind.p.mashape.com/image_requests', {
+        "headers": {
+          "X-Mashape-Key" : "7W5OJWzlcsmshYSMTJW8yE4L2mJQp1cuOVKjsneO6N0wPTpaS1"
+        },
+        "params": {
+        // "image_request[remote_image_url]": "",
+        "image_request[remote_image_url]" : imageUrl,
+        "image_request[locale]" : "en_US"
+      }
+    }, function(error, result) {
+      if (!error) {
+        HTTP.get('https://camfind.p.mashape.com/image_responses/'+result.data.token, {
+          "headers": {
+            "X-Mashape-Key" : "7W5OJWzlcsmshYSMTJW8yE4L2mJQp1cuOVKjsneO6N0wPTpaS1"
+          }
+        }, callback)
+      }
+    })
+  }
+
+  wrappedCamfindCall = Meteor.wrapAsync(firstCamfindCall);
+
+  var finalResult = wrappedCamfindCall(imageUrl);
+  return finalResult.data;
+
+  },
+
   priceFromAmazon: function(barcode) {
     // var originalFormat = format;
     var originalBarcode = barcode;
@@ -134,7 +184,7 @@ Meteor.methods({
   returnBook: function(connectionId) {
     var connect = Connections.findOne(connectionId);
     var borrowerName = Meteor.users.findOne(connect.requestor).profile.name;
-     
+
     Connections.update({_id: connectionId}, {$set: {"state": "RETURN"}});
 
     var message = borrowerName + " wants to return the book " + connect.bookData.title;
@@ -145,7 +195,7 @@ Meteor.methods({
   confirmReturn: function(searchId, connectionId) {
     var connect = Connections.findOne(connectionId);
     var ownerName = Meteor.users.findOne(connect.bookData.ownerId).profile.name;
-    
+
     Search.update({_id: searchId}, {$inc: {qty: 1}});
 
     var message = ownerName + " confirmed your return of " + connect.bookData.title;
@@ -157,7 +207,7 @@ Meteor.methods({
     console.log(requestorId, productId, ownerId);
 
     var requestorName = Meteor.users.findOne(requestorId).profile.name;
-    var book = Products.findOne(productId); 
+    var book = Products.findOne(productId);
 
     var connection = {
       requestor: requestorId,
@@ -171,8 +221,8 @@ Meteor.methods({
     };
 
     Connections.insert(connection);
-    
-    var message = requestorName + " sent you a request for " + book.title  
+
+    var message = requestorName + " sent you a request for " + book.title
     sendPush(ownerId, message);
     sendNotification(ownerId, requestorId, message, "request");
 
@@ -185,11 +235,11 @@ Meteor.methods({
 
     var connect = Connections.findOne(connectionId);
     var ownerName = Meteor.users.findOne(connect.bookData.ownerId).profile.name;
- 
+
     Connections.remove({"bookData._id": connect.bookData._id, "requestor": {$ne: connect.requestor}});
     Connections.update({_id: connectionId}, {$set: {state: "PAYMENT"}});
 
-    var message = ownerName + " accepted your request for " + connect.bookData.title; 
+    var message = ownerName + " accepted your request for " + connect.bookData.title;
     sendPush(connect.requestor, message);
     sendNotification(connect.requestor, connect.bookData.ownerId, message, "approved");
 
@@ -197,11 +247,11 @@ Meteor.methods({
   },
   'ownerDecline': function(connectionId) {
     Meteor._sleepForMs(1000);
-    
+
     var connect = Connections.findOne(connectionId);
     var ownerName = Meteor.users.findOne(connect.bookData.ownerId).profile.name;
-    
-    var message =  "Your request for " + connect.bookData.title + " has been declined."; 
+
+    var message =  "Your request for " + connect.bookData.title + " has been declined.";
     sendPush(connect.requestor, message);
     sendNotification(connect.requestor, connect.bookData.ownerId, message, "declined");
 
@@ -396,9 +446,9 @@ Meteor.methods({
       console.log('error!');
     }
 
-    HTTP.post('https://camfind.p.mashape.com/image_requests', 
-    { 
-      "headers": 
+    HTTP.post('https://camfind.p.mashape.com/image_requests',
+    {
+      "headers":
       {
         "X-Mashape-Key" : "7W5OJWzlcsmshYSMTJW8yE4L2mJQp1cuOVKjsneO6N0wPTpaS1"
       },
@@ -407,19 +457,19 @@ Meteor.methods({
         "image_request[remote_image_url]": "http://logok.org/wp-content/uploads/2014/03/Air-Jordan-Nike-Jumpman-logo.png",
         // "image_request[image]" : argImageData,
         "image_request[locale]" : "en_US"
-      }      
-    },  
-    function( error, response ) 
+      }
+    },
+    function( error, response )
     {
       if(!error)
       {
-        console.log('camFindCall: ' + JSON.stringify(response));  
+        console.log('camFindCall: ' + JSON.stringify(response));
       }
       else
       {
-        console.log('camFindCall error: ' + error);   
+        console.log('camFindCall error: ' + error);
       }
-      
+
     });
 
   },
@@ -510,7 +560,7 @@ Meteor.methods({
 
 var amazonResultProcessing = function(result) {
   console.log(JSON.stringify(result));
-  
+
   if (result.ItemLookupResponse.Items[0].Item){
     if (result.ItemLookupResponse.Items[0].Item[0].ItemAttributes[0].ISBN !== undefined) {
           // try {
@@ -569,10 +619,10 @@ amazonPriceSearch = function(barcode, callback) {
 
 
 
-//   { 
+//   {
 //   statusCode: 200,
 //   content: '{"access_token": "b82cad2ac582b2fe4bbc313aa7c9a9a528794bde7df025a7b8e0fd51e6773799", "expires_in": 5184000, "token_type": "bearer", "user": {"username": "gabriel-simoes", "first_name": "Gabriel", "last_name": "Simoes", "display_name": "Gabriel Simoes", "is_friend": false, "friends_count": 154, "is_active": true, "about": " ", "email": "gsimoes@rollins.edu", "phone": "14079511926", "profile_picture_url": "https://s3.amazonaws.com/venmo/no-image.gif", "friend_request": null, "is_blocked": false, "trust_request": null, "id": "1494475771740160877", "identity": null, "date_joined": "2014-08-24T23:36:35"}, "balance": "0.00", "refresh_token": "85e487232f4c28b4097eb4951912eb0439d75aefbe4d285ee2ab3f715811aeb9"}',
-//   headers: 
+//   headers:
 //    { server: 'nginx',
 //      date: 'Thu, 30 Jul 2015 14:25:50 GMT',
 //      'content-type': 'application/json; charset=UTF-8',
@@ -583,11 +633,11 @@ amazonPriceSearch = function(barcode, callback) {
 //      expires: 'Thu, 30 Jul 2015 14:25:49 GMT',
 //      'cache-control': 'no-cache',
 //      'strict-transport-security': 'max-age=31536000' },
-//   data: 
+//   data:
 //    { access_token: 'b82cad2ac582b2fe4bbc313aa7c9a9a528794bde7df025a7b8e0fd51e6773799',
 //      expires_in: 5184000,
 //      token_type: 'bearer',
-//      user: 
+//      user:
 //       { username: 'gabriel-simoes',
 //         first_name: 'Gabriel',
 //         last_name: 'Simoes',
@@ -606,7 +656,7 @@ amazonPriceSearch = function(barcode, callback) {
 //         identity: null,
 //         date_joined: '2014-08-24T23:36:35' },
 //      balance: '0.00',
-//      refresh_token: '85e487232f4c28b4097eb4951912eb0439d75aefbe4d285ee2ab3f715811aeb9' } 
+//      refresh_token: '85e487232f4c28b4097eb4951912eb0439d75aefbe4d285ee2ab3f715811aeb9' }
 // }
 
 
@@ -716,5 +766,3 @@ amazonPriceSearch = function(barcode, callback) {
 
 //   }, 5000)
 // })
-
-

@@ -1,0 +1,58 @@
+<!-- RESULTS -->
+<template name="results">
+	{{#if scanResult}}
+		{{#with scanResult}}
+			{{>item}}
+		{{/with}}
+	{{/if}}
+</template>
+
+		<!-- ITEM -->
+		<template name="item">
+			<div class="card">
+				<div class="item no-padding">
+					<div class="center">
+						<img class="scanResult-thumbnail" src="{{image}}">
+					</div>
+				</div>
+
+					<div class="row item">
+						<div class="col col-33">
+							<p>Amazon Price</p>
+							<p>Title</p>
+							<p>Author</p>
+							<p>Publisher</p>
+							<p>Binding</p>
+							<p>Pages</p>
+							<p>EAN</p>
+						</div>
+						<div class="col col-67 scan-result">
+							<p>{{price}}</p>
+							<p>{{title}}</p>
+							<p>{{authors}}</p>
+							<p>{{publisher}}</p>
+							<p>{{binding}}</p>
+							<p>{{pages}}</p>
+							<p>{{ean}}</p>
+						</div>
+					</div>
+
+			</div>
+
+			<div class="list list-inset">
+			<label class="item item-input">
+					<span class="input-label"><p>Set Rent/Week &nbsp;$</p></span>
+					<input type="number" class="userPrice" value="{{calculatedPrice}}">
+				</label>
+			</div>
+
+			<div class="padding-horizontal">
+				<button class="submitProduct button button-block button-energized" {{waitingForPrice}}>
+				{{#if userPrice}}
+					Lend this item at ${{userPrice}} per week
+				{{else}}
+					Enter your price above
+				{{/if}}
+				</button>
+			</div>
+		</template>
