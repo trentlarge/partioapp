@@ -48,40 +48,40 @@ Template.lend.events({
             IonLoading.hide();
           }
         },
-          function(error) {
-            alert("Scanning failed: " + error);
-          })
 
+        function(error) {
+          alert("Scanning failed: " + error);
+        })
 
     // not cordova
     } else {
 
-          Meteor.call('priceFromAmazon', 9780439708180, function(error, result) {
-            console.log(result);
-            var resultFromAmazon = {};
-            if (!error) {
-              Session.set('scanResult', result);
-              Session.set('lendTab', 'results');
-              IonLoading.hide();
-            } else {
-              console.log(error);
-              IonLoading.hide();
-              IonPopup.show({
-                title: 'Please try again or manually enter your product :( ',
-                  template: '<div class="center">'+ error.message + '</div>',
-                  buttons:
-                  [{
-                    text: 'OK',
-                    type: 'button-energized',
-                    onTap: function() {
-                      IonPopup.close();
-                    }
-                  }]
-                });
-            }
-          });
+      Meteor.call('priceFromAmazon', 9780439708180, function(error, result) {
+        console.log(result);
+        var resultFromAmazon = {};
+        if (!error) {
+          Session.set('scanResult', result);
+          Session.set('lendTab', 'results');
+          IonLoading.hide();
+        } else {
+          console.log(error);
+          IonLoading.hide();
+          IonPopup.show({
+            title: 'Please try again or manually enter your product :( ',
+              template: '<div class="center">'+ error.message + '</div>',
+              buttons:
+              [{
+                text: 'OK',
+                type: 'button-energized',
+                onTap: function() {
+                  IonPopup.close();
+                }
+              }]
+            });
         }
-      }
+      });
+    }
+  }
 })
 
 function testCamFindMethod()
@@ -408,8 +408,12 @@ Template.lend.events({
 
     //TEST METHOD
     testCamFindMethod();
-
   },
+
+  'click #closeLend': function(event) {
+    $('.modal-backdrop').addClass('hide');
+  },
+
   'click #manualSubmit': function(e, template) {
     IonLoading.show();
     var manualCode = template.find('#manualInput').value;
@@ -545,27 +549,30 @@ function AddProductToInventory()
   Products.insert(insertData);
   Session.set('userPrice', null);
   RentingFinalPrice = 0.0;
-        IonLoading.hide();
-        IonPopup.show({
-          title: 'Your Product sucessfully submitted',
-          template: '<div class="center">And saved to your Inventory</div>',
-          buttons:
-          [{
-            text: 'OK',
-            type: 'button-energized',
-            onTap: function() {
-              Session.set('scanResult', null);
-              IonPopup.close();
-              Router.go('/inventory');
-              IonModal.close();
+  IonLoading.hide();
 
-              // Meteor.setTimeout(function() {
-              //   //CheckStripeAccount();
-              // }, 1500)
+  IonPopup.show({
+    title: 'Your Product sucessfully submitted',
+    template: '<div class="center">And saved to your Inventory</div>',
+    buttons:
+    [{
+      text: 'OK',
+      type: 'button-energized',
+      onTap: function() {
 
-            }
-          }]
-        });
+        Session.set('scanResult', null);
+
+        IonPopup.close();
+        Router.go('/inventory');
+        IonModal.close();
+
+        // Meteor.setTimeout(function() {
+        //   //CheckStripeAccount();
+        // }, 1500)
+
+      }
+    }]
+  });
 }
 
 function CheckStripeAccount () {
@@ -673,9 +680,9 @@ function ClearData()
 Template.lend.rendered = function() {
   Session.set('viewFinder', true);
   Session.set('lendTab', 'camfind')
+
   //reseting results
   Session.set('scanResult', null);
-
   Session.set('lendTab', 'camfind')
   $('.tab-item[data-id=camfind]').addClass('active');
 }
@@ -701,6 +708,7 @@ Template.takePhoto.events({
         { text: 'Choose from Library' },
       ],
       cancelText: 'Cancel',
+
       cancel: function() {
         console.log('Cancelled!');
       },

@@ -1,19 +1,19 @@
 <template name="lend">
 
 	<!-- MODAL -->
-	{{#ionModal customTemplate=true}}
+	{{#ionModal title="Share Product" customTemplate=true}}
     <div class="bar bar-header bar-royal">
-      <button type="button" data-dismiss="modal" id="cancelScan" class="button button-clear"> <h6 class="light">CANCEL</h6></button>
+      <button type="button" id="closeLend" class="button button-clear pull-left"> <h6 class="light">CLOSE</h6></button>
       <h2 class="title">Share Product</h2>
+			<button type="button" id="cancelScan" class="button button-clear pull-right"> <h6 class="light">RESET</h6></button>
     </div>
 
+		<!-- DYNAMIC TEMPLATE -->
     {{#ionContent class="padding"}}
-
 			{{> UI.dynamic template=dynamicTemplate}}
-
 		{{/ionContent}}
 
-		<!-- NEW TAB -->
+		<!-- TAB -->
 		{{>lendTabs}}
 
   {{/ionModal}}
