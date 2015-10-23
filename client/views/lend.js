@@ -3,6 +3,7 @@ Template.lend.events({
     IonLoading.show();
     console.log('the new Amazon call in progress');
 
+    // Cordova
     if (Meteor.isCordova) {
       cordova.plugins.barcodeScanner.scan(
         function(result) {
@@ -22,8 +23,11 @@ Template.lend.events({
               {
                 console.log('result: '+ result);
                 Session.set('scanResult', result);
+                Session.set('lendTab', 'results');
                 IonLoading.hide();
+
               } else {
+
                 IonLoading.hide();
                 console.log(error);
                 IonPopup.show({
@@ -44,15 +48,20 @@ Template.lend.events({
             IonLoading.hide();
           }
         },
-        function(error) {
-          alert("Scanning failed: " + error);
-        })
-        } else {
+          function(error) {
+            alert("Scanning failed: " + error);
+          })
+
+
+    // not cordova
+    } else {
+
           Meteor.call('priceFromAmazon', 9780439708180, function(error, result) {
             console.log(result);
             var resultFromAmazon = {};
             if (!error) {
               Session.set('scanResult', result);
+              Session.set('lendTab', 'results');
               IonLoading.hide();
             } else {
               console.log(error);
@@ -72,7 +81,7 @@ Template.lend.events({
             }
           });
         }
-}
+      }
 })
 
 function testCamFindMethod()
@@ -746,4 +755,10 @@ Template.takePhoto.events({
       }
     });
   }
+});
+
+Template.results.helpers({
+  scanResult: function() {
+    return Session.get('scanResult');
+  },
 });
