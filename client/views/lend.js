@@ -1,5 +1,7 @@
 Template.lend.events({
-  'click .viewfinder': function() {
+
+  // BARCODE
+  'click .get-barcode': function() {
     IonLoading.show();
     console.log('the new Amazon call in progress');
 
@@ -80,6 +82,20 @@ Template.lend.events({
             });
         }
       });
+    }
+  },
+
+  // CAMFIND
+  'click .get-camfind' : function() {
+
+    //CORDOVA
+    if (Meteor.isCordova){
+
+
+    //WEB
+    } else {
+
+
     }
   }
 })
@@ -613,9 +629,9 @@ Template.lend.helpers({
   manualEntry: function() {
     return Session.get('manualEntry')
   },
-  scanResult: function() {
-    return Session.get('scanResult');
-  },
+  // scanResult: function() {
+  //   return Session.get('scanResult');
+  // },
   calculatedPrice: function() {
     if (Session.get('scanResult') &&
         Session.get('BookAddType') != 'MANUAL') {
@@ -655,23 +671,14 @@ Template.lend.helpers({
     return (Session.get('scanResult').category === "Book") ? true : false;
   },
 
+  dynamicTemplate: function(){
+    return Session.get('lendTab');
+  }
+
 });
 
 Template.lend.destroyed = function() {
   Session.set('scanResult', null);
-  Session.set('barcodeEntry', null);
-  Session.set('manualEntry', null);
-  Session.set('photoTaken', null)
-}
-
-function ClearData()
-{
-  console.log('ClearData');
-  RentingFinalPrice = null;
-  Session.set('scanResult', null);
-  Session.set('priceValue', null);
-  Session.set('userPrice', null);
-  Session.set('priceValue', null);
   Session.set('barcodeEntry', null);
   Session.set('manualEntry', null);
   Session.set('photoTaken', null)
@@ -687,11 +694,20 @@ Template.lend.rendered = function() {
   $('.tab-item[data-id=camfind]').addClass('active');
 }
 
-Template.lend.helpers({
-  dynamicTemplate: function(){
-    return Session.get('lendTab');
-  }
-})
+
+function ClearData()
+{
+  console.log('ClearData');
+  RentingFinalPrice = null;
+  Session.set('scanResult', null);
+  Session.set('priceValue', null);
+  Session.set('userPrice', null);
+  Session.set('priceValue', null);
+  Session.set('barcodeEntry', null);
+  Session.set('manualEntry', null);
+  Session.set('photoTaken', null)
+}
+
 
 
 Template.takePhoto.helpers({
