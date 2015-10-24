@@ -1,57 +1,65 @@
 Template.camfind.events({
-  'click #cam-find': function() {
-    IonLoading.show();
-    navigator.camera.getPicture(onSuccess1, onFail1, {
-      targetWidth: 400,
-      targetHeight: 400,
-      quality: 50,
-      destinationType: Camerda.DestinationType.DATA_URL,
-      sourceType: Camera.PictureSourceType.CAMERA
-    });
+  'click #cam-find': function(event, template) {
+    //IonLoading.show();
+    
+      //alert('clicou');
+      testCamFindMethod();
+        // var cameraOptions = {
+        //     width: 800,
+        //     height: 600
+        // };
+        // MeteorCamera.getPicture(cameraOptions, function (error, data) {
+        //    if (!error) {
+        //     console.log(data);
+        //     alert(data);
+        //        template.$('.photo').attr('src', data); 
+        //    }
+        // });
+        // event.preventDefault();
 
-    function onSuccess1(imageData) {
-      console.log('capture done as base64');
+    // function onSuccess1(imageData) {
+    //   console.log('capture done as base64');
 
-      var imageBlob = b64toBlob("data:image/jpeg;base64," + imageData);
-      console.log(imageBlob);
+    //   var imageBlob = b64toBlob("data:image/jpeg;base64," + imageData);
+    //   console.log(imageBlob);
 
-      //var uploader = new Slingshot.Upload("myFileUploads");
+    //   //var uploader = new Slingshot.Upload("myFileUploads");
 
-      // uploader.send(imageBlob, function (error, downloadUrl) {
-      //   if (error) {
-      //     console.error('Error uploading', uploader.xhr.response);
-      //     alert (error);
-      //   }
-      //   else {
-      //     console.log(downloadUrl);
-      //     initiateCamfind(downloadUrl, function(response) {
-      //       IonPopup.show({
-      //         title: response,
-      //           template: '',
-      //           buttons:
-      //           [{
-      //             text: 'OK',
-      //             type: 'button-assertive',
-      //             onTap: function() {
-      //               IonPopup.close();
-      //             }
-      //           }]
-      //         });
-      //     })
-      //
-      //   }
-      // });
+    //   uploader.send(imageBlob, function (error, downloadUrl) {
+    //     if (error) {
+    //       console.error('Error uploading', uploader.xhr.response);
+    //       alert (error);
+    //     }
+    //     else {
+    //       console.log(downloadUrl);
+    //       initiateCamfind(downloadUrl, function(response) {
+    //         IonPopup.show({
+    //           title: response,
+    //             template: '',
+    //             buttons:
+    //             [{
+    //               text: 'OK',
+    //               type: 'button-assertive',
+    //               onTap: function() {
+    //                 IonPopup.close();
+    //               }
+    //             }]
+    //           });
+    //       })
+      
+    //     }
+    //   });
 
-      return false;
-    }
+    //   return false;
+    // }
 
-    function onFail1(message) {
-      IonPopup.alert({
-        title: 'Camera Operation',
-        template: message,
-        okText: 'Got It.'
-      });
-    }
+    // function onFail1(message) {
+    //   IonPopup.alert({
+    //     title: 'Camera Operation',
+    //     template: message,
+    //     okText: 'Got It.'
+    //   });
+    // }
   }
 });
 
@@ -98,18 +106,32 @@ function testCamFindMethod()
         console.log('Cancelled!');
       },
       buttonClicked: function(index) {
+
+
         if (index === 0) {
           navigator.camera.getPicture(onSuccess1, onFail1, {
             targetWidth: 200,
             targetHeight: 200,
             quality: 50,
-            destinationType: Camera.DestinationType.DATA_URL,
-            sourceType: Camera.PictureSourceType.CAMERA
+            destinationType: Camera.DestinationType.FILE_URI,
+            sourceType: Camera.PictureSourceType.CAMERA,
+            saveToPhotoAlbum: true 
           });
 
           function onSuccess1(imageData) {
-            console.log('camera working!');
-            template.imageData.set(imageData);
+
+            new Date();
+
+            alert('camera working! '+Date.now());
+            alert('RETORNO DA FOTO '+imageData);
+            //template.$('.photo-take-now').attr('src', imageData); 
+            //template.imageData.set(imageData);
+            console.log(imageData);
+            alert('start CAMFIND');
+
+            document.getElementById('photo-take-now').src = imageData;
+
+
 
             return false;
           }
