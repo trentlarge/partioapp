@@ -8,7 +8,7 @@
         {{/if}}
       </button>
   {{/contentFor}}
-  
+
   {{#contentFor "headerTitle"}}
     <h1 class="title">Search Products</h1>
   {{/contentFor}}
@@ -32,7 +32,7 @@
       <i class="icon ion-ios-search placeholder-icon"></i>
       <input type="text" id="search-box" placeholder="type keywords to search..." />
     </label>
-  </div>  
+  </div>
 </template>
 
 <template name="searchResult">
@@ -62,7 +62,7 @@
   {{#contentFor "headerButtonLeft"}}
       {{>ionNavBackButton path="listing"}}
   {{/contentFor}}
-  
+
   {{#contentFor "headerTitle"}}
     <h1 class="title">Select from Owner</h1>
   {{/contentFor}}
@@ -74,7 +74,7 @@
       <div class="list">
         {{#each peopleList}}
         <a class="item item-avatar-custom item-button-right" href="#">
-          
+
           <div class="profile-image-container-small">
             {{#if noProfileYet}}
             <div class="item-avatar-custom-circle" style="background: url('profile_image_placeholder.jpg') no-repeat; background-size:cover; background-position: 50% 50%;"></div>
@@ -83,9 +83,10 @@
             {{/if}}
           </div>
           <!-- <img src="{{userThumbnail ownerId}}"> -->
-          
+
           <p class="main-title-text">{{userName ownerId}} </p>
-          <p>${{customPrice}}&nbsp;&nbsp; <span class="rating-box">{{avgRating ownerId}}</span></p>
+          <p>${{customPrice}}&nbsp;&nbsp; <span class="rating-box"> {{> rating}}</span></p>
+
           {{#if requestSent}}
           <span class="badge badge-mid">Request Sent</span>
           {{else}}
@@ -101,6 +102,11 @@
 
     {{/ionContent}}
   {{/ionView}}
+
+</template>
+<template name="rating">
+
+<div class="rateit" data-rateit-value="{{avgRating ownerId}}" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
 </template>
 
 
