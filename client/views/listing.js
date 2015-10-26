@@ -5,6 +5,26 @@ Template.loadingTemplate.rendered = function() {
 Template.loadingTemplate.destroyed = function() {
   IonLoading.hide();
 }
+Template.rating.rendered = function () {
+  this.$('.rateit').rateit();
+}
+Template.rating.helpers({
+  avgRating: function(userId) {
+if (Meteor.users.findOne(userId).profile.rating) {
+  if (Meteor.users.findOne(userId).profile.rating.length > 1) {
+    var ratingArray = Meteor.users.findOne(userId).profile.rating;
+    var totalCount = ratingArray.length;
+    var sum = _.reduce(ratingArray, function(memo, num) {
+      return (Number(memo) + Number(num))/totalCount;
+    });
+    return parseFloat(sum).toFixed(1);
+  }
+} else {
+  return "1.0";
+}
+}
+});
+
 
 var options = {
   keepHistory: 1000 * 60 * 5,
@@ -19,7 +39,7 @@ Template.searchResult.helpers({
   getPackages: function() {
     return PackageSearch.getData({ sort: {isoScore: -1} });
   },
-  
+
   isLoading: function() {
     return PackageSearch.getStatus().loading;
   },
@@ -54,7 +74,7 @@ Template.searchBox.events({
     {
       IonLoading.hide();
     }
-    
+
   }, 200)
 });
 
@@ -100,7 +120,7 @@ Template.search.helpers({
     //   var totalCount = ratingArray.length;
 
     //   var sum = _.reduce(ratingArray, function(memo, num) {
-    //     return (Number(memo) + Number(num))/totalCount; 
+    //     return (Number(memo) + Number(num))/totalCount;
     //   });
     //   return parseFloat(sum).toFixed(1);
     // } else {
@@ -112,7 +132,7 @@ Template.search.helpers({
         var ratingArray = Meteor.users.findOne(userId).profile.rating;
         var totalCount = ratingArray.length;
         var sum = _.reduce(ratingArray, function(memo, num) {
-          return (Number(memo) + Number(num))/totalCount; 
+          return (Number(memo) + Number(num))/totalCount;
         });
         return parseFloat(sum).toFixed(1);
       }
@@ -137,7 +157,7 @@ Template.search.events({
       IonPopup.show({
         title: 'You own this item! :)',
         template: '',
-        buttons: 
+        buttons:
         [{
           text: 'OK',
           type: 'button-energized',
@@ -150,7 +170,7 @@ Template.search.events({
       IonPopup.show({
         title: 'You already borrowed this item!',
         template: '',
-        buttons: 
+        buttons:
         [{
           text: 'OK',
           type: 'button-energized',
@@ -192,6 +212,6 @@ Template.search.events({
       });
     }
 
-    
+
   }
 })

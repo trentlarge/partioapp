@@ -549,6 +549,21 @@ ion-side-menu.menu-left.menu {
 	height: 100vh;
 	width: 100%;
 }
+
+#pin {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 30px;
+    height: 40px;
+    margin-top: -36px;
+    margin-left: -8px;
+    background: url('/icon-marker-destination.png') no-repeat center center;
+    background-size: 30px 40px;
+    z-index: 1;
+    pointer-events: none; /*allows dragging even on pin*/
+}
+
 #mapchat-box {
 	height: 100vh;
 	width: 100%;
@@ -626,9 +641,8 @@ fieldset {
 }
 
 .rating-box {
-	background-color: $balanced;
 	color: white;
-	padding: 2px;
+	padding: 5px;
 	font-size: 0.9em;
 	font-weight: 600;
 }
@@ -951,7 +965,6 @@ a.autolinker {
     background: #f0970d;
     color: #fff
 }
-
 
 
 .land-tabs {
