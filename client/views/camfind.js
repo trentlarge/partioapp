@@ -18,15 +18,7 @@ var initiateCamfind = function(url, callback) {
       if (!error) {
         console.log("----got some data from server Camfind----");
 
-
-      Meteor.setInterval(function(){
-        Meteor.call('camfindResponse', result.data.token, function(error, result){
-          console.log('entrou aquiiii');
-            console.log(result);
-            console.log('-x-x-x-x-x-x-x-x-x-x-x-xx-')
-        });
-        console.log('interval <><><><>')
-      }, 6000);
+        console.log(result)
 
 
 
@@ -92,6 +84,9 @@ function testCamFindMethod()
                 console.log('please');
 
                 initiateCamfind(result, function(response) {
+                  console.log('etapa final ==========');
+                  console.log(response);
+
                   console.log('respoosta initiatecamfind:  '+response);
                   IonPopup.show({
                     title: response,

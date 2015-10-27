@@ -124,7 +124,13 @@ Meteor.methods({
           "image_request[remote_image_url]" : imageUrl,
           "image_request[locale]" : "en_US"
         }
-      }, callback);
+      }, function(error, response){
+         Meteor.call('camfindResponse', response.data.token, function(error, response){
+           console.log('--------------------------------------');
+           console.log(error)
+           console.log(response)
+         });
+      });
     }
 
     wrappedCamfindCall = Meteor.wrapAsync(firstCamfindCall);
@@ -136,22 +142,29 @@ Meteor.methods({
 
   camfindResponse: function(token) {
 
-    console.log('chegou aqui ()()()()()()()()() '+token);
+    console.log('token ()()()()()()()()() '+token);
 
-    var photoresponse = function(token, callback) {
-        HTTP.get('https://camfind.p.mashape.com/image_responses/'+token, {
-          "headers": {
-            "X-Mashape-Key" : "7W5OJWzlcsmshYSMTJW8yE4L2mJQp1cuOVKjsneO6N0wPTpaS1"
-          }
-        }, callback)
-    }
+    //var wrap_ = function(callback) {
+      var interval = Meteor.setInterval(function(){
+        var photoresponse = function(token, callback) {
+            HTTP.get('https://camfind.p.mashape.com/image_responses/'+token, {
+              "headers": {
+                "X-Mashape-Key" : "7W5OJWzlcsmshYSMTJW8yE4L2mJQp1cuOVKjsneO6N0wPTpaS1"
+              }
+            }, callback)
+        }
 
-    wrappedResponse = Meteor.wrapAsync(photoresponse);
-    var finalResult = wrappedResponse(token);
+        wrappedResponse = Meteor.wrapAsync(photoresponse);
+        var result = wrappedResponse(token);
 
-    console.log(finalResult.data);
+        console.log(result.data)
 
-    return finalResult.data;
+        if(result.data.status == 'completed'){
+           Meteor.clearInterval(interval);
+           return result.data
+        }
+      }, 6000);
+    //}
 
   },
 
