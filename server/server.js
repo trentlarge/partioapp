@@ -115,6 +115,9 @@ var sendPush = function(toId, message) {
 Meteor.methods({
   camfindCall: function(imageUrl) {
 
+    console.log('opaaaaaaaaa')
+    console.log(camfindCall)
+
   var firstCamfindCall = function(imageUrl, callback) {
     HTTP.post('https://camfind.p.mashape.com/image_requests', {
         "headers": {
