@@ -120,52 +120,88 @@ function testCamFindMethod()
             saveToPhotoAlbum: true
           });
 
-          function onSuccess1(imageData) {
 
-            new Date();
+		function onSuccess1(imageData) {
+			console.log('capture done as base64');
 
-            //alert('camera working! '+Date.now());
-            alert('RETORNO DA FOTO '+imageData);
-            //template.$('.photo-take-now').attr('src', imageData);
-            //template.imageData.set(imageData);
-            console.log(imageData);
-            alert('start CAMFIND');
+			var imageBlob = b64toBlob("data:image/jpeg;base64," + imageData);
+			console.log(imageBlob);
 
-            document.getElementById("#cam-find").src = imageData;
+			var uploader = new Slingshot.Upload("myFileUploads");
+			uploader.send(imageBlob, function (error, downloadUrl) {
+				if (error) {
+					console.error('Error uploading', uploader.xhr.response);
+					alert (error);
+				}
+				else {
+					console.log(downloadUrl);
+					initiateCamfind(downloadUrl, function(response) {
+						IonPopup.show({
+							title: response,
+								template: '',
+								buttons: 
+								[{
+									text: 'OK',
+									type: 'button-assertive',
+									onTap: function() {
+										IonPopup.close();
+									}
+								}]
+							});
+					})
+
+				}
+			});
+
+			return false;
+		}
+
+          // function onSuccess1(imageData) {
+
+          //   new Date();
+
+          //   //alert('camera working! '+Date.now());
+          //   alert('RETORNO DA FOTO '+imageData);
+          //   //template.$('.photo-take-now').attr('src', imageData);
+          //   //template.imageData.set(imageData);
+          //   console.log(imageData);
+          //   alert('start CAMFIND');
+
+          //   document.getElementById("#cam-find").src = imageData;
 
 
 
-            var imageBlob = b64toBlob("data:image/jpeg;base64," + imageData);
+          //   var imageBlob = b64toBlob("data:image/jpeg;base64," + imageData);
 
-            window.resolveLocalFileSystemURL(imagePath, function(fileEntry) {
+          //   window.resolveLocalFileSystemURL(imagePath, function(fileEntry) {
 
-                fileEntry.file(function(file) {
+          //       fileEntry.file(function(file) {
 
-                  var reader = new FileReader();
-                  reader.onloadend = function (evt) {
-                    console.log("read success");
-                    console.log(evt.target.result);
+          //         var reader = new FileReader();
+          //         reader.onloadend = function (evt) {
+          //           console.log("read success");
+          //           console.log(evt.target.result);
 
-                    //Test Code
-                    Meteor.call('camFindCall', evt.target.result, function(error, result) {
-                      console.log(error);
-                      console.log(result);
-                    });
-                  };
-                  reader.readAsBinaryString(file);
+          //           //Test Code
+          //           Meteor.call('camFindCall', evt.target.result, function(error, result) {
+          //             console.log(error);
+          //             console.log(result);
+          //           });
+          //         };
+          //         reader.readAsBinaryString(file);
 
-                })
+          //       })
 
-              }, function(errorMessage)
-              {
-                console.log(errorMessage);
-              });
-
-
+          //     }, function(errorMessage)
+          //     {
+          //       console.log(errorMessage);
+          //     });
 
 
-            return false;
-          }
+
+
+          //   return false;
+          // }
 
           function onFail1(message) {
             IonPopup.alert({
