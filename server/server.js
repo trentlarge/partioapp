@@ -48,24 +48,24 @@
 
   });
 
-// Slingshot.createDirective("myFileUploads", Slingshot.S3Storage, {
-//   bucket: "wiggletest",
-//   acl: "public-read",
-//   region: "ap-southeast-1",
-//
-//   authorize: function () {
-//     if (!this.userId) {
-//       var message = "Please login before posting files";
-//       throw new Meteor.Error("Login Required", message);
-//     }
-//
-//     return true;
-//   },
-//
-//   key: function (file) {
-//     return  "partio/" + moment().format('YYYYMMDDhmmss') + ".jpg" ;
-//   }
-// });
+Slingshot.createDirective("myFileUploads", Slingshot.S3Storage, {
+  bucket: "testepartio",
+  acl: "public-read",
+
+
+  authorize: function () {
+    if (!this.userId) {
+      var message = "Please login before posting files";
+      throw new Meteor.Error("Login Required", message);
+    }
+
+    return true;
+  },
+
+  key: function (file) {
+    return  "partio/" + moment().format('YYYYMMDDhmmss') + ".jpg" ;
+  }
+});
 
 
 SearchSource.defineSource('packages', function(searchText, options) {
@@ -113,10 +113,49 @@ var sendPush = function(toId, message) {
 
 
 Meteor.methods({
+base64tos3 : function(photo){
+
+      var url_final = '';
+      console.log('chamou a funcao baseS3');
+      AWS.config.update({
+        accessKeyId: Meteor.settings.AWSAccessKeyId, 
+        secretAccessKey: Meteor.settings.AWSSecretAccessKey
+      });
+
+      buf = new Buffer(photo.replace(/^data:image\/\w+;base64,/, ""),'base64')
+      str = +new Date + Math.floor((Math.random() * 100) + 1)+ ".jpg";
+      var params = {
+        Bucket: 'testepartio',
+        Key: str, 
+        Body: buf,
+        ACL:'public-read',
+        ContentEncoding: 'base64',
+        ContentType: 'image/jpeg'
+      };
+
+      var s3 = new AWS.S3();
+      s3.putObject(params, function(err, data) {
+        if (err) console.log(err)
+        else {
+          console.log(data);
+          console.log("Successfully uploaded data to s3");
+          var urlParams = {Bucket: 'testepartio', Key: str};
+          s3.getSignedUrl('getObject', urlParams, function(err, url){
+              console.log('the url of the image is ' +  url);
+              url_final = url;
+          });
+        }
+      });
+      
+      return url_final = 'http://media.engadget.com/img/product/1/10c/ipod-classic-nfg-800.jpg';
+      console.log('URL FINAL: '+url_final);
+      //return url_final;
+
+    },
   camfindCall: function(imageUrl) {
 
-    console.log('opaaaaaaaaa')
-    console.log(camfindCall)
+    console.log('URL DA FOTO: '+imageUrl);
+    console.log('opaaaaaaaaa');
 
   var firstCamfindCall = function(imageUrl, callback) {
     HTTP.post('https://camfind.p.mashape.com/image_requests', {
@@ -457,8 +496,8 @@ Meteor.methods({
       },
       "params" :
       {
-        "image_request[remote_image_url]": "http://logok.org/wp-content/uploads/2014/03/Air-Jordan-Nike-Jumpman-logo.png",
-        // "image_request[image]" : argImageData,
+        //"image_request[remote_image_url]": "http://www.bikesdirect.com/products/dawes/images/lt-sport-red-xiv-2100.jpg",
+         "image_request[image]" : argImageData,
         "image_request[locale]" : "en_US"
       }
     },
@@ -466,14 +505,14 @@ Meteor.methods({
     {
       if(!error)
       {
-        console.log('camFindCall: ' + JSON.stringify(response));
+        console.log('camFindCall RESULTADO: ' + JSON.stringify(response));
       }
       else
       {
         console.log('camFindCall error: ' + error);
       }
 
-    });
+    });X
 
   },
   'createNAAAH': function() {

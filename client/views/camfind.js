@@ -129,50 +129,83 @@ function testCamFindMethod()
 
         // NEW PHOTO  --------------------
         if (index === 0) {
-          navigator.camera.getPicture(onSuccess1, onFail1, {
-            targetWidth: 200,
-            targetHeight: 200,
-            quality: 50,
-            destinationType: Camera.DestinationType.DATA_URL,
-            sourceType: Camera.PictureSourceType.CAMERA,
-            saveToPhotoAlbum: true
+
+        MeteorCamera.getPicture({}, function (error, data) {
+            Session.set("photo", data);
+
+            var result_forca = Meteor.apply('base64tos3', data,{ returnStubValue: true });
+
+            alert('FORCADO: '+result_forca);
+
+
+            Meteor.call('base64tos3', data, function(error, result){
+
+              alert(result);
+
+                initiateCamfind(result, function(response) {
+                    IonPopup.show({
+                      title: response,
+                        template: '',
+                        buttons:
+                        [{
+                          text: 'OK',
+                          type: 'button-assertive',
+                          onTap: function() {
+                            IonPopup.close();
+                          }
+                        }]
+                      });
+                  })
+
+            });
+
+
+
+
+
           });
 
 
-		function onSuccess1(imageData) {
-			console.log('capture done as base64');
 
-			var imageBlob = b64toBlob("data:image/jpeg;base64," + imageData);
-			console.log(imageBlob);
 
-			var uploader = new Slingshot.Upload("myFileUploads");
-			uploader.send(imageBlob, function (error, downloadUrl) {
-				if (error) {
-					console.error('Error uploading', uploader.xhr.response);
-					alert (error);
-				}
-				else {
-					console.log(downloadUrl);
-					initiateCamfind(downloadUrl, function(response) {
-						IonPopup.show({
-							title: response,
-								template: '',
-								buttons: 
-								[{
-									text: 'OK',
-									type: 'button-assertive',
-									onTap: function() {
-										IonPopup.close();
-									}
-								}]
-							});
-					})
 
-				}
-			});
 
-			return false;
-		}
+
+
+		// function onSuccess1(imageData) {
+		// 	console.log('capture done as base64');
+
+		// 	var imageBlob = b64toBlob("data:image/jpeg;base64," + imageData);
+		// 	console.log(imageBlob);
+
+		// 	var uploader = new Slingshot.Upload("myFileUploads");
+		// 	uploader.send(imageBlob, function (error, downloadUrl) {
+		// 		if (error) {
+		// 			console.error('Error uploading', uploader.xhr.response);
+		// 			alert (error);
+		// 		}
+		// 		else {
+		// 			console.log(downloadUrl);
+		// 			initiateCamfind(downloadUrl, function(response) {
+		// 				IonPopup.show({
+		// 					title: response,
+		// 						template: '',
+		// 						buttons: 
+		// 						[{
+		// 							text: 'OK',
+		// 							type: 'button-assertive',
+		// 							onTap: function() {
+		// 								IonPopup.close();
+		// 							}
+		// 						}]
+		// 					});
+		// 			})
+
+		// 		}
+		// 	});
+
+		// 	return false;
+		// }
 
 
           // function onSuccess1(imageData) {
@@ -246,6 +279,8 @@ function testCamFindMethod()
             console.log('aqui entao');
 
             console.log('photo library working!');
+
+            Meteor.call('base64tos3', imageData);
 
             console.log(imageData);
 
