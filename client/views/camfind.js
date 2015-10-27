@@ -94,26 +94,26 @@ var b64toBlob = function(dataURI) {
   return new Blob([ab], { type: 'image/jpeg' });
 }
 
-var camFindHelper = {
-  callApi : function(imageData){
-    console.log('camFindHelper >>>>>>>>>>>>>>>>>>> callAPI');
-    console.log(imageData);
-
-    template.$('#cam-find').attr('src', imageData);
+// var camFindHelper = {
+//   callApi : function(imageData){
+//     console.log('camFindHelper >>>>>>>>>>>>>>>>>>> callAPI');
+//     console.log(imageData);
+//
+//
 
     // Meteor.call('camFindCall', imageData, function(error, result) {
     //   console.log(error);
     //   console.log(result);
     // });
-  }
-}
+//   }
+// }
 
 
 
 function testCamFindMethod()
 {
-  if (Meteor.isCordova)
-  {
+  // if (Meteor.isCordova)
+  // {
     IonActionSheet.show({
       buttons: [
       { text: 'Take Photo' },
@@ -129,13 +129,13 @@ function testCamFindMethod()
 
         // NEW PHOTO  --------------------
         if (index === 0) {
+
           navigator.camera.getPicture(onSuccess1, onFail1, {
             targetWidth: 200,
             targetHeight: 200,
             quality: 50,
-            destinationType: Camera.DestinationType.DATA_URL,
             sourceType: Camera.PictureSourceType.CAMERA,
-            saveToPhotoAlbum: true
+            destinationType: Camera.DestinationType.DATA_URL,
           });
 
           // SUCCESS
@@ -143,34 +143,37 @@ function testCamFindMethod()
             //new Date();
             //alert('camera working! '+Date.now());
 
-            alert('NEW PHOTO >>>> '+imageData);
-            camFindHelper.callApi(imageData);
+            console.log('NEW PHOTO >>>> '+imageData);
 
-            var imageBlob = b64toBlob("data:image/jpeg;base64," + imageData);
+            var photo = document.getElementById('photo-take-now');
+            photo.src = "data:image/jpeg;base64,"+imageData;
+            console.log('LIBRARY PHOTO aqui>>>> '+imageData);
 
-            window.resolveLocalFileSystemURL(imagePath, function(fileEntry) {
 
-                fileEntry.file(function(file) {
+            //window.resolveLocalFileSystemURL(imagePath, function(fileEntry) {
 
-                  var reader = new FileReader();
-                  reader.onloadend = function (evt) {
-                    console.log("read success");
-                    console.log(evt.target.result);
+                //fileEntry.file(function(file) {
 
-                    //Test Code
-                    Meteor.call('camFindCall', evt.target.result, function(error, result) {
-                      console.log(error);
-                      console.log(result);
-                    });
-                  };
-                  reader.readAsBinaryString(file);
+                //   var reader = new FileReader();
+                //
+                //   reader.onloadend = function (evt) {
+                //     console.log("read success");
+                //     console.log(evt.target.result);
+                //
+                //     //Test Code
+                //     Meteor.call('camFindCall', evt.target.result, function(error, result) {
+                //       console.log(error);
+                //       console.log(result);
+                //     });
+                //   };
+                //   reader.readAsBinaryString(file);
+                //
+                // })
 
-                })
-
-              }, function(errorMessage)
-              {
-                console.log(errorMessage);
-              });
+              // }, function(errorMessage)
+              // {
+              //   console.log(errorMessage);
+              // });
 
 
 
@@ -189,74 +192,61 @@ function testCamFindMethod()
 
         // PHOTO LIBRARY --------------------
         if (index === 1) {
-          navigator.camera.getPicture(onSuccess2, onFail2, {
-            targetWidth: 200,
-            targetHeight: 200,
-            quality: 50,
-            destinationType: Camera.DestinationType.DATA_URL,
-            sourceType: Camera.PictureSourceType.PHOTOLIBRARY
+
+
+          var imageBlob = b64toBlob("data:image/jpeg;base64," + imageData);
+          console.log(imageBlob);
+
+          var uploader = new Slingshot.Upload("myFileUploads");
+          uploader.send(imageBlob, function (error, downloadUrl) {
+          	if (error) {
+          		console.error('Error uploading', uploader.xhr.response);
+          		alert (error);
+          	}
+          	else {
+          		console.log(downloadUrl);
+          		initiateCamfind(downloadUrl, function(response) {
+          			IonPopup.show({
+          				title: response,
+          					template: '',
+          					buttons:
+          					[{
+          						text: 'OK',
+          						type: 'button-assertive',
+          						onTap: function() {
+          							IonPopup.close();
+          						}
+          					}]
+          				});
+          		})
+
+          	}
           });
 
-          function onSuccess2(imageData)
-          {
-            console.log('aqui entao');
-
-            console.log('photo library working!');
-
-            console.log(imageData);
-
-            alert('PHOTO LIBRARY ADD >>>> '+imageData);
-            camFindHelper.callApi(imageData);
-
-
-            // var imageBlob = b64toBlob("data:image/jpeg;base64," + imageData);
-
-            // window.resolveLocalFileSystemURL(imagePath, function(fileEntry) {
-
-            //     fileEntry.file(function(file) {
-
-            //       var reader = new FileReader();
-            //       reader.onloadend = function (evt) {
-            //         console.log("read success");
-            //         console.log(evt.target.result);
-
-            //         //Test Code
-            //         Meteor.call('camFindCall', evt.target.result, function(error, result) {
-            //           console.log(error);
-            //           console.log(result);
-            //         });
-            //       };
-            //       reader.readAsBinaryString(file);
-
-            //     })
-
-            //   }, function(errorMessage)
-            //   {
-            //     console.log(errorMessage);
-            //   });
-
-            //template.imageData.set(imageData);
-
-
-
-            return false;
+          return false;
           }
 
-          function onFail2(message) {
-            IonPopup.alert({
-              title: 'Camera Operation',
-              template: message,
-              okText: 'Got It.'
-            });
+          function onFail1(message) {
+          IonPopup.alert({
+          	title: 'Camera Operation',
+          	template: message,
+          	okText: 'Got It.'
+          });
           }
+
+
+
+
+
         }
-        return true;
+         return true;
       }
+     //}
     });
-  }
-  else
-  {
-    console.log('file upload click');
-    $('#myFile3').click();
-  }
+  //}
+  // else
+  // {
+  //   console.log('file upload click');
+  //   $('#myFile3').click();
+  // }
 }
