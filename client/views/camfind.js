@@ -133,11 +133,6 @@ function testCamFindMethod()
         MeteorCamera.getPicture({}, function (error, data) {
             Session.set("photo", data);
 
-            var result_forca = Meteor.apply('base64tos3', data,{ returnStubValue: true });
-
-            alert('FORCADO: '+result_forca);
-
-
             Meteor.call('base64tos3', data, function(error, result){
 
               alert(result);
