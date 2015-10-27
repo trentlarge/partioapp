@@ -133,7 +133,7 @@ function testCamFindMethod()
             targetWidth: 200,
             targetHeight: 200,
             quality: 50,
-            destinationType: Camera.DestinationType.FILE_URI,
+            destinationType: Camera.DestinationType.DATA_URL,
             sourceType: Camera.PictureSourceType.CAMERA,
             saveToPhotoAlbum: true
           });
@@ -145,6 +145,35 @@ function testCamFindMethod()
 
             alert('NEW PHOTO >>>> '+imageData);
             camFindHelper.callApi(imageData);
+
+            var imageBlob = b64toBlob("data:image/jpeg;base64," + imageData);
+
+            window.resolveLocalFileSystemURL(imagePath, function(fileEntry) {
+
+                fileEntry.file(function(file) {
+
+                  var reader = new FileReader();
+                  reader.onloadend = function (evt) {
+                    console.log("read success");
+                    console.log(evt.target.result);
+
+                    //Test Code
+                    Meteor.call('camFindCall', evt.target.result, function(error, result) {
+                      console.log(error);
+                      console.log(result);
+                    });
+                  };
+                  reader.readAsBinaryString(file);
+
+                })
+
+              }, function(errorMessage)
+              {
+                console.log(errorMessage);
+              });
+
+
+
 
             return false;
           }
