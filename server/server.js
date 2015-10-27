@@ -48,24 +48,24 @@
 
   });
 
-Slingshot.createDirective("myFileUploads", Slingshot.S3Storage, {
-  bucket: "testepartio",
-  acl: "public-read",
-
-
-  authorize: function () {
-    if (!this.userId) {
-      var message = "Please login before posting files";
-      throw new Meteor.Error("Login Required", message);
-    }
-
-    return true;
-  },
-
-  key: function (file) {
-    return  "partio/" + moment().format('YYYYMMDDhmmss') + ".jpg" ;
-  }
-});
+// Slingshot.createDirective("myFileUploads", Slingshot.S3Storage, {
+//   bucket: "testepartio",
+//   acl: "public-read",
+//
+//
+//   authorize: function () {
+//     if (!this.userId) {
+//       var message = "Please login before posting files";
+//       throw new Meteor.Error("Login Required", message);
+//     }
+//
+//     return true;
+//   },
+//
+//   key: function (file) {
+//     return  "partio/" + moment().format('YYYYMMDDhmmss') + ".jpg" ;
+//   }
+// });
 
 
 SearchSource.defineSource('packages', function(searchText, options) {
@@ -113,12 +113,14 @@ var sendPush = function(toId, message) {
 
 
 Meteor.methods({
-base64tos3 : function(photo){
 
+  base64tos3 : function(photo, callback){
+    console.log('aquiquqiuqiuqiuq <><><><><><><><')
       var url_final = '';
+
       console.log('chamou a funcao baseS3');
       AWS.config.update({
-        accessKeyId: Meteor.settings.AWSAccessKeyId, 
+        accessKeyId: Meteor.settings.AWSAccessKeyId,
         secretAccessKey: Meteor.settings.AWSSecretAccessKey
       });
 
@@ -126,7 +128,7 @@ base64tos3 : function(photo){
       str = +new Date + Math.floor((Math.random() * 100) + 1)+ ".jpg";
       var params = {
         Bucket: 'testepartio',
-        Key: str, 
+        Key: str,
         Body: buf,
         ACL:'public-read',
         ContentEncoding: 'base64',
@@ -146,12 +148,13 @@ base64tos3 : function(photo){
           });
         }
       });
-      
-      return url_final = 'http://media.engadget.com/img/product/1/10c/ipod-classic-nfg-800.jpg';
-      console.log('URL FINAL: '+url_final);
-      //return url_final;
 
+      //return url_final = 'http://media.engadget.com/img/product/1/10c/ipod-classic-nfg-800.jpg';
+      console.log('URL FINAL: '+url_final);
+
+      callback(url_final);
     },
+
   camfindCall: function(imageUrl) {
 
     console.log('URL DA FOTO: '+imageUrl);
