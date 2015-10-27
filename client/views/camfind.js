@@ -1,7 +1,7 @@
 Template.camfind.events({
   'click #cam-find': function(event, template) {
     //IonLoading.show();
-    
+
       //alert('clicou');
       testCamFindMethod();
         // var cameraOptions = {
@@ -12,7 +12,7 @@ Template.camfind.events({
         //    if (!error) {
         //     console.log(data);
         //     alert(data);
-        //        template.$('.photo').attr('src', data); 
+        //        template.$('.photo').attr('src', data);
         //    }
         // });
         // event.preventDefault();
@@ -46,7 +46,7 @@ Template.camfind.events({
     //             }]
     //           });
     //       })
-      
+
     //     }
     //   });
 
@@ -64,7 +64,9 @@ Template.camfind.events({
 });
 
 var initiateCamfind = function(downloadUrl, callback) {
+
   console.log("------INITIATING CAMFIND------")
+
   Meteor.call('camfindCall', downloadUrl, function(error, result) {
     if (!error) {
       console.log("----got some data from server Camfind----");
@@ -115,21 +117,21 @@ function testCamFindMethod()
             quality: 50,
             destinationType: Camera.DestinationType.FILE_URI,
             sourceType: Camera.PictureSourceType.CAMERA,
-            saveToPhotoAlbum: true 
+            saveToPhotoAlbum: true
           });
 
           function onSuccess1(imageData) {
 
             new Date();
 
-            alert('camera working! '+Date.now());
+            //alert('camera working! '+Date.now());
             alert('RETORNO DA FOTO '+imageData);
-            //template.$('.photo-take-now').attr('src', imageData); 
+            //template.$('.photo-take-now').attr('src', imageData);
             //template.imageData.set(imageData);
             console.log(imageData);
             alert('start CAMFIND');
 
-            document.getElementById('photo-take-now').src = imageData;
+            document.getElementById("#cam-find").src = imageData;
 
 
 
