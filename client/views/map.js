@@ -265,9 +265,12 @@ Template.map.events({
   //   $("#map-search").trigger("geocode");
   // },
   'click #update-map-location': function() {
+    connectionId = this.connectionId;
     console.log('Done Clicked!');
-    console.log(this);
-    console.log(this.essentialData);
+    console.log(connectionId);
+    if (Session.get('newLocation')) {
+      Connections.update({_id: connectionId}, {$set: {meetupLocation: Session.get('newLocation').address, meetupLatLong: Session.get('newLocation').latLong}});
+    }
   }
 })
 
