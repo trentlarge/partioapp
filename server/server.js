@@ -24,6 +24,8 @@
 // });
 
   Meteor.startup(function() {
+    Future = Npm.require('fibers/future');
+
     process.env.MAIL_URL="smtp://partio.missioncontrol%40gmail.com:partio2021@smtp.gmail.com:465/";
 
     Accounts.emailTemplates.from = 'partio.missioncontrol@gmail.com';
@@ -145,8 +147,8 @@ Meteor.methods({
     return finalResult.data;
 
   },
-  
-  'base64tos3' : function(photo, callback){
+
+  'base64tos3' : function(photo){
       console.log('<><><><><><><><')
 
       var url_final = '';
@@ -172,18 +174,24 @@ Meteor.methods({
 
       var s3 = new AWS.S3();
 
+      var future = new Future();
+
       s3.putObject(params, function(err, data) {
         if (err) console.log(err)
         else {
           console.log(data);
           console.log("Successfully uploaded data to s3");
           var urlParams = {Bucket: 'testepartio', Key: str};
+
           s3.getSignedUrl('getObject', urlParams, function(err, url){
               console.log('the url of the image is ' +  url);
-              callback(url);
+              future["return"](url)
           });
         }
       });
+
+      return future.wait();
+
     },
 
   priceFromAmazon: function(barcode) {

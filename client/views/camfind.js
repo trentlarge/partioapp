@@ -4,22 +4,28 @@ Template.camfind.events({
   }
 });
 
-var initiateCamfind = function(downloadUrl, callback) {
-  console.log("------INITIATING CAMFIND------")
-  Meteor.call('camfindCall', downloadUrl, function(error, result) {
-    if (!error) {
-      console.log("----got some data from server Camfind----");
-      console.log(result);
+Template.camfind.helpers({
+  imageurl: function(){
+    return Session.get('camfindphoto');
+  }
+})
 
-      if (result.status == "completed") {
-        IonLoading.hide();
-        callback(result.name);
-        return result.name;
-      } else {
-        initiateCamfind(downloadUrl);
+var initiateCamfind = function(downloadUrl, callback) {
+    Meteor.call('camfindCall', url, function(error, result) {
+      if (!error) {
+        console.log("----got some data from server Camfind----");
+        console.log(result);
+
+        if (result.status == "completed") {
+          IonLoading.hide();
+          callback(result.name);
+          return result.name;
+        } else {
+          initiateCamfind(downloadUrl);
+        }
       }
-    }
-  });
+    });
+
 }
 
 var b64toBlob = function(dataURI) {
@@ -61,65 +67,68 @@ function testCamFindMethod()
           }
           MeteorCamera.getPicture(options, function(err, data) {
             if (data) {
-              Meteor.call('base64tos3', data, function(result){
-                console.log('calbackkkkkkkkkk')
+              Meteor.call('base64tos3', data, function(error, result){
+                console.log(result);
+                console.log('please');
 
-
-                if(result){
-                  console.log('calback result'+ result);
-
-                  initiateCamfind(result, function(response) {
-                    IonPopup.show({
-                      title: response,
-                        template: '',
-                        buttons:
-                        [{
-                          text: 'OK',
-                          type: 'button-assertive',
-                          onTap: function() {
-                            IonPopup.close();
-                          }
-                        }]
-                      });
-                  })
-                }
-        			});
+                initiateCamfind(result, function(response) {
+                  console.log('respoosta initiatecamfind:  '+response);
+                  IonPopup.show({
+                    title: response,
+                      template: '',
+                      buttons:
+                      [{
+                        text: 'OK',
+                        type: 'button-assertive',
+                        onTap: function() {
+                          IonPopup.close();
+                        }
+                      }]
+                  });
+                })
+              })
             }
           });
         }
 
 
       // PHOTO LIBRARY --------------------
-        if (index === 1) {
-
-          var options = {
-            width: 1024,
-            height: 768,
-            quality: 75,
-            sourceType: Camera.PictureSourceType.PHOTOLIBRARY
-          }
-
-          MeteorCamera.getPicture(options, function(err, data) {
-            if (data) {
-              Meteor.call('base64tos3', data, function(result){
-                initiateCamfind(result, function(response) {
-                    IonPopup.show({
-                      title: response,
-                        template: '',
-                        buttons:
-                        [{
-                          text: 'OK',
-                          type: 'button-assertive',
-                          onTap: function() {
-                            IonPopup.close();
-                          }
-                        }]
-                      });
-                    })
-                });
-              }
-          });
-        }
+        // if (index === 1) {
+        //
+        //   var options = {
+        //     width: 1024,
+        //     height: 768,
+        //     quality: 75,
+        //     sourceType: Camera.PictureSourceType.PHOTOLIBRARY
+        //   }
+        //
+        //   MeteorCamera.getPicture(options, function(err, data) {
+        //     if (data) {
+        //       Meteor.call('base64tos3', data, function(result){
+        //         console.log('calbackkkkkkkkkk')
+        //         Session.set('camfindphoto', result);
+        //       });
+        //
+        //       if(Session.get('camfindphoto')){
+        //         initiateCamfind(function(response) {
+        //           console.log('respoosta initiatecamfind:  '+response);
+        //           IonPopup.show({
+        //             title: response,
+        //               template: '',
+        //               buttons:
+        //               [{
+        //                 text: 'OK',
+        //                 type: 'button-assertive',
+        //                 onTap: function() {
+        //                   IonPopup.close();
+        //                 }
+        //               }]
+        //             });
+        //         })
+        //       }
+        //       }
+        //   });
+        // }
       return true;
      }
   });
