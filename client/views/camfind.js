@@ -94,6 +94,22 @@ var b64toBlob = function(dataURI) {
   return new Blob([ab], { type: 'image/jpeg' });
 }
 
+var camFindHelper = {
+  callApi : function(imageData){
+    console.log('camFindHelper >>>>>>>>>>>>>>>>>>> callAPI');
+    console.log(imageData);
+
+    template.$('#cam-find').attr('src', imageData);
+
+    // Meteor.call('camFindCall', imageData, function(error, result) {
+    //   console.log(error);
+    //   console.log(result);
+    // });
+  }
+}
+
+
+
 function testCamFindMethod()
 {
   if (Meteor.isCordova)
@@ -104,12 +120,14 @@ function testCamFindMethod()
       { text: 'Choose from Library' },
       ],
       cancelText: 'Cancel',
+
       cancel: function() {
         console.log('Cancelled!');
       },
+
       buttonClicked: function(index) {
 
-
+        // NEW PHOTO  --------------------
         if (index === 0) {
           navigator.camera.getPicture(onSuccess1, onFail1, {
             targetWidth: 200,
@@ -120,20 +138,13 @@ function testCamFindMethod()
             saveToPhotoAlbum: true
           });
 
+          // SUCCESS
           function onSuccess1(imageData) {
-
-            new Date();
-
+            //new Date();
             //alert('camera working! '+Date.now());
-            alert('RETORNO DA FOTO '+imageData);
-            //template.$('.photo-take-now').attr('src', imageData);
-            //template.imageData.set(imageData);
-            console.log(imageData);
-            alert('start CAMFIND');
 
-            document.getElementById("#cam-find").src = imageData;
-
-
+            alert('NEW PHOTO >>>> '+imageData);
+            camFindHelper.callApi(imageData);
 
             return false;
           }
@@ -146,6 +157,8 @@ function testCamFindMethod()
             });
           }
         }
+
+        // PHOTO LIBRARY --------------------
         if (index === 1) {
           navigator.camera.getPicture(onSuccess2, onFail2, {
             targetWidth: 200,
@@ -157,12 +170,15 @@ function testCamFindMethod()
 
           function onSuccess2(imageData)
           {
+            console.log('aqui entao');
+
             console.log('photo library working!');
 
-            Meteor.call('camFindCall', imageData, function(error, result) {
-              console.log(error);
-              console.log(result);
-            });
+            console.log(imageData);
+
+            alert('PHOTO LIBRARY ADD >>>> '+imageData);
+            camFindHelper.callApi(imageData);
+
 
             // var imageBlob = b64toBlob("data:image/jpeg;base64," + imageData);
 
