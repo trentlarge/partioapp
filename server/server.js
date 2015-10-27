@@ -113,40 +113,48 @@ var sendPush = function(toId, message) {
 }
 
 Meteor.methods({
-  'camfindCall': function(imageUrl) {
-
-    console.log('URL DA FOTO: '+imageUrl);
-    console.log('opaaaaaaaaa');
+  camfindCall: function(imageUrl) {
 
     var firstCamfindCall = function(imageUrl, callback) {
       HTTP.post('https://camfind.p.mashape.com/image_requests', {
-
-          "headers": {
-            "X-Mashape-Key" : "7W5OJWzlcsmshYSMTJW8yE4L2mJQp1cuOVKjsneO6N0wPTpaS1"
-          },
-          "params": {
-          // "image_request[remote_image_url]": "",
+        "headers": {
+          "X-Mashape-Key" : "7W5OJWzlcsmshYSMTJW8yE4L2mJQp1cuOVKjsneO6N0wPTpaS1"
+        },
+        "params": {
           "image_request[remote_image_url]" : imageUrl,
           "image_request[locale]" : "en_US"
         }
-      }, function(error, result) {
-        if (!error) {
-          HTTP.get('https://camfind.p.mashape.com/image_responses/'+result.data.token, {
-            "headers": {
-              "X-Mashape-Key" : "7W5OJWzlcsmshYSMTJW8yE4L2mJQp1cuOVKjsneO6N0wPTpaS1"
-            }
-          }, callback)
-        }
-
-      })
+      }, callback);
     }
 
     wrappedCamfindCall = Meteor.wrapAsync(firstCamfindCall);
 
     var finalResult = wrappedCamfindCall(imageUrl);
+    return finalResult;
+
+  },
+
+  camfindResponse: function(token) {
+
+    console.log('chegou aqui ()()()()()()()()() '+token);
+
+    var photoresponse = function(token, callback) {
+        HTTP.get('https://camfind.p.mashape.com/image_responses/'+token, {
+          "headers": {
+            "X-Mashape-Key" : "7W5OJWzlcsmshYSMTJW8yE4L2mJQp1cuOVKjsneO6N0wPTpaS1"
+          }
+        }, callback)
+    }
+
+    wrappedResponse = Meteor.wrapAsync(photoresponse);
+    var finalResult = wrappedResponse(token);
+
+    console.log(finalResult.data);
+
     return finalResult.data;
 
   },
+
 
   'base64tos3' : function(photo){
       console.log('<><><><><><><><')

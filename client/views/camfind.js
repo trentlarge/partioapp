@@ -10,19 +10,39 @@ Template.camfind.helpers({
   }
 })
 
-var initiateCamfind = function(downloadUrl, callback) {
+var initiateCamfind = function(url, callback) {
+
+
+
     Meteor.call('camfindCall', url, function(error, result) {
       if (!error) {
         console.log("----got some data from server Camfind----");
-        console.log(result);
 
-        if (result.status == "completed") {
-          IonLoading.hide();
-          callback(result.name);
-          return result.name;
-        } else {
-          initiateCamfind(downloadUrl);
-        }
+
+      Meteor.setInterval(function(){
+        Meteor.call('camfindResponse', result.data.token, function(error, result){
+          console.log('entrou aquiiii');
+            console.log(result);
+            console.log('-x-x-x-x-x-x-x-x-x-x-x-xx-')
+        });
+        console.log('interval <><><><>')
+      }, 6000);
+
+
+
+
+        // if (result.status == "completed") {
+        //   IonLoading.hide();
+        //   //callback(result.name);
+        //   console.log(result.name);
+        //   return result.name;
+        // } else {
+        //
+        //   console.log('nao completadooooooooooooooo aindaaaa');
+        //   console.log(result)
+        //
+        //   initiateCamfind(result);
+        // }
       }
     });
 
