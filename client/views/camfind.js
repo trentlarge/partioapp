@@ -5,9 +5,7 @@ Template.camfind.events({
 });
 
 var initiateCamfind = function(downloadUrl, callback) {
-
   console.log("------INITIATING CAMFIND------")
-
   Meteor.call('camfindCall', downloadUrl, function(error, result) {
     if (!error) {
       console.log("----got some data from server Camfind----");
@@ -64,7 +62,13 @@ function testCamFindMethod()
           MeteorCamera.getPicture(options, function(err, data) {
             if (data) {
               Meteor.call('base64tos3', data, function(result){
-                initiateCamfind(result, function(response) {
+                console.log('calbackkkkkkkkkk')
+
+
+                if(result){
+                  console.log('calback result'+ result);
+
+                  initiateCamfind(result, function(response) {
                     IonPopup.show({
                       title: response,
                         template: '',
@@ -78,6 +82,7 @@ function testCamFindMethod()
                         }]
                       });
                   })
+                }
         			});
             }
           });

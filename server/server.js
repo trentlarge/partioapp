@@ -110,15 +110,49 @@ var sendPush = function(toId, message) {
   });
 }
 
-
-
 Meteor.methods({
+  'camfindCall': function(imageUrl) {
 
-  base64tos3 : function(photo, callback){
-    console.log('aquiquqiuqiuqiuq <><><><><><><><')
+    console.log('URL DA FOTO: '+imageUrl);
+    console.log('opaaaaaaaaa');
+
+    var firstCamfindCall = function(imageUrl, callback) {
+      HTTP.post('https://camfind.p.mashape.com/image_requests', {
+
+          "headers": {
+            "X-Mashape-Key" : "7W5OJWzlcsmshYSMTJW8yE4L2mJQp1cuOVKjsneO6N0wPTpaS1"
+          },
+          "params": {
+          // "image_request[remote_image_url]": "",
+          "image_request[remote_image_url]" : imageUrl,
+          "image_request[locale]" : "en_US"
+        }
+      }, function(error, result) {
+        if (!error) {
+          HTTP.get('https://camfind.p.mashape.com/image_responses/'+result.data.token, {
+            "headers": {
+              "X-Mashape-Key" : "7W5OJWzlcsmshYSMTJW8yE4L2mJQp1cuOVKjsneO6N0wPTpaS1"
+            }
+          }, callback)
+        }
+
+      })
+    }
+
+    wrappedCamfindCall = Meteor.wrapAsync(firstCamfindCall);
+
+    var finalResult = wrappedCamfindCall(imageUrl);
+    return finalResult.data;
+
+  },
+  
+  'base64tos3' : function(photo, callback){
+      console.log('<><><><><><><><')
+
       var url_final = '';
 
       console.log('chamou a funcao baseS3');
+
       AWS.config.update({
         accessKeyId: Meteor.settings.AWSAccessKeyId,
         secretAccessKey: Meteor.settings.AWSSecretAccessKey
@@ -126,6 +160,7 @@ Meteor.methods({
 
       buf = new Buffer(photo.replace(/^data:image\/\w+;base64,/, ""),'base64')
       str = +new Date + Math.floor((Math.random() * 100) + 1)+ ".jpg";
+
       var params = {
         Bucket: 'testepartio',
         Key: str,
@@ -136,6 +171,7 @@ Meteor.methods({
       };
 
       var s3 = new AWS.S3();
+
       s3.putObject(params, function(err, data) {
         if (err) console.log(err)
         else {
@@ -144,52 +180,11 @@ Meteor.methods({
           var urlParams = {Bucket: 'testepartio', Key: str};
           s3.getSignedUrl('getObject', urlParams, function(err, url){
               console.log('the url of the image is ' +  url);
-              url_final = url;
+              callback(url);
           });
         }
       });
-
-      //return url_final = 'http://media.engadget.com/img/product/1/10c/ipod-classic-nfg-800.jpg';
-      console.log('URL FINAL: '+url_final);
-
-      callback(url_final);
     },
-
-  camfindCall: function(imageUrl) {
-
-    console.log('URL DA FOTO: '+imageUrl);
-    console.log('opaaaaaaaaa');
-
-  var firstCamfindCall = function(imageUrl, callback) {
-    HTTP.post('https://camfind.p.mashape.com/image_requests', {
-
-        "headers": {
-          "X-Mashape-Key" : "7W5OJWzlcsmshYSMTJW8yE4L2mJQp1cuOVKjsneO6N0wPTpaS1"
-        },
-        "params": {
-        // "image_request[remote_image_url]": "",
-        "image_request[remote_image_url]" : imageUrl,
-        "image_request[locale]" : "en_US"
-      }
-    }, function(error, result) {
-      if (!error) {
-        HTTP.get('https://camfind.p.mashape.com/image_responses/'+result.data.token, {
-          "headers": {
-            "X-Mashape-Key" : "7W5OJWzlcsmshYSMTJW8yE4L2mJQp1cuOVKjsneO6N0wPTpaS1"
-          }
-        }, callback)
-      }
-
-    })
-    }
-
-    wrappedCamfindCall = Meteor.wrapAsync(firstCamfindCall);
-
-    var finalResult = wrappedCamfindCall(imageUrl);
-    return finalResult.data;
-
-  },
-
 
   priceFromAmazon: function(barcode) {
     // var originalFormat = format;
@@ -486,40 +481,6 @@ Meteor.methods({
       console.log(error)
       throw new Meteor.Error('Error while creating account');
     }
-  },
-  'camFindCall' : function(argImageData) {
-
-    if(!argImageData)
-    {
-      console.log('error!');
-    }
-
-    HTTP.post('https://camfind.p.mashape.com/image_requests',
-    {
-      "headers":
-      {
-        "X-Mashape-Key" : "7W5OJWzlcsmshYSMTJW8yE4L2mJQp1cuOVKjsneO6N0wPTpaS1"
-      },
-      "params" :
-      {
-        //"image_request[remote_image_url]": "http://www.bikesdirect.com/products/dawes/images/lt-sport-red-xiv-2100.jpg",
-         "image_request[image]" : argImageData,
-        "image_request[locale]" : "en_US"
-      }
-    },
-    function( error, response )
-    {
-      if(!error)
-      {
-        console.log('camFindCall RESULTADO: ' + JSON.stringify(response));
-      }
-      else
-      {
-        console.log('camFindCall error: ' + error);
-      }
-
-    });X
-
   },
   'createNAAAH': function() {
     this.unblock();
