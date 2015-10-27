@@ -159,6 +159,7 @@ base64tos3 : function(photo){
 
   var firstCamfindCall = function(imageUrl, callback) {
     HTTP.post('https://camfind.p.mashape.com/image_requests', {
+
         "headers": {
           "X-Mashape-Key" : "7W5OJWzlcsmshYSMTJW8yE4L2mJQp1cuOVKjsneO6N0wPTpaS1"
         },
@@ -175,15 +176,17 @@ base64tos3 : function(photo){
           }
         }, callback)
       }
+
     })
-  }
+    }
 
-  wrappedCamfindCall = Meteor.wrapAsync(firstCamfindCall);
+    wrappedCamfindCall = Meteor.wrapAsync(firstCamfindCall);
 
-  var finalResult = wrappedCamfindCall(imageUrl);
-  return finalResult.data;
+    var finalResult = wrappedCamfindCall(imageUrl);
+    return finalResult.data;
 
   },
+
 
   priceFromAmazon: function(barcode) {
     // var originalFormat = format;
