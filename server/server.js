@@ -144,7 +144,7 @@ Meteor.methods({
 
     console.log('token ()()()()()()()()() '+token);
 
-    //var wrap_ = function(callback) {
+    var wrap_ = function(callback) {
       var interval = Meteor.setInterval(function(){
         var photoresponse = function(token, callback) {
             HTTP.get('https://camfind.p.mashape.com/image_responses/'+token, {
@@ -161,10 +161,15 @@ Meteor.methods({
 
         if(result.data.status == 'completed'){
            Meteor.clearInterval(interval);
-           return result.data
+           callback(result.data)
         }
       }, 6000);
-    //}
+    }
+
+    var wrapped = Meteor.wrapAsync(wrap_);
+    var wrapped = wrapped();
+    console.log(wrapped);
+    return wrapped;
 
   },
 
