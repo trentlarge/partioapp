@@ -1,7 +1,41 @@
 Template.camfind.events({
   'click #cam-find': function(event, template) {
-      testCamFindMethod();
-  }
+      callCamFind();
+  },
+
+  'click #manualSubmitCamFind': function(e, template) {
+    IonLoading.show();
+
+    //get keywords
+    var keys = template.find('#manualInputCamFind').value;
+
+    console.log(keys);
+    console.log('0x0x0x0x0x0x0x0x');
+
+    Meteor.call('AllItemsFromAmazon', keys, function(error, result) {
+      console.log(result);
+
+      if (result && !error) {
+          Session.set('allResults', result);
+          Session.set('lendTab', 'resultsCamFind');
+          IonLoading.hide();
+      } else {
+          IonLoading.hide();
+          IonPopup.show({
+            title: 'Please try again :( ',
+              template: '<div class="center">'+ error.message + '</div>',
+              buttons:
+              [{
+                text: 'OK',
+                type: 'button-energized',
+                onTap: function() {
+                  IonPopup.close();
+                }
+              }]
+        });
+      }
+    });
+  },
 });
 
 Template.camfind.helpers({
@@ -11,33 +45,25 @@ Template.camfind.helpers({
 })
 
 var initiateCamfind = function(url, callback) {
+  Meteor.call('camfindCall', url, function(error, result) {
+    if (!error) {
+      console.log("----got some data from server Camfind----");
+      console.log(result)
 
-
-
-    Meteor.call('camfindCall', url, function(error, result) {
-      if (!error) {
-        console.log("----got some data from server Camfind----");
-
-        console.log(result)
-
-
-
-
-        // if (result.status == "completed") {
-        //   IonLoading.hide();
-        //   //callback(result.name);
-        //   console.log(result.name);
-        //   return result.name;
-        // } else {
-        //
-        //   console.log('nao completadooooooooooooooo aindaaaa');
-        //   console.log(result)
-        //
-        //   initiateCamfind(result);
-        // }
-      }
-    });
-
+      // if (result.status == "completed") {
+      //   IonLoading.hide();
+      //   //callback(result.name);
+      //   console.log(result.name);
+      //   return result.name;
+      // } else {
+      //
+      //   console.log('nao completadooooooooooooooo aindaaaa');
+      //   console.log(result)
+      //
+      //   initiateCamfind(result);
+      // }
+    }
+  });
 }
 
 var b64toBlob = function(dataURI) {
@@ -53,10 +79,13 @@ var b64toBlob = function(dataURI) {
 
 
 
-function testCamFindMethod()
+function callCamFind()
 {
   // if (Meteor.isCordova)
   // {
+
+    IonLoading.show();
+    
     IonActionSheet.show({
       buttons: [
       { text: 'Take Photo' },

@@ -1,0 +1,33 @@
+<!-- RESULTS -->
+<template name="resultsCamFind">
+	{{#if allResults}}
+
+		<h3 class="center" style="margin-top:10px;">Select Product</h3>
+
+		{{#each allResults}}
+
+		<div class="card product">
+				<div class="row item">
+					<div class="col col-10">
+							<div class="center">
+								<img class="scanResult-thumbnail" style="max-width:50px;" src="{{image}}">
+							</div>
+					</div>
+					<div class="col col-20">
+						<p>Amazon Price</p>
+						<p>Title</p>
+						<p>Category</p>
+					</div>
+					<div class="col col-70 scan-result">
+						<p class="price">{{price}}</p>
+						<p class="title">{{title}}</p>
+						<p class="category">{{category}}</p>
+						<p class="asin" style="display:none;">{{asin}}</p>
+					</div>
+				</div>
+			</div>
+		{{/each}}
+	{{else}}
+		<div class="content"><p>Not found. Please try again.</p></div>
+	{{/if}}
+</template>
