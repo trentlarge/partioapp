@@ -68,6 +68,8 @@ Template.map.onRendered(function()
       });
 
       map = $("#map-search").geocomplete("map");
+      if (meetingCoordinates && meetingCoordinates.length > 0)
+        map.setCenter(new google.maps.LatLng(meetingCoordinates[0], meetingCoordinates[1]));
 
       google.maps.event.addListener(map, 'dragend', function() {
         var centerObj = map.getCenter();
@@ -80,6 +82,22 @@ Template.map.onRendered(function()
         });
 
       });
+      /*
+      var directionsService = new google.maps.DirectionsService();
+      var directionsDisplay = new google.maps.DirectionsRenderer();
+      directionsDisplay.setMap(map);
+      var request = {
+        origin: new google.maps.LatLng(Session.get('currentLoc').lat, Session.get('currentLoc').lng),
+        destination: new google.maps.LatLng(meetingCoordinates[0], meetingCoordinates[1]),
+        travelMode: google.maps.DirectionsTravelMode.WALKING
+      };
+
+      directionsService.route(request, function (response, status) {
+        if (status == google.maps.DirectionsStatus.OK) {
+         directionsDisplay.setDirections(response);
+        }
+      });
+      */
     }
 
      addAdditionalCurrentLocationMarker(map);
@@ -265,9 +283,12 @@ Template.map.events({
   //   $("#map-search").trigger("geocode");
   // },
   'click #update-map-location': function() {
+    connectionId = this.connectionId;
     console.log('Done Clicked!');
-    console.log(this);
-    console.log(this.essentialData);
+    console.log(connectionId);
+    if (Session.get('newLocation')) {
+      Connections.update({_id: connectionId}, {$set: {meetupLocation: Session.get('newLocation').address, meetupLatLong: Session.get('newLocation').latLong}});
+    }
   }
 })
 
