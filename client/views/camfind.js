@@ -44,136 +44,77 @@ Template.camfind.helpers({
   }
 })
 
-var initiateCamfind = function(url, callback) {
-  Meteor.call('camfindCall', url, function(error, result) {
-    if (!error) {
-      console.log("----got some data from server Camfind----");
-      console.log(result)
 
-      // if (result.status == "completed") {
-      //   IonLoading.hide();
-      //   //callback(result.name);
-      //   console.log(result.name);
-      //   return result.name;
-      // } else {
-      //
-      //   console.log('nao completadooooooooooooooo aindaaaa');
-      //   console.log(result)
-      //
-      //   initiateCamfind(result);
-      // }
-    }
-  });
-}
+function callCamFind() {
+  IonActionSheet.show({
+    buttons: [
+    { text: 'Take Photo' },
+    { text: 'Choose from Library' },
+    ],
+    cancelText: 'Cancel',
 
-var b64toBlob = function(dataURI) {
-  var byteString = atob(dataURI.split(',')[1]);
-  var ab = new ArrayBuffer(byteString.length);
-  var ia = new Uint8Array(ab);
+    cancel: function() {
+      console.log('Cancelled!');
+    },
 
-  for (var i = 0; i < byteString.length; i++) {
-    ia[i] = byteString.charCodeAt(i);
-  }
-  return new Blob([ab], { type: 'image/jpeg' });
-}
+    buttonClicked: function(index) {
+      var options = {
+        width: 1024,
+        height: 768,
+        quality: 75
+      }
 
+      switch (index) {
+        case 1:
+          options.push({ sourceType: Camera.PictureSourceType.PHOTOLIBRARY })
+          break;
+        default:
+          break;
+      }
 
+      MeteorCamera.getPicture(options, function(err, data) {
+        if (data) {
+          IonLoading.show();
 
-function callCamFind()
-{
-  // if (Meteor.isCordova)
-  // {
+          // start uploading
+          Meteor.call('amazons3upload', data, function(error, result){
+            console.log(result);
 
-    IonLoading.show();
-    
-    IonActionSheet.show({
-      buttons: [
-      { text: 'Take Photo' },
-      { text: 'Choose from Library' },
-      ],
-      cancelText: 'Cancel',
+            // get first contact with camfind
+            Meteor.call('camfindGetToken', result, function(error, result) {
+              if (!error && result.statusCode == 200) {
+                console.log("----camfindGetToken----");
+                console.log(result)
 
-      cancel: function() {
-        console.log('Cancelled!');
-      },
+                // get image response
+                Meteor.call('camfindGetResponse', result.data.token, function(error, result) {
+                  console.log("----camfindGetResponse----");
+                  console.log(result);
+                  $('#manualInputCamFind').val(result.data.name);
+                  $('#manualSubmitCamFind').trigger('click');
 
-      buttonClicked: function(index) {
-
-      // NEW PHOTO  --------------------
-        if (index === 0) {
-          var options = {
-            width: 1024,
-            height: 768,
-            quality: 75
-          }
-          MeteorCamera.getPicture(options, function(err, data) {
-            if (data) {
-              Meteor.call('base64tos3', data, function(error, result){
-                console.log(result);
-                console.log('please');
-
-                initiateCamfind(result, function(response) {
-                  console.log('etapa final ==========');
-                  console.log(response);
-
-                  console.log('respoosta initiatecamfind:  '+response);
-                  IonPopup.show({
-                    title: response,
-                      template: '',
-                      buttons:
-                      [{
-                        text: 'OK',
-                        type: 'button-assertive',
-                        onTap: function() {
-                          IonPopup.close();
-                        }
-                      }]
-                  });
+                // if (result.status == "completed") {
+                //   IonLoading.hide();
+                //   //callback(result.name);
+                //   console.log(result.name);
+                //   return result.name;
+                // } else {
+                //
+                //   console.log('nao completadooooooooooooooo aindaaaa');
+                //   console.log(result)
+                //
+                //   initiateCamfind(result);
+                // }
                 })
-              })
-            }
-          });
+              }
+            });
+          })
         }
-
-
-      // PHOTO LIBRARY --------------------
-        // if (index === 1) {
-        //
-        //   var options = {
-        //     width: 1024,
-        //     height: 768,
-        //     quality: 75,
-        //     sourceType: Camera.PictureSourceType.PHOTOLIBRARY
-        //   }
-        //
-        //   MeteorCamera.getPicture(options, function(err, data) {
-        //     if (data) {
-        //       Meteor.call('base64tos3', data, function(result){
-        //         console.log('calbackkkkkkkkkk')
-        //         Session.set('camfindphoto', result);
-        //       });
-        //
-        //       if(Session.get('camfindphoto')){
-        //         initiateCamfind(function(response) {
-        //           console.log('respoosta initiatecamfind:  '+response);
-        //           IonPopup.show({
-        //             title: response,
-        //               template: '',
-        //               buttons:
-        //               [{
-        //                 text: 'OK',
-        //                 type: 'button-assertive',
-        //                 onTap: function() {
-        //                   IonPopup.close();
-        //                 }
-        //               }]
-        //             });
-        //         })
-        //       }
-        //       }
-        //   });
-        // }
+      });
       return true;
-     }
+    }
+
+
+
   });
 }

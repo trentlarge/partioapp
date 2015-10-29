@@ -115,71 +115,62 @@ var sendPush = function(toId, message) {
 Meteor.methods({
 
   // CAMFIND -------------------------------------------------------------------
+  camfindGetToken: function(imageUrl){
+    return HTTP.post('https://camfind.p.mashape.com/image_requests', {
+      "headers": {
+        "X-Mashape-Key" : "7W5OJWzlcsmshYSMTJW8yE4L2mJQp1cuOVKjsneO6N0wPTpaS1"
+      },
+      "params": {
+        "image_request[remote_image_url]" : imageUrl,
+        "image_request[locale]" : "en_US"
+      }
+    })
+  },
 
-  camfindCall: function(imageUrl) {
+  camfindGetResponse: function(token) {
 
-    var firstCamfindCall = function(imageUrl, callback) {
-      HTTP.post('https://camfind.p.mashape.com/image_requests', {
+    console.log('CamFind: request token >>> '+token);
+    console.log('CamFind: waiting API status...');
+
+    var future = new Future();
+
+    var interval = Meteor.setInterval(function(){
+      HTTP.get('https://camfind.p.mashape.com/image_responses/'+token, {
         "headers": {
           "X-Mashape-Key" : "7W5OJWzlcsmshYSMTJW8yE4L2mJQp1cuOVKjsneO6N0wPTpaS1"
-        },
-        "params": {
-          "image_request[remote_image_url]" : imageUrl,
-          "image_request[locale]" : "en_US"
         }
-      }, function(error, response){
-         Meteor.call('camfindResponse', response.data.token, function(error, response){
-           console.log('--------------------------------------');
-           console.log(error)
-           console.log(response)
-         });
-      });
-    }
-
-    wrappedCamfindCall = Meteor.wrapAsync(firstCamfindCall);
-
-    var finalResult = wrappedCamfindCall(imageUrl);
-    return finalResult;
-
-  },
-
-  camfindResponse: function(token) {
-
-    console.log('token ()()()()()()()()() '+token);
-
-    var wrap_ = function(callback) {
-      var interval = Meteor.setInterval(function(){
-        var photoresponse = function(token, callback) {
-            HTTP.get('https://camfind.p.mashape.com/image_responses/'+token, {
-              "headers": {
-                "X-Mashape-Key" : "7W5OJWzlcsmshYSMTJW8yE4L2mJQp1cuOVKjsneO6N0wPTpaS1"
-              }
-            }, callback)
-        }
-
-        wrappedResponse = Meteor.wrapAsync(photoresponse);
-        var result = wrappedResponse(token);
-
-        console.log(result.data)
-
+      }, function(error, result){
         if(result.data.status == 'completed'){
-           Meteor.clearInterval(interval);
-           callback(result.data)
+          console.log('CamFind: status completed *-*-*-*-*-*-*-*');
+          Meteor.clearInterval(interval);
+          future["return"](result);
         }
-      }, 6000);
-    }
+      })
+    }, 6000);
 
-    var wrapped = Meteor.wrapAsync(wrap_);
-    var wrapped = wrapped();
-    console.log(wrapped);
-    return wrapped;
+    return future.wait();
+
+      // var wrappedResponse = Meteor.wrapAsync(photoresponse);
+      // var result = wrappedResponse();
+      // console.log('aqui');
+      // console.log(result);
+      // return result;
+
+      //console.log(result.data)
+    //}
+
+    // var wrapped = Meteor.wrapAsync(wrap_);
+    //     wrapped = wrapped();
+    // return wrapped;
 
   },
 
-  'base64tos3' : function(photo){
-      console.log('<><><><><><><>< uploading S3');
 
-      var url_final = '';
+  // AMAZONs3UPLOAD-------------------------------------------------------------------
+  'amazons3upload' : function(photo){
+      console.log('AmazonS3: uploading >>>');
+
+      var future = new Future();
 
       AWS.config.update({
         accessKeyId: Meteor.settings.AWSAccessKeyId,
@@ -200,17 +191,15 @@ Meteor.methods({
 
       var s3 = new AWS.S3();
 
-      var future = new Future();
-
       s3.putObject(params, function(err, data) {
         if (err) console.log(err)
         else {
           console.log(data);
-          console.log("Successfully uploaded data to s3");
+          console.log("AmazonS3: >>>> Successfully uploaded");
           var urlParams = {Bucket: 'testepartio', Key: str};
 
           s3.getSignedUrl('getObject', urlParams, function(err, url){
-              console.log('the url of the image is ' +  url);
+              console.log('AmazonS3: imgURL > ' +  url);
               future["return"](url)
           });
         }
@@ -220,7 +209,7 @@ Meteor.methods({
 
     },
 
-  // AMAZON -------------------------------------------------------------------
+  // AMAZON SEARCH -------------------------------------------------------------------
   itemFromAmazon: function(keys) {
 
     var getAmazonItemSearchSynchronously =  Meteor.wrapAsync(amazonItemSearch);
