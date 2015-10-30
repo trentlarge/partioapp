@@ -46,8 +46,8 @@ Meteor.startup(function() {
 
     sAlert.config({
         effect: 'jelly',
-        position: 'bottom',
-        timeout: 10000,
+        position: 'top',
+        timeout: 6000,
         html: false,
         onRouteClose: true,
         stack: {
@@ -92,18 +92,24 @@ Template.appLayout.onRendered(function() {
 				console.log(fields);
 				
 				fields.chat.forEach(function(item) {
-					if (item.sender !== Meteor.userId && !Chat.findOne({connectionId: id, timestamp: item.timestamp})) {
+					if ( (item.sender !== Meteor.userId) && (!Chat.findOne({connectionId: id, timestamp: item.timestamp})) ) {
 						Chat.insert({
 							connectionId: id,
 							message: item.message,
 							state: "new",
 							timestamp: item.timestamp
-						})
+						});
+
+						if (Iron.Location.get().path !== '/chat/' + id ) {
+							sAlert.info({
+								goToChat: '/chat/' + id,
+								headerMessage: Meteor.users.findOne(item.sender).profile.name + ':',
+								message: item.message
+							});
+						}
 					}
 				})
-				if (Iron.Location.get().path !== '/chat/' + id ) {
-					sAlert.info({goToChat: '/chat/' + id, message: Chat.find({connectionId: id, state: "new"}).count() + ' New chat message(s)'});
-				}
+
 			}
 		})
 
@@ -211,180 +217,6 @@ Template.appLayout.onRendered(function() {
 	})
 })
 
-// Template.appLayout.rendered = function() {
-// 	var self = this;
-
-// 	self.autorun(function() {
-// 		var query1 = Connections.find({"bookData.ownerId": Meteor.userId(),
-// 										"state": "WAITING"});
-
-// 		var query2 = Connections.find({"requestor": Meteor.userId(), "state": "PAYMENT"});
-
-// 		var query4 = Connections.find({"requestor": Meteor.userId(), "state": "DENIED"});
-		
-// 		var query3 = Connections.find({"bookData.ownerId": Meteor.userId(),
-// 										"state": "IN USE"});
-
-		
-// 		query1.observeChanges({
-// 			added: function(id, fields) {
-// 				console.log(fields);
-
-// 				var connectionObj = Connections.findOne({"_id": id});
-// 				var bookOwnerID = connectionObj.bookData.ownerId;
-// 				var borrowerID = connectionObj.requestor;
-
-// 				console.log('bookOwnerID: '+ bookOwnerID);
-// 				console.log('borrowerID: '+ borrowerID);
-
-// 				var connectionBookName = connectionObj.bookData.title;
-
-// 				if (!Alerts.findOne({connectionId: id, unread: true})) 
-// 				{
-// 					var currentOne = Alerts.insert({
-// 						connectionId: id,
-// 						_id: id,
-// 						bookOwner: bookOwnerID,
-// 						borrower: borrowerID,
-// 						messageTo: bookOwnerID,
-// 						type: "request",
-// 						message:'You have a book request for ' + connectionBookName,
-// 						unread: true
-// 					})
-					
-// 					console.log('currentOne: ' + currentOne);
-// 					console.log('connectionId: ' + id);
-
-// 					ShowRequestPopUp(connectionBookName);
-// 				}
-
-// 			}
-// 		});
-
-// 		query2.observeChanges({
-// 				added: function(id, fields) {
-					
-// 					console.log('query2:' + JSON.stringify(id));
-					
-// 					var alertObj = Alerts.findOne({connectionId: id, unread: true});
-// 					console.log('query2 alertObj:' + alertObj);
-
-// 					var connectionObj = Connections.findOne({"_id": id});
-// 					var connectionBookName = connectionObj.bookData.title;
-// 					var bookOwnerID = connectionObj.bookData.ownerId;
-// 					var borrowerID = connectionObj.requestor;
-
-// 					if (alertObj) 
-// 					{
-// 						var currentOne = Alerts.update({
-// 							_id: alertObj._id},
-// 							{type: "approval",
-// 							connectionId: id,
-// 							bookOwner: bookOwnerID,
-// 							borrower: borrowerID,
-// 							messageTo: borrowerID,
-// 							message:'Your request for ' + connectionBookName + ' has been approved.',
-// 							unread: false}
-// 						)
-						
-// 						ShowApprovalPopUp(connectionBookName);
-
-// 					}
-					
-// 				}
-// 			})
-
-// 			query3.observeChanges({
-
-// 				added: function (id, currentValue) {
-
-// 					console.log('query3:' + JSON.stringify(id));
-					
-// 					var alertObj = Alerts.findOne({_id: id});
-// 					var alertConnection = Alerts.findOne({_id: id, unread: false});
-
-// 					console.log('query3 alertObj:' + alertObj);
-// 					console.log('query3 alertConnection:' + alertConnection);
-
-// 					var connectionObj = Connections.findOne({"_id": id});
-// 					var connectionBookName = connectionObj.bookData.title;
-// 					var connectionPayment = connectionObj.payment;
-// 					var connectionPaymentAmount;
-// 					var bookOwnerID = connectionObj.bookData.ownerId;
-// 					var borrowerID = connectionObj.requestor;
-
-// 					if(connectionPayment)
-// 					{
-// 						connectionPaymentAmount = parseFloat(connectionPayment.amount, 10);
-// 						connectionPaymentAmount = connectionPaymentAmount/100;
-// 					}
-// 					else
-// 					{
-// 						connectionPaymentAmount = 0.0;
-// 					}
-
-// 					if (!alertObj) 
-// 					{
-// 						console.log('#3 Alerts.update!');
-// 						var currentOne = Alerts.insert(
-// 						{
-// 							_id: id},
-// 							{type: "approval",
-// 							connectionId: id,
-// 							bookOwner: bookOwnerID,
-// 							borrower: borrowerID,
-// 							messageTo: bookOwnerID,
-// 							message: 'You have received a payment of $'+ connectionPaymentAmount +' for '+ connectionBookName,
-// 							unread: false}
-// 						)
-
-// 						ShowPaymentPopUp(connectionBookName, connectionPaymentAmount);	
-// 					}
-
-					
-// 				}
-// 			});
-
-
-// 			query4.observeChanges({
-
-// 				added: function (id, currentValue) {
-
-// 					console.log('query4:' + JSON.stringify(id));
-					
-// 					var alertObj = Alerts.findOne({connectionId: id});
-// 					console.log('query4 alertObj:' + alertObj);
-
-// 					var connectionObj = Connections.findOne({"_id": id});
-// 					var connectionBookName = connectionObj.bookData.title;
-// 					var bookOwnerID = connectionObj.bookData.ownerId;
-// 					var borrowerID = connectionObj.requestor;
-
-					
-// 					if (alertObj) 
-// 					{
-// 						var currentOne = Alerts.insert({
-// 							_id: alertObj._id},
-// 							{type: "approval",
-// 							connectionId: id,
-// 							bookOwner: bookOwnerID,
-// 							borrower: borrowerID,
-// 							messageTo: borrowerID,
-// 							message: 'Your request for '+ connectionBookName + ' has been rejected.',
-// 							unread: false}
-// 						)
-						
-// 						ShowRequestDeniedPopUp(connectionObj.bookData.title);
-// 						Connections.remove({"_id": id});
-
-// 					}
-
-					
-// 				}
-// 			});
-// 	});
-	
-// }
 
 var IsPopUpOpen;
 function ShowRequestPopUp(strBookName)

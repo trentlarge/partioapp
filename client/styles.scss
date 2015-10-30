@@ -955,7 +955,6 @@ a.autolinker {
 	vertical-align: bottom;
 }
 
-
 .chat-footer {
 	height: auto !important;
 	padding: 4px !important;
@@ -966,7 +965,17 @@ a.autolinker {
     color: #fff
 }
 
-
 .land-tabs {
 	background:$base-background-color
+}
+
+.s-alert-box {
+	padding: 18px !important;
+}
+
+.truncate {
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

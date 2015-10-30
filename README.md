@@ -1,18 +1,17 @@
 KNOWN ISSUES:
-
 - Facebook de-link account since there's no password concept
 - Facebook wait until service configuration loaded
-- Facebook login needs additional fields for complete user registration -> location, college, phone number
-
+- Facebook login needs additional fields for complete user registration -> location, college, phone number (DONE)
 - Over a period of time, an Amazon call is not always necessary. What if the book is already there in Partio databsae? Why waste a call to Amazon?
-- Both 10 and 13 need to be added in Search Collection for users searching for either of them
+- Both 10 and 13 need to be added in Search Collection for users searching for either of them (DONE)
+- ProductUniqueId in Search is referencing the first item in Products.findOne. Possible Error when products in database increase
+- Need to remove Search collection - doesn't make sense for products of ANY kind (not just books)
 
-- ProductUniqueId in Search is referencing the first item in Products.findOne. Possible Error
 
 Sample Debit Card:
-5200828282828210  MasterCard (debit)
+5200 8282 8282 8210  MasterCard (debit)
 
-Sample Books
+Sample Books ISBN
 0470614811 Dynamics
 1118131991 Thermo
 
@@ -48,30 +47,5 @@ FOR LOCALHOST TESTING ->
 BUILD TO XCODE -> 
 *meteor run ios-device --mobile-server http://stagingpartio-50559.onmodulus.net --production*
 
-http://graph.facebook.com/418093848371137/picture?
-"https://www.facebook.com/app_scoped_user_id/418093848371137/"
-
-
-
-<Committing in Branch: books>
-
-*color codes*
-LIGHT ORANGE: #f0970d 
-DARK ORANGE: #df5707
-
-*plugins*
-cordova:phonegap-plugin-barcodescanner@https://github.com/phonegap/phonegap-plugin-barcodescanner/tarball/70ca00be45a675b1b1d6963ad6f72430e579788e
-nl.x-services.plugins.launchmyapp
-iron:router fourseven:scss meteoric:ionic-sass meteoric:ionicons-sass meteoric:ionic
-cordova:cordova-plugin-camera@https://github.com/apache/cordova-plugin-camera/tarball/1e607ddcc856fd69208d1fb7e6202ab241adfa80
-
-
-
-
-
-
-*Issues*
-Squished images
-slider propagation
 
 
