@@ -558,7 +558,7 @@ ion-side-menu.menu-left.menu {
     height: 40px;
     margin-top: -36px;
     margin-left: -8px;
-    background: url('/icon-marker-destination.png') no-repeat center center;
+    background: url('app/icon-marker-destination.png') no-repeat center center;
     background-size: 30px 40px;
     z-index: 1;
     pointer-events: none; /*allows dragging even on pin*/
@@ -959,6 +959,15 @@ a.autolinker {
 .chat-footer {
 	height: auto !important;
 	padding: 4px !important;
+}
+
+.call-wrapper {
+	margin-top: 16px;
+	text-align: center;
+}
+
+.call-controls {
+	margin-top: 32px;
 }
 
 .s-alert-info.s-alert-effect-jelly {

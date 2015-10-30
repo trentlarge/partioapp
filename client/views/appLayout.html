@@ -8,6 +8,11 @@
 </body>
 
 <template name="appLayout">
+  <!-- For app to app calling -->
+  <audio id="incoming" autoplay></audio>
+	<audio id="ringback" src='/ringback.wav' loop></audio>
+	<audio id="ringtone" src='/phone_ring.wav' loop></audio>
+  <!-- End app to app calling segment -->
   {{#ionBody}}
   {{> sAlert template='sAlertCustom'}}
     {{#ionSideMenuContainer side="left"}}
@@ -15,9 +20,9 @@
           <div class="">
 
             <div class="logo-container">
-              <a href="/" data-ion-menu-close><img src="main_logo.png"/></a>&nbsp;
+              <a href="/" data-ion-menu-close><img src="app/main_logo.png"/></a>&nbsp;
           	</div>
-            
+
           	<div class="list transparent-list">
               <a href="{{pathFor "listing"}}" class="item" data-ion-menu-close>
                 {{> ionIcon icon="search" class="energized"}} &nbsp;&nbsp; SEARCH
@@ -65,7 +70,7 @@
         {{/if}}
       </button>
   {{/contentFor}}
-  
+
   {{#contentFor "headerTitle"}}
     <h1 class="title">partiO</h1>
   {{/contentFor}}
