@@ -13,7 +13,11 @@ Template.camfind.events({
     console.log('0x0x0x0x0x0x0x0x');
 
     Meteor.call('AllItemsFromAmazon', keys, function(error, result) {
-      console.log(result);
+      
+        // sort results by category
+        result.sort(function(a, b) {
+            return (a.category > b.category) ? 1 : -1;    
+        });
 
       if (result && !error) {
           Session.set('allResults', result);

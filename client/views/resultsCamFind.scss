@@ -1,0 +1,25 @@
+.resultsCamFind {
+    margin: -10px;
+    
+    a {
+        text-decoration: none;
+        color: #fff;
+    }
+    
+    .menu-category {
+        background-color: #ffab40;
+        padding: 10px;
+        font-size: 18px;
+        border-top: 2px solid #E05606;
+    }
+    
+    .product {
+        margin: 0px;
+
+        .price {
+            font-size: 20px;
+            margin-top: 10px;
+            color: #E3900F;
+        }
+    }
+}
