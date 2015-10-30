@@ -974,3 +974,13 @@ a.autolinker {
     background: #f0970d;
     color: #fff
 }
+.s-alert-box {
+	padding: 18px !important;
+}
+
+.truncate {
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
