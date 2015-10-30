@@ -694,19 +694,6 @@ var amazonResultItemSearchProcessing = function(result) {
 
                         }
 
-//                        $.each(attrs, function(index, attr) {
-//                            if(index === 0) {
-//                                 attrContent = attr;
-//                            }
-//                            else {
-//                                attrContent += ', ' + attr;
-//                            }
-//                        });
-
-
-
-
-
                     }
 
                 }
