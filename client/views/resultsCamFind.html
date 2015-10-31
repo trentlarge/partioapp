@@ -53,19 +53,19 @@
 
         {{#if allResults}}
         <div class="resultsCamFind">
-            <h4 class="center" style="margin-top:10px;">Select a Product</h4>
+<!--            <h4 class="center" style="margin-top:10px;">Select a Product</h4>-->
 
             {{#each allResults}}
     
     
                 {{#if isDifferentCategory}}
-                    <div class="center menu-category">
-                        <a class="category" href="#{{splitCategory}}"> {{category}}</a>
+                    <div class="center menu-category" id="#{{splitCategory}}">
+                        <a class="category"> {{category}}</a>
                     </div>
                 {{/if}}
 
                 <div class="product {{splitCategory}}">
-                    <div class="row item">
+                    <div class="row">
                         <div class="col col-20">
                                 <div class="center">
                                     <img class="scanResult-thumbnail" style="max-width:50px;" src="{{image}}">

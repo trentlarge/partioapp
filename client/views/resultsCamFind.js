@@ -35,12 +35,19 @@ Template.resultsCamFind.events({
         //console.log($(this)[0].val());
         var category = $('.' + $(this)[0].category.replace(/\s/g,""));
         
-        if(category.is(':visible')){
-            category.hide();    
+        if(category.hasClass('hidden')){
+            category.removeClass('hidden');
         }
         else {
-            category.show();
+            category.addClass('hidden');
         }
+        
+//        if(category.is(':visible')){
+//            category.hide();    
+//        }
+//        else {
+//            category.show();
+//        }
     },
     
     
