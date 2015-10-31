@@ -252,8 +252,6 @@ Meteor.methods({
     }
 
   },
-
-Meteor.methods({
   generateSinchTicket: function() {
     if (!Meteor.userId()) throw new Meteor.Error(401, "You must be authenticated!");
     return SinchTicketGenerator('8e10bb06-6bbb-4682-993d-c5e30a719882', 'ndWxLrf6qE2ESyOVh+L8Nw==', {username: Meteor.userId()});
@@ -554,8 +552,6 @@ Meteor.methods({
       throw new Meteor.Error('Error while creating account');
     }
   },
-<<<<<<< HEAD
-=======
   'camFindCall' : function(argImageData) {
 
     if(!argImageData)
@@ -590,7 +586,6 @@ Meteor.methods({
     });
 
   },
->>>>>>> upgrade
   'createNAAAH': function() {
     this.unblock();
     try {
