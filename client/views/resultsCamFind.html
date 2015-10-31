@@ -1,33 +1,98 @@
 <!-- RESULTS -->
 <template name="resultsCamFind">
-	{{#if allResults}}
+    
+    {{#if selectedProduct}}
+        {{#with selectedProduct}}
 
-		<h4 class="center" style="margin-top:10px;">Select Product</h4>
+        <div class="card">
+            <div class="item no-padding">
+                <div class="center">
+                    <img class="scanResult-thumbnail" src="{{image}}">
+                </div>
+            </div>
 
-		{{#each allResults}}
+            <div class="row item">
+                <div class="col col-33">
+                    <p>Amazon Price</p>
+                    <p>Title</p>
+                    <p>Category</p>
+                    {{#each attributes}}
+                    <p>{{key}}</p>  
+                    {{/each}}
+                </div>
+                <div class="col col-67 scan-result">
+                    <p>{{price}}</p>
+                    <p>{{title}}</p>
+                    <p>{{category}}</p>
+                    {{#each attributes}}
+                    <p>{{value}}</p>  
+                    {{/each}}
+                </div>
+            </div>
+        </div>
 
-		<div class="card product">
-				<div class="row item">
-					<div class="col col-20">
-							<div class="center">
-								<img class="scanResult-thumbnail" style="max-width:50px;" src="{{image}}">
-							</div>
-					</div>
-					<div class="col col-20">
-						<p>Amazon Price</p>
-						<p>Title</p>
-						<p>Category</p>
-					</div>
-					<div class="col col-70 scan-result">
-						<p class="price">{{price}}</p>
-						<p class="title">{{title}}</p>
-						<p class="category">{{category}}</p>
-						<p class="asin" style="display:none;">{{asin}}</p>
-					</div>
-				</div>
-			</div>
-		{{/each}}
-	{{else}}
-		<div class="content"><p>Not found. Please try again.</p></div>
-	{{/if}}
+        <div class="list list-inset">
+            <label class="item item-input">
+                <span class="input-label"><p>Set Rent/Week &nbsp;$</p></span>
+                <input type="number" class="userPrice" value="{{calculatedPrice}}">
+            </label>
+        </div>
+
+        <div class="padding-horizontal">
+          <button class="submitProduct button button-block button-energized" {{waitingForPrice}}>
+          {{#if userPrice}}
+            Lend this item at ${{userPrice}} per week
+          {{else}}
+            Enter your price above
+          {{/if}}
+          </button>      
+        </div>
+        {{/with}}
+    
+    {{else}}
+
+        {{#if allResults}}
+        <div class="resultsCamFind">
+<!--            <h4 class="center" style="margin-top:10px;">Select a Product</h4>-->
+
+            {{#each allResults}}
+    
+    
+                {{#if isDifferentCategory}}
+                    <div class="center menu-category" id="#{{splitCategory}}">
+                        <a class="category"> {{category}}</a>
+                    </div>
+                {{/if}}
+
+                <div class="product {{splitCategory}}">
+                    <div class="row">
+                        <div class="col col-20">
+                                <div class="center">
+                                    <img class="scanResult-thumbnail" style="max-width:50px;" src="{{image}}">
+                                </div>
+                        </div>
+<!--
+                        <div class="col col-20">
+                            <p>Amazon Price</p>
+                            <p>Title</p>
+                            <p>Category</p>
+                        </div>
+-->
+                        <div class="col col-80 scan-result">
+                            <p class="title">{{title}}</p>
+                            <p class="price">{{price}}</p>
+<!--                            <p class="category" style="display:none;">{{category}}</p>-->
+<!--                            <p class="asin" style="display:none;">{{asin}}</p>-->
+                        </div>
+                    </div>
+                </div>
+        
+            {{/each}}
+        </div>
+        {{else}}
+            <div class="content"><p>Not found. Please try again.</p></div>
+        {{/if}} 
+    {{/if}}
+        
+    
 </template>
