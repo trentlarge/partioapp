@@ -1,5 +1,6 @@
 {
   "dependencies": {
+<<<<<<< HEAD
     "apac": {
       "version": "1.0.0",
       "dependencies": {
@@ -223,6 +224,10 @@
     },
     "sinch-ticketgen": {
       "version": "0.0.6",
+=======
+    "sinch-ticketgen": {
+      "version": "http://registry.npmjs.org/sinch-ticketgen/-/sinch-ticketgen-0.0.5.tgz",
+>>>>>>> 73ca511dc75720794dc6c0b450ab97981e29a7b4
       "dependencies": {
         "btoa": {
           "version": "1.1.2"
@@ -234,6 +239,7 @@
           "version": "3.1.5"
         }
       }
+<<<<<<< HEAD
     },
     "underscore": {
       "version": "1.8.3"
@@ -368,6 +374,8 @@
           }
         }
       }
+=======
+>>>>>>> 73ca511dc75720794dc6c0b450ab97981e29a7b4
     }
   }
 }
