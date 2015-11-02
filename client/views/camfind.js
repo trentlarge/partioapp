@@ -43,8 +43,9 @@ Template.camfind.events({
                   console.log("----camfindGetToken----");
 
                   // get image response
-                  Meteor.call('camfindGetResponse', result.data.token, function(error, result) {
+                  Meteor.call('camfindGetResponse', result.data.token, function(result) {
                     console.log("----camfindGetResponse----");
+                    console.log(result);
                     $('#manualInputCamFind').val(result.data.name);
                     $('#manualSubmitCamFind').trigger('click');
                   })
@@ -69,10 +70,10 @@ Template.camfind.events({
 
     Meteor.call('AllItemsFromAmazon', keys, function(error, result) {
 
-        // sort results by category
-        result.sort(function(a, b) {
-            return (a.category > b.category) ? 1 : -1;
-        });
+      // sort results by category
+      result.sort(function(a, b) {
+          return (a.category > b.category) ? 1 : -1;
+      });
 
       if (result && !error) {
           Session.set('allResults', result);

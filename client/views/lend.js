@@ -116,11 +116,13 @@ Template.lend.events({
     IonLoading.hide();
 
     //TEST METHOD
-    testCamFindMethod();
+    //testCamFindMethod();
   },
 
-  'click #closeLend': function(event) {
-    $('.modal-backdrop').addClass('hide');
+  'click #closeLend': function() {
+    $('.modal-backdrop').slideUp();
+    //IonPopup.close();
+    ClearData();
   },
 
   'click #manualSubmit': function(e, template) {
@@ -446,13 +448,12 @@ function AddProductToInventory()
       text: 'OK',
       type: 'button-energized',
       onTap: function() {
-          
+
         Session.set('scanResult', null);
         $('#closeLend').click();
         IonPopup.close();
         Router.go('/inventory');
-        IonModal.close();
-
+        // IonModal.close();
         // Meteor.setTimeout(function() {
         //   //CheckStripeAccount();
         // }, 1500)

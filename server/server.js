@@ -146,6 +146,12 @@ Meteor.methods({
           console.log('CamFind: status completed *-*-*-*-*-*-*-*');
           Meteor.clearInterval(interval);
           future["return"](result);
+        } else {
+          if(result.data.status != 'not completed') {
+            console.log('CamFind: some error!');
+            Meteor.clearInterval(interval);
+            future["return"](result);
+          }
         }
       })
     }, 3000);
