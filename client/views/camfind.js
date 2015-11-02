@@ -41,12 +41,10 @@ Template.camfind.events({
               Meteor.call('camfindGetToken', result, function(error, result) {
                 if (!error && result.statusCode == 200) {
                   console.log("----camfindGetToken----");
-                  console.log(result)
 
                   // get image response
                   Meteor.call('camfindGetResponse', result.data.token, function(error, result) {
                     console.log("----camfindGetResponse----");
-                    console.log(result);
                     $('#manualInputCamFind').val(result.data.name);
                     $('#manualSubmitCamFind').trigger('click');
                   })
