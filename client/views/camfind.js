@@ -47,7 +47,6 @@ Template.camfind.events({
                     console.log("----camfindGetResponse----");
                     console.log(result);
                     if(result) {
-                      alert(result.data.name);
                       $('#manualInputCamFind').val(result.data.name);
                       $('#manualSubmitCamFind').trigger('click');
                     }

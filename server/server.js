@@ -25,7 +25,7 @@ var SinchTicketGenerator = Meteor.npmRequire('sinch-ticketgen');
 // });
 
   Meteor.startup(function() {
-    Future = Meteor.npmRequire('fibers/future');
+    //Future = Meteor.npmRequire('fibers/future');
 
     process.env.MAIL_URL="smtp://partio.missioncontrol%40gmail.com:partio2021@smtp.gmail.com:465/";
 
@@ -158,43 +158,42 @@ Meteor.methods({
   'amazons3upload' : function(photo){
       console.log('AmazonS3: uploading >>>');
 
-      var future = new Future();
+      var response = Async.runSync(function(done) {
+        AWS.config.update({
+          accessKeyId: Meteor.settings.AWSAccessKeyId,
+          secretAccessKey: Meteor.settings.AWSSecretAccessKey
+        });
 
-      AWS.config.update({
-        accessKeyId: Meteor.settings.AWSAccessKeyId,
-        secretAccessKey: Meteor.settings.AWSSecretAccessKey
+        buf = new Buffer(photo.replace(/^data:image\/\w+;base64,/, ""),'base64')
+        str = +new Date + Math.floor((Math.random() * 100) + 1)+ ".jpg";
+
+        var params = {
+          Bucket: 'testepartio',
+          Key: str,
+          Body: buf,
+          ACL:'public-read',
+          ContentEncoding: 'base64',
+          ContentType: 'image/jpeg'
+        };
+
+        var s3 = new AWS.S3();
+
+        s3.putObject(params, function(err, data) {
+          if (err) console.log(err)
+          else {
+            console.log(data);
+            console.log("AmazonS3: >>>> Successfully uploaded");
+            var urlParams = {Bucket: 'testepartio', Key: str};
+
+            s3.getSignedUrl('getObject', urlParams, function(err, url){
+                console.log('AmazonS3: imgURL > ' +  url);
+                done(null, url);
+            });
+          }
+        });
       });
 
-      buf = new Buffer(photo.replace(/^data:image\/\w+;base64,/, ""),'base64')
-      str = +new Date + Math.floor((Math.random() * 100) + 1)+ ".jpg";
-
-      var params = {
-        Bucket: 'testepartio',
-        Key: str,
-        Body: buf,
-        ACL:'public-read',
-        ContentEncoding: 'base64',
-        ContentType: 'image/jpeg'
-      };
-
-      var s3 = new AWS.S3();
-
-      s3.putObject(params, function(err, data) {
-        if (err) console.log(err)
-        else {
-          console.log(data);
-          console.log("AmazonS3: >>>> Successfully uploaded");
-          var urlParams = {Bucket: 'testepartio', Key: str};
-
-          s3.getSignedUrl('getObject', urlParams, function(err, url){
-              console.log('AmazonS3: imgURL > ' +  url);
-              future["return"](url)
-          });
-        }
-      });
-
-      return future.wait();
-
+      return response.result;
     },
 
   // AMAZON SEARCH -------------------------------------------------------------------
