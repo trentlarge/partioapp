@@ -6,7 +6,7 @@
   // Transactions.remove({});
   // Notifications.remove({});
 
-//var SinchTicketGenerator = Meteor.npmRequire('sinch-ticketgen');
+var SinchTicketGenerator = Meteor.npmRequire('sinch-ticketgen');
 
   Connections.allow({
     insert: function () { return true; },
