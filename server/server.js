@@ -129,7 +129,6 @@ Meteor.methods({
   },
 
   camfindGetResponse: function(token) {
-
     console.log('CamFind: request token >>> '+token);
     console.log('CamFind: waiting API status...');
 
@@ -141,29 +140,17 @@ Meteor.methods({
           "X-Mashape-Key" : "7W5OJWzlcsmshYSMTJW8yE4L2mJQp1cuOVKjsneO6N0wPTpaS1"
         }
       }, function(error, result){
+        console.log('CamFind: ping Camfind >>> result.data.status = '+result.data.status);
+
         if(result.data.status == 'completed'){
           console.log('CamFind: status completed *-*-*-*-*-*-*-*');
           Meteor.clearInterval(interval);
           future["return"](result);
         }
       })
-    }, 6000);
+    }, 3000);
 
     return future.wait();
-
-      // var wrappedResponse = Meteor.wrapAsync(photoresponse);
-      // var result = wrappedResponse();
-      // console.log('aqui');
-      // console.log(result);
-      // return result;
-
-      //console.log(result.data)
-    //}
-
-    // var wrapped = Meteor.wrapAsync(wrap_);
-    //     wrapped = wrapped();
-    // return wrapped;
-
   },
 
 

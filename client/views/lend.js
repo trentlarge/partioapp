@@ -476,6 +476,7 @@ function CheckStripeAccount () {
         onTap: function()
         {
           IonPopup.close();
+          $('#closeLend').click();
           Router.go('/profile/savedcards');
           IonModal.close();
         }

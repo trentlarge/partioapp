@@ -10,7 +10,11 @@
               "version": "1.1.4"
             },
             "xmlbuilder": {
+<<<<<<< HEAD
               "version": "4.0.0",
+=======
+              "version": "http://registry.npmjs.org/xmlbuilder/-/xmlbuilder-4.0.0.tgz",
+>>>>>>> cd9c2dc64cc804782d04dea6e653e437f5a7c1dc
               "dependencies": {
                 "lodash": {
                   "version": "3.10.1"

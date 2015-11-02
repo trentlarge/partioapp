@@ -25,6 +25,7 @@ Template.resultsCamFind.helpers({
     return Session.get('allResults');
   },
   scanResult: function() {
+    currentCategory = '';
     return Session.get('scanResult');
   },
   isDifferentCategory: function() {
@@ -100,6 +101,8 @@ Template.resultsCamFind.events({
 
           Meteor.call('itemFromAmazon', asin, function(error, result) { 
 
+              console.log(JSON.stringify(result))
+              
             if (result && !error) 
             {            
                 Session.set('allResults', false);
@@ -129,8 +132,8 @@ Template.resultsCamFind.events({
 // DESTROYED
 
 Template.resultsCamFind.destroyed = function() {
-  Session.set('scanResult', null);
-  Session.set('allResults', null);
+    Session.set('scanResult', null);
+    Session.set('allResults', null);
 }
 
 
