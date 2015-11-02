@@ -3,5 +3,5 @@
   "fs": "0.0.2",
   "underscore": "1.8.3",
   "unirest": "0.4.2",
-  "sinch-ticketgen": "0.0.5"
+  "sinch-ticketgen": "0.0.6"
 }

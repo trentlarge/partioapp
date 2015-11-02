@@ -25,7 +25,7 @@ var SinchTicketGenerator = Meteor.npmRequire('sinch-ticketgen');
 // });
 
   Meteor.startup(function() {
-    Future = Npm.require('fibers/future');
+    Future = Meteor.npmRequire('fibers/future');
 
     process.env.MAIL_URL="smtp://partio.missioncontrol%40gmail.com:partio2021@smtp.gmail.com:465/";
 
