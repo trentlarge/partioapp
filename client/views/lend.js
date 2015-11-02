@@ -214,13 +214,15 @@ Template.lend.helpers({
   },
   waitingForPrice: function() {
     return Session.get('userPrice') ? "": "disabled";
+    //return Session.get('userPrice') ? "": "";
   },
   userPrice: function() {
     console.log('price rendered: ' + Session.get('userPrice'));
     return Session.get('userPrice');
   },
   bookResult: function() {
-    return (Session.get('scanResult').category === "Book") ? true : false;
+//    return (Session.get('scanResult').category === "Book") ? true : false;
+      return Session.get('scanResult');
   },
 
   dynamicTemplate: function(){
@@ -444,9 +446,9 @@ function AddProductToInventory()
       text: 'OK',
       type: 'button-energized',
       onTap: function() {
-
+          
         Session.set('scanResult', null);
-
+        $('#closeLend').click();
         IonPopup.close();
         Router.go('/inventory');
         IonModal.close();
