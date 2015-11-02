@@ -37,6 +37,9 @@ Template.resultsCamFind.helpers({
   splitCategory: function() {
       return this.category.replace(/\s/g,"");
   },
+  waitingForPrice: function() {
+    return Session.get('userPrice') ? "": "disabled";
+  },
   userPrice: function() {
     console.log('price rendered: ' + Session.get('userPrice'));
     return Session.get('userPrice');
