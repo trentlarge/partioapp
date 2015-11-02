@@ -10,7 +10,7 @@
               "version": "http://registry.npmjs.org/sax/-/sax-1.1.4.tgz"
             },
             "xmlbuilder": {
-              "version": "http://registry.npmjs.org/xmlbuilder/-/xmlbuilder-3.1.0.tgz",
+              "version": "http://registry.npmjs.org/xmlbuilder/-/xmlbuilder-4.0.0.tgz",
               "dependencies": {
                 "lodash": {
                   "version": "http://registry.npmjs.org/lodash/-/lodash-3.10.1.tgz"
