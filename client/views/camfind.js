@@ -35,7 +35,7 @@ Template.camfind.events({
 
             // start uploading
             Meteor.call('amazons3upload', data, function(error, result){
-              console.log(result);
+              console.log("----amazons3upload----");
 
               // get first contact with camfind
               Meteor.call('camfindGetToken', result, function(error, result) {
@@ -43,11 +43,14 @@ Template.camfind.events({
                   console.log("----camfindGetToken----");
 
                   // get image response
-                  Meteor.call('camfindGetResponse', result.data.token, function(result) {
+                  Meteor.call('camfindGetResponse', result.data.token, function(error, result) {
                     console.log("----camfindGetResponse----");
                     console.log(result);
-                    $('#manualInputCamFind').val(result.data.name);
-                    $('#manualSubmitCamFind').trigger('click');
+                    if(result) {
+                      alert(result.data.name);
+                      $('#manualInputCamFind').val(result.data.name);
+                      $('#manualSubmitCamFind').trigger('click');
+                    }
                   })
                 }
               });

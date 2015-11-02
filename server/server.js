@@ -132,31 +132,25 @@ Meteor.methods({
     console.log('CamFind: request token >>> '+token);
     console.log('CamFind: waiting API status...');
 
-    var future = new Future();
-
-    var interval = Meteor.setInterval(function(){
-      HTTP.get('https://camfind.p.mashape.com/image_responses/'+token, {
-        "headers": {
-          "X-Mashape-Key" : "7W5OJWzlcsmshYSMTJW8yE4L2mJQp1cuOVKjsneO6N0wPTpaS1"
-        }
-      }, function(error, result){
-        console.log('CamFind: ping Camfind >>> result.data.status = '+result.data.status);
-
-        if(result.data.status == 'completed'){
-          console.log('CamFind: status completed *-*-*-*-*-*-*-*');
-          Meteor.clearInterval(interval);
-          future["return"](result);
-        } else {
-          if(result.data.status != 'not completed') {
-            console.log('CamFind: some error!');
-            Meteor.clearInterval(interval);
-            future["return"](result);
+    var response = Async.runSync(function(done) {
+      var interval = Meteor.setInterval(function(){
+        HTTP.get('https://camfind.p.mashape.com/image_responses/'+token, {
+          "headers": {
+            "X-Mashape-Key" : "7W5OJWzlcsmshYSMTJW8yE4L2mJQp1cuOVKjsneO6N0wPTpaS1"
           }
-        }
-      })
-    }, 3000);
+        }, function(error, result){
+          console.log('CamFind: ping Camfind >>> result.data.status = '+result.data.status);
 
-    return future.wait();
+          if(result.data.status == 'completed'){
+            console.log('CamFind: status completed *-*-*-*-*-*-*-*');
+            Meteor.clearInterval(interval);
+            done(null, result);
+          }
+        })
+      }, 3000);
+    });
+
+    return response.result;
   },
 
 
