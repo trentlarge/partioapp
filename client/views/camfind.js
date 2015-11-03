@@ -16,8 +16,8 @@ Template.camfind.events({
           // library
           case 1:
             var options = {
-              width: 1024,
-              height: 768,
+              width: 577,
+              height: 1024,
               quality: 75,
               sourceType: Camera.PictureSourceType.PHOTOLIBRARY
             }
@@ -25,14 +25,22 @@ Template.camfind.events({
           //
           default:
             var options = {
-              width: 1024,
-              height: 768,
+              width: 577,
+              height: 1024,
               quality: 75,
             }
         }
 
         MeteorCamera.getPicture(options, function(err, data) {
           if (data) {
+
+
+            $(".ionic-scroll").css("background-image", "url("+data+")");
+            $(".ionic-scroll").css("background-size", "cover");
+            $(".ionic-scroll").css("background-position", "center");
+            $("#cam-find").hide();
+            $(".item").hide();
+
             IonLoading.show();
 
             // start uploading
