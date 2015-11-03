@@ -37,9 +37,7 @@ Template.camfind.events({
             $(".ionic-scroll").css("background-size", "cover");
             $(".ionic-scroll").css("background-position", "center");
             $("#cam-find").hide();
-
-            //background-image: url("https://testepartio.s3.amazonaws.com/1446507947140.jpg");
-            //background-size: cover;
+            $(".item").hide();
 
             IonLoading.show();
 
