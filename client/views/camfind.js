@@ -112,7 +112,7 @@ Template.camfindinput.events({
         Session.set('allResults', result);
         Session.set('lendTab', 'resultsCamFind');
         IonLoading.hide();
-        $(".ionic-scroll").css("background-image", "");
+        $(".modal").css("background-image", "");
 
       }
     });
@@ -127,15 +127,15 @@ Template.camfindinput.helpers({
 
 
 function attachImageAndWaitCamFind(url){
-  $(".ionic-scroll").css("background-image", "url("+url+")");
-  $(".ionic-scroll").css("background-size", "cover");
-  $(".ionic-scroll").css("background-position", "center");
-  $("#cam-find").slideUp();
+  $(".modal").css("background-image", "url("+url+")");
+  $(".modal").css("background-size", "cover");
+  $(".modal").css("background-position", "center");
+  $("#cam-find").fadeOut();
   $(".item-input-inset").slideUp();
 }
 
 function resetImageCamFind(){
-  $(".ionic-scroll").css("background-image", "");
-  $("#cam-find").slideDown();
+  $(".modal").css("background-image", "");
+  $("#cam-find").show();
   $(".item-input-inset").slideDown();
 }

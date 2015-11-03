@@ -1,7 +1,7 @@
 Template.barcode.events({
 
   // BARCODE
-  'click .get-photo': function() {
+  'click #barcode': function() {
     IonLoading.show();
     console.log('the new Amazon call in progress');
 

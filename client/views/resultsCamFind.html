@@ -1,6 +1,11 @@
 <!-- RESULTS -->
 <template name="resultsCamFind">
-  {{ > camfindinput }}
+
+  <div class="content has-header">
+     {{ > camfindinput }}
+  </div>
+
+  {{#ionContent class="padding scroll-results"}}
 
     {{#if scanResult}}
         {{#with scanResult}}
@@ -57,8 +62,6 @@
 <!--            <h4 class="center" style="margin-top:10px;">Select a Product</h4>-->
 
             {{#each allResults}}
-
-
                 {{#if isDifferentCategory}}
                     <div class="center menu-category" id="#{{splitCategory}}">
                         <a class="category"> {{category}}</a>
@@ -95,5 +98,6 @@
         {{/if}}
     {{/if}}
 
+  {{/ionContent}}
 
 </template>

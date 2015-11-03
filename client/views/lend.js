@@ -111,7 +111,7 @@ Template.lend.events({
     Session.set('userPrice', e.target.value);
   },
 
-  'click #cancelScan': function() {
+  'click #reset': function() {
     ClearData();
     IonLoading.hide();
 
@@ -228,31 +228,38 @@ Template.lend.helpers({
   },
 
   dynamicTemplate: function(){
-    return Session.get('lendTab');
+    return (Session.get('lendTab')) ? Session.get('lendTab') : 'camfind' ;
   },
 });
 
-Template.lend.destroyed = function() {
-  Session.set('scanResult', null);
-  Session.set('barcodeEntry', null);
-  Session.set('manualEntry', null);
-  Session.set('photoTaken', null)
-}
+// Template.lend.destroyed = function() {
+//   Session.set('scanResult', null);
+//   Session.set('barcodeEntry', null);
+//   Session.set('manualEntry', null);
+//   Session.set('photoTaken', null)
+// }
 
 Template.lend.rendered = function() {
-  Session.set('viewFinder', true);
-  Session.set('lendTab', 'camfind')
+  // Session.set('viewFinder', true);
+  // reseting results
+  // Session.set('scanResult', null);
+  // Session.set('allResults', null);
+  // Session.set('lendTab', 'camfind')
+  // $('.tab-item[data-id=camfind]').addClass('active');
 
-  //reseting results
-  Session.set('scanResult', null);
-  Session.set('allResults', null);
-  Session.set('lendTab', 'camfind')
-  $('.tab-item[data-id=camfind]').addClass('active');
+  if(Session.set('lendTab') == 'resultsCamFind' && !Session.get('allResults')){
+    Session.set('lendTab', 'camfind');
+  }
 }
 
 
 function ClearData(){
   console.log('ClearData');
+
+  if(Session.get('lendTab') == 'resultsCamFind') {
+    Session.set('lendTab', 'camfind');
+  }
+
   RentingFinalPrice = null;
   Session.set('scanResult', null);
   Session.set('priceValue', null);
@@ -462,33 +469,4 @@ function AddProductToInventory()
       }
     }]
   });
-}
-
-function CheckStripeAccount () {
-  if (! Meteor.user().profile.stripeAccount)
-  {
-    IonLoading.hide();
-    IonPopup.show({
-      title: 'ATTENTION!',
-      template: '<div class="center">A Debit Card should be linked to receive payments for your shared goods!</div>',
-      buttons:
-      [{
-        text: 'Add Card',
-        type: 'button-energized',
-        onTap: function()
-        {
-          IonPopup.close();
-          $('#closeLend').click();
-          Router.go('/profile/savedcards');
-          IonModal.close();
-        }
-      }]
-    });
-
-    return false;
-  }
-  else
-  {
-    return true;
-  }
 }

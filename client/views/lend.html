@@ -3,15 +3,18 @@
 	<!-- MODAL -->
 	{{#ionModal title="Share Product" customTemplate=true}}
     <div class="bar bar-header bar-royal">
-      <button type="button" id="closeLend" class="button button-clear pull-left"> <h6 class="light">CANCEL</h6></button>
+
+
+      <button type="button" id="closeLend" title="Close" class="button button-clear pull-left"> <i class="icon ion-ios-close-outline pull-left"></i></button>
       <h2 class="title">Share Product</h2>
-			<button type="button" id="cancelScan" class="button button-clear pull-right"> <h6 class="light">RESET</h6></button>
+			<button type="button" id="reset" title="Reset" class="button button-clear pull-right"><i class="icon ion-ios-reload pull-right"></i> </button>
+
+
     </div>
 
 		<!-- DYNAMIC TEMPLATE -->
-    {{#ionContent class="padding"}}
-			{{> UI.dynamic template=dynamicTemplate}}
-		{{/ionContent}}
+		{{> UI.dynamic template=dynamicTemplate}}
+
 
 		<!-- TAB -->
 		{{>lendTabs}}
@@ -24,8 +27,8 @@
 <!-- NEW TAB -->
 <template name="lendTabs">
   {{#ionTabs style="ios" class="tabs-background-dark tabs-color-light"}}
-     <a class="tab-item" data-id="camfind"><i class="icon ion-android-image"></i>IMAGE SEARCH</a>
-  	 <a class="tab-item" data-id="barcode"><i class="icon ion-ios-barcode"></i>BARCODE</a>
-  	 <a class="tab-item" data-id="manual"><i class="icon ion-ios-compose"></i>MANUAL ENTRY</a>
+     <a class="tab-item {{#if isActiveClass name="camfind" }} active {{/if}}" data-id="camfind"><i class="icon ion-android-image"></i>IMAGE SEARCH</a>
+  	 <a class="tab-item {{#if isActiveClass name="barcode" }} active {{/if}}" data-id="barcode"><i class="icon ion-ios-barcode"></i>BARCODE</a>
+  	 <a class="tab-item {{#if isActiveClass name="manual" }} active {{/if}}" data-id="manual"><i class="icon ion-ios-compose"></i>MANUAL ENTRY</a>
   {{/ionTabs}}
 </template>

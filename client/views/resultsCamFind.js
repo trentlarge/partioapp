@@ -28,7 +28,7 @@ Template.resultsCamFind.helpers({
   scanResult: function() {
     currentCategory = '';
     return Session.get('scanResult');
-  },  
+  },
   isDifferentCategory: function() {
       if(currentCategory !== this.category) {
           currentCategory = this.category;
@@ -136,8 +136,8 @@ Template.resultsCamFind.events({
 // DESTROYED
 
 Template.resultsCamFind.destroyed = function() {
-    Session.set('scanResult', null);
-    Session.set('allResults', null);
+    // Session.set('scanResult', null);
+    // Session.set('allResults', null);
 }
 
 
@@ -214,13 +214,13 @@ function ClearRentingValue()
   RentingFinalPrice = 0.0;
 }
 
-function ClearData()
-{
-  console.log('ClearData');
-  RentingFinalPrice = null;
-  Session.set('scanResult', null);
-  Session.set('allResults', null);
-  Session.set('priceValue', null);
-  Session.set('userPrice', null);
-  Session.set('priceValue', null);
-}
+// function ClearData()
+// {
+//   console.log('ClearData');
+//   RentingFinalPrice = null;
+//   Session.set('scanResult', null);
+//   Session.set('allResults', null);
+//   Session.set('priceValue', null);
+//   Session.set('userPrice', null);
+//   Session.set('priceValue', null);
+// }

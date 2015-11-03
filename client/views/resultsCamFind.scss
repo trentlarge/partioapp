@@ -11,14 +11,14 @@
 .resultsCamFind {
     margin: -10px;
     background: white;
-    
+
     a {
         text-decoration: none;
         color: #263238;
     }
-    
+
     .menu-category {
-        
+
         background: #ffffff;
         /* Old browsers */
         background: -moz-linear-gradient(180deg, #ffffff 0%, #cccccc 100%);
@@ -35,14 +35,14 @@
         /* W3C */
         filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#ffffff, endColorstr=#cccccc, GradientType=1);
         /* IE6-9 fallback on horizontal gradient */
-        
+
 //        background-color: #ffab40;
         cursor: pointer;
         padding: 10px;
         font-size: 18px;
         border-bottom: 1px solid #A6A6A6;
     }
-    
+
     .product {
         margin: 0px;
         -webkit-animation: fadeIn 1s;
@@ -51,17 +51,22 @@
         max-height: 100px;
         min-height: 100px;
         border-bottom: 1px solid #EEE;
-        
+
         .price {
             font-size: 20px;
             margin-top: 10px;
             color: #E3900F;
         }
     }
-    
-    .hidden {  
+
+    .hidden {
         -webkit-animation: fadeIn 1s;
         animation: fadeIn 1s;
         display: none;
     }
+}
+
+
+.scroll-results {
+  margin-top:60px;
 }
