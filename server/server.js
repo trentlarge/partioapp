@@ -226,14 +226,25 @@ Meteor.methods({
     if (result.html && (result.html.body[0].b[0] === "Http/1.1 Service Unavailable")) {
       console.log(result.html.body[0].b[0]);
       throw new Meteor.Error("Error from Amazon - Service Unavailable");
+
     } else {
-        if (result.ItemSearchResponse.Items[0].Item && (result.ItemSearchResponse.Items[0].Request[0].IsValid[0] === "True")) {
-          console.log('AllItemsFromAmazon: OK');
-            return amazonAllResultsItemSearchProcessing(result);
-        } else {
-          console.log('AllItemsFromAmazon: error');
-          console.log(result.ItemSearchResponse.Items[0].Request[0].Errors[0].Error[0].Code[0]);
-          throw new Meteor.Error(result.ItemSearchResponse.Items[0].Request[0].Errors[0].Error[0].Code[0]);
+      if (result.ItemSearchResponse.Items[0].Item && (result.ItemSearchResponse.Items[0].Request[0].IsValid[0] === "True")) {
+        console.log('AllItemsFromAmazon: OK');
+        return amazonAllResultsItemSearchProcessing(result);
+
+      } else {
+        console.log('AllItemsFromAmazon: error');
+        console.log(result.ItemSearchResponse.Items[0].Request[0].Errors[0].Error[0].Code[0]);
+
+        switch (result.ItemSearchResponse.Items[0].Request[0].Errors[0].Error[0].Code[0]) {
+          case 'AWS.ECommerceService.NoExactMatches':
+            var text = 'You search does not match. Please try again with different words or take another photo.';
+            break;
+          default:
+            var text = result.ItemSearchResponse.Items[0].Request[0].Errors[0].Error[0].Code[0];
+        }
+
+        throw new Meteor.Error(text);
       }
     }
 

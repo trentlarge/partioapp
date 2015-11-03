@@ -13,6 +13,7 @@ Template.camfind.events({
 
       buttonClicked: function(index) {
         switch (index) {
+          // library
           case 1:
             var options = {
               width: 1024,
@@ -21,6 +22,7 @@ Template.camfind.events({
               sourceType: Camera.PictureSourceType.PHOTOLIBRARY
             }
             break;
+          //
           default:
             var options = {
               width: 1024,
@@ -68,33 +70,35 @@ Template.camfind.events({
     var keys = template.find('#manualInputCamFind').value;
 
     console.log(keys);
-    console.log('0x0x0x0x0x0x0x0x');
 
     Meteor.call('AllItemsFromAmazon', keys, function(error, result) {
 
-      // sort results by category
-      result.sort(function(a, b) {
-          return (a.category > b.category) ? 1 : -1;
-      });
+      if(error && !result) {
+        IonLoading.hide();
+        IonPopup.show({
+          title: 'Ops...',
+            template: '<div class="center">'+ error.message + '</div>',
+            buttons:
+            [{
+              text: 'OK',
+              type: 'button-energized',
+              onTap: function() {
+                IonPopup.close();
+              }
+            }]
+          });
 
-      if (result && !error) {
-          Session.set('allResults', result);
-          Session.set('lendTab', 'resultsCamFind');
-          IonLoading.hide();
       } else {
-          IonLoading.hide();
-          IonPopup.show({
-            title: 'Please try again :( ',
-              template: '<div class="center">'+ error.message + '</div>',
-              buttons:
-              [{
-                text: 'OK',
-                type: 'button-energized',
-                onTap: function() {
-                  IonPopup.close();
-                }
-              }]
+
+        // sort results by category
+        result.sort(function(a, b) {
+            return (a.category > b.category) ? 1 : -1;
         });
+
+        Session.set('allResults', result);
+        Session.set('lendTab', 'resultsCamFind');
+        IonLoading.hide();
+
       }
     });
   },
