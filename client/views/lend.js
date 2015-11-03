@@ -121,6 +121,7 @@ Template.lend.events({
 
   'click #closeLend': function() {
     $('.modal-backdrop').slideUp();
+    ClearData();  
     //IonPopup.close();
     //ClearData();
   },

@@ -26,11 +26,10 @@ Template.resultsCamFind.helpers({
     return Session.get('allResults');
   },
   scanResult: function() {
-    currentCategory = '';
     return Session.get('scanResult');
   },
   isDifferentCategory: function() {
-      if(currentCategory !== this.category) {
+      if(this.index === 0 || currentCategory !== this.category) {
           currentCategory = this.category;
           return true;
       }
