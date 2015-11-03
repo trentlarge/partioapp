@@ -122,7 +122,7 @@ Template.lend.events({
   'click #closeLend': function() {
     $('.modal-backdrop').slideUp();
     //IonPopup.close();
-    ClearData();
+    //ClearData();
   },
 
   'click #manualSubmit': function(e, template) {
@@ -229,8 +229,7 @@ Template.lend.helpers({
 
   dynamicTemplate: function(){
     return Session.get('lendTab');
-  }
-
+  },
 });
 
 Template.lend.destroyed = function() {
@@ -246,13 +245,13 @@ Template.lend.rendered = function() {
 
   //reseting results
   Session.set('scanResult', null);
+  Session.set('allResults', null);
   Session.set('lendTab', 'camfind')
   $('.tab-item[data-id=camfind]').addClass('active');
 }
 
 
-function ClearData()
-{
+function ClearData(){
   console.log('ClearData');
   RentingFinalPrice = null;
   Session.set('scanResult', null);
@@ -262,6 +261,8 @@ function ClearData()
   Session.set('barcodeEntry', null);
   Session.set('manualEntry', null);
   Session.set('photoTaken', null)
+  Session.set('lastSearchCamFind', '')
+  Session.set('allResults', null)
 }
 
 

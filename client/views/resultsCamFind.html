@@ -1,6 +1,7 @@
 <!-- RESULTS -->
 <template name="resultsCamFind">
-    
+  {{ > camfindinput }}
+
     {{#if scanResult}}
         {{#with scanResult}}
 
@@ -17,7 +18,7 @@
                     <p>Title</p>
                     <p>Category</p>
                     {{#each attributes}}
-                    <p>{{key}}</p>  
+                    <p>{{key}}</p>
                     {{/each}}
                 </div>
                 <div class="col col-67 scan-result">
@@ -25,7 +26,7 @@
                     <p>{{title}}</p>
                     <p>{{category}}</p>
                     {{#each attributes}}
-                    <p>{{value}}</p>  
+                    <p>{{value}}</p>
                     {{/each}}
                 </div>
             </div>
@@ -45,10 +46,10 @@
           {{else}}
             Enter your price above
           {{/if}}
-          </button>      
+          </button>
         </div>
         {{/with}}
-    
+
     {{else}}
 
         {{#if allResults}}
@@ -56,8 +57,8 @@
 <!--            <h4 class="center" style="margin-top:10px;">Select a Product</h4>-->
 
             {{#each allResults}}
-    
-    
+
+
                 {{#if isDifferentCategory}}
                     <div class="center menu-category" id="#{{splitCategory}}">
                         <a class="category"> {{category}}</a>
@@ -86,13 +87,13 @@
                         </div>
                     </div>
                 </div>
-        
+
             {{/each}}
         </div>
         {{else}}
             <div class="content"><p>Not found. Please try again.</p></div>
-        {{/if}} 
+        {{/if}}
     {{/if}}
-        
-    
+
+
 </template>

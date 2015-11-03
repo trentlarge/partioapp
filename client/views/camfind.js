@@ -33,15 +33,9 @@ Template.camfind.events({
 
         MeteorCamera.getPicture(options, function(err, data) {
           if (data) {
-
-
-            $(".ionic-scroll").css("background-image", "url("+data+")");
-            $(".ionic-scroll").css("background-size", "cover");
-            $(".ionic-scroll").css("background-position", "center");
-            $("#cam-find").hide();
-            $(".item").hide();
-
             IonLoading.show();
+
+            attachImageAndWaitCamFind(data);
 
             // start uploading
             Meteor.call('amazons3upload', data, function(error, result){
@@ -69,13 +63,23 @@ Template.camfind.events({
         return true;
       } // end buttonClicked
     });
-  },
+  }
+});
 
+// Template.camfind.helpers({
+//   imageurl: function(){
+//     return Session.get('camfindphoto');
+//   }
+// })
+
+Template.camfindinput.events({
   'click #manualSubmitCamFind': function(e, template) {
     IonLoading.show();
 
     //get keywords
     var keys = template.find('#manualInputCamFind').value;
+
+    Session.set("lastSearchCamFind", keys)
 
     console.log(keys);
 
@@ -83,6 +87,8 @@ Template.camfind.events({
 
       if(error && !result) {
         IonLoading.hide();
+        resetImageCamFind();
+
         IonPopup.show({
           title: 'Ops...',
             template: '<div class="center">'+ error.message + '</div>',
@@ -106,14 +112,30 @@ Template.camfind.events({
         Session.set('allResults', result);
         Session.set('lendTab', 'resultsCamFind');
         IonLoading.hide();
+        $(".ionic-scroll").css("background-image", "");
 
       }
     });
   },
+})
+
+Template.camfindinput.helpers({
+  lastSearchCamFind: function(){
+    return Session.get('lastSearchCamFind');
+  },
 });
 
-Template.camfind.helpers({
-  imageurl: function(){
-    return Session.get('camfindphoto');
-  }
-})
+
+function attachImageAndWaitCamFind(url){
+  $(".ionic-scroll").css("background-image", "url("+url+")");
+  $(".ionic-scroll").css("background-size", "cover");
+  $(".ionic-scroll").css("background-position", "center");
+  $("#cam-find").slideUp();
+  $(".item-input-inset").slideUp();
+}
+
+function resetImageCamFind(){
+  $(".ionic-scroll").css("background-image", "");
+  $("#cam-find").slideDown();
+  $(".item-input-inset").slideDown();
+}

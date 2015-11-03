@@ -13,8 +13,9 @@ var RentingFinalPrice;
 // RENDERED
 
 Template.resultsCamFind.rendered = function() {
-    Session.set('allResults', true);
-    Session.set('scanResult', false);
+    //Session.set('allResults', true);
+    //Session.set('scanResult', false);
+    console.log(Session.get('allResults'));
 }
 
 // HELPERS
@@ -27,7 +28,7 @@ Template.resultsCamFind.helpers({
   scanResult: function() {
     currentCategory = '';
     return Session.get('scanResult');
-  },
+  },  
   isDifferentCategory: function() {
       if(currentCategory !== this.category) {
           currentCategory = this.category;
@@ -36,7 +37,10 @@ Template.resultsCamFind.helpers({
       return false;
   },
   splitCategory: function() {
+    if(this.category){
       return this.category.replace(/\s/g,"");
+    }
+    return false;
   },
   waitingForPrice: function() {
     return Session.get('userPrice') ? "": "disabled";
@@ -49,8 +53,8 @@ Template.resultsCamFind.helpers({
     if (Session.get('scanResult')) {
       if (Session.get('scanResult').price === "--") {
         return false;
-      } 
-      else 
+      }
+      else
       {
         if(RentingFinalPrice == null ||
           RentingFinalPrice == 0)
@@ -63,8 +67,8 @@ Template.resultsCamFind.helpers({
 
           GetRentingPercentages('ONE_WEEK');
           Session.set('userPrice', RentingFinalPrice);
-          
-          // return (Number(priceValue)/5).toFixed(2);        
+
+          // return (Number(priceValue)/5).toFixed(2);
           return RentingFinalPrice;
         }
 
@@ -77,11 +81,11 @@ Template.resultsCamFind.helpers({
 // EVENTS
 
 Template.resultsCamFind.events({
-    
+
     // hide/show products by category
     'click .menu-category': function(e, template) {
         var category = $('.' + $(this)[0].category.replace(/\s/g,""));
-        
+
         if(category.hasClass('hidden')){
             category.removeClass('hidden');
         }
@@ -89,32 +93,32 @@ Template.resultsCamFind.events({
             category.addClass('hidden');
         }
     },
-    
-    // This method get the ASIN code of product and get it features from amazon. 
+
+    // This method get the ASIN code of product and get it features from amazon.
     // So, the results is setted in scanResult field in the HTML file.
     'click .product': function(e, template) {
 
           IonLoading.show();
-        
+
           //get ASIN code
           var asin = $(this)[0].asin;
 
-          Meteor.call('itemFromAmazon', asin, function(error, result) { 
+          Meteor.call('itemFromAmazon', asin, function(error, result) {
 
               console.log(JSON.stringify(result))
-              
-            if (result && !error) 
-            {            
+
+            if (result && !error)
+            {
                 Session.set('allResults', false);
                 Session.set('scanResult', result);
-                
+
                 IonLoading.hide();
             } else {
                 IonLoading.hide();
                 IonPopup.show({
                   title: 'Please try again :( ',
                     template: '<div class="center">'+ error.message + '</div>',
-                    buttons: 
+                    buttons:
                     [{
                       text: 'OK',
                       type: 'button-energized',
@@ -125,7 +129,7 @@ Template.resultsCamFind.events({
               });
             }
         });
-        
+
     },
 });
 
@@ -148,18 +152,18 @@ function CalculateRentingCharges()
     RentingFinalPrice = parseFloat((RentingOneWeekPercentage/100) * RentingAmazonPrice);
     console.log('RentingOneWeekPercentage: ' + RentingFinalPrice);
 
-    RentingFinalPrice = parseFloat(RentingFinalPrice * 7);    
+    RentingFinalPrice = parseFloat(RentingFinalPrice * 7);
     console.log('Pricex7: ' + RentingFinalPrice);
   }
   else if(RentingTimeSpan == 'ONE_MONTH')
   {
     RentingFinalPrice = parseFloat((RentingOneMonthPercentage/100) * RentingAmazonPrice);
-    RentingFinalPrice = parseFloat(RentingFinalPrice * 30);    
+    RentingFinalPrice = parseFloat(RentingFinalPrice * 30);
   }
   else if(RentingTimeSpan == 'FOUR_MONTHS')
   {
-    RentingFinalPrice = parseFloat((RentingFourMonthsPercentage/100) * RentingAmazonPrice);    
-    RentingFinalPrice = parseFloat(RentingFinalPrice * 30 * 4);    
+    RentingFinalPrice = parseFloat((RentingFourMonthsPercentage/100) * RentingAmazonPrice);
+    RentingFinalPrice = parseFloat(RentingFinalPrice * 30 * 4);
   }
 
   console.log('RentingTimeSpan: ' + RentingTimeSpan);
@@ -182,7 +186,7 @@ function CalculateRentingCharges()
   RentingFinalPrice = Math.round(Number((RentingFinalPrice).toFixed(1))).toFixed(2);
   console.log('RentingFinalPrice: ' + Math.round(RentingFinalPrice));
 
-  
+
 }
 
 function GetRentingPercentages(strRentingTimeSpan)
@@ -207,7 +211,7 @@ function GetRentingPercentages(strRentingTimeSpan)
 
 function ClearRentingValue()
 {
-  RentingFinalPrice = 0.0; 
+  RentingFinalPrice = 0.0;
 }
 
 function ClearData()

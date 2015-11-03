@@ -1,14 +1,8 @@
 <!-- TAB 1 - CAMFIND -->
 <template name="camfind">
     <div class="camfind">
-        <div class="list">
-            <div class="item item-input-inset">
-<!--                <label class="item-input-wrapper">-->
-                    <input id="manualInputCamFind" type="text" placeholder="Search product">
-<!--                </label>-->
-                <button id="manualSubmitCamFind" class="button button-small button-energized button-outline">Submit</button>
-            </div>
-        </div>
+
+          {{ > camfindinput }}
 
          <div class="content has-header">
              <div class="viewfinder hide-on-keyboard-open" id="cam-find">
@@ -16,4 +10,13 @@
              </div>
          </div>
     </div>
+</template>
+
+<template name="camfindinput">
+  <div class="list">
+      <div class="item item-input-inset">
+        <input id="manualInputCamFind" type="text" placeholder="Search product" value="{{lastSearchCamFind}}" >
+        <button id="manualSubmitCamFind" class="button button-small button-energized button-outline">Submit</button>
+      </div>
+  </div>
 </template>
