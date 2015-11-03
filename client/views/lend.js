@@ -80,11 +80,11 @@ Template.lend.events({
             return;
           }
 
-          if(CheckStripeAccount())
-          {
+//          if(CheckStripeAccount())
+//          {
             Session.set('BookAddType', 'SCAN');
             AddProductToInventory();
-          }
+//          }
 
         }
         else
@@ -128,7 +128,7 @@ Template.lend.events({
 
   'click #manualSubmit': function(e, template) {
     IonLoading.show();
-    var manualCode = template.find('#manualInput').value;
+    var manualCode = $('#manualInput').val();
     var codeFormat = (function() {
       return (manualCode.length === 12) ? "UPC" : "EAN";
     })();
@@ -140,6 +140,7 @@ Template.lend.events({
       if (!error)
       {
         Session.set('scanResult', result);
+        Session.set('lendTab', 'results');
         IonLoading.hide();
       } else {
         console.log(error);
