@@ -3,12 +3,12 @@ Template.lend.events({
     IonLoading.show();
     Meteor.setTimeout(function()
     {
-      if (Session.get('manualEntry'))
+      if (Session.get('lendTab', 'manual'))
       {
         var manualBook = {
           "title": template.find('#manualtitle').value,
-          "authors": template.find('#manualauthor').value,
-          "publisher": template.find('#manualpublisher').value,
+//          "authors": template.find('#manualauthor').value,
+//          "publisher": template.find('#manualpublisher').value,
           "comments": template.find('#manualcomments').value,
           "manualEntry": true,
           "ownerId": Meteor.userId(),
@@ -26,15 +26,15 @@ Template.lend.events({
         //TEST
         //GetRentingPercentages('ONE_WEEK');
 
-        if (manualBook.title && manualBook.authors && manualBook.customPrice)
+        if (manualBook.title && manualBook.customPrice)
         {
           Session.set('manualBook', manualBook);
           Session.set('BookAddType', 'MANUAL');
 
-          if(CheckStripeAccount())
-          {
+//          if(CheckStripeAccount())
+//          {
             AddProductToInventoryManually();
-          }
+//          }
         }
         else {
           IonLoading.hide();
@@ -361,30 +361,30 @@ function ClearRentingValue()
   RentingFinalPrice = 0.0;
 }
 
-function ValidateInputs(BookDetails)
+function ValidateInputs(details)
 {
-  if(!BookDetails.title ||
-    BookDetails.title < 1)
+  if(!details.title ||
+    details.title < 1)
   {
     showInvalidPopUp('Invalid Inputs', 'Please enter a valid Title.');
     return false;
   }
 
-  if(!BookDetails.authors ||
-    BookDetails.authors < 1)
-  {
-    showInvalidPopUp('Invalid Inputs', 'Please enter a valid Author Name.');
-    return false;
-  }
+//  if(!BookDetails.authors ||
+//    BookDetails.authors < 1)
+//  {
+//    showInvalidPopUp('Invalid Inputs', 'Please enter a valid Author Name.');
+//    return false;
+//  }
 
-  if(!BookDetails.customPrice ||
-    BookDetails.customPrice < 0.5)
+  if(!details.customPrice ||
+    details.customPrice < 0.5)
   {
     showInvalidPopUp('Invalid Inputs', 'Please enter a valid Price.');
     return false;
   }
 
-  var xPrice = parseInt(BookDetails.customPrice, 10);
+  var xPrice = parseInt(details.customPrice, 10);
   console.log('xPrice ' + xPrice);
   if(xPrice > 1000)
   {
@@ -427,6 +427,7 @@ function AddProductToInventoryManually()
               text: 'OK',
               type: 'button-energized',
               onTap: function() {
+                $('#closeLend').click();
                 IonPopup.close();
                 Router.go('/inventory');
                 IonModal.close();
@@ -458,8 +459,6 @@ function AddProductToInventory()
       text: 'OK',
       type: 'button-energized',
       onTap: function() {
-
-        Session.set('scanResult', null);
         $('#closeLend').click();
         IonPopup.close();
         Router.go('/inventory');
