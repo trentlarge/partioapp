@@ -3,13 +3,14 @@ Template.lend.events({
     IonLoading.show();
     Meteor.setTimeout(function()
     {
-      if (Session.get('lendTab', 'manual'))
+
+      if (Session.get('lendTab') === 'manual')
       {
         var manualBook = {
-          "title": template.find('#manualtitle').value,
+          "title": $('#manualtitle').val(),
 //          "authors": template.find('#manualauthor').value,
 //          "publisher": template.find('#manualpublisher').value,
-          "comments": template.find('#manualcomments').value,
+          "comments": $('#manualcomments').val(),
           "manualEntry": true,
           "ownerId": Meteor.userId(),
           "customPrice": Session.get('userPrice'),
