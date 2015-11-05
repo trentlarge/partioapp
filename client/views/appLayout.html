@@ -43,8 +43,8 @@
                 {{> ionIcon icon="android-notifications" class="energized"}} &nbsp;&nbsp; NOTIFICATIONS
                 <span class="badge badge-alert badge-assertive">{{#if alertCount}}{{alertCount}}{{/if}}</span>
               </a>
-              <a class="item" id="logout" data-ion-menu-close>
-                {{> ionIcon icon="android-exit" class="energized"}} &nbsp;&nbsp; LOGOUT
+              <a href="{{pathFor "/"}}" class="item" id="logout" data-ion-menu-close>
+                {{> ionIcon icon="android-exit" class="energized"}} &nbsp;&nbsp; LOGOUT OPA
               </a>
           	</div>
             <p class="padding beta">beta v0.4.2</p>
