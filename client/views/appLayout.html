@@ -44,7 +44,7 @@
                 <span class="badge badge-alert badge-assertive">{{#if alertCount}}{{alertCount}}{{/if}}</span>
               </a>
               <a href="{{pathFor "/"}}" class="item" id="logout" data-ion-menu-close>
-                {{> ionIcon icon="android-exit" class="energized"}} &nbsp;&nbsp; LOGOUT OPA
+                {{> ionIcon icon="android-exit" class="energized"}} &nbsp;&nbsp; LOGOUT
               </a>
           	</div>
             <p class="padding beta">beta v0.4.2</p>
@@ -57,52 +57,10 @@
           {{> yield}}
         {{/ionNavView}}
       {{/ionSideMenuContent}}
+
     {{/ionSideMenuContainer}}
 
   {{/ionBody}}
-</template>
-
-
-<template name="main">
-  {{#contentFor "headerButtonLeft"}}
-      <button class="button button-clear pull-left" data-ion-menu-toggle="left">
-        {{#if isAndroid}}
-        {{> ionIcon icon='android-more-vertical'}}
-        {{else}}
-        {{> ionIcon icon='navicon' class="energized"}}
-        {{/if}}
-      </button>
-  {{/contentFor}}
-
-  {{#contentFor "headerTitle"}}
-    <h1 class="title">partiO</h1>
-  {{/contentFor}}
-
-  {{#ionView}}
-    <div class="content has-header">
-	    <div id="bottom-triangle">
-	    	<div id="top-triangle"></div>
-	    </div>
-
-	    <div class="top-part flex-aligner" data-ion-modal="lend">
-	    	<div class="top-part-margin center">
-	    		<img src="lend_white.png" class="lend-image">
-	    		<br><br>
-	    		{{> ionIcon icon='android-arrow-back' class=""}}
-	    		<span class="center">SHARE &nbsp;&nbsp;&nbsp;&nbsp;</span>
-	    	</div>
-	    </div>
-
-	    <div class="bottom-part flex-aligner">
-	    	<div class="bottom-part-margin center">
-	    		<img src="borrow_white.png" class="borrow-image">
-	    		<br><br>
-		    	<span class="">RENT&nbsp;</span>{{> ionIcon icon='android-arrow-forward' class=""}}
-	    	</div>
-	    </div>
-
-    </div>
-  {{/ionView}}
 </template>
 
 <template name="sAlertCustom">
