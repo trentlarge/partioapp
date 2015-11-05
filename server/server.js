@@ -140,6 +140,7 @@ Meteor.methods({
           }
         }, function(error, result){
           console.log('CamFind: ping Camfind >>> result.data.status = '+result.data.status);
+          console.log(result);
 
           if(result.data.status == 'completed'){
             console.log('CamFind: status completed *-*-*-*-*-*-*-*');
@@ -549,40 +550,40 @@ Meteor.methods({
       throw new Meteor.Error('Error while creating account');
     }
   },
-  'camFindCall' : function(argImageData) {
-
-    if(!argImageData)
-    {
-      console.log('error!');
-    }
-
-    HTTP.post('https://camfind.p.mashape.com/image_requests',
-    {
-      "headers":
-      {
-        "X-Mashape-Key" : "7W5OJWzlcsmshYSMTJW8yE4L2mJQp1cuOVKjsneO6N0wPTpaS1"
-      },
-      "params" :
-      {
-        "image_request[remote_image_url]": "http://logok.org/wp-content/uploads/2014/03/Air-Jordan-Nike-Jumpman-logo.png",
-        // "image_request[image]" : argImageData,
-        "image_request[locale]" : "en_US"
-      }
-    },
-    function( error, response )
-    {
-      if(!error)
-      {
-        console.log('camFindCall: ' + JSON.stringify(response));
-      }
-      else
-      {
-        console.log('camFindCall error: ' + error);
-      }
-
-    });
-
-  },
+  // 'camFindCall' : function(argImageData) {
+  //
+  //   if(!argImageData)
+  //   {
+  //     console.log('error!');
+  //   }
+  //
+  //   HTTP.post('https://camfind.p.mashape.com/image_requests',
+  //   {
+  //     "headers":
+  //     {
+  //       "X-Mashape-Key" : "7W5OJWzlcsmshYSMTJW8yE4L2mJQp1cuOVKjsneO6N0wPTpaS1"
+  //     },
+  //     "params" :
+  //     {
+  //       "image_request[remote_image_url]": "http://logok.org/wp-content/uploads/2014/03/Air-Jordan-Nike-Jumpman-logo.png",
+  //       // "image_request[image]" : argImageData,
+  //       "image_request[locale]" : "en_US"
+  //     }
+  //   },
+  //   function( error, response )
+  //   {
+  //     if(!error)
+  //     {
+  //       console.log('camFindCall: ' + JSON.stringify(response));
+  //     }
+  //     else
+  //     {
+  //       console.log('camFindCall error: ' + error);
+  //     }
+  //
+  //   });
+  //
+  // },
   'createNAAAH': function() {
     this.unblock();
     try {
