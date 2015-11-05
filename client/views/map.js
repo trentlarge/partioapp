@@ -20,7 +20,7 @@ Template.map.onRendered(function()
 
     if (GoogleMaps.loaded())
     {
-      var image = '/icon-current-location.png';
+      var image = 'app/icon-current-location.png';
       var map = $("#map-search").geocomplete({
         map: "#map-box",
         location: [Session.get('currentLoc').lat, Session.get('currentLoc').lng],
@@ -114,7 +114,7 @@ var map;
 
 function addAdditionalCurrentLocationMarker(mapObject)
 {
-  var image = '/icon-current-location.png';
+  var image = 'app/icon-current-location.png';
   var latitude, longitude;
   var addressLoc;
   var meetingLocationExists = false;
@@ -466,7 +466,7 @@ var marker1, marker2;
 var takerMap;
 function addAdditionalTakerCurrentLocationMarker(mapObject)
 {
-  var image = '/icon-current-location.png';
+  var image = 'app/icon-current-location.png';
   var latitude, longitude;
 
 
@@ -496,7 +496,7 @@ function getIcons()
      new google.maps.Point( 22, 32 )
     ),
     end: new google.maps.MarkerImage(
-    '/icon-current-location.png',
+    'app/icon-current-location.png',
      new google.maps.Size( 44, 32 ),
      // The origin point (x,y)
      new google.maps.Point( 0, 0 ),

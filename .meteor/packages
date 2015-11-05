@@ -45,3 +45,9 @@ mdg:reload-on-resume
 
 mrt:accounts-facebook-cordova
 raix:push@=2.6.12
+mdg:camera
+peerlibrary:aws-sdk
+meteorhacks:npm
+
+
+npm-container

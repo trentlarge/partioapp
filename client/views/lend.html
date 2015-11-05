@@ -1,153 +1,34 @@
 <template name="lend">
-	{{#ionModal customTemplate=true}}
-      <div class="bar bar-header bar-royal">
-        <button type="button" data-dismiss="modal" id="cancelScan" class="button button-clear"> <h6 class="light">CANCEL</h6></button>
-        <h2 class="title">Share Product</h2>
-      </div>
-      
-      <div class="content has-header">
-      {{#if scanResult}}
-        {{#with scanResult}}
 
-        <div class="card">
-          <div class="item no-padding">
-            <div class="center">
-              <img class="scanResult-thumbnail" src="{{image}}">
-            </div>
-          </div>
-
-            <div class="row item">
-              <div class="col col-33">
-                <p>Amazon Price</p>
-                <p>Title</p>
-                <p>Author</p>
-                <p>Publisher</p>
-                <p>Binding</p>
-                <p>Pages</p>
-                <p>EAN</p>
-              </div>
-              <div class="col col-67 scan-result">
-                <p>{{price}}</p>
-                <p>{{title}}</p>
-                <p>{{authors}}</p>
-                <p>{{publisher}}</p>
-                <p>{{binding}}</p>
-                <p>{{pages}}</p>
-                <p>{{ean}}</p>
-              </div>
-            </div>
-
-        </div>
-
-        <div class="list list-inset">
-        <label class="item item-input">
-            <span class="input-label"><p>Set Rent/Week &nbsp;$</p></span>
-            <input type="number" class="userPrice" value="{{calculatedPrice}}">
-          </label>
-        </div>
-
-        <div class="padding-horizontal">
-          <button class="submitProduct button button-block button-energized" {{waitingForPrice}}>
-          {{#if userPrice}}
-            Lend this item at ${{userPrice}} per week
-          {{else}}
-            Enter your price above
-          {{/if}}
-          </button>      
-        </div>
-        {{/with}}
+	<!-- MODAL -->
+	{{#ionModal title="Share Product" customTemplate=true}}
+    <div class="bar bar-header bar-royal">
 
 
-      {{else}}
-
-        {{#if manualEntry}}
-        
-          {{> takePhoto}}
-
-          <div class="list list-inset">
-            <form>
-              <label class="item item-input">
-                <span class="input-label"><p>Title</p></span>
-                <input id="manualtitle" type="text" value="">
-              </label>
-              <label class="item item-input">
-                <span class="input-label"><p>Author</p></span>
-                <input id="manualauthor" type="text" value="">
-              </label>
-              <label class="item item-input">
-                <span class="input-label"><p>Publisher</p></span>
-                <input id="manualpublisher" type="text" value="">
-              </label>
-            </form>
-            <label class="item item-input">
-              <textarea id="manualcomments" placeholder="Comments"></textarea>
-            </label>
-          </div>
-
-          <div class="list list-inset">
-            <label class="item item-input">
-              <span class="input-label"><p>Set Rent/Week &nbsp;$</p></span>
-              <input type="number" class="userPrice" value="">
-            </label>
-          </div>
-
-          <div class="padding-horizontal">
-            <button class="submitProduct button button-block button-energized" {{waitingForPrice}}>
-              {{#if userPrice}}
-              Lend this item at ${{userPrice}} per week
-              {{else}}
-              Enter your price above
-              {{/if}}
-            </button>      
-          </div>
-
-        {{/if}}
-
-        {{#if barcodeEntry}}
-        <div class="list">
-          <div class="item item-input-inset">
-            <label class="item-input-wrapper">
-              <input id="manualInput" type="tel" placeholder="Enter barcode number">
-            </label>
-            <button id="manualSubmit" class="button button-small button-energized button-outline">Submit</button>
-          </div>
-        </div>
-        {{/if}}
-
-        {{#if viewFinder}}
-        <div class="viewfinder hide-on-keyboard-open">
-          <p>Scan Barcode</p>
-        </div>
-        {{/if}}
-
-      {{/if}}
-
-      </div>
-
-      {{#if viewFinder}}
-        {{#unless scanResult}}
-          <div class="bar-footer bar button-footer">
-            <div class="row">
-              <div class="col"><button id="barcode-entry" class="button button-large button-full button-energized">
-              <h5 class="stable">ENTER BARCODE</h5></button></div>
-              <div class="col"><button id="manual-entry" class="button button-large button-full button-orange1">
-              <h5 class="stable">MANUAL ENTRY</h5></button></div>
-            </div>
-          </div>
-        {{/unless}}
-      {{/if}}
-
-  	{{/ionModal}}
-</template>
+      <button type="button" id="closeLend" title="Close" class="button button-clear pull-left"> <i class="icon ion-ios-close-outline pull-left"></i></button>
+      <h2 class="title">Share Product</h2>
+			<button type="button" id="reset" title="Reset" class="button button-clear pull-right"><i class="icon ion-ios-reload pull-right"></i> </button>
 
 
-<template name="takePhoto">
-  <div class="">
-    <div class="center">
-    <br>
-      <img class="scanResult-thumbnail2" src=" {{#if photoTaken}} {{photoTaken}} {{else}} bookplaceholder.jpg {{/if}} ">
     </div>
-  </div>
+
+		<!-- DYNAMIC TEMPLATE -->
+		{{> UI.dynamic template=dynamicTemplate}}
+
+
+		<!-- TAB -->
+		{{>lendTabs}}
+
+  {{/ionModal}}
+	<!-- END MODAL -->
+
 </template>
 
-
+<!-- NEW TAB -->
+<template name="lendTabs">
+  {{#ionTabs style="ios" class="tabs-background-dark tabs-color-light"}}
+     <a class="tab-item {{#if isActiveClass name="camfind" }} active {{/if}}" data-id="camfind"><i class="icon ion-android-image"></i>IMAGE SEARCH</a>
+  	 <a class="tab-item {{#if isActiveClass name="barcode" }} active {{/if}}" data-id="barcode"><i class="icon ion-ios-barcode"></i>BARCODE</a>
+  	 <a class="tab-item {{#if isActiveClass name="manual" }} active {{/if}}" data-id="manual"><i class="icon ion-ios-compose"></i>MANUAL ENTRY</a>
+  {{/ionTabs}}
+</template>

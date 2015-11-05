@@ -3,9 +3,10 @@
   // Products.remove({});
   // Search.remove({});
   // Connections.remove({});
-  // Transactions.remove({}); 
+  // Transactions.remove({});
   // Notifications.remove({});
 
+var SinchTicketGenerator = Meteor.npmRequire('sinch-ticketgen');
 
   Connections.allow({
     insert: function () { return true; },
@@ -24,6 +25,8 @@
 // });
 
   Meteor.startup(function() {
+    //Future = Meteor.npmRequire('fibers/future');
+
     process.env.MAIL_URL="smtp://partio.missioncontrol%40gmail.com:partio2021@smtp.gmail.com:465/";
 
     Accounts.emailTemplates.from = 'partio.missioncontrol@gmail.com';
@@ -47,6 +50,26 @@
     // Stripe = StripeSync('sk_test_RBrpczGtVbB1tSaG66gglMTH');
 
   });
+
+// Slingshot.createDirective("myFileUploads", Slingshot.S3Storage, {
+//   bucket: "testepartio",
+//   acl: "public-read",
+//
+//
+//   authorize: function () {
+//     if (!this.userId) {
+//       var message = "Please login before posting files";
+//       throw new Meteor.Error("Login Required", message);
+//     }
+//
+//     return true;
+//   },
+//
+//   key: function (file) {
+//     return  "partio/" + moment().format('YYYYMMDDhmmss') + ".jpg" ;
+//   }
+// });
+
 
 SearchSource.defineSource('packages', function(searchText, options) {
   var options = {sort: {isoScore: -1}, limit: 20};
@@ -90,9 +113,146 @@ var sendPush = function(toId, message) {
   });
 }
 
-
-
 Meteor.methods({
+
+  // CAMFIND -------------------------------------------------------------------
+  camfindGetToken: function(imageUrl){
+    return HTTP.post('https://camfind.p.mashape.com/image_requests', {
+      "headers": {
+        "X-Mashape-Key" : "7W5OJWzlcsmshYSMTJW8yE4L2mJQp1cuOVKjsneO6N0wPTpaS1"
+      },
+      "params": {
+        "image_request[remote_image_url]" : imageUrl,
+        "image_request[locale]" : "en_US"
+      }
+    })
+  },
+
+  camfindGetResponse: function(token) {
+    console.log('CamFind: request token >>> '+token);
+    console.log('CamFind: waiting API status...');
+
+    var response = Async.runSync(function(done) {
+      var interval = Meteor.setInterval(function(){
+        HTTP.get('https://camfind.p.mashape.com/image_responses/'+token, {
+          "headers": {
+            "X-Mashape-Key" : "7W5OJWzlcsmshYSMTJW8yE4L2mJQp1cuOVKjsneO6N0wPTpaS1"
+          }
+        }, function(error, result){
+          console.log('CamFind: ping Camfind >>> result.data.status = '+result.data.status);
+
+          if(result.data.status == 'completed'){
+            console.log('CamFind: status completed *-*-*-*-*-*-*-*');
+            Meteor.clearInterval(interval);
+            done(null, result);
+          }
+        })
+      }, 3000);
+    });
+
+    return response.result;
+  },
+
+
+  // AMAZONs3UPLOAD-------------------------------------------------------------------
+  'amazons3upload' : function(photo){
+      console.log('AmazonS3: uploading >>>');
+
+      var response = Async.runSync(function(done) {
+        AWS.config.update({
+          accessKeyId: Meteor.settings.AWSAccessKeyId,
+          secretAccessKey: Meteor.settings.AWSSecretAccessKey
+        });
+
+        buf = new Buffer(photo.replace(/^data:image\/\w+;base64,/, ""),'base64')
+        str = +new Date + Math.floor((Math.random() * 100) + 1)+ ".jpg";
+
+        var params = {
+          Bucket: 'testepartio',
+          Key: str,
+          Body: buf,
+          ACL:'public-read',
+          ContentEncoding: 'base64',
+          ContentType: 'image/jpeg'
+        };
+
+        var s3 = new AWS.S3();
+
+        s3.putObject(params, function(err, data) {
+          if (err) console.log(err)
+          else {
+            console.log(data);
+            console.log("AmazonS3: >>>> Successfully uploaded");
+            var urlParams = {Bucket: 'testepartio', Key: str};
+
+            s3.getSignedUrl('getObject', urlParams, function(err, url){
+                console.log('AmazonS3: imgURL > ' +  url);
+                done(null, url);
+            });
+          }
+        });
+      });
+
+      return response.result;
+    },
+
+  // AMAZON SEARCH -------------------------------------------------------------------
+  itemFromAmazon: function(keys) {
+
+    var getAmazonItemSearchSynchronously =  Meteor.wrapAsync(amazonItemSearch);
+    var result = getAmazonItemSearchSynchronously(keys);
+
+    console.log('x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x');
+    console.log(result);
+
+    if (result.html && (result.html.body[0].b[0] === "Http/1.1 Service Unavailable")) {
+      console.log(result.html.body[0].b[0]);
+      throw new Meteor.Error("Error from Amazon - Service Unavailable");
+    } else {
+        if (result.ItemSearchResponse.Items[0].Item && (result.ItemSearchResponse.Items[0].Request[0].IsValid[0] === "True")) {
+            return amazonResultItemSearchProcessing(result);
+        } else {
+          console.log(result.ItemSearchResponse.Items[0].Request[0].Errors[0].Error[0].Code[0]);
+          throw new Meteor.Error(result.ItemSearchResponse.Items[0].Request[0].Errors[0].Error[0].Code[0]);
+      }
+    }
+
+  },
+
+  AllItemsFromAmazon: function(keys) {
+    var getAmazonItemSearchSynchronously =  Meteor.wrapAsync(amazonItemSearch);
+    var result = getAmazonItemSearchSynchronously(keys);
+
+    if (result.html && (result.html.body[0].b[0] === "Http/1.1 Service Unavailable")) {
+      console.log(result.html.body[0].b[0]);
+      throw new Meteor.Error("Error from Amazon - Service Unavailable");
+
+    } else {
+      if (result.ItemSearchResponse.Items[0].Item && (result.ItemSearchResponse.Items[0].Request[0].IsValid[0] === "True")) {
+        console.log('AllItemsFromAmazon: OK');
+        return amazonAllResultsItemSearchProcessing(result);
+
+      } else {
+        console.log('AllItemsFromAmazon: error');
+        console.log(result.ItemSearchResponse.Items[0].Request[0].Errors[0].Error[0].Code[0]);
+
+        switch (result.ItemSearchResponse.Items[0].Request[0].Errors[0].Error[0].Code[0]) {
+          case 'AWS.ECommerceService.NoExactMatches':
+            var text = 'You search does not match. Please try again with different words or take another photo.';
+            break;
+          default:
+            var text = result.ItemSearchResponse.Items[0].Request[0].Errors[0].Error[0].Code[0];
+        }
+
+        throw new Meteor.Error(text);
+      }
+    }
+
+  },
+  generateSinchTicket: function() {
+    if (!Meteor.userId()) throw new Meteor.Error(401, "You must be authenticated!");
+    return SinchTicketGenerator('8e10bb06-6bbb-4682-993d-c5e30a719882', 'ndWxLrf6qE2ESyOVh+L8Nw==', {username: Meteor.userId()});
+  },
   priceFromAmazon: function(barcode) {
     // var originalFormat = format;
     var originalBarcode = barcode;
@@ -134,7 +294,7 @@ Meteor.methods({
   returnBook: function(connectionId) {
     var connect = Connections.findOne(connectionId);
     var borrowerName = Meteor.users.findOne(connect.requestor).profile.name;
-     
+
     Connections.update({_id: connectionId}, {$set: {"state": "RETURN"}});
 
     var message = borrowerName + " wants to return the book " + connect.bookData.title;
@@ -145,7 +305,7 @@ Meteor.methods({
   confirmReturn: function(searchId, connectionId) {
     var connect = Connections.findOne(connectionId);
     var ownerName = Meteor.users.findOne(connect.bookData.ownerId).profile.name;
-    
+
     Search.update({_id: searchId}, {$inc: {qty: 1}});
 
     var message = ownerName + " confirmed your return of " + connect.bookData.title;
@@ -157,7 +317,7 @@ Meteor.methods({
     console.log(requestorId, productId, ownerId);
 
     var requestorName = Meteor.users.findOne(requestorId).profile.name;
-    var book = Products.findOne(productId); 
+    var book = Products.findOne(productId);
 
     var connection = {
       requestor: requestorId,
@@ -171,8 +331,8 @@ Meteor.methods({
     };
 
     Connections.insert(connection);
-    
-    var message = requestorName + " sent you a request for " + book.title  
+
+    var message = requestorName + " sent you a request for " + book.title
     sendPush(ownerId, message);
     sendNotification(ownerId, requestorId, message, "request");
 
@@ -185,11 +345,11 @@ Meteor.methods({
 
     var connect = Connections.findOne(connectionId);
     var ownerName = Meteor.users.findOne(connect.bookData.ownerId).profile.name;
- 
+
     Connections.remove({"bookData._id": connect.bookData._id, "requestor": {$ne: connect.requestor}});
     Connections.update({_id: connectionId}, {$set: {state: "PAYMENT"}});
 
-    var message = ownerName + " accepted your request for " + connect.bookData.title; 
+    var message = ownerName + " accepted your request for " + connect.bookData.title;
     sendPush(connect.requestor, message);
     sendNotification(connect.requestor, connect.bookData.ownerId, message, "approved");
 
@@ -197,11 +357,11 @@ Meteor.methods({
   },
   'ownerDecline': function(connectionId) {
     Meteor._sleepForMs(1000);
-    
+
     var connect = Connections.findOne(connectionId);
     var ownerName = Meteor.users.findOne(connect.bookData.ownerId).profile.name;
-    
-    var message =  "Your request for " + connect.bookData.title + " has been declined."; 
+
+    var message =  "Your request for " + connect.bookData.title + " has been declined.";
     sendPush(connect.requestor, message);
     sendNotification(connect.requestor, connect.bookData.ownerId, message, "declined");
 
@@ -396,9 +556,9 @@ Meteor.methods({
       console.log('error!');
     }
 
-    HTTP.post('https://camfind.p.mashape.com/image_requests', 
-    { 
-      "headers": 
+    HTTP.post('https://camfind.p.mashape.com/image_requests',
+    {
+      "headers":
       {
         "X-Mashape-Key" : "7W5OJWzlcsmshYSMTJW8yE4L2mJQp1cuOVKjsneO6N0wPTpaS1"
       },
@@ -407,19 +567,19 @@ Meteor.methods({
         "image_request[remote_image_url]": "http://logok.org/wp-content/uploads/2014/03/Air-Jordan-Nike-Jumpman-logo.png",
         // "image_request[image]" : argImageData,
         "image_request[locale]" : "en_US"
-      }      
-    },  
-    function( error, response ) 
+      }
+    },
+    function( error, response )
     {
       if(!error)
       {
-        console.log('camFindCall: ' + JSON.stringify(response));  
+        console.log('camFindCall: ' + JSON.stringify(response));
       }
       else
       {
-        console.log('camFindCall error: ' + error);   
+        console.log('camFindCall error: ' + error);
       }
-      
+
     });
 
   },
@@ -506,11 +666,89 @@ Meteor.methods({
   }
 })
 
+var amazonAllResultsItemSearchProcessing = function(result) {
 
+    if (result.ItemSearchResponse.Items[0].Item){
+        if (result.ItemSearchResponse.Items[0].Item[0].ItemAttributes[0]) {
+            try {
+                var necessaryFields = [];
+
+                for(var i = 0; i < result.ItemSearchResponse.Items[0].Item.length; i++) {
+                    necessaryFields.push({
+                        price : (function() {return result.ItemSearchResponse.Items[0].Item[i].Offers[0].Offer ? result.ItemSearchResponse.Items[0].Item[i].Offers[0].Offer[0].OfferListing[0].Price[0].FormattedPrice[0] : "--"})(),
+                        title : result.ItemSearchResponse.Items[0].Item[i].ItemAttributes[0].Title[0],
+                        category : result.ItemSearchResponse.Items[0].Item[i].ItemAttributes[0].ProductGroup[0],
+                        image: result.ItemSearchResponse.Items[0].Item[i].MediumImage[0].URL[0],
+                        asin: result.ItemSearchResponse.Items[0].Item[i].ASIN[0],
+                    });
+                }
+            } catch(e) {console.log(e)}
+
+            console.log('amazonAllResultsItemSearchProcessing -x-x-x-x-x-x-x-x-x-x-x-x-x');
+            console.log(necessaryFields)
+
+            return necessaryFields;
+
+            } else {
+              throw new Meteor.Error("No match for this item")
+            }
+      } else {
+        console.log(result.ItemSearchResponse.Items[0].Request[0].Errors[0].Error[0].Code[0]);
+        throw new Meteor.Error(result.ItemSearchResponse.Items[0].Request[0].Errors[0].Error[0].Message[0]);
+      }
+
+}
+
+var amazonResultItemSearchProcessing = function(result) {
+
+    if (result.ItemSearchResponse.Items[0].Item){
+        if (result.ItemSearchResponse.Items[0].Item[0].ItemAttributes[0]) {
+               try {
+                var necessaryFields = {
+                    price : (function() {return result.ItemSearchResponse.Items[0].Item[0].Offers[0].Offer ? result.ItemSearchResponse.Items[0].Item[0].Offers[0].Offer[0].OfferListing[0].Price[0].FormattedPrice[0] : "--"})(),
+                    title : result.ItemSearchResponse.Items[0].Item[0].ItemAttributes[0].Title[0],
+                    category : result.ItemSearchResponse.Items[0].Item[0].ItemAttributes[0].ProductGroup[0],
+                    image: result.ItemSearchResponse.Items[0].Item[0].MediumImage[0].URL[0],
+                    attributes: [],
+                }
+
+                for(var property in result.ItemSearchResponse.Items[0].Item[0].ItemAttributes[0]) {
+
+                    var possibleProperties = ['Actor', 'Artist', 'Author', 'Binding', 'Brand', 'Creator', 'Director', 'Edition', 'Feature', 'Publisher'];
+
+                    if(possibleProperties.indexOf(property) >= 0) {
+
+                        var attrs = result.ItemSearchResponse.Items[0].Item[0].ItemAttributes[0][property];
+
+                        if(typeof attrs[0] === 'string') {
+
+                            necessaryFields.attributes.push({
+                                key: property,
+                                value: attrs.toString().replace(/,/g, ', ')
+                            });
+
+                        }
+
+                    }
+
+                }
+
+            } catch(e) {console.log(e)}
+
+              return necessaryFields;
+            } else {
+              throw new Meteor.Error("No match for this item. Are you sure you're scanning a Book?")
+            }
+      } else {
+        console.log(result.ItemSearchResponse.Items[0].Request[0].Errors[0].Error[0].Code[0]);
+        throw new Meteor.Error(result.ItemSearchResponse.Items[0].Request[0].Errors[0].Error[0].Message[0]);
+      }
+
+}
 
 var amazonResultProcessing = function(result) {
   console.log(JSON.stringify(result));
-  
+
   if (result.ItemLookupResponse.Items[0].Item){
     if (result.ItemLookupResponse.Items[0].Item[0].ItemAttributes[0].ISBN !== undefined) {
           // try {
@@ -545,7 +783,7 @@ var amazonResultProcessing = function(result) {
   }
 }
 
-amazonPriceSearch = function(barcode, callback) {
+var amazonPriceSearch = function(barcode, callback) {
   OperationHelper = apac.OperationHelper;
 
   var opHelper = new OperationHelper({
@@ -565,14 +803,29 @@ amazonPriceSearch = function(barcode, callback) {
   }, callback )
 }
 
+var amazonItemSearch = function(keys, callback) {
+  OperationHelper = apac.OperationHelper;
+
+  var opHelper = new OperationHelper({
+    awsId:     'AKIAJ5R6HKU33B4DAF3A',
+    awsSecret: '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',
+    assocId:   'codefynecom06-20'
+  });
+
+  opHelper.execute('ItemSearch', {
+      'SearchIndex': 'All',
+      'Keywords': keys,
+      'ResponseGroup': ['ItemAttributes', 'Medium', 'Offers']
+  }, callback);
+
+}
 
 
 
-
-//   { 
+//   {
 //   statusCode: 200,
 //   content: '{"access_token": "b82cad2ac582b2fe4bbc313aa7c9a9a528794bde7df025a7b8e0fd51e6773799", "expires_in": 5184000, "token_type": "bearer", "user": {"username": "gabriel-simoes", "first_name": "Gabriel", "last_name": "Simoes", "display_name": "Gabriel Simoes", "is_friend": false, "friends_count": 154, "is_active": true, "about": " ", "email": "gsimoes@rollins.edu", "phone": "14079511926", "profile_picture_url": "https://s3.amazonaws.com/venmo/no-image.gif", "friend_request": null, "is_blocked": false, "trust_request": null, "id": "1494475771740160877", "identity": null, "date_joined": "2014-08-24T23:36:35"}, "balance": "0.00", "refresh_token": "85e487232f4c28b4097eb4951912eb0439d75aefbe4d285ee2ab3f715811aeb9"}',
-//   headers: 
+//   headers:
 //    { server: 'nginx',
 //      date: 'Thu, 30 Jul 2015 14:25:50 GMT',
 //      'content-type': 'application/json; charset=UTF-8',
@@ -583,11 +836,11 @@ amazonPriceSearch = function(barcode, callback) {
 //      expires: 'Thu, 30 Jul 2015 14:25:49 GMT',
 //      'cache-control': 'no-cache',
 //      'strict-transport-security': 'max-age=31536000' },
-//   data: 
+//   data:
 //    { access_token: 'b82cad2ac582b2fe4bbc313aa7c9a9a528794bde7df025a7b8e0fd51e6773799',
 //      expires_in: 5184000,
 //      token_type: 'bearer',
-//      user: 
+//      user:
 //       { username: 'gabriel-simoes',
 //         first_name: 'Gabriel',
 //         last_name: 'Simoes',
@@ -606,7 +859,7 @@ amazonPriceSearch = function(barcode, callback) {
 //         identity: null,
 //         date_joined: '2014-08-24T23:36:35' },
 //      balance: '0.00',
-//      refresh_token: '85e487232f4c28b4097eb4951912eb0439d75aefbe4d285ee2ab3f715811aeb9' } 
+//      refresh_token: '85e487232f4c28b4097eb4951912eb0439d75aefbe4d285ee2ab3f715811aeb9' }
 // }
 
 
@@ -716,5 +969,3 @@ amazonPriceSearch = function(barcode, callback) {
 
 //   }, 5000)
 // })
-
-

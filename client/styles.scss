@@ -211,7 +211,7 @@ ion-side-menu.menu-left.menu {
 	margin: 0 auto;
 	text-align: center;
 	line-height: 100%;
-	margin-top: 22vh;
+	// margin-top: 22vh;
 }
 .viewfinder::before, .viewfinder::after {
 	position: absolute;
@@ -558,7 +558,7 @@ ion-side-menu.menu-left.menu {
     height: 40px;
     margin-top: -36px;
     margin-left: -8px;
-    background: url('/icon-marker-destination.png') no-repeat center center;
+    background: url('app/icon-marker-destination.png') no-repeat center center;
     background-size: 30px 40px;
     z-index: 1;
     pointer-events: none; /*allows dragging even on pin*/
@@ -955,16 +955,29 @@ a.autolinker {
 	vertical-align: bottom;
 }
 
-
 .chat-footer {
 	height: auto !important;
 	padding: 4px !important;
+}
+
+.call-wrapper {
+	margin-top: 16px;
+	text-align: center;
+}
+
+.call-controls {
+	margin-top: 32px;
 }
 
 .s-alert-info.s-alert-effect-jelly {
     background: #f0970d;
     color: #fff
 }
+
+.land-tabs {
+	background:$base-background-color
+}
+
 .s-alert-box {
 	padding: 18px !important;
 }

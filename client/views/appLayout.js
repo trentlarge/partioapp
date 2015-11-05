@@ -2,6 +2,10 @@ Template.main.events({
 	'click .bottom-part': function() {
 		console.log('bottom-part');
 		Router.go('/listing');
+	},
+
+	'click .top-part': function(event){
+		CheckStripeAccount();
 	}
 });
 
@@ -33,7 +37,34 @@ Template.sAlertCustom.events({
 	}
 })
 
+function CheckStripeAccount () {
+  if (! Meteor.user().profile.stripeAccount)
+  {
+    IonLoading.hide();
+    IonPopup.show({
+      title: 'ATTENTION!',
+      template: '<div class="center">A Debit Card should be linked to receive payments for your shared goods!</div>',
+      buttons:
+      [{
+        text: 'Add Card',
+        type: 'button-energized',
+        onTap: function()
+        {
+          IonPopup.close();
+          $('#closeLend').click();
+          Router.go('/profile/savedcards');
+          IonModal.close();
+        }
+      }]
+    });
 
+    return false;
+  }
+  else
+  {
+    return true;
+  }
+}
 
 Meteor.startup(function() {
 
@@ -79,8 +110,8 @@ Template.appLayout.onRendered(function() {
 	self.autorun(function() {
 		var query1 = Notifications.find({toId: Meteor.userId(), read: false});
 		// var query2 = Connections.find({
-		// 	$or: [{requestor: Meteor.userId()}, {"bookData.ownerId": Meteor.userId()}], 
-		// 	"chat.state": "new", 
+		// 	$or: [{requestor: Meteor.userId()}, {"bookData.ownerId": Meteor.userId()}],
+		// 	"chat.state": "new",
 		// 	"chat.sender": {$ne: Meteor.userId()}
 		// });
 
@@ -90,7 +121,7 @@ Template.appLayout.onRendered(function() {
 			changed: function(id, fields) {
 				console.log(id);
 				console.log(fields);
-				
+
 				fields.chat.forEach(function(item) {
 					if ( (item.sender !== Meteor.userId) && (!Chat.findOne({connectionId: id, timestamp: item.timestamp})) ) {
 						Chat.insert({
@@ -129,7 +160,7 @@ Template.appLayout.onRendered(function() {
 					IonPopup.show({
 						title: 'Alert',
 						template: '<div class="center">'+ fields.message +'</div>',
-						buttons: 
+						buttons:
 						[{
 							text: 'OK',
 							type: 'button-energized',
@@ -157,13 +188,13 @@ Template.appLayout.onRendered(function() {
 					IonPopup.show({
 						title: 'Alert',
 						template: '<div class="center">'+ fields.message +'</div>',
-						buttons: 
+						buttons:
 						[{
 							text: 'OK',
 							type: 'button-energized',
 							onTap: function() {
 								IsPopUpOpen = false;
-								
+
 								IonPopup.close();
 								Meteor.setTimeout(function(){
 									Router.go('/renting');
@@ -187,13 +218,13 @@ Template.appLayout.onRendered(function() {
 					IonPopup.show({
 						title: 'Alert',
 						template: '<div class="center">'+ fields.message +'</div>',
-						buttons: 
+						buttons:
 						[{
 							text: 'OK',
 							type: 'button-energized',
 							onTap: function() {
 								IsPopUpOpen = false;
-								
+
 								IonPopup.close();
 								Meteor.setTimeout(function(){
 									Router.go('/renting');
@@ -233,7 +264,7 @@ function ShowRequestPopUp(strBookName)
 	IonPopup.show({
 		title: 'Alert',
 		template: '<div class="center">You got a new book request for '+strBookName+'</div>',
-		buttons: 
+		buttons:
 		[{
 			text: 'OK',
 			type: 'button-energized',
@@ -252,11 +283,11 @@ function ShowRequestPopUp(strBookName)
 					{
 						Router.go('inventory');
 					}
-					
-					
+
+
 				},1000)
 			}
-		}]	
+		}]
 	});
 }
 
@@ -267,14 +298,14 @@ function RandomPopup()
 	IonPopup.show({
 		title: 'Alert',
 		template: '<div class="center">Random Kingdom</div>',
-		buttons: 
+		buttons:
 		[{
 			text: 'OK',
 			type: 'button-energized',
 			onTap: function() {
 				IsPopUpOpen = false;
 
-				IonPopup.close();				
+				IonPopup.close();
 			}
 		}]
 	});
@@ -293,7 +324,7 @@ function ShowApprovalPopUp(strBookName)
 	IonPopup.show({
 		title: 'Alert',
 		template: '<div class="center">Your request for ' + strBookName + ' has been approved.</div>',
-		buttons: 
+		buttons:
 		[{
 			text: 'OK',
 			type: 'button-energized',
@@ -333,7 +364,7 @@ function ShowPaymentPopUp(bookNameString, paymentAmountInt)
 	IonPopup.show({
 		title: 'Alert',
 		template: '<div class="center">You have received a payment of $'+ paymentAmountInt +' for '+ bookNameString +'</div>',
-		buttons: 
+		buttons:
 		[{
 			text: 'OK',
 			type: 'button-energized',
@@ -360,7 +391,7 @@ function ShowRequestDeniedPopUp(bookName)
 	IonPopup.show({
 		title: 'Alert',
 		template: '<div class="center">Your request for - '+bookName+' - has been denied! :( Shall we throw the owner to the lions?!</div>',
-		buttons: 
+		buttons:
 		[{
 			text: 'OK',
 			type: 'button-energized',
@@ -373,7 +404,3 @@ function ShowRequestDeniedPopUp(bookName)
 		}]
 	});
 }
-
-
-
-

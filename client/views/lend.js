@@ -1,198 +1,280 @@
 Template.lend.events({
-  'click .viewfinder': function() {
+  'click .submitProduct': function(e, template) {
     IonLoading.show();
-    console.log('the new Amazon call in progress');
+    Meteor.setTimeout(function()
+    {
 
-    if (Meteor.isCordova) {
-      cordova.plugins.barcodeScanner.scan(
-        function(result) {
+      if (Session.get('lendTab') === 'manual')
+      {
+        var manualBook = {
+          "title": $('#manualtitle').val(),
+//          "authors": template.find('#manualauthor').value,
+//          "publisher": template.find('#manualpublisher').value,
+          "comments": $('#manualcomments').val(),
+          "manualEntry": true,
+          "ownerId": Meteor.userId(),
+          "customPrice": Session.get('userPrice'),
+          "image": Session.get('photoTaken')
+        }
+        console.log(manualBook);
 
-          if (result.cancelled === 0) {
-            console.log(result.text, result.format);
+        if(!ValidateInputs(manualBook))
+        {
+          IonLoading.hide();
+          return;
+        }
 
-            var barcode = result.text;
-            console.log('barcode: ' + barcode);
-            // var format = result.format;
-            // var cleanFormat = format.split('_')[0];
-            Meteor.call('priceFromAmazon', barcode, function(error, result) {
-              //console.log(result);
-              var resultFromAmazon = {};
-              console.log('error: '+ error);
-              if (!error) 
-              {
-                console.log('result: '+ result);
-                Session.set('scanResult', result);
-                IonLoading.hide();
-              } else {
-                IonLoading.hide();
-                console.log(error);
-                IonPopup.show({
-                  title: 'No match found :( ',
-                    template: '<div class="center">You can manually checkin your product</div>',
-                    buttons: 
-                    [{
-                      text: 'OK',
-                      type: 'button-energized',
-                      onTap: function() {
-                        IonPopup.close();
-                      }
-                    }]
-                  });
+        //TEST
+        //GetRentingPercentages('ONE_WEEK');
+
+        if (manualBook.title && manualBook.customPrice)
+        {
+          Session.set('manualBook', manualBook);
+          Session.set('BookAddType', 'MANUAL');
+
+//          if(CheckStripeAccount())
+//          {
+            AddProductToInventoryManually();
+//          }
+        }
+        else {
+          IonLoading.hide();
+          IonPopup.show({
+            title: 'Missing data!',
+            template: '<div class="center">Please fill mandatory fields</div>',
+            buttons:
+            [{
+              text: 'OK',
+              type: 'button-energized',
+              onTap: function() {
+                IonPopup.close();
               }
-            });
-          } else {
-            IonLoading.hide();
-          }
-        },
-        function(error) {
-          alert("Scanning failed: " + error);
-        })
-        } else {
-          Meteor.call('priceFromAmazon', 9780439708180, function(error, result) {
-            console.log(result);
-            var resultFromAmazon = {};
-            if (!error) {
-              Session.set('scanResult', result);
-              IonLoading.hide();
-            } else {
-              console.log(error);
-              IonLoading.hide();
-              IonPopup.show({
-                title: 'Please try again or manually enter your product :( ',
-                  template: '<div class="center">'+ error.message + '</div>',
-                  buttons: 
-                  [{
-                    text: 'OK',
-                    type: 'button-energized',
-                    onTap: function() {
-                      IonPopup.close();
-                    }
-                  }]
-                });
-            }
+            }]
           });
         }
-}
-})
 
-function testCamFindMethod()
-{
-  if (Meteor.isCordova) 
-  {
-    IonActionSheet.show({
-      buttons: [
-      { text: 'Take Photo' },
-      { text: 'Choose from Library' },
-      ],
-      cancelText: 'Cancel',
-      cancel: function() {
-        console.log('Cancelled!');
-      },
-      buttonClicked: function(index) {
-        if (index === 0) {
-          navigator.camera.getPicture(onSuccess1, onFail1, {
-            targetWidth: 200,
-            targetHeight: 200,
-            quality: 50,
-            destinationType: Camera.DestinationType.DATA_URL,
-            sourceType: Camera.PictureSourceType.CAMERA
-          });
+      }
+      else
+      {
+        if (Session.get('scanResult'))
+        {
+          // var lendingPeriod = (function() {
+          //   return (template.find('#lendingPeriod').value) ? template.find('#lendingPeriod').value : 2;
+          // }) ();
 
-          function onSuccess1(imageData) {
-            console.log('camera working!');
-            template.imageData.set(imageData);
+          //TEST
+          //GetRentingPercentages('ONE_WEEK');
 
-            return false;
-          }
-
-          function onFail1(message) {
-            IonPopup.alert({
-              title: 'Camera Operation',
-              template: message,
-              okText: 'Got It.'
-            });
-          }
-        }
-        if (index === 1) {
-          navigator.camera.getPicture(onSuccess2, onFail2, {
-            targetWidth: 200,
-            targetHeight: 200,
-            quality: 50,
-            destinationType: Camera.DestinationType.DATA_URL,
-            sourceType: Camera.PictureSourceType.PHOTOLIBRARY
-          });
-
-          function onSuccess2(imageData) 
+          var xPrice = parseFloat(Session.get('userPrice'), 10);
+          console.log('xPrice ' + xPrice);
+          if(xPrice < 0.5)
           {
-            console.log('photo library working!');
-
-            Meteor.call('camFindCall', imageData, function(error, result) {
-              console.log(error);
-              console.log(result);
-            });
-
-            // var imageBlob = b64toBlob("data:image/jpeg;base64," + imageData);
-
-            // window.resolveLocalFileSystemURL(imagePath, function(fileEntry) {
-                
-            //     fileEntry.file(function(file) {
-                  
-            //       var reader = new FileReader();
-            //       reader.onloadend = function (evt) {
-            //         console.log("read success");
-            //         console.log(evt.target.result);
-
-            //         //Test Code
-            //         Meteor.call('camFindCall', evt.target.result, function(error, result) {
-            //           console.log(error);
-            //           console.log(result);
-            //         });
-            //       };
-            //       reader.readAsBinaryString(file);
-
-            //     })
-
-            //   }, function(errorMessage)
-            //   {
-            //     console.log(errorMessage);
-            //   });
-
-            //template.imageData.set(imageData);
-
-            
-
-            return false;
+            IonLoading.hide();
+            showInvalidPopUp('Invalid Inputs', 'Please valid rent price.');
+            return;
           }
 
-          function onFail2(message) {
-            IonPopup.alert({
-              title: 'Camera Operation',
-              template: message,
-              okText: 'Got It.'
-            });
+          if(xPrice > 1000)
+          {
+            IonLoading.hide();
+            showInvalidPopUp('Invalid Inputs', 'Please rent price < $1000.');
+            return;
           }
+
+//          if(CheckStripeAccount())
+//          {
+            Session.set('BookAddType', 'SCAN');
+            AddProductToInventory();
+//          }
+
         }
-        return true;
+        else
+        {
+          IonLoading.hide();
+          IonPopup.show({
+            title: 'Nothing to add!',
+            template: '<div class="center">Scan or add a product to make it available on partiO for others to find</div>',
+            buttons:
+            [{
+              text: 'OK',
+              type: 'button-energized',
+              onTap: function() {
+                IonPopup.close();
+              }
+            }]
+          });
+        }
+      }
+    }, 500)
+  },
+  'keyup .userPrice': function(e, template)
+  {
+    Session.set('userPrice', e.target.value);
+  },
+
+  'click #reset': function() {
+    ClearData();
+    IonLoading.hide();
+
+    //TEST METHOD
+    //testCamFindMethod();
+  },
+
+  'click #closeLend': function() {
+    $('.modal-backdrop').slideUp();
+    ClearData();  
+    //IonPopup.close();
+    //ClearData();
+  },
+
+  'click #manualSubmit': function(e, template) {
+    IonLoading.show();
+    var manualCode = $('#manualInput').val();
+    var codeFormat = (function() {
+      return (manualCode.length === 12) ? "UPC" : "EAN";
+    })();
+    console.log(manualCode, codeFormat);
+
+    Meteor.call('priceFromAmazon', manualCode, codeFormat, function(error, result) {
+      console.log(result);
+      var resultFromAmazon = {};
+      if (!error)
+      {
+        Session.set('scanResult', result);
+        Session.set('lendTab', 'results');
+        IonLoading.hide();
+      } else {
+        console.log(error);
+        IonLoading.hide();
+        IonPopup.show({
+          title: 'Please try again or manually enter your product :( ',
+            template: '<div class="center">'+ error.message + '</div>',
+            buttons:
+            [{
+              text: 'OK',
+              type: 'button-energized',
+              onTap: function() {
+                IonPopup.close();
+              }
+            }]
+          });
       }
     });
-  } 
-  else 
-  {
-    console.log('file upload click');
-    $('#myFile3').click();
+  },
+
+  'click #barcode-entry': function() {
+    Session.set('barcodeEntry', true);
+    Session.set('manualEntry', false);
+    Session.set('viewFinder', false)
+    $('#manualInput').focus();
+  },
+
+  'click #manual-entry': function() {
+    Session.set('manualEntry', true);
+    Session.set('barcodeEntry', false);
+    Session.set('viewFinder', false)
+  }
+})
+
+Template.lend.helpers({
+  barcodeEntry: function() {
+    return Session.get('barcodeEntry');
+  },
+  viewFinder: function() {
+    return Session.get('viewFinder');
+  },
+  manualEntry: function() {
+    return Session.get('manualEntry')
+  },
+  // scanResult: function() {
+  //   return Session.get('scanResult');
+  // },
+  calculatedPrice: function() {
+    if (Session.get('scanResult') &&
+        Session.get('BookAddType') != 'MANUAL') {
+      if (Session.get('scanResult').price === "--") {
+        return false;
+      }
+      else
+      {
+        if(RentingFinalPrice == null ||
+          RentingFinalPrice == 0)
+        {
+          var priceValue = (Session.get('scanResult').price).split("$")[1];
+          console.log('priceValue: ' + priceValue);
+          Session.set('priceValue', priceValue);
+
+          Session.set('userPrice', (Number(priceValue)/5).toFixed(2));
+
+          GetRentingPercentages('ONE_WEEK');
+          Session.set('userPrice', RentingFinalPrice);
+
+          // return (Number(priceValue)/5).toFixed(2);
+          return RentingFinalPrice;
+        }
+
+        return RentingFinalPrice;
+      }
+    }
+  },
+  waitingForPrice: function() {
+    return Session.get('userPrice') ? "": "disabled";
+    //return Session.get('userPrice') ? "": "";
+  },
+  userPrice: function() {
+    console.log('price rendered: ' + Session.get('userPrice'));
+    return Session.get('userPrice');
+  },
+  bookResult: function() {
+//    return (Session.get('scanResult').category === "Book") ? true : false;
+      return Session.get('scanResult');
+  },
+
+  dynamicTemplate: function(){
+    return (Session.get('lendTab')) ? Session.get('lendTab') : 'camfind' ;
+  },
+});
+
+// Template.lend.destroyed = function() {
+//   Session.set('scanResult', null);
+//   Session.set('barcodeEntry', null);
+//   Session.set('manualEntry', null);
+//   Session.set('photoTaken', null)
+// }
+
+Template.lend.rendered = function() {
+  // Session.set('viewFinder', true);
+  // reseting results
+  // Session.set('scanResult', null);
+  // Session.set('allResults', null);
+  // Session.set('lendTab', 'camfind')
+  // $('.tab-item[data-id=camfind]').addClass('active');
+
+  if(Session.set('lendTab') == 'resultsCamFind' && !Session.get('allResults')){
+    Session.set('lendTab', 'camfind');
   }
 }
 
-var b64toBlob = function(dataURI) {
-  var byteString = atob(dataURI.split(',')[1]);
-  var ab = new ArrayBuffer(byteString.length);
-  var ia = new Uint8Array(ab);
 
-  for (var i = 0; i < byteString.length; i++) {
-    ia[i] = byteString.charCodeAt(i);
+function ClearData(){
+  console.log('ClearData');
+
+  if(Session.get('lendTab') == 'resultsCamFind') {
+    Session.set('lendTab', 'camfind');
   }
-  return new Blob([ab], { type: 'image/jpeg' });
+
+  RentingFinalPrice = null;
+  Session.set('scanResult', null);
+  Session.set('priceValue', null);
+  Session.set('userPrice', null);
+  Session.set('priceValue', null);
+  Session.set('barcodeEntry', null);
+  Session.set('manualEntry', null);
+  Session.set('photoTaken', null)
+  Session.set('lastSearchCamFind', '')
+  Session.set('allResults', null)
 }
+
 
 
 var RentingTimeSpan; //ONE_DAY, ONE_WEEK, ONE_MONTH, FOUR_MONTHS
@@ -218,18 +300,18 @@ function CalculateRentingCharges()
     RentingFinalPrice = parseFloat((RentingOneWeekPercentage/100) * RentingAmazonPrice);
     console.log('RentingOneWeekPercentage: ' + RentingFinalPrice);
 
-    RentingFinalPrice = parseFloat(RentingFinalPrice * 7);    
+    RentingFinalPrice = parseFloat(RentingFinalPrice * 7);
     console.log('Pricex7: ' + RentingFinalPrice);
   }
   else if(RentingTimeSpan == 'ONE_MONTH')
   {
     RentingFinalPrice = parseFloat((RentingOneMonthPercentage/100) * RentingAmazonPrice);
-    RentingFinalPrice = parseFloat(RentingFinalPrice * 30);    
+    RentingFinalPrice = parseFloat(RentingFinalPrice * 30);
   }
   else if(RentingTimeSpan == 'FOUR_MONTHS')
   {
-    RentingFinalPrice = parseFloat((RentingFourMonthsPercentage/100) * RentingAmazonPrice);    
-    RentingFinalPrice = parseFloat(RentingFinalPrice * 30 * 4);    
+    RentingFinalPrice = parseFloat((RentingFourMonthsPercentage/100) * RentingAmazonPrice);
+    RentingFinalPrice = parseFloat(RentingFinalPrice * 30 * 4);
   }
 
   console.log('RentingTimeSpan: ' + RentingTimeSpan);
@@ -252,7 +334,7 @@ function CalculateRentingCharges()
   RentingFinalPrice = Math.round(Number((RentingFinalPrice).toFixed(1))).toFixed(2);
   console.log('RentingFinalPrice: ' + Math.round(RentingFinalPrice));
 
-  
+
 }
 
 function GetRentingPercentages(strRentingTimeSpan)
@@ -277,201 +359,34 @@ function GetRentingPercentages(strRentingTimeSpan)
 
 function ClearRentingValue()
 {
-  RentingFinalPrice = 0.0; 
+  RentingFinalPrice = 0.0;
 }
 
-
-Template.lend.events({
-  'click .submitProduct': function(e, template) {
-    IonLoading.show();
-    Meteor.setTimeout(function() 
-    {
-      if (Session.get('manualEntry')) 
-      {
-        var manualBook = {
-          "title": template.find('#manualtitle').value,
-          "authors": template.find('#manualauthor').value,
-          "publisher": template.find('#manualpublisher').value,
-          "comments": template.find('#manualcomments').value,
-          "manualEntry": true,
-          "ownerId": Meteor.userId(),
-          "customPrice": Session.get('userPrice'),
-          "image": Session.get('photoTaken')
-        }
-        console.log(manualBook);
-
-        if(!ValidateInputs(manualBook))
-        {
-          IonLoading.hide();
-          return;
-        }
-
-        //TEST
-        //GetRentingPercentages('ONE_WEEK');
-        
-        if (manualBook.title && manualBook.authors && manualBook.customPrice) 
-        {
-          Session.set('manualBook', manualBook);
-          Session.set('BookAddType', 'MANUAL');
-
-          if(CheckStripeAccount())
-          {
-            AddProductToInventoryManually();
-          }
-        } 
-        else {
-          IonLoading.hide();
-          IonPopup.show({
-            title: 'Missing data!',
-            template: '<div class="center">Please fill mandatory fields</div>',
-            buttons: 
-            [{
-              text: 'OK',
-              type: 'button-energized',
-              onTap: function() {
-                IonPopup.close();
-              }
-            }]
-          });
-        }
-
-      } 
-      else 
-      {
-        if (Session.get('scanResult')) 
-        {
-          // var lendingPeriod = (function() {
-          //   return (template.find('#lendingPeriod').value) ? template.find('#lendingPeriod').value : 2; 
-          // }) ();
-          
-          //TEST
-          //GetRentingPercentages('ONE_WEEK');
-
-          var xPrice = parseFloat(Session.get('userPrice'), 10);
-          console.log('xPrice ' + xPrice);  
-          if(xPrice < 0.5)
-          {
-            IonLoading.hide();
-            showInvalidPopUp('Invalid Inputs', 'Please valid rent price.');
-            return;
-          }
-
-          if(xPrice > 1000)
-          {
-            IonLoading.hide();
-            showInvalidPopUp('Invalid Inputs', 'Please rent price < $1000.');
-            return;
-          }
-
-          if(CheckStripeAccount())
-          {
-            Session.set('BookAddType', 'SCAN');
-            AddProductToInventory();
-          }
-        
-        } 
-        else 
-        {
-          IonLoading.hide();
-          IonPopup.show({
-            title: 'Nothing to add!',
-            template: '<div class="center">Scan or add a product to make it available on partiO for others to find</div>',
-            buttons: 
-            [{
-              text: 'OK',
-              type: 'button-energized',
-              onTap: function() {
-                IonPopup.close();
-              }
-            }]
-          });
-        }
-      }
-    }, 500)  
-  },
-  'keyup .userPrice': function(e, template) 
-  {
-    Session.set('userPrice', e.target.value);    
-  },
-  'click #cancelScan': function() {
-    ClearData();
-    IonLoading.hide();
-
-    //TEST METHOD
-    testCamFindMethod();
-
-  },
-  'click #manualSubmit': function(e, template) {
-    IonLoading.show();
-    var manualCode = template.find('#manualInput').value;
-    var codeFormat = (function() {
-      return (manualCode.length === 12) ? "UPC" : "EAN"; 
-    })();
-    console.log(manualCode, codeFormat);
-    
-    Meteor.call('priceFromAmazon', manualCode, codeFormat, function(error, result) {
-      console.log(result);
-      var resultFromAmazon = {};
-      if (!error) 
-      {
-        Session.set('scanResult', result);
-        IonLoading.hide();
-      } else {
-        console.log(error);
-        IonLoading.hide();
-        IonPopup.show({
-          title: 'Please try again or manually enter your product :( ',
-            template: '<div class="center">'+ error.message + '</div>',
-            buttons: 
-            [{
-              text: 'OK',
-              type: 'button-energized',
-              onTap: function() {
-                IonPopup.close();
-              }
-            }]
-          });
-      }
-    });
-  },
-  'click #barcode-entry': function() {
-    Session.set('barcodeEntry', true);
-    Session.set('manualEntry', false);
-    Session.set('viewFinder', false)
-    $('#manualInput').focus();
-  },
-  'click #manual-entry': function() {
-    Session.set('manualEntry', true);
-    Session.set('barcodeEntry', false);
-    Session.set('viewFinder', false)
-  }
-})
-
-function ValidateInputs(BookDetails)
+function ValidateInputs(details)
 {
-  if(!BookDetails.title ||
-    BookDetails.title < 1)
+  if(!details.title ||
+    details.title < 1)
   {
     showInvalidPopUp('Invalid Inputs', 'Please enter a valid Title.');
     return false;
   }
 
-  if(!BookDetails.authors ||
-    BookDetails.authors < 1)
-  {
-    showInvalidPopUp('Invalid Inputs', 'Please enter a valid Author Name.');
-    return false;
-  }
+//  if(!BookDetails.authors ||
+//    BookDetails.authors < 1)
+//  {
+//    showInvalidPopUp('Invalid Inputs', 'Please enter a valid Author Name.');
+//    return false;
+//  }
 
-  if(!BookDetails.customPrice ||
-    BookDetails.customPrice < 0.5)
+  if(!details.customPrice ||
+    details.customPrice < 0.5)
   {
     showInvalidPopUp('Invalid Inputs', 'Please enter a valid Price.');
     return false;
   }
 
-  var xPrice = parseInt(BookDetails.customPrice, 10);
-  console.log('xPrice ' + xPrice);  
+  var xPrice = parseInt(details.customPrice, 10);
+  console.log('xPrice ' + xPrice);
   if(xPrice > 1000)
   {
     showInvalidPopUp('Invalid Inputs', 'Please enter a Price < 1000.');
@@ -486,11 +401,11 @@ function showInvalidPopUp(strTitle, strMessage)
   IonPopup.show({
           title: strTitle,
           template: '<div class="center">'+strMessage+'</div>',
-          buttons: 
+          buttons:
           [{
             text: 'OK',
             type: 'button-energized',
-            onTap: function() 
+            onTap: function()
             {
               IonPopup.close();
             }
@@ -508,14 +423,15 @@ function AddProductToInventoryManually()
           IonPopup.show({
             title: 'Your Product sucessfully submitted',
             template: '<div class="center">You can find this shared item in your Repository</div>',
-            buttons: 
+            buttons:
             [{
               text: 'OK',
               type: 'button-energized',
               onTap: function() {
+                $('#closeLend').click();
                 IonPopup.close();
                 Router.go('/inventory');
-                IonModal.close();                 
+                IonModal.close();
               }
             }]
           });
@@ -524,7 +440,7 @@ function AddProductToInventoryManually()
 function AddProductToInventory()
 {
   var submitProduct = Session.get('scanResult');
-  var insertData = _.extend(submitProduct, 
+  var insertData = _.extend(submitProduct,
   {
           // "lendingPeriod": lendingPeriod,
           "ownerId": Meteor.userId(),
@@ -534,204 +450,25 @@ function AddProductToInventory()
   Products.insert(insertData);
   Session.set('userPrice', null);
   RentingFinalPrice = 0.0;
-        IonLoading.hide();
-        IonPopup.show({
-          title: 'Your Product sucessfully submitted',
-          template: '<div class="center">And saved to your Inventory</div>',
-          buttons: 
-          [{
-            text: 'OK',
-            type: 'button-energized',
-            onTap: function() {
-              Session.set('scanResult', null);
-              IonPopup.close();
-              Router.go('/inventory');
-              IonModal.close();
+  IonLoading.hide();
 
-              // Meteor.setTimeout(function() {
-              //   //CheckStripeAccount();
-              // }, 1500)
+  IonPopup.show({
+    title: 'Your Product sucessfully submitted',
+    template: '<div class="center">And saved to your Inventory</div>',
+    buttons:
+    [{
+      text: 'OK',
+      type: 'button-energized',
+      onTap: function() {
+        $('#closeLend').click();
+        IonPopup.close();
+        Router.go('/inventory');
+        // IonModal.close();
+        // Meteor.setTimeout(function() {
+        //   //CheckStripeAccount();
+        // }, 1500)
 
-            }
-          }]
-        });
-}
-
-function CheckStripeAccount () {
-  if (! Meteor.user().profile.stripeAccount) 
-  {
-    IonLoading.hide();
-    IonPopup.show({
-      title: 'ATTENTION!',
-      template: '<div class="center">A Debit Card should be linked to receive payments for your shared goods!</div>',
-      buttons: 
-      [{
-        text: 'Add Card',
-        type: 'button-energized',
-        onTap: function() 
-        {
-          IonPopup.close();
-          Router.go('/profile/savedcards');
-          IonModal.close();
-        }
-      }]
-    });
-
-    return false;
-  }
-  else
-  {
-    return true;
-  }
-}
-
-Template.lend.helpers({
-  barcodeEntry: function() {
-    return Session.get('barcodeEntry');
-  },
-  viewFinder: function() {
-    return Session.get('viewFinder');
-  },
-  manualEntry: function() {
-    return Session.get('manualEntry')
-  },
-  scanResult: function() {
-    return Session.get('scanResult');
-  },
-  calculatedPrice: function() {
-    if (Session.get('scanResult') &&
-        Session.get('BookAddType') != 'MANUAL') {
-      if (Session.get('scanResult').price === "--") {
-        return false;
-      } 
-      else 
-      {
-        if(RentingFinalPrice == null ||
-          RentingFinalPrice == 0)
-        {
-          var priceValue = (Session.get('scanResult').price).split("$")[1];
-          console.log('priceValue: ' + priceValue);
-          Session.set('priceValue', priceValue);
-
-          Session.set('userPrice', (Number(priceValue)/5).toFixed(2));
-
-          GetRentingPercentages('ONE_WEEK');
-          Session.set('userPrice', RentingFinalPrice);
-          
-          // return (Number(priceValue)/5).toFixed(2);        
-          return RentingFinalPrice;
-        }
-
-        return RentingFinalPrice;
       }
-    }
-  },
-  waitingForPrice: function() {
-    return Session.get('userPrice') ? "": "disabled";
-  },
-  userPrice: function() {
-    console.log('price rendered: ' + Session.get('userPrice'));
-    return Session.get('userPrice');
-  },
-  bookResult: function() {
-    return (Session.get('scanResult').category === "Book") ? true : false;
-  }
-});
-
-Template.lend.destroyed = function() {
-  // Session.set('scanResult', null);
-  Session.set('barcodeEntry', null);
-  Session.set('manualEntry', null);
-  Session.set('photoTaken', null)
+    }]
+  });
 }
-
-function ClearData()
-{
-  console.log('ClearData');
-  RentingFinalPrice = null;
-  Session.set('scanResult', null);
-  Session.set('priceValue', null);
-  Session.set('userPrice', null);
-  Session.set('priceValue', null);
-  Session.set('barcodeEntry', null);
-  Session.set('manualEntry', null);
-  Session.set('photoTaken', null)
-}
-
-Template.lend.rendered = function() {
-  Session.set('viewFinder', true);
-}
-
-
-
-Template.takePhoto.helpers({
-  photoTaken: function() {
-    return Session.get('photoTaken');
-  }
-})
-
-Template.takePhoto.events({
-  'click .scanResult-thumbnail2': function(event, template) {
-    IonActionSheet.show({
-      buttons: [
-        { text: 'Take Photo' },
-        { text: 'Choose from Library' },
-      ],
-      cancelText: 'Cancel',
-      cancel: function() {
-        console.log('Cancelled!');
-      },
-      buttonClicked: function(index) {
-        if (index === 0) {
-          navigator.camera.getPicture(onSuccess1, onFail1, {
-            targetWidth: 200,
-            targetHeight: 200,
-            quality: 50,
-            destinationType: Camera.DestinationType.DATA_URL,
-            sourceType: Camera.PictureSourceType.CAMERA
-          });
-
-          function onSuccess1(imageData) {
-            console.log('camera working!');
-            Session.set("photoTaken", "data:image/jpeg;base64," + imageData);
-            return false;
-          }
-
-          function onFail1(message) {
-            IonPopup.alert({
-              title: 'Camera Operation',
-              template: message,
-              okText: 'Got It.'
-            });
-          }
-        }
-        if (index === 1) {
-          navigator.camera.getPicture(onSuccess2, onFail2, {
-            targetWidth: 200,
-            targetHeight: 200,
-            quality: 50,
-            destinationType: Camera.DestinationType.DATA_URL,
-            sourceType: Camera.PictureSourceType.PHOTOLIBRARY
-          });
-
-          function onSuccess2(imageData) {
-            console.log('photo library working!');
-            Session.set("photoTaken", "data:image/jpeg;base64," + imageData);
-            return false;
-          }
-
-          function onFail2(message) {
-            IonPopup.alert({
-              title: 'Camera Operation',
-              template: message,
-              okText: 'Got It.'
-            });
-          }
-        }
-        return true;
-      }
-    });
-  }
-});
-
-
