@@ -1,68 +1,65 @@
 <template name="register">
-  {{#ionModal customTemplate=true}}
-      <div class="bar bar-header bar-royal">
-        <button type="button" data-dismiss="modal" class="button button-small ion-ios-arrow-back button-clear"> Login</button>
-        <h2 class="title">Sign Up</h2>
-      </div>
+  <div class="bar bar-header bar-royal">
+    <button type="button" data-dismiss="modal" class="button button-small ion-ios-arrow-back button-clear"> Login</button>
+    <h2 class="title">Sign Up</h2>
+  </div>
 
-      <div class="content has-header">
+  <div class="content has-header">
 
-        <div class="list list-inset">
-          <label class="item item-input">
-            <i class="icon ion-ios-person energized placeholder-icon"></i>
-            &nbsp;<input type="text" name="name" placeholder="Name">
-          </label>
-          <br>
+    <div class="list list-inset">
+      <label class="item item-input">
+        <i class="icon ion-ios-person energized placeholder-icon"></i>
+        &nbsp;<input type="text" name="name" placeholder="Name">
+      </label>
+      <br>
 
-          <label class="item item-input">
-            <i class="icon ion-ios-email energized placeholder-icon"></i>
-            &nbsp;<input type="email" name="email" placeholder="Email">
-          </label>
-          <br>
-          <label class="item item-input">
-            <i class="icon ion-ios-locked energized placeholder-icon"></i>
-            &nbsp;<input type="password" name="password" placeholder="Password">
-          </label>
-          <br>
+      <label class="item item-input">
+        <i class="icon ion-ios-email energized placeholder-icon"></i>
+        &nbsp;<input type="email" name="email" placeholder="Email">
+      </label>
+      <br>
+      <label class="item item-input">
+        <i class="icon ion-ios-locked energized placeholder-icon"></i>
+        &nbsp;<input type="password" name="password" placeholder="Password">
+      </label>
+      <br>
 
-          <!-- REMOVING PHONE NUMBER FOR NOW -->
+      <!-- REMOVING PHONE NUMBER FOR NOW -->
 <!--           <label class="item item-input">
-            <i class="icon ion-iphone energized placeholder-icon"></i>
-            &nbsp;<input type="tel" name="mobile" placeholder="Mobile">
-          </label>
-          <br> -->
+        <i class="icon ion-iphone energized placeholder-icon"></i>
+        &nbsp;<input type="tel" name="mobile" placeholder="Mobile">
+      </label>
+      <br> -->
 
-          <label class="item item-input item-select">
-          <i class="icon ion-university energized placeholder-icon"></i>
-          <div class="input-label"><p>College</p></div>
-          <select id="college">
-            <option selected><p>Select</p></option>
-            <option>Duke University</option>
-            <option>Rollins College</option>
-            <option>Test Gmail IDs</option>
-          </select>
-        </label>
-          <!-- <br>
+      <label class="item item-input item-select">
+      <i class="icon ion-university energized placeholder-icon"></i>
+      <div class="input-label"><p>College</p></div>
+      <select id="college">
+        <option selected><p>Select</p></option>
+        <option>Duke University</option>
+        <option>Rollins College</option>
+        <option>Test Gmail IDs</option>
+      </select>
+    </label>
+      <!-- <br>
 
-          <label class="item item-input" data-ion-modal="map">
-            <i class="icon ion-ios-location energized placeholder-icon"></i>
-            <div class="location-box"><p>{{fetchedLocation}}</p></div>
-          </label> -->
+      <label class="item item-input" data-ion-modal="map">
+        <i class="icon ion-ios-location energized placeholder-icon"></i>
+        <div class="location-box"><p>{{fetchedLocation}}</p></div>
+      </label> -->
 
 <!--           <a class="item item-icon-left" href="#">
-            <i class="icon ion-ios-location energized placeholder-icon"></i>
-            <p>Record album</p>
-            <span class="item-note">
-              Grammy
-            </span>
-          </a> -->
+        <i class="icon ion-ios-location energized placeholder-icon"></i>
+        <p>Record album</p>
+        <span class="item-note">
+          Grammy
+        </span>
+      </a> -->
 
-        </div>
+    </div>
 
-        <div class="padding-horizontal">
-          <button id="registerButton" class="button button-block button-energized">REGISTER</button>
-        </div>
-
-      </div>
-  {{/ionModal}}
+    <div class="padding-horizontal">
+      <button id="registerButton" class="button button-block button-energized">REGISTER</button>
+    </div>
+  </div>
 </template>

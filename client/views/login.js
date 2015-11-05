@@ -10,7 +10,7 @@ emailCheck = function(college, email) {
 		IonPopup.show({
 			title: 'Please enter a valid college email ID',
 			template: '<div class="center">Your email address has to match the official College email ID</div>',
-			buttons: 
+			buttons:
 			[{
 				text: 'OK',
 				type: 'button-assertive',
@@ -53,7 +53,7 @@ Template.register.events({
 	    				IonPopup.show({
 	    					title: 'Error while Signing up. Please try again.',
 	    					template: '<div class="center">'+error.reason+'</div>',
-	    					buttons: 
+	    					buttons:
 	    					[{
 	    						text: 'OK',
 	    						type: 'button-assertive',
@@ -99,10 +99,11 @@ Template.register.events({
 
 Template.login.events({
 	'click #triggerGPS': function() {
-		if (!Session.get('initialLoc')) {
+		Router.go('/register');
+	//if (!Session.get('initialLoc')) {
 
 			//CheckLocatioOn();
-		}
+	//	}
 	},
 	'click #loginButton': function(e, template) {
 		e.preventDefault();
@@ -182,8 +183,8 @@ Template.login.events({
 						}
 					}]
 				});
-			} 
-			else 
+			}
+			else
 			{
 				//If Meteor.userId() exists
 				// var UserExists = Meteor.users.find({_id: Meteor.userId()}, {$ne:{"profile.transactionsId": null}});
@@ -209,7 +210,7 @@ Template.login.events({
 						}
 					})
 				}
-				
+
 
 			}
 		});
@@ -287,11 +288,24 @@ Template.login.rendered = function() {
 		$(".content.dont-slice-screen").css("bottom", "0px");
 	});
 
+	if (Meteor.userId()) {
+		if (Meteor.user().emails && Meteor.user().emails[0].verified) {
+			Router.go('/main');
+		} else {
+			Router.go('/profile');
+		}
+	} else {
+		// if (Meteor.loggingIn()) {
+		// 	IonLoading.show();
+		// } else {
+		// 	this.layout('login');
+		// }
+		
+	}
+
 
 	// document.addEventListener("resume", function(){
 	// 	console.log("RESUMED!!")
 	// 		//CheckLocatioOn();
 	// 	}, false);
 }
-
-
