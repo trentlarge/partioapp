@@ -194,7 +194,9 @@ Meteor.methods({
         });
 
         request.on('httpUploadProgress', function (progress) {
+          console.log("progress: " + progress);
           console.log(progress.loaded + " of " + progress.total + " bytes");
+          console.log(Math.round(progress.loaded/progress.total*100)+ '% done');
         });
 
         request.send();

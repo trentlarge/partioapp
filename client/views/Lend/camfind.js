@@ -40,7 +40,7 @@ Template.camfind.events({
 
 
           IonLoading.show({
-            customTemplate: '<div class="tp-caption large_white_bold sft hidden-xs start" data-x="750" data-y="center" data-hoffset="0" data-voffset="-80" data-speed="500" data-start="1200" data-easing="Power4.easeOut" style="left: 641.026px; top: 310.624px; visibility: visible; opacity: 1; transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, -0.0025, 0, 0, 0, 1);"><div class="center"><img src="http://partio.xyz/favicon-192x192.png" class="logo-spinner" style="width: 49.06px; height: 48.205px;"></div></div>',
+            customTemplate: '<img src="circle.png" class="logo-spinner" >',
             backdrop: false,
             delay: 0
           });
@@ -118,7 +118,7 @@ Template.camfindinput.events({
         result.sort(function(a, b) {
             return (a.category > b.category) ? 1 : -1;
         });
-          
+
         $.each(result, function(index, r) {
             result[index].index = index;
         });
