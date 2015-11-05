@@ -33,7 +33,17 @@ Template.camfind.events({
 
         MeteorCamera.getPicture(options, function(err, data) {
           if (data) {
-            IonLoading.show();
+            //IonLoading.show();
+ // IonLoading.show({
+ //            template: '<i class="icon ion-loading-c"></i> Loading...'
+ //        });
+
+
+          IonLoading.show({
+            customTemplate: '<div class="tp-caption large_white_bold sft hidden-xs start" data-x="750" data-y="center" data-hoffset="0" data-voffset="-80" data-speed="500" data-start="1200" data-easing="Power4.easeOut" style="left: 641.026px; top: 310.624px; visibility: visible; opacity: 1; transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, -0.0025, 0, 0, 0, 1);"><div class="center"><img src="http://partio.xyz/favicon-192x192.png" class="logo-spinner" style="width: 49.06px; height: 48.205px;"></div></div>',
+            backdrop: false,
+            delay: 0
+          });
 
             attachImageAndWaitCamFind(data);
 
@@ -74,7 +84,7 @@ Template.camfind.events({
 
 Template.camfindinput.events({
   'click #manualSubmitCamFind': function(e, template) {
-    IonLoading.show();
+    //IonLoading.show();
 
     //get keywords
     var keys = template.find('#manualInputCamFind').value;
