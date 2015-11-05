@@ -20,6 +20,10 @@
   {{#contentFor "headerButtonRight"}}
     {{#if profileEdit}}
       <button id="saveProfile" class="button button-clear button-energized">Save</button>
+      {{else}}
+        <a href="/" class="button button-clear"> 
+            <object id="spinner-logo-simple" data="logo/spinner-logo-simple.svg" type="image/svg+xml"></object> 
+        </a>
     {{/if}}
   {{/contentFor}}
 

@@ -24,6 +24,36 @@
 // 	bottom: 0px !important;
 // }
 
+#spinner-logo-simple {
+    height: 35px;
+}
+
+.title {
+    #spinner-logo-simple {
+        margin-top: 5px;
+    }
+}
+
+.main {
+    
+    .lend {
+        background-color:#f0970d;
+    }
+    
+    .rent {
+        background-color:#df5707;
+    }
+    
+    .share-box {
+        border: 1px solid #ffffff;
+        min-width: 250px;
+        padding: 20px;
+        font-size: 30px;
+    }
+
+}
+
+
 .scroll-bar-indicator
 {
 	display: none;
