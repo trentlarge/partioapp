@@ -179,7 +179,7 @@ Meteor.methods({
 
         var s3 = new AWS.S3();
 
-        s3.putObject(params, function(err, data) {
+        var request = s3.putObject(params, function(err, data) {
           if (err) console.log(err)
           else {
             console.log(data);
@@ -192,6 +192,13 @@ Meteor.methods({
             });
           }
         });
+
+        request.on('httpUploadProgress', function (progress) {
+          console.log(progress.loaded + " of " + progress.total + " bytes");
+        });
+
+        request.send();
+
       });
 
       return response.result;
