@@ -36,6 +36,8 @@
 
 .main {
     
+    min-height: 100%;
+    
     .lend {
         background-color:#f0970d;
     }
@@ -161,12 +163,12 @@ ion-side-menu.menu-left.menu {
 }
 
 .top-part {
-	height: 45vh;
+	height: 47vh;
 	font-size: 1.5em;
 	color: white;
 }
 .bottom-part {
-	height: 47vh;
+	height: 48vh;
 	font-size: 1.5em;
 	color: white;
 }
