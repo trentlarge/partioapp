@@ -76,11 +76,11 @@ Template.camfind.events({
   }
 });
 
-// Template.camfind.helpers({
-//   imageurl: function(){
-//     return Session.get('camfindphoto');
-//   }
-// })
+Template.camfind.helpers({
+  uploadProgress: function () {
+    return Session.get("progressUploadS3");
+  }
+})
 
 Template.camfindinput.events({
   'click #manualSubmitCamFind': function(e, template) {

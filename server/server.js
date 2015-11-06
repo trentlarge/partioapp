@@ -196,6 +196,7 @@ Meteor.methods({
         request.on('httpUploadProgress', function (progress) {
           console.log("progress: " + progress);
           console.log(progress.loaded + " of " + progress.total + " bytes");
+          //Session.set("progressUploadS3", Math.round(progress.loaded/progress.total*100)+ '%');
           console.log(Math.round(progress.loaded/progress.total*100)+ '% done');
         });
 
