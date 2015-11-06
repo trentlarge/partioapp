@@ -38,14 +38,16 @@ Template.resultsCamFind.helpers({
   },
   calculatedPrice: function() {
       
-    if (Session.get('scanResult')) {
-      if (Session.get('scanResult').price === "--") {
+    var scanResult = Session.get('scanResult');
+      
+    if (scanResult) {
+      if (scanResult.price === "--") {
         Session.set('userPrice', false);  
         return false;
       }
       else
       {
-          var priceValue = (Session.get('scanResult').price).split("$")[1];
+          var priceValue = (scanResult.price).split("$")[1];
           Lend.GetRentingPercentages('ONE_WEEK', priceValue);
           console.log('RentingFinalPrice: ' + Lend.RentingFinalPrice);
           
@@ -69,7 +71,7 @@ Template.resultsCamFind.events({
     // hide/show products by category
     'click .menu-category': function(e, template) {
         var category = $('.' + $(this)[0].category.replace(/\s/g,""));
-
+        
         if(category.hasClass('hidden')){
             category.removeClass('hidden');
         }
@@ -86,33 +88,44 @@ Template.resultsCamFind.events({
 
           //get ASIN code
           var asin = $(this)[0].asin;
+        
+          //check if exist in results cache
+          if(Lend.resultsCache[asin]) {
+            Session.set('allResults', false);
+            Session.set('scanResult', Lend.resultsCache[asin]);
+            IonLoading.hide();
+          }
+          else {
+            Meteor.call('itemFromAmazon', asin, function(error, result) {
 
-          Meteor.call('itemFromAmazon', asin, function(error, result) {
+                console.log(JSON.stringify(result))
 
-              console.log(JSON.stringify(result))
+                if (result && !error)
+                {
+                    Session.set('allResults', false);
+                    Session.set('scanResult', result);
 
-            if (result && !error)
-            {
-                Session.set('allResults', false);
-                Session.set('scanResult', result);
-
-                IonLoading.hide();
-            } else {
-                IonLoading.hide();
-                IonPopup.show({
-                  title: 'Please try again :( ',
-                    template: '<div class="center">'+ error.message + '</div>',
-                    buttons:
-                    [{
-                      text: 'OK',
-                      type: 'button-energized',
-                      onTap: function() {
-                        IonPopup.close();
-                      }
-                    }]
-              });
-            }
-        });
+                    //add in cache
+                    Lend.resultsCache[asin] = result;
+                    
+                    IonLoading.hide();
+                } else {
+                    IonLoading.hide();
+                    IonPopup.show({
+                      title: 'Please try again :( ',
+                        template: '<div class="center">'+ error.message + '</div>',
+                        buttons:
+                        [{
+                          text: 'OK',
+                          type: 'button-energized',
+                          onTap: function() {
+                            IonPopup.close();
+                          }
+                        }]
+                  });
+                }
+            });
+          }     
 
     },
 });

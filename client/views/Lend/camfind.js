@@ -92,49 +92,58 @@ Template.camfindinput.events({
     IonLoading.show();
 
     //get keywords
-    var keys = template.find('#manualInputCamFind').value;
-
-    Session.set("lastSearchCamFind", keys)
-
-    console.log(keys);
-
-    Meteor.call('AllItemsFromAmazon', keys, function(error, result) {
-
-      if(error && !result) {
-        IonLoading.hide();
-        resetImageCamFind();
-
-        IonPopup.show({
-          title: 'Ops...',
-            template: '<div class="center">'+ error.message + '</div>',
-            buttons:
-            [{
-              text: 'OK',
-              type: 'button-energized',
-              onTap: function() {
-                IonPopup.close();
-              }
-            }]
-          });
-
-      } else {
-
-        // sort results by category
-        result.sort(function(a, b) {
-            return (a.category > b.category) ? 1 : -1;
-        });
-
-        $.each(result, function(index, r) {
-            result[index].index = index;
-        });
-
-        Session.set('allResults', result);
+    var key = template.find('#manualInputCamFind').value;  
+    Session.set("lastSearchCamFind", key);
+      
+    //check if exist in all results cache
+    if(Lend.allResultsCache[key]) {
+        Session.set('allResults', Lend.allResultsCache[key]);
         Session.set('lendTab', 'resultsCamFind');
         IonLoading.hide();
         $(".modal").css("background-image", "");
+    }
+    else {
+        Meteor.call('AllItemsFromAmazon', key, function(error, result) {
 
-      }
-    });
+          if(error && !result) {
+            IonLoading.hide();
+            resetImageCamFind();
+
+            IonPopup.show({
+              title: 'Ops...',
+                template: '<div class="center">'+ error.message + '</div>',
+                buttons:
+                [{
+                  text: 'OK',
+                  type: 'button-energized',
+                  onTap: function() {
+                    IonPopup.close();
+                  }
+                }]
+              });
+
+          } else {
+
+            // sort results by category
+            result.sort(function(a, b) {
+                return (a.category > b.category) ? 1 : -1;
+            });
+
+            $.each(result, function(index, r) {
+                result[index].index = index;
+            });
+
+            //add on cache
+            Lend.allResultsCache[key] = result;  
+
+            Session.set('allResults', result);
+            Session.set('lendTab', 'resultsCamFind');
+            IonLoading.hide();
+            $(".modal").css("background-image", "");
+
+          }
+        });
+    }
   },
 })
 
