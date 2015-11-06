@@ -111,6 +111,10 @@ Template.lend.events({
   {
     Session.set('userPrice', e.target.value);
   },
+  'keyup .fieldDescriptionLend': function(e, template)
+  {
+    Session.set('description', e.target.value);
+  },
 
   'click #reset': function() {
     ClearData();
@@ -122,7 +126,7 @@ Template.lend.events({
 
   'click #closeLend': function() {
     $('.modal-backdrop').slideUp();
-    ClearData();  
+    ClearData();
     //IonPopup.close();
     //ClearData();
   },
@@ -444,7 +448,8 @@ function AddProductToInventory()
   {
           // "lendingPeriod": lendingPeriod,
           "ownerId": Meteor.userId(),
-          "customPrice": Session.get('userPrice')
+          "customPrice": Session.get('userPrice'),
+          "description": Session.get('description'),
   });
 
   Products.insert(insertData);

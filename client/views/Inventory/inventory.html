@@ -8,17 +8,17 @@
         {{/if}}
       </button>
   {{/contentFor}}
-  
+
   {{#contentFor "headerTitle"}}
     <h1 class="title">Inventory</h1>
   {{/contentFor}}
 
   {{#contentFor "headerButtonRight"}}
-    <a href="/" class="button button-clear"> 
-        <object id="spinner-logo-simple" data="logo/spinner-logo-simple.svg" type="image/svg+xml"></object> 
+    <a href="/" class="button button-clear">
+        <object id="spinner-logo-simple" data="logo/spinner-logo-simple.svg" type="image/svg+xml"></object>
     </a>
-  {{/contentFor}} 
-    
+  {{/contentFor}}
+
 <!--
   {{#contentFor "headerButtonRight"}}
     <button class="button button-clear" data-ion-modal="lend">{{> ionIcon icon="ios-plus-outline" class="assertive"}}</button>
@@ -27,7 +27,7 @@
 
   {{#ionView}}
     {{#ionContent}}
-    
+
     {{#if dataExists}}
       {{#if newRequests.count}}
         <div class="list">
@@ -63,6 +63,7 @@
               <div class="book-avatar"><div class="book-avatar-inner" style="background: url('{{image}}') no-repeat; background-size:cover; background-position: 50% 20%;"></div></div>
               <p class="main-title-text">{{title}}</p>
               <p class="main-sub-text">Rent/Week: ${{customPrice}}</p>
+              <p class="main-sub-text">Description: {{description}}</p>
               {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
           {{/ionItem}}
         {{/each}}
@@ -83,7 +84,7 @@
   {{#contentFor "headerButtonLeft"}}
       {{>ionNavBackButton path="inventory" class="backFromEdit"}}
   {{/contentFor}}
-  
+
   {{#contentFor "headerTitle"}}
     <h1 class="title">Product Details</h1>
   {{/contentFor}}
@@ -96,7 +97,7 @@
 <!--     {{#ionContent}} -->
   <div class="content has-header">
       <div class="card">
-        
+
         <div class="row item row-center">
           <div class="col col-33">
             <div class="bookDetail-container">
@@ -124,7 +125,6 @@
           </div>
 
           <div class="row">
-            <div class="col-offset-10"></div>
             {{#if manualEntry}}
               <div class="col col-33">
                 <p>Publisher</p>
@@ -135,14 +135,14 @@
                 <p>{{comments}}</p>
               </div>
             {{else}}
-              <div class="col col-33">
+              <div class="col col-50">
                 <p>Amazon $</p>
                 <p>Publisher</p>
                 <p>Binding</p>
                 <p>Pages</p>
                 <p>EAN</p>
               </div>
-              <div class="col col-67 scan-result keep-inside-padding">
+              <div class="col col-50 scan-result keep-inside-padding">
                 <p>{{price}}</p>
                 <p>{{publisher}}</p>
                 <p>{{binding}}</p>
@@ -155,12 +155,17 @@
         </div>
 
         {{#if editMode}}
-        <div class="row item">
-          <div class="col-offset-10">
-          </div>
-          <div class="col col-33"><p>Edit Price $</p></div>
-          <input class="col col-50" type="number" id="editPrice" value="{{customPrice}}">
+        <div class="list list-inset">
+            <label class="item item-input">
+                <span class="input-label"><p>Edit Price $</p></span>
+                <input class="col col-50" type="number" id="editPrice" value="{{customPrice}}">
+            </label>
+            <label class="item item-input">
+                <span class="input-label"><p>Description:</p></span>
+                <textarea name="description" class="fieldDescriptionLend" rows="8" cols="40">{{description}}</textarea>
+            </label>
         </div>
+
         {{else}}
         <div class="row item">
           <div class="col-offset-10">
@@ -174,11 +179,10 @@
 
       {{#if editMode}}
       <div class="padding-horizontal">
-        <button id="editSave" class="button button-block button-energized">SAVE</button>   
+        <button id="editSave" class="button button-block button-energized">SAVE</button>
       </div>
       {{/if}}
       </div>
     <!-- {{/ionContent}} -->
   {{/ionView}}
 </template>
-

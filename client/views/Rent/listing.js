@@ -28,7 +28,7 @@ if (Meteor.users.findOne(userId).profile.rating) {
 
 var options = {
   keepHistory: 1000 * 60 * 5,
-  localSearch: true
+  localSearch: false
 };
 var fields = ['title', 'authors', 'ean'];
 
