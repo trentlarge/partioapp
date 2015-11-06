@@ -17,7 +17,7 @@ Template.inventory.helpers({
 });
 
 Template.inventory.events({
-  'click #respondToReq': function() 
+  'click #respondToReq': function()
   {
     var requestor = this.requestor;
     var connectionId = this._id;
@@ -34,9 +34,9 @@ Template.inventory.events({
         console.log("proceeding with connection");
         IonLoading.show();
         Meteor.call('ownerAccept', connectionId, function(error, result) {
-          if (!error) 
+          if (!error)
           {
-            // var connectionObj = Connections.findOne({_id: connectionId});            
+            // var connectionObj = Connections.findOne({_id: connectionId});
             // var jsonConnect = JSON.stringify(connectionObj);
             // console.log('book ID: ' + jsonConnect);
 
@@ -46,10 +46,10 @@ Template.inventory.events({
             //Once the book request is approved, decrease the count based on Book ID
             // var result = Search.update({_id: searchCollectionId}, {$inc: {qty: -1}})
             // console.log('Update result: ' + result);
-            
+
             //Connections.find({"requestor": Meteor.userId(), "state": "PAYMENT"});
             // Connections.find(
-            //   {'bookData._id': bookId, 'requestor': {$ne: requestor}}, 
+            //   {'bookData._id': bookId, 'requestor': {$ne: requestor}},
             //   {$set: {state: "DENIED"}},
             //   {multi: true}
             //   );
@@ -59,22 +59,22 @@ Template.inventory.events({
             //   console.log('connectionforBookID: ' + item);
             //   Connections.update({_id: item._id}, {$set: {"state": "DENIED"}});
             // });
-            //console.log('connectionforBookID: ' + connectionforBookID);  
+            //console.log('connectionforBookID: ' + connectionforBookID);
 
             // connectionforBookID.forEach(function(item) {
-            //   console.log('connectionforBookID: ' + item);  
-            // });         
+            //   console.log('connectionforBookID: ' + item);
+            // });
 
-            IonLoading.hide();  
+            IonLoading.hide();
 
             IonPopup.show({
               title: 'Great!',
               template: '<div class="center">Make sure you setup a meeting location and pass on the item to <strong>'+ Meteor.users.findOne(requestor).profile.name+'</strong> once you receive the payment. </div>',
-              buttons: 
+              buttons:
               [{
                 text: 'OK',
                 type: 'button-assertive',
-                onTap: function() 
+                onTap: function()
                 {
                   Router.go('/inventory/connect/'+connectionId);
                   IonPopup.close();
@@ -84,7 +84,7 @@ Template.inventory.events({
           }
         });
       },
-      onCancel: function() 
+      onCancel: function()
       {
         // Connections.remove({"_id": connectionId});
         // console.log('Request Declined!');
@@ -92,13 +92,13 @@ Template.inventory.events({
         Meteor.call('ownerDecline', connectionId, function(error, result) {
           if(!error)
           {
-            console.log('Request Declined!');            
+            console.log('Request Declined!');
           }
           else
           {
-            console.log('Declined Error: ' + error);             
+            console.log('Declined Error: ' + error);
           }
-          
+
         });
       }
     });
@@ -111,8 +111,8 @@ Template.inventoryDetail.events({
     console.log("saving");
 
     var xPrice = parseInt(template.find('#editPrice').value, 10);
-    console.log('Edit xPrice ' + xPrice);  
-    
+    console.log('Edit xPrice ' + xPrice);
+
     if(xPrice < 0.5)
     {
       showInvalidPopUp('Invalid Inputs', 'Please enter a valid price.');
@@ -126,7 +126,8 @@ Template.inventoryDetail.events({
     }
 
     var edited = template.find('#editPrice').value;
-    Products.update({_id: this._id}, {$set: {customPrice: edited}});
+    var description = template.find('.fieldDescriptionLend').value;
+    Products.update({_id: this._id}, {$set: {customPrice: edited, description: description}});
     Session.set('editMode', false);
   }
 });
@@ -136,11 +137,11 @@ function showInvalidPopUp(strTitle, strMessage)
   IonPopup.show({
           title: strTitle,
           template: '<div class="center">'+strMessage+'</div>',
-          buttons: 
+          buttons:
           [{
             text: 'OK',
             type: 'button-assertive',
-            onTap: function() 
+            onTap: function()
             {
               IonPopup.close();
             }
@@ -153,8 +154,8 @@ Template.inventoryDetail.helpers({
   editMode: function() {
 
     var ConnectionObj = Connections.findOne({'bookData._id': this._id});
-    
-    if(ConnectionObj) 
+
+    if(ConnectionObj)
     {
       var ConnectionStatus = ConnectionObj.state;
 
