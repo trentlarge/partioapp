@@ -10,19 +10,19 @@ Template.rating.rendered = function () {
 }
 Template.rating.helpers({
   avgRating: function(userId) {
-if (Meteor.users.findOne(userId).profile.rating) {
-  if (Meteor.users.findOne(userId).profile.rating.length > 1) {
-    var ratingArray = Meteor.users.findOne(userId).profile.rating;
-    var totalCount = ratingArray.length;
-    var sum = _.reduce(ratingArray, function(memo, num) {
-      return (Number(memo) + Number(num))/totalCount;
-    });
-    return parseFloat(sum).toFixed(1);
+    if (Meteor.users.findOne(userId).profile.rating) {
+      if (Meteor.users.findOne(userId).profile.rating.length > 1) {
+        var ratingArray = Meteor.users.findOne(userId).profile.rating;
+        var totalCount = ratingArray.length;
+        var sum = _.reduce(ratingArray, function(memo, num) {
+          return (Number(memo) + Number(num))/totalCount;
+        });
+        return parseFloat(sum).toFixed(1);
+      }
+    } else {
+      return "1.0";
+    }
   }
-} else {
-  return "1.0";
-}
-}
 });
 
 
@@ -30,6 +30,7 @@ var options = {
   keepHistory: 1000 * 60 * 5,
   localSearch: false
 };
+
 var fields = ['title', 'authors', 'ean'];
 
 PackageSearch = new SearchSource('packages', fields, options);
@@ -44,7 +45,6 @@ Template.searchResult.helpers({
       sort: {isoScore: -1}
     });
   },
-
   isLoading: function() {
     return PackageSearch.getStatus().loading;
   },

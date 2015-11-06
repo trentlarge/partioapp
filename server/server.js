@@ -71,23 +71,29 @@ var SinchTicketGenerator = Meteor.npmRequire('sinch-ticketgen');
 // });
 
 
+
+
+// LISTING SEARCH ------------------------------
 SearchSource.defineSource('packages', function(searchText, options) {
   var options = {sort: {isoScore: -1}, limit: 20};
-
   if(searchText) {
     var regExp = buildRegExp(searchText);
     var selector = {$or: [{title: regExp},{authors: regExp},{ean: searchText}]};
-    return Search.find(selector, options).fetch();
+    return Products.find(selector, options).fetch();
   } else {
-    return Search.find({}, options).fetch();
+    return Products.find({}, options).fetch();
   }
 });
 
 function buildRegExp(searchText) {
-
   var parts = searchText.trim().split(/[ \-\:]+/);
   return new RegExp("(" + parts.join('|') + ")", "ig");
 }
+
+// END LISTING SEARCH ------------------------------
+
+
+
 
 var sendNotification = function(toId, fromId, message, type) {
   Notifications.insert({
@@ -230,6 +236,10 @@ Meteor.methods({
   },
 
   AllItemsFromAmazon: function(keys) {
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/brazuca
     var getAmazonItemSearchSynchronously =  Meteor.wrapAsync(amazonItemSearch);
     var result = getAmazonItemSearchSynchronously(keys);
 
@@ -691,6 +701,24 @@ var amazonAllResultsItemSearchProcessing = function(result) {
                         image: result.ItemSearchResponse.Items[0].Item[i].MediumImage[0].URL[0],
                         asin: result.ItemSearchResponse.Items[0].Item[i].ASIN[0],
                     });
+
+                    for(var property in result.ItemSearchResponse.Items[0].Item[i].ItemAttributes[0]) {
+
+                        var possibleProperties = ['Actor', 'Artist', 'Author', 'Binding', 'Brand', 'Creator', 'Director', 'Edition', 'Feature', 'Publisher'];
+
+                        if(possibleProperties.indexOf(property) >= 0) {
+
+                            var attrs = result.ItemSearchResponse.Items[0].Item[i].ItemAttributes[0][property];
+
+                            if(typeof attrs[0] === 'string') {
+                                necessaryFields[i].attributes.push({
+                                    key: property,
+                                    value: attrs.toString().replace(/,/g, ', ')
+                                });
+                            }
+                        }
+                    }
+
                 }
             } catch(e) {console.log(e)}
 
