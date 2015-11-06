@@ -84,7 +84,12 @@ Template.camfind.helpers({
 
 Template.camfindinput.events({
   'click #manualSubmitCamFind': function(e, template) {
-    //IonLoading.show();
+    
+    //reset sessions
+    Session.set('scanResult', null);
+    Session.set('lendTab', 'camfind');
+      
+    IonLoading.show();
 
     //get keywords
     var keys = template.find('#manualInputCamFind').value;
