@@ -6,7 +6,7 @@ Template.loadingTemplate.destroyed = function() {
   IonLoading.hide();
 }
 Template.rating.rendered = function () {
-  this.$('.rateit').rateit();
+  // this.$('.rateit').rateit();  ---> need to fix it
 }
 Template.rating.helpers({
   avgRating: function(userId) {
@@ -53,7 +53,7 @@ Template.searchResult.helpers({
 
 Template.searchResult.events({
   'click .qty-check': function() {
-    Session.set('currentQty', Search.findOne(this._id).qty);
+    Session.set('currentQty', Products.findOne(this._id).qty);
     console.log('CHECK currentQty: ' + Session.get('currentQty'));
   }
 })
@@ -87,12 +87,12 @@ Template.search.helpers({
     return Meteor.users.findOne(userId).profile.name;
   },
   peopleList: function() {
-    var ean = Search.findOne(this._id).ean;
+    var ean = Products.findOne(this._id).ean;
     console.log(ean);
     return Products.find({"ean": ean});
   },
   commonBookTitle: function() {
-    var ean = Search.findOne(this._id).ean;
+    var ean = Products.findOne(this._id).ean;
     return Products.findOne({"ean": ean}).title;
   },
   requestSent: function() {
