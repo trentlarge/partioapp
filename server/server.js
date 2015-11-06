@@ -146,7 +146,6 @@ Meteor.methods({
           }
         }, function(error, result){
           console.log('CamFind: ping Camfind >>> result.data.status = '+result.data.status);
-          console.log(result);
 
           if(result.data.status == 'completed'){
             console.log('CamFind: status completed *-*-*-*-*-*-*-*');
@@ -154,7 +153,7 @@ Meteor.methods({
             done(null, result);
           }
         })
-      }, 3000);
+      }, 1000);
     });
 
     return response.result;
