@@ -7,8 +7,8 @@ app.model.Lend = (function () {
 
         //camdfind vars
         this.allResultsCache;
-        this.resultsCache;
         this.currentCategory;
+        this.latestProduct;
 
         this.RentingTimeSpan; //ONE_DAY, ONE_WEEK, ONE_MONTH, FOUR_MONTHS
         this.RentingOneDayPercentage;
@@ -27,9 +27,8 @@ app.model.Lend = (function () {
    Lend = {
        
         //initialize vars   
-        initialize : function() {
+        init : function() {
             this.allResultsCache = {};
-            this.resultsCache = {};
         },
 
         CalculateRentingCharges : function() {
@@ -110,4 +109,4 @@ app.model.Lend = (function () {
 });
 
 Lend = new app.model.Lend();
-Lend.initialize();
+Lend.init();

@@ -135,6 +135,7 @@ Template.camfindinput.events({
 
             //add on cache
             Lend.allResultsCache[key] = result;  
+            Lend.latestProduct = key;
 
             Session.set('allResults', result);
             Session.set('lendTab', 'resultsCamFind');
