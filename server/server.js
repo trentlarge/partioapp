@@ -236,10 +236,7 @@ Meteor.methods({
   },
 
   AllItemsFromAmazon: function(keys) {
-<<<<<<< HEAD
-=======
 
->>>>>>> origin/brazuca
     var getAmazonItemSearchSynchronously =  Meteor.wrapAsync(amazonItemSearch);
     var result = getAmazonItemSearchSynchronously(keys);
 
