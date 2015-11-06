@@ -33,7 +33,17 @@ Template.camfind.events({
 
         MeteorCamera.getPicture(options, function(err, data) {
           if (data) {
-            IonLoading.show();
+            //IonLoading.show();
+ // IonLoading.show({
+ //            template: '<i class="icon ion-loading-c"></i> Loading...'
+ //        });
+
+
+          IonLoading.show({
+            customTemplate: '<img src="circle.png" class="logo-spinner" >',
+            backdrop: false,
+            delay: 0
+          });
 
             attachImageAndWaitCamFind(data);
 
@@ -74,7 +84,7 @@ Template.camfind.events({
 
 Template.camfindinput.events({
   'click #manualSubmitCamFind': function(e, template) {
-    IonLoading.show();
+    //IonLoading.show();
 
     //get keywords
     var keys = template.find('#manualInputCamFind').value;
@@ -108,7 +118,7 @@ Template.camfindinput.events({
         result.sort(function(a, b) {
             return (a.category > b.category) ? 1 : -1;
         });
-          
+
         $.each(result, function(index, r) {
             result[index].index = index;
         });

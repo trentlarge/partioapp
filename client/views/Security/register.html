@@ -1,26 +1,30 @@
 <template name="register">
-  <div class="bar bar-header bar-royal">
-    <button type="button" data-dismiss="modal" class="button button-small ion-ios-arrow-back button-clear"> Login</button>
-    <h2 class="title">Sign Up</h2>
-  </div>
+  {{#contentFor "headerTitle"}}
+    {{>ionNavBackButton}}
+    <h1 class="title">
+        <object id="spinner-logo-simple" data="logo/spinner-logo-simple.svg" type="image/svg+xml"></object>
+    </h1>
+  {{/contentFor}}
 
-  <div class="content has-header">
-
-    <div class="list list-inset">
+  {{#ionView class="register"}}
+<!--    {{#ionContent class="dont-slice-screen no-header"}}-->
+  <div class="content ion-content has-header">
+    <h2 class="text-center m-top-35 m-bottom-35">Sign UP and Let's Share</h2>
+    <div class="list padding-horizontal">
       <label class="item item-input">
         <i class="icon ion-ios-person energized placeholder-icon"></i>
-        &nbsp;<input type="text" name="name" placeholder="Name">
+        &nbsp;<input type="text" name="name" class="border-radius-20" placeholder="Name">
       </label>
       <br>
 
       <label class="item item-input">
         <i class="icon ion-ios-email energized placeholder-icon"></i>
-        &nbsp;<input type="email" name="email" placeholder="Email">
+        &nbsp;<input type="email" name="email" class="border-radius-20" placeholder="Email">
       </label>
       <br>
       <label class="item item-input">
         <i class="icon ion-ios-locked energized placeholder-icon"></i>
-        &nbsp;<input type="password" name="password" placeholder="Password">
+        &nbsp;<input type="password" name="password" class="border-radius-20" placeholder="Password">
       </label>
       <br>
 
@@ -31,10 +35,10 @@
       </label>
       <br> -->
 
-      <label class="item item-input item-select">
+    <label class="item item-input item-select">
       <i class="icon ion-university energized placeholder-icon"></i>
-      <div class="input-label"><p>College</p></div>
-      <select id="college">
+      <div class="input-label border-radius-20"><p>College</p></div>
+      <select id="college" class="border-radius-20">
         <option selected><p>Select</p></option>
         <option>Duke University</option>
         <option>Rollins College</option>
@@ -59,7 +63,9 @@
     </div>
 
     <div class="padding-horizontal">
-      <button id="registerButton" class="button button-block button-energized">REGISTER</button>
+      <button id="registerButton" class="border-radius-20 button button-block button-energized">REGISTER</button>
     </div>
   </div>
+
+  {{/ionView}}
 </template>

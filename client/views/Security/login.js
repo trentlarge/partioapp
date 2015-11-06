@@ -112,7 +112,6 @@ Template.login.events({
 		var password = template.find('[name=password]').value;
 		console.log(email, password);
 
-
 		Meteor.loginWithPassword(email, password, function(error) {
 			if (error) {
 				console.log(error);
@@ -130,6 +129,7 @@ Template.login.events({
 			}
 			else {
 				console.log('user: '+ email +' Logged-In successfully!');
+				Router.go('/');
 			}
 		});
 
@@ -210,8 +210,6 @@ Template.login.events({
 						}
 					})
 				}
-
-
 			}
 		});
 	}
@@ -278,6 +276,9 @@ function CheckLocatioOn()
 
 
 Template.login.rendered = function() {
+
+    //$('.bar-header').hide();
+
 	if(window.cordova && window.cordova.plugins.Keyboard) {
 		// cordova.plugins.Keyboard.disableScroll(true);
 		// cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
@@ -287,22 +288,6 @@ Template.login.rendered = function() {
 		console.log('keyboard is closing');
 		$(".content.dont-slice-screen").css("bottom", "0px");
 	});
-
-	if (Meteor.userId()) {
-		if (Meteor.user().emails && Meteor.user().emails[0].verified) {
-			Router.go('/main');
-		} else {
-			Router.go('/profile');
-		}
-	} else {
-		// if (Meteor.loggingIn()) {
-		// 	IonLoading.show();
-		// } else {
-		// 	this.layout('login');
-		// }
-		
-	}
-
 
 	// document.addEventListener("resume", function(){
 	// 	console.log("RESUMED!!")

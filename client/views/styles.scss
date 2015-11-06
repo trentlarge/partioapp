@@ -7,7 +7,26 @@
 @import '.meteor/local/build/programs/server/assets/packages/meteoric_ionicons-sass/_ionicons';
 
 
+// .logo-spinner {
+//     height: 150px;
+//     -webkit-animation-name: rotate;
+//     -webkit-animation-duration: 4s;
+//     -webkit-animation-iteration-count: infinite;
+//     -webkit-animation-timing-function: linear;
+// }
 
+.logo-spinner {
+    top: 50%;
+    left: 50%;
+    width: 50px;
+    height: 50px;
+    -webkit-animation:spin 4s linear infinite;
+    -moz-animation:spin 4s linear infinite;
+    animation:spin 4s linear infinite;
+}
+@-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
+@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
 
 
 // .content.overflow-scroll {
@@ -17,6 +36,38 @@
 // .prevent-keyboardglitch {
 // 	bottom: 0px !important;
 // }
+
+#spinner-logo-simple {
+    height: 35px;
+}
+
+.title {
+    #spinner-logo-simple {
+        margin-top: 5px;
+    }
+}
+
+.main {
+    
+    min-height: 100%;
+    
+    .lend {
+        background-color:#f0970d;
+    }
+    
+    .rent {
+        background-color:#df5707;
+    }
+    
+    .share-box {
+        border: 1px solid #ffffff;
+        min-width: 250px;
+        padding: 20px;
+        font-size: 30px;
+    }
+
+}
+
 
 .scroll-bar-indicator
 {
@@ -131,7 +182,7 @@ ion-side-menu.menu-left.menu {
 	color: white;
 }
 .bottom-part {
-	height: 47vh;
+	height: 50vh;
 	font-size: 1.5em;
 	color: white;
 }

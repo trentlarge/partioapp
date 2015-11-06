@@ -2,7 +2,7 @@
   {{#ionSideMenu}}
     <div>
       <div class="logo-container">
-        <a href="/" data-ion-menu-close><img src="/main_logo.png"/></a>&nbsp;
+        <a href="/" data-ion-menu-close><img src="logo/main_logo.png"/></a>&nbsp;
       </div>
 
       <div class="list transparent-list">
@@ -25,7 +25,7 @@
           {{> ionIcon icon="android-notifications" class="energized"}} &nbsp;&nbsp; NOTIFICATIONS
           <span class="badge badge-alert badge-assertive">{{#if alertCount}}{{alertCount}}{{/if}}</span>
         </a>
-        <a href="{{pathFor "/"}}" class="item" id="logout" data-ion-menu-close>
+        <a href="{{pathFor "logout"}}" class="item" id="logout" data-ion-menu-close>
           {{> ionIcon icon="android-exit" class="energized"}} &nbsp;&nbsp; LOGOUT
         </a>
       </div>
