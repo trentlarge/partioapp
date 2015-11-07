@@ -70,17 +70,6 @@ var SinchTicketGenerator = Meteor.npmRequire('sinch-ticketgen');
 //   }
 // });
 
-twilio = Twilio('ACa259379ccf43ebe0af6e2eb7f3bffc93','50582e08bc2d140b8e940fe1a54d9623');
-twilio.listSms({
-  from:'+5531992848154'
-}, function (err, responseData) {
-  responseData.smsMessages.forEach(function(message) {
-      console.log('Message sent on: '+message.dateCreated.toLocaleDateString());
-      console.log(message.body);
-  });
-});
-
-
 
 // LISTING SEARCH ------------------------------
 SearchSource.defineSource('packages', function(searchText, options) {
@@ -130,6 +119,32 @@ var sendPush = function(toId, message) {
 
 Meteor.methods({
 
+
+  send_sms:function(param1, param2) {
+    console.log("am here with "+number+","+sms);
+    var number = param1;
+    var sms = param2;
+    console.log("am here with "+number+","+sms);
+    var accountSid = 'ACa259379ccf43ebe0af6e2eb7f3bffc93';
+    var authToken = '50582e08bc2d140b8e940fe1a54d9623';
+
+
+      twilio = Twilio(accountSid, authToken);
+        twilio.sendSms({
+          to:'+55'+number, // Any number Twilio can deliver to
+          from: '+19802951241', // A number you bought from Twilio and can use for outbound communication
+          body: sms // body of the SMS message
+        }, function(err, responseData) { //this function is executed when a response is received from Twilio
+          if (err) { // "err" is an error received during the request, if any
+            // "responseData" is a JavaScript object containing data received from Twilio.
+            // A sample response from sending an SMS message is here (click "JSON" to see how the data appears in JavaScript):
+            // http://www.twilio.com/docs/api/rest/sending-sms#example-1
+            console.log(err);
+            console.log(responseData.from); // outputs "+14506667788"
+            console.log(responseData.body); // outputs "word to your mother."
+          }
+      });
+  },
   // CAMFIND -------------------------------------------------------------------
   camfindGetToken: function(imageUrl){
     return HTTP.post('https://camfind.p.mashape.com/image_requests', {
