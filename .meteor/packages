@@ -42,18 +42,12 @@ meteoric:ionicons-sass
 meteoric:ionic
 fourseven:scss@=3.2.0
 mdg:reload-on-resume
-
 mrt:accounts-facebook-cordova
 raix:push@=2.6.12
 mdg:camera
 peerlibrary:aws-sdk
 meteorhacks:npm
-
-
 npm-container
-<<<<<<< HEAD
 msavin:mongol
-=======
 mrt:twilio-meteor
 mrt:moment
->>>>>>> 4cb64e27f3b7bd50520b5df3795784843c0cf5c1
