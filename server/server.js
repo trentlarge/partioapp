@@ -702,9 +702,11 @@ var amazonAllResultsItemSearchProcessing = function(result) {
                     necessaryFields.push({
                         price : (function() {return result.ItemSearchResponse.Items[0].Item[i].Offers[0].Offer ? result.ItemSearchResponse.Items[0].Item[i].Offers[0].Offer[0].OfferListing[0].Price[0].FormattedPrice[0] : "--"})(),
                         title : result.ItemSearchResponse.Items[0].Item[i].ItemAttributes[0].Title[0],
-                        category : result.ItemSearchResponse.Items[0].Item[i].ItemAttributes[0].ProductGroup[0],
+                        category : Categories.getCategory(result.ItemSearchResponse.Items[0].Item[i].ItemAttributes[0].ProductGroup[0]),
+                        amazonCategory : result.ItemSearchResponse.Items[0].Item[i].ItemAttributes[0].ProductGroup[0],
                         image: result.ItemSearchResponse.Items[0].Item[i].MediumImage[0].URL[0],
                         asin: result.ItemSearchResponse.Items[0].Item[i].ASIN[0],
+                        attributes: [],
                     });
 
                     for(var property in result.ItemSearchResponse.Items[0].Item[i].ItemAttributes[0]) {
@@ -723,6 +725,7 @@ var amazonAllResultsItemSearchProcessing = function(result) {
                             }
                         }
                     }
+
 
                 }
             } catch(e) {console.log(e)}
@@ -750,7 +753,8 @@ var amazonResultItemSearchProcessing = function(result) {
                 var necessaryFields = {
                     price : (function() {return result.ItemSearchResponse.Items[0].Item[0].Offers[0].Offer ? result.ItemSearchResponse.Items[0].Item[0].Offers[0].Offer[0].OfferListing[0].Price[0].FormattedPrice[0] : "--"})(),
                     title : result.ItemSearchResponse.Items[0].Item[0].ItemAttributes[0].Title[0],
-                    category : result.ItemSearchResponse.Items[0].Item[0].ItemAttributes[0].ProductGroup[0],
+                    category : Categories.getCategory(result.ItemSearchResponse.Items[0].Item[0].ItemAttributes[0].ProductGroup[0]),
+                    amazonCategoy : result.ItemSearchResponse.Items[0].Item[0].ItemAttributes[0].ProductGroup[0],
                     image: result.ItemSearchResponse.Items[0].Item[0].MediumImage[0].URL[0],
                     attributes: [],
                 }
