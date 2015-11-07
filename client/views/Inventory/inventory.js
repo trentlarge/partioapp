@@ -22,7 +22,14 @@ Template.inventory.events({
     var requestor = this.requestor;
     var connectionId = this._id;
     var bookId = this.bookData._id;
-    var searchCollectionId = Search.findOne({productUniqueId: bookId})._id;
+    //var searchCollectionId = Products.findOne({productUniqueId: bookId})._id;
+
+    var searchCollectionId = Products.findOne(bookId);
+
+    if(!searchCollectionId._id) {
+      console.log('error > product not found')
+      return false;
+    }
 
     IonPopup.confirm({
       okText: 'Yes, Share!',
@@ -84,21 +91,17 @@ Template.inventory.events({
           }
         });
       },
-      onCancel: function()
-      {
+
+      onCancel: function() {
         // Connections.remove({"_id": connectionId});
         // console.log('Request Declined!');
 
         Meteor.call('ownerDecline', connectionId, function(error, result) {
-          if(!error)
-          {
+          if(!error){
             console.log('Request Declined!');
-          }
-          else
-          {
+          } else{
             console.log('Declined Error: ' + error);
           }
-
         });
       }
     });
