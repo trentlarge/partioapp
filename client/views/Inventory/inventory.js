@@ -22,7 +22,7 @@ Template.inventory.events({
     var requestor = this.requestor;
     var connectionId = this._id;
     var bookId = this.bookData._id;
-    var searchCollectionId = Search.findOne({productUniqueId: bookId})._id;
+    var searchCollectionId = Products.findOne({productUniqueId: bookId})._id;
 
     IonPopup.confirm({
       okText: 'Yes, Share!',

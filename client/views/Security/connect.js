@@ -43,7 +43,7 @@ Template.connect.events({
 
 		var bookId = this.bookData._id;
     	var searchCollectionId = Search.findOne({productUniqueId: bookId})._id;
-		
+
 		IonPopup.confirm({
 			cancelText: 'No',
 			okText: 'Received',
@@ -65,8 +65,96 @@ Template.connect.events({
 
 		});
 	},
+	'click #btnCallUser': function(err, template) {
+		var cRequestor = Session.get("_requestor");
+		var cOwner = Session.get("_owner");
+
+		console.log('comeca o voip');
+
+		$("#btnCallUser").prop("disabled",true);
+
+		var recipient = (cRequestor === Meteor.userId()) ? cOwner : cRequestor;
+
+		var remoteCallerId = Meteor.users.findOne(recipient).profile.name;
+
+		Session.set("_incomingCaller", remoteCallerId);
+		Session.set("_inCall", true);
+
+		Session.set("_callStatus", "Ringing...");
+
+		PartioCaller.call(recipient, {
+			onCallProgressing: function(call) {
+				$('audio#ringback').prop("currentTime", 0);
+				$('audio#ringback').trigger("play");
+				console.log("[PartioCaller] ringing...");
+				Session.set("_callStatus", "Ringing...");
+			},
+			onCallEstablished: function(call) {
+				$('audio#incoming').attr('src', call.incomingStreamURL);
+				$('audio#ringback').trigger("pause");
+				$('audio#ringtone').trigger("pause");
+
+				console.log("[PartioCaller] Call answered...");
+
+				Session.set("_callStatus", "Call Active");
+
+				//Report call stats
+				var callDetails = call.getDetails();
+				console.log(callDetails);
+			},
+			onCallEnded: function(call) {
+				$('audio#ringback').trigger("pause");
+				$('audio#ringtone').trigger("pause");
+				$('audio#incoming').attr('src', '');
+
+				Session.set("_callStatus", "Disconnected");
+
+				$("#btnCallUser").prop("disabled",false);
+
+				Meteor.setTimeout(function() { Session.set("_inCall", false); }, 2500);
+
+				console.log(call);
+				console.log(call.getEndCause());
+
+				if (call.getEndCause() === "TIMEOUT") {
+					IonPopup.show({
+						title: 'Call Not Answered',
+						template: 	'<div class="center dark">The other party did not answer in time.</div>',
+						buttons:
+						[{
+							text: 'OK',
+							type: 'button-energized',
+							onTap: function() {
+								IonPopup.close();
+							}
+						}]
+					});
+				}
+
+				console.log("[PartioCaller] Call ended...");
+				if(call.error || call.getEndCause() === "FAILURE") {
+					console.error("[PartioCaller] Call error");
+					console.error(call.error.message);
+
+					IonPopup.show({
+						title: 'Call Error',
+						template: 	'<div class="center dark">'+call.error.message+'</div>',
+						buttons:
+						[{
+							text: 'OK',
+							type: 'button-energized',
+							onTap: function() {
+								IonPopup.close();
+							}
+						}]
+					});
+
+				}
+			}
+		});
+	},
 	'click #startChatOwner': function() {
-		IonModal.open("chat", Connections.findOne(this));		
+		IonModal.open("chat", Connections.findOne(this));
 	},
 	'click #cancelRequest': function() {
 		connectionId = this._id;
@@ -87,8 +175,8 @@ Template.connect.events({
 				IonPopup.close();
 				Router.go('/inventory');
 			}
-	
-		});	
+
+		});
 	},
 	'click #ownerAccept': function() {
 		var requestor = this.requestor;
@@ -98,7 +186,7 @@ Template.connect.events({
 				IonPopup.show({
 	    			title: 'Great!',
 	    			template: '<div class="center">Make sure you setup a meeting location and pass on the item to <strong>'+ Meteor.users.findOne(requestor).profile.name+'</strong> once you receive the payment. </div>',
-	    			buttons: 
+	    			buttons:
 	    			[{
 	    				text: 'OK',
 	    				type: 'button-assertive',
@@ -111,8 +199,8 @@ Template.connect.events({
 			}
 		});
 	},
-	'click #changeMeetupLocation': function() 
-	{	
+	'click #changeMeetupLocation': function()
+	{
 		connectionId = this._id;
 		console.log('connectionId: '+ connectionId);
 
@@ -122,13 +210,13 @@ Template.connect.events({
 		// essentialData.meetupLatLong = this.meetupLatLong;
 		// essentialData.connectionId = this._id;
 		// IonModal.open('mapChat', essentialData);
-// 
-		CheckLocatioOn();	
-		
+//
+		CheckLocatioOn();
+
 		// if(!currentPosition)
 		// {
-		// 	CheckLocatioOn();	
-		// }	
+		// 	CheckLocatioOn();
+		// }
 		// else
 		// {
 		// 	console.log('meeting lat: ' + meetingCoordinates.lat);
@@ -153,7 +241,7 @@ Template.connect.events({
 var meetingCoordinates;
 var connectionId;
 var currentPosition;
-var onSuccess = function(position) 
+var onSuccess = function(position)
 {
 	meetingCoordinates = Connections.findOne(connectionId).meetupLatLong;
 	currentPosition = position;
@@ -169,7 +257,7 @@ var onSuccess = function(position)
 	{
 		Session.set('initialLoc', {lat: position.coords.latitude, lng: position.coords.longitude});
 	}
-	
+
 	Session.set('currentLoc', {lat: position.coords.latitude, lng: position.coords.longitude});
 
 	console.log('initial: ' + JSON.stringify(Session.get('initialLoc')));
@@ -182,7 +270,7 @@ var onSuccess = function(position)
 };
 
 function onError(error) {
-	
+
 	console.log('onError');
 
 	IonPopup.show({
@@ -243,7 +331,7 @@ Template.connectRent.helpers({
 		return Session.get('sliderValue')
 	},
 	todaysDate: function() {
-		return moment().format('MM/DD'); 
+		return moment().format('MM/DD');
 	},
 	endDate: function() {
 		return moment().add(Session.get('sliderValue'), 'w').format('MM/DD');
@@ -258,7 +346,7 @@ Template.connectRent.events({
 		var connectionId = this._id;
 		var requestorName = Meteor.users.findOne(this.requestor).profile.name;
 		var ownerId = this.bookData.ownerId;
-		
+
 		IonPopup.confirm({
 			cancelText: 'Cancel',
 			okText: 'Return',
@@ -271,13 +359,13 @@ Template.connectRent.events({
 				Meteor.call('returnBook', connectionId, function(error, result) {
 					console.log(error, result)
 				})
-				
+
 				IonPopup.close();
 				IonModal.open("feedback", Connections.findOne(connectionId));
 			}
 
 		});
-		
+
 	},
 	'change #slider': function(e) {
 		Session.set('sliderValue', e.target.value);
@@ -289,7 +377,7 @@ Template.connectRent.events({
 		IonModal.open("chat", Connections.findOne(this));
 	},
 	'click #payAndRent': function() {
-		
+
 		if (Meteor.user().profile.cards) {
 			Session.set('payRedirect', false);
 			var payerCardId = Meteor.user().profile.cards.data[0].id;
@@ -317,7 +405,7 @@ Template.connectRent.events({
 							IonPopup.show({
 								title: 'Payment Successful!',
 								template: '<div class="center">A record of this payment is stored under Transactions History</div>',
-								buttons: 
+								buttons:
 								[{
 									text: 'OK',
 									type: 'button-assertive',
@@ -357,20 +445,20 @@ Template.connectRent.events({
 				IonPopup.close();
 				Router.go('/listing');
 			}
-	
-		});	
+
+		});
 	},
-	'click #showMap': function() 
+	'click #showMap': function()
 	{
 		this.meetupLocation = Connections.findOne(this._id).meetupLocation;
 
-		
 
-		if (this.meetupLatLong === "Location not set") 
+
+		if (this.meetupLatLong === "Location not set")
 		{
 			return false;
-		} 
-		else 
+		}
+		else
 		{
 			argMeetupLatLong = Connections.findOne(this._id).meetupLatLong;
 			CheckLocatioOnForTaker();
@@ -381,21 +469,19 @@ Template.connectRent.events({
 var currentTakerPosition, argMeetupLatLong;
 function CheckLocatioOnForTaker()
 {
-	navigator.geolocation.getCurrentPosition(onSuccessMethod, onErrorMethod);	
+	navigator.geolocation.getCurrentPosition(onSuccessMethod, onErrorMethod);
 }
 
 var onSuccessMethod = function(position)
 {
 	currentTakerPosition = position;
-	
+
 	Session.set('takerCurrentPosition', {lat: currentTakerPosition.coords.latitude, lng: currentTakerPosition.coords.longitude});
 	console.log('coords: ' + Session.get('takerCurrentPosition').lat);
 	console.log(argMeetupLatLong);
-	IonModal.open('onlyMap', argMeetupLatLong);	
+	IonModal.open('onlyMap', argMeetupLatLong);
 }
 
 function onErrorMethod(error) {
 	console.log('Err: '+ error);
 }
-
-
