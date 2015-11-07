@@ -82,7 +82,12 @@ momentjs:moment@2.10.6
 mongo@1.1.3
 mongo-id@1.0.1
 mrt:accounts-facebook-cordova@0.0.2
+<<<<<<< HEAD
 msavin:mongol@1.5.0
+=======
+mrt:moment@2.8.1
+mrt:twilio-meteor@1.1.0
+>>>>>>> 4cb64e27f3b7bd50520b5df3795784843c0cf5c1
 npm-bcrypt@0.7.8_2
 npm-container@1.2.0
 npm-mongo@1.4.39_1

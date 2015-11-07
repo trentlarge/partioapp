@@ -70,6 +70,15 @@ var SinchTicketGenerator = Meteor.npmRequire('sinch-ticketgen');
 //   }
 // });
 
+twilio = Twilio('ACa259379ccf43ebe0af6e2eb7f3bffc93','50582e08bc2d140b8e940fe1a54d9623');
+twilio.listSms({
+  from:'+5531992848154'
+}, function (err, responseData) {
+  responseData.smsMessages.forEach(function(message) {
+      console.log('Message sent on: '+message.dateCreated.toLocaleDateString());
+      console.log(message.body);
+  });
+});
 
 
 

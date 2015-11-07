@@ -23,7 +23,6 @@ Template.inventory.events({
     var connectionId = this._id;
     var bookId = this.bookData._id;
     //var searchCollectionId = Products.findOne({productUniqueId: bookId})._id;
-
     var searchCollectionId = Products.findOne(bookId);
 
     if(!searchCollectionId._id) {
