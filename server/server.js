@@ -87,10 +87,11 @@ SearchSource.defineSource('packages', function(searchText, options) {
   var options = {sort: {isoScore: -1}, limit: 20};
   if(searchText) {
     var regExp = buildRegExp(searchText);
-    var selector = {$or: [{title: regExp},{authors: regExp},{ean: searchText}]};
-    return Products.find(selector, options).fetch();
+    // var selector = {$or: [{title: regExp},{authors: regExp},{ean: searchText}]};
+     var selector = {$or: [{title: regExp}]}
+    return Search.find(selector, options).fetch();
   } else {
-    return Products.find({}, options).fetch();
+    return Search.find({}, options).fetch();
   }
 });
 

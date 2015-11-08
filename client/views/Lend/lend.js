@@ -1,15 +1,15 @@
 Template.lend.events({
   'click .submitProduct': function(e, template) {
     IonLoading.show();
-    Meteor.setTimeout(function()
-    {
 
-      if (Session.get('lendTab') === 'manual')
-      {
+    Meteor.setTimeout(function(){
+
+      //MANUAL INSERT BOOK ---------------------------------------------
+      if (Session.get('lendTab') === 'manual') {
         var manualBook = {
           "title": $('#manualtitle').val(),
-//          "authors": template.find('#manualauthor').value,
-//          "publisher": template.find('#manualpublisher').value,
+          //"authors": template.find('#manualauthor').value,
+          //"publisher": template.find('#manualpublisher').value,
           "comments": $('#manualcomments').val(),
           "manualEntry": true,
           "ownerId": Meteor.userId(),
@@ -18,8 +18,7 @@ Template.lend.events({
         }
         console.log(manualBook);
 
-        if(!ValidateInputs(manualBook))
-        {
+        if(!ValidateInputs(manualBook)){
           IonLoading.hide();
           return;
         }
@@ -27,17 +26,16 @@ Template.lend.events({
         //TEST
         //GetRentingPercentages('ONE_WEEK');
 
-        if (manualBook.title && manualBook.customPrice)
-        {
+        if (manualBook.title && manualBook.customPrice){
           Session.set('manualBook', manualBook);
           Session.set('BookAddType', 'MANUAL');
 
-//          if(CheckStripeAccount())
-//          {
-            AddProductToInventoryManually();
-//          }
-        }
-        else {
+          //if(CheckStripeAccount())
+          //{
+          AddProductToInventoryManually();
+          //}
+
+        } else {
           IonLoading.hide();
           IonPopup.show({
             title: 'Missing data!',
@@ -53,11 +51,9 @@ Template.lend.events({
           });
         }
 
-      }
-      else
-      {
-        if (Session.get('scanResult'))
-        {
+      //BAR CODE & CAMFIND ---------------------------------------------
+      } else {
+        if (Session.get('scanResult')) {
           // var lendingPeriod = (function() {
           //   return (template.find('#lendingPeriod').value) ? template.find('#lendingPeriod').value : 2;
           // }) ();
@@ -81,15 +77,13 @@ Template.lend.events({
             return;
           }
 
-//          if(CheckStripeAccount())
-//          {
-            Session.set('BookAddType', 'SCAN');
-            AddProductToInventory();
-//          }
+          //if(CheckStripeAccount())
+          //{
+          Session.set('BookAddType', 'SCAN');
+          AddProductToInventory();
+          //}
 
-        }
-        else
-        {
+        } else {
           IonLoading.hide();
           IonPopup.show({
             title: 'Nothing to add!',
@@ -107,12 +101,12 @@ Template.lend.events({
       }
     }, 500)
   },
-  'keyup .userPrice': function(e, template)
-  {
+
+  'keyup .userPrice': function(e, template){
     Session.set('userPrice', e.target.value);
   },
-  'keyup .fieldDescriptionLend': function(e, template)
-  {
+
+  'keyup .fieldDescriptionLend': function(e, template){
     Session.set('description', e.target.value);
   },
 
@@ -417,42 +411,48 @@ function showInvalidPopUp(strTitle, strMessage)
         });
 }
 
-
-function AddProductToInventoryManually()
-{
+function AddProductToInventoryManually() {
   Products.insert(Session.get('manualBook'));
   Session.set('userPrice', null);
   Session.set('priceValue', null);
-          IonLoading.hide();
-          IonPopup.show({
-            title: 'Your Product sucessfully submitted',
-            template: '<div class="center">You can find this shared item in your Repository</div>',
-            buttons:
-            [{
-              text: 'OK',
-              type: 'button-energized',
-              onTap: function() {
-                $('#closeLend').click();
-                IonPopup.close();
-                Router.go('/inventory');
-                IonModal.close();
-              }
-            }]
-          });
+  IonLoading.hide();
+  IonPopup.show({
+    title: 'Your Product sucessfully submitted',
+    template: '<div class="center">You can find this shared item in your Repository</div>',
+    buttons:
+    [{
+      text: 'OK',
+      type: 'button-energized',
+      onTap: function() {
+        $('#closeLend').click();
+        IonPopup.close();
+        Router.go('/inventory');
+        IonModal.close();
+      }
+    }]
+  });
 }
 
-function AddProductToInventory()
-{
+function AddProductToInventory() {
   var submitProduct = Session.get('scanResult');
   var insertData = _.extend(submitProduct,
   {
-          // "lendingPeriod": lendingPeriod,
-          "ownerId": Meteor.userId(),
-          "customPrice": Session.get('userPrice'),
-          "description": Session.get('description'),
+    // "lendingPeriod": lendingPeriod,
+    "ownerId": Meteor.userId(),
+    "customPrice": Session.get('userPrice'),
+    "description": Session.get('description'),
   });
 
-  Products.insert(insertData);
+  Products.insert(insertData, function(err,docsInserted){
+    if(!err){
+      updateSearchCollection({ _id: docsInserted,
+                              data: insertData });
+    } else {
+      console.log('some error to insert new product')
+    }
+  });
+
+
   Session.set('userPrice', null);
   RentingFinalPrice = 0.0;
   IonLoading.hide();
@@ -476,4 +476,19 @@ function AddProductToInventory()
       }
     }]
   });
+}
+
+function updateSearchCollection(product) {
+  console.log('adding to search collection');
+  var findUnique = Search.findOne({ title: product.data.title });
+
+  //first product with this title
+  if(!findUnique) {
+    Search.insert({ title: product.data.title,
+                    image: product.data.image,
+                    prodIds: [ product._id ] })
+  } else {
+    findUnique.prodIds.push(product._id);
+    Search.update(findUnique._id, findUnique);
+  }
 }
