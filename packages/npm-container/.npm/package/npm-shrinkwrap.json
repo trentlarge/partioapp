@@ -1,16 +1,16 @@
 {
   "dependencies": {
     "sinch-ticketgen": {
-      "version": "http://registry.npmjs.org/sinch-ticketgen/-/sinch-ticketgen-0.0.5.tgz",
+      "version": "0.0.5",
       "dependencies": {
         "btoa": {
-          "version": "http://registry.npmjs.org/btoa/-/btoa-1.1.2.tgz"
+          "version": "1.1.2"
         },
         "atob": {
-          "version": "http://registry.npmjs.org/atob/-/atob-1.1.2.tgz"
+          "version": "1.1.2"
         },
         "crypto-js": {
-          "version": "http://registry.npmjs.org/crypto-js/-/crypto-js-3.1.5.tgz"
+          "version": "3.1.5"
         }
       }
     }
