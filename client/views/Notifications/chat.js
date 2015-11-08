@@ -44,6 +44,8 @@ Template.appLayout.events({
 
 		var recipient = (cRequestor === Meteor.userId()) ? cOwner : cRequestor;
 
+		console.log('USER ID '+recipient);
+
 		var remoteCallerId = Meteor.users.findOne(recipient).profile.name;
 
 		Session.set("_incomingCaller", remoteCallerId);

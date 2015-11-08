@@ -1,7 +1,12 @@
 Template.savedCards.events({
 	'click #add-credit-card': function(e) {
-		IonLoading.show();
-		
+
+		IonLoading.show({
+			customTemplate: '<img src="circle.png" class="logo-spinner" >',
+			backdrop: false,
+			delay: 0
+		});
+
 		stripeHandlerCredit.open({
 			name: 'partiO',
 			description: 'Add Card',
@@ -20,7 +25,14 @@ Template.savedCards.events({
 		});
 	},
 	'click #add-debit-card': function(e) {
-		IonLoading.show();
+
+		IonLoading.show({
+			customTemplate: '<img src="circle.png" class="logo-spinner" >',
+			backdrop: false,
+			delay: 0
+		});
+
+
 		Meteor.call('createDebitAccount', Meteor.userId(), function(error, result) {
 			if (!error) {
 
@@ -44,7 +56,7 @@ Template.savedCards.events({
 							Expiry: Future Date<br>\
 							CVV: Any 3 digits<br>\
 						</div>',
-			buttons: 
+			buttons:
 			[{
 				text: 'OK',
 				type: 'button-energized',
@@ -70,7 +82,7 @@ Template.savedCards.events({
 							Expiry: Future Date<br>\
 							CVV: Any 3 digits<br>\
 						</div>',
-			buttons: 
+			buttons:
 			[{
 				text: 'OK',
 				type: 'button-energized',
@@ -86,7 +98,11 @@ Template.savedCards.onRendered(function() {
 	stripeHandlerCredit = StripeCheckout.configure({
 		key: 'pk_test_OYfO9mHIQFha7How6lNpwUiQ',
 		token: function(token) {
-			IonLoading.show();
+			IonLoading.show({
+				customTemplate: '<img src="circle.png" class="logo-spinner" >',
+				backdrop: false,
+				delay: 0
+			});
 			console.log(token);
 			Meteor.call('addPaymentCard', token.id, Meteor.user().profile.customer.id, Meteor.userId(), function(error, result) {
 				IonLoading.hide();
@@ -108,13 +124,17 @@ Template.savedCards.onRendered(function() {
 		default_for_currency : true,
 		panelLabel: 'Save Card',
 		token: function(token) {
-			IonLoading.show();
+			IonLoading.show({
+				customTemplate: '<img src="circle.png" class="logo-spinner" >',
+				backdrop: false,
+				delay: 0
+			});
 			console.log(token);
 			Meteor.call('addDebitCard', token.id, Meteor.user().profile.stripeAccount.id, Meteor.userId(), function(error, result) {
 				IonLoading.hide();
 				if (!error) {
 					console.log('On successfully completing the transaction, add the book to the inventory');
-					
+
 					if(Session.get('BookAddType') == 'MANUAL')
 					{
 						AddProductToInventoryManually();
@@ -123,7 +143,7 @@ Template.savedCards.onRendered(function() {
 					{
 						if(Session.get('scanResult') != null)
 						{
-							AddProductToInventory();								
+							AddProductToInventory();
 						}
 					}
 
@@ -145,15 +165,15 @@ Template.savedCards.helpers({
 	addedDebitCard: function() {
 		if (Meteor.user().profile.payoutCard && Meteor.user().profile.payoutCard.external_accounts.data) {
 			return Meteor.user().profile.payoutCard.external_accounts.data[0];
-		}	
+		}
 	}
 })
 
 // Template.bankAccount.events({
 // 	'click #stripe-create': function(e, template) {
-		
+
 // 		console.log('creating a new stripe account');
-		
+
 // 		var firstname = template.find('#stripe-firstname').value;
 // 		var lastname = template.find('#stripe-lastname').value;
 // 		var ssn = template.find('#stripe-ssn').value;
@@ -167,10 +187,10 @@ Template.savedCards.helpers({
 // 			IonLoading.show();
 // 			console.log(firstname, lastname, ssn, routingnumber, bankaccount);
 // 			Meteor.call('createStripeAccount', firstname, lastname, ssn, routingnumber, bankaccount, Meteor.userId(), function(error, result) {
-// 				if (!error) 
+// 				if (!error)
 // 				{
 // 					console.log('On successfully completing the transaction, add the book to the inventory');
-					
+
 // 					if(Session.get('BookAddType') == 'MANUAL')
 // 					{
 // 						AddProductToInventoryManually();
@@ -179,18 +199,18 @@ Template.savedCards.helpers({
 // 					{
 // 						if(Session.get('scanResult') != null)
 // 						{
-// 							AddProductToInventory();								
+// 							AddProductToInventory();
 // 						}
 // 					}
-									
+
 // 					IonLoading.hide();
-// 				} 
-// 				else 
+// 				}
+// 				else
 // 				{
 // 					console.log(error);
 // 				}
 // 			})
-// 		}		
+// 		}
 // 	}
 // });
 
@@ -232,11 +252,11 @@ Template.savedCards.helpers({
 // 	IonPopup.show({
 //           title: strTitle,
 //           template: '<div class="center">'+strMessage+'</div>',
-//           buttons: 
+//           buttons:
 //           [{
 //             text: 'OK',
 //             type: 'button-energized',
-//             onTap: function() 
+//             onTap: function()
 //             {
 //             	IonPopup.close();
 //             }
@@ -252,7 +272,7 @@ function AddProductToInventoryManually()
           IonPopup.show({
             title: 'Your Product sucessfully submitted',
             template: '<div class="center">You can find this shared item in your Repository</div>',
-            buttons: 
+            buttons:
             [{
               text: 'OK',
               type: 'button-energized',
@@ -267,7 +287,7 @@ function AddProductToInventoryManually()
 
 function AddProductToInventory() {
 	var submitProduct = Session.get('scanResult');
-	var insertData = _.extend(submitProduct, 
+	var insertData = _.extend(submitProduct,
 	{
 		"ownerId": Meteor.userId(),
 		"customPrice": Session.get('userPrice')
@@ -279,7 +299,7 @@ function AddProductToInventory() {
 	IonPopup.show({
 		title: 'Your Product sucessfully submitted',
 		template: '<div class="center">And saved to your Inventory</div>',
-		buttons: 
+		buttons:
 		[{
 			text: 'OK',
 			type: 'button-energized',
@@ -297,14 +317,10 @@ function AddProductToInventory() {
 // Template.bankAccount.helpers({
 // 	noStripeYet: function() {
 // 		if (Meteor.user() && ! Meteor.user().profile.stripeAccount) {
-// 			return true; 
+// 			return true;
 // 		}
 // 	},
 // 	stripeAccount: function() {
 // 		return Meteor.user().profile.stripeAccount;
 // 	}
 // })
-
-
-
-
