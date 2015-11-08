@@ -84,17 +84,21 @@ Template.camfind.helpers({
 
 Template.camfindinput.events({
   'click #manualSubmitCamFind': function(e, template) {
-    
+
     //reset sessions
     Session.set('scanResult', null);
     Session.set('lendTab', 'camfind');
-      
-    IonLoading.show();
+
+    IonLoading.show({
+      customTemplate: '<img src="circle.png" class="logo-spinner" >',
+      backdrop: false,
+      delay: 0
+    });
 
     //get keywords
-    var key = template.find('#manualInputCamFind').value;  
+    var key = template.find('#manualInputCamFind').value;
     Session.set("lastSearchCamFind", key);
-      
+
     //check if exist in all results cache
     if(Lend.allResultsCache[key]) {
         Session.set('allResults', Lend.allResultsCache[key]);
@@ -134,7 +138,7 @@ Template.camfindinput.events({
             });
 
             //add on cache
-            Lend.allResultsCache[key] = result;  
+            Lend.allResultsCache[key] = result;
             Lend.latestProduct = key;
 
             Session.set('allResults', result);

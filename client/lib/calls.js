@@ -8,6 +8,9 @@
 
 PartioCaller = {
   call: function(userId, callbacks) {
+
+    console.log('CALLS '+userId);
+
     if (userId == Meteor.userId()) throw new Error("You cannot call yourself!");
     this.currentCall = this.callClient.callUser(userId);
 
