@@ -51,7 +51,7 @@ app.model.Lend = (function () {
                 if(this.RentingFinalPrice < 7.00) //$1.00 per day
                     this.RentingFinalPrice = 7.00;
             }
-            else if(RentingTimeSpan == 'ONE_MONTH')
+            else if(this.RentingTimeSpan == 'ONE_MONTH')
             {
                 this.RentingFinalPrice = parseFloat((this.RentingOneMonthPercentage/100) * this.RentingAmazonPrice);
                 this.RentingFinalPrice = parseFloat(this.RentingFinalPrice * 30);

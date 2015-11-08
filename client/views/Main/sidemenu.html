@@ -1,35 +1,56 @@
 <template name="sidemenu">
   {{#ionSideMenu}}
     <div>
-      <div class="logo-container">
-        <a href="/" data-ion-menu-close><img src="logo/main_logo.png"/></a>&nbsp;
-      </div>
-
-      <div class="list transparent-list">
+        
+    <div class="list transparent-list">    
+        <div class="item top">
+            
+            <label>
+                <input type="text" name="search" id="search" placeholder="Search for a item..">
+                <i class="icon ion-search" id="search-icon"></i>
+            </label>
+            <a href="{{pathFor "notifications"}}" class="notification" data-ion-menu-close>  
+              {{> ionIcon icon="android-notifications" class="energized"}} 
+            </a>    
+        </div>
+            
+        <div class="logo-container">
+            <a href="/" data-ion-menu-close><img src="logo/main_logo.png"/></a>&nbsp;
+        </div>
+      
+<!--
         <a href="{{pathFor "listing"}}" class="item" data-ion-menu-close>
           {{> ionIcon icon="search" class="energized"}} &nbsp;&nbsp; SEARCH
         </a>
+-->
         <a href="{{pathFor "inventory"}}" class="item" data-ion-menu-close>
-          {{> ionIcon icon="ios-briefcase" class="energized"}} &nbsp;&nbsp; INVENTORY
+          {{> ionIcon icon="ios-briefcase" class="energized"}} &nbsp;&nbsp; MY ITEMS
+          <span class="badge badge-alert badge-assertive">{{#if inventoryCount}}{{inventoryCount}}{{/if}}</span>
         </a>
         <a href="{{pathFor "renting"}}" class="item" data-ion-menu-close>
-          {{> ionIcon icon="ios-browsers" class="energized"}} &nbsp;&nbsp; RENTING
+          {{> ionIcon icon="ios-browsers" class="energized"}} &nbsp;&nbsp; RENTED STUFF
+          <span class="badge badge-alert badge-assertive">{{#if rentedCount}}{{rentedCount}}{{/if}}</span>
         </a>
         <a href="{{pathFor "transactions"}}" class="item" data-ion-menu-close>
           {{> ionIcon icon="card" class="energized"}} &nbsp;&nbsp; TRANSACTIONS
+          <span class="badge badge-alert badge-assertive">{{#if transactionCount}}{{transactionCount}}{{/if}}</span>    
         </a>
         <a href="{{pathFor "profile"}}" class="item" data-ion-menu-close>
           {{> ionIcon icon="person" class="energized"}} &nbsp;&nbsp; MY PROFILE
         </a>
+<!--
         <a href="{{pathFor "notifications"}}" class="item" data-ion-menu-close>
           {{> ionIcon icon="android-notifications" class="energized"}} &nbsp;&nbsp; NOTIFICATIONS
           <span class="badge badge-alert badge-assertive">{{#if alertCount}}{{alertCount}}{{/if}}</span>
         </a>
-        <a href="{{pathFor "logout"}}" class="item" id="logout" data-ion-menu-close>
-          {{> ionIcon icon="android-exit" class="energized"}} &nbsp;&nbsp; LOGOUT
-        </a>
+-->
+        <div class="center">
+            <a href="{{pathFor "logout"}}" class="button" id="logout" data-ion-menu-close>
+              LOGOUT
+            </a>
+        </div>
       </div>
-      <p class="padding beta">beta v0.4.2</p>
+      <p class="beta">beta v0.4.2</p>
     </div>
   {{/ionSideMenu}}
 </template>

@@ -1,6 +1,7 @@
 Template.main.events({
 	'click .bottom-part': function() {
 		console.log('bottom-part');
+        Session.set('searchText', '');
 		Router.go('/listing');
 	},
 
@@ -9,10 +10,21 @@ Template.main.events({
 	}
 });
 
-Template.appLayout.helpers({
+//sidemenu helpers
+
+Template.sidemenu.helpers({
 	'alertCount': function() {
 		return Session.get('alertCount');
-	}
+	},
+    'inventoryCount': function() {
+        return Products.find({"ownerId": Meteor.userId()}).count();
+    },
+    'rentedCount': function() {
+        return Connections.find({"requestor": Meteor.userId()}).count();
+    },
+    'transactionCount': function() {
+        return 0;
+    }
 })
 
 Template.appLayout.events({

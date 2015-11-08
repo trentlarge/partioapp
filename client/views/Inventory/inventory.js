@@ -1,3 +1,4 @@
+
 Template.inventory.helpers({
   myBooks: function() {
     return Products.find({"ownerId": Meteor.userId()})

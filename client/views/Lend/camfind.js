@@ -124,11 +124,6 @@ Template.camfindinput.events({
 
           } else {
 
-            // sort results by category
-            result.sort(function(a, b) {
-                return (a.category > b.category) ? 1 : -1;
-            });
-
             $.each(result, function(index, r) {
                 result[index].index = index;
             });

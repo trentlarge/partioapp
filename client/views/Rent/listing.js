@@ -1,3 +1,31 @@
+Template.sidemenu.events({
+    'click #search-icon': function(e, template) {
+        
+        var searchText = $('#search').val();
+        
+        if(searchText != '') {
+            
+            Session.set('searchText', searchText);
+            console.log(Session.get('listing'));
+            
+            if(Session.get('listing')){
+                PackageSearch.search(searchText);
+            }
+            else {
+                Router.go('listing');
+            }
+        }
+    }
+})
+
+Template.listing.rendered = function() {
+    Session.set('listing', true);
+}
+
+Template.listing.destroyed = function() {
+    Session.set('listing', false);
+}
+
 Template.loadingTemplate.rendered = function() {
   IonLoading.show();
 }
@@ -22,7 +50,7 @@ Template.rating.helpers({
     } else {
       return "1.0";
     }
-  }
+  },
 });
 
 
@@ -59,8 +87,14 @@ Template.searchResult.events({
 })
 
 Template.searchResult.rendered = function() {
-  PackageSearch.search('');
+  PackageSearch.search(Session.get('searchText'));
 };
+
+Template.searchBox.helpers({
+  searchText: function() {
+    return Session.get('searchText');
+  },    
+});
 
 Template.searchBox.events({
   "keyup #search-box": _.throttle(function(e) {
