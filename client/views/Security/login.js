@@ -108,7 +108,7 @@ Template.login.events({
 	'click #loginButton': function(e, template) {
 		e.preventDefault();
 
-		IonLoading.show();
+		PartioLoad.show();
 
 		var email = template.find('[name=email]').value;
 		var password = template.find('[name=password]').value;
@@ -116,7 +116,7 @@ Template.login.events({
 
 		Meteor.loginWithPassword(email, password, function(error) {
 
-			IonLoading.hide();
+			PartioLoad.hide();
 
 			if (error) {
 				console.log(error);
