@@ -39,7 +39,7 @@ Template.inventory.events({
       onOk: function() {
         IonPopup.close();
         console.log("proceeding with connection");
-        IonLoading.show();
+        PartioLoad.show();
         Meteor.call('ownerAccept', connectionId, function(error, result) {
           if (!error)
           {
@@ -72,7 +72,7 @@ Template.inventory.events({
             //   console.log('connectionforBookID: ' + item);
             // });
 
-            IonLoading.hide();
+            PartioLoad.hide();
 
             IonPopup.show({
               title: 'Great!',

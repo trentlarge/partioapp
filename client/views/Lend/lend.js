@@ -1,6 +1,6 @@
 Template.lend.events({
   'click .submitProduct': function(e, template) {
-    IonLoading.show();
+    PartioLoad.show();
 
     Meteor.setTimeout(function(){
 
@@ -19,7 +19,7 @@ Template.lend.events({
         console.log(manualBook);
 
         if(!ValidateInputs(manualBook)){
-          IonLoading.hide();
+          PartioLoad.hide();
           return;
         }
 
@@ -36,7 +36,7 @@ Template.lend.events({
           //}
 
         } else {
-          IonLoading.hide();
+          PartioLoad.hide();
           IonPopup.show({
             title: 'Missing data!',
             template: '<div class="center">Please fill mandatory fields</div>',
@@ -65,14 +65,14 @@ Template.lend.events({
           console.log('xPrice ' + xPrice);
           if(xPrice < 0.5)
           {
-            IonLoading.hide();
+            PartioLoad.hide();
             showInvalidPopUp('Invalid Inputs', 'Please valid rent price.');
             return;
           }
 
           if(xPrice > 1000)
           {
-            IonLoading.hide();
+            PartioLoad.hide();
             showInvalidPopUp('Invalid Inputs', 'Please rent price < $1000.');
             return;
           }
@@ -84,7 +84,7 @@ Template.lend.events({
           //}
 
         } else {
-          IonLoading.hide();
+          PartioLoad.hide();
           IonPopup.show({
             title: 'Nothing to add!',
             template: '<div class="center">Scan or add a product to make it available on partiO for others to find</div>',
@@ -112,7 +112,7 @@ Template.lend.events({
 
   'click #reset': function() {
     ClearData();
-    IonLoading.hide();
+    PartioLoad.hide();
 
     //TEST METHOD
     //testCamFindMethod();
@@ -126,7 +126,7 @@ Template.lend.events({
   },
 
   'click #manualSubmit': function(e, template) {
-    IonLoading.show();
+    PartioLoad.show();
     var manualCode = $('#manualInput').val();
     var codeFormat = (function() {
       return (manualCode.length === 12) ? "UPC" : "EAN";
@@ -140,10 +140,10 @@ Template.lend.events({
       {
         Session.set('scanResult', result);
         Session.set('lendTab', 'results');
-        IonLoading.hide();
+        PartioLoad.hide();
       } else {
         console.log(error);
-        IonLoading.hide();
+        PartioLoad.hide();
         IonPopup.show({
           title: 'Please try again or manually enter your product :( ',
             template: '<div class="center">'+ error.message + '</div>',
@@ -421,7 +421,7 @@ function AddProductToInventoryManually() {
   Products.insert(Session.get('manualBook'));
   Session.set('userPrice', null);
   Session.set('priceValue', null);
-  IonLoading.hide();
+  PartioLoad.hide();
   IonPopup.show({
     title: 'Your Product sucessfully submitted',
     template: '<div class="center">You can find this shared item in your Repository</div>',
@@ -461,7 +461,7 @@ function AddProductToInventory() {
 
   Session.set('userPrice', null);
   RentingFinalPrice = 0.0;
-  IonLoading.hide();
+  PartioLoad.hide();
 
   IonPopup.show({
     title: 'Your Product sucessfully submitted',

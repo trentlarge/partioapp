@@ -88,7 +88,7 @@ Template.appLayout.events({
     console.log(updatedProfile);
     Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.name": updatedProfile.name, "profile.college": updatedProfile.college}}, function(error) {
       if (!error) {
-        IonLoading.hide();
+        PartioLoad.hide();
         console.log("success!");
         Session.set('profileEdit', false);
       }

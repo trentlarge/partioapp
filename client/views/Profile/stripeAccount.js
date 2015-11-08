@@ -1,11 +1,7 @@
 Template.savedCards.events({
 	'click #add-credit-card': function(e) {
 
-		IonLoading.show({
-			customTemplate: '<img src="circle.png" class="logo-spinner" >',
-			backdrop: false,
-			delay: 0
-		});
+		PartioLoad.show();
 
 		stripeHandlerCredit.open({
 			name: 'partiO',
@@ -14,8 +10,8 @@ Template.savedCards.events({
 			panelLabel: 'Save Card',
 			email: Meteor.user().profile.email,
 			allowRememberMe: false,
-			opened: function() { IonLoading.hide() },
-			closed: function() { IonLoading.hide() }
+			opened: function() { PartioLoad.hide() },
+			closed: function() { PartioLoad.hide() }
 		});
 		e.preventDefault();
 	},
@@ -26,11 +22,7 @@ Template.savedCards.events({
 	},
 	'click #add-debit-card': function(e) {
 
-		IonLoading.show({
-			customTemplate: '<img src="circle.png" class="logo-spinner" >',
-			backdrop: false,
-			delay: 0
-		});
+		PartioLoad.show();
 
 
 		Meteor.call('createDebitAccount', Meteor.userId(), function(error, result) {
@@ -39,8 +31,8 @@ Template.savedCards.events({
 				stripeHandlerDebit.open({
 					email: Meteor.user().profile.email,
 					allowRememberMe: false,
-					opened: function() { IonLoading.hide() },
-					closed: function() { IonLoading.hide() }
+					opened: function() { PartioLoad.hide() },
+					closed: function() { PartioLoad.hide() }
 				});
 			}
 		});
@@ -98,14 +90,10 @@ Template.savedCards.onRendered(function() {
 	stripeHandlerCredit = StripeCheckout.configure({
 		key: 'pk_test_OYfO9mHIQFha7How6lNpwUiQ',
 		token: function(token) {
-			IonLoading.show({
-				customTemplate: '<img src="circle.png" class="logo-spinner" >',
-				backdrop: false,
-				delay: 0
-			});
+			PartioLoad.show();
 			console.log(token);
 			Meteor.call('addPaymentCard', token.id, Meteor.user().profile.customer.id, Meteor.userId(), function(error, result) {
-				IonLoading.hide();
+				PartioLoad.hide();
 				console.log(error);
 				console.log(result);
 				if (Session.get('payRedirect')) {
@@ -124,14 +112,10 @@ Template.savedCards.onRendered(function() {
 		default_for_currency : true,
 		panelLabel: 'Save Card',
 		token: function(token) {
-			IonLoading.show({
-				customTemplate: '<img src="circle.png" class="logo-spinner" >',
-				backdrop: false,
-				delay: 0
-			});
+			PartioLoad.show();
 			console.log(token);
 			Meteor.call('addDebitCard', token.id, Meteor.user().profile.stripeAccount.id, Meteor.userId(), function(error, result) {
-				IonLoading.hide();
+				PartioLoad.hide();
 				if (!error) {
 					console.log('On successfully completing the transaction, add the book to the inventory');
 
@@ -147,7 +131,7 @@ Template.savedCards.onRendered(function() {
 						}
 					}
 
-					IonLoading.hide();
+					PartioLoad.hide();
 				} else {
 					console.log(error)
 				}
@@ -184,7 +168,7 @@ Template.savedCards.helpers({
 
 // 		if(ValidateInputs(firstname, lastname, ssn, routingnumber, bankaccount))
 // 		{
-// 			IonLoading.show();
+// 			PartioLoad.show();
 // 			console.log(firstname, lastname, ssn, routingnumber, bankaccount);
 // 			Meteor.call('createStripeAccount', firstname, lastname, ssn, routingnumber, bankaccount, Meteor.userId(), function(error, result) {
 // 				if (!error)
@@ -203,7 +187,7 @@ Template.savedCards.helpers({
 // 						}
 // 					}
 
-// 					IonLoading.hide();
+// 					PartioLoad.hide();
 // 				}
 // 				else
 // 				{
@@ -268,7 +252,7 @@ function AddProductToInventoryManually()
 {
   Products.insert(Session.get('manualBook'));
   Session.set('userPrice', null);
-          IonLoading.hide();
+          PartioLoad.hide();
           IonPopup.show({
             title: 'Your Product sucessfully submitted',
             template: '<div class="center">You can find this shared item in your Repository</div>',
@@ -295,7 +279,7 @@ function AddProductToInventory() {
 
 	Products.insert(insertData);
 	Session.set('userPrice', null);
-	IonLoading.hide();
+	PartioLoad.hide();
 	IonPopup.show({
 		title: 'Your Product sucessfully submitted',
 		template: '<div class="center">And saved to your Inventory</div>',

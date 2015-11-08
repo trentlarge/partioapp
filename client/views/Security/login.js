@@ -49,7 +49,7 @@ Template.register.events({
 	    			console.log(error);
 
 	    			if (error) {
-	    				IonLoading.hide();
+	    				PartioLoad.hide();
 	    				IonPopup.show({
 	    					title: 'Error while Signing up. Please try again.',
 	    					template: '<div class="center">'+error.reason+'</div>',
@@ -71,9 +71,9 @@ Template.register.events({
 	    							spending: []
 	    						});
 	    						Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.transactionsId": userTransId}});
-	    						IonLoading.hide();
+	    						PartioLoad.hide();
 	    					} else {
-	    						IonLoading.hide();
+	    						PartioLoad.hide();
 	    						console.log(error);
 	    					}
 	    				})
@@ -206,10 +206,10 @@ Template.login.events({
 								spending: []
 							});
 							Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.transactionsId": userTransId}});
-							IonLoading.hide();
+							PartioLoad.hide();
 
 						} else {
-							IonLoading.hide();
+							PartioLoad.hide();
 							console.log(error);
 						}
 					})

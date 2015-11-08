@@ -398,10 +398,10 @@ Template.connectRent.events({
 					console.log('Cancelled')
 				},
 				onOk: function() {
-					IonLoading.show();
+					PartioLoad.show();
 					Meteor.call('chargeCard', payerCustomerId, payerCardId, recipientDebitId, amount, connectionId, transactionsId, transactionsRecipientId, function(error, result) {
 						if (!error) {
-							IonLoading.hide();
+							PartioLoad.hide();
 							IonPopup.show({
 								title: 'Payment Successful!',
 								template: '<div class="center">A record of this payment is stored under Transactions History</div>',

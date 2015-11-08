@@ -29,7 +29,7 @@ Template.bookDetail.events({
 			IonPopup.show({
 				title: 'You own this item! :)',
 				template: '',
-				buttons: 
+				buttons:
 				[{
 					text: 'OK',
 					type: 'button-energized',
@@ -42,7 +42,7 @@ Template.bookDetail.events({
 			IonPopup.show({
 				title: 'You already borrowed this item!',
 				template: '',
-				buttons: 
+				buttons:
 				[{
 					text: 'OK',
 					type: 'button-energized',
@@ -59,10 +59,10 @@ Template.bookDetail.events({
 				template: '<div class="center">You\'ll receive a notification once the owner accepts your request</div>',
 				onOk: function() {
 					console.log("proceeding with connection");
-					IonLoading.show();
+					PartioLoad.show();
 					Meteor.call('requestOwner', Meteor.userId(), productId, function(error, result) {
 						if (!error) {
-							IonLoading.hide();
+							PartioLoad.hide();
 							console.log(result);
 							IonLoading.show({
 								duration: 2000,
@@ -73,7 +73,7 @@ Template.bookDetail.events({
 								Router.go('/booksLent');
 							}, 2500)
 						} else {
-							IonLoading.hide();
+							PartioLoad.hide();
 							console.log(error);
 						}
 					})
@@ -84,11 +84,6 @@ Template.bookDetail.events({
 			});
 		}
 
-		
+
 	}
 })
-
-
-
-
-

@@ -1,13 +1,13 @@
 Template.sidemenu.events({
     'click #search-icon': function(e, template) {
-        
+
         var searchText = $('#search').val();
-        
+
         if(searchText != '') {
-            
+
             Session.set('searchText', searchText);
             console.log(Session.get('listing'));
-            
+
             if(Session.get('listing')){
                 PackageSearch.search(searchText);
             }
@@ -27,11 +27,11 @@ Template.listing.destroyed = function() {
 }
 
 Template.loadingTemplate.rendered = function() {
-  IonLoading.show();
+  PartioLoad.show();
 }
 
 Template.loadingTemplate.destroyed = function() {
-  IonLoading.hide();
+  PartioLoad.hide();
 }
 Template.rating.rendered = function () {
   // this.$('.rateit').rateit();  ---> need to fix it
@@ -93,7 +93,7 @@ Template.searchResult.rendered = function() {
 Template.searchBox.helpers({
   searchText: function() {
     return Session.get('searchText');
-  },    
+  },
 });
 
 Template.searchBox.events({
@@ -221,10 +221,10 @@ Template.search.events({
         template: '<div class="center">You\'ll receive a notification once the owner accepts your request</div>',
         onOk: function() {
           console.log("proceeding with connection");
-          IonLoading.show();
+          PartioLoad.show();
           Meteor.call('requestOwner', Meteor.userId(), productId, ownerId, function(error, result) {
             if (!error) {
-              IonLoading.hide();
+              PartioLoad.hide();
               console.log(result);
               IonLoading.show({
                 duration: 2000,
@@ -235,7 +235,7 @@ Template.search.events({
               //   Router.go('/booksLent');
               // }, 2500)
             } else {
-              IonLoading.hide();
+              PartioLoad.hide();
               console.log(error);
             }
           })

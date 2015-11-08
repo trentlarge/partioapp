@@ -33,17 +33,7 @@ Template.camfind.events({
 
         MeteorCamera.getPicture(options, function(err, data) {
           if (data) {
-            //IonLoading.show();
- // IonLoading.show({
- //            template: '<i class="icon ion-loading-c"></i> Loading...'
- //        });
-
-
-          IonLoading.show({
-            customTemplate: '<img src="circle.png" class="logo-spinner" >',
-            backdrop: false,
-            delay: 0
-          });
+            PartioLoad.show();
 
             attachImageAndWaitCamFind(data);
 
@@ -89,11 +79,7 @@ Template.camfindinput.events({
     Session.set('scanResult', null);
     Session.set('lendTab', 'camfind');
 
-    IonLoading.show({
-      customTemplate: '<img src="circle.png" class="logo-spinner" >',
-      backdrop: false,
-      delay: 0
-    });
+    PartioLoad.show();
 
     //get keywords
     var key = template.find('#manualInputCamFind').value;
@@ -103,14 +89,14 @@ Template.camfindinput.events({
     if(Lend.allResultsCache[key]) {
         Session.set('allResults', Lend.allResultsCache[key]);
         Session.set('lendTab', 'resultsCamFind');
-        IonLoading.hide();
+        PartioLoad.hide();
         $(".modal").css("background-image", "");
     }
     else {
         Meteor.call('AllItemsFromAmazon', key, function(error, result) {
 
           if(error && !result) {
-            IonLoading.hide();
+            PartioLoad.hide();
             resetImageCamFind();
 
             IonPopup.show({
@@ -138,7 +124,7 @@ Template.camfindinput.events({
 
             Session.set('allResults', result);
             Session.set('lendTab', 'resultsCamFind');
-            IonLoading.hide();
+            PartioLoad.hide();
             $(".modal").css("background-image", "");
 
           }

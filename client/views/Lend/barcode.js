@@ -2,7 +2,7 @@ Template.barcode.events({
 
   // BARCODE
   'click #barcode': function() {
-    IonLoading.show();
+    PartioLoad.show();
     console.log('the new Amazon call in progress');
 
     // Cordova
@@ -26,11 +26,11 @@ Template.barcode.events({
                 console.log('result: '+ result);
                 Session.set('scanResult', result);
                 Session.set('lendTab', 'results');
-                IonLoading.hide();
+                PartioLoad.hide();
 
               } else {
 
-                IonLoading.hide();
+                PartioLoad.hide();
                 console.log(error);
                 IonPopup.show({
                   title: 'No match found :( ',
@@ -47,7 +47,7 @@ Template.barcode.events({
               }
             });
           } else {
-            IonLoading.hide();
+            PartioLoad.hide();
           }
         },
 
@@ -64,10 +64,10 @@ Template.barcode.events({
         if (!error) {
           Session.set('scanResult', result);
           Session.set('lendTab', 'results');
-          IonLoading.hide();
+          PartioLoad.hide();
         } else {
           console.log(error);
-          IonLoading.hide();
+          PartioLoad.hide();
           IonPopup.show({
             title: 'Please try again or manually enter your product :( ',
               template: '<div class="center">'+ error.message + '</div>',
