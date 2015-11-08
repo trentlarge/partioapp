@@ -25,8 +25,8 @@ app.model.Lend = (function () {
    };
 
    Lend = {
-       
-        //initialize vars   
+
+        //initialize vars
         init : function() {
             this.allResultsCache = {};
         },

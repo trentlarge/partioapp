@@ -24,7 +24,7 @@ Template.resultsCamFind.helpers({
       return false;
   },
   splitCategory: function() {
-    if(this.category){ 
+    if(this.category){
       return this.category.replace(/\s/g,"").replace(/\&/g,"");
     }
     return false;
@@ -38,12 +38,12 @@ Template.resultsCamFind.helpers({
   },
 
   calculatedPriceDay: function() {
-      
+
     var scanResult = Session.get('scanResult');
-      
+
     if (scanResult) {
       if (scanResult.price === "--") {
-        Session.set('userPrice', false);  
+        Session.set('userPrice', false);
         return false;
       }
       else
@@ -51,7 +51,7 @@ Template.resultsCamFind.helpers({
           var priceValueDay = (scanResult.price).split("$")[1];
           Lend.GetRentingPercentages('ONE_DAY', priceValueDay);
           console.log('RentingFinalPrice: ' + Lend.RentingFinalPrice);
-          
+
           if(Lend.RentingFinalPrice > 0) {
               Session.set('userPrice', Lend.RentingFinalPrice);
               return Lend.RentingFinalPrice;
@@ -61,25 +61,25 @@ Template.resultsCamFind.helpers({
           }
       }
     }
-      
+
   },
 
 
   calculatedPriceWeek: function() {
-      
+
     var scanResult = Session.get('scanResult');
-      
+
     if (scanResult) {
       if (scanResult.price === "--") {
-        Session.set('userPrice', false);  
+        Session.set('userPrice', false);
         return false;
       }
       else
       {
           var priceValueWeek = (scanResult.price).split("$")[1];
           Lend.GetRentingPercentages('ONE_WEEK', priceValueWeek);
-          console.log('RentingFinalPrice: ' + Lend.RentingFinalPrice);
-          
+          console.log('RentingFinalPrice ONE_WEEK: ' + Lend.RentingFinalPrice);
+
           if(Lend.RentingFinalPrice > 0) {
               Session.set('userPrice', Lend.RentingFinalPrice);
               return Lend.RentingFinalPrice;
@@ -89,24 +89,25 @@ Template.resultsCamFind.helpers({
           }
       }
     }
-      
+
   },
 
   calculatedPriceMonth: function() {
-      
+
     var scanResult = Session.get('scanResult');
-      
+
     if (scanResult) {
       if (scanResult.price === "--") {
-        Session.set('userPrice', false);  
+        Session.set('userPrice', false);
         return false;
       }
       else
       {
+          Lend.RentingTimeSpan = 'ONE_MONTH';
           var priceValueMonth = (scanResult.price).split("$")[1];
           Lend.GetRentingPercentages('ONE_MONTH', priceValueMonth);
-          console.log('RentingFinalPrice: ' + Lend.RentingFinalPrice);
-          
+          console.log('RentingFinalPrice ONE_MONTH: ' + Lend.RentingFinalPrice);
+
           if(Lend.RentingFinalPrice > 0) {
               Session.set('userPrice', Lend.RentingFinalPrice);
               return Lend.RentingFinalPrice;
@@ -116,16 +117,16 @@ Template.resultsCamFind.helpers({
           }
       }
     }
-      
+
   },
 
   calculatedPrice4Months: function() {
-      
+
     var scanResult = Session.get('scanResult');
-      
+
     if (scanResult) {
       if (scanResult.price === "--") {
-        Session.set('userPrice', false);  
+        Session.set('userPrice', false);
         return false;
       }
       else
@@ -133,7 +134,7 @@ Template.resultsCamFind.helpers({
           var priceValue4Months = (scanResult.price).split("$")[1];
           Lend.GetRentingPercentages('FOUR_MONTHS', priceValue4Months);
           console.log('RentingFinalPrice: ' + Lend.RentingFinalPrice);
-          
+
           if(Lend.RentingFinalPrice > 0) {
               Session.set('userPrice', Lend.RentingFinalPrice);
               return Lend.RentingFinalPrice;
@@ -143,7 +144,7 @@ Template.resultsCamFind.helpers({
           }
       }
     }
-      
+
   },
 });
 
@@ -152,19 +153,19 @@ Template.resultsCamFind.helpers({
 Template.resultsCamFind.events({
 
     'click .back': function(e, template) {
-        
+
         //temporary solution
         var manual = $('#manualInputCamFind').val();
         $('#manualInputCamFind').val(Lend.latestProduct);
         $('#manualSubmitCamFind').click();
         $('#manualInputCamFind').val(manual);
     },
-    
+
     // hide/show products by category
     'click .menu-category': function(e, template) {
         var category = $('.' + $(this)[0].category.replace(/\s/g,"").replace(/\&/g,""));
         var categoryId = $('#' + $(this)[0].category.replace(/\s/g,"").replace(/\&/g,""));
-        
+
         if(category.hasClass('hidden')){
             category.removeClass('hidden');
             categoryId.find('i').addClass('ion-chevron-down');
@@ -180,13 +181,13 @@ Template.resultsCamFind.events({
     // This method get the ASIN code of product and get it features from amazon.
     // So, the results is setted in scanResult field in the HTML file.
     'click .product': function(e, template) {
-        
+
           Session.set('allResults', false);
           Session.set('scanResult', this);
 
 //          //get ASIN code
 //          var asin = $(this)[0].asin;
-//        
+//
 //          //check if exist in results cache
 //          if(Lend.resultsCache[asin]) {
 //            Session.set('allResults', false);
@@ -205,7 +206,7 @@ Template.resultsCamFind.events({
 //
 //                    //add in cache
 //                    Lend.resultsCache[asin] = result;
-//                    
+//
 //                    IonLoading.hide();
 //                } else {
 //                    IonLoading.hide();
@@ -223,7 +224,7 @@ Template.resultsCamFind.events({
 //                  });
 //                }
 //            });
-//          }     
+//          }
 
     },
 });
@@ -234,4 +235,3 @@ Template.resultsCamFind.events({
 //     Session.set('scanResult', null);
 //     Session.set('allResults', null);
 //}
-
