@@ -220,6 +220,19 @@ Meteor.methods({
       return response.result;
     },
 
+    callTwilio: function(numberFrom) {
+
+      twilio = Twilio('ACa259379ccf43ebe0af6e2eb7f3bffc93', '50582e08bc2d140b8e940fe1a54d9623');
+        twilio.makeCall({
+          to:'+553178150184', // Any number Twilio can call
+          from: '+553178150184', // A number you bought from Twilio and can use for outbound communication
+          url: 'http://twimlbin.com/external/ec09f69871e0ec55' // A URL that produces an XML document (TwiML) which contains instructions for the call
+        }, function(err, responseData) {
+          //executed when the call has been initiated.
+          console.log(responseData.from); // outputs "+14506667788"
+        });
+
+    },
   // AMAZON SEARCH -------------------------------------------------------------------
   itemFromAmazon: function(keys) {
 
@@ -737,7 +750,7 @@ var amazonAllResultsItemSearchProcessing = function(result) {
             necessaryFields.sort(function(a, b) {
                 return (a.category < b.category) ? 1 : -1;
             });
-            
+
             return necessaryFields;
 
             } else {

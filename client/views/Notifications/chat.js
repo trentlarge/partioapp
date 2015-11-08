@@ -37,92 +37,101 @@ Template.chat.helpers({
 
 Template.appLayout.events({
 	'click #btnCallUser': function(err, template) {
-		var cRequestor = Session.get("_requestor");
-		var cOwner = Session.get("_owner");
 
-		$("#btnCallUser").prop("disabled",true);
 
-		var recipient = (cRequestor === Meteor.userId()) ? cOwner : cRequestor;
 
-		console.log('USER ID '+recipient);
+		Meteor.call('callTwilio', function(error, result) {
+			console.log(error, result);
+		})
 
-		var remoteCallerId = Meteor.users.findOne(recipient).profile.name;
 
-		Session.set("_incomingCaller", remoteCallerId);
-		Session.set("_inCall", true);
 
-		Session.set("_callStatus", "Ringing...");
-
-		PartioCaller.call(recipient, {
-			onCallProgressing: function(call) {
-				$('audio#ringback').prop("currentTime", 0);
-				$('audio#ringback').trigger("play");
-		    console.log("[PartioCaller] ringing...");
-				Session.set("_callStatus", "Ringing...");
-			},
-			onCallEstablished: function(call) {
-				$('audio#incoming').attr('src', call.incomingStreamURL);
-				$('audio#ringback').trigger("pause");
-				$('audio#ringtone').trigger("pause");
-
-		    console.log("[PartioCaller] Call answered...");
-
-				Session.set("_callStatus", "Call Active");
-
-				//Report call stats
-				var callDetails = call.getDetails();
-				console.log(callDetails);
-			},
-			onCallEnded: function(call) {
-				$('audio#ringback').trigger("pause");
-				$('audio#ringtone').trigger("pause");
-				$('audio#incoming').attr('src', '');
-
-				Session.set("_callStatus", "Disconnected");
-
-				$("#btnCallUser").prop("disabled",false);
-
-				Meteor.setTimeout(function() { Session.set("_inCall", false); }, 2500);
-
-		    console.log(call);
-		    console.log(call.getEndCause());
-
-				if (call.getEndCause() === "TIMEOUT") {
-					IonPopup.show({
-						title: 'Call Not Answered',
-						template: 	'<div class="center dark">The other party did not answer in time.</div>',
-						buttons:
-						[{
-							text: 'OK',
-							type: 'button-energized',
-							onTap: function() {
-								IonPopup.close();
-							}
-						}]
-					});
-				}
-
-		    console.log("[PartioCaller] Call ended...");
-				if(call.error || call.getEndCause() === "FAILURE") {
-					console.error("[PartioCaller] Call error");
-					console.error(call.error.message);
-
-					IonPopup.show({
-						title: 'Call Error',
-						template: 	'<div class="center dark">'+call.error.message+'</div>',
-						buttons:
-						[{
-							text: 'OK',
-							type: 'button-energized',
-							onTap: function() {
-								IonPopup.close();
-							}
-						}]
-					});
-
-				}
-			}
-		});
+		// var cRequestor = Session.get("_requestor");
+		// var cOwner = Session.get("_owner");
+		//
+		// $("#btnCallUser").prop("disabled",true);
+		//
+		// var recipient = (cRequestor === Meteor.userId()) ? cOwner : cRequestor;
+		//
+		// console.log('USER ID '+recipient);
+		//
+		// var remoteCallerId = Meteor.users.findOne(recipient).profile.name;
+		//
+		// Session.set("_incomingCaller", remoteCallerId);
+		// Session.set("_inCall", true);
+		//
+		// Session.set("_callStatus", "Ringing...");
+		//
+		// PartioCaller.call(recipient, {
+		// 	onCallProgressing: function(call) {
+		// 		$('audio#ringback').prop("currentTime", 0);
+		// 		$('audio#ringback').trigger("play");
+		//     console.log("[PartioCaller] ringing...");
+		// 		Session.set("_callStatus", "Ringing...");
+		// 	},
+		// 	onCallEstablished: function(call) {
+		// 		$('audio#incoming').attr('src', call.incomingStreamURL);
+		// 		$('audio#ringback').trigger("pause");
+		// 		$('audio#ringtone').trigger("pause");
+		//
+		//     console.log("[PartioCaller] Call answered...");
+		//
+		// 		Session.set("_callStatus", "Call Active");
+		//
+		// 		//Report call stats
+		// 		var callDetails = call.getDetails();
+		// 		console.log(callDetails);
+		// 	},
+		// 	onCallEnded: function(call) {
+		// 		$('audio#ringback').trigger("pause");
+		// 		$('audio#ringtone').trigger("pause");
+		// 		$('audio#incoming').attr('src', '');
+		//
+		// 		Session.set("_callStatus", "Disconnected");
+		//
+		// 		$("#btnCallUser").prop("disabled",false);
+		//
+		// 		Meteor.setTimeout(function() { Session.set("_inCall", false); }, 2500);
+		//
+		//     console.log(call);
+		//     console.log(call.getEndCause());
+		//
+		// 		if (call.getEndCause() === "TIMEOUT") {
+		// 			IonPopup.show({
+		// 				title: 'Call Not Answered',
+		// 				template: 	'<div class="center dark">The other party did not answer in time.</div>',
+		// 				buttons:
+		// 				[{
+		// 					text: 'OK',
+		// 					type: 'button-energized',
+		// 					onTap: function() {
+		// 						IonPopup.close();
+		// 					}
+		// 				}]
+		// 			});
+		// 		}
+		//
+		//     console.log("[PartioCaller] Call ended...");
+		// 		if(call.error || call.getEndCause() === "FAILURE") {
+		// 			console.error("[PartioCaller] Call error");
+		// 			console.error(call.error.message);
+		//
+		// 			IonPopup.show({
+		// 				title: 'Call Error',
+		// 				template: 	'<div class="center dark">'+call.error.message+'</div>',
+		// 				buttons:
+		// 				[{
+		// 					text: 'OK',
+		// 					type: 'button-energized',
+		// 					onTap: function() {
+		// 						IonPopup.close();
+		// 					}
+		// 				}]
+		// 			});
+		//
+		// 		}
+		// 	}
+		// });
 	}
 });
 

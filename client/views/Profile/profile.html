@@ -12,7 +12,7 @@
         </button>
       {{/if}}
   {{/contentFor}}
-  
+
   {{#contentFor "headerTitle"}}
     <h1 class="title">Profile</h1>
   {{/contentFor}}
@@ -21,8 +21,8 @@
     {{#if profileEdit}}
       <button id="saveProfile" class="button button-clear button-energized">Save</button>
       {{else}}
-        <a href="/" class="button button-clear"> 
-            <object id="spinner-logo-simple" data="logo/spinner-logo-simple.svg" type="image/svg+xml"></object> 
+        <a href="/" class="button button-clear">
+            <object id="spinner-logo-simple" data="logo/spinner-logo-simple.svg" type="image/svg+xml"></object>
         </a>
     {{/if}}
   {{/contentFor}}
@@ -30,9 +30,9 @@
   {{#ionView}}
     {{#ionContent}}
     <!-- <div class="content has-header"> -->
-    
+
       {{> settingsProfileImage}}
-      
+
       <div class="list list-inset">
         <form id="profileEdit">
           <label class="item item-input">
@@ -48,10 +48,15 @@
             <input id="profilemobile" type="number" value="{{currentUser.profile.mobile}}">
           </label> -->
         </form>
-       {{#if emailSet}} 
+       {{#if emailSet}}
+
          <label class="item item-input">
           <span class="input-label"><p>University</p></span>
           <input disabled id="profileuniversity" type="text" value="{{currentUser.profile.college}}">
+        </label>
+        <label class="item item-input">
+          <span class="input-label"><p>Telephone</p></span>
+          <input id="telephone" type="text" value="{{currentUser.profile.telephone}}">
         </label>
         <label class="item item-input">
           <span class="input-label"><p>Email</p></span>
@@ -61,7 +66,7 @@
           <span class="input-label"><p>Change Password</p></span>
           <!-- <input id="changePassword" type="text" value=""> -->
         </label>
-        
+
        {{else}}
          <label class="item item-input item-select college-select">
           <div class="input-label"><p>College</p></div>
@@ -120,5 +125,3 @@
   </div>
   <input type="file" id="browser-file-upload">
 </template>
-
-

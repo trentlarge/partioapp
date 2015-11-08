@@ -75,18 +75,19 @@ Template.appLayout.events({
 
 
     IonLoading.show({
-      customTemplate: '<img src="circle.png" class="logo-spinner" >',
+      customTemplate: '<img src="/circle.png" class="logo-spinner" >',
       backdrop: false,
       delay: 0
     });
 
     var updatedProfile = {
       "name": $('#profilename').val(),
-      "college": $('#profileuniversity').val()
+      "college": $('#profileuniversity').val(),
+      "telephone": $('#telephone').val()
       // "mobile": $('#profilemobile').val()
     }
     console.log(updatedProfile);
-    Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.name": updatedProfile.name, "profile.college": updatedProfile.college}}, function(error) {
+    Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.name": updatedProfile.name,"profile.telephone": updatedProfile.telephone, "profile.college": updatedProfile.college}}, function(error) {
       if (!error) {
         PartioLoad.hide();
         console.log("success!");
