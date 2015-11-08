@@ -108,11 +108,16 @@ Template.login.events({
 	'click #loginButton': function(e, template) {
 		e.preventDefault();
 
+		IonLoading.show();
+
 		var email = template.find('[name=email]').value;
 		var password = template.find('[name=password]').value;
 		console.log(email, password);
 
 		Meteor.loginWithPassword(email, password, function(error) {
+
+			IonLoading.hide();
+
 			if (error) {
 				console.log(error);
 				IonPopup.show({
@@ -126,8 +131,7 @@ Template.login.events({
 						}
 					}]
 				});
-			}
-			else {
+			} else {
 				console.log('user: '+ email +' Logged-In successfully!');
 				Router.go('/');
 			}
@@ -215,7 +219,7 @@ Template.login.events({
 	}
 })
 
-Template.register.helpers({
+//Template.register.helpers({
 	// fetchedLocation: function() {
 	// 	if (Session.get('newLocation')) {
 	// 		return Session.get('newLocation').address
@@ -223,7 +227,7 @@ Template.register.helpers({
 	// 		return "Location";
 	// 	}
 	// }
-})
+//})
 
 // Template.register.created = function() {
 
