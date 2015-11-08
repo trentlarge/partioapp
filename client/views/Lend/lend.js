@@ -289,27 +289,39 @@ var RentingFinalPrice;
 
 function CalculateRentingCharges()
 {
-  if(RentingTimeSpan == 'ONE_DAY')
+  if(this.RentingTimeSpan == 'ONE_DAY')
   {
-    RentingFinalPrice = parseFloat((RentingOneDayPercentage/100) * RentingAmazonPrice);
-  }
-  else if(RentingTimeSpan == 'ONE_WEEK')
-  {
-    RentingFinalPrice = parseFloat((RentingOneWeekPercentage/100) * RentingAmazonPrice);
-    console.log('RentingOneWeekPercentage: ' + RentingFinalPrice);
+      this.RentingFinalPrice = parseFloat((this.RentingOneDayPercentage/100) * this.RentingAmazonPrice);
 
-    RentingFinalPrice = parseFloat(RentingFinalPrice * 7);
-    console.log('Pricex7: ' + RentingFinalPrice);
+      if(this.RentingFinalPrice < 3.00)
+          this.RentingFinalPrice = 3.00;
+  }
+  else if(this.RentingTimeSpan == 'ONE_WEEK')
+  {
+      this.RentingFinalPrice = parseFloat((this.RentingOneWeekPercentage/100) * this.RentingAmazonPrice);
+      console.log('RentingOneWeekPercentage: ' + this.RentingFinalPrice);
+
+      this.RentingFinalPrice = parseFloat(this.RentingFinalPrice * 7);
+      console.log('Pricex7: ' + this.RentingFinalPrice);
+
+      if(this.RentingFinalPrice < 7.00) //$1.00 per day
+          this.RentingFinalPrice = 7.00;
   }
   else if(RentingTimeSpan == 'ONE_MONTH')
   {
-    RentingFinalPrice = parseFloat((RentingOneMonthPercentage/100) * RentingAmazonPrice);
-    RentingFinalPrice = parseFloat(RentingFinalPrice * 30);
+      this.RentingFinalPrice = parseFloat((this.RentingOneMonthPercentage/100) * this.RentingAmazonPrice);
+      this.RentingFinalPrice = parseFloat(this.RentingFinalPrice * 30);
+
+      if(this.RentingFinalPrice < 15.00) //$0.50 per day
+          this.RentingFinalPrice = 15.00;
   }
-  else if(RentingTimeSpan == 'FOUR_MONTHS')
+  else if(this.RentingTimeSpan == 'FOUR_MONTHS')
   {
-    RentingFinalPrice = parseFloat((RentingFourMonthsPercentage/100) * RentingAmazonPrice);
-    RentingFinalPrice = parseFloat(RentingFinalPrice * 30 * 4);
+      this.RentingFinalPrice = parseFloat((this.RentingFourMonthsPercentage/100) * this.RentingAmazonPrice);
+      this.RentingFinalPrice = parseFloat(this.RentingFinalPrice * 30 * 4);
+
+      if(this.RentingFinalPrice < 30.00) //$0.25 per day
+          this.RentingFinalPrice = 30.00;
   }
 
   console.log('RentingTimeSpan: ' + RentingTimeSpan);
@@ -324,15 +336,8 @@ function CalculateRentingCharges()
   RentingFinalPrice += parseFloat((RentingPartioSharePercentage/100) * RentingFinalPrice);
   console.log('RentingPartioSharePercentage: ' + RentingFinalPrice);
 
-  if(RentingFinalPrice > RentingAmazonRentalPrice)
-  {
-    RentingFinalPrice =  parseFloat(RentingAmazonRentalPrice - (RentingAmazonRentalPrice * 0.1));
-  }
-
   RentingFinalPrice = Math.round(Number((RentingFinalPrice).toFixed(1))).toFixed(2);
   console.log('RentingFinalPrice: ' + Math.round(RentingFinalPrice));
-
-
 }
 
 function GetRentingPercentages(strRentingTimeSpan)
@@ -349,8 +354,6 @@ function GetRentingPercentages(strRentingTimeSpan)
   RentingStripeFeePercent = 2.9;
   RentingStripeAdditionalFee = 0.3;
 
-  //test value
-  RentingAmazonRentalPrice = 100.0;
 
   CalculateRentingCharges();
 }
