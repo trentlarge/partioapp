@@ -31,7 +31,7 @@ var options = {
   localSearch: false
 };
 
-var fields = ['title', 'authors', 'ean'];
+var fields = ['title', 'authors', 'uniqueId'];
 
 PackageSearch = new SearchSource('packages', fields, options);
 
@@ -53,7 +53,7 @@ Template.searchResult.helpers({
 
 Template.searchResult.events({
   'click .qty-check': function() {
-    Session.set('currentQty', Products.findOne(this._id).qty);
+    Session.set('currentQty', Search.findOne(this._id).qty);
     console.log('CHECK currentQty: ' + Session.get('currentQty'));
   }
 })
@@ -87,13 +87,13 @@ Template.search.helpers({
     return Meteor.users.findOne(userId).profile.name;
   },
   peopleList: function() {
-    var ean = Products.findOne(this._id).ean;
-    console.log(ean);
-    return Products.find({"ean": ean});
+    var uniqueId = Search.findOne(this._id).uniqueId;
+    console.log(uniqueId);
+    return Products.find({"uniqueId": uniqueId});
   },
   commonBookTitle: function() {
-    var ean = Products.findOne(this._id).ean;
-    return Products.findOne({"ean": ean}).title;
+    var uniqueId = Search.findOne(this._id).uniqueId;
+    return Products.findOne({"uniqueId": uniqueId}).title;
   },
   requestSent: function() {
     return Connections.findOne({"requestor": Meteor.userId(), "bookData.ownerId": this.ownerId, "bookData._id": this._id}) ? true: false;

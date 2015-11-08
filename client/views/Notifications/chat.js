@@ -1,3 +1,4 @@
+
 Template.chat.helpers({
 	inCall: function() {
 		return Session.get("_inCall");

@@ -435,23 +435,23 @@ function AddProductToInventoryManually() {
 
 function AddProductToInventory() {
   var submitProduct = Session.get('scanResult');
+
+  if(submitProduct.asin) {
+    var _uniqueId = submitProduct.asin;
+  } else if(product.ean) {
+    var _uniqueId = submitProduct.ean;
+  }
+
   var insertData = _.extend(submitProduct,
   {
     // "lendingPeriod": lendingPeriod,
     "ownerId": Meteor.userId(),
+    "uniqueId": _uniqueId,
     "customPrice": Session.get('userPrice'),
     "description": Session.get('description'),
   });
 
-  Products.insert(insertData, function(err,docsInserted){
-    if(!err){
-      updateSearchCollection({ _id: docsInserted,
-                              data: insertData });
-    } else {
-      console.log('some error to insert new product')
-    }
-  });
-
+  Products.insert(insertData);
 
   Session.set('userPrice', null);
   RentingFinalPrice = 0.0;
@@ -478,17 +478,25 @@ function AddProductToInventory() {
   });
 }
 
-function updateSearchCollection(product) {
-  console.log('adding to search collection');
-  var findUnique = Search.findOne({ title: product.data.title });
-
-  //first product with this title
-  if(!findUnique) {
-    Search.insert({ title: product.data.title,
-                    image: product.data.image,
-                    prodIds: [ product._id ] })
-  } else {
-    findUnique.prodIds.push(product._id);
-    Search.update(findUnique._id, findUnique);
-  }
-}
+// function updateSearchCollection(product) {
+//   console.log('adding to search collection');
+//
+//   //ASIN or EAN (if barcode)
+//   if(product.data.asin) {
+//     var uniqueId = product.data.asin;
+//   } else if(product.data.ean) {
+//     var uniqueId = product.data.ean;
+//   }
+//
+//   var findUnique = Search.findOne({ uniqueCode: uniqueId });
+//
+//   //first product with this title
+//   if(!findUnique) {
+//     Search.insert({ uniqueCode: uniqueId,
+//                     image: product.data.image,
+//                     prodIds: [ product._id ] })
+//   } else {
+//     findUnique.prodIds.push(product._id);
+//     Search.update(findUnique._id, findUnique);
+//   }
+// }
