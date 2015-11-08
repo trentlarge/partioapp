@@ -41,9 +41,26 @@
 
         <div class="list list-inset">
             <label class="item item-input">
-                <span class="input-label"><p>Set Rent/Week &nbsp;$</p></span>
-                <input type="number" class="userPrice" value="{{calculatedPrice}}">
+                <span class="input-label"><p>Set Rent/Day &nbsp;$</p></span>
+                <input type="number" class="userPrice" value="{{calculatedPriceDay}}">
             </label>
+                   <label class="item item-input">
+                <span class="input-label"><p>Set Rent/Week &nbsp;$</p></span>
+                <input type="number" class="userPrice" value="{{calculatedPriceWeek}}">
+            </label>
+
+       <label class="item item-input">
+                <span class="input-label"><p>Set Rent/Month &nbsp;$</p></span>
+                <input type="number" class="userPrice" value="{{calculatedPriceMonth}}">
+            </label>
+
+                   <label class="item item-input">
+                <span class="input-label"><p>Set Rent/Semester (4 months) &nbsp;$</p></span>
+                <input type="number" class="userPrice" value="{{calculatedPrice4Months}}">
+            </label>
+
+
+
             <label class="item item-input">
                 <span class="input-label"><p>Description:</p></span>
                 <textarea name="description" class="fieldDescriptionLend" rows="8" cols="40"></textarea>
@@ -53,7 +70,7 @@
         <div class="padding-horizontal">
           <button class="submitProduct button button-block button-energized" {{waitingForPrice}}>
           {{#if userPrice}}
-            Lend this item at ${{userPrice}} per week
+            Share this item!
           {{else}}
             Enter your price above
           {{/if}}

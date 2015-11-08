@@ -36,7 +36,8 @@ Template.resultsCamFind.helpers({
     console.log('price rendered: ' + Session.get('userPrice'));
     return Session.get('userPrice');
   },
-  calculatedPrice: function() {
+
+  calculatedPriceDay: function() {
       
     var scanResult = Session.get('scanResult');
       
@@ -47,8 +48,90 @@ Template.resultsCamFind.helpers({
       }
       else
       {
-          var priceValue = (scanResult.price).split("$")[1];
-          Lend.GetRentingPercentages('ONE_WEEK', priceValue);
+          var priceValueDay = (scanResult.price).split("$")[1];
+          Lend.GetRentingPercentages('ONE_DAY', priceValueDay);
+          console.log('RentingFinalPrice: ' + Lend.RentingFinalPrice);
+          
+          if(Lend.RentingFinalPrice > 0) {
+              Session.set('userPrice', Lend.RentingFinalPrice);
+              return Lend.RentingFinalPrice;
+          }
+          else {
+              Session.set('userPrice', false);
+          }
+      }
+    }
+      
+  },
+
+
+  calculatedPriceWeek: function() {
+      
+    var scanResult = Session.get('scanResult');
+      
+    if (scanResult) {
+      if (scanResult.price === "--") {
+        Session.set('userPrice', false);  
+        return false;
+      }
+      else
+      {
+          var priceValueWeek = (scanResult.price).split("$")[1];
+          Lend.GetRentingPercentages('ONE_WEEK', priceValueWeek);
+          console.log('RentingFinalPrice: ' + Lend.RentingFinalPrice);
+          
+          if(Lend.RentingFinalPrice > 0) {
+              Session.set('userPrice', Lend.RentingFinalPrice);
+              return Lend.RentingFinalPrice;
+          }
+          else {
+              Session.set('userPrice', false);
+          }
+      }
+    }
+      
+  },
+
+  calculatedPriceMonth: function() {
+      
+    var scanResult = Session.get('scanResult');
+      
+    if (scanResult) {
+      if (scanResult.price === "--") {
+        Session.set('userPrice', false);  
+        return false;
+      }
+      else
+      {
+          var priceValueMonth = (scanResult.price).split("$")[1];
+          Lend.GetRentingPercentages('ONE_MONTH', priceValueMonth);
+          console.log('RentingFinalPrice: ' + Lend.RentingFinalPrice);
+          
+          if(Lend.RentingFinalPrice > 0) {
+              Session.set('userPrice', Lend.RentingFinalPrice);
+              return Lend.RentingFinalPrice;
+          }
+          else {
+              Session.set('userPrice', false);
+          }
+      }
+    }
+      
+  },
+
+  calculatedPrice4Months: function() {
+      
+    var scanResult = Session.get('scanResult');
+      
+    if (scanResult) {
+      if (scanResult.price === "--") {
+        Session.set('userPrice', false);  
+        return false;
+      }
+      else
+      {
+          var priceValue4Months = (scanResult.price).split("$")[1];
+          Lend.GetRentingPercentages('FOUR_MONTHS', priceValue4Months);
           console.log('RentingFinalPrice: ' + Lend.RentingFinalPrice);
           
           if(Lend.RentingFinalPrice > 0) {
