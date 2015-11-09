@@ -236,12 +236,39 @@ Meteor.methods({
 
     twilioVerification: function(numberFrom) {
 
-      return HTTP.post('https://api.twilio.com/2010-04-01/Accounts/ACa259379ccf43ebe0af6e2eb7f3bffc93/OutgoingCallerIds.json', {
-        "params": {
-          "PhoneNumber" : numberFrom,
-        },
-        "auth" : 'ACa259379ccf43ebe0af6e2eb7f3bffc93:50582e08bc2d140b8e940fe1a54d9623'
-      })
+
+      try {
+        var result = HTTP.call("POST", 'https://api.twilio.com/2010-04-01/Accounts/ACa259379ccf43ebe0af6e2eb7f3bffc93/OutgoingCallerIds.json', {
+          "params": {
+            "PhoneNumber" : numberFrom
+          },
+          "auth" : 'ACa259379ccf43ebe0af6e2eb7f3bffc93:50582e08bc2d140b8e940fe1a54d9623'
+        });
+
+        console.log(result);
+
+
+      } catch (e) {
+        console.log('deu erro');
+        throw new Meteor.Error(400, e);
+        console.log(e);
+        var result = 'nao rolou';
+      }
+
+
+
+    //  throw new Meteor.Error("400", "The user must be logged in to post a comment.");
+
+      console.log(result);
+
+      return result;
+
+      //throw meteorError;
+      // throw new Meteor.Error("500", "The user must be logged in to post a comment.");
+      //
+      // console.log(reulst);
+      //
+      // return
 
 
       // result = HTTP.call("POST", 'https://api.twilio.com/2010-04-01/Accounts/ACa259379ccf43ebe0af6e2eb7f3bffc93/OutgoingCallerIds.json', {
