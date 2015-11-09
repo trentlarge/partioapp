@@ -33,6 +33,7 @@ Accounts.onCreateUser(function(options,user) {
 		user.profile.avatar = options.profileDetails.avatar;
 		user.profile.college = options.profileDetails.college;
 		user.profile.mobile = options.profileDetails.mobile;
+		user.profile.mobileValidated = options.profileDetails.mobileValidated;
 		user.profile.name = options.profileDetails.name;
 		//NOT TAKING LOCATION DETAILS ON REGISTRATION ANYMORE
 		// user.profile.address = options.profileDetails.location ? options.profileDetails.location.address : "-" ;

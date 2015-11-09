@@ -241,7 +241,7 @@ Meteor.methods({
       friendlyName: "My Home Phone Number",
       phoneNumber: "+553178150184"
       }, function(err, callerId) {
-          stop(2);
+          
           //process.stdout.write(callerId.sid);
           console.log('twilioVerification');
           console.log(err);
