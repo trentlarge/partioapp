@@ -47,7 +47,7 @@ Template.register.events({
 	    if (email && password && profileDetails.name && profileDetails.college) {
 	    	// IonLoading.show();
 	    	if (emailCheck(profileDetails.college, email)) {
-	    		Accounts.createUser({email: email, password: password,telephone: telephone, profileDetails: profileDetails}, function(error) {
+	    		Accounts.createUser({email: email, password: password, telephone: profileDetails.telephone, profileDetails: profileDetails}, function(error) {
 	    			console.log(error);
 
 	    			if (error) {
