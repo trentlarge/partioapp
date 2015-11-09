@@ -6,7 +6,7 @@ Accounts.onCreateUser(function(options,user) {
 	if (user.services.facebook) {
 		var fbLink = user.services.facebook.link;
 		var linkId = fbLink.split("https://www.facebook.com/app_scoped_user_id/")[1].split("/")[0];
-		
+
 		user.profile = options.profile || {};
 		user.profile.email = user.services.facebook.email;
 		user.profile.avatar = 'http://graph.facebook.com/'+linkId+'/picture?type=large';
@@ -23,16 +23,16 @@ Accounts.onCreateUser(function(options,user) {
 				Accounts.sendVerificationEmail(user._id);
 			}, 4 * 1000);
 		}
-		
+
 		console.log('finished FACEBOOK user creation...');
 		return user;
 
 	} else {
-		user.profile = options.profile || {};	
+		user.profile = options.profile || {};
 		user.profile.email = user.emails[0].address;
 		user.profile.avatar = options.profileDetails.avatar;
 		user.profile.college = options.profileDetails.college;
-		// user.profile.mobile = options.profileDetails.mobile;
+		user.profile.mobile = options.profileDetails.mobile;
 		user.profile.name = options.profileDetails.name;
 		//NOT TAKING LOCATION DETAILS ON REGISTRATION ANYMORE
 		// user.profile.address = options.profileDetails.location ? options.profileDetails.location.address : "-" ;
@@ -50,7 +50,7 @@ Accounts.onCreateUser(function(options,user) {
 
 		return user;
 	}
-	
+
 });
 
 // Accounts.validateLoginAttempt(function(attempt){
@@ -61,4 +61,3 @@ Accounts.onCreateUser(function(options,user) {
 //   }
 //   return true;
 // });
-

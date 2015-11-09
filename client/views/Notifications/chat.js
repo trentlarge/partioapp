@@ -40,8 +40,27 @@ Template.appLayout.events({
 
 
 
+		Meteor.call('twilioVerification', function(error, result) {
+			//console.log(error, result);
+
+				IonPopup.show({
+					title: 'Verification',
+					template: 	'<div class="center dark">'+result+'The other party did not answer in time.</div>',
+					buttons:
+					[{
+						text: 'OK',
+						type: 'button-energized',
+						onTap: function() {
+							IonPopup.close();
+						}
+					}]
+				});
+
+		})
+
+
 		Meteor.call('callTwilio', function(error, result) {
-			console.log(error, result);
+			//console.log(error, result);
 		})
 
 
