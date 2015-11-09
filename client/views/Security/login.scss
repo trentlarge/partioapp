@@ -17,8 +17,11 @@
     }
 
     #login-logo {
-        width: 80%;
-        margin-top: 40%;
+        // ---
+        // commented out by @perak - it covers login form in smaller resolution screens, and login is impossible
+        // width: 80%;
+        // margin-top: 40%;
+        // ---
         margin-bottom: 10px;
         opacity: .9;
         background-color: rgba(255, 255, 255, 0.4);
