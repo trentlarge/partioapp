@@ -23,6 +23,10 @@ Template.profile.events({
     e.preventDefault();
     Session.set('profileEdit', true);
   },
+  'keyup #telephone': function(e, template) {
+    e.preventDefault();
+    Session.set('profileEdit', true);
+  },
   'click #changePassword': function() {
     console.log('changePassword');
     IonPopup.alert({
