@@ -72,17 +72,11 @@ Template.profile.events({
 
 Template.appLayout.events({
   'click #cancelProfile': function() {
-    console.log("yayayaya");
     Router.go('/');
   },
   'click #saveProfile': function() {
 
-
-    IonLoading.show({
-      customTemplate: '<img src="/circle.png" class="logo-spinner" >',
-      backdrop: false,
-      delay: 0
-    });
+    PartioLoad.show();
 
     var updatedProfile = {
       "name": $('#profilename').val(),
