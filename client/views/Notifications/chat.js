@@ -38,14 +38,13 @@ Template.chat.helpers({
 Template.appLayout.events({
 	'click #btnCallUser': function(err, template) {
 
-
-
 		Meteor.call('twilioVerification', function(error, result) {
-			//console.log(error, result);
+			console.log(error, result);
 
+			if(error) {
 				IonPopup.show({
-					title: 'Verification',
-					template: 	'<div class="center dark">'+result+'The other party did not answer in time.</div>',
+					title: 'Ops',
+					template: '<div class="center dark">You can\'t do this call now. Try again later.</div>',
 					buttons:
 					[{
 						text: 'OK',
@@ -55,13 +54,26 @@ Template.appLayout.events({
 						}
 					}]
 				});
-
+			} else {
+				IonPopup.show({
+					title: 'Verification',
+					template: '<div class="center dark">Plase, digit '+result.data.validation_code+' to validate your phone.</div>',
+					buttons:
+					[{
+						text: 'OK',
+						type: 'button-energized',
+						onTap: function() {
+							IonPopup.close();
+						}
+					}]
+				});
+			}
 		})
 
 
-		Meteor.call('callTwilio', function(error, result) {
-			//console.log(error, result);
-		})
+		// Meteor.call('callTwilio', function(error, result) {
+		// 	//console.log(error, result);
+		// })
 
 
 
