@@ -23,10 +23,6 @@ Template.profile.events({
     e.preventDefault();
     Session.set('profileEdit', true);
   },
-  'keyup #telephone': function(e, template) {
-    e.preventDefault();
-    Session.set('profileEdit', true);
-  },
   'click #changePassword': function() {
     console.log('changePassword');
     IonPopup.alert({
@@ -81,11 +77,10 @@ Template.appLayout.events({
     var updatedProfile = {
       "name": $('#profilename').val(),
       "college": $('#profileuniversity').val(),
-      "telephone": $('#telephone').val()
-      // "mobile": $('#profilemobile').val()
+      "mobile": $('#profilemobile').val()
     }
     console.log(updatedProfile);
-    Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.name": updatedProfile.name,"profile.telephone": updatedProfile.telephone, "profile.college": updatedProfile.college}}, function(error) {
+    Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.name": updatedProfile.name,"profile.mobile": updatedProfile.mobile, "profile.college": updatedProfile.college}}, function(error) {
       if (!error) {
         PartioLoad.hide();
         console.log("success!");

@@ -31,12 +31,11 @@ Template.register.events({
 
 	    var email = template.find('[name=email]').value;
 	    var password = template.find('[name=password]').value;
-			
+
 
 	    var profileDetails = {
 	    	name: template.find('[name=name]').value,
-				telephone: template.find('[name=telephone]').value,
-	    	// mobile: template.find('[name=mobile]').value,
+				mobile: template.find('[name=mobile]').value,
 	    	college: template.find('#college').value,
 	    	avatar: "notSet",
 	    	location: Session.get('newLocation')
@@ -47,8 +46,10 @@ Template.register.events({
 	    if (email && password && profileDetails.name && profileDetails.college) {
 	    	// IonLoading.show();
 	    	if (emailCheck(profileDetails.college, email)) {
-	    		Accounts.createUser({email: email, password: password,telephone: telephone, profileDetails: profileDetails}, function(error) {
+	    		Accounts.createUser({email: email, password: password,profileDetails: profileDetails}, function(error) {
 	    			console.log(error);
+
+						console.log(profileDetails);
 
 	    			if (error) {
 	    				PartioLoad.hide();
