@@ -235,13 +235,25 @@ Meteor.methods({
     },
 
     twilioVerification: function(numberFrom) {
-      return HTTP.call("POST", 'https://api.twilio.com/2010-04-01/Accounts/ACa259379ccf43ebe0af6e2eb7f3bffc93/OutgoingCallerIds.json', {
+
+      return HTTP.post('https://api.twilio.com/2010-04-01/Accounts/ACa259379ccf43ebe0af6e2eb7f3bffc93/OutgoingCallerIds.json', {
         "params": {
-          "PhoneNumber" : "+553178150184"
+          "PhoneNumber" : numberFrom,
         },
         "auth" : 'ACa259379ccf43ebe0af6e2eb7f3bffc93:50582e08bc2d140b8e940fe1a54d9623'
-      });
+      })
 
+
+      // result = HTTP.call("POST", 'https://api.twilio.com/2010-04-01/Accounts/ACa259379ccf43ebe0af6e2eb7f3bffc93/OutgoingCallerIds.json', {
+      //   "params": {
+      //     "PhoneNumber" : numberFrom
+      //   },
+      //   "auth" : 'ACa259379ccf43ebe0af6e2eb7f3bffc93:50582e08bc2d140b8e940fe1a54d9623'
+      // });
+      //
+      // console.log(result);
+      //
+      // return
 
       // console.log('server >>>>>>twilioVerification')
       // console.log(numberFrom);

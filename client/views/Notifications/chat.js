@@ -38,13 +38,17 @@ Template.chat.helpers({
 Template.appLayout.events({
 	'click #btnCallUser': function(err, template) {
 
-		Meteor.call('twilioVerification', function(error, result) {
+		Meteor.call('twilioVerification', Meteor.user().profile.mobile, function(error, result) {
+
+
+			console.log('MOBILE: '+Meteor.user().profile.mobile);
+
 			console.log(error, result);
 
 			if(error) {
 				IonPopup.show({
 					title: 'Ops',
-					template: '<div class="center dark">You can\'t do this call now. Try again later.</div>',
+					template: '<div class="center dark">You can\'t do this call now. Try again later.'+error+'</div>',
 					buttons:
 					[{
 						text: 'OK',
