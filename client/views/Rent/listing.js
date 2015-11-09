@@ -59,7 +59,7 @@ var options = {
   localSearch: false
 };
 
-var fields = ['title', 'authors', 'uniqueId'];
+var fields = ['title', 'category', 'uniqueId'];
 
 PackageSearch = new SearchSource('packages', fields, options);
 
@@ -94,6 +94,18 @@ Template.searchBox.helpers({
   searchText: function() {
     return Session.get('searchText');
   },
+  getCategory: function(index) {
+      return Categories.getCategory(index);
+  },
+  isActivated: function(index) {
+      if (Session.get('categoryIndex') === index) {
+           
+         return "active";
+      }
+  }, 
+  getCategoryIcon: function(index) {
+      return Categories.getCategoryIcon(index);
+  }
 });
 
 Template.searchBox.events({
@@ -109,7 +121,11 @@ Template.searchBox.events({
       IonLoading.hide();
     }
 
-  }, 200)
+  }, 200),
+  "click .categoryFilter": function(e, template) {
+      var category = e.currentTarget;
+      $(category).toggleClass('active');
+  }
 });
 
 

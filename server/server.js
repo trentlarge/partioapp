@@ -87,7 +87,7 @@ SearchSource.defineSource('packages', function(searchText, options) {
   var options = {sort: {isoScore: -1}, limit: 20};
   if(searchText) {
     var regExp = buildRegExp(searchText);
-    var selector = {$or: [{title: regExp},{authors: regExp},{uniqueId: searchText}]};
+    var selector = {$or: [{title: regExp},{category: regExp},{uniqueId: searchText}]};
     return Search.find(selector, options).fetch();
   } else {
     return Search.find({}, options).fetch();
@@ -760,7 +760,7 @@ var amazonAllResultsItemSearchProcessing = function(result) {
                     necessaryFields.push({
                         price : (function() {return result.ItemSearchResponse.Items[0].Item[i].Offers[0].Offer ? result.ItemSearchResponse.Items[0].Item[i].Offers[0].Offer[0].OfferListing[0].Price[0].FormattedPrice[0] : "--"})(),
                         title : result.ItemSearchResponse.Items[0].Item[i].ItemAttributes[0].Title[0],
-                        category : Categories.getCategory(result.ItemSearchResponse.Items[0].Item[i].ItemAttributes[0].ProductGroup[0]),
+                        category : CategoriesServer.getCategory(result.ItemSearchResponse.Items[0].Item[i].ItemAttributes[0].ProductGroup[0]),
                         amazonCategory : result.ItemSearchResponse.Items[0].Item[i].ItemAttributes[0].ProductGroup[0],
                         image: result.ItemSearchResponse.Items[0].Item[i].MediumImage[0].URL[0],
                         asin: result.ItemSearchResponse.Items[0].Item[i].ASIN[0],
@@ -816,7 +816,7 @@ var amazonResultItemSearchProcessing = function(result) {
                 var necessaryFields = {
                     price : (function() {return result.ItemSearchResponse.Items[0].Item[0].Offers[0].Offer ? result.ItemSearchResponse.Items[0].Item[0].Offers[0].Offer[0].OfferListing[0].Price[0].FormattedPrice[0] : "--"})(),
                     title : result.ItemSearchResponse.Items[0].Item[0].ItemAttributes[0].Title[0],
-                    category : Categories.getCategory(result.ItemSearchResponse.Items[0].Item[0].ItemAttributes[0].ProductGroup[0]),
+                    category : CategoriesServer.getCategory(result.ItemSearchResponse.Items[0].Item[0].ItemAttributes[0].ProductGroup[0]),
                     amazonCategoy : result.ItemSearchResponse.Items[0].Item[0].ItemAttributes[0].ProductGroup[0],
                     image: result.ItemSearchResponse.Items[0].Item[0].MediumImage[0].URL[0],
                     attributes: [],

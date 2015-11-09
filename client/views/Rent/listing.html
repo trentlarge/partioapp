@@ -40,12 +40,43 @@
 
 
 <template name="searchBox">
-  <div class="bar item-input-inset">
-    <label class="item-input-wrapper">
-      <i class="icon ion-ios-search placeholder-icon"></i>
-      <input type="text" id="search-box" placeholder="type keywords to search..." value="{{searchText}}" />
-    </label>
-  </div>
+    
+    <div class="list list-inset" style="margin:0">
+      <label class="item item-input">
+        <i class="icon ion-search placeholder-icon"></i>
+        <input type="text" id="search-box" placeholder="type keywords to search..." value="{{searchText}}">
+      </label>
+    </div>
+
+    <div class="categoriesFilter center">
+        <div class="row">
+            <div class="categoryFilter col col-15 {{isActivated 0}}">
+                <i class="{{getCategoryIcon 0}}"></i>
+                <span>{{getCategory 0}}</span>
+            </div>
+            <div class="categoryFilter col col-15 {{isActivated 1}}">
+                <i class="{{getCategoryIcon 1}}"></i>
+                <span>{{getCategory 1}}</span>
+            </div>
+            <div class="categoryFilter col col-15 {{isActivated 2}}">
+                <i class="{{getCategoryIcon 2}}"></i>
+                <span>{{getCategory 2}}</span>
+            </div>
+            <div class="categoryFilter col col-15 {{isActivated 3}}">
+                <i class="{{getCategoryIcon 3}}"></i>
+                <span>{{getCategory 3}}</span>
+            </div>
+            <div class="categoryFilter col col-15 {{isActivated 4}}">
+                <i class="{{getCategoryIcon 4}}"></i>
+                <span>{{getCategory 4}}</span>
+            </div>
+            <div class="categoryFilter col col-15 {{isActivated 5}}">
+                <i class="{{getCategoryIcon 5}}"></i>
+                <span>{{getCategory 5}}</span>
+            </div>
+        </div>
+    </div>
+    
 </template>
 
 <template name="searchResult">

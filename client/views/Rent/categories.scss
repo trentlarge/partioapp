@@ -1,0 +1,41 @@
+.categoriesBox {
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    
+    .row {
+        height: 34%;
+        padding: 0;
+        color: #263238;
+    
+        .category {
+            border-top: 4px solid #263238;
+            border-bottom: 4px solid #263238;
+            border-left: 2px solid #263238;
+            border-right: 2px solid #263238;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            
+            i {
+                font-size: 80px;
+            }
+            .caption {
+                font-size: 20px;
+                margin-top: 20px;
+                display: block;
+            }
+            
+        }
+        
+        .background-assertive {   
+            background-color: #df5707;
+        }
+
+        .background-energized {
+            background-color: #f0970d;
+        }
+        
+    }  
+    
+}
