@@ -42,13 +42,30 @@ Template.appLayout.events({
 
 
 			console.log('MOBILE: '+Meteor.user().profile.mobile);
+			//console.log(err.message);
 
-			console.log(error, result);
+			//console.log(result);
+			//console.log(error);
+			// var keys = Object.keys(error.reason.stack);
+			// console.log(keys);
+			// console.log(error.reason.stack);
+			//var json = jQuery.parseJSON(error.reason); //If you have jQuery.
+			//By using javasript json parser
+			// var t = JSON.parse(error.reason.stack);
+			// alert(t['code'])
+
+			//console.log(json);
+
+
+			// var json = JSON.parse(error.reason);
+			// console.log('teste'+json.message);
+
+			//console.log(value);
 
 			if(error) {
 				IonPopup.show({
 					title: 'Ops',
-					template: '<div class="center dark">You can\'t do this call now. Try again later.'+error+'</div>',
+					template: '<div class="center dark">You can\'t do this call now. Try again later.'+error.reason+'</div>',
 					buttons:
 					[{
 						text: 'OK',
