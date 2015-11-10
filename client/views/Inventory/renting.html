@@ -7,6 +7,8 @@
         {{> ionIcon icon='navicon' class="energized"}}
         {{/if}}
       </button>
+      
+      {{> searchHeader}}
   {{/contentFor}}
   
   {{#contentFor "headerTitle"}}
@@ -22,6 +24,17 @@
 <!--   {{#contentFor "headerButtonRight"}}
     <button class="button button-clear" data-ion-modal="lend">{{> ionIcon icon="ios-plus-outline" class="assertive"}}</button>
   {{/contentFor}} -->
+
+  {{#if isTapping}}
+      
+  {{#ionView}}
+    {{#ionContent class="overflow-scroll"}}
+      {{> searchBox}}
+      {{> searchResult}}
+    {{/ionContent}}
+  {{/ionView}}
+      
+  {{else}}
 
   {{#ionView}}
     {{#ionContent}}
@@ -71,4 +84,6 @@
 
     {{/ionContent}}
   {{/ionView}}
+      
+  {{/if}}
 </template>

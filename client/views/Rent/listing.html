@@ -7,6 +7,8 @@
           {{> ionIcon icon='navicon' class="energized"}}
         {{/if}}
       </button>
+    
+      {{> searchHeader}}
   {{/contentFor}}
 
   {{#contentFor "headerTitle"}}
@@ -41,12 +43,14 @@
 
 <template name="searchBox">
     
+<!--
     <div class="list list-inset" style="margin:0">
       <label class="item item-input">
         <i class="icon ion-search placeholder-icon"></i>
         <input type="text" id="search-box" placeholder="type keywords to search..." value="{{searchText}}">
       </label>
     </div>
+-->
 
     <div class="categoriesFilter center">
         <div class="row">

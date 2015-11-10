@@ -20,10 +20,20 @@ Template.sidemenu.events({
 
 Template.listing.rendered = function() {
     Session.set('listing', true);
+    
+    var inputBox = $('.search-header-input');
+        
+    inputBox.css({
+        'width':'65%',
+        'padding': '15px'
+    });
+    inputBox.focus();
+        
 }
 
 Template.listing.destroyed = function() {
     Session.set('listing', false);
+    Session.set('categoryIndex', -1);
 }
 
 Template.loadingTemplate.rendered = function() {
@@ -91,17 +101,14 @@ Template.searchResult.rendered = function() {
 };
 
 Template.searchBox.helpers({
-  searchText: function() {
-    return Session.get('searchText');
-  },
   getCategory: function(index) {
       return Categories.getCategory(index);
   },
   isActivated: function(index) {
-      if (Session.get('categoryIndex') === index) {
-           
+      if (Session.get('categoryIndex') === index) {      
          return "active";
       }
+      return "";
   }, 
   getCategoryIcon: function(index) {
       return Categories.getCategoryIcon(index);

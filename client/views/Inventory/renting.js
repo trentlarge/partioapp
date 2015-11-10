@@ -1,3 +1,7 @@
+Template.renting.rendered = function() {
+    Session.set('isTapping', false);
+}
+
 Template.renting.helpers({
   toBeApproved: function() {
     return Connections.find({"requestor": Meteor.userId(), "state": {$ne: "IN USE", $ne: "DONE"}})
@@ -10,6 +14,9 @@ Template.renting.helpers({
   },
   itemReturned: function() {
     return (Connections.find({"requestor": Meteor.userId(), "state": "DONE"})).count();
+  },
+  isTapping: function() {
+      return Session.get('isTapping');
   }
 });
 
@@ -17,4 +24,4 @@ Template.renting.events({
 	'click .borrowedBookDetail': function() {
 		Router.go('/listing/'+this.bookData._id);
 	}
-})
+});

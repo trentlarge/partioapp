@@ -1,0 +1,13 @@
+.search-header-input {
+    width: 0%;
+    -webkit-transition: width 0.3s;
+    -moz-transition: width 0.3s;
+    -ms-transition: width 0.3s;
+    -o-transition: width 0.3s;
+    transition: width 0.3s;
+    color: #272727;
+    z-index: 10000;
+    border-radius: 20px;
+    padding: 15px;
+    display: none;
+}
