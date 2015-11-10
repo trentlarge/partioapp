@@ -257,20 +257,22 @@ Template.lend.rendered = function() {
 function ClearData(){
   console.log('ClearData');
 
-  if(Session.get('lendTab') == 'resultsCamFind') {
-    Session.set('lendTab', 'camfind');
-  }
-
-  RentingFinalPrice = null;
-  Session.set('scanResult', null);
-  Session.set('priceValue', null);
-  Session.set('userPrice', null);
-  Session.set('priceValue', null);
-  Session.set('barcodeEntry', null);
-  Session.set('manualEntry', null);
-  Session.set('photoTaken', null)
-  Session.set('lastSearchCamFind', '')
-  Session.set('allResults', null)
+  Session.set('lend', null);    
+    
+//  if(Session.get('lendTab') == 'resultsCamFind') {
+//    Session.set('lendTab', 'camfind');
+//  }
+//
+//  RentingFinalPrice = null;
+//  Session.set('scanResult', null);
+//  Session.set('priceValue', null);
+//  Session.set('userPrice', null);
+//  Session.set('priceValue', null);
+//  Session.set('barcodeEntry', null);
+//  Session.set('manualEntry', null);
+//  Session.set('photoTaken', null)
+//  Session.set('lastSearchCamFind', '')
+//  Session.set('allResults', null)
 }
 
 
