@@ -24,7 +24,7 @@
 //     service: "facebook"
 // });
 
-Router.route('/twilio/my_twiml.xml', {
+Router.route('/twilio/my_twiml:number', {
   where: 'server',
   action: function() {
 
