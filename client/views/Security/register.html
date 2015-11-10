@@ -1,16 +1,20 @@
 <template name="register">
+
   {{#contentFor "headerTitle"}}
-    {{>ionNavBackButton}}
-    <h1 class="title">
-        <object id="spinner-logo-simple" data="logo/spinner-logo-simple.svg" type="image/svg+xml"></object>
-    </h1>
+    <h1 class="title">Sign up</h1>
   {{/contentFor}}
 
+  {{#contentFor "headerButtonRight"}}
+    <a href="/" class="button button-clear">
+        <object id="spinner-logo-simple" data="logo/spinner-logo-simple.svg" type="image/svg+xml"></object>
+    </a>
+  {{/contentFor}}    
+    
   {{#ionView class="register"}}
 <!--    {{#ionContent class="dont-slice-screen no-header"}}-->
   <div class="content ion-content has-header">
-    <h2 class="text-center m-top-35 m-bottom-35">Sign UP and Let's Share</h2>
-    <div class="list padding-horizontal">
+<!--    <h2 class="text-center m-top-35 m-bottom-35">Sign UP and Let's Share</h2>-->
+    <div class="list padding-horizontal padding-vertical">
       <label class="item item-input">
         <i class="icon ion-ios-person energized placeholder-icon"></i>
         &nbsp;<input type="text" name="name" class="border-radius-20" placeholder="Name">
@@ -50,6 +54,7 @@
         <option>Test Gmail IDs</option>
       </select>
     </label>
+        
       <!-- <br>
 
       <label class="item item-input" data-ion-modal="map">
