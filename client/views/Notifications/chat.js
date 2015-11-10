@@ -35,7 +35,16 @@ Template.chat.helpers({
 	}
 });
 
-Template.appLayout.events({
+Template.connectRent.rendered = function() {
+	var dataContext = this.data;
+	//Chat input textarea auto-resize when more than 1 line is entered
+
+	Session.set("_requestor", dataContext.requestor);
+	Session.set("_owner", dataContext.bookData.ownerId);
+}
+
+
+Template.connectRent.events({
 	'click #btnCallUser': function(err, template) {
 
 		PartioLoad.show();
@@ -70,7 +79,11 @@ Template.appLayout.events({
 			if(result){
 				console.log(result);
 				var _from = Meteor.user().profile.mobile;
-				var _to = (this.requestor === Meteor.userId()) ? Meteor.users.findOne(this.bookData.ownerId).profile.mobile : Meteor.users.findOne(this.requestor).profile.profile.mobile;
+
+				var _requestor = Session.get('_requestor')
+				var _owner = Session.get('_owner');
+
+				var _to = (_requestor === Meteor.userId()) ? Meteor.users.findOne(_owner).profile.mobile : Meteor.users.findOne(_requestor).profile.profile.mobile;
 
 				PartioLoad.hide();
 
