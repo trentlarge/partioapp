@@ -29,10 +29,8 @@
   Meteor.startup(function() {
     //Future = Meteor.npmRequire('fibers/future');
 
-    process.env.MAIL_URL="smtp://partio.missioncontrol%40gmail.com:partio2021@smtp.gmail.com:465/";
-
-    Accounts.emailTemplates.from = 'partio.missioncontrol@gmail.com';
-
+    process.env.MAIL_URL="smtp://contato@cloudservice.io:cloud1234@smtp.zoho.com:465/";
+    Accounts.emailTemplates.from = 'contato@cloudservice.io';
     Accounts.emailTemplates.siteName = 'partiO';
 
     Accounts.emailTemplates.verifyEmail.subject = function(user) {
