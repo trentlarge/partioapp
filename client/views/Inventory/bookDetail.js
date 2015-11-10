@@ -18,10 +18,18 @@ Template.bookDetail.helpers({
 		}
 	},
 	profileImage: function() {
-		return Meteor.users.findOne(this.ownerId).profile.avatar;
+		var owner = Meteor.users.findOne(this.ownerId);
+		if(!owner) {
+			return "";
+		}
+		return owner.profile.avatar;
 	},
 	userInfo: function() {
-		return Meteor.users.findOne(this.ownerId).profile;
+		var owner = Meteor.users.findOne(this.ownerId);
+		if(!owner) {
+			return {};
+		}
+		return owner.profile;
 	},
 	manualEntry: function() {
 		return (this.manualEntry) ? true : false;
