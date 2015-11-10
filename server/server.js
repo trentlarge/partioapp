@@ -53,36 +53,6 @@
 
   });
 
-// Slingshot.createDirective("myFileUploads", Slingshot.S3Storage, {
-//   bucket: "testepartio",
-//   acl: "public-read",
-//
-//
-//   authorize: function () {
-//     if (!this.userId) {
-//       var message = "Please login before posting files";
-//       throw new Meteor.Error("Login Required", message);
-//     }
-//
-//     return true;
-//   },
-//
-//   key: function (file) {
-//     return  "partio/" + moment().format('YYYYMMDDhmmss') + ".jpg" ;
-//   }
-// });
-
-twilio = Twilio('ACa259379ccf43ebe0af6e2eb7f3bffc93','50582e08bc2d140b8e940fe1a54d9623');
-twilio.listSms({
-  from:'+5531992848154'
-}, function (err, responseData) {
-  responseData.smsMessages.forEach(function(message) {
-      console.log('Message sent on: '+message.dateCreated.toLocaleDateString());
-      console.log(message.body);
-  });
-});
-
-
 
 // LISTING SEARCH ------------------------------
 SearchSource.defineSource('packages', function(searchText, options) {
@@ -102,9 +72,6 @@ function buildRegExp(searchText) {
 }
 
 // END LISTING SEARCH ------------------------------
-
-
-
 
 var sendNotification = function(toId, fromId, message, type) {
   Notifications.insert({
@@ -131,6 +98,41 @@ var sendPush = function(toId, message) {
 }
 
 Meteor.methods({
+
+  // TWILIO  -------------------------------------------------------------------
+  callTwilio: function(numbers) {
+    console.log(numbers.from);
+    console.log('calltwilio -x-x-x-x-x-x-x-x-x-');
+    console.log(numbers.to);
+
+    return HTTP.post('https://api.twilio.com/2010-04-01/Accounts/ACa259379ccf43ebe0af6e2eb7f3bffc93/Calls.json', {
+      "params": {
+        "Url" : "http://partio-55045.onmodulus.net/twilio/5531986012168",
+        "To" : numbers.from,
+        "From" : numbers.from
+      },
+      "auth" : 'ACa259379ccf43ebe0af6e2eb7f3bffc93:50582e08bc2d140b8e940fe1a54d9623'
+    })
+  },
+
+  twilioVerification: function(numberFrom) {
+    var response = Async.runSync(function(done) {
+      var result = HTTP.call("POST", 'https://api.twilio.com/2010-04-01/Accounts/ACa259379ccf43ebe0af6e2eb7f3bffc93/OutgoingCallerIds.json', {
+        "params": {
+          "PhoneNumber" : numberFrom
+        },
+        "auth" : 'ACa259379ccf43ebe0af6e2eb7f3bffc93:50582e08bc2d140b8e940fe1a54d9623'
+      },function(error, result){
+        console.log(error);
+        console.log('-x-x-x-x-x-x-x-x-x-x-xx-x-');
+        console.log(result);
+        done(error, result);
+      });
+    });
+
+    return response.result;
+  },
+
 
   // CAMFIND -------------------------------------------------------------------
   camfindGetToken: function(imageUrl){
@@ -221,50 +223,6 @@ Meteor.methods({
 
       return response.result;
     },
-
-    callTwilio: function(_from,_to) {
-
-      twilio = Twilio('ACa259379ccf43ebe0af6e2eb7f3bffc93', '50582e08bc2d140b8e940fe1a54d9623');
-        twilio.makeCall({
-          to:  _from, // Any number Twilio can call
-          from: _from, // A number you bought from Twilio and can use for outbound communication
-          url: '/twilio/my_twiml:'+_to // A URL that produces an XML document (TwiML) which contains instructions for the call
-        }, function(err, responseData) {
-          //executed when the call has been initiated.
-          console.log(responseData.from); // outputs "+14506667788"
-        });
-
-    },
-
-    twilioVerification: function(numberFrom) {
-
-
-      try {
-        var result = HTTP.call("POST", 'https://api.twilio.com/2010-04-01/Accounts/ACa259379ccf43ebe0af6e2eb7f3bffc93/OutgoingCallerIds.json', {
-          "params": {
-            "PhoneNumber" : numberFrom
-          },
-          "auth" : 'ACa259379ccf43ebe0af6e2eb7f3bffc93:50582e08bc2d140b8e940fe1a54d9623'
-        });
-
-        console.log(result);
-
-
-      } catch (e) {
-          console.log('deu erro');
-          console.log(result);
-        throw new Meteor.Error();
-          console.log(e);
-          //var result = 'nao rolou';
-      }
-
-      //console.log(result);
-
-      return result;
-
-
-    },
-
 
   // AMAZON SEARCH -------------------------------------------------------------------
   itemFromAmazon: function(keys) {

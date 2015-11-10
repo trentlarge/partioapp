@@ -38,74 +38,79 @@ Template.chat.helpers({
 Template.appLayout.events({
 	'click #btnCallUser': function(err, template) {
 
+		PartioLoad.show();
 
-		// does exists number mobile ?
-		if(Meteor.user().profile.mobile === ""){
-			console.log('nao tem telefone');
-			IonPopup.show({
-				title: 'Ops',
-				template: '<div class="center dark">Please update your mobile number.</div>',
-				buttons:
-				[{
-					text: 'OK',
-					type: 'button-energized',
-					onTap: function() {
-						Router.go('/profile');
-						IonPopup.close();
-					}
-				}]
-			});
+		//CHECK NUMBER ON TWILIO API
+		Meteor.call('twilioVerification', Meteor.user().profile.mobile, function(error, result) {
 
-			return false
-		}
+			// IF GET SOME ERROR FROM TWILIO
+			if(error) {
+				console.log('>>>> twilio error');
+				console.log(error);
 
+				PartioLoad.hide();
 
-		console.log('validate '+Meteor.users.findOne(Meteor.userId()).profile.mobileValidated);
-		// mobile  validated
-		if (Meteor.users.findOne(Meteor.userId()).profile.mobileValidated) {
+				IonPopup.show({
+					title: 'Ops...',
+					template: '<div class="center dark">Sorry, the service is unavailable at this moment. Please try again later. Thank you. ;)'+error.message+'</div>',
+					buttons:
+					[{
+						text: 'OK',
+						type: 'button-energized',
+						onTap: function() {
+							IonPopup.close();
+						}
+					}]
+				});
 
-			Meteor.call('callTwilio', Meteor.user().profile.mobile, Meteor.user().profile.mobile, function(error, result) {
+				return false;
+			}
 
-			})
+			// TWILIO IS WORKING
+			if(result){
+				console.log(result);
+				var _from = Meteor.user().profile.mobile;
+				var _to = (this.requestor === Meteor.userId()) ? Meteor.users.findOne(this.bookData.ownerId).profile.mobile : Meteor.users.findOne(this.requestor).profile.profile.mobile;
 
-		} else {
+				PartioLoad.hide();
 
-			console.log('nao validado');
+				//REGISTERING FIRST TIME
+				if(result.statusCode == 200) {
+					IonPopup.show({
+						title: 'Phone activation',
+						template: '<div class="center dark">Please, answer call and digit your activation number: "'+data.validation_code+'". Thank you.</div>',
+						buttons:
+						[{
+							text: 'OK',
+							type: 'button-energized',
+							onTap: function() {
+								console.log(_from);
+								console.log('-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-123');
+								console.log(_to);
+								Meteor.call('callTwilio', { from: _from, to: _to }, function(error, data){
+									console.log(error);
+									console.log(data);
+									alert('chegou aqui');
+								});
+							}
+						}]
+					});
 
-			Meteor.call('twilioVerification', Meteor.user().profile.mobile, function(error, result) {
+				//ALREADY REGISTRED
+				} else if(result.statusCode == 400) {
+					console.log('>>>>>>> already registered')
+					console.log(_from);
+					console.log('-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-');
+					console.log(_to);
 
-								if(error) {
-									IonPopup.show({
-										title: 'Ops',
-										template: '<div class="center dark">You can\'t do this call now. Try again later.'+error.reason+'</div>',
-										buttons:
-										[{
-											text: 'OK',
-											type: 'button-energized',
-											onTap: function() {
-												IonPopup.close();
-											}
-										}]
-									});
-								} else {
-									IonPopup.show({
-										title: 'Verification',
-										template: '<div class="center dark">Plase, digit '+result.data.validation_code+' to validate your phone.</div>',
-										buttons:
-										[{
-											text: 'OK',
-											type: 'button-energized',
-											onTap: function() {
-												IonPopup.close();
-											}
-										}]
-									});
-								}
-
-			})
-
-
-		}
+					Meteor.call('callTwilio', { from: _from, to: _to }, function(error, data){
+						console.log(error);
+						console.log(data);
+						alert('chegou aqui');
+					});
+				}
+			}
+		});
 	}
 });
 
