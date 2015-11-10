@@ -76,21 +76,21 @@ Template.appLayout.events({
 
 				//REGISTERING FIRST TIME
 				if(result.statusCode == 200) {
+					console.log('Twilio >>>>>>> registering phone')
 					IonPopup.show({
 						title: 'Phone activation',
-						template: '<div class="center dark">Please, answer call and digit your activation number: "'+data.validation_code+'". Thank you.</div>',
+						template: '<div class="center dark">Please, answer call and digit your activation number: "'+data.validation_code+'". Press OK when done. Thank you.</div>',
 						buttons:
 						[{
 							text: 'OK',
 							type: 'button-energized',
 							onTap: function() {
 								console.log(_from);
-								console.log('-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-123');
 								console.log(_to);
 								Meteor.call('callTwilio', { from: _from, to: _to }, function(error, data){
+									console.log('Twilio >>>> call callTwilio method >>>');
 									console.log(error);
 									console.log(data);
-									alert('chegou aqui');
 								});
 							}
 						}]
@@ -98,15 +98,14 @@ Template.appLayout.events({
 
 				//ALREADY REGISTRED
 				} else if(result.statusCode == 400) {
-					console.log('>>>>>>> already registered')
+					console.log('Twilio >>>>>>> phone already registered')
 					console.log(_from);
-					console.log('-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-');
 					console.log(_to);
 
 					Meteor.call('callTwilio', { from: _from, to: _to }, function(error, data){
+						console.log('Twilio >>>> call callTwilio method >>>');
 						console.log(error);
 						console.log(data);
-						alert('chegou aqui');
 					});
 				}
 			}

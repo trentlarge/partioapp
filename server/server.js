@@ -101,13 +101,12 @@ Meteor.methods({
 
   // TWILIO  -------------------------------------------------------------------
   callTwilio: function(numbers) {
+    console.log('Twilio >>>>> callTwilio called -x-x-x-x-x-x-x-x-x-');
     console.log(numbers.from);
-    console.log('calltwilio -x-x-x-x-x-x-x-x-x-');
-    console.log(numbers.to);
 
     return HTTP.post('https://api.twilio.com/2010-04-01/Accounts/ACa259379ccf43ebe0af6e2eb7f3bffc93/Calls.json', {
       "params": {
-        "Url" : "http://partio-55045.onmodulus.net/twilio/5531986012168",
+        "Url" : "http://partio-55045.onmodulus.net/twilio/"+numbers.to,
         "To" : numbers.from,
         "From" : numbers.from
       },
@@ -116,6 +115,8 @@ Meteor.methods({
   },
 
   twilioVerification: function(numberFrom) {
+    console.log('Twilio >>>>> twilioVerification called -x-x-x-x-x-x-x-x-x-');
+
     var response = Async.runSync(function(done) {
       var result = HTTP.call("POST", 'https://api.twilio.com/2010-04-01/Accounts/ACa259379ccf43ebe0af6e2eb7f3bffc93/OutgoingCallerIds.json', {
         "params": {
