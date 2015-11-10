@@ -31,7 +31,7 @@ Template.register.events({
 
 	    var email = template.find('[name=email]').value;
 	    var password = template.find('[name=password]').value;
-			
+
 
 	    var profileDetails = {
 	    	name: template.find('[name=name]').value,
@@ -79,7 +79,7 @@ Template.register.events({
 	    						console.log(error);
 	    					}
 	    				})
-	    				IonModal.close();
+	    				Router.go('/profile');
 	    			}
 	    		});
 	    	}

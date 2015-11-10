@@ -27,11 +27,12 @@ var SinchTicketGenerator = Meteor.npmRequire('sinch-ticketgen');
   Meteor.startup(function() {
     //Future = Meteor.npmRequire('fibers/future');
 
-    process.env.MAIL_URL="smtp://partio.missioncontrol%40gmail.com:partio2021@smtp.gmail.com:465/";
+    process.env.MAIL_URL="smtp://support%40partio.xyz:partio123!@smtp.zoho.com:465/";
 
-    Accounts.emailTemplates.from = 'partio.missioncontrol@gmail.com';
+    Accounts.emailTemplates.from = 'support@partio.xyz';
 
     Accounts.emailTemplates.siteName = 'partiO';
+
 
     Accounts.emailTemplates.verifyEmail.subject = function(user) {
       return 'Welcome to partiO!';
