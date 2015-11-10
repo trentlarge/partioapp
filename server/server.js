@@ -6,7 +6,7 @@
   // Transactions.remove({});
   // Notifications.remove({});
 
-var SinchTicketGenerator = Meteor.npmRequire('sinch-ticketgen');
+//var SinchTicketGenerator = Meteor.npmRequire('sinch-ticketgen');
 
   Connections.allow({
     insert: function () { return true; },
@@ -23,6 +23,21 @@ var SinchTicketGenerator = Meteor.npmRequire('sinch-ticketgen');
 // ServiceConfiguration.loginServiceConfiguration.remove({
 //     service: "facebook"
 // });
+
+Router.route('/twilio/my_twiml.xml', {
+  where: 'server',
+  action: function() {
+
+    var xmlData = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
+    xmlData += "<Response>";
+    xmlData += "<Say voice=\"woman\" language=\"en\">Hello!</Say>";
+    xmlData += "</Response>";
+
+    this.response.writeHead(200, {'Content-Type': 'application/xml'});
+    this.response.end(xmlData);
+  }
+});
+
 
   Meteor.startup(function() {
     //Future = Meteor.npmRequire('fibers/future');
@@ -220,7 +235,7 @@ Meteor.methods({
       return response.result;
     },
 
-    callTwilio: function(numberFrom) {
+    callTwilio: function(from,to) {
 
       twilio = Twilio('ACa259379ccf43ebe0af6e2eb7f3bffc93', '50582e08bc2d140b8e940fe1a54d9623');
         twilio.makeCall({
@@ -249,59 +264,18 @@ Meteor.methods({
 
 
       } catch (e) {
-        console.log('deu erro');
-        throw new Meteor.Error(400, e);
-        console.log(e);
-        var result = 'nao rolou';
+          console.log('deu erro');
+          console.log(result);
+        throw new Meteor.Error();
+          console.log(e);
+          //var result = 'nao rolou';
       }
-
-
-
-    //  throw new Meteor.Error("400", "The user must be logged in to post a comment.");
 
       console.log(result);
 
       return result;
 
-      //throw meteorError;
-      // throw new Meteor.Error("500", "The user must be logged in to post a comment.");
-      //
-      // console.log(reulst);
-      //
-      // return
-
-
-      // result = HTTP.call("POST", 'https://api.twilio.com/2010-04-01/Accounts/ACa259379ccf43ebe0af6e2eb7f3bffc93/OutgoingCallerIds.json', {
-      //   "params": {
-      //     "PhoneNumber" : numberFrom
-      //   },
-      //   "auth" : 'ACa259379ccf43ebe0af6e2eb7f3bffc93:50582e08bc2d140b8e940fe1a54d9623'
-      // });
-      //
-      // console.log(result);
-      //
-      // return
-
-      // console.log('server >>>>>>twilioVerification')
-      // console.log(numberFrom);
-      //
-      // var response = Async.runSync(function(done) {
-      //   twilio = Twilio('ACa259379ccf43ebe0af6e2eb7f3bffc93', '50582e08bc2d140b8e940fe1a54d9623');
-      //   twilio.outgoingCallerIds.create({
-      //     friendlyName: "My Home Phone Number",
-      //     phoneNumber: "+553178150184"
-      //   }, function(err, callerId) {
-      //       //stop(2);
-      //       //process.stdout.write(callerId.sid);
-      //       console.log('twilioVerification');
-      //       console.log(err);
-      //       console.log(callerId.sid);
-      //
-      //       done(err, callerId);
-      //   });
-      // });
-
-      //return response.result;
+    
     },
 
 

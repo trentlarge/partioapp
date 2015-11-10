@@ -42,19 +42,20 @@ Template.appLayout.events({
 
 
 			console.log('MOBILE: '+Meteor.user().profile.mobile);
-			//console.log(err.message);
+			//console.log(result);
 
 			//console.log(result);
 			//console.log(error);
 			// var keys = Object.keys(error.reason.stack);
 			// console.log(keys);
-			// console.log(error.reason.stack);
+			 //console.log(error.reason);
 			//var json = jQuery.parseJSON(error.reason); //If you have jQuery.
 			//By using javasript json parser
 			// var t = JSON.parse(error.reason.stack);
 			// alert(t['code'])
 
 			//console.log(json);
+			//alert(JSON.stringify(error.reason));
 
 
 			// var json = JSON.parse(error.reason);
