@@ -271,11 +271,11 @@ Meteor.methods({
           //var result = 'nao rolou';
       }
 
-      console.log(result);
+      //console.log(result);
 
       return result;
 
-    
+
     },
 
 
