@@ -1,19 +1,28 @@
 <template name="register">
 
+  {{#contentFor "headerButtonLeft"}}
+      {{>ionNavBackButton path="login"}}
+  {{/contentFor}}       
+    
   {{#contentFor "headerTitle"}}
     <h1 class="title">Sign up</h1>
   {{/contentFor}}
 
   {{#contentFor "headerButtonRight"}}
-    <a href="/" class="button button-clear">
+    <a class="button button-clear">
         <object id="spinner-logo-simple" data="logo/spinner-logo-simple.svg" type="image/svg+xml"></object>
     </a>
   {{/contentFor}}    
     
   {{#ionView class="register"}}
-<!--    {{#ionContent class="dont-slice-screen no-header"}}-->
-  <div class="content ion-content has-header">
-<!--    <h2 class="text-center m-top-35 m-bottom-35">Sign UP and Let's Share</h2>-->
+<!--    {{#ionContent}}-->
+  <div class="content ion-content overflow-scroll has-header">
+      
+      <div class="center">
+        <object id="spinner-logo-signup" data="logo/spinner-logo-simple-black.svg" type="image/svg+xml"></object> 
+          <div class="spinner-logo-caption">Let's Share.</div>
+      </div>
+      
     <div class="list padding-horizontal padding-vertical">
       <label class="item item-input">
         <i class="icon ion-ios-person energized placeholder-icon"></i>
@@ -36,13 +45,6 @@
         &nbsp;<input type="password" name="password" class="border-radius-20" placeholder="Password">
       </label>
       <br>
-
-      <!-- REMOVING PHONE NUMBER FOR NOW -->
-<!--           <label class="item item-input">
-        <i class="icon ion-iphone energized placeholder-icon"></i>
-        &nbsp;<input type="tel" name="mobile" placeholder="Mobile">
-      </label>
-      <br> -->
 
     <label class="item item-input item-select">
       <i class="icon ion-university energized placeholder-icon"></i>
@@ -76,6 +78,6 @@
       <button id="registerButton" class="border-radius-20 button button-block button-energized">REGISTER</button>
     </div>
   </div>
-
+<!--    {{/ionContent}}-->
   {{/ionView}}
 </template>
