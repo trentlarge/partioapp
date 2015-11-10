@@ -35,6 +35,9 @@ Template.connect.helpers({
 	},
 	returnItem: function() {
 		return Connections.findOne(this._id).state === "RETURN" ? true : false;
+	},
+	connectData: function() {
+		return Connections.findOne(this._id);
 	}
 });
 
