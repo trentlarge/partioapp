@@ -15,6 +15,9 @@ Template.connect.helpers({
 			return false;
 		}
 	},
+	validNumber: function() {
+		return Meteor.users.findOne(Meteor.userId()).profile.mobileValidated
+	},
 	userInfo: function() {
 		if (Meteor.users.findOne(this.requestor)) {
 			return Meteor.users.findOne(this.requestor).profile

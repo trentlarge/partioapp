@@ -24,19 +24,6 @@
 //     service: "facebook"
 // });
 
-Router.route('/twilio/my_twiml:number', {
-  where: 'server',
-  action: function() {
-
-    var xmlData = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
-    xmlData += "<Response>";
-    xmlData += "<Say voice=\"woman\" language=\"en\">Hello!</Say>";
-    xmlData += "</Response>";
-
-    this.response.writeHead(200, {'Content-Type': 'application/xml'});
-    this.response.end(xmlData);
-  }
-});
 
 
   Meteor.startup(function() {
@@ -235,13 +222,13 @@ Meteor.methods({
       return response.result;
     },
 
-    callTwilio: function(from,to) {
+    callTwilio: function(_from,_to) {
 
       twilio = Twilio('ACa259379ccf43ebe0af6e2eb7f3bffc93', '50582e08bc2d140b8e940fe1a54d9623');
         twilio.makeCall({
-          to:'+553178150184', // Any number Twilio can call
-          from: '+553178150184', // A number you bought from Twilio and can use for outbound communication
-          url: 'http://twimlbin.com/external/ec09f69871e0ec55' // A URL that produces an XML document (TwiML) which contains instructions for the call
+          to:  _from, // Any number Twilio can call
+          from: _from, // A number you bought from Twilio and can use for outbound communication
+          url: '/twilio/my_twiml:'+_to // A URL that produces an XML document (TwiML) which contains instructions for the call
         }, function(err, responseData) {
           //executed when the call has been initiated.
           console.log(responseData.from); // outputs "+14506667788"
