@@ -24,7 +24,7 @@ Template.listing.rendered = function() {
     var inputBox = $('.search-header-input');
         
     inputBox.css({
-        'width':'65%',
+        'width':'60%',
         'padding': '15px'
     });
     inputBox.focus();

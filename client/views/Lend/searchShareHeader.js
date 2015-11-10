@@ -13,7 +13,7 @@ Template.searchShareHeader.events({
         
         if(inputBox.css('width') === '0px' || inputBox.css('width') === '0%'){
             inputBox.css({
-                'width':'52%',
+                'width':'50%',
                 'padding': '15px'
             });
             inputBox.focus();

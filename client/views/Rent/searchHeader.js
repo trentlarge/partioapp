@@ -6,7 +6,7 @@ Template.searchHeader.events({
         
         if(inputBox.css('width') === '0px'){
             inputBox.css({
-                'width':'65%',
+                'width':'60%',
                 'padding': '15px'
             });
             inputBox.focus();
