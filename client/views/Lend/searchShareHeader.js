@@ -32,8 +32,6 @@ Template.searchShareHeader.events({
     
     'click .submit-search': function(e, template) {
         
-        console.log('test');
-        
         //reset sessions
         Session.set('scanResult', null);
         Session.set('lendTab', 'camfind');
@@ -73,7 +71,7 @@ Template.searchShareHeader.events({
                   });
 
               } else {
-
+                  
                 $.each(result, function(index, r) {
                     result[index].index = index;
                 });

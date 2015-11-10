@@ -51,8 +51,8 @@ Template.camfind.events({
                     console.log("----camfindGetResponse----");
                     console.log(result);
                     if(result) {
-                      $('#manualInputCamFind').val(result.data.name);
-                      $('#manualSubmitCamFind').trigger('click');
+                      $('.search-share-header-input').val(result.data.name);
+                      $('.submit-search').trigger('click');
                     }
                   })
                 }

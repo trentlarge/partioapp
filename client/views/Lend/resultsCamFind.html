@@ -92,12 +92,12 @@
                         <a class="category"> 
                             <i class="category-icon icon {{getCategoryIcon}}"></i>
                             {{category}} 
-                            <i class="chevron-icon icon ion-chevron-right"></i>
+                            <i class="chevron-icon icon {{#if isOnlyOneCategory}} ion-chevron-down {{else}} ion-chevron-right {{/if}}"></i>
                         </a>
                     </div>
                 {{/if}}
 
-                <div class="product {{splitCategory}} hidden">
+                <div class="product {{splitCategory}} {{#if isOnlyOneCategory}} {{else}} hidden {{/if}}">
                     <div class="row">
                         <div class="col col-20">
                                 <div class="center">

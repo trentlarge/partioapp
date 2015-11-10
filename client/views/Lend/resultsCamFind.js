@@ -2,9 +2,7 @@
 // RENDERED
 
 //Template.resultsCamFind.rendered = function() {
-//    Session.set('allResults', true);
-//    Session.set('scanResult', false);
-//    console.log(Session.get('allResults'));
+//    
 //}
 
 // HELPERS
@@ -31,6 +29,35 @@ Template.resultsCamFind.helpers({
   },
   getCategoryIcon: function() {
     return Categories.getCategoryIconByText(this.category);     
+  },
+  isOnlyOneCategory: function() {
+      
+    if(Session.get('isOnlyOneCategory'))  {
+        return Session.get('isOnlyOneCategory');
+    }
+    else {    
+        var result = Session.get('allResults');
+
+        var currentCategory = '';
+        var nCategory = 0;  
+
+        $.each(result, function(index, r) {
+            if(r.category !== currentCategory) {
+                currentCategory = r.category;
+                nCategory++;
+            }
+        });
+
+        if(nCategory == 1) {
+            Session.set('isOnlyOneCatgory', true);
+            return true;
+        }
+        else {
+            Session.set('isOnlyOneCatgory', false);
+            return false;
+        }
+    }
+      
   },
   waitingForPrice: function() {
     return Session.get('userPrice') ? "": "disabled";
@@ -168,9 +195,6 @@ Template.resultsCamFind.events({
     'click .menu-category': function(e, template) {
         var category = $('.' + $(this)[0].category.replace(/\s/g,"").replace(/\&/g,""));
         var categoryId = $('.' + $(this)[0].category.replace(/\s/g,"").replace(/\&/g,"") + '-menu');
-        
-        console.log(category);
-        console.log(categoryId);
 
         if(category.hasClass('hidden')){
             category.removeClass('hidden');
