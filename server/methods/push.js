@@ -1,5 +1,11 @@
 Push.debug = true; // Add verbosity
 
+Push.allow({
+	send: function(userId, notification) {
+		return true; // Allow all users to send
+	}
+});
+
 Meteor.methods({
 	'sendMessage': function(message, sender, recipient, connectionId) {
 		var messageInsert = {

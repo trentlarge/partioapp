@@ -1,9 +1,17 @@
 Template.bookDetail.helpers({
 	owner: function() {
-		return Meteor.users.findOne(this.userId).profile.name;
+		var user = Meteor.users.findOne(this.userId);
+		if(!user) {
+			return ""
+		}
+		return user.profile.name;
 	},
 	noProfileYet: function() {
-		if (Meteor.users.findOne(this.ownerId).profile.avatar === "notSet") {
+		var owner = Meteor.users.findOne(this.ownerId);
+		if(!owner) {
+			return true;
+		}
+		if (owner.profile.avatar === "notSet") {
 			return true;
 		} else {
 			return false;
