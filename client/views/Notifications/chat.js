@@ -38,10 +38,10 @@ Template.chat.helpers({
 Template.appLayout.events({
 	'click #btnCallUser': function(err, template) {
 
+		PartioLoad.show();
+
 		//CHECK NUMBER ON TWILIO API
 		Meteor.call('twilioVerification', Meteor.user().profile.mobile, function(error, result) {
-
-			PartioLoad.show();
 
 			// IF GET SOME ERROR FROM TWILIO
 			if(error) {
@@ -69,11 +69,8 @@ Template.appLayout.events({
 			// TWILIO IS WORKING
 			if(result){
 				console.log(result);
-
-				//var _from = Meteor.user().profile.mobile;
-				//var _to = Meteor.users.findOne(this.bookData.ownerId).profile.mobile;
 				var _from = Meteor.user().profile.mobile;
-				var _to = "+5531986012168";
+				var _to = (this.requestor === Meteor.userId()) ? Meteor.users.findOne(this.bookData.ownerId).profile.mobile : Meteor.users.findOne(this.requestor).profile.profile.mobile;
 
 				PartioLoad.hide();
 
@@ -87,7 +84,14 @@ Template.appLayout.events({
 							text: 'OK',
 							type: 'button-energized',
 							onTap: function() {
-								makeACall(_from, _to);
+								console.log(_from);
+								console.log('-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-123');
+								console.log(_to);
+								Meteor.call('callTwilio', { from: _from, to: _to }, function(error, data){
+									console.log(error);
+									console.log(data);
+									alert('chegou aqui');
+								});
 							}
 						}]
 					});
@@ -95,19 +99,20 @@ Template.appLayout.events({
 				//ALREADY REGISTRED
 				} else if(result.statusCode == 400) {
 					console.log('>>>>>>> already registered')
-					makeACall(_from, _to);
+					console.log(_from);
+					console.log('-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-');
+					console.log(_to);
+
+					Meteor.call('callTwilio', { from: _from, to: _to }, function(error, data){
+						console.log(error);
+						console.log(data);
+						alert('chegou aqui');
+					});
 				}
 			}
 		});
 	}
 });
-
-function makeACall(_from, _to){
-	console.log(_from);
-	console.log('-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-');
-	console.log(_to);
-
-}
 
 Template.chat.events({
 	'click .end-call': function(e,t) {
