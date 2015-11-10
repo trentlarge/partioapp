@@ -38,35 +38,21 @@ Template.chat.helpers({
 Template.appLayout.events({
 	'click #btnCallUser': function(err, template) {
 
+		//CHECK NUMBER ON TWILIO API
 		Meteor.call('twilioVerification', Meteor.user().profile.mobile, function(error, result) {
 
+			PartioLoad.show();
 
-			console.log('MOBILE: '+Meteor.user().profile.mobile);
-			//console.log(result);
-
-			//console.log(result);
-			//console.log(error);
-			// var keys = Object.keys(error.reason.stack);
-			// console.log(keys);
-			 //console.log(error.reason);
-			//var json = jQuery.parseJSON(error.reason); //If you have jQuery.
-			//By using javasript json parser
-			// var t = JSON.parse(error.reason.stack);
-			// alert(t['code'])
-
-			//console.log(json);
-			//alert(JSON.stringify(error.reason));
-
-
-			// var json = JSON.parse(error.reason);
-			// console.log('teste'+json.message);
-
-			//console.log(value);
-
+			// IF GET SOME ERROR FROM TWILIO
 			if(error) {
+				console.log('>>>> twilio error');
+				console.log(error);
+
+				PartioLoad.hide();
+
 				IonPopup.show({
-					title: 'Ops',
-					template: '<div class="center dark">You can\'t do this call now. Try again later.'+error.reason+'</div>',
+					title: 'Ops...',
+					template: '<div class="center dark">Sorry, the service is unavailable at this moment. Please try again later. Thank you. ;)'+error.message+'</div>',
 					buttons:
 					[{
 						text: 'OK',
@@ -76,117 +62,52 @@ Template.appLayout.events({
 						}
 					}]
 				});
-			} else {
-				IonPopup.show({
-					title: 'Verification',
-					template: '<div class="center dark">Plase, digit '+result.data.validation_code+' to validate your phone.</div>',
-					buttons:
-					[{
-						text: 'OK',
-						type: 'button-energized',
-						onTap: function() {
-							IonPopup.close();
-						}
-					}]
-				});
+
+				return false;
 			}
-		})
 
+			// TWILIO IS WORKING
+			if(result){
+				console.log(result);
 
-		// Meteor.call('callTwilio', function(error, result) {
-		// 	//console.log(error, result);
-		// })
+				//var _from = Meteor.user().profile.mobile;
+				//var _to = Meteor.users.findOne(this.bookData.ownerId).profile.mobile;
+				var _from = Meteor.user().profile.mobile;
+				var _to = "+5531986012168";
 
+				PartioLoad.hide();
 
+				//REGISTERING FIRST TIME
+				if(result.statusCode == 200) {
+					IonPopup.show({
+						title: 'Phone activation',
+						template: '<div class="center dark">Please, answer call and digit your activation number: "'+data.validation_code+'". Thank you.</div>',
+						buttons:
+						[{
+							text: 'OK',
+							type: 'button-energized',
+							onTap: function() {
+								makeACall(_from, _to);
+							}
+						}]
+					});
 
-		// var cRequestor = Session.get("_requestor");
-		// var cOwner = Session.get("_owner");
-		//
-		// $("#btnCallUser").prop("disabled",true);
-		//
-		// var recipient = (cRequestor === Meteor.userId()) ? cOwner : cRequestor;
-		//
-		// console.log('USER ID '+recipient);
-		//
-		// var remoteCallerId = Meteor.users.findOne(recipient).profile.name;
-		//
-		// Session.set("_incomingCaller", remoteCallerId);
-		// Session.set("_inCall", true);
-		//
-		// Session.set("_callStatus", "Ringing...");
-		//
-		// PartioCaller.call(recipient, {
-		// 	onCallProgressing: function(call) {
-		// 		$('audio#ringback').prop("currentTime", 0);
-		// 		$('audio#ringback').trigger("play");
-		//     console.log("[PartioCaller] ringing...");
-		// 		Session.set("_callStatus", "Ringing...");
-		// 	},
-		// 	onCallEstablished: function(call) {
-		// 		$('audio#incoming').attr('src', call.incomingStreamURL);
-		// 		$('audio#ringback').trigger("pause");
-		// 		$('audio#ringtone').trigger("pause");
-		//
-		//     console.log("[PartioCaller] Call answered...");
-		//
-		// 		Session.set("_callStatus", "Call Active");
-		//
-		// 		//Report call stats
-		// 		var callDetails = call.getDetails();
-		// 		console.log(callDetails);
-		// 	},
-		// 	onCallEnded: function(call) {
-		// 		$('audio#ringback').trigger("pause");
-		// 		$('audio#ringtone').trigger("pause");
-		// 		$('audio#incoming').attr('src', '');
-		//
-		// 		Session.set("_callStatus", "Disconnected");
-		//
-		// 		$("#btnCallUser").prop("disabled",false);
-		//
-		// 		Meteor.setTimeout(function() { Session.set("_inCall", false); }, 2500);
-		//
-		//     console.log(call);
-		//     console.log(call.getEndCause());
-		//
-		// 		if (call.getEndCause() === "TIMEOUT") {
-		// 			IonPopup.show({
-		// 				title: 'Call Not Answered',
-		// 				template: 	'<div class="center dark">The other party did not answer in time.</div>',
-		// 				buttons:
-		// 				[{
-		// 					text: 'OK',
-		// 					type: 'button-energized',
-		// 					onTap: function() {
-		// 						IonPopup.close();
-		// 					}
-		// 				}]
-		// 			});
-		// 		}
-		//
-		//     console.log("[PartioCaller] Call ended...");
-		// 		if(call.error || call.getEndCause() === "FAILURE") {
-		// 			console.error("[PartioCaller] Call error");
-		// 			console.error(call.error.message);
-		//
-		// 			IonPopup.show({
-		// 				title: 'Call Error',
-		// 				template: 	'<div class="center dark">'+call.error.message+'</div>',
-		// 				buttons:
-		// 				[{
-		// 					text: 'OK',
-		// 					type: 'button-energized',
-		// 					onTap: function() {
-		// 						IonPopup.close();
-		// 					}
-		// 				}]
-		// 			});
-		//
-		// 		}
-		// 	}
-		// });
+				//ALREADY REGISTRED
+				} else if(result.statusCode == 400) {
+					console.log('>>>>>>> already registered')
+					makeACall(_from, _to);
+				}
+			}
+		});
 	}
 });
+
+function makeACall(_from, _to){
+	console.log(_from);
+	console.log('-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-');
+	console.log(_to);
+
+}
 
 Template.chat.events({
 	'click .end-call': function(e,t) {

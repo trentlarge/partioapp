@@ -252,28 +252,33 @@ Meteor.methods({
     twilioVerification: function(numberFrom) {
 
 
-      try {
+      // try {
+      var response = Async.runSync(function(done) {
         var result = HTTP.call("POST", 'https://api.twilio.com/2010-04-01/Accounts/ACa259379ccf43ebe0af6e2eb7f3bffc93/OutgoingCallerIds.json', {
           "params": {
             "PhoneNumber" : numberFrom
           },
           "auth" : 'ACa259379ccf43ebe0af6e2eb7f3bffc93:50582e08bc2d140b8e940fe1a54d9623'
-        });
-
-        console.log(result);
-
-
-      } catch (e) {
-          console.log('deu erro');
+        },function(error, result){
+          console.log(error);
+          console.log('-x-x-x-x-x-x-x-x-x-x-xx-x-');
           console.log(result);
-        throw new Meteor.Error();
-          console.log(e);
-          //var result = 'nao rolou';
-      }
+          done(error, result);
+        });
+      });
+
+        return response.result;
+      // } catch (e) {
+      //     console.log('deu erro');
+      //     console.log(e);
+        // throw new Meteor.Error();
+        //   console.log(e);
+        //   //var result = 'nao rolou';
+      //}
 
       //console.log(result);
 
-      return result;
+      //return result;
 
 
     },
