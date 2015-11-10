@@ -29,8 +29,8 @@
   Meteor.startup(function() {
     //Future = Meteor.npmRequire('fibers/future');
 
-    process.env.MAIL_URL="smtp://contato@cloudservice.io:cloud1234@smtp.zoho.com:465/";
-    Accounts.emailTemplates.from = 'contato@cloudservice.io';
+    process.env.MAIL_URL="smtp://partio@cloudservice.io:partio1234@smtp.zoho.com:465";
+    Accounts.emailTemplates.from = 'partio@cloudservice.io';
     Accounts.emailTemplates.siteName = 'partiO';
 
     Accounts.emailTemplates.verifyEmail.subject = function(user) {

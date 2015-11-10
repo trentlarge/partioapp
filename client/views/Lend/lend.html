@@ -3,9 +3,16 @@
 	<!-- MODAL -->
 	{{#ionModal title="Share Product" customTemplate=true}}
     <div class="bar bar-header bar-royal">
-      <button type="button" id="closeLend" title="Close" class="button button-clear pull-left"> <i class="icon ion-ios-close-outline pull-left"></i></button>
-      <h2 class="title">Share Product</h2>
-			<button type="button" id="reset" title="Reset" class="button button-clear pull-right"><i class="icon ion-ios-reload pull-right"></i> </button>
+      
+        {{> searchShareHeader}}
+        
+        <h2 class="title">Share Product</h2>
+        
+        <button type="button" id="closeLend" title="Close" class="button button-clear pull-left"> 
+            <i class="icon ion-ios-close-outline pull-left"></i>
+        </button>
+        
+<!--			<button type="button" id="reset" title="Reset" class="button button-clear pull-right"><i class="icon ion-ios-reload pull-right"></i> </button>-->
     </div>
 
 		<!-- DYNAMIC TEMPLATE -->

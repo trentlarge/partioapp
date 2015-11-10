@@ -1,3 +1,11 @@
+Template.barcode.rendered = function(){
+    Session.set('placeholder', "Enter barcode number..");   
+};
+
+Template.barcode.destroyed = function(){
+    Session.set('placeholder', "Search product..");   
+};
+
 Template.barcode.events({
 
   // BARCODE

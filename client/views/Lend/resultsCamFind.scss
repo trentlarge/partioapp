@@ -9,7 +9,6 @@
 }
 
 .resultsCamFind {
-    margin: -10px;
     background: white;
 
     a {
@@ -47,9 +46,14 @@
         font-size: 18px;
         border-bottom: 2px solid #000000;
     }
+    
     .category{
-      color:#c9c9c9;
-      text-transform: uppercase;
+        color:#c9c9c9;
+        text-transform: uppercase;
+    }
+    
+    .category-icon {
+        padding-left: 10px;
     }
 
     .product {

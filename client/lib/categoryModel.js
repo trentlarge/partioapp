@@ -44,16 +44,32 @@ app.model.Categories = (function () {
         },
        
         //get category by index;
-        getCategory(index) {
+        getCategory : function(index) {
             return this.category[index].text;
         },
        
         //get category icon by index
-        getCategoryIcon(index) {
+        getCategoryIcon : function(index) {
              return this.category[index].icon;
         },
        
-        getCategoryIndexByText(categoryText) {
+        //get category icon by text
+        getCategoryIconByText : function(categoryText) {
+            
+            var caegoryIcon;
+            
+             $.each(this.category, function(index, category) {
+                
+                if(category.text === categoryText) {
+                    caegoryIcon = category.icon;
+                }
+                
+            })
+            
+            return caegoryIcon;
+        },
+       
+        getCategoryIndexByText : function(categoryText) {
        
             var categoryIndex;
             

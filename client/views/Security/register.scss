@@ -1,0 +1,70 @@
+.register {
+    
+    background: url(img/signup-background.jpg);
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    min-height: 100%;
+    
+    .center {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        
+         #spinner-logo-signup {   
+            height: 80px;
+            margin-top: 10px;
+            opacity: .5;
+        }
+
+        .spinner-logo-caption {
+            font-size: 22px;
+            opacity: .5;
+            margin-top: 10px;
+            padding-left: 10px;
+        }
+    }
+    
+   
+    
+    
+    .item-input {
+        background-color: transparent;
+        border: 0;
+        border-bottom: 1px solid rgba(39, 39, 39, 0.42);
+        color: #272727;
+        
+        i {
+            color: rgba(39, 39, 39, 0.42);
+        }
+        
+        ::-webkit-input-placeholder {
+            color: rgba(39, 39, 39, 0.42);
+        }
+
+        :-moz-placeholder {
+            color: rgba(39, 39, 39, 0.42);
+        }
+    }
+    
+    .item-select {
+        background-color: transparent;
+        color: #272727;
+        
+        &:after {
+            color: #272727;
+        }
+        
+        #college {
+            background-color: transparent;
+        }
+    }
+   
+}
+
+#registerButton {
+    background-color: rgba(240, 151, 13, 0.50);
+    border-radius: 30px; 
+    color: #272727;
+}

@@ -1,0 +1,21 @@
+.search-share-header-input {
+    width: 50%;
+    -webkit-transition: width 0.3s;
+    -moz-transition: width 0.3s;
+    -ms-transition: width 0.3s;
+    -o-transition: width 0.3s;
+    transition: width 0.3s;
+    color: #272727;
+    z-index: 10000;
+    border-radius: 20px 0 0 20px;
+    padding: 15px;
+    display: none;
+}
+
+.submit-search {
+    border-radius: 0 20px 20px 0;
+    border: 0;
+    padding-right: 10px;
+    z-index: 1000;
+    background-color: #f0970d;
+}

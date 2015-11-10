@@ -2,9 +2,7 @@
 // RENDERED
 
 //Template.resultsCamFind.rendered = function() {
-//    Session.set('allResults', true);
-//    Session.set('scanResult', false);
-//    console.log(Session.get('allResults'));
+//    
 //}
 
 // HELPERS
@@ -29,6 +27,38 @@ Template.resultsCamFind.helpers({
     }
     return false;
   },
+  getCategoryIcon: function() {
+    return Categories.getCategoryIconByText(this.category);     
+  },
+  isOnlyOneCategory: function() {
+      
+    if(Session.get('isOnlyOneCategory'))  {
+        return Session.get('isOnlyOneCategory');
+    }
+    else {    
+        var result = Session.get('allResults');
+
+        var currentCategory = '';
+        var nCategory = 0;  
+
+        $.each(result, function(index, r) {
+            if(r.category !== currentCategory) {
+                currentCategory = r.category;
+                nCategory++;
+            }
+        });
+
+        if(nCategory == 1) {
+            Session.set('isOnlyOneCatgory', true);
+            return true;
+        }
+        else {
+            Session.set('isOnlyOneCatgory', false);
+            return false;
+        }
+    }
+      
+  },
   waitingForPrice: function() {
     return Session.get('userPrice') ? "": "disabled";
   },
@@ -50,7 +80,7 @@ Template.resultsCamFind.helpers({
       {
           var priceValueDay = (scanResult.price).split("$")[1];
           Lend.GetRentingPercentages('ONE_DAY', priceValueDay);
-          console.log('RentingFinalPrice: ' + Lend.RentingFinalPrice);
+//          console.log('RentingFinalPrice: ' + Lend.RentingFinalPrice);
 
           if(Lend.RentingFinalPrice > 0) {
               Session.set('userPrice', Lend.RentingFinalPrice);
@@ -78,7 +108,7 @@ Template.resultsCamFind.helpers({
       {
           var priceValueWeek = (scanResult.price).split("$")[1];
           Lend.GetRentingPercentages('ONE_WEEK', priceValueWeek);
-          console.log('RentingFinalPrice ONE_WEEK: ' + Lend.RentingFinalPrice);
+//          console.log('RentingFinalPrice ONE_WEEK: ' + Lend.RentingFinalPrice);
 
           if(Lend.RentingFinalPrice > 0) {
               Session.set('userPrice', Lend.RentingFinalPrice);
@@ -106,7 +136,7 @@ Template.resultsCamFind.helpers({
           Lend.RentingTimeSpan = 'ONE_MONTH';
           var priceValueMonth = (scanResult.price).split("$")[1];
           Lend.GetRentingPercentages('ONE_MONTH', priceValueMonth);
-          console.log('RentingFinalPrice ONE_MONTH: ' + Lend.RentingFinalPrice);
+//          console.log('RentingFinalPrice ONE_MONTH: ' + Lend.RentingFinalPrice);
 
           if(Lend.RentingFinalPrice > 0) {
               Session.set('userPrice', Lend.RentingFinalPrice);
@@ -133,7 +163,7 @@ Template.resultsCamFind.helpers({
       {
           var priceValue4Months = (scanResult.price).split("$")[1];
           Lend.GetRentingPercentages('FOUR_MONTHS', priceValue4Months);
-          console.log('RentingFinalPrice: ' + Lend.RentingFinalPrice);
+//          console.log('RentingFinalPrice: ' + Lend.RentingFinalPrice);
 
           if(Lend.RentingFinalPrice > 0) {
               Session.set('userPrice', Lend.RentingFinalPrice);
@@ -155,76 +185,31 @@ Template.resultsCamFind.events({
     'click .back': function(e, template) {
 
         //temporary solution
-        var manual = $('#manualInputCamFind').val();
-        $('#manualInputCamFind').val(Lend.latestProduct);
-        $('#manualSubmitCamFind').click();
-        $('#manualInputCamFind').val(manual);
+        var manual = $('.search-share-header-input').val();
+        $('.search-share-header-input').val(Lend.latestProduct);
+        $('.submit-search').click();
+        $('.search-share-header-input').val(manual);
     },
 
     // hide/show products by category
     'click .menu-category': function(e, template) {
         var category = $('.' + $(this)[0].category.replace(/\s/g,"").replace(/\&/g,""));
-        var categoryId = $('#' + $(this)[0].category.replace(/\s/g,"").replace(/\&/g,""));
+        var categoryId = $('.' + $(this)[0].category.replace(/\s/g,"").replace(/\&/g,"") + '-menu');
 
         if(category.hasClass('hidden')){
             category.removeClass('hidden');
-            categoryId.find('i').addClass('ion-chevron-down');
-            categoryId.find('i').removeClass('ion-chevron-right');
+            categoryId.find('.chevron-icon').removeClass('ion-chevron-right').addClass('ion-chevron-down');
         }
         else {
             category.addClass('hidden');
-            categoryId.find('i').removeClass('ion-chevron-down');
-            categoryId.find('i').addClass('ion-chevron-right');
+            categoryId.find('.chevron-icon').removeClass('ion-chevron-down').addClass('ion-chevron-right');
         }
     },
 
-    // This method get the ASIN code of product and get it features from amazon.
-    // So, the results is setted in scanResult field in the HTML file.
     'click .product': function(e, template) {
 
           Session.set('allResults', false);
           Session.set('scanResult', this);
-
-//          //get ASIN code
-//          var asin = $(this)[0].asin;
-//
-//          //check if exist in results cache
-//          if(Lend.resultsCache[asin]) {
-//            Session.set('allResults', false);
-//            Session.set('scanResult', Lend.resultsCache[asin]);
-//            IonLoading.hide();
-//          }
-//          else {
-//            Meteor.call('itemFromAmazon', asin, function(error, result) {
-//
-//                console.log(JSON.stringify(result))
-//
-//                if (result && !error)
-//                {
-//                    Session.set('allResults', false);
-//                    Session.set('scanResult', result);
-//
-//                    //add in cache
-//                    Lend.resultsCache[asin] = result;
-//
-//                    IonLoading.hide();
-//                } else {
-//                    IonLoading.hide();
-//                    IonPopup.show({
-//                      title: 'Please try again :( ',
-//                        template: '<div class="center">'+ error.message + '</div>',
-//                        buttons:
-//                        [{
-//                          text: 'OK',
-//                          type: 'button-energized',
-//                          onTap: function() {
-//                            IonPopup.close();
-//                          }
-//                        }]
-//                  });
-//                }
-//            });
-//          }
 
     },
 });
