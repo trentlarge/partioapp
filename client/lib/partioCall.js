@@ -70,12 +70,11 @@ app.model.PartioCall = (function () {
   			if(error) {
   				console.log('>>>> twilio error');
   				console.log(error);
-
   				PartioLoad.hide();
 
   				IonPopup.show({
   					title: 'Ops...',
-  					template: '<div class="center dark">Sorry, the service is unavailable at this moment. Please try again later. Thank you. ;)'+error.message+'</div>',
+  					template: '<div class="center dark">Sorry, the service is unavailable at this moment. Please try again later. Thank you. ;)</div>',
   					buttons:
   					[{
   						text: 'OK',
