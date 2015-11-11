@@ -23,32 +23,36 @@
 
     .menu-category {
 
-        background: #262626;
-        /* Old browsers */
-        background: -moz-linear-gradient(180deg, #353535 0%, #272727 100%);
-        /* FF3.6+ */
-        background: -webkit-gradient(linear, left top, right bottom, color-stop(0%, #353535), color-stop(100%, #272727));
-        /* Chrome,Safari4+ */
-        background: -webkit-linear-gradient(180deg, #353535 0%, #272727 100%);
-        /* Chrome10+,Safari5.1+ */
-        background: -o-linear-gradient(180deg, #353535 0%, #272727 100%);
-        /* Opera 11.10+ */
-        background: -ms-linear-gradient(180deg, #353535 0%, #272727 100%);
-        /* IE10+ */
-        background: linear-gradient(180deg, #353535 0%, #272727 100%);
-        /* W3C */
-        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#ffffff, endColorstr=#cccccc, GradientType=1);
-        /* IE6-9 fallback on horizontal gradient */
+        background-color: #F5F5F5;
+        border-bottom: 1px solid #eeeeee;
+        
+//        background: #262626;
+//        /* Old browsers */
+//        background: -moz-linear-gradient(180deg, #353535 0%, #272727 100%);
+//        /* FF3.6+ */
+//        background: -webkit-gradient(linear, left top, right bottom, color-stop(0%, #353535), color-stop(100%, #272727));
+//        /* Chrome,Safari4+ */
+//        background: -webkit-linear-gradient(180deg, #353535 0%, #272727 100%);
+//        /* Chrome10+,Safari5.1+ */
+//        background: -o-linear-gradient(180deg, #353535 0%, #272727 100%);
+//        /* Opera 11.10+ */
+//        background: -ms-linear-gradient(180deg, #353535 0%, #272727 100%);
+//        /* IE10+ */
+//        background: linear-gradient(180deg, #353535 0%, #272727 100%);
+//        /* W3C */
+//        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#ffffff, endColorstr=#cccccc, GradientType=1);
+//        /* IE6-9 fallback on horizontal gradient */
 
 //        background-color: #ffab40;
         cursor: pointer;
         padding: 23px 10px 23px 10px;
         font-size: 18px;
-        border-bottom: 2px solid #000000;
+//        border-bottom: 2px solid #000000;
     }
     
     .category{
-        color:#c9c9c9;
+//        color:#c9c9c9;
+        color: #272727;
         text-transform: uppercase;
     }
     

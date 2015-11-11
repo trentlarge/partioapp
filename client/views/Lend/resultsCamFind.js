@@ -15,15 +15,15 @@ Template.resultsCamFind.helpers({
     return Session.get('scanResult');
   },
   isDifferentCategory: function() {
-      if(this.index === 0 || Lend.currentCategory !== this.category) {
-          Lend.currentCategory = this.category;
+      if(this.index === 0 || Lend.currentCategory !== this.amazonCategory) {
+          Lend.currentCategory = this.amazonCategory;
           return true;
       }
       return false;
   },
   splitCategory: function() {
-    if(this.category){
-      return this.category.replace(/\s/g,"").replace(/\&/g,"");
+    if(this.amazonCategory){
+      return this.amazonCategory.replace(/\s/g,"").replace(/\&/g,"");
     }
     return false;
   },
@@ -42,8 +42,8 @@ Template.resultsCamFind.helpers({
         var nCategory = 0;  
 
         $.each(result, function(index, r) {
-            if(r.category !== currentCategory) {
-                currentCategory = r.category;
+            if(r.amazonCategory !== currentCategory) {
+                currentCategory = r.amazonCategory;
                 nCategory++;
             }
         });
@@ -193,8 +193,8 @@ Template.resultsCamFind.events({
 
     // hide/show products by category
     'click .menu-category': function(e, template) {
-        var category = $('.' + $(this)[0].category.replace(/\s/g,"").replace(/\&/g,""));
-        var categoryId = $('.' + $(this)[0].category.replace(/\s/g,"").replace(/\&/g,"") + '-menu');
+        var category = $('.' + $(this)[0].amazonCategory.replace(/\s/g,"").replace(/\&/g,""));
+        var categoryId = $('.' + $(this)[0].amazonCategory.replace(/\s/g,"").replace(/\&/g,"") + '-menu');
 
         if(category.hasClass('hidden')){
             category.removeClass('hidden');
