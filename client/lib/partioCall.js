@@ -22,6 +22,7 @@ app.model.PartioCall = (function () {
             text: 'OK',
             type: 'button-energized',
             onTap: function() {
+              IonPopup.close();
               Router.go('/profile');
             }
           }]
