@@ -91,19 +91,23 @@ app.model.PartioCall = (function () {
 
   			// TWILIO IS WORKING
   			if(result){
-  				console.log(result);
 
   				//REGISTERING FIRST TIME
   				if(result.statusCode == 200) {
+            PartioLoad.hide();
+
   					console.log('Twilio >>>>>>> registering phone')
+
   					IonPopup.show({
   						title: 'Phone activation',
-  						template: '<div class="center dark">Please, answer call and digit your activation number: "'+data.validation_code+'". Press OK when done. Thank you.</div>',
+  						template: '<div class="center dark">Please, answer call and digit your activation number: "'+result.data.validation_code+'". Press OK when done. Thank you.</div>',
   						buttons:
   						[{
   							text: 'OK',
   							type: 'button-energized',
   							onTap: function() {
+                  IonPopup.close();
+                  PartioLoad.show();
                   PartioCall.makeCall(_from, _to);
   							}
   						}]
@@ -119,16 +123,48 @@ app.model.PartioCall = (function () {
     },
 
     makeCall: function(_from, _to) {
-      Meteor.call('callTwilio', { from: _from, to: _to }, function(error, data){
+      Meteor.call('callTwilio', { from: _from, to: _to }, function(error, result){
         console.log('Twilio >>>> call callTwilio method >>>');
-        console.log(error); console.log(data);
+        console.log(error); console.log(result);
 
         PartioLoad.hide();
 
         if(!error) {
+
+          // NOT REGISTERED YET
+          if(result.data.code == '21210') {
+            IonPopup.show({
+              title: 'Ops...',
+              template: '<div class="center dark">You haven\'t verified your phone number yet.</div>',
+              buttons:
+              [{
+                text: 'OK',
+                type: 'button-energized',
+                onTap: function() {
+                  IonPopup.close();
+                }
+              }]
+            });
+
+          // EVERYTHING NORMAL
+          } else {
+            IonPopup.show({
+              title: 'Calling...',
+              template: '<div class="center dark">Please, wait just few seconds and answer the phone call.</div>',
+              buttons:
+              [{
+                text: 'OK',
+                type: 'button-energized',
+                onTap: function() {
+                  IonPopup.close();
+                }
+              }]
+            });
+          }
+        } else {
           IonPopup.show({
-            title: 'Calling...',
-            template: '<div class="center dark">Please, wait just few seconds and answer the phone call.</div>',
+            title: 'Ops...',
+            template: '<div class="center dark">Service API .</div>',
             buttons:
             [{
               text: 'OK',
