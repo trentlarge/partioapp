@@ -24,6 +24,7 @@
 //     service: "facebook"
 // });
 
+Kadira.connect('qhAvzzmgKeHaZ9rd9', '338e5eb7-842c-47f5-bfe7-7a4d3b9c0607');
 
 
 
