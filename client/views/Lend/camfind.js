@@ -52,7 +52,9 @@ Template.camfind.events({
                     console.log(result);
                     if(result) {
                       $('.search-share-header-input').val(result.data.name);
-                      $('.submit-search').trigger('click');
+                      $('.search-share-header-input').trigger({type: 'keypress', charCode: 13});
+                      //
+                      // $('.submit-search').trigger('click');
                     }
                   })
                 }
@@ -73,7 +75,7 @@ Template.camfind.helpers({
 })
 
 //Template.camfindinput.events({
-//  
+//
 //})
 //
 //Template.camfindinput.helpers({
