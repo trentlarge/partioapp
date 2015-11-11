@@ -22,11 +22,17 @@ Template.listing.rendered = function() {
     Session.set('listing', true);
     
     var inputBox = $('.search-header-input');
+    var inputIcon = $('.search-header-icon');
         
     inputBox.css({
-        'width':'60%',
-        'padding': '15px'
+        'width':'70%',
+        'padding-left': '35px'
     });
+
+    inputIcon.css({
+        'color': '#272727'
+    });
+    
     inputBox.focus();
         
 }

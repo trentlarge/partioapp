@@ -3,18 +3,29 @@ Template.searchHeader.events({
     'click .search-header-icon': function(e, template){
         
         var inputBox = $('.search-header-input');
+        var inputIcon = $('.search-header-icon');
         
-        if(inputBox.css('width') === '0px'){
+        if(inputBox.css('width') === '0px' || inputBox.css('width') === '0%'){
             inputBox.css({
-                'width':'60%',
-                'padding': '15px'
+                'width':'70%',
+                'padding-left': '35px'
             });
+            
+            inputIcon.css({
+                'color': '#272727'
+            });
+            
             inputBox.focus();
         } else {
             inputBox.css({
                 'width':'0%',
                 'padding': '0'
             });
+            
+            inputIcon.css({
+                'color': '#eeeeee'
+            });
+            
             inputBox.focusout();
             inputBox.val('');
             Session.set('isTapping', false);
