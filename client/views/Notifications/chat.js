@@ -1,14 +1,14 @@
 
 Template.chat.helpers({
-	inCall: function() {
-		return Session.get("_inCall");
-	},
-	incomingCaller: function() {
-		return Session.get("_incomingCaller");
-	},
-	callStatus: function() {
-		return Session.get("_callStatus");
-	},
+	// inCall: function() {
+	// 	return Session.get("_inCall");
+	// },
+	// incomingCaller: function() {
+	// 	return Session.get("_incomingCaller");
+	// },
+	// callStatus: function() {
+	// 	return Session.get("_callStatus");
+	// },
 	messages: function() {
 		var chatCursor = Connections.find({_id: this._id});
 		chatCursor.observe({
@@ -36,9 +36,9 @@ Template.chat.helpers({
 });
 
 Template.chat.events({
-	'click .end-call': function(e,t) {
-		PartioCaller.endCall();
-	},
+	// 'click .end-call': function(e,t) {
+	// 	PartioCaller.endCall();
+	// },
 	'submit form': function(e, template) {
 		e.preventDefault();
 		var message = template.find('#messageInput').value.trim();
