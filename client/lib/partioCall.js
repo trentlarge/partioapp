@@ -1,0 +1,148 @@
+/*
+PARTIOCALL TWILIO API
+*/
+app = app || {};
+
+app.model.PartioCall = (function () {
+  'use strict';
+
+  var PartioCall = {
+    init: function(requestor, owner) {
+      if(!requestor || !owner) {
+        console.log('Expecting requestor and owner IDS'); return false;
+      }
+
+      // USER NOT CONFIGURED PHONE NUMBER
+      if(!Meteor.user().profile.mobile){
+        IonPopup.show({
+          title: 'Ops...',
+          template: '<div class="center dark">Your phone isn\'t configured yet. Plase update your phone number.</div>',
+          buttons:
+          [{
+            text: 'OK',
+            type: 'button-energized',
+            onTap: function() {
+              Router.go('/profile');
+            }
+          }]
+        });
+
+        return false;
+      }
+
+      var _from = Meteor.user().profile.mobile;
+      var _to = false;
+
+      //calling connect owner
+      if(Meteor.user()._id == requestor){
+        var _to = Meteor.users.findOne(owner).profile.mobile;
+
+      //calling connect requestor
+      } else if(Meteor.user()._id == owner) {
+        var _to = Meteor.users.findOne(requestor).profile.mobile;
+      }
+
+      // DESTINATION NOT CONFIGURED HIM PHONE NUMMBER
+      if(!_to || _to.trim() == '') {
+        IonPopup.show({
+          title: 'Ops...',
+          template: '<div class="center dark">Sorry. The another part isn\'t configured him phone number yet. Please try chat. Thank you.</div>',
+          buttons:
+          [{
+            text: 'OK',
+            type: 'button-energized',
+            onTap: function() {
+              IonPopup.close();
+            }
+          }]
+        });
+
+        return false;
+      }
+
+      PartioLoad.show();
+
+  		//CHECK NUMBER ON TWILIO API
+  		Meteor.call('twilioVerification', _from, function(error, result) {
+
+  			// IF GET SOME ERROR FROM TWILIO
+  			if(error) {
+  				console.log('>>>> twilio error');
+  				console.log(error);
+
+  				PartioLoad.hide();
+
+  				IonPopup.show({
+  					title: 'Ops...',
+  					template: '<div class="center dark">Sorry, the service is unavailable at this moment. Please try again later. Thank you. ;)'+error.message+'</div>',
+  					buttons:
+  					[{
+  						text: 'OK',
+  						type: 'button-energized',
+  						onTap: function() {
+  							IonPopup.close();
+  						}
+  					}]
+  				});
+
+  				return false;
+  			}
+
+  			// TWILIO IS WORKING
+  			if(result){
+  				console.log(result);
+
+  				//REGISTERING FIRST TIME
+  				if(result.statusCode == 200) {
+  					console.log('Twilio >>>>>>> registering phone')
+  					IonPopup.show({
+  						title: 'Phone activation',
+  						template: '<div class="center dark">Please, answer call and digit your activation number: "'+data.validation_code+'". Press OK when done. Thank you.</div>',
+  						buttons:
+  						[{
+  							text: 'OK',
+  							type: 'button-energized',
+  							onTap: function() {
+                  this.makeCall(_from, _to);
+  							}
+  						}]
+  					});
+
+  				//ALREADY REGISTRED
+  				} else if(result.statusCode == 400) {
+  					console.log('Twilio >>>>>>> phone already registered')
+            this.makeCall(_from, _to);
+  				}
+  			}
+  		});
+    },
+
+    makeCall: function(_from, _to) {
+      Meteor.call('callTwilio', { from: _from, to: _to }, function(error, data){
+        console.log('Twilio >>>> call callTwilio method >>>');
+        console.log(error);
+        console.log(data);
+
+        PartioLoad.hide();
+
+        if(!error) {
+          IonPopup.show({
+            title: 'Calling...',
+            template: '<div class="center dark">Please, wait just few seconds and answer the phone call.</div>',
+            buttons:
+            [{
+              text: 'OK',
+              type: 'button-energized',
+              onTap: function() {
+                IonPopup.close();
+              }
+            }]
+          });
+        }
+      });
+    }
+  };
+  return PartioCall;
+})
+
+PartioCall = new app.model.PartioCall();
