@@ -106,8 +106,10 @@ Meteor.methods({
   // TWILIO  -------------------------------------------------------------------
   callTwilio: function(numbers) {
     console.log('Twilio >>>>> callTwilio called -x-x-x-x-x-x-x-x-x-');
+    console.log('###################################');
     console.log(numbers);
-    
+    console.log('###################################');
+
     var response = Async.runSync(function(done) {
       var result = HTTP.post('https://api.twilio.com/2010-04-01/Accounts/ACa259379ccf43ebe0af6e2eb7f3bffc93/Calls.json', {
         "params": {
