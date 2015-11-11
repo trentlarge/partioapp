@@ -103,7 +103,7 @@ app.model.PartioCall = (function () {
   							text: 'OK',
   							type: 'button-energized',
   							onTap: function() {
-                  this.makeCall(_from, _to);
+                  PartioCall.makeCall(_from, _to);
   							}
   						}]
   					});
@@ -111,7 +111,7 @@ app.model.PartioCall = (function () {
   				//ALREADY REGISTRED
   				} else if(result.statusCode == 400) {
   					console.log('Twilio >>>>>>> phone already registered')
-            this.makeCall(_from, _to);
+            PartioCall.makeCall(_from, _to);
   				}
   			}
   		});
@@ -120,8 +120,7 @@ app.model.PartioCall = (function () {
     makeCall: function(_from, _to) {
       Meteor.call('callTwilio', { from: _from, to: _to }, function(error, data){
         console.log('Twilio >>>> call callTwilio method >>>');
-        console.log(error);
-        console.log(data);
+        console.log(error); console.log(data);
 
         PartioLoad.hide();
 
