@@ -171,7 +171,16 @@ Template.lend.events({
     Session.set('manualEntry', true);
     Session.set('barcodeEntry', false);
     Session.set('viewFinder', false)
-  }
+  },
+    
+  'click .back': function(e, template) {
+        //temporary solution
+        var inputBox = $('.search-share-header-input');
+        var inputValue = inputBox.val();
+        inputBox.val(Lend.latestProduct);
+        inputBox.trigger({type: 'keypress', charCode: 13});
+        inputBox.val(inputValue);
+   },
 })
 
 Template.lend.helpers({
@@ -231,6 +240,10 @@ Template.lend.helpers({
   dynamicTemplate: function(){
     return (Session.get('lendTab')) ? Session.get('lendTab') : 'camfind' ;
   },
+  isScanResult: function() {
+      console.log(Session.get('scanResult'));
+    return Session.get('scanResult');
+  }    
 });
 
 // Template.lend.destroyed = function() {
@@ -243,8 +256,8 @@ Template.lend.helpers({
 Template.lend.rendered = function() {
   // Session.set('viewFinder', true);
   // reseting results
-  // Session.set('scanResult', null);
-  // Session.set('allResults', null);
+  Session.set('scanResult', null);
+  Session.set('allResults', null);
   // Session.set('lendTab', 'camfind')
   // $('.tab-item[data-id=camfind]').addClass('active');
 
@@ -255,24 +268,22 @@ Template.lend.rendered = function() {
 
 
 function ClearData(){
-  console.log('ClearData');
-
-  Session.set('lend', null);    
+  console.log('ClearData'); 
     
-//  if(Session.get('lendTab') == 'resultsCamFind') {
-//    Session.set('lendTab', 'camfind');
-//  }
-//
-//  RentingFinalPrice = null;
-//  Session.set('scanResult', null);
-//  Session.set('priceValue', null);
-//  Session.set('userPrice', null);
-//  Session.set('priceValue', null);
-//  Session.set('barcodeEntry', null);
-//  Session.set('manualEntry', null);
-//  Session.set('photoTaken', null)
-//  Session.set('lastSearchCamFind', '')
-//  Session.set('allResults', null)
+  if(Session.get('lendTab') == 'resultsCamFind') {
+    Session.set('lendTab', 'camfind');
+  }
+
+  RentingFinalPrice = null;
+  Session.set('scanResult', null);
+  Session.set('priceValue', null);
+  Session.set('userPrice', null);
+  Session.set('priceValue', null);
+  Session.set('barcodeEntry', null);
+  Session.set('manualEntry', null);
+  Session.set('photoTaken', null)
+  Session.set('lastSearchCamFind', '')
+  Session.set('allResults', null)
 }
 
 

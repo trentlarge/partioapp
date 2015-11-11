@@ -182,15 +182,6 @@ Template.resultsCamFind.helpers({
 
 Template.resultsCamFind.events({
 
-    'click .back': function(e, template) {
-
-        //temporary solution
-        var manual = $('.search-share-header-input').val();
-        $('.search-share-header-input').val(Lend.latestProduct);
-        $('.submit-search').click();
-        $('.search-share-header-input').val(manual);
-    },
-
     // hide/show products by category
     'click .menu-category': function(e, template) {
         var category = $('.' + $(this)[0].amazonCategory.replace(/\s/g,"").replace(/\&/g,""));

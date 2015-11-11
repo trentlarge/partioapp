@@ -10,6 +10,32 @@ Template.main.events({
 	}
 });
 
+//sidemenu events
+
+Template.sidemenu.events({
+    'keypress #search': function(e, template) {
+
+        if(e.charCode == 13 || e.keyCore == 13) {   
+            var searchText = $('#search').val();
+
+            if(searchText != '') {
+
+                Session.set('searchText', searchText);
+                console.log(Session.get('listing'));
+
+                if(Session.get('listing')){
+                    PackageSearch.search(searchText);
+                    $('.ion-navicon').parent('button').click();
+                }
+                else {
+                    Router.go('listing');
+                    $('.ion-navicon').parent('button').click();
+                }
+            }
+        }
+    }
+})
+
 //sidemenu helpers
 
 Template.sidemenu.helpers({
