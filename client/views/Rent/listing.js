@@ -1,23 +1,3 @@
-Template.sidemenu.events({
-    'click #search-icon': function(e, template) {
-
-        var searchText = $('#search').val();
-
-        if(searchText != '') {
-
-            Session.set('searchText', searchText);
-            console.log(Session.get('listing'));
-
-            if(Session.get('listing')){
-                PackageSearch.search(searchText);
-            }
-            else {
-                Router.go('listing');
-            }
-        }
-    }
-})
-
 Template.listing.rendered = function() {
     Session.set('listing', true);
     

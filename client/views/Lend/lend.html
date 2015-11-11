@@ -4,6 +4,13 @@
 	{{#ionModal title="Share Product" customTemplate=true}}
     <div class="bar bar-header bar-royal">
       
+        {{#if isScanResult}}
+            <button class="back button button-clear" style="position:absolute;z-index:100;">
+                {{> ionIcon icon='ios-arrow-back'}}
+            </button>
+        {{else}}
+        {{/if}}
+        
         {{> searchShareHeader}}
         
         <h2 class="title">Share Product</h2>

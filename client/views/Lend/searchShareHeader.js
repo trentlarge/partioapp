@@ -13,7 +13,7 @@ Template.searchShareHeader.events({
     
     'keypress .search-share-header-input': function(e, template) {
         
-        if (event.charCode == 13) {
+        if (e.charCode == 13 || e.keyCode == 13) {
             //reset sessions
             Session.set('scanResult', null);
             Session.set('lendTab', 'camfind');
