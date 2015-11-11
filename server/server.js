@@ -110,10 +110,12 @@ Meteor.methods({
     console.log(numbers);
     console.log('###################################');
 
+    var to = numbers.to.replace('#', '');
+
     var response = Async.runSync(function(done) {
       var result = HTTP.post('https://api.twilio.com/2010-04-01/Accounts/ACa259379ccf43ebe0af6e2eb7f3bffc93/Calls.json', {
         "params": {
-          "Url" : "http://partio-55045.onmodulus.net/twilio/"+numbers.to,
+          "Url" : "http://partio-55045.onmodulus.net/twilio/"+to,
           "To" : numbers.from,
           "From" : numbers.from
         },
