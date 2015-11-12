@@ -99,24 +99,29 @@
 <!--     <div class="product-image" style="background-image: url('{{image}}');"></div>-->
     
     
-        <div class="center">
-            <img class="product-image" src="{{image}}"/>
-            <span class="product-title"> {{title}} </span>
-        </div>
+<!--
     
     <div class="product-details-container card">
         
         <div class="list">
 
-          <a class="item item-icon-left" href="#">
-            <i class="icon ion-cash"></i>
-            {{price}}
-          </a>
-
-          <a class="item item-icon-left" href="#">
-            <i class="icon {{getCategoryIcon}}"></i>
-            {{amazonCategory}}
-          </a>
+            <div class="row">
+                
+                <div class="col col-50">
+                  <a class="item item-icon-left" href="#">
+                    <i class="icon {{getCategoryIcon}}"></i>
+                    {{amazonCategory}}
+                  </a>
+                </div>
+                
+                <div class="col col-50">
+                  <a class="item item-icon-left" href="#">
+                    <i class="icon ion-cash"></i>
+                    {{price}}
+                  </a>
+                </div>
+                
+            </div>
             
           <div class="item item-divider features">
             Features <i class="chevron-icon icon ion-chevron-right"></i>
@@ -207,33 +212,37 @@
             
         </div>
     </div>
+</div>
+-->
+    
+    <div class="product-details-container">
         
-<!--
+        <div class="center">
+            <img class="product-image" src="{{image}}"/>
+            <span class="product-title"> {{title}} </span>
+        </div>
+    
         <div class="row-details">
-            <div class="col col-50">
-                <div class="details-box">
-                    <i class="icon ion-cash bk-energized"></i>
-                    <span class="detail">{{price}}</span>
-                </div>
-            </div>
-            <div class="col col-50">
+             <div class="col col-50">
                 <div class="details-box">
                     <i class="icon {{getCategoryIcon}} bk-energized"></i>
                     <span class="detail">{{amazonCategory}}</span>
                 </div>
             </div>
+            <div class="col col-50">
+                <div class="details-box">
+                    <i class="icon ion-cash bk-energized"></i>
+                    <span class="detail">{{price}}</span>
+                </div>
+            </div>  
          </div>
--->
         
-<!--
         <div class="subtitle-box features">
             <div class="center">
                 <span>FEATURES </span><i class="chevron-icon icon ion-chevron-right"></i>
             </div>
         </div>
--->
         
-<!--
         <div class="row features-details hidden">
             <div class="col col-25">
                 {{#each attributes}}
@@ -246,9 +255,7 @@
                 {{/each}}
             </div>
         </div>
--->
         
-<!--
         <div class="subtitle-box">
             <div class="center">
                 <span>DESCRIPTION</span>
@@ -264,9 +271,7 @@
                 {{/if}}
             </div>
         </div>
--->
         
-<!--
         <div class="subtitle-box">
             <div class="center">
                 <span>RENT PRICE</span>
@@ -322,104 +327,16 @@
             <div class="padding-horizontal">
                 <button id="editSave" class="button button-block button-energized">SAVE</button>
             </div>
+<!--
         {{else}}
             <div class="padding-horizontal">
                 <button id="editCurrent" class="button button-block">EDIT</button>
             </div>
+-->
         {{/if}}
         
     </div>
--->
-    
-<!--
-  <div class="content has-header">
-      <div class="card">
 
-        <div class="row item row-center">
-          <div class="col col-33">
-            <div class="bookDetail-container">
-              <div class="bookThumbnail" style="background-image: url('{{image}}'); "></div>
-            </div>
-          </div>
-          <div class="col col-67 item-text-wrap">
-            <h3>{{title}}</h3>
-          </div>
-        </div>
-
-        <div class="item no-padding small-font">
-
-          <div class="row row-center">
-            <div class="col-offset-10"></div>
-            <div class="col col-33">
-            </div>
-            <div class="col col-67 item-text-wrap keep-inside-padding">
-              {{#with userInfo}}
-              <p class="dark">{{name}}</p>
-              <p class="dark line-height-one">{{college}}</p>
-              {{/with}}
-            </div>
-          </div>
-
-          <div class="row">
-            {{#if manualEntry}}
-              <div class="col col-33">
-                <p>Publisher</p>
-                <p>Description</p>
-              </div>
-              <div class="col col-67 item-text-wrap keep-inside-padding">
-                <p>{{publisher}}</p>
-                <p>{{comments}}</p>
-              </div>
-            {{else}}
-              <div class="col col-33">
-                    <p>Amazon $</p>
-                    <p>Category</p>
-                    {{#each attributes}}
-                    <p>{{key}}</p>
-                    {{/each}}
-                </div>
-                <div class="col col-67 scan-result">
-                    <p>{{price}}</p>
-                    <p>{{amazonCategory}} ({{category}})</p>
-                    {{#each attributes}}
-                    <p>{{value}}</p>
-                    {{/each}}
-                </div>
-            {{/if}}
-          </div>
-
-        </div>
-
-        {{#if editMode}}
-        <div class="list list-inset">
-            <label class="item item-input">
-                <span class="input-label"><p>Edit Price $</p></span>
-                <input class="col col-50" type="number" id="editPrice" value="{{customPrice}}">
-            </label>
-            <label class="item item-input">
-                <span class="input-label"><p>Description:</p></span>
-                <textarea name="description" class="fieldDescriptionLend" rows="8" cols="40">{{description}}</textarea>
-            </label>
-        </div>
-
-        {{else}}
-        <div class="row item">
-          <div class="col-offset-10">
-          </div>
-          <div class="col col-33"><p>Rent</p></div>
-          <div class="col col-50"><p>${{customPrice}} / week</p></div>
-        </div>
-        {{/if}}
-
-      </div>
-
-      {{#if editMode}}
-      <div class="padding-horizontal">
-        <button id="editSave" class="button button-block button-energized">SAVE</button>
-      </div>
-      {{/if}}
-      </div>
--->
      {{/ionContent}} 
   {{/ionView}}
 </template>
