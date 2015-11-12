@@ -1,5 +1,5 @@
 Template.searchShareHeader.rendered = function(){
-    Session.set('placeholder', "Search product..");
+    Session.set('placeholder', "Search product...");
 
     var inputBox = $('.search-share-header-input');
 
