@@ -92,13 +92,16 @@ Template.appLayout.events({
 
 Template.settingsProfileImage.helpers({
   'noProfileYet': function() {
-    if (Meteor.user().profile.avatar === "notSet") {
+    if (!Meteor.user() || Meteor.user().profile.avatar === "notSet") {
       return true;
     } else {
       return false;
     }
   },
   'profileImage': function() {
+    if(!Meteor.user()) {
+      return "";
+    }
     return Meteor.user().profile.avatar;
   }
 });
