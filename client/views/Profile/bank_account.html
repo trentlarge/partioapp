@@ -1,0 +1,80 @@
+<!-- <template name="bankAccount">
+	{{#contentFor "headerButtonLeft"}}
+      {{>ionNavBackButton path="profile"}}
+  	{{/contentFor}}
+  
+  	{{#contentFor "headerTitle"}}
+    	<h1 class="title">Bank Account</h1>
+  	{{/contentFor}}
+
+  	{{#ionView}}
+    <div class="content has-header">
+    {{#if noStripeYet}}
+
+    <div class="padding-horizontal center">
+    <br>
+    <p class="subdued">The payments you receive for your shared goods will be credited to this account</p>
+    </div>
+
+		<div class="list list-inset">
+      <label class="item item-input">
+        <input type="text" placeholder="First Name" id="stripe-firstname">
+      </label>
+
+      <label class="item item-input">
+        <input type="text" placeholder="Last Name" id="stripe-lastname">
+      </label>
+
+      <label class="item item-input">
+        <input type="tel" placeholder="Last 4 Digits of SSN" id="stripe-ssn">
+      </label>
+
+      <label class="item item-input">
+        <input type="tel" placeholder="Routing Number (110000000)" id="stripe-routingnumber" disabled>
+      </label>
+
+      <label class="item item-input">
+        <input type="tel" placeholder="Bank Account (000123456789)" id="stripe-bankaccount" disabled>
+      </label>
+
+    </div>
+
+    <div class="padding-horizontal">
+     <a type="button" class="button button-block button-energized" id="stripe-create">Authorize Connection</a>
+   </div>
+
+   {{else}}
+      <div class="list card">
+
+      <div class="item">
+        <p class="subdued center">Your bank account is successfully linked</p>
+      </div>
+
+      {{#with stripeAccount}}
+      <a class="item" href="#">
+        <p>Bank Name <span class="item-note dark">{{bank_accounts.data.[0].bank_name}}</span></p>
+      </a>
+      <a class="item" href="#">
+        <p>Account Number <span class="item-note dark">XX{{bank_accounts.data.[0].last4}}</span></p>
+      </a>
+      <a class="item" href="#">
+        <p>Routing Number <span class="item-note dark">{{bank_accounts.data.[0].routing_number}}</span></p>
+      </a>
+      {{/with}}
+
+      <div class="item tabs tabs-secondary tabs-icon-left">
+        <a class="tab-item" href="#">
+          <i class="icon ion-ios-close"></i>
+          UNLINK BANK ACCOUNT
+        </a>
+      </div>
+
+    </div>
+
+   {{/if}}
+
+
+    </div>
+
+	{{/ionView}}
+</template> -->

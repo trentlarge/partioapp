@@ -1,15 +1,15 @@
-<template name="connect">
+<template name="connectRent">
   {{#contentFor "headerButtonLeft"}}
-      {{>ionNavBackButton path="inventory"}}
+      {{>ionNavBackButton path="renting"}}
   {{/contentFor}}
 
   {{#contentFor "headerTitle"}}
-    <h1 class="title">Rent Request</h1>
+    <h1 class="title">Awaiting Approval</h1>
   {{/contentFor}}
 
 
   {{#ionView}}
-    {{#ionContent class="prevent-keyboardglitch"}}
+    {{#ionContent}}
       <div class="card">
 
         {{#with userInfo}}
@@ -33,9 +33,8 @@
           <div class="center">
             <img class="connect-thumbnail" src="{{bookData.image}}">
             <p>{{bookData.title}}</p>
-            <p>{{bookData.authors}}</p>
             <p>Amazon Price: {{bookData.price}}</p>
-            <h3 class="dark">Your Price: ${{bookData.customPrice}} / week</h3>
+            <h3 class="dark">Rent Price: ${{bookData.customPrice}} / week</h3>
           </div>
 
         </div>
@@ -45,45 +44,68 @@
             <i class="icon ion-ios-telephone assertive"></i>
             CALL
           </a> -->
-          <!-- <a class="tab-item" href="#" id="startChatOwner"> -->
+          <!-- <a class="tab-item" id="startChat"> -->
           <a class="tab-item" href="/chat/{{this._id}}">
             <i class="icon ion-ios-chatboxes assertive"></i>
             CHAT
           </a>
-
           <a class="tab-item" id="btnCallUser">
             <i class="icon ion-ios-telephone"></i>
             CALL
           </a>
-          <a class="tab-item" id="cancelRequest">
+          <a class="tab-item" id="cancel-request">
             <i class="icon ion-ios-close"></i>
-            REJECT
+            CANCEL
           </a>
         </div>
 
       </div>
 
-      <div class="padding-horizontal list">
-      {{#if alreadyApproved}}
+      {{#if paymentPending}}
+        <div class="padding-horizontal">
+          <div class="item item-divider"><h3>Weeks to Rent</h3></div>
+          <div class="list" id="slider-container">
+            <div class="item range range-energized">
+              <i class="icon ion-ios-clock-outline"></i>
+              <input id="slider" type="range" name="volume" min="1" max="12" value="{{sliderValue}}">
+              <i class="">{{sliderValue}}</i>
+            </div>
+          </div>
+        </div>
 
-        <div class="item item-divider"><h3>Set Meetup Location</h3></div>
-
-          <a class="item item-button-right" id="changeMeetupLocation" href="#">
-            <p>{{preferredLocation}}</p>
-            <button class="button button-outline button-energized"><i class="icon ion-ios-location"></i></button>
-          </a>
-
-          {{#if returnItem}}
-          <br>
-            <button id="confirmReturn" class="button button-block">CONFIRM RETURN</button>
-          {{/if}}
-
+        <div class="padding-horizontal">
+        <h5 class="dark">Lending period<span class="float-right">{{todaysDate}} to {{endDate}}</span></h5>
+        </div>
+        <br>
       {{else}}
-      <br>
-        <button id="ownerAccept" class="button button-block button-energized">Allow renting at ${{bookData.customPrice}} / week</button>
+
+        <div class="padding-horizontal">
+          <div class="item item-divider"><h3>Meetup Location</h3></div>
+          <a class="item item-button-right" href="#" id="showMap">
+            <p>{{preferredLocation}}</p>
+            <!-- <button class="button button-outline button-energized" data-ion-modal="map"><i class="icon ion-ios-location"></i></button> -->
+          </a>
+        </div>
+
       {{/if}}
 
-      </div>
+
+      <div class="padding-horizontal">
+        {{#if paymentDone}}
+
+        {{#unless itemReturnDone}}
+        <button id="returnItem" class="button button-block">RETURN ITEM</button>
+        {{/unless}}
+
+        {{else}}
+        <button id="payAndRent" class="button button-block button-energized {{approvedStatus}}">
+          PAY TOTAL &nbsp; ${{calculatedPrice}}</button>
+          {{/if}}
+        </div>
+
+
+
+
     {{/ionContent}}
   {{/ionView}}
 </template>
