@@ -94,7 +94,120 @@
   {{/contentFor}}
 
   {{#ionView}}
-<!--     {{#ionContent}} -->
+     {{#ionContent class="details no-header overflow-scroll"}} 
+    
+<!--     <div class="product-image" style="background-image: url('{{image}}');"></div>-->
+    <div class="center">
+        <img class="product-image" src="{{image}}"/>
+        <span class="product-title"> {{title}} </span>
+    </div>
+    
+    <div class="product-details-container">
+        <div class="details-box">
+            <i class="icon ion-cash bk-energized"></i>
+            <span class="detail">{{price}}</span>
+        </div>
+        
+        <div class="details-box">
+            <i class="icon {{getCategoryIcon}} bk-assertive"></i>
+            <span class="detail">{{amazonCategory}}</span>
+        </div>
+        
+        <div class="subtitle-box">
+            <div class="center">
+                <span>FEATURES</span>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col col-25">
+                {{#each attributes}}
+                <p>{{key}}</p>
+                {{/each}}
+            </div>
+            <div class="col col-75 scan-result">
+                {{#each attributes}}
+                <p>{{value}}</p>
+                {{/each}}
+            </div>
+        </div>
+        
+        <div class="subtitle-box">
+            <div class="center">
+                <span>DESCRIPTION</span>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col col-100">
+                {{#if editMode}}
+                    <textarea name="description" class="fieldDescriptionLend" rows="8">{{description}}</textarea>
+                {{else}}
+                    <textarea name="description" class="fieldDescriptionLend" rows="8" disabled>{{description}}</textarea>
+                {{/if}}
+            </div>
+        </div>
+        
+        <div class="subtitle-box">
+            <div class="center">
+                <span>RENT PRICE</span>
+            </div>
+        </div>
+        
+        <div class="row-customPrice">
+            <div class="col col-50">
+                <div class="details-box">
+                    <span class="customPrice bk-energized"> D </span>
+                    {{#if editMode}}
+                        <input class="detail" type="number" id="editPrice" value="{{customPrice}}">
+                    {{else}}
+                        <span class="detail">${{customPrice}}</span>
+                    {{/if}}
+                </div>
+            </div>
+            <div class="col col-50">
+                <div class="details-box">
+                    <span class="customPrice bk-energized"> W </span>
+                    {{#if editMode}}
+                        <input class="detail" type="number" id="editPrice" value="{{customPrice}}">
+                    {{else}}
+                        <span class="detail">${{customPrice}}</span>
+                    {{/if}}
+                </div>
+            </div>     
+        </div>
+        <div class="row-customPrice">
+            <div class="col col-50">
+                <div class="details-box">
+                    <span class="customPrice bk-assertive"> M </span>
+                    {{#if editMode}}
+                        <input class="detail" type="number" id="editPrice" value="{{customPrice}}">
+                    {{else}}
+                        <span class="detail">${{customPrice}}</span>
+                    {{/if}}
+                </div>
+            </div>
+            <div class="col col-50">
+                <div class="details-box">
+                    <span class="customPrice bk-assertive"> S </span>
+                    {{#if editMode}}
+                        <input class="detail" type="number" id="editPrice" value="{{customPrice}}">
+                    {{else}}
+                        <span class="detail">${{customPrice}}</span>
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+        
+         {{#if editMode}}
+          <div class="padding-horizontal">
+            <button id="editSave" class="button button-block button-energized">SAVE</button>
+          </div>
+          {{/if}}
+        
+    </div>
+    
+<!--
   <div class="content has-header">
       <div class="card">
 
@@ -182,6 +295,7 @@
       </div>
       {{/if}}
       </div>
-    <!-- {{/ionContent}} -->
+-->
+     {{/ionContent}} 
   {{/ionView}}
 </template>
