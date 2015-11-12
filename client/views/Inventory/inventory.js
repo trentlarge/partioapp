@@ -4,10 +4,10 @@ Template.inventory.helpers({
     return Products.find({"ownerId": Meteor.userId()})
   },
   newRequests: function() {
-  	return Connections.find({"bookData.ownerId": Meteor.userId(), "state": {$ne: "DONE"} })
+  	return Connections.find({"productData.ownerId": Meteor.userId(), "state": {$ne: "DONE"} })
   },
   dataExists: function() {
-  	return (Products.find({"ownerId": Meteor.userId()}).count() || Connections.find({"bookData.ownerId": Meteor.userId(), "state": {$ne: "IN USE"}}).count()) ? true : false;
+  	return (Products.find({"ownerId": Meteor.userId()}).count() || Connections.find({"productData.ownerId": Meteor.userId(), "state": {$ne: "IN USE"}}).count()) ? true : false;
   },
   status: function() {
     return Connections.findOne(this._id).approved ? "IN USE" : "WAITING" ;
@@ -22,7 +22,7 @@ Template.inventory.events({
   {
     var requestor = this.requestor;
     var connectionId = this._id;
-    var bookId = this.bookData._id;
+    var bookId = this.productData._id;
     //var searchCollectionId = Products.findOne({productUniqueId: bookId})._id;
     var searchCollectionId = Products.findOne(bookId);
 
@@ -56,12 +56,12 @@ Template.inventory.events({
 
             //Connections.find({"requestor": Meteor.userId(), "state": "PAYMENT"});
             // Connections.find(
-            //   {'bookData._id': bookId, 'requestor': {$ne: requestor}},
+            //   {'productData._id': bookId, 'requestor': {$ne: requestor}},
             //   {$set: {state: "DENIED"}},
             //   {multi: true}
             //   );
 
-            // Connections.find({'bookData._id': bookId, 'requestor': {$ne: requestor}})
+            // Connections.find({'productData._id': bookId, 'requestor': {$ne: requestor}})
             // .map(function(item) {
             //   console.log('connectionforBookID: ' + item);
             //   Connections.update({_id: item._id}, {$set: {"state": "DENIED"}});
@@ -110,27 +110,52 @@ Template.inventory.events({
 })
 
 Template.inventoryDetail.events({
+  'click .features': function(e, template) {
+      
+      var features = $('.features');
+      var featureDetails = $('.features-details');
+      
+        if(featureDetails.hasClass('hidden')){
+            featureDetails.removeClass('hidden');
+            features.find('.chevron-icon').removeClass('ion-chevron-right').addClass('ion-chevron-down');
+        }
+        else {
+            featureDetails.addClass('hidden');
+            features.find('.chevron-icon').removeClass('ion-chevron-down').addClass('ion-chevron-right');
+        }
+      
+  },
   'click #editSave': function(e, template) {
     console.log("saving");
 
-    var xPrice = parseInt(template.find('#editPrice').value, 10);
-    console.log('Edit xPrice ' + xPrice);
+    var dayPrice = parseInt(template.find('.dayPrice').value, 10),
+        weekPrice = parseInt(template.find('.weekPrice').value, 10),
+        monthPrice = parseInt(template.find('.monthPrice').value, 10),
+        semesterPrice = parseInt(template.find('.semesterPrice').value, 10);
 
-    if(xPrice < 0.5)
+    if(dayPrice < 0.5 || weekPrice < 0.5 || monthPrice < 0.5 || semesterPrice < 0.5)
     {
       showInvalidPopUp('Invalid Inputs', 'Please enter a valid price.');
       return false;
     }
 
-    if(xPrice > 1000)
+    if(dayPrice > 100000 || weekPrice > 100000 || monthPrice > 100000|| semesterPrice > 100000)
     {
-      showInvalidPopUp('Invalid Inputs', 'Please enter a Price < 1000.');
+      showInvalidPopUp('Invalid Inputs', 'Please enter a Price less than 100000.');
       return false;
     }
+      
+     var editedPrices = {   
+        "day": template.find('.dayPrice').value,
+        "week": template.find('.weekPrice').value,
+        "month": template.find('.monthPrice').value,
+        "semester": template.find('.semesterPrice').value,
+     }
 
-    var edited = template.find('#editPrice').value;
+    var edited = template.find('.semesterPrice').value;
     var description = template.find('.fieldDescriptionLend').value;
-    Products.update({_id: this._id}, {$set: {customPrice: edited, description: description}});
+      
+    Products.update({_id: this._id}, {$set: {customPrice: edited, rentPrice: editedPrices, description: description}});
     Session.set('editMode', false);
   }
 });
@@ -154,9 +179,12 @@ function showInvalidPopUp(strTitle, strMessage)
 
 var bookID;
 Template.inventoryDetail.helpers({
+  getCategoryIcon: function() {
+      return Categories.getCategoryIconByText(this.category);
+  },
   editMode: function() {
 
-    var ConnectionObj = Connections.findOne({'bookData._id': this._id});
+    var ConnectionObj = Connections.findOne({'productData._id': this._id});
 
     if(ConnectionObj)
     {

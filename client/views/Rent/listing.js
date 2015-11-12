@@ -139,7 +139,7 @@ Template.search.helpers({
     return Products.findOne({"uniqueId": uniqueId}).title;
   },
   requestSent: function() {
-    return Connections.findOne({"requestor": Meteor.userId(), "bookData.ownerId": this.ownerId, "bookData._id": this._id}) ? true: false;
+    return Connections.findOne({"requestor": Meteor.userId(), "productData.ownerId": this.ownerId, "productData._id": this._id}) ? true: false;
   },
   qtynotZero: function() {
 
@@ -209,7 +209,7 @@ Template.search.events({
           }
         }]
       });
-    } else if ( Connections.findOne({"bookData._id": this._id}) && (Meteor.userId() === Connections.findOne({"bookData._id": this._id}).requestor)) {
+    } else if ( Connections.findOne({"productData._id": this._id}) && (Meteor.userId() === Connections.findOne({"productData._id": this._id}).requestor)) {
       IonPopup.show({
         title: 'You already borrowed this item!',
         template: '',

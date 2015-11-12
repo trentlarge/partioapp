@@ -31,11 +31,11 @@
 
         <div class="item small-font line-height-one">
           <div class="center">
-            <img class="connect-thumbnail" src="{{bookData.image}}">
-            <p>{{bookData.title}}</p>
-            <p>{{bookData.authors}}</p>
-            <p>Amazon Price: {{bookData.price}}</p>
-            <h3 class="dark">Your Price: ${{bookData.customPrice}} / week</h3>
+            <img class="connect-thumbnail" src="{{productData.image}}">
+            <p>{{productData.title}}</p>
+            <p>{{productData.authors}}</p>
+            <p>Amazon Price: {{productData.price}}</p>
+            <h3 class="dark">Your Price: ${{productData.customPrice}} / week</h3>
           </div>
 
         </div>
@@ -75,7 +75,7 @@
 
       {{else}}
       <br>
-        <button id="ownerAccept" class="button button-block button-energized">Allow renting at ${{bookData.customPrice}} / week</button>
+        <button id="ownerAccept" class="button button-block button-energized">Allow renting at ${{productData.customPrice}} / week</button>
       {{/if}}
 
       </div>

@@ -115,9 +115,9 @@ Meteor.methods({
     var response = Async.runSync(function(done) {
       var result = HTTP.post('https://api.twilio.com/2010-04-01/Accounts/ACa259379ccf43ebe0af6e2eb7f3bffc93/Calls.json', {
         "params": {
-          "Url" : "http://partio-55045.onmodulus.net/twilio/"+to,
+          "Url" : "http://partioapp.com/twilio/"+to,
           "To" : numbers.from,
-          "From" : numbers.from
+          "From" : '+19192630795'
         },
         "auth" : 'ACa259379ccf43ebe0af6e2eb7f3bffc93:50582e08bc2d140b8e940fe1a54d9623'
       },function(error, result){
@@ -344,20 +344,20 @@ Meteor.methods({
 
     Connections.update({_id: connectionId}, {$set: {"state": "RETURN"}});
 
-    var message = borrowerName + " wants to return the book " + connect.bookData.title;
-    sendPush(connect.bookData.ownerId, message);
-    sendNotification(connect.bookData.ownerId, connect.requestor, message, "info");
+    var message = borrowerName + " wants to return the book " + connect.productData.title;
+    sendPush(connect.productData.ownerId, message);
+    sendNotification(connect.productData.ownerId, connect.requestor, message, "info");
   },
 
   confirmReturn: function(searchId, connectionId) {
     var connect = Connections.findOne(connectionId);
-    var ownerName = Meteor.users.findOne(connect.bookData.ownerId).profile.name;
+    var ownerName = Meteor.users.findOne(connect.productData.ownerId).profile.name;
 
     Search.update({_id: searchId}, {$inc: {qty: 1}});
 
-    var message = ownerName + " confirmed your return of " + connect.bookData.title;
+    var message = ownerName + " confirmed your return of " + connect.productData.title;
     sendPush(connect.requestor, message);
-    sendNotification(connect.requestor, connect.bookData.ownerId, message, "info");
+    sendNotification(connect.requestor, connect.productData.ownerId, message, "info");
   },
 
   requestOwner: function(requestorId, productId, ownerId) {
@@ -371,7 +371,7 @@ Meteor.methods({
       state: 'WAITING',
       requestDate: new Date(),
       borrowedDate: null,
-      bookData: book,
+      productData: book,
       chat: [  ],
       meetupLocation: "Location not set",
       meetupLatLong: "Location not set"
@@ -391,14 +391,14 @@ Meteor.methods({
     console.log("changing status from Waiting to Payment");
 
     var connect = Connections.findOne(connectionId);
-    var ownerName = Meteor.users.findOne(connect.bookData.ownerId).profile.name;
+    var ownerName = Meteor.users.findOne(connect.productData.ownerId).profile.name;
 
-    Connections.remove({"bookData._id": connect.bookData._id, "requestor": {$ne: connect.requestor}});
+    Connections.remove({"productData._id": connect.productData._id, "requestor": {$ne: connect.requestor}});
     Connections.update({_id: connectionId}, {$set: {state: "PAYMENT"}});
 
-    var message = ownerName + " accepted your request for " + connect.bookData.title;
+    var message = ownerName + " accepted your request for " + connect.productData.title;
     sendPush(connect.requestor, message);
-    sendNotification(connect.requestor, connect.bookData.ownerId, message, "approved");
+    sendNotification(connect.requestor, connect.productData.ownerId, message, "approved");
 
     return true;
   },
@@ -406,11 +406,11 @@ Meteor.methods({
     Meteor._sleepForMs(1000);
 
     var connect = Connections.findOne(connectionId);
-    var ownerName = Meteor.users.findOne(connect.bookData.ownerId).profile.name;
+    var ownerName = Meteor.users.findOne(connect.productData.ownerId).profile.name;
 
-    var message =  "Your request for " + connect.bookData.title + " has been declined.";
+    var message =  "Your request for " + connect.productData.title + " has been declined.";
     sendPush(connect.requestor, message);
-    sendNotification(connect.requestor, connect.bookData.ownerId, message, "declined");
+    sendNotification(connect.requestor, connect.productData.ownerId, message, "declined");
 
     Connections.remove(connectionId);
 
@@ -440,26 +440,26 @@ Meteor.methods({
       if (result.status === 'succeeded') {
         var payerTrans = {
           date: result.created,
-          productName: Connections.findOne(connectionId).bookData.title,
+          productName: Connections.findOne(connectionId).productData.title,
           paidAmount: result.amount/100
         }
 
         var recipientTrans = {
           date: result.created,
-          productName: Connections.findOne(connectionId).bookData.title,
+          productName: Connections.findOne(connectionId).productData.title,
           receivedAmount: result.amount/100
         }
 
         Connections.update({_id: connectionId}, {$set: {state: "IN USE", payment: result}});
-        Search.update({"ean": Connections.findOne(connectionId).bookData.ean}, {$inc: {qty: -1}})
+        Search.update({"ean": Connections.findOne(connectionId).productData.ean}, {$inc: {qty: -1}})
         Transactions.update({_id: transactionsId}, {$push: {spending: payerTrans}});
         Transactions.update({_id: transactionsRecipientId}, {$push: {earning: recipientTrans}});
 
         var thisConnectionData = Connections.findOne(connectionId)
         var moneyGiver = Meteor.users.findOne(thisConnectionData.requestor).profile.name
         var message = 'You received a payment of $' + amount + ' from ' + moneyGiver
-        sendPush(thisConnectionData.bookData.ownerId, message);
-        sendNotification(thisConnectionData.bookData.ownerId, thisConnectionData.requestor, message, "info")
+        sendPush(thisConnectionData.productData.ownerId, message);
+        sendNotification(thisConnectionData.productData.ownerId, thisConnectionData.requestor, message, "info")
 
       }
 
