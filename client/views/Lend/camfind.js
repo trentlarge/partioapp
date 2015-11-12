@@ -33,7 +33,7 @@ Template.camfind.events({
 
         MeteorCamera.getPicture(options, function(err, data) {
           if (data) {
-            PartioLoad.show();
+            PartioLoad.show('Identifying image. This process may take few seconds...');
 
             attachImageAndWaitCamFind(data);
 
@@ -51,6 +51,7 @@ Template.camfind.events({
                     console.log("----camfindGetResponse----");
                     console.log(result);
                     if(result) {
+                      PartioLoad.hide();
                       $('.search-share-header-input').val(result.data.name);
                       $('.search-share-header-input').trigger({type: 'keypress', charCode: 13});
                       //
