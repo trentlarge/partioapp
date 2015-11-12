@@ -94,18 +94,18 @@
   {{/contentFor}}
 
   {{#ionView}}
-     {{#ionContent class="details no-header overflow-scroll"}} 
-    
+     {{#ionContent class="details no-header overflow-scroll"}}
+
 <!--     <div class="product-image" style="background-image: url('{{image}}');"></div>-->
-    
-    
+
+
         <div class="center">
             <img class="product-image" src="{{image}}"/>
             <span class="product-title"> {{title}} </span>
         </div>
-    
+
     <div class="product-details-container card">
-        
+
         <div class="list">
 
           <a class="item item-icon-left" href="#">
@@ -117,11 +117,11 @@
             <i class="icon {{getCategoryIcon}}"></i>
             {{amazonCategory}}
           </a>
-            
+
           <div class="item item-divider features">
             Features <i class="chevron-icon icon ion-chevron-right"></i>
           </div>
-            
+
           <div class="row features-details hidden">
                 <div class="col col-25">
                     {{#each attributes}}
@@ -136,9 +136,9 @@
             </div>
 
           <div class="item item-divider features">
-            Description
+            Condition of the item
           </div>
-            
+
           <a class="item" href="#">
             {{#if editMode}}
                 <textarea name="description" class="fieldDescriptionLend" rows="8">{{description}}</textarea>
@@ -146,11 +146,11 @@
                 <textarea name="description" class="fieldDescriptionLend" rows="8" disabled>{{description}}</textarea>
             {{/if}}
           </a>
-            
+
           <div class="item item-divider features">
             Rent Price
-          </div>    
-            
+          </div>
+
           <a class="item" href="#">
             {{#if editMode}}
                 <input class="dayPrice" type="number" id="editPrice" value="{{rentPrice.day}}" style="display:inline;">
@@ -161,7 +161,7 @@
               Day
             </span>
           </a>
-            
+
            <a class="item" href="#">
             {{#if editMode}}
                 <input class="weekPrice" type="number" id="editPrice" value="{{rentPrice.week}}" style="display:inline;">
@@ -172,7 +172,7 @@
               Week
             </span>
           </a>
-            
+
            <a class="item" href="#">
             {{#if editMode}}
                 <input class="monthPrice" type="number" id="editPrice" value="{{rentPrice.month}}" style="display:inline;">
@@ -183,7 +183,7 @@
               Month
             </span>
           </a>
-    
+
            <a class="item" href="#">
             {{#if editMode}}
                 <input class="semesterPrice" type="number" id="editPrice" value="{{rentPrice.semester}}" style="display:inline;">
@@ -194,7 +194,7 @@
               Semester
             </span>
           </a>
-          
+
            {{#if editMode}}
             <div class="padding-horizontal">
                 <button id="editSave" class="button button-block button-energized">SAVE</button>
@@ -204,10 +204,10 @@
                     <button id="editCurrent" class="button button-block">EDIT</button>
                 </div>
             {{/if}}
-            
+
         </div>
     </div>
-        
+
 <!--
         <div class="row-details">
             <div class="col col-50">
@@ -224,7 +224,7 @@
             </div>
          </div>
 -->
-        
+
 <!--
         <div class="subtitle-box features">
             <div class="center">
@@ -232,7 +232,7 @@
             </div>
         </div>
 -->
-        
+
 <!--
         <div class="row features-details hidden">
             <div class="col col-25">
@@ -247,14 +247,14 @@
             </div>
         </div>
 -->
-        
+
 <!--
         <div class="subtitle-box">
             <div class="center">
                 <span>DESCRIPTION</span>
             </div>
         </div>
-        
+
         <div class="row">
             <div class="col col-100">
                 {{#if editMode}}
@@ -265,14 +265,14 @@
             </div>
         </div>
 -->
-        
+
 <!--
         <div class="subtitle-box">
             <div class="center">
                 <span>RENT PRICE</span>
             </div>
         </div>
-        
+
         <div class="row-details">
             <div class="col col-50">
                 <div class="details-box">
@@ -293,7 +293,7 @@
                         <span class="detail">${{rentPrice.week}}</span>
                     {{/if}}
                 </div>
-            </div>     
+            </div>
         </div>
         <div class="row-details">
             <div class="col col-50">
@@ -317,7 +317,7 @@
                 </div>
             </div>
         </div>
-        
+
         {{#if editMode}}
             <div class="padding-horizontal">
                 <button id="editSave" class="button button-block button-energized">SAVE</button>
@@ -327,10 +327,10 @@
                 <button id="editCurrent" class="button button-block">EDIT</button>
             </div>
         {{/if}}
-        
+
     </div>
 -->
-    
+
 <!--
   <div class="content has-header">
       <div class="card">
@@ -420,6 +420,6 @@
       {{/if}}
       </div>
 -->
-     {{/ionContent}} 
+     {{/ionContent}}
   {{/ionView}}
 </template>
