@@ -13,7 +13,9 @@ LoginController = RouteController.extend({
 	},
 
 	waitOn: function() {
-		Accounts.loginServicesConfigured();
+		Accounts.loginServicesConfigured(function() {
+
+		});
 		return [
 			// subscribe to data here
 			// Meteor.subscribe("someSubscription"),
