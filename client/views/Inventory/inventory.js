@@ -128,24 +128,34 @@ Template.inventoryDetail.events({
   'click #editSave': function(e, template) {
     console.log("saving");
 
-    var xPrice = parseInt(template.find('#editPrice').value, 10);
-    console.log('Edit xPrice ' + xPrice);
+    var dayPrice = parseInt(template.find('.dayPrice').value, 10),
+        weekPrice = parseInt(template.find('.weekPrice').value, 10),
+        monthPrice = parseInt(template.find('.monthPrice').value, 10),
+        semesterPrice = parseInt(template.find('.semesterPrice').value, 10);
 
-    if(xPrice < 0.5)
+    if(dayPrice < 0.5 || weekPrice < 0.5 || monthPrice < 0.5 || semesterPrice < 0.5)
     {
       showInvalidPopUp('Invalid Inputs', 'Please enter a valid price.');
       return false;
     }
 
-    if(xPrice > 1000)
+    if(dayPrice > 100000 || weekPrice > 100000 || monthPrice > 100000|| semesterPrice > 100000)
     {
-      showInvalidPopUp('Invalid Inputs', 'Please enter a Price < 1000.');
+      showInvalidPopUp('Invalid Inputs', 'Please enter a Price less than 100000.');
       return false;
     }
+      
+     var editedPrices = {   
+        "day": template.find('.dayPrice').value,
+        "week": template.find('.weekPrice').value,
+        "month": template.find('.monthPrice').value,
+        "semester": template.find('.semesterPrice').value,
+     }
 
-    var edited = template.find('#editPrice').value;
+    var edited = template.find('.semesterPrice').value;
     var description = template.find('.fieldDescriptionLend').value;
-    Products.update({_id: this._id}, {$set: {customPrice: edited, description: description}});
+      
+    Products.update({_id: this._id}, {$set: {customPrice: edited, rentPrice: editedPrices, description: description}});
     Session.set('editMode', false);
   }
 });

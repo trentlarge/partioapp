@@ -159,9 +159,9 @@
                 <div class="details-box">
                     <span class="customPrice bk-energized"> D </span>
                     {{#if editMode}}
-                        <input class="detail" type="number" id="editPrice" value="{{customPrice}}">
+                        <input class="detail dayPrice" type="number" id="editPrice" value="{{rentPrice.day}}">
                     {{else}}
-                        <span class="detail">${{customPrice}}</span>
+                        <span class="detail">${{rentPrice.day}}</span>
                     {{/if}}
                 </div>
             </div>
@@ -169,9 +169,9 @@
                 <div class="details-box">
                     <span class="customPrice bk-energized"> W </span>
                     {{#if editMode}}
-                        <input class="detail" type="number" id="editPrice" value="{{customPrice}}">
+                        <input class="detail weekPrice" type="number" id="editPrice" value="{{rentPrice.week}}">
                     {{else}}
-                        <span class="detail">${{customPrice}}</span>
+                        <span class="detail">${{rentPrice.week}}</span>
                     {{/if}}
                 </div>
             </div>     
@@ -181,9 +181,9 @@
                 <div class="details-box">
                     <span class="customPrice bk-assertive"> M </span>
                     {{#if editMode}}
-                        <input class="detail" type="number" id="editPrice" value="{{customPrice}}">
+                        <input class="detail monthPrice" type="number" id="editPrice" value="{{rentPrice.month}}">
                     {{else}}
-                        <span class="detail">${{customPrice}}</span>
+                        <span class="detail">${{rentPrice.month}}</span>
                     {{/if}}
                 </div>
             </div>
@@ -191,9 +191,9 @@
                 <div class="details-box">
                     <span class="customPrice bk-assertive"> S </span>
                     {{#if editMode}}
-                        <input class="detail" type="number" id="editPrice" value="{{customPrice}}">
+                        <input class="detail semesterPrice" type="number" id="editPrice" value="{{rentPrice.semester}}">
                     {{else}}
-                        <span class="detail">${{customPrice}}</span>
+                        <span class="detail">${{rentPrice.semester}}</span>
                     {{/if}}
                 </div>
             </div>

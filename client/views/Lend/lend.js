@@ -286,99 +286,6 @@ function ClearData(){
   Session.set('allResults', null)
 }
 
-
-//
-// var RentingTimeSpan; //ONE_DAY, ONE_WEEK, ONE_MONTH, FOUR_MONTHS
-// var RentingOneDayPercentage;
-// var RentingOneWeekPercentage;
-// var RentingOneMonthPercentage;
-// var RentingFourMonthsPercentage;
-// var RentingPartioSharePercentage;
-// var RentingStripeFeePercent;
-// var RentingStripeAdditionalFee;
-// var RentingAmazonPrice;
-// var RentingAmazonRentalPrice;
-// var RentingFinalPrice;
-//
-// function CalculateRentingCharges()
-// {
-//   if(this.RentingTimeSpan == 'ONE_DAY')
-//   {
-//       this.RentingFinalPrice = parseFloat((this.RentingOneDayPercentage/100) * this.RentingAmazonPrice);
-//
-//       if(this.RentingFinalPrice < 3.00)
-//           this.RentingFinalPrice = 3.00;
-//   }
-//   else if(this.RentingTimeSpan == 'ONE_WEEK')
-//   {
-//       this.RentingFinalPrice = parseFloat((this.RentingOneWeekPercentage/100) * this.RentingAmazonPrice);
-//       console.log('RentingOneWeekPercentage: ' + this.RentingFinalPrice);
-//
-//       this.RentingFinalPrice = parseFloat(this.RentingFinalPrice * 7);
-//       console.log('Pricex7: ' + this.RentingFinalPrice);
-//
-//       if(this.RentingFinalPrice < 7.00) //$1.00 per day
-//           this.RentingFinalPrice = 7.00;
-//   }
-//   else if(RentingTimeSpan == 'ONE_MONTH')
-//   {
-//       this.RentingFinalPrice = parseFloat((this.RentingOneMonthPercentage/100) * this.RentingAmazonPrice);
-//       this.RentingFinalPrice = parseFloat(this.RentingFinalPrice * 30);
-//
-//       if(this.RentingFinalPrice < 15.00) //$0.50 per day
-//           this.RentingFinalPrice = 15.00;
-//   }
-//   else if(this.RentingTimeSpan == 'FOUR_MONTHS')
-//   {
-//       this.RentingFinalPrice = parseFloat((this.RentingFourMonthsPercentage/100) * this.RentingAmazonPrice);
-//       this.RentingFinalPrice = parseFloat(this.RentingFinalPrice * 30 * 4);
-//
-//       if(this.RentingFinalPrice < 30.00) //$0.25 per day
-//           this.RentingFinalPrice = 30.00;
-//   }
-//
-//   console.log('RentingTimeSpan: ' + RentingTimeSpan);
-//   console.log('RentingAmazonPrice: ' + RentingAmazonPrice);
-//   console.log('RentingAmazonRentalPrice: ' + RentingAmazonRentalPrice);
-//
-//   RentingFinalPrice += parseFloat((RentingStripeFeePercent/100) * RentingFinalPrice);
-//   console.log('RentingStripeFeePercent: ' + RentingFinalPrice);
-//   RentingFinalPrice += parseFloat(RentingStripeAdditionalFee);
-//   console.log('RentingStripeAdditionalFee: ' + RentingFinalPrice);
-//
-//   RentingFinalPrice += parseFloat((RentingPartioSharePercentage/100) * RentingFinalPrice);
-//   console.log('RentingPartioSharePercentage: ' + RentingFinalPrice);
-//
-//   RentingFinalPrice = Math.round(Number((RentingFinalPrice).toFixed(1))).toFixed(2);
-//   console.log('RentingFinalPrice: ' + Math.round(RentingFinalPrice));
-// }
-//
-// function GetRentingPercentages(strRentingTimeSpan)
-// {
-//   console.log(strRentingTimeSpan);
-//   console.log('aqui -x-x-x-x-x-x-x-x-');
-//
-//   RentingAmazonPrice = parseFloat(Session.get('priceValue'));
-//   RentingTimeSpan = strRentingTimeSpan;
-//   RentingOneDayPercentage = 2;
-//   RentingOneWeekPercentage = 1;
-//   RentingOneMonthPercentage = 0.5;
-//   RentingFourMonthsPercentage = 0.25;
-//
-//   RentingPartioSharePercentage = 10;
-//
-//   RentingStripeFeePercent = 2.9;
-//   RentingStripeAdditionalFee = 0.3;
-//
-//
-//   CalculateRentingCharges();
-// }
-//
-// function ClearRentingValue()
-// {
-//   RentingFinalPrice = 0.0;
-// }
-
 function ValidateInputs(details)
 {
   if(!details.title ||
@@ -387,14 +294,7 @@ function ValidateInputs(details)
     showInvalidPopUp('Invalid Inputs', 'Please enter a valid Title.');
     return false;
   }
-
-//  if(!BookDetails.authors ||
-//    BookDetails.authors < 1)
-//  {
-//    showInvalidPopUp('Invalid Inputs', 'Please enter a valid Author Name.');
-//    return false;
-//  }
-
+    
   if(!details.customPrice ||
     details.customPrice < 0.5)
   {
@@ -468,6 +368,12 @@ function AddProductToInventory() {
     "uniqueId": _uniqueId,
     "customPrice": Session.get('userPrice'),
     "description": Session.get('description'),
+    "rentPrice": {
+        "day": Session.get('dayPrice'),
+        "week": Session.get('weekPrice'),
+        "month": Session.get('monthPrice'),
+        "semester": Session.get('semesterPrice')
+    }
   });
 
   Products.insert(insertData);

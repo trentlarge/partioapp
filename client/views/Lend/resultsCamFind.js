@@ -84,6 +84,7 @@ Template.resultsCamFind.helpers({
 
           if(Lend.RentingFinalPrice > 0) {
               Session.set('userPrice', Lend.RentingFinalPrice);
+              Session.set('dayPrice', Lend.RentingFinalPrice);
               return Lend.RentingFinalPrice;
           }
           else {
@@ -112,6 +113,7 @@ Template.resultsCamFind.helpers({
 
           if(Lend.RentingFinalPrice > 0) {
               Session.set('userPrice', Lend.RentingFinalPrice);
+              Session.set('weekPrice', Lend.RentingFinalPrice);
               return Lend.RentingFinalPrice;
           }
           else {
@@ -140,6 +142,7 @@ Template.resultsCamFind.helpers({
 
           if(Lend.RentingFinalPrice > 0) {
               Session.set('userPrice', Lend.RentingFinalPrice);
+              Session.set('monthPrice', Lend.RentingFinalPrice);
               return Lend.RentingFinalPrice;
           }
           else {
@@ -167,6 +170,7 @@ Template.resultsCamFind.helpers({
 
           if(Lend.RentingFinalPrice > 0) {
               Session.set('userPrice', Lend.RentingFinalPrice);
+              Session.set('semesterPrice', Lend.RentingFinalPrice);
               return Lend.RentingFinalPrice;
           }
           else {
