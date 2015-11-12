@@ -115,9 +115,9 @@ Meteor.methods({
     var response = Async.runSync(function(done) {
       var result = HTTP.post('https://api.twilio.com/2010-04-01/Accounts/ACa259379ccf43ebe0af6e2eb7f3bffc93/Calls.json', {
         "params": {
-          "Url" : "http://partio-55045.onmodulus.net/twilio/"+to,
+          "Url" : "http://partioapp.com/twilio/"+to,
           "To" : numbers.from,
-          "From" : numbers.from
+          "From" : '+19192630795'
         },
         "auth" : 'ACa259379ccf43ebe0af6e2eb7f3bffc93:50582e08bc2d140b8e940fe1a54d9623'
       },function(error, result){
