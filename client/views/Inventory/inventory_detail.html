@@ -12,7 +12,244 @@
   {{/contentFor}}
 
   {{#ionView}}
-<!--     {{#ionContent}} -->
+     {{#ionContent class="details no-header overflow-scroll"}}
+
+<!--     <div class="product-image" style="background-image: url('{{image}}');"></div>-->
+
+
+        <div class="center">
+            <img class="product-image" src="{{image}}"/>
+            <span class="product-title"> {{title}} </span>
+        </div>
+
+    <div class="product-details-container card">
+
+        <div class="list">
+
+          <a class="item item-icon-left" href="#">
+            <i class="icon ion-cash"></i>
+            {{price}}
+          </a>
+
+          <a class="item item-icon-left" href="#">
+            <i class="icon {{getCategoryIcon}}"></i>
+            {{amazonCategory}}
+          </a>
+
+          <div class="item item-divider features">
+            Features <i class="chevron-icon icon ion-chevron-right"></i>
+          </div>
+
+          <div class="row features-details hidden">
+                <div class="col col-25">
+                    {{#each attributes}}
+                    <p>{{key}}</p>
+                    {{/each}}
+                </div>
+                <div class="col col-75 scan-result">
+                    {{#each attributes}}
+                    <p>{{value}}</p>
+                    {{/each}}
+                </div>
+            </div>
+
+          <div class="item item-divider features">
+            Condition of the item
+          </div>
+
+          <a class="item" href="#">
+            {{#if editMode}}
+                <textarea name="description" class="fieldDescriptionLend" rows="8">{{description}}</textarea>
+            {{else}}
+                <textarea name="description" class="fieldDescriptionLend" rows="8" disabled>{{description}}</textarea>
+            {{/if}}
+          </a>
+
+          <div class="item item-divider features">
+            Rent Price
+          </div>
+
+          <a class="item" href="#">
+            {{#if editMode}}
+                <input class="dayPrice" type="number" id="editPrice" value="{{rentPrice.day}}" style="display:inline;">
+            {{else}}
+                ${{rentPrice.day}}
+            {{/if}}
+            <span class="item-note">
+              Day
+            </span>
+          </a>
+
+           <a class="item" href="#">
+            {{#if editMode}}
+                <input class="weekPrice" type="number" id="editPrice" value="{{rentPrice.week}}" style="display:inline;">
+            {{else}}
+                ${{rentPrice.week}}
+            {{/if}}
+            <span class="item-note">
+              Week
+            </span>
+          </a>
+
+           <a class="item" href="#">
+            {{#if editMode}}
+                <input class="monthPrice" type="number" id="editPrice" value="{{rentPrice.month}}" style="display:inline;">
+            {{else}}
+                ${{rentPrice.month}}
+            {{/if}}
+            <span class="item-note">
+              Month
+            </span>
+          </a>
+
+           <a class="item" href="#">
+            {{#if editMode}}
+                <input class="semesterPrice" type="number" id="editPrice" value="{{rentPrice.semester}}" style="display:inline;">
+            {{else}}
+                ${{rentPrice.semester}}
+            {{/if}}
+            <span class="item-note">
+              Semester
+            </span>
+          </a>
+
+           {{#if editMode}}
+            <div class="padding-horizontal">
+                <button id="editSave" class="button button-block button-energized">SAVE</button>
+            </div>
+            {{else}}
+                <div class="padding-horizontal">
+                    <button id="editCurrent" class="button button-block">EDIT</button>
+                </div>
+            {{/if}}
+
+        </div>
+    </div>
+
+<!--
+        <div class="row-details">
+            <div class="col col-50">
+                <div class="details-box">
+                    <i class="icon ion-cash bk-energized"></i>
+                    <span class="detail">{{price}}</span>
+                </div>
+            </div>
+            <div class="col col-50">
+                <div class="details-box">
+                    <i class="icon {{getCategoryIcon}} bk-energized"></i>
+                    <span class="detail">{{amazonCategory}}</span>
+                </div>
+            </div>
+         </div>
+-->
+
+<!--
+        <div class="subtitle-box features">
+            <div class="center">
+                <span>FEATURES </span><i class="chevron-icon icon ion-chevron-right"></i>
+            </div>
+        </div>
+-->
+
+<!--
+        <div class="row features-details hidden">
+            <div class="col col-25">
+                {{#each attributes}}
+                <p>{{key}}</p>
+                {{/each}}
+            </div>
+            <div class="col col-75 scan-result">
+                {{#each attributes}}
+                <p>{{value}}</p>
+                {{/each}}
+            </div>
+        </div>
+-->
+
+<!--
+        <div class="subtitle-box">
+            <div class="center">
+                <span>DESCRIPTION</span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col col-100">
+                {{#if editMode}}
+                    <textarea name="description" class="fieldDescriptionLend" rows="8">{{description}}</textarea>
+                {{else}}
+                    <textarea name="description" class="fieldDescriptionLend" rows="8" disabled>{{description}}</textarea>
+                {{/if}}
+            </div>
+        </div>
+-->
+
+<!--
+        <div class="subtitle-box">
+            <div class="center">
+                <span>RENT PRICE</span>
+            </div>
+        </div>
+
+        <div class="row-details">
+            <div class="col col-50">
+                <div class="details-box">
+                    <span class="customPrice bk-energized"> D </span>
+                    {{#if editMode}}
+                        <input class="detail dayPrice" type="number" id="editPrice" value="{{rentPrice.day}}">
+                    {{else}}
+                        <span class="detail">${{rentPrice.day}}</span>
+                    {{/if}}
+                </div>
+            </div>
+            <div class="col col-50">
+                <div class="details-box">
+                    <span class="customPrice bk-energized"> W </span>
+                    {{#if editMode}}
+                        <input class="detail weekPrice" type="number" id="editPrice" value="{{rentPrice.week}}">
+                    {{else}}
+                        <span class="detail">${{rentPrice.week}}</span>
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+        <div class="row-details">
+            <div class="col col-50">
+                <div class="details-box">
+                    <span class="customPrice bk-assertive"> M </span>
+                    {{#if editMode}}
+                        <input class="detail monthPrice" type="number" id="editPrice" value="{{rentPrice.month}}">
+                    {{else}}
+                        <span class="detail">${{rentPrice.month}}</span>
+                    {{/if}}
+                </div>
+            </div>
+            <div class="col col-50">
+                <div class="details-box">
+                    <span class="customPrice bk-assertive"> S </span>
+                    {{#if editMode}}
+                        <input class="detail semesterPrice" type="number" id="editPrice" value="{{rentPrice.semester}}">
+                    {{else}}
+                        <span class="detail">${{rentPrice.semester}}</span>
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+
+        {{#if editMode}}
+            <div class="padding-horizontal">
+                <button id="editSave" class="button button-block button-energized">SAVE</button>
+            </div>
+        {{else}}
+            <div class="padding-horizontal">
+                <button id="editCurrent" class="button button-block">EDIT</button>
+            </div>
+        {{/if}}
+
+    </div>
+-->
+
+<!--
   <div class="content has-header">
       <div class="card">
 
@@ -24,7 +261,6 @@
           </div>
           <div class="col col-67 item-text-wrap">
             <h3>{{title}}</h3>
-            <p class="line-height-one">{{authors}}</p>
           </div>
         </div>
 
@@ -53,20 +289,20 @@
                 <p>{{comments}}</p>
               </div>
             {{else}}
-              <div class="col col-50">
-                <p>Amazon $</p>
-                <p>Publisher</p>
-                <p>Binding</p>
-                <p>Pages</p>
-                <p>EAN</p>
-              </div>
-              <div class="col col-50 scan-result keep-inside-padding">
-                <p>{{price}}</p>
-                <p>{{publisher}}</p>
-                <p>{{binding}}</p>
-                <p>{{pages}}</p>
-                <p>{{ean}}</p>
-              </div>
+              <div class="col col-33">
+                    <p>Amazon $</p>
+                    <p>Category</p>
+                    {{#each attributes}}
+                    <p>{{key}}</p>
+                    {{/each}}
+                </div>
+                <div class="col col-67 scan-result">
+                    <p>{{price}}</p>
+                    <p>{{amazonCategory}} ({{category}})</p>
+                    {{#each attributes}}
+                    <p>{{value}}</p>
+                    {{/each}}
+                </div>
             {{/if}}
           </div>
 
@@ -101,6 +337,7 @@
       </div>
       {{/if}}
       </div>
-    <!-- {{/ionContent}} -->
+-->
+     {{/ionContent}}
   {{/ionView}}
 </template>
