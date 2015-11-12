@@ -1,8 +1,9 @@
 .details {
     background-color: #ffffff;
     min-height: 100%;
-    height: 100%;
+//    height: 100%;
     padding-top: 44px;
+    padding-bottom: 100px;
     color: #272727;
     
     .product-image {
@@ -58,6 +59,12 @@
     
     .features {
         padding: 10px;
+    }
+    
+    .hidden {
+        -webkit-animation: fadeIn 1s;
+        animation: fadeIn 1s;
+        display: none;
     }
     
     textarea {

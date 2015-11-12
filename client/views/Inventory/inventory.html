@@ -113,13 +113,13 @@
             <span class="detail">{{amazonCategory}}</span>
         </div>
         
-        <div class="subtitle-box">
+        <div class="subtitle-box features">
             <div class="center">
-                <span>FEATURES</span>
+                <span>FEATURES </span><i class="chevron-icon icon ion-chevron-right"></i>
             </div>
         </div>
         
-        <div class="row">
+        <div class="row features-details hidden">
             <div class="col col-25">
                 {{#each attributes}}
                 <p>{{key}}</p>
@@ -199,11 +199,15 @@
             </div>
         </div>
         
-         {{#if editMode}}
-          <div class="padding-horizontal">
-            <button id="editSave" class="button button-block button-energized">SAVE</button>
-          </div>
-          {{/if}}
+        {{#if editMode}}
+            <div class="padding-horizontal">
+                <button id="editSave" class="button button-block button-energized">SAVE</button>
+            </div>
+        {{else}}
+            <div class="padding-horizontal">
+                <button id="editCurrent" class="button button-block">EDIT</button>
+            </div>
+        {{/if}}
         
     </div>
     
