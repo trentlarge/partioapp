@@ -31,10 +31,10 @@
 
         <div class="item small-font line-height-one">
           <div class="center">
-            <img class="connect-thumbnail" src="{{bookData.image}}">
-            <p>{{bookData.title}}</p>
-            <p>Amazon Price: {{bookData.price}}</p>
-            <h3 class="dark">Rent Price: ${{bookData.customPrice}} / week</h3>
+            <img class="connect-thumbnail" src="{{productData.image}}">
+            <p>{{productData.title}}</p>
+            <p>Amazon Price: {{productData.price}}</p>
+            <h3 class="dark">Rent Price: ${{productData.customPrice}} / week</h3>
           </div>
 
         </div>
@@ -50,11 +50,11 @@
             CHAT
           </a>
           <a class="tab-item" id="btnCallUser">
-            <i class="icon ion-ios-telephone"></i>
+            <i class="icon ion-ios-telephone assertive"></i>
             CALL
           </a>
           <a class="tab-item" id="cancel-request">
-            <i class="icon ion-ios-close"></i>
+            <i class="icon ion-ios-close royal"></i>
             CANCEL
           </a>
         </div>
@@ -89,7 +89,6 @@
 
       {{/if}}
 
-
       <div class="padding-horizontal">
         {{#if paymentDone}}
 
@@ -102,9 +101,6 @@
           PAY TOTAL &nbsp; ${{calculatedPrice}}</button>
           {{/if}}
         </div>
-
-
-
 
     {{/ionContent}}
   {{/ionView}}

@@ -1,55 +1,25 @@
-Template.connectRent.onRendered(function() {
-	Session.set('sliderValue', 4);
-})
+Template.connectRent.rendered = function() {
+	var dataContext = this.data;
+	//Chat input textarea auto-resize when more than 1 line is entered
+	Session.set("_requestor", dataContext.requestor);
+	Session.set("_owner", dataContext.productData.ownerId);
+}
 
-Template.connectRent.helpers({
-	noProfileYet: function() {
-		if (this.avatar === "notSet") {
-			return true;
-		} else {
-			return false;
-		}
-	},
-	userInfo: function() {
-		return Meteor.users.findOne(this.bookData.ownerId).profile;
-	},
-	approvedStatus: function() {
-		return Connections.findOne(this._id).state !== 'WAITING' ? '' : 'disabled';
-	},
-	phoneNumber: function() {
-		return Meteor.users.findOne(this.bookData.ownerId).profile.mobile;
-	},
-	preferredLocation: function() {
-		return Connections.findOne(this._id).meetupLocation;
-	},
-	paymentDone: function() {
-		return Connections.findOne(this._id).payment ? true:false;
-	},
-	itemReturnDone: function() {
-		return (Connections.findOne(this._id).state === "RETURN" || Connections.findOne(this._id).state === "DONE" ) ? true : false;
-	},
-	paymentPending: function() {
-		return Connections.findOne(this._id).state === "PAYMENT" ? true : false;
-	},
-	sliderValue: function() {
-		return Session.get('sliderValue')
-	},
-	todaysDate: function() {
-		return moment().format('MM/DD');
-	},
-	endDate: function() {
-		return moment().add(Session.get('sliderValue'), 'w').format('MM/DD');
-	},
-	calculatedPrice: function() {
-		return (Number(this.bookData.customPrice) * Session.get('sliderValue')).toFixed(2);
+
+Template.connectRent.events({
+	'click #btnCallUser': function(err, template) {
+		var _requestor = Session.get("_requestor");
+		var _owner 	 	 = Session.get("_owner");
+
+		PartioCall.init(_requestor, _owner);
 	}
-})
+});
 
 Template.connectRent.events({
 	'click #returnItem': function() {
 		var connectionId = this._id;
 		var requestorName = Meteor.users.findOne(this.requestor).profile.name;
-		var ownerId = this.bookData.ownerId;
+		var ownerId = this.productData.ownerId;
 
 		IonPopup.confirm({
 			cancelText: 'Cancel',
@@ -87,11 +57,11 @@ Template.connectRent.events({
 			var payerCardId = Meteor.user().profile.cards.data[0].id;
 			var connectionId = this._id;
 			var payerCustomerId = Meteor.user().profile.customer.id;
-			var recipientAccountId = Meteor.users.findOne(this.bookData.ownerId).profile.stripeAccount.id;
-			var amount = (Number(this.bookData.customPrice) * Session.get('sliderValue')).toFixed(2);
+			var recipientAccountId = Meteor.users.findOne(this.productData.ownerId).profile.stripeAccount.id;
+			var amount = (Number(this.productData.customPrice) * Session.get('sliderValue')).toFixed(2);
 			var transactionsId = Meteor.user().profile.transactionsId;
-			var transactionsRecipientId = Meteor.users.findOne(this.bookData.ownerId).profile.transactionsId;
-			var recipientDebitId = Meteor.users.findOne(this.bookData.ownerId).profile.payoutCard.id;
+			var transactionsRecipientId = Meteor.users.findOne(this.productData.ownerId).profile.transactionsId;
+			var recipientDebitId = Meteor.users.findOne(this.productData.ownerId).profile.payoutCard.id;
 
 			IonPopup.confirm({
 				cancelText: 'Cancel',
@@ -169,23 +139,3 @@ Template.connectRent.events({
 		}
 	}
 });
-
-var currentTakerPosition, argMeetupLatLong;
-function CheckLocatioOnForTaker()
-{
-	navigator.geolocation.getCurrentPosition(onSuccessMethod, onErrorMethod);
-}
-
-var onSuccessMethod = function(position)
-{
-	currentTakerPosition = position;
-
-	Session.set('takerCurrentPosition', {lat: currentTakerPosition.coords.latitude, lng: currentTakerPosition.coords.longitude});
-	console.log('coords: ' + Session.get('takerCurrentPosition').lat);
-	console.log(argMeetupLatLong);
-	IonModal.open('onlyMap', argMeetupLatLong);
-}
-
-function onErrorMethod(error) {
-	console.log('Err: '+ error);
-}

@@ -31,32 +31,27 @@
 
         <div class="item small-font line-height-one">
           <div class="center">
-            <img class="connect-thumbnail" src="{{bookData.image}}">
-            <p>{{bookData.title}}</p>
-            <p>{{bookData.authors}}</p>
-            <p>Amazon Price: {{bookData.price}}</p>
-            <h3 class="dark">Your Price: ${{bookData.customPrice}} / week</h3>
+            <img class="connect-thumbnail" src="{{productData.image}}">
+            <p>{{productData.title}}</p>
+            <p>{{productData.authors}}</p>
+            <p>Amazon Price: {{productData.price}}</p>
+            <h3 class="dark">Your Price: ${{productData.customPrice}} / week</h3>
           </div>
 
         </div>
 
         <div class="item tabs tabs-icon-left">
-          <!-- <a class="tab-item" href="tel:{{phoneNumber}}">
-            <i class="icon ion-ios-telephone assertive"></i>
-            CALL
-          </a> -->
-          <!-- <a class="tab-item" href="#" id="startChatOwner"> -->
           <a class="tab-item" href="/chat/{{this._id}}">
             <i class="icon ion-ios-chatboxes assertive"></i>
             CHAT
           </a>
 
           <a class="tab-item" id="btnCallUser">
-            <i class="icon ion-ios-telephone"></i>
+            <i class="icon ion-ios-telephone assertive"></i>
             CALL
           </a>
           <a class="tab-item" id="cancelRequest">
-            <i class="icon ion-ios-close"></i>
+            <i class="icon ion-ios-close royal"></i>
             REJECT
           </a>
         </div>
@@ -80,7 +75,7 @@
 
       {{else}}
       <br>
-        <button id="ownerAccept" class="button button-block button-energized">Allow renting at ${{bookData.customPrice}} / week</button>
+        <button id="ownerAccept" class="button button-block button-energized">Allow renting at ${{productData.customPrice}} / week</button>
       {{/if}}
 
       </div>
