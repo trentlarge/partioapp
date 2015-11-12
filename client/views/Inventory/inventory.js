@@ -154,6 +154,9 @@ function showInvalidPopUp(strTitle, strMessage)
 
 var bookID;
 Template.inventoryDetail.helpers({
+  getCategoryIcon: function() {
+      return Categories.getCategoryIconByText(this.category);
+  },
   editMode: function() {
 
     var ConnectionObj = Connections.findOne({'bookData._id': this._id});

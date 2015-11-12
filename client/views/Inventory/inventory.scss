@@ -1,0 +1,85 @@
+.details {
+    background-color: #ffffff;
+    min-height: 100%;
+    height: 100%;
+    padding-top: 44px;
+    color: #272727;
+    
+    .product-image {
+        margin-top: 10px;
+        max-height: 200px;
+    }
+    
+    .product-title {
+        display: block;
+        font-size: 14px;
+        margin-top: 10px;
+        padding: 10px;
+        background-color: #f5f5f5;
+        border-top: 2px solid #eeeeee;
+        border-bottom: 1px solid #eeeeee;
+    }
+    
+    .details-box {
+        
+        display: flex;
+        background-color: #FAFAFA;
+             
+        i, .customPrice {
+            padding: 10px;            
+            text-align: center;
+            width: 42px;
+            min-width: 42px;
+            font-size: 19px;
+            opacity: .8;
+            -webkit-box-shadow: inset 0px -20px 0px 0px rgba(255,255,255,0.1);
+            -moz-box-shadow: inset 0px -20px 0px 0px rgba(255,255,255,0.1);
+            box-shadow: inset 0px -20px 0px 0px rgba(255,255,255,0.1);
+        }
+        
+        .bk-energized { background-color: #f0970d; }
+        .bk-assertive { background-color: #df5707; }
+        
+        .detail {
+            padding: 10px;
+            width: 100%;
+            height: 100%;
+            border-bottom: 1px solid #eeeeee;
+        }
+        
+    }
+    
+    .subtitle-box {
+        padding: 10px;
+        background-color: #f5f5f5;
+        color: #272727;
+        border-bottom: 1px solid #eeeeee;
+    }
+    
+    .features {
+        padding: 10px;
+    }
+    
+    textarea {
+        width: 100%;
+        max-width: 100%;
+        color: #272727;
+        opacity: 1;
+        background-color: #FAFAFA;
+        border: 1px solid #f5f5f5;
+        
+        &:disabled {
+            opacity: .7;
+        }
+    }
+    
+    .row-customPrice {
+        display: flex;
+        
+        .col {
+            padding: 0;
+        }   
+    }
+    
+}
+
