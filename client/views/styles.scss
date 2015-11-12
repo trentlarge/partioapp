@@ -961,6 +961,29 @@ button.ion-android-send {
   bottom: 0;
 }
 
+
+
+div.profile-pic {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  // border: 1px #bdc3c7 solid;
+  border: 2px #fff solid;
+}
+
+div.profile-pic.left {
+  float: left;
+  margin-top: 40px;
+}
+
+div.profile-pic.right {
+  // float: right;
+  // bottom: 0px;
+}
+
+
+
+
 img.profile-pic {
   width: 40px;
   height: 40px;
