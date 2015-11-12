@@ -1,24 +1,24 @@
 Template.searchShareHeader.rendered = function(){
-    Session.set('placeholder', "Search product.."); 
-    
+    Session.set('placeholder', "Search product..");
+
     var inputBox = $('.search-share-header-input');
-    
+
     inputBox.css({
         'width': '70%'
     });
-    inputBox.focus();  
+    inputBox.focus();
 };
 
 Template.searchShareHeader.events({
-    
+
     'keypress .search-share-header-input': function(e, template) {
-        
+
         if (e.charCode == 13 || e.keyCode == 13) {
             //reset sessions
             Session.set('scanResult', null);
             Session.set('lendTab', 'camfind');
 
-            PartioLoad.show();
+            PartioLoad.show('Searching similar products...');
 
             //get keywords
             var key = template.find('.search-share-header-input').value;
@@ -69,10 +69,10 @@ Template.searchShareHeader.events({
 
                   }
                 });
-            }              
+            }
         }
     }
-    
+
 });
 
 Template.searchShareHeader.helpers({
@@ -80,7 +80,7 @@ Template.searchShareHeader.helpers({
         return Session.get('placeholder');
     }
 })
-            
+
 
 function resetImageCamFind(){
   $(".modal").css("background-image", "");
