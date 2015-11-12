@@ -33,7 +33,7 @@ Template.camfind.events({
 
         MeteorCamera.getPicture(options, function(err, data) {
           if (data) {
-            PartioLoad.show('Identifying image. This process may take few seconds...');
+            PartioLoad.show('We\'re identifying your image. This process could take few seconds...');
 
             attachImageAndWaitCamFind(data);
 
@@ -49,13 +49,54 @@ Template.camfind.events({
                   // get image response
                   Meteor.call('camfindGetResponse', result.data.token, function(error, result) {
                     console.log("----camfindGetResponse----");
-                    console.log(result);
-                    if(result) {
-                      PartioLoad.hide();
+
+                    PartioLoad.hide();
+
+                    //some error -------
+                    if(error){
+                      console.log(error);
+                      IonPopup.show({
+            						title: 'Phone activation',
+            						template: '<div class="center dark">Sorry, this service isn\'t available at this moment.</div>',
+            						buttons:
+            						[{
+            							text: 'OK',
+            							type: 'button-energized',
+            							onTap: function() {
+                            IonPopup.close();
+                            resetImageCamFind();
+            							}
+            						}]
+            					});
+                      return false;
+                    }
+
+                    //skiped -------
+                    if(result.data.status == 'skipped') {
+                      IonPopup.show({
+            						title: 'Ops...',
+            						template: '<div class="center dark">It\'s looks like anything. Please try another one. ;)</div>',
+            						buttons:
+            						[{
+            							text: 'OK',
+            							type: 'button-energized',
+            							onTap: function() {
+                            IonPopup.close();
+                            resetImageCamFind();
+            							}
+            						}]
+            					});
+                      return false;
+
+                    //completed -------
+                    } else if(result.data.status == 'completed') {
                       $('.search-share-header-input').val(result.data.name);
                       $('.search-share-header-input').trigger({type: 'keypress', charCode: 13});
-                      //
-                      // $('.submit-search').trigger('click');
+
+                    } else {
+                      console.log(result.data.status);
+                      console.log('miss to handle');
+                      return false;
                     }
                   })
                 }
@@ -87,15 +128,17 @@ Template.camfind.helpers({
 
 
 function attachImageAndWaitCamFind(url){
+  $("#cam-find").hide();
+  $(".item-input-inset").slideUp();
   $(".modal").css("background-image", "url("+url+")");
   $(".modal").css("background-size", "cover");
   $(".modal").css("background-position", "center");
-  $("#cam-find").fadeOut();
-  $(".item-input-inset").slideUp();
+
 }
 
 function resetImageCamFind(){
-  $(".modal").css("background-image", "");
   $("#cam-find").show();
   $(".item-input-inset").slideDown();
+  $(".modal").css("background-image", "");
+
 }

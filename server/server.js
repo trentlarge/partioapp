@@ -178,8 +178,13 @@ Meteor.methods({
         }, function(error, result){
           console.log('CamFind: ping Camfind >>> result.data.status = '+result.data.status);
 
-          if(result.data.status == 'completed'){
-            console.log('CamFind: status completed *-*-*-*-*-*-*-*');
+          if(error){
+            Meteor.clearInterval(interval);
+            done(error, null);
+          }
+
+          if(result.data.status == 'completed' || result.data.status == 'skipped'){
+            console.log('CamFind: status '+result.data.status+' *-*-*-*-*-*-*-*');
             Meteor.clearInterval(interval);
             done(null, result);
           }
