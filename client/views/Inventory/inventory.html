@@ -26,7 +26,7 @@
 -->
 
   {{#ionView}}
-    {{#ionContent}}
+    {{#ionContent class="product-list"}}
 
     {{#if dataExists}}
       {{#if newRequests.count}}
@@ -35,11 +35,11 @@
         {{#each newRequests}}
 
           {{#if statusWaiting}}
-              {{#ionItem class="item-avatar-2  item-button-right"}}
-              <div  class="book-avatar"><div class="book-avatar-inner" style="background: url('{{productData.image}}') no-repeat; background-size:cover; background-position: 50% 20%;"></div></div>
-              <p class="main-title-text">{{productData.title}}</p>
-              <p class="main-sub-text">Rent: ${{productData.rentPrice.day}}|${{productData.rentPrice.week}}|${{productData.rentPrice.month}}|${{productData.rentPrice.semester}}</p>
-              <button id="respondToReq" class="button button-energized request-lower"><h6>Respond</h6></button>
+              {{#ionItem class="item-avatar-2 item-button-right"}}
+                  <div  class="book-avatar"><div class="book-avatar-inner" style="background: url('{{productData.image}}') no-repeat; background-size:cover; background-position: 50% 20%;"></div></div>
+                  <p class="main-title-text">{{productData.title}}</p>
+                  <p class="main-sub-text">Rent: ${{productData.rentPrice.day}}|${{productData.rentPrice.week}}|${{productData.rentPrice.month}}|${{productData.rentPrice.semester}}</p>
+                  <button id="respondToReq" class="button button-energized request-lower"><h6>Respond</h6></button>
               {{/ionItem}}
           {{else}}
               {{#ionItem path="connect" _id=this._id class="item-avatar-2  item-button-right"}}
@@ -97,13 +97,118 @@
      {{#ionContent class="details no-header overflow-scroll"}} 
     
 <!--     <div class="product-image" style="background-image: url('{{image}}');"></div>-->
-    <div class="center">
-        <img class="product-image" src="{{image}}"/>
-        <span class="product-title"> {{title}} </span>
-    </div>
     
-    <div class="product-details-container">
+    
+        <div class="center">
+            <img class="product-image" src="{{image}}"/>
+            <span class="product-title"> {{title}} </span>
+        </div>
+    
+    <div class="product-details-container card">
         
+        <div class="list">
+
+          <a class="item item-icon-left" href="#">
+            <i class="icon ion-cash"></i>
+            {{price}}
+          </a>
+
+          <a class="item item-icon-left" href="#">
+            <i class="icon {{getCategoryIcon}}"></i>
+            {{amazonCategory}}
+          </a>
+            
+          <div class="item item-divider features">
+            Features <i class="chevron-icon icon ion-chevron-right"></i>
+          </div>
+            
+          <div class="row features-details hidden">
+                <div class="col col-25">
+                    {{#each attributes}}
+                    <p>{{key}}</p>
+                    {{/each}}
+                </div>
+                <div class="col col-75 scan-result">
+                    {{#each attributes}}
+                    <p>{{value}}</p>
+                    {{/each}}
+                </div>
+            </div>
+
+          <div class="item item-divider features">
+            Description
+          </div>
+            
+          <a class="item" href="#">
+            {{#if editMode}}
+                <textarea name="description" class="fieldDescriptionLend" rows="8">{{description}}</textarea>
+            {{else}}
+                <textarea name="description" class="fieldDescriptionLend" rows="8" disabled>{{description}}</textarea>
+            {{/if}}
+          </a>
+            
+          <div class="item item-divider features">
+            Rent Price
+          </div>    
+            
+          <a class="item" href="#">
+            {{#if editMode}}
+                <input class="dayPrice" type="number" id="editPrice" value="{{rentPrice.day}}" style="display:inline;">
+            {{else}}
+                ${{rentPrice.day}}
+            {{/if}}
+            <span class="item-note">
+              Day
+            </span>
+          </a>
+            
+           <a class="item" href="#">
+            {{#if editMode}}
+                <input class="weekPrice" type="number" id="editPrice" value="{{rentPrice.week}}" style="display:inline;">
+            {{else}}
+                ${{rentPrice.week}}
+            {{/if}}
+            <span class="item-note">
+              Week
+            </span>
+          </a>
+            
+           <a class="item" href="#">
+            {{#if editMode}}
+                <input class="monthPrice" type="number" id="editPrice" value="{{rentPrice.month}}" style="display:inline;">
+            {{else}}
+                ${{rentPrice.month}}
+            {{/if}}
+            <span class="item-note">
+              Month
+            </span>
+          </a>
+    
+           <a class="item" href="#">
+            {{#if editMode}}
+                <input class="semesterPrice" type="number" id="editPrice" value="{{rentPrice.semester}}" style="display:inline;">
+            {{else}}
+                ${{rentPrice.semester}}
+            {{/if}}
+            <span class="item-note">
+              Semester
+            </span>
+          </a>
+          
+           {{#if editMode}}
+            <div class="padding-horizontal">
+                <button id="editSave" class="button button-block button-energized">SAVE</button>
+            </div>
+            {{else}}
+                <div class="padding-horizontal">
+                    <button id="editCurrent" class="button button-block">EDIT</button>
+                </div>
+            {{/if}}
+            
+        </div>
+    </div>
+        
+<!--
         <div class="row-details">
             <div class="col col-50">
                 <div class="details-box">
@@ -118,13 +223,17 @@
                 </div>
             </div>
          </div>
+-->
         
+<!--
         <div class="subtitle-box features">
             <div class="center">
                 <span>FEATURES </span><i class="chevron-icon icon ion-chevron-right"></i>
             </div>
         </div>
+-->
         
+<!--
         <div class="row features-details hidden">
             <div class="col col-25">
                 {{#each attributes}}
@@ -137,7 +246,9 @@
                 {{/each}}
             </div>
         </div>
+-->
         
+<!--
         <div class="subtitle-box">
             <div class="center">
                 <span>DESCRIPTION</span>
@@ -153,7 +264,9 @@
                 {{/if}}
             </div>
         </div>
+-->
         
+<!--
         <div class="subtitle-box">
             <div class="center">
                 <span>RENT PRICE</span>
@@ -216,6 +329,7 @@
         {{/if}}
         
     </div>
+-->
     
 <!--
   <div class="content has-header">
