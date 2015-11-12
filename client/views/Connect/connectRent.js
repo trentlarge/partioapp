@@ -2,7 +2,7 @@ Template.connectRent.rendered = function() {
 	var dataContext = this.data;
 	//Chat input textarea auto-resize when more than 1 line is entered
 	Session.set("_requestor", dataContext.requestor);
-	Session.set("_owner", dataContext.bookData.ownerId);
+	Session.set("_owner", dataContext.productData.ownerId);
 }
 
 
@@ -19,7 +19,7 @@ Template.connectRent.events({
 	'click #returnItem': function() {
 		var connectionId = this._id;
 		var requestorName = Meteor.users.findOne(this.requestor).profile.name;
-		var ownerId = this.bookData.ownerId;
+		var ownerId = this.productData.ownerId;
 
 		IonPopup.confirm({
 			cancelText: 'Cancel',
@@ -57,11 +57,11 @@ Template.connectRent.events({
 			var payerCardId = Meteor.user().profile.cards.data[0].id;
 			var connectionId = this._id;
 			var payerCustomerId = Meteor.user().profile.customer.id;
-			var recipientAccountId = Meteor.users.findOne(this.bookData.ownerId).profile.stripeAccount.id;
-			var amount = (Number(this.bookData.customPrice) * Session.get('sliderValue')).toFixed(2);
+			var recipientAccountId = Meteor.users.findOne(this.productData.ownerId).profile.stripeAccount.id;
+			var amount = (Number(this.productData.customPrice) * Session.get('sliderValue')).toFixed(2);
 			var transactionsId = Meteor.user().profile.transactionsId;
-			var transactionsRecipientId = Meteor.users.findOne(this.bookData.ownerId).profile.transactionsId;
-			var recipientDebitId = Meteor.users.findOne(this.bookData.ownerId).profile.payoutCard.id;
+			var transactionsRecipientId = Meteor.users.findOne(this.productData.ownerId).profile.transactionsId;
+			var recipientDebitId = Meteor.users.findOne(this.productData.ownerId).profile.payoutCard.id;
 
 			IonPopup.confirm({
 				cancelText: 'Cancel',

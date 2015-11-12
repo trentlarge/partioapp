@@ -4,10 +4,10 @@ Template.inventory.helpers({
     return Products.find({"ownerId": Meteor.userId()})
   },
   newRequests: function() {
-  	return Connections.find({"bookData.ownerId": Meteor.userId(), "state": {$ne: "DONE"} })
+  	return Connections.find({"productData.ownerId": Meteor.userId(), "state": {$ne: "DONE"} })
   },
   dataExists: function() {
-  	return (Products.find({"ownerId": Meteor.userId()}).count() || Connections.find({"bookData.ownerId": Meteor.userId(), "state": {$ne: "IN USE"}}).count()) ? true : false;
+  	return (Products.find({"ownerId": Meteor.userId()}).count() || Connections.find({"productData.ownerId": Meteor.userId(), "state": {$ne: "IN USE"}}).count()) ? true : false;
   },
   status: function() {
     return Connections.findOne(this._id).approved ? "IN USE" : "WAITING" ;
@@ -22,7 +22,7 @@ Template.inventory.events({
   {
     var requestor = this.requestor;
     var connectionId = this._id;
-    var bookId = this.bookData._id;
+    var bookId = this.productData._id;
     //var searchCollectionId = Products.findOne({productUniqueId: bookId})._id;
     var searchCollectionId = Products.findOne(bookId);
 
@@ -56,12 +56,12 @@ Template.inventory.events({
 
             //Connections.find({"requestor": Meteor.userId(), "state": "PAYMENT"});
             // Connections.find(
-            //   {'bookData._id': bookId, 'requestor': {$ne: requestor}},
+            //   {'productData._id': bookId, 'requestor': {$ne: requestor}},
             //   {$set: {state: "DENIED"}},
             //   {multi: true}
             //   );
 
-            // Connections.find({'bookData._id': bookId, 'requestor': {$ne: requestor}})
+            // Connections.find({'productData._id': bookId, 'requestor': {$ne: requestor}})
             // .map(function(item) {
             //   console.log('connectionforBookID: ' + item);
             //   Connections.update({_id: item._id}, {$set: {"state": "DENIED"}});
@@ -184,7 +184,7 @@ Template.inventoryDetail.helpers({
   },
   editMode: function() {
 
-    var ConnectionObj = Connections.findOne({'bookData._id': this._id});
+    var ConnectionObj = Connections.findOne({'productData._id': this._id});
 
     if(ConnectionObj)
     {

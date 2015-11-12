@@ -13,7 +13,7 @@ Template.connect.rendered = function() {
 	console.log(dataContext);
 
 	Session.set("_requestor", dataContext.requestor);
-	Session.set("_owner", dataContext.bookData.ownerId);
+	Session.set("_owner", dataContext.productData.ownerId);
 }
 
 Template.connect.helpers({
@@ -54,9 +54,9 @@ Template.connect.events({
 	'click #confirmReturn': function() {
 		console.log(this);
 		var connectionId = this._id;
-		var ean = this.bookData.ean;
+		var ean = this.productData.ean;
 
-		var bookId = this.bookData._id;
+		var bookId = this.productData._id;
     	var searchCollectionId = Search.findOne({productUniqueId: bookId})._id;
 
 		IonPopup.confirm({
@@ -242,13 +242,13 @@ Template.connectRent.helpers({
 		}
 	},
 	userInfo: function() {
-		return Meteor.users.findOne(this.bookData.ownerId).profile;
+		return Meteor.users.findOne(this.productData.ownerId).profile;
 	},
 	approvedStatus: function() {
 		return Connections.findOne(this._id).state !== 'WAITING' ? '' : 'disabled';
 	},
 	phoneNumber: function() {
-		return Meteor.users.findOne(this.bookData.ownerId).profile.mobile;
+		return Meteor.users.findOne(this.productData.ownerId).profile.mobile;
 	},
 	preferredLocation: function() {
 		return Connections.findOne(this._id).meetupLocation;
@@ -272,7 +272,7 @@ Template.connectRent.helpers({
 		return moment().add(Session.get('sliderValue'), 'w').format('MM/DD');
 	},
 	calculatedPrice: function() {
-		return (Number(this.bookData.customPrice) * Session.get('sliderValue')).toFixed(2);
+		return (Number(this.productData.customPrice) * Session.get('sliderValue')).toFixed(2);
 	}
 })
 

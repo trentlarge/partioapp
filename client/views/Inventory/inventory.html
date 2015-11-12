@@ -36,16 +36,16 @@
 
           {{#if statusWaiting}}
               {{#ionItem class="item-avatar-2  item-button-right"}}
-              <div  class="book-avatar"><div class="book-avatar-inner" style="background: url('{{bookData.image}}') no-repeat; background-size:cover; background-position: 50% 20%;"></div></div>
-              <p class="main-title-text">{{bookData.title}}</p>
-              <p class="main-sub-text">Rent/Week: ${{bookData.customPrice}}</p>
+              <div  class="book-avatar"><div class="book-avatar-inner" style="background: url('{{productData.image}}') no-repeat; background-size:cover; background-position: 50% 20%;"></div></div>
+              <p class="main-title-text">{{productData.title}}</p>
+              <p class="main-sub-text">Rent: ${{productData.rentPrice.day}}|${{productData.rentPrice.week}}|${{productData.rentPrice.month}}|${{productData.rentPrice.semester}}</p>
               <button id="respondToReq" class="button button-energized request-lower"><h6>Respond</h6></button>
               {{/ionItem}}
           {{else}}
               {{#ionItem path="connect" _id=this._id class="item-avatar-2  item-button-right"}}
-              <div  class="book-avatar"><div class="book-avatar-inner" style="background: url('{{bookData.image}}') no-repeat; background-size:cover; background-position: 50% 20%;"></div></div>
-              <p class="main-title-text">{{bookData.title}}</p>
-              <p class="main-sub-text">Rent/Week: ${{bookData.customPrice}}</p>
+              <div  class="book-avatar"><div class="book-avatar-inner" style="background: url('{{productData.image}}') no-repeat; background-size:cover; background-position: 50% 20%;"></div></div>
+              <p class="main-title-text">{{productData.title}}</p>
+              <p class="main-sub-text">Rent: ${{productData.rentPrice.day}}|${{productData.rentPrice.week}}|${{productData.rentPrice.month}}|${{productData.rentPrice.semester}}</p>
               <span class="badge badge-low badge-energized">{{state}}</span>
               {{/ionItem}}
           {{/if}}
@@ -62,7 +62,7 @@
           {{#ionItem path='inventoryDetail' _id=this._id iconRight=true class="item-avatar-2"}}
               <div class="book-avatar"><div class="book-avatar-inner" style="background: url('{{image}}') no-repeat; background-size:cover; background-position: 50% 20%;"></div></div>
               <p class="main-title-text">{{title}}</p>
-              <p class="main-sub-text">Rent/Week: ${{customPrice}}</p>
+              <p class="main-sub-text">Rent: ${{rentPrice.day}}|${{rentPrice.week}}|${{rentPrice.month}}|${{rentPrice.semester}}</p>
               <p class="main-sub-text">Description: {{description}}</p>
               {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
           {{/ionItem}}
@@ -103,15 +103,21 @@
     </div>
     
     <div class="product-details-container">
-        <div class="details-box">
-            <i class="icon ion-cash bk-energized"></i>
-            <span class="detail">{{price}}</span>
-        </div>
         
-        <div class="details-box">
-            <i class="icon {{getCategoryIcon}} bk-assertive"></i>
-            <span class="detail">{{amazonCategory}}</span>
-        </div>
+        <div class="row-details">
+            <div class="col col-50">
+                <div class="details-box">
+                    <i class="icon ion-cash bk-energized"></i>
+                    <span class="detail">{{price}}</span>
+                </div>
+            </div>
+            <div class="col col-50">
+                <div class="details-box">
+                    <i class="icon {{getCategoryIcon}} bk-energized"></i>
+                    <span class="detail">{{amazonCategory}}</span>
+                </div>
+            </div>
+         </div>
         
         <div class="subtitle-box features">
             <div class="center">
@@ -154,7 +160,7 @@
             </div>
         </div>
         
-        <div class="row-customPrice">
+        <div class="row-details">
             <div class="col col-50">
                 <div class="details-box">
                     <span class="customPrice bk-energized"> D </span>
@@ -176,7 +182,7 @@
                 </div>
             </div>     
         </div>
-        <div class="row-customPrice">
+        <div class="row-details">
             <div class="col col-50">
                 <div class="details-box">
                     <span class="customPrice bk-assertive"> M </span>
