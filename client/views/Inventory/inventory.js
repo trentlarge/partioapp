@@ -107,4 +107,5 @@ Template.inventory.events({
     });
   }
 
-});
+})
+

@@ -91,4 +91,4 @@ Template.inventoryDetail.helpers({
   manualEntry: function() {
     return (this.manualEntry) ? true : false;
   }
-});
+})
