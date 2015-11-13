@@ -1,0 +1,53 @@
+<template name="search">
+  {{#contentFor "headerButtonLeft"}}
+      {{>ionNavBackButton path="listing"}}
+  {{/contentFor}}
+
+  {{#contentFor "headerTitle"}}
+    <h1 class="title">Select from Owner</h1>
+  {{/contentFor}}
+
+  {{#ionView}}
+    {{#ionContent class="overflow-scroll"}}
+
+
+    <div class="item item-divider"><h2>{{commonBookTitle}}</h2></div>
+
+
+      <div class="list">
+        {{#each peopleList}}
+        <a class="item item-avatar-custom item-button-right" href="#">
+
+          <div class="profile-image-container-small">
+            {{#if noProfileYet}}
+            <div class="item-avatar-custom-circle" style="background: url('profile_image_placeholder.jpg') no-repeat; background-size:cover; background-position: 50% 50%;"></div>
+            {{else}}
+            <div class="item-avatar-custom-circle" style="background: url({{userThumbnail ownerId}}) no-repeat; background-size:cover; background-position: 50% 50%;"></div>
+            {{/if}}
+          </div>
+          <!-- <img src="{{userThumbnail ownerId}}"> -->
+
+          <p class="main-title-text">{{userName ownerId}} </p>
+          
+          <p class="main-sub-text">Rent: ${{rentPrice.day}}|${{rentPrice.week}}|${{rentPrice.month}}|${{rentPrice.semester}}</p>
+          <p class="main-sub-text">Condition of the item: {{description}}</p>
+
+          <span class="rating-box"> {{> rating}}</span>
+
+          {{#if requestSent}}
+            <span class="badge badge-mid">Request Sent</span>
+          {{else}}
+            {{#if qtynotZero}}
+            <button id="requestBook" class="button request-lower"><p>Request</p></button>
+            {{else}}
+            <span class="badge badge-mid badge-stable">Unavailable</span>
+            {{/if}}
+          {{/if}}
+        </a>
+        {{/each}}
+      </div>
+
+    {{/ionContent}}
+  {{/ionView}}
+
+</template>
