@@ -10,49 +10,6 @@ Template.main.events({
 	}
 });
 
-//sidemenu events
-
-Template.sidemenu.events({
-    'keypress #search': function(e, template) {
-
-        if(e.charCode == 13 || e.keyCore == 13) {   
-            var searchText = $('#search').val();
-
-            if(searchText != '') {
-
-                Session.set('searchText', searchText);
-                console.log(Session.get('listing'));
-
-                if(Session.get('listing')){
-                    PackageSearch.search(searchText);
-                    $('.ion-navicon').parent('button').click();
-                }
-                else {
-                    Router.go('listing');
-                    $('.ion-navicon').parent('button').click();
-                }
-            }
-        }
-    }
-})
-
-//sidemenu helpers
-
-Template.sidemenu.helpers({
-	'alertCount': function() {
-		return Session.get('alertCount');
-	},
-    'inventoryCount': function() {
-        return Products.find({"ownerId": Meteor.userId()}).count();
-    },
-    'rentedCount': function() {
-        return Connections.find({"requestor": Meteor.userId()}).count();
-    },
-    'transactionCount': function() {
-        return 0;
-    }
-})
-
 Template.appLayout.events({
 	'click #editCurrent': function() {
 		Session.set('editMode', true);
