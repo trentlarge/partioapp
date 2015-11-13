@@ -1,16 +1,3 @@
-Template.main.events({
-	'click .bottom-part': function() {
-		console.log('bottom-part');
-        Session.set('searchText', '');
-		Router.go('/categories');
-	},
-
-	'click .top-part': function(event){
-		CheckStripeAccount();
-
-	}
-});
-
 Template.appLayout.events({
 	'click #editCurrent': function() {
 		Session.set('editMode', true);
@@ -123,12 +110,12 @@ Template.appLayout.onRendered(function() {
 	self.autorun(function() {
 		var query1 = Notifications.find({toId: Meteor.userId(), read: false});
 		// var query2 = Connections.find({
-		// 	$or: [{requestor: Meteor.userId()}, {"bookData.ownerId": Meteor.userId()}],
+		// 	$or: [{requestor: Meteor.userId()}, {"productData.ownerId": Meteor.userId()}],
 		// 	"chat.state": "new",
 		// 	"chat.sender": {$ne: Meteor.userId()}
 		// });
 
-		var chatQuery = Connections.find({ $or: [{requestor: Meteor.userId()}, {"bookData.ownerId": Meteor.userId()}] });
+		var chatQuery = Connections.find({ $or: [{requestor: Meteor.userId()}, {"productData.ownerId": Meteor.userId()}] });
 
 		chatQuery.observeChanges({
 			changed: function(id, fields) {
