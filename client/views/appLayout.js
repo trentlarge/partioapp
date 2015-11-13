@@ -7,6 +7,7 @@ Template.main.events({
 
 	'click .top-part': function(event){
 		CheckStripeAccount();
+
 	}
 });
 
