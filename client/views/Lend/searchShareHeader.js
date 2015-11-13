@@ -16,9 +16,14 @@ Template.searchShareHeader.events({
         if (e.charCode == 13 || e.keyCode == 13) {
             //reset sessions
             Session.set('scanResult', null);
-            Session.set('lendTab', 'camfind');
-
-            PartioLoad.show('Searching similar products...');
+            
+            if(Session.get('lendTab') !== 'barcode') {
+                Session.set('lendTab', 'camfind');
+                PartioLoad.show('Searching similar products...');
+            }
+            else {
+                PartioLoad.show('Searching barcode...');
+            }
 
             //get keywords
             var key = template.find('.search-share-header-input').value;

@@ -1,21 +1,53 @@
 Template.manual.rendered = function() {
-    Session.set('userPrice', false);
+    Session.set('dayPrice', '');
+    Session.set('weekPrice', '');
+    Session.set('monthPrice', '');
+    Session.set('semesterPrice', '');
 }
 
 Template.manual.helpers({
   photoTaken: function() {
     return Session.get('photoTaken');
   },
-  waitingForPrice: function() {
-    return Session.get('userPrice') ? "": "disabled";
+  getCategories: function() {
+    return Categories.getCategories();  
   },
-  userPrice: function() {
-    console.log('price rendered: ' + Session.get('userPrice'));
-    return Session.get('userPrice');
+  waitingForPrices: function() {
+      return Lend.validatePrices() ? "": "disabled";
+  },
+  validatePrices: function(){
+      return Lend.validatePrices();
+  },
+  dayPrice: function(){
+      return Session.get('dayPrice');
+  },
+  weekPrice: function(){
+      return Session.get('weekPrice');
+  },
+  monthPrice: function(){
+      return Session.get('monthPrice');
+  },
+  semesterPrice: function(){
+      return Session.get('semesterPrice');
   }
 })
 
 Template.manual.events({
+  'change .userPrice': function(e, template) {
+  
+      var rentPrice = {   
+        "day": template.find('.dayPrice').value,
+        "week": template.find('.weekPrice').value,
+        "month": template.find('.monthPrice').value,
+        "semester": template.find('.semesterPrice').value,
+     }
+
+      Session.set('dayPrice', rentPrice.day);
+      Session.set('weekPrice', rentPrice.week);
+      Session.set('monthPrice', rentPrice.month);
+      Session.set('semesterPrice', rentPrice.semester);
+
+  },
   'click .scanResult-thumbnail2': function(event, template) {
     IonActionSheet.show({
       buttons: [

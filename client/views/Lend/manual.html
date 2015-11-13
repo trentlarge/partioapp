@@ -1,5 +1,5 @@
 <template name="manual">
-	<div class="content has-header">
+	<div class="content manual-entry overflow-scroll">
 		<div class="center">
 	<!--		<img class="scanResult-thumbnail2" src=" {{#if photoTaken}} {{photoTaken}} {{else}} bookplaceholder.jpg {{/if}} ">-->
 	        {{#if photoTaken}}
@@ -10,11 +10,11 @@
 	        {{/if}}
 		</div>
 
-		<div class="list list-inset">
+		<div class="list list-inset overflow-scroll">
 			<form>
 				<label class="item item-input">
 	<!--				<span class="input-label"><p>Title</p></span>-->
-					<input id="manualtitle" type="text" value="" placeholder="Title">
+					<input class="manualTitle" type="text" value="" placeholder="Title">
 				</label>
 	<!--
 				<label class="item item-input">
@@ -28,25 +28,49 @@
 	-->
 			</form>
 			<label class="item item-input">
-				<textarea id="manualcomments" placeholder="Comments"></textarea>
+				<textarea class="manualDescription" placeholder="Condition of the item"></textarea>
 			</label>
-		</div>
+            
+            <label class="item item-input item-select">
+            <div class="input-label">
+              Category
+            </div>
+            <select class="manualCategory">
+                {{#each getCategories}}
+                    <option>{{text}}</option>
+                {{/each}}
+            </select>
+          </label>
+            
+            <div class="item item-divider">
+                Rent Price
+            </div>
+            <label class="item item-input">
+                <span class="input-label"><p>Day</p></span>
+                <input type="number" class="userPrice dayPrice" value="{{dayPrice}}">
+            </label>
+            <label class="item item-input">
+                <span class="input-label"><p>Week</p></span>
+                <input type="number" class="userPrice weekPrice" value="{{weekPrice}}">
+            </label>
+            <label class="item item-input">
+                <span class="input-label"><p>Month</p></span>
+                <input type="number" class="userPrice monthPrice" value="{{monthPrice}}">
+            </label>
+            <label class="item item-input">
+                <span class="input-label"><p>Semester</p></span>
+                <input type="number" class="userPrice semesterPrice" value="{{semesterPrice}}">
+            </label>
 
-		<div class="list list-inset">
-			<label class="item item-input">
-				<span class="input-label"><p>Set Rent/Week &nbsp;$</p></span>
-				<input type="number" class="userPrice" value="">
-			</label>
-		</div>
-
-		<div class="padding-horizontal">
-			<button class="submitProduct button button-block button-energized" {{waitingForPrice}}>
-				{{#if userPrice}}
-				Lend this item at ${{userPrice}} per week
-				{{else}}
-				Enter your price above
-				{{/if}}
-			</button>
-		</div>
+            <div class="padding-horizontal">
+                <button class="submitProduct button button-block button-energized" {{waitingForPrices}}>
+                    {{#if validatePrices}}
+                    Share this item!
+                    {{else}}
+                    Enter your price above
+                    {{/if}}
+                </button>
+            </div>
+        </div>
 	</div>
 </template>
