@@ -29,9 +29,9 @@ Template.chat.helpers({
 		return (this.sender === Meteor.userId()) ? Meteor.user().profile.avatar : Meteor.users.findOne(this.sender).profile.avatar;
 	},
 	chatWith: function() {
-		return (this.requestor === Meteor.userId()) ?
-		Meteor.users.findOne(this.bookData.ownerId).profile.name :
-		Meteor.users.findOne(this.requestor).profile.name
+		return (Session.get('_requestor') === Meteor.userId()) ?
+		Meteor.users.findOne(Session.get('_owner')).profile.name :
+		Meteor.users.findOne(Session.get('_requestor')).profile.name
 	}
 });
 
