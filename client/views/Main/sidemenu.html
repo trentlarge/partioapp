@@ -35,11 +35,11 @@
         </a>
 -->
         <a href="{{pathFor "inventory"}}" class="item" data-ion-menu-close>
-          {{> ionIcon icon="ios-briefcase" class="energized"}} &nbsp;&nbsp; MY ITEMS
+          {{> ionIcon icon="ios-briefcase" class="energized"}} &nbsp;&nbsp; SHARED ITEMS
           <span class="badge badge-alert badge-assertive">{{#if inventoryCount}}{{inventoryCount}}{{/if}}</span>
         </a>
         <a href="{{pathFor "renting"}}" class="item" data-ion-menu-close>
-          {{> ionIcon icon="ios-browsers" class="energized"}} &nbsp;&nbsp; RENTED STUFF
+          {{> ionIcon icon="ios-browsers" class="energized"}} &nbsp;&nbsp; BORROWED ITEMS
           <span class="badge badge-alert badge-assertive">{{#if rentedCount}}{{rentedCount}}{{/if}}</span>
         </a>
         <a href="{{pathFor "transactions"}}" class="item" data-ion-menu-close>
@@ -63,16 +63,16 @@
             </a>
         </div>
 -->
+        
+         <div class="content ion-content center logout-button">
+            <a href="{{pathFor "logout"}}" class="btn" id="logout" data-ion-menu-close>LOGOUT
+            </a>
+         </div>
+
+         <p class="padding beta">beta vTHE BEST</p>
+        
       </div>
-
-         <div class="content ion-content center">
-        <a href="{{pathFor "logout"}}" class="btn" id="logout" data-ion-menu-close>LOGOUT
-        </a>
-        </div>
-
-      <p class="padding beta">beta vTHE BEST</p>
-
-
+        
 <!--      <p class="beta">beta v0.4.2</p>-->
     </div>
   {{/ionSideMenu}}
