@@ -59,14 +59,12 @@ Template.resultsCamFind.helpers({
     }
       
   },
-  waitingForPrice: function() {
-    return Session.get('userPrice') ? "": "disabled";
+  waitingForPrices: function() {
+      return Lend.validatePrices() ? "": "disabled";
   },
-  userPrice: function() {
-    console.log('price rendered: ' + Session.get('userPrice'));
-    return Session.get('userPrice');
+  validatePrices: function(){
+      return Lend.validatePrices();
   },
-
   calculatedPriceDay: function() {
 
     var scanResult = Session.get('scanResult');
@@ -80,10 +78,8 @@ Template.resultsCamFind.helpers({
       {
           var priceValueDay = (scanResult.price).split("$")[1];
           Lend.GetRentingPercentages('ONE_DAY', priceValueDay);
-//          console.log('RentingFinalPrice: ' + Lend.RentingFinalPrice);
 
           if(Lend.RentingFinalPrice > 0) {
-              Session.set('userPrice', Lend.RentingFinalPrice);
               Session.set('dayPrice', Lend.RentingFinalPrice);
               return Lend.RentingFinalPrice;
           }
@@ -109,10 +105,8 @@ Template.resultsCamFind.helpers({
       {
           var priceValueWeek = (scanResult.price).split("$")[1];
           Lend.GetRentingPercentages('ONE_WEEK', priceValueWeek);
-//          console.log('RentingFinalPrice ONE_WEEK: ' + Lend.RentingFinalPrice);
 
           if(Lend.RentingFinalPrice > 0) {
-              Session.set('userPrice', Lend.RentingFinalPrice);
               Session.set('weekPrice', Lend.RentingFinalPrice);
               return Lend.RentingFinalPrice;
           }
@@ -138,10 +132,8 @@ Template.resultsCamFind.helpers({
           Lend.RentingTimeSpan = 'ONE_MONTH';
           var priceValueMonth = (scanResult.price).split("$")[1];
           Lend.GetRentingPercentages('ONE_MONTH', priceValueMonth);
-//          console.log('RentingFinalPrice ONE_MONTH: ' + Lend.RentingFinalPrice);
 
           if(Lend.RentingFinalPrice > 0) {
-              Session.set('userPrice', Lend.RentingFinalPrice);
               Session.set('monthPrice', Lend.RentingFinalPrice);
               return Lend.RentingFinalPrice;
           }
@@ -158,23 +150,13 @@ Template.resultsCamFind.helpers({
     var scanResult = Session.get('scanResult');
 
     if (scanResult) {
-      if (scanResult.price === "--") {
-        Session.set('userPrice', false);
-        return false;
-      }
-      else
-      {
+      if (scanResult.price !== "--") {
           var priceValue4Months = (scanResult.price).split("$")[1];
           Lend.GetRentingPercentages('FOUR_MONTHS', priceValue4Months);
-//          console.log('RentingFinalPrice: ' + Lend.RentingFinalPrice);
 
           if(Lend.RentingFinalPrice > 0) {
-              Session.set('userPrice', Lend.RentingFinalPrice);
               Session.set('semesterPrice', Lend.RentingFinalPrice);
               return Lend.RentingFinalPrice;
-          }
-          else {
-              Session.set('userPrice', false);
           }
       }
     }
@@ -186,6 +168,22 @@ Template.resultsCamFind.helpers({
 
 Template.resultsCamFind.events({
 
+    'change .userPrice': function(e, template){
+      
+        var rentPrice = {   
+            "day": template.find('.dayPrice').value,
+            "week": template.find('.weekPrice').value,
+            "month": template.find('.monthPrice').value,
+            "semester": template.find('.semesterPrice').value,
+         }
+
+          Session.set('dayPrice', rentPrice.day);
+          Session.set('weekPrice', rentPrice.week);
+          Session.set('monthPrice', rentPrice.month);
+          Session.set('semesterPrice', rentPrice.semester);
+        
+    },
+    
     // hide/show products by category
     'click .menu-category': function(e, template) {
         var category = $('.' + $(this)[0].amazonCategory.replace(/\s/g,"").replace(/\&/g,""));

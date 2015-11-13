@@ -6,34 +6,36 @@ Template.lend.events({
 
       //MANUAL INSERT BOOK ---------------------------------------------
       if (Session.get('lendTab') === 'manual') {
-        var manualBook = {
-          "title": $('#manualtitle').val(),
-          //"authors": template.find('#manualauthor').value,
-          //"publisher": template.find('#manualpublisher').value,
-          "comments": $('#manualcomments').val(),
-          "manualEntry": true,
-          "ownerId": Meteor.userId(),
-          "customPrice": Session.get('userPrice'),
-          "image": Session.get('photoTaken')
+        var manualProduct = {
+              "title": $('.manualTitle').val(),
+              "price": '--',
+              //"authors": template.find('#manualauthor').value,
+              //"publisher": template.find('#manualpublisher').value,
+              "description": $('.manualDescription').val(),
+              "manualEntry": true,
+              "ownerId": Meteor.userId(),
+              "category": $('.manualCategory').val(),
+              "amazonCategory": $('.manualCategory').val(),
+              "image": Session.get('photoTaken'),
+              "rentPrice": {
+                      "day": Session.get('dayPrice'),
+                      "week": Session.get('weekPrice'),
+                      "month": Session.get('monthPrice'),
+                      "semester": Session.get('semesterPrice')
+              }
         }
-        console.log(manualBook);
+        console.log(manualProduct);
 
-        if(!ValidateInputs(manualBook)){
+        if(!ValidateInputs(manualProduct)){
           PartioLoad.hide();
           return;
         }
 
-        //TEST
-        //GetRentingPercentages('ONE_WEEK');
-
-        if (manualBook.title && manualBook.customPrice){
-          Session.set('manualBook', manualBook);
+        if (manualProduct.title){
+            
+          Session.set('manualProduct', manualProduct);
           Session.set('BookAddType', 'MANUAL');
-
-          //if(CheckStripeAccount())
-          //{
-          AddProductToInventoryManually();
-          //}
+          Lend.addProductToInventoryManually(Session.get('manualProduct'));
 
         } else {
           PartioLoad.hide();
@@ -54,34 +56,34 @@ Template.lend.events({
       //BAR CODE & CAMFIND ---------------------------------------------
       } else {
         if (Session.get('scanResult')) {
-          // var lendingPeriod = (function() {
-          //   return (template.find('#lendingPeriod').value) ? template.find('#lendingPeriod').value : 2;
-          // }) ();
+          
+            if(Lend.validatePrices()) {
+                Session.set('BookAddType', 'SCAN');
+                
+                var submitProduct = Session.get('scanResult');
+                
+                if(submitProduct.asin) {
+                    var _uniqueId = submitProduct.asin;
+                } else if(product.ean) {
+                    var _uniqueId = submitProduct.ean;
+                }
 
-          //TEST
-          //GetRentingPercentages('ONE_WEEK');
-
-          var xPrice = parseFloat(Session.get('userPrice'), 10);
-          console.log('xPrice ' + xPrice);
-          if(xPrice < 0.5)
-          {
-            PartioLoad.hide();
-            showInvalidPopUp('Invalid Inputs', 'Please valid rent price.');
-            return;
-          }
-
-          if(xPrice > 1000)
-          {
-            PartioLoad.hide();
-            showInvalidPopUp('Invalid Inputs', 'Please rent price < $1000.');
-            return;
-          }
-
-          //if(CheckStripeAccount())
-          //{
-          Session.set('BookAddType', 'SCAN');
-          AddProductToInventory();
-          //}
+                var product = _.extend(submitProduct,
+                {
+                    // "lendingPeriod": lendingPeriod,
+                    "ownerId": Meteor.userId(),
+                    "uniqueId": _uniqueId,
+                    "description": Session.get('description'),
+                    "rentPrice": {
+                        "day": Session.get('dayPrice'),
+                        "week": Session.get('weekPrice'),
+                        "month": Session.get('monthPrice'),
+                        "semester": Session.get('semesterPrice')
+                    }
+                });
+                
+                 Lend.addProductToInventory(product);   
+            }
 
         } else {
           PartioLoad.hide();
@@ -98,8 +100,8 @@ Template.lend.events({
             }]
           });
         }
-      }
-    }, 500)
+        }
+      }, 500)
   },
 
   'keyup .userPrice': function(e, template){
@@ -110,19 +112,9 @@ Template.lend.events({
     Session.set('description', e.target.value);
   },
 
-  'click #reset': function() {
-    ClearData();
-    PartioLoad.hide();
-
-    //TEST METHOD
-    //testCamFindMethod();
-  },
-
   'click #closeLend': function() {
     $('.modal-backdrop').fadeOut();
     ClearData();
-    //IonPopup.close();
-    //ClearData();
   },
 
   'click #manualSubmit': function(e, template) {
@@ -288,25 +280,8 @@ function ClearData(){
 
 function ValidateInputs(details)
 {
-  if(!details.title ||
-    details.title < 1)
-  {
+  if(!details.title || details.title < 1) {
     showInvalidPopUp('Invalid Inputs', 'Please enter a valid Title.');
-    return false;
-  }
-    
-  if(!details.customPrice ||
-    details.customPrice < 0.5)
-  {
-    showInvalidPopUp('Invalid Inputs', 'Please enter a valid Price.');
-    return false;
-  }
-
-  var xPrice = parseInt(details.customPrice, 10);
-  console.log('xPrice ' + xPrice);
-  if(xPrice > 1000)
-  {
-    showInvalidPopUp('Invalid Inputs', 'Please enter a Price < 1000.');
     return false;
   }
 
@@ -328,79 +303,6 @@ function showInvalidPopUp(strTitle, strMessage)
             }
           }]
         });
-}
-
-function AddProductToInventoryManually() {
-  Products.insert(Session.get('manualBook'));
-  Session.set('userPrice', null);
-  Session.set('priceValue', null);
-  PartioLoad.hide();
-  IonPopup.show({
-    title: 'Your Product sucessfully submitted',
-    template: '<div class="center">You can find this shared item in your Repository</div>',
-    buttons:
-    [{
-      text: 'OK',
-      type: 'button-energized',
-      onTap: function() {
-        $('#closeLend').click();
-        IonPopup.close();
-        Router.go('/inventory');
-        IonModal.close();
-      }
-    }]
-  });
-}
-
-function AddProductToInventory() {
-  var submitProduct = Session.get('scanResult');
-
-  if(submitProduct.asin) {
-    var _uniqueId = submitProduct.asin;
-  } else if(product.ean) {
-    var _uniqueId = submitProduct.ean;
-  }
-
-  var insertData = _.extend(submitProduct,
-  {
-    // "lendingPeriod": lendingPeriod,
-    "ownerId": Meteor.userId(),
-    "uniqueId": _uniqueId,
-    "customPrice": Session.get('userPrice'),
-    "description": Session.get('description'),
-    "rentPrice": {
-        "day": Session.get('dayPrice'),
-        "week": Session.get('weekPrice'),
-        "month": Session.get('monthPrice'),
-        "semester": Session.get('semesterPrice')
-    }
-  });
-
-  Products.insert(insertData);
-
-  Session.set('userPrice', null);
-  RentingFinalPrice = 0.0;
-  PartioLoad.hide();
-
-  IonPopup.show({
-    title: 'Your Product sucessfully submitted',
-    template: '<div class="center">And saved to your Inventory</div>',
-    buttons:
-    [{
-      text: 'OK',
-      type: 'button-energized',
-      onTap: function() {
-        $('#closeLend').click();
-        IonPopup.close();
-        Router.go('/inventory');
-        // IonModal.close();
-        // Meteor.setTimeout(function() {
-        //   //CheckStripeAccount();
-        // }, 1500)
-
-      }
-    }]
-  });
 }
 
 // function updateSearchCollection(product) {

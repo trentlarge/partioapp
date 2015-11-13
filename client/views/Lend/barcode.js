@@ -10,7 +10,7 @@ Template.barcode.events({
 
   // BARCODE
   'click #barcode': function() {
-    PartioLoad.show();
+//    PartioLoad.show();
     console.log('the new Amazon call in progress');
 
     // Cordova
@@ -23,37 +23,40 @@ Template.barcode.events({
 
             var barcode = result.text;
             console.log('barcode: ' + barcode);
+            $('.search-share-header-input').val(barcode);
+            $('.search-share-header-input').trigger({type: 'keypress', charCode: 13});
+//            PartioLoad.hide();
             // var format = result.format;
             // var cleanFormat = format.split('_')[0];
-            Meteor.call('priceFromAmazon', barcode, function(error, result) {
-              //console.log(result);
-              var resultFromAmazon = {};
-              console.log('error: '+ error);
-              if (!error)
-              {
-                console.log('result: '+ result);
-                Session.set('scanResult', result);
-                Session.set('lendTab', 'results');
-                PartioLoad.hide();
-
-              } else {
-
-                PartioLoad.hide();
-                console.log(error);
-                IonPopup.show({
-                  title: 'No match found :( ',
-                    template: '<div class="center">You can manually checkin your product</div>',
-                    buttons:
-                    [{
-                      text: 'OK',
-                      type: 'button-energized',
-                      onTap: function() {
-                        IonPopup.close();
-                      }
-                    }]
-                  });
-              }
-            });
+//            Meteor.call('priceFromAmazon', barcode, function(error, result) {
+//              //console.log(result);
+//              var resultFromAmazon = {};
+//              console.log('error: '+ error);
+//              if (!error)
+//              {
+//                //console.log('result: '+ result);
+//                Session.set('scanResult', result);
+//                Session.set('lendTab', 'resultsCamFind');
+//                PartioLoad.hide();
+//
+//              } else {
+//
+//                PartioLoad.hide();
+//                console.log(error);
+//                IonPopup.show({
+//                  title: 'No match found :( ',
+//                    template: '<div class="center">You can manually checkin your product</div>',
+//                    buttons:
+//                    [{
+//                      text: 'OK',
+//                      type: 'button-energized',
+//                      onTap: function() {
+//                        IonPopup.close();
+//                      }
+//                    }]
+//                  });
+//              }
+//            });
           } else {
             PartioLoad.hide();
           }
@@ -66,30 +69,34 @@ Template.barcode.events({
     // not cordova
     } else {
 
-      Meteor.call('priceFromAmazon', 9780439708180, function(error, result) {
-        console.log(result);
-        var resultFromAmazon = {};
-        if (!error) {
-          Session.set('scanResult', result);
-          Session.set('lendTab', 'results');
-          PartioLoad.hide();
-        } else {
-          console.log(error);
-          PartioLoad.hide();
-          IonPopup.show({
-            title: 'Please try again or manually enter your product :( ',
-              template: '<div class="center">'+ error.message + '</div>',
-              buttons:
-              [{
-                text: 'OK',
-                type: 'button-energized',
-                onTap: function() {
-                  IonPopup.close();
-                }
-              }]
-            });
-        }
-      });
+        $('.search-share-header-input').val(9780439708180);
+        $('.search-share-header-input').trigger({type: 'keypress', charCode: 13});
+//        PartioLoad.hide();
+        
+//      Meteor.call('priceFromAmazon', 9780439708180, function(error, result) {
+//        console.log(result);
+//        var resultFromAmazon = {};
+//        if (!error) {
+//          Session.set('scanResult', result);
+//          Session.set('lendTab', 'results');
+//          PartioLoad.hide();
+//        } else {
+//          console.log(error);
+//          PartioLoad.hide();
+//          IonPopup.show({
+//            title: 'Please try again or manually enter your product :( ',
+//              template: '<div class="center">'+ error.message + '</div>',
+//              buttons:
+//              [{
+//                text: 'OK',
+//                type: 'button-energized',
+//                onTap: function() {
+//                  IonPopup.close();
+//                }
+//              }]
+//            });
+//        }
+//      });
     }
   }
 })

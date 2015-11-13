@@ -44,21 +44,21 @@
         <div class="list list-inset">
             <label class="item item-input">
                 <span class="input-label"><p>Set Rent/Day &nbsp;$</p></span>
-                <input type="number" class="userPrice" value="{{calculatedPriceDay}}">
+                <input type="number" class="userPrice dayPrice" value="{{calculatedPriceDay}}">
             </label>
                    <label class="item item-input">
                 <span class="input-label"><p>Set Rent/Week &nbsp;$</p></span>
-                <input type="number" class="userPrice" value="{{calculatedPriceWeek}}">
+                <input type="number" class="userPrice weekPrice" value="{{calculatedPriceWeek}}">
             </label>
 
        <label class="item item-input">
                 <span class="input-label"><p>Set Rent/Month &nbsp;$</p></span>
-                <input type="number" class="userPrice" value="{{calculatedPriceMonth}}">
+                <input type="number" class="userPrice monthPrice" value="{{calculatedPriceMonth}}">
             </label>
 
                    <label class="item item-input">
                 <span class="input-label"><p>Set Rent/Semester (4 months) &nbsp;$</p></span>
-                <input type="number" class="userPrice" value="{{calculatedPrice4Months}}">
+                <input type="number" class="userPrice semesterPrice" value="{{calculatedPrice4Months}}">
             </label>
 
 
@@ -70,8 +70,8 @@
         </div>
 
         <div class="padding-horizontal">
-          <button class="submitProduct button button-block button-energized" {{waitingForPrice}}>
-          {{#if userPrice}}
+          <button class="submitProduct button button-block button-energized" {{waitingForPrices}}>
+          {{#if validatePrices}}
             Share this item!
           {{else}}
             Enter your price above

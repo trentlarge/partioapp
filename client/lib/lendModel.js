@@ -30,6 +30,31 @@ app.model.Lend = (function () {
         init : function() {
             this.allResultsCache = {};
         },
+       
+        validatePrices : function() {
+            
+            if(!Session.get('dayPrice') || !Session.get('weekPrice') || !Session.get('monthPrice') || !Session.get('semesterPrice')) {
+                return false;
+            }
+            
+            var lowerValue = 1,
+                highestValue = 100000;
+            
+            var dayPrice = parseFloat(Session.get('dayPrice'), 10),
+                weekPrice = parseFloat(Session.get('weekPrice'), 10),
+                monthPrice = parseFloat(Session.get('monthPrice'), 10),
+                semesterPrice = parseFloat(Session.get('semesterPrice'), 10);
+            
+            if(dayPrice < lowerValue || weekPrice < lowerValue || monthPrice < lowerValue || semesterPrice < lowerValue) {
+                return false;
+            }
+            if(dayPrice > highestValue || weekPrice > highestValue || monthPrice > highestValue || semesterPrice > highestValue) {
+                return false;
+            }
+            
+            return true;
+            
+        },
 
         CalculateRentingCharges : function() {
 
@@ -105,8 +130,61 @@ app.model.Lend = (function () {
         ClearRentingValue : function()
         {
             this.RentingFinalPrice = 0.0;
-        }
+        },
+       
+        addProductToInventoryManually : function(manualProduct) {
+    
+            Products.insert(manualProduct);
+            this.clearPrices();
 
+            PartioLoad.hide();
+            IonPopup.show({
+            title: 'Your Product sucessfully submitted',
+            template: '<div class="center">You can find this shared item in your Repository</div>',
+            buttons:
+            [{
+              text: 'OK',
+              type: 'button-energized',
+              onTap: function() {
+                $('#closeLend').click();
+                IonPopup.close();
+                Router.go('/inventory');
+                IonModal.close();
+              }
+            }]
+            });
+        },
+
+        addProductToInventory : function(product) {
+            
+            Products.insert(product);
+            this.clearPrices();
+            
+            PartioLoad.hide();
+
+            IonPopup.show({
+            title: 'Your Product sucessfully submitted',
+            template: '<div class="center">And saved to your Inventory</div>',
+            buttons:
+            [{
+              text: 'OK',
+              type: 'button-energized',
+              onTap: function() {
+                $('#closeLend').click();
+                IonPopup.close();
+                Router.go('/inventory');
+              }
+            }]
+            });
+        },
+       
+        clearPrices() {
+            Session.set('dayPrice', null);
+            Session.set('weekPrice', null);
+            Session.set('monthPrice', null);
+            Session.set('semesterPrice', null);
+        }
+       
    };
 
    return Lend;

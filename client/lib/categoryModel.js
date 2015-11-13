@@ -43,6 +43,11 @@ app.model.Categories = (function () {
             
         },
        
+        //get categories
+        getCategories : function() {
+            return this.category;
+        },
+       
         //get category by index;
         getCategory : function(index) {
             return this.category[index].text;
