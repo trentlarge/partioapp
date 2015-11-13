@@ -43,8 +43,8 @@ Template.chat.events({
 		e.preventDefault();
 		var message = template.find('#messageInput').value.trim();
 
-		var cRequestor = this.requestor;
-		var cOwner = this.bookData.ownerId;
+		var cRequestor = Session.get("_requestor");
+		var cOwner =  Session.get("_owner");
 
 		var recipient = (function() {
 					return (cRequestor === Meteor.userId()) ? cOwner : cRequestor;
@@ -94,7 +94,9 @@ Template.chat.rendered = function() {
 	}
 
 	Session.set("_requestor", dataContext.requestor);
-	Session.set("_owner", dataContext.bookData.ownerId);
+	Session.set("_owner", dataContext.productData.ownerId);
+
+
 
 	//Make messages as READ
 	this.autorun(function() {
