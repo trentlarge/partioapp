@@ -1,6 +1,6 @@
 <template name="listing">
   {{#contentFor "headerButtonLeft"}}
-      <button class="button button-clear " data-ion-menu-toggle="left">
+      <button class="button button-clear" data-ion-menu-toggle="left">
         {{#if isAndroid}}
           {{> ionIcon icon='android-more-vertical'}}
         {{else}}
@@ -32,9 +32,10 @@
     <button data-ion-modal="filter" class="button button-clear custom-icon ion-ios-keypad button-energized"></button>
   {{/contentFor}} -->
 
+  {{> searchBox}}    
+    
   {{#ionView}}
-    {{#ionContent class="overflow-scroll"}}
-      {{> searchBox}}
+    {{#ionContent class="has-subheader overflow-scroll"}}
       {{> searchResult}}
     {{/ionContent}}
   {{/ionView}}
@@ -52,7 +53,7 @@
     </div>
 -->
 
-    <div class="categoriesFilter center">
+    <div class="bar bar-subheader categoriesFilter center" style="padding:0;">
         <div class="row">
             <div class="categoryFilter col col-15 {{isActivated 0}}">
                 <i class="{{getCategoryIcon 0}}"></i>
@@ -127,11 +128,9 @@
 
   {{#ionView}}
     {{#ionContent class="overflow-scroll"}}
-
-
+    
     <div class="item item-divider"><h2>{{commonBookTitle}}</h2></div>
-
-
+    
       <div class="list">
         {{#each peopleList}}
         <a class="item item-avatar-custom item-button-right" href="#">
@@ -146,7 +145,7 @@
           <!-- <img src="{{userThumbnail ownerId}}"> -->
 
           <p class="main-title-text">{{userName ownerId}} </p>
-          <p>${{customPrice}}&nbsp;&nbsp; <span class="rating-box"> {{> rating}}</span></p>
+          <p>$( {{rentPrice.day}}|{{rentPrice.week}}|{{rentPrice.month}}|{{rentPrice.semester}} )&nbsp;&nbsp; <span class="rating-box"> {{> rating}}</span></p>
 
           {{#if requestSent}}
             <span class="badge badge-mid">Request Sent</span>
