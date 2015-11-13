@@ -12,7 +12,7 @@
   {{/contentFor}}
   
   {{#contentFor "headerTitle"}}
-    <h1 class="title">Rented Stuff</h1>
+    <h1 class="title">Borrowed Items</h1>
   {{/contentFor}}
       
   {{#contentFor "headerButtonRight"}}
@@ -27,12 +27,13 @@
 
   {{#if isTapping}}
       
-  {{#ionView}}
-    {{#ionContent class="overflow-scroll"}}
       {{> searchBox}}
-      {{> searchResult}}
-    {{/ionContent}}
-  {{/ionView}}
+      
+      {{#ionView}}
+        {{#ionContent class="has-subheader overflow-scroll"}}
+          {{> searchResult}}
+        {{/ionContent}}
+      {{/ionView}}
       
   {{else}}
 
