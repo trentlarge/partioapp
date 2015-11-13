@@ -10,52 +10,9 @@
       </div>
 
       {{#ionView}}
-      <div id="pin"></div>
-      <div id="map-box">
-      </div>
-      {{/ionView}}
-
-  {{/ionModal}}
-</template>
-
-
-<template name="mapChat">
-  {{#ionModal customTemplate=true}}
-
-      <div class="bar bar-header item-input-inset">
-        <label class="item-input-wrapper" style="margin-top: 0px">
-          <i class="icon ion-ios-search placeholder-icon"></i>
-          <input type="search" id="mapchat-search" placeholder="Search" value="{{newLocation}}">
-        </label>
-        <button data-dismiss="modal" class="button button-clear" id="updateMeetup"><h6>DONE</h6></button>
-      </div>
-
-      {{#ionView}}
-      <div id="mapchat-box">
-        <div id="pin"></div>
-      </div>
-      {{/ionView}}
-
-  {{/ionModal}}
-</template>
-
-
-<template name="onlyMap">
-  {{#ionModal customTemplate=true}}
-
-      <div class="bar bar-header bar-stable item-input-inset">
-        <!-- <label class="item-input-wrapper" style="margin-top: 0px">
-          <i class="icon ion-ios-search placeholder-icon"></i>
-          <input type="search" id="mapchat-search" placeholder="Search" value="{{newLocation}}">
-        </label> -->
-        <button data-dismiss="modal" class="button button-clear"><h6>DONE</h6></button>
-      </div>
-
-      {{#ionView}}
-      <div id="mapchat-box">
-          <div id="pin"></div>
-          {{> googleMap name="exampleMap" options=exampleMapOptions}}
-      </div>
+        <div id="map-box">
+          {{> googleMap name="meetupMap" options=meetupMapOptions}}
+        </div>
       {{/ionView}}
 
   {{/ionModal}}
