@@ -11,9 +11,9 @@
 
     {{#if scanResult}}
         {{#with scanResult}}
-    
+
 <!--        <a class="back"> <i class="icon ion-ios-arrow-back"></i> Back </a>-->
-    
+
         <div class="card">
             <div class="item no-padding">
                 <div class="center">
@@ -64,7 +64,7 @@
 
 
             <label class="item item-input">
-                <span class="input-label"><p>Description:</p></span>
+                <span class="input-label"><p>Condition of the item:</p></span>
                 <textarea name="description" class="fieldDescriptionLend" rows="8" cols="40"></textarea>
             </label>
         </div>
@@ -88,10 +88,10 @@
 
             {{#each allResults}}
                 {{#if isDifferentCategory}}
-                    <div class="center menu-category {{splitCategory}}-menu">             
-                        <a class="category"> 
+                    <div class="center menu-category {{splitCategory}}-menu">
+                        <a class="category">
 <!--                            <i class="category-icon icon {{getCategoryIcon}}"></i>-->
-                            {{amazonCategory}} 
+                            {{amazonCategory}}
                             <i class="chevron-icon icon {{#if isOnlyOneCategory}} ion-chevron-down {{else}} ion-chevron-right {{/if}}"></i>
                         </a>
                     </div>
