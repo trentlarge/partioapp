@@ -113,7 +113,7 @@ Template.lend.events({
   },
 
   'click #closeLend': function() {
-    $('.modal-backdrop').slideUp();
+    $('.modal-backdrop').fadeOut();
     ClearData();
   },
 
