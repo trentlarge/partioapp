@@ -168,7 +168,7 @@ Template.resultsCamFind.helpers({
 
 Template.resultsCamFind.events({
 
-    'change .userPrice': function(){
+    'change .userPrice': function(e, template){
       
         var rentPrice = {   
             "day": template.find('.dayPrice').value,
