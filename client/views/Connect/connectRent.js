@@ -123,19 +123,31 @@ Template.connectRent.helpers({
     numberSemesters: function() {
         return Session.get('numberSemesters');
     },
-    totalDays: function() {
+    totalPriceDays: function() {
         return Session.get('numberDays') * this.productData.rentPrice.day;
     },
-    totalWeeks: function() {
+    totalPriceWeeks: function() {
         return Session.get('numberWeeks') * this.productData.rentPrice.week;
     },
-    totalMonths: function() {
+    totalPriceMonths: function() {
         return Session.get('numberMonths') * this.productData.rentPrice.month;
     },
-    totalSemesters: function() {
+    totalPriceSemesters: function() {
         return Session.get('numberSemesters') * this.productData.rentPrice.semester;
+    },
+    activeDays: function() {
+         return (Session.get('numberDays') > 0) ? 'active' : '';
+    },
+    activeWeeks: function() {
+         return (Session.get('numberWeeks') > 0) ? 'active' : '';
+    },
+    activeMonths: function() {
+         return (Session.get('numberMonths') > 0) ? 'active' : '';
+    },
+    activeSemesters: function() {
+         return (Session.get('numberSemesters') > 0) ? 'active' : '';
     }
-})
+});
 
 
 Template.connectRent.events({
@@ -161,6 +173,31 @@ Template.connectRent.events({
             totalDays = 0;
         }
         
+        //rent days and period
+        var rentDays = $('.rent-days'),
+            rentPeriod = $('.rent-period');
+        
+        rentDays.empty();
+        rentPeriod.empty();
+            
+        if(totalDays > 0) {
+
+            if(totalDays === 1) {
+                rentDays.append(Math.floor(totalDays) + ' day');
+            }
+            else {
+                rentDays.append(Math.floor(totalDays) + ' days');
+            }
+
+            var startDate = $('.range-start').data('datepicker').getFormattedDate('yyyy-mm-dd'),
+                endDate = $('.range-end').data('datepicker').getFormattedDate('yyyy-mm-dd');
+
+            rentPeriod.append(startDate + ' to ' + endDate); 
+        }
+       
+        
+        //rent prices
+        
         //semesters
         var semesters = Math.floor(totalDays/120);
         totalDays =  Math.floor(totalDays % 120);
@@ -178,7 +215,7 @@ Template.connectRent.events({
             "months": months,
             "weeks": weeks,
             "days": days,
-        } 
+        };
         
         Session.set('rentPrice', rentPrice);
         
@@ -187,10 +224,11 @@ Template.connectRent.events({
         Session.set('numberMonths', months);
         Session.set('numberSemesters', semesters);
         
-//        console.log(semesters + ' semesters');
-//        console.log(months);
-//        console.log(weeks);
-//        console.log(days);
+        if(days > 0){ $('.thDay').addClass('active') } else { $('.thDay').removeClass('active') }
+        if(weeks > 0){ $('.thWeek').addClass('active') } else { $('.thWeek').removeClass('active') }
+        if(months > 0){ $('.thMonth').addClass('active') } else { $('.thMonth').removeClass('active') }
+        if(semesters > 0){ $('.thSemester').addClass('active') } else { $('.thSemester').removeClass('active') }
+        
     },
     
 	'click #returnItem': function() {
