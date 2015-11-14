@@ -10,7 +10,8 @@ Template.renting.helpers({
     return Connections.find({"requestor": Meteor.userId(), "state": 'PAYMENT'}); //{$ne: "IN USE", $ne: "DONE"}})
   },
   currentlyBorrowed: function() {
-  	return Connections.find({"requestor": Meteor.userId(), "state": "DONE"});
+    return Connections.find({"requestor": Meteor.userId(), "state": {$ne: "IN USE", $ne: "DONE"}});
+  	//return Connections.find({"requestor": Meteor.userId(), "state": "DONE"});
   },
   dataExists: function() {
   	return (Connections.find({"requestor": Meteor.userId(), "state": {$ne: "IN USE"}}).count() || Connections.find({"requestor": Meteor.userId(), "state": "IN USE"}).count()) ? true : false;

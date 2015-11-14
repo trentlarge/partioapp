@@ -86,7 +86,7 @@
 
       {{#if currentlyBorrowed.count}}
         <div class="list">
-        <div class="item item-divider"><h3>Rented Products</h3></div>
+        <div class="item item-divider"><h3>Borrowed Products</h3></div>
         {{#each currentlyBorrowed}}
         <!-- <div class="borrowedBookDetail"> -->
 
@@ -100,8 +100,9 @@
                   ${{productData.rentPrice.semester}}
               </p>
               {{#if itemReturned}}
-                <span class="badge badge-stable">RETURNED</span>
+                <span class="badge rent-status">RETURNED</span>
               {{else}}
+                <span class="badge rent-status">BORROWED</span>
                 {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
               {{/if}}
           {{/ionItem}}
