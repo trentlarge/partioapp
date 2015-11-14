@@ -50,7 +50,12 @@
           {{#ionItem path='connectRent' _id=this._id class="item-avatar-2"}}
                 <div class="book-avatar"><div class="book-avatar-inner" style="background: url('{{productData.image}}') no-repeat; background-size:cover; background-position: 50% 20%;"></div></div>
               <p class="main-title-text">{{productData.title}}</p>
-              <p class="main-sub-text">Rent/Week: ${{productData.customPrice}}</p>
+              <p class="main-sub-text">Rent: 
+                  ${{productData.rentPrice.day}}|
+                  ${{productData.rentPrice.week}}|
+                  ${{productData.rentPrice.month}}|
+                  ${{productData.rentPrice.semester}}
+              </p>
               <span class="badge-low badge badge-energized">{{state}}</span>
           {{/ionItem}}
         {{/each}}
@@ -66,7 +71,12 @@
           {{#ionItem path="connectRent" iconRight=true class="item-avatar-2"}}
               <div class="book-avatar"><div class="book-avatar-inner" style="background: url('{{productData.image}}') no-repeat; background-size:cover; background-position: 50% 20%;"></div></div>
               <p class="main-title-text">{{productData.title}}</p>
-              <p class="main-sub-text">Rent/Week: ${{productData.customPrice}}</p>
+              <p class="main-sub-text">Rent: 
+                  ${{productData.rentPrice.day}}|
+                  ${{productData.rentPrice.week}}|
+                  ${{productData.rentPrice.month}}|
+                  ${{productData.rentPrice.semester}}
+              </p>
               {{#if itemReturned}}
                 <span class="badge badge-stable">RETURNED</span>
               {{else}}

@@ -9,7 +9,7 @@
 
 
   {{#ionView}}
-    {{#ionContent class="prevent-keyboardglitch"}}
+    {{#ionContent class="connect prevent-keyboardglitch"}}
       <div class="card">
 
         {{#with userInfo}}
@@ -29,15 +29,42 @@
         </div>
         {{/with}}
 
-        <div class="item small-font line-height-one">
+        <div class="item line-height-one">
+            <div class="center"> 
+                <img class="connect-thumbnail" src="{{productData.image}}">
+                <p class="title">{{productData.title}}</p>
+                <hr/>
+                <div class="row center">
+                    <div class="col col-50">
+                        <i class="icon {{getCategoryIcon}}"></i> {{productData.amazonCategory}}
+                    </div>
+                    <div class="col col-50">
+                        <i class="icon ion-cash"></i> {{productData.price}}
+                    </div>
+                </div>  
+            </div>
+        </div>
+          
+        <div class="item item-divider">Rent Prices:</div>
+        <div class="item">
           <div class="center">
-            <img class="connect-thumbnail" src="{{productData.image}}">
-            <p>{{productData.title}}</p>
-            <p>{{productData.authors}}</p>
-            <p>Amazon Price: {{productData.price}}</p>
-            <h3 class="dark">Your Price: ${{productData.rentPrice.week}} / week</h3>
-          </div>
-
+              <table class="rent-table">
+                <tbody class="prices">
+                    <tr>
+                        <th><i>D</i></th>
+                        <th><i>W</i></th>
+                        <th><i>M</i></th>
+                        <th><i>S</i></th>
+                    </tr>
+                    <tr>
+                        <td>${{productData.rentPrice.day}}</td>
+                        <td>${{productData.rentPrice.week}}</td>
+                        <td>${{productData.rentPrice.month}}</td>
+                        <td>${{productData.rentPrice.semester}}</td>
+                    </tr>
+                </tbody>
+              </table>
+            </div>
         </div>
 
         <div class="item tabs tabs-icon-left">
@@ -75,7 +102,7 @@
 
       {{else}}
       <br>
-        <button id="ownerAccept" class="button button-block button-energized">Allow renting at ${{productData.rentPrice.week}} / week</button>
+        <button id="ownerAccept" class="button button-block button-energized">ALLOW RENTING</button>
       {{/if}}
 
       </div>

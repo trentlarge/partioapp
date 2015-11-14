@@ -35,18 +35,20 @@
         {{#each newRequests}}
 
           {{#if statusWaiting}}
-              {{#ionItem class="item-avatar-2 item-button-right"}}
+              {{#ionItem path="connect" _id=this._id class="item-avatar-2 item-button-right" iconRight=true}}
                   <div  class="book-avatar"><div class="book-avatar-inner" style="background: url('{{productData.image}}') no-repeat; background-size:cover; background-position: 50% 20%;"></div></div>
                   <p class="main-title-text">{{productData.title}}</p>
                   <p class="main-sub-text">Rent: ${{productData.rentPrice.day}}|${{productData.rentPrice.week}}|${{productData.rentPrice.month}}|${{productData.rentPrice.semester}}</p>
-                  <button id="respondToReq" class="button button-energized request-lower"><h6>Respond</h6></button>
+<!--                  <button id="respondToReq" class="button button-energized request-lower"><h6>Respond</h6></button>-->
+                  {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
               {{/ionItem}}
           {{else}}
-              {{#ionItem path="connect" _id=this._id class="item-avatar-2  item-button-right"}}
+              {{#ionItem path="connect" _id=this._id class="item-avatar-2  item-button-right" iconRight=true}}
               <div  class="book-avatar"><div class="book-avatar-inner" style="background: url('{{productData.image}}') no-repeat; background-size:cover; background-position: 50% 20%;"></div></div>
               <p class="main-title-text">{{productData.title}}</p>
               <p class="main-sub-text">Rent: ${{productData.rentPrice.day}}|${{productData.rentPrice.week}}|${{productData.rentPrice.month}}|${{productData.rentPrice.semester}}</p>
-              <span class="badge badge-low badge-energized">{{state}}</span>
+<!--                <span class="badge badge-low badge-energized">{{state}}</span>-->
+                {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
               {{/ionItem}}
           {{/if}}
 

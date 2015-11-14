@@ -17,6 +17,9 @@ Template.connect.rendered = function() {
 }
 
 Template.connect.helpers({
+    getCategoryIcon: function() {
+        return Categories.getCategoryIconByText(this.productData.category);  
+    },
 	noProfileYet: function() {
 		if (this.avatar === "notSet") {
 			return true;
