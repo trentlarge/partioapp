@@ -20,6 +20,7 @@ Template.listing.rendered = function() {
 Template.listing.destroyed = function() {
     Session.set('listing', false);
     Session.set('categoryIndex', -1);
+    Session.set('selectedCategories', null);
 }
 
 Template.loadingTemplate.rendered = function() {
@@ -39,6 +40,9 @@ var fields = ['title', 'category', 'authors'];
 
 PackageSearch = new SearchSource('packages', fields, options);
 
+Template.searchResult.rendered = function() {
+    PackageSearch.search(Session.get('searchText'));
+};
 
 Template.searchResult.helpers({
   getCategory: function() {
@@ -56,6 +60,23 @@ Template.searchResult.helpers({
   },
   qtyClass: function(qty) {
     return qty === 0 ? "badge-assertive" : "badge-energized"
+  },
+  isCategorySelected: function() {
+      
+      var selectedCategories = Session.get('selectedCategories');
+      var product = Products.findOne({ 'searchId':this._id });
+      
+      if(selectedCategories) {
+         if(selectedCategories.indexOf(product.category) >= 0) {
+             return '';
+         }
+         else {
+             return 'disabled';
+         }
+      }
+      else {
+        return '';   
+      }
   }
 });
 
@@ -66,19 +87,15 @@ Template.searchResult.events({
   }
 })
 
-Template.searchResult.rendered = function() {
-    PackageSearch.search(Session.get('searchText'));
-    if(Session.get('categoryIndex') >= 0) {
-        filterCategoriesByIndex(Session.get('categoryIndex')); 
-    }
-};
-
 Template.searchBox.helpers({
   getCategory: function(index) {
       return Categories.getCategory(index);
   },
   isActivated: function(index) {
       if (Session.get('categoryIndex') === index) {
+         var selectedCategories = [];
+         selectedCategories.push(Categories.getCategory(index));
+         Session.set('selectedCategories', selectedCategories);
          return "active";
       }
       else {
@@ -108,40 +125,23 @@ Template.searchBox.events({
       
       var categoryFilterBox = $(e.currentTarget);
       categoryFilterBox.toggleClass('active');
-      filterCategories();
       
-  },
-});
-
-function filterCategories() {
-    
       var categories = Categories.getCategories();
-        $.each(categories, function(index, category) {
-          $('.' + category.text).parent().hide();
-      });
+      var selectedCategories = [];
 
       if($('.categoryFilter').hasClass('active')) {
           $.each($('.categoryFilter.active'), function(index, categoryFilter) {  
                 var categoryText = $(categoryFilter).find('span').text();
-                $('.' + categoryText).parent().fadeIn();     
+                selectedCategories.push(categoryText);    
           });
+          
+          Session.set('selectedCategories', selectedCategories);
       }
       else {
-         $.each(categories, function(index, category) {
-              $('.' + category.text).parent().fadeIn();
-         });
+          Session.set('selectedCategories', null);
       }
-    
-}
+      
+  },
+});
 
-function filterCategoriesByIndex(index) {
-    
-      var categories = Categories.getCategories();
-      $.each(categories, function(index, category) {
-          $('.' + category.text).parent().hide();
-      });
-    
-      var category = Categories.getCategory(index);
-      $('.' + category).parent().fadeIn();
-    
-}
+
