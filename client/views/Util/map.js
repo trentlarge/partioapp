@@ -50,6 +50,10 @@ Template.map.created = function() {
 		map.instance.addListener('center_changed', function(e) {
 			centerMarker.setPosition(map.instance.getCenter());
 		});
+
+		map.instance.addListener('drag', function(e) {
+			centerMarker.setPosition(map.instance.getCenter());
+		});
 	});
 };
 
