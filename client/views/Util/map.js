@@ -43,6 +43,7 @@ Template.map.created = function() {
 
 		centerMarker = new google.maps.Marker({
 			position: map.options.center,
+			icon: '/img/mappin.png',
 			map: map.instance
 		});
 
