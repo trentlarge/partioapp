@@ -29,14 +29,38 @@
         </div>
         {{/with}}
 
-        <div class="item small-font line-height-one">
+        <div class="item line-height-one">
           <div class="center">
             <img class="connect-thumbnail" src="{{productData.image}}">
             <p>{{productData.title}}</p>
-            <p>Amazon Price: {{productData.price}}</p>
-            <h3 class="dark">Rent Price: ${{productData.customPrice}} / week</h3>
+              
+              <div class="row center">
+                <div class="col col-50">
+                    <i class="icon {{getCategoryIcon}}"></i> {{productData.amazonCategory}}
+                </div>
+                <div class="col col-50">
+                    <i class="icon ion-cash"></i> {{productData.price}}
+                </div>
+              </div>  
           </div>
-
+        </div>
+          
+        <div class="item item-divider">Rent Prices:</div>
+        <div class="item">
+          <div class="row center">
+            <div class="col col-25">
+              ${{productData.rentPrice.day}}
+            </div>
+            <div class="col col-25">
+              ${{productData.rentPrice.week}}
+            </div>
+            <div class="col col-25">
+              ${{productData.rentPrice.month}}
+            </div>
+            <div class="col col-25">
+              ${{productData.rentPrice.semester}}
+            </div>
+            </div>
         </div>
 
         <div class="item tabs tabs-icon-left">
@@ -63,20 +87,58 @@
 
       {{#if paymentPending}}
         <div class="padding-horizontal">
-          <div class="item item-divider"><h3>Weeks to Rent</h3></div>
+          <div class="item item-divider"><h3>Rent Period</h3></div>
           <div class="list" id="slider-container">
-            <div class="item range range-energized">
+            <div class="item center">
+<!--
               <i class="icon ion-ios-clock-outline"></i>
               <input id="slider" type="range" name="volume" min="1" max="12" value="{{sliderValue}}">
               <i class="">{{sliderValue}}</i>
+-->
+                
+               <div class="range">
+                    <div class="range-start" style="display:none;"></div>
+                    <div class="range-end"></div>
+               </div>    
             </div>
+              
+            <div class="item item-divider">Rent Details:</div>
+                <div class="item">
+                  <div class="row center">
+                    <div class="col col-25">
+                        <p>Days</p>
+                        <p>{{numberDays}}</p>
+                        <p>${{totalDays}}</p>
+                    </div>
+                    <div class="col col-25">
+                        <p>Weeks</p>
+                        <p>{{numberWeeks}}</p>
+                        <p>${{totalWeeks}}</p>
+                    </div>
+                    <div class="col col-25">
+                        <p>Months</p>
+                        <p>{{numberMonths}}</p>
+                        <p>${{totalMonths}}</p>
+                    </div>
+                    <div class="col col-25">
+                        <p>Semesters</p>
+                        <p>{{numberSemesters}}</p>
+                        <p>${{totalSemesters}}</p>
+                    </div>
+                    </div>
+                </div>
+            </div> 
           </div>
-        </div>
-
+            
+        
+<!--
         <div class="padding-horizontal">
         <h5 class="dark">Lending period<span class="float-right">{{todaysDate}} to {{endDate}}</span></h5>
         </div>
+-->
         <br>
+
+    
       {{else}}
 
         <div class="padding-horizontal">
@@ -97,8 +159,13 @@
         {{/unless}}
 
         {{else}}
-        <button id="payAndRent" class="button button-block button-energized {{approvedStatus}}">
-          PAY TOTAL &nbsp; ${{calculatedPrice}}</button>
+            {{#if approvedStatus}}
+                <button id="payAndRent" class="button button-block button-energized {{validatePrice}}">
+                  PAY TOTAL &nbsp; ${{calculatedPrice}}</button>
+            {{else}}
+                <button id="payAndRent" class="button button-block button-energized disabled">
+                  AWAITING APPROVAL</button>
+            {{/if}}
           {{/if}}
         </div>
 

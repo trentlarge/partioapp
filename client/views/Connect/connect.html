@@ -35,7 +35,7 @@
             <p>{{productData.title}}</p>
             <p>{{productData.authors}}</p>
             <p>Amazon Price: {{productData.price}}</p>
-            <h3 class="dark">Your Price: ${{productData.customPrice}} / week</h3>
+            <h3 class="dark">Your Price: ${{productData.rentPrice.week}} / week</h3>
           </div>
 
         </div>
@@ -75,7 +75,7 @@
 
       {{else}}
       <br>
-        <button id="ownerAccept" class="button button-block button-energized">Allow renting at ${{productData.customPrice}} / week</button>
+        <button id="ownerAccept" class="button button-block button-energized">Allow renting at ${{productData.rentPrice.week}} / week</button>
       {{/if}}
 
       </div>

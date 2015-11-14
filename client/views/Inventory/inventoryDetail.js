@@ -50,10 +50,25 @@ Template.inventoryDetail.events({
     Session.set('editMode', false);
 
 
+    Products.update({_id: this._id}, {$set: {title: title, customPrice: edited, rentPrice: editedPrices, description: description}});
+
     if(title != last_title) {
+<<<<<<< HEAD
           
     }
 
+=======
+      var last_title = template.find('.last_title').value;
+
+      var _search = Search.findOne({title:last_title});
+
+      if(_search){
+          Meteor.call('updateAuthors', _search._id);
+      }
+    }
+
+    Session.set('editMode', false);
+>>>>>>> fcabe2cf1091c1e5030c84547adb5df62c6f41e6
   }
 });
 

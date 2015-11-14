@@ -3,7 +3,139 @@ Template.connectRent.rendered = function() {
 	//Chat input textarea auto-resize when more than 1 line is entered
 	Session.set("_requestor", dataContext.requestor);
 	Session.set("_owner", dataContext.productData.ownerId);
+    
+    var nowTemp = new Date();
+    var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
+
+    $('.range').datepicker({
+        format: 'mm-dd-yyyy',
+        startDate: 'd',
+        todayHighlight: true,
+        toggleActive: true,
+        inputs: $('.range-start, .range-end'),
+    });
+   
+    $('.datepicker-days .active').click(function(){
+        $(this).removeClass('selected').removeClass('active');  
+    });
+    
+    var rentPrice = {
+        "semesters": 0,
+        "months": 0,
+        "weeks": 0,
+        "days": 0,
+    } 
+        
+    Session.set('rentPrice', rentPrice);
+    Session.set('numberDays', 0);
+    Session.set('numberWeeks', 0);
+    Session.set('numberMonths', 0);
+    Session.set('numberSemesters', 0);
+
 }
+
+Template.connectRent.onRendered(function() {
+	Session.set('sliderValue', 4);
+})
+
+Template.connectRent.helpers({
+    getCategoryIcon: function() {
+      return Categories.getCategoryIconByText(this.productData.category);  
+    },
+	noProfileYet: function() {
+		if (this.avatar === "notSet") {
+			return true;
+		} else {
+			return false;
+		}
+	},
+	userInfo: function() {
+		return Meteor.users.findOne(this.productData.ownerId).profile;
+	},
+	approvedStatus: function() {
+		return Connections.findOne(this._id).state !== 'WAITING' ? true : false;
+	},
+	phoneNumber: function() {
+		return Meteor.users.findOne(this.productData.ownerId).profile.mobile;
+	},
+	preferredLocation: function() {
+		return Connections.findOne(this._id).meetupLocation;
+	},
+	paymentDone: function() {
+		return Connections.findOne(this._id).payment ? true:false;
+	},
+	itemReturnDone: function() {
+		return (Connections.findOne(this._id).state === "RETURN" || Connections.findOne(this._id).state === "DONE" ) ? true : false;
+	},
+	paymentPending: function() {
+		return Connections.findOne(this._id).state === "PAYMENT" ? true : false;
+	},
+	todaysDate: function() {
+		return moment().format('MM/DD');
+	},
+	endDate: function() {
+		return moment().add(Session.get('sliderValue'), 'w').format('MM/DD');
+	},
+	calculatedPrice: function() {
+        
+        if(!Session.get('rentPrice')) {
+            return 0;
+        }
+        
+        var rentPrice = Session.get('rentPrice');
+        var price = 
+                (Number(this.productData.rentPrice.semester) * rentPrice.semesters) +
+                (Number(this.productData.rentPrice.month) * rentPrice.months) +
+                (Number(this.productData.rentPrice.week) * rentPrice.weeks) +
+                (Number(this.productData.rentPrice.day) * rentPrice.days);
+
+		return price;
+	},
+    validatePrice: function() {
+        
+        if(!Session.get('rentPrice')) {
+            return 'disabled';
+        }
+        
+        var rentPrice = Session.get('rentPrice');
+        var price = 
+                (Number(this.productData.rentPrice.semester) * rentPrice.semesters) +
+                (Number(this.productData.rentPrice.month) * rentPrice.months) +
+                (Number(this.productData.rentPrice.week) * rentPrice.weeks) +
+                (Number(this.productData.rentPrice.day) * rentPrice.days);
+
+		if(price > 0) {
+            return '';
+        }
+        else {
+            return 'disabled';
+        }
+    },
+    numberDays: function() {
+        return Session.get('numberDays');
+    },
+    numberWeeks: function() {
+        return Session.get('numberWeeks');
+    },
+    numberMonths: function() {
+        return Session.get('numberMonths');
+    },
+    numberSemesters: function() {
+        return Session.get('numberSemesters');
+    },
+    totalDays: function() {
+        return Session.get('numberDays') * this.productData.rentPrice.day;
+    },
+    totalWeeks: function() {
+        return Session.get('numberWeeks') * this.productData.rentPrice.week;
+    },
+    totalMonths: function() {
+        return Session.get('numberMonths') * this.productData.rentPrice.month;
+    },
+    totalSemesters: function() {
+        return Session.get('numberSemesters') * this.productData.rentPrice.semester;
+    }
+})
 
 
 Template.connectRent.events({
@@ -16,6 +148,51 @@ Template.connectRent.events({
 });
 
 Template.connectRent.events({
+    
+    'changeDate .range-end': function(e, template) {
+        
+        var start = $(".range-start").datepicker("getDate"),
+            end   = $(".range-end").datepicker("getDate");
+        
+        var diff = new Date(end - start);
+        var totalDays = (diff/1000/60/60/24) + 1;
+        
+        if($('.selected').length === 0) {
+            totalDays = 0;
+        }
+        
+        //semesters
+        var semesters = Math.floor(totalDays/120);
+        totalDays =  Math.floor(totalDays % 120);
+        //months
+        var months = Math.floor(totalDays/30);
+        totalDays =  Math.floor(totalDays % 30);
+        //weeks
+        var weeks = Math.floor(totalDays/7);
+        totalDays =  Math.floor(totalDays % 7);
+        //days
+        var days = totalDays;
+        
+        var rentPrice = {
+            "semesters": semesters,
+            "months": months,
+            "weeks": weeks,
+            "days": days,
+        } 
+        
+        Session.set('rentPrice', rentPrice);
+        
+        Session.set('numberDays', days);
+        Session.set('numberWeeks', weeks);
+        Session.set('numberMonths', months);
+        Session.set('numberSemesters', semesters);
+        
+//        console.log(semesters + ' semesters');
+//        console.log(months);
+//        console.log(weeks);
+//        console.log(days);
+    },
+    
 	'click #returnItem': function() {
 		var connectionId = this._id;
 		var requestorName = Meteor.users.findOne(this.requestor).profile.name;
