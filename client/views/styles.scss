@@ -75,6 +75,16 @@ input {
   padding: 5px;
 }
 
+
+
+.popup-buttons .button-positive {
+
+    //background-color: #4cd964;
+    border-color: #D8880C;
+    background-color: #F0970D;
+    color: #FFF;
+}
+
 .transparent-list {
 
     .top {
@@ -90,11 +100,11 @@ input {
             padding-left: 15px;
             width: 200px;
             margin-bottom: 10px;
-            margin-right: 10px;    
+            margin-right: 10px;
         }
-        
+
         ::-webkit-input-placeholder {
-            padding-top: 2px;   
+            padding-top: 2px;
         }
 
         .ion-search {
@@ -111,7 +121,7 @@ input {
             font-size: 24px;
         }
     }
-    
+
     .logo-container {
         // background-color: green;
         display: -webkit-box;
@@ -153,12 +163,12 @@ input {
     .logo-container-login img {
         height: 22vh;
     }
-    
+
     h5 {
         margin-top: 0;
         margin-bottom: -5px;
     }
-    
+
     .item {
         background-color: transparent;
         border-color: rgba(0, 0, 0, 0.3);
@@ -166,7 +176,7 @@ input {
         padding-bottom: 15px;
         padding-top: 15px;
     }
-    
+
     #logout {
         background-color: transparent;
         color: #ffffff;
@@ -175,9 +185,9 @@ input {
         min-height: 40px;
         height: 40px;
         border: 2px solid #ffffff;
-        line-height: 35px; 
+        line-height: 28px;
     }
-    
+
     .logout-button {
         padding-top: 50px;
     }

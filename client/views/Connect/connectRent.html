@@ -4,12 +4,12 @@
   {{/contentFor}}
 
   {{#contentFor "headerTitle"}}
-    <h1 class="title">Awaiting Approval</h1>
+    <h1 class="title">Rent Request</h1>
   {{/contentFor}}
 
 
   {{#ionView}}
-    {{#ionContent}}
+    {{#ionContent class="connectRent"}}
       <div class="card">
 
         {{#with userInfo}}
@@ -29,14 +29,42 @@
         </div>
         {{/with}}
 
-        <div class="item small-font line-height-one">
+        <div class="item line-height-one">
+            <div class="center"> 
+                <img class="connect-thumbnail" src="{{productData.image}}">
+                <p class="title">{{productData.title}}</p>
+                <hr/>
+                <div class="row center">
+                    <div class="col col-50">
+                        <i class="icon {{getCategoryIcon}}"></i> {{productData.amazonCategory}}
+                    </div>
+                    <div class="col col-50">
+                        <i class="icon ion-cash"></i> {{productData.price}}
+                    </div>
+                </div>  
+            </div>
+        </div>
+          
+        <div class="item item-divider">Rent Prices:</div>
+        <div class="item">
           <div class="center">
-            <img class="connect-thumbnail" src="{{productData.image}}">
-            <p>{{productData.title}}</p>
-            <p>Amazon Price: {{productData.price}}</p>
-            <h3 class="dark">Rent Price: ${{productData.customPrice}} / week</h3>
-          </div>
-
+              <table class="rent-table">
+                <tbody class="prices">
+                    <tr>
+                        <th><i>D</i></th>
+                        <th><i>W</i></th>
+                        <th><i>M</i></th>
+                        <th><i>S</i></th>
+                    </tr>
+                    <tr>
+                        <td>${{productData.rentPrice.day}}</td>
+                        <td>${{productData.rentPrice.week}}</td>
+                        <td>${{productData.rentPrice.month}}</td>
+                        <td>${{productData.rentPrice.semester}}</td>
+                    </tr>
+                </tbody>
+              </table>
+            </div>
         </div>
 
         <div class="item tabs tabs-icon-left">
@@ -63,20 +91,62 @@
 
       {{#if paymentPending}}
         <div class="padding-horizontal">
-          <div class="item item-divider"><h3>Weeks to Rent</h3></div>
+          <div class="item item-divider"><h3>Rent Period</h3></div>
           <div class="list" id="slider-container">
-            <div class="item range range-energized">
+            <div class="item center">
+<!--
               <i class="icon ion-ios-clock-outline"></i>
               <input id="slider" type="range" name="volume" min="1" max="12" value="{{sliderValue}}">
               <i class="">{{sliderValue}}</i>
+-->
+                
+               <div class="range">
+                    <div class="range-start" style="display:none;"></div>
+                    <div class="range-end"></div>
+               </div>    
             </div>
-          </div>
-        </div>
-
+              
+            <div class="item item-divider">Rent Details:</div>
+                <div class="item">
+                  <div class="center">
+                      <p class="rent-days"></p>
+                      <p class="rent-period"></p>
+                      <table class="rent-table">
+                        <tbody class="details">
+                            <tr>
+                                <th class="{{activeDays}}"><i>D</i></th>
+                                <th class="{{activeWeeks}}"><i>W</i></th>
+                                <th class="{{activeMonths}}"><i>M</i></th>
+                                <th class="{{activeSemesters}}"><i>S</i></th>
+                            </tr>
+                            <tr>
+                                <td class="{{activeDays}}">{{numberDays}}</td>
+                                <td class="{{activeWeeks}}">{{numberWeeks}}</td>
+                                <td class="{{activeMonths}}">{{numberMonths}}</td>
+                                <td class="{{activeSemesters}}">{{numberSemesters}}</td>
+                            </tr>
+                            <tr>
+                                <td class="{{activeDays}}">${{totalPriceDays}}</td>
+                                <td class="{{activeWeeks}}">${{totalPriceWeeks}}</td>
+                                <td class="{{activeMonths}}">${{totalPriceMonths}}</td>
+                                <td class="{{activeSemesters}}">${{totalPriceSemesters}}</td>
+                            </tr>  
+                        </tbody>
+                      </table>
+                    </div>
+                </div>
+            </div>
+         </div>
+            
+        
+<!--
         <div class="padding-horizontal">
         <h5 class="dark">Lending period<span class="float-right">{{todaysDate}} to {{endDate}}</span></h5>
         </div>
+-->
         <br>
+
+    
       {{else}}
 
         <div class="padding-horizontal">
@@ -97,8 +167,13 @@
         {{/unless}}
 
         {{else}}
-        <button id="payAndRent" class="button button-block button-energized {{approvedStatus}}">
-          PAY TOTAL &nbsp; ${{calculatedPrice}}</button>
+            {{#if approvedStatus}}
+                <button id="payAndRent" class="button button-block button-energized {{validatePrice}}">
+                  PAY TOTAL &nbsp; ${{calculatedPrice}}</button>
+            {{else}}
+                <button id="payAndRent" class="button button-block button-energized disabled">
+                  AWAITING APPROVAL</button>
+            {{/if}}
           {{/if}}
         </div>
 

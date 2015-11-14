@@ -8,12 +8,13 @@
     padding: 0;
     margin: 0;
     text-transform: uppercase;
-    
+
     .row {
         height: 32%;
         padding: 0;
+        margin: 0;
         color: #272727;
-    
+
         .category {
             border-top: 4px solid #272727;
             border-bottom: 4px solid #272727;
@@ -22,7 +23,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            
+
             i {
                 font-size: 70px;
             }
@@ -31,17 +32,17 @@
                 margin-top: 20px;
                 display: block;
             }
-            
+
         }
-        
-        .background-assertive {   
+
+        .background-assertive {
             background-color: #df5707;
         }
 
         .background-energized {
             background-color: #f0970d;
         }
-        
-    }  
-    
+
+    }
+
 }

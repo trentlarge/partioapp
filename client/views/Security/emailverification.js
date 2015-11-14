@@ -1,6 +1,7 @@
 Template.emailverification.onRendered(function() {
 	var token = (Iron.Location.get().path).split("/verify-email/")[1];
 	console.log(token);
+
 	if (token) {
 		Accounts.verifyEmail(token, function(err) {
 			if (err != null) {
@@ -9,13 +10,13 @@ Template.emailverification.onRendered(function() {
 					IonPopup.show({
 						title: 'Error!',
 						template: '<div class="center">Sorry this verification link has expired.</div>',
-						buttons: 
+						buttons:
 						[{
 							text: 'OK',
 							type: 'button-assertive',
 							onTap: function() {
 								IonPopup.close();
-								window.location = "http://partioapp.com"
+								window.location = "/login"
 							}
 						}]
 					});
@@ -25,14 +26,14 @@ Template.emailverification.onRendered(function() {
 				IonPopup.show({
 					title: 'Success!',
 					template: '<div class="center">Your email address is successfully verified</div>',
-					buttons: 
+					buttons:
 					[{
 						text: 'OK',
 						type: 'button-assertive',
 						onTap: function() {
 							IonPopup.close();
 							// <a href="mycoolapp://">Open my app</a>
-							window.location = "http://partio.xyz"
+							window.location = "/login"
 						}
 					}]
 				});
@@ -55,12 +56,12 @@ Template.resetpassword.events({
 						duration: 2000,
 						customTemplate: '<div class="center"><h5>Successfully set!</h5></div>',
 					});
-					window.location = "http://partio.xyz"
+					window.location = "/"
 				} else {
 					IonPopup.show({
 						title: 'Error!',
 						template: '<div class="center">'+ error.message +'</div>',
-						buttons: 
+						buttons:
 						[{
 							text: 'OK',
 							type: 'button-assertive',
@@ -75,7 +76,7 @@ Template.resetpassword.events({
 			IonPopup.show({
 				title: 'Passwords do not match!',
 				template: '',
-				buttons: 
+				buttons:
 				[{
 					text: 'OK',
 					type: 'button-assertive',

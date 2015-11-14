@@ -7,39 +7,39 @@
         {{> ionIcon icon='navicon' class="energized"}}
         {{/if}}
       </button>
-      
+
       {{> searchHeader}}
   {{/contentFor}}
-  
+
   {{#contentFor "headerTitle"}}
     <h1 class="title">Borrowed Items</h1>
   {{/contentFor}}
-      
+
   {{#contentFor "headerButtonRight"}}
-    <a href="/" class="button button-clear"> 
-        <object id="spinner-logo-simple" data="logo/spinner-logo-simple.svg" type="image/svg+xml"></object> 
+    <a href="/" class="button button-clear">
+        <object id="spinner-logo-simple" data="logo/spinner-logo-simple.svg" type="image/svg+xml"></object>
     </a>
-  {{/contentFor}} 
+  {{/contentFor}}
 
 <!--   {{#contentFor "headerButtonRight"}}
     <button class="button button-clear" data-ion-modal="lend">{{> ionIcon icon="ios-plus-outline" class="assertive"}}</button>
   {{/contentFor}} -->
 
   {{#if isTapping}}
-      
+
       {{> searchBox}}
-      
+
       {{#ionView}}
         {{#ionContent class="has-subheader overflow-scroll"}}
           {{> searchResult}}
         {{/ionContent}}
       {{/ionView}}
-      
+
   {{else}}
 
   {{#ionView}}
     {{#ionContent}}
-    
+
     {{#if dataExists}}
 
       {{#if toBeApproved.count}}
@@ -47,11 +47,38 @@
         <div class="item item-divider"><h3>Waiting for Owner's Approval</h3></div>
         {{#each toBeApproved}}
 
-          {{#ionItem path='connectRent' _id=this._id class="item-avatar-2"}}
-              <div class="book-avatar"><div class="book-avatar-inner" style="background: url('{{bookData.image}}') no-repeat; background-size:cover; background-position: 50% 20%;"></div></div>
+          {{#ionItem path='connectRent' _id=this._id class="item-avatar-2" iconRight=true}}
+                <div class="book-avatar"><div class="book-avatar-inner" style="background: url('{{productData.image}}') no-repeat; background-size:cover; background-position: 50% 20%;"></div></div>
               <p class="main-title-text">{{productData.title}}</p>
-              <p class="main-sub-text">Rent/Week: ${{productData.customPrice}}</p>
-              <span class="badge-low badge badge-energized">{{state}}</span>
+              <p class="main-sub-text">Rent: 
+                  ${{productData.rentPrice.day}}|
+                  ${{productData.rentPrice.week}}|
+                  ${{productData.rentPrice.month}}|
+                  ${{productData.rentPrice.semester}}
+              </p>
+              <span class="badge rent-status">{{state}}</span>
+              {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
+          {{/ionItem}}
+        {{/each}}
+        </div>
+      {{/if}}
+      
+      {{#if toBePaid.count}}
+        <div class="list">
+        <div class="item item-divider"><h3>Waiting for Payment</h3></div>
+        {{#each toBePaid}}
+
+          {{#ionItem path='connectRent' _id=this._id class="item-avatar-2" iconRight=true}}
+                <div class="book-avatar"><div class="book-avatar-inner" style="background: url('{{productData.image}}') no-repeat; background-size:cover; background-position: 50% 20%;"></div></div>
+              <p class="main-title-text">{{productData.title}}</p>
+              <p class="main-sub-text">Rent: 
+                  ${{productData.rentPrice.day}}|
+                  ${{productData.rentPrice.week}}|
+                  ${{productData.rentPrice.month}}|
+                  ${{productData.rentPrice.semester}}
+              </p>
+              <span class="badge rent-status">{{state}}</span>
+              {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
           {{/ionItem}}
         {{/each}}
         </div>
@@ -64,9 +91,14 @@
         <!-- <div class="borrowedBookDetail"> -->
 
           {{#ionItem path="connectRent" iconRight=true class="item-avatar-2"}}
-              <div class="book-avatar"><div class="book-avatar-inner" style="background: url('{{bookData.image}}') no-repeat; background-size:cover; background-position: 50% 20%;"></div></div>
+              <div class="book-avatar"><div class="book-avatar-inner" style="background: url('{{productData.image}}') no-repeat; background-size:cover; background-position: 50% 20%;"></div></div>
               <p class="main-title-text">{{productData.title}}</p>
-              <p class="main-sub-text">Rent/Week: ${{productData.customPrice}}</p>
+              <p class="main-sub-text">Rent: 
+                  ${{productData.rentPrice.day}}|
+                  ${{productData.rentPrice.week}}|
+                  ${{productData.rentPrice.month}}|
+                  ${{productData.rentPrice.semester}}
+              </p>
               {{#if itemReturned}}
                 <span class="badge badge-stable">RETURNED</span>
               {{else}}
@@ -85,6 +117,6 @@
 
     {{/ionContent}}
   {{/ionView}}
-      
+
   {{/if}}
 </template>

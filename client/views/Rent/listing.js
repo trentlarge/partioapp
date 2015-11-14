@@ -35,12 +35,16 @@ var options = {
   localSearch: false
 };
 
-var fields = ['title', 'category', 'uniqueId'];
+var fields = ['title', 'category', 'authors'];
 
 PackageSearch = new SearchSource('packages', fields, options);
 
 
 Template.searchResult.helpers({
+  getCategory: function() {
+      var product = Products.findOne({ 'searchId':this._id });
+      return product.category;
+  },
   getPackages: function() {
     return PackageSearch.getData({ sort: {isoScore: -1} });
   },
@@ -63,7 +67,10 @@ Template.searchResult.events({
 })
 
 Template.searchResult.rendered = function() {
-  PackageSearch.search(Session.get('searchText'));
+    PackageSearch.search(Session.get('searchText'));
+    if(Session.get('categoryIndex') >= 0) {
+        filterCategoriesByIndex(Session.get('categoryIndex')); 
+    }
 };
 
 Template.searchBox.helpers({
@@ -74,7 +81,9 @@ Template.searchBox.helpers({
       if (Session.get('categoryIndex') === index) {
          return "active";
       }
-      return "";
+      else {
+        return "";
+      }
   },
   getCategoryIcon: function(index) {
       return Categories.getCategoryIcon(index);
@@ -96,7 +105,43 @@ Template.searchBox.events({
 
   }, 200),
   "click .categoryFilter": function(e, template) {
-      var category = e.currentTarget;
-      $(category).toggleClass('active');
-  }
+      
+      var categoryFilterBox = $(e.currentTarget);
+      categoryFilterBox.toggleClass('active');
+      filterCategories();
+      
+  },
 });
+
+function filterCategories() {
+    
+      var categories = Categories.getCategories();
+        $.each(categories, function(index, category) {
+          $('.' + category.text).parent().hide();
+      });
+
+      if($('.categoryFilter').hasClass('active')) {
+          $.each($('.categoryFilter.active'), function(index, categoryFilter) {  
+                var categoryText = $(categoryFilter).find('span').text();
+                $('.' + categoryText).parent().fadeIn();     
+          });
+      }
+      else {
+         $.each(categories, function(index, category) {
+              $('.' + category.text).parent().fadeIn();
+         });
+      }
+    
+}
+
+function filterCategoriesByIndex(index) {
+    
+      var categories = Categories.getCategories();
+      $.each(categories, function(index, category) {
+          $('.' + category.text).parent().hide();
+      });
+    
+      var category = Categories.getCategory(index);
+      $('.' + category).parent().fadeIn();
+    
+}

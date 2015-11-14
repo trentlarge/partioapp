@@ -9,6 +9,7 @@ Template.lend.events({
         var manualProduct = {
               "title": $('.manualTitle').val(),
               "price": '--',
+              'searchId': null,
               //"authors": template.find('#manualauthor').value,
               //"publisher": template.find('#manualpublisher').value,
               "description": $('.manualDescription').val(),
@@ -32,7 +33,7 @@ Template.lend.events({
         }
 
         if (manualProduct.title){
-            
+
           Session.set('manualProduct', manualProduct);
           Session.set('BookAddType', 'MANUAL');
           Lend.addProductToInventoryManually(Session.get('manualProduct'));
@@ -56,23 +57,23 @@ Template.lend.events({
       //BAR CODE & CAMFIND ---------------------------------------------
       } else {
         if (Session.get('scanResult')) {
-          
+
             if(Lend.validatePrices()) {
                 Session.set('BookAddType', 'SCAN');
-                
+
                 var submitProduct = Session.get('scanResult');
-                
-                if(submitProduct.asin) {
-                    var _uniqueId = submitProduct.asin;
-                } else if(product.ean) {
-                    var _uniqueId = submitProduct.ean;
-                }
+
+                // if(submitProduct.asin) {
+                //     var _uniqueId = submitProduct.asin;
+                // } else if(product.ean) {
+                //     var _uniqueId = submitProduct.ean;
+                // }
 
                 var product = _.extend(submitProduct,
                 {
                     // "lendingPeriod": lendingPeriod,
                     "ownerId": Meteor.userId(),
-                    "uniqueId": _uniqueId,
+                    'searchId': null,
                     "description": Session.get('description'),
                     "rentPrice": {
                         "day": Session.get('dayPrice'),
@@ -81,8 +82,8 @@ Template.lend.events({
                         "semester": Session.get('semesterPrice')
                     }
                 });
-                
-                 Lend.addProductToInventory(product);   
+
+                 Lend.addProductToInventory(product);
             }
 
         } else {
@@ -164,7 +165,7 @@ Template.lend.events({
     Session.set('barcodeEntry', false);
     Session.set('viewFinder', false)
   },
-    
+
   'click .back': function(e, template) {
         //temporary solution
         var inputBox = $('.search-share-header-input');
@@ -235,7 +236,7 @@ Template.lend.helpers({
   isScanResult: function() {
       console.log(Session.get('scanResult'));
     return Session.get('scanResult');
-  }    
+  }
 });
 
 // Template.lend.destroyed = function() {
@@ -260,8 +261,8 @@ Template.lend.rendered = function() {
 
 
 function ClearData(){
-  console.log('ClearData'); 
-    
+  console.log('ClearData');
+
   if(Session.get('lendTab') == 'resultsCamFind') {
     Session.set('lendTab', 'camfind');
   }
@@ -280,7 +281,7 @@ function ClearData(){
 
 function ValidateInputs(details)
 {
-  if(!details.title || details.title < 1) {
+  if(!details.title || details.title.length < 1) {
     showInvalidPopUp('Invalid Inputs', 'Please enter a valid Title.');
     return false;
   }
