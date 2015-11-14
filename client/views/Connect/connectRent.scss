@@ -1,0 +1,11 @@
+.datepicker table tr td.range, .datepicker table tr td.range:hover, .datepicker table tr td.range.disabled, .datepicker table tr td.range.disabled:hover {
+    display: table-cell;
+}
+
+.range {
+    padding: 0;
+    font-size: 20px;
+    display: inline-block;
+    width: 290px;
+    margin: 0 auto;
+}
