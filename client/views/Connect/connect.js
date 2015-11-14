@@ -228,55 +228,6 @@ function CheckLocatioOn()
 	console.log('getCurrentPosition');
 }
 
-
-Template.connectRent.onRendered(function() {
-	Session.set('sliderValue', 4);
-})
-
-Template.connectRent.helpers({
-	noProfileYet: function() {
-		if (this.avatar === "notSet") {
-			return true;
-		} else {
-			return false;
-		}
-	},
-	userInfo: function() {
-		return Meteor.users.findOne(this.productData.ownerId).profile;
-	},
-	approvedStatus: function() {
-		return Connections.findOne(this._id).state !== 'WAITING' ? '' : 'disabled';
-	},
-	phoneNumber: function() {
-		return Meteor.users.findOne(this.productData.ownerId).profile.mobile;
-	},
-	preferredLocation: function() {
-		return Connections.findOne(this._id).meetupLocation;
-	},
-	paymentDone: function() {
-		return Connections.findOne(this._id).payment ? true:false;
-	},
-	itemReturnDone: function() {
-		return (Connections.findOne(this._id).state === "RETURN" || Connections.findOne(this._id).state === "DONE" ) ? true : false;
-	},
-	paymentPending: function() {
-		return Connections.findOne(this._id).state === "PAYMENT" ? true : false;
-	},
-	sliderValue: function() {
-		return Session.get('sliderValue')
-	},
-	todaysDate: function() {
-		return moment().format('MM/DD');
-	},
-	endDate: function() {
-		return moment().add(Session.get('sliderValue'), 'w').format('MM/DD');
-	},
-	calculatedPrice: function() {
-		return (Number(this.productData.customPrice) * Session.get('sliderValue')).toFixed(2);
-	}
-})
-
-
 var currentTakerPosition, argMeetupLatLong;
 function CheckLocatioOnForTaker()
 {
