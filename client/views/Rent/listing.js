@@ -35,7 +35,7 @@ var options = {
   localSearch: false
 };
 
-var fields = ['title', 'category', 'uniqueId'];
+var fields = ['title', 'category', 'authors'];
 
 PackageSearch = new SearchSource('packages', fields, options);
 
