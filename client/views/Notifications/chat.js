@@ -29,9 +29,9 @@ Template.chat.helpers({
 		return (this.sender === Meteor.userId()) ? Meteor.user().profile.avatar : Meteor.users.findOne(this.sender).profile.avatar;
 	},
 	chatWith: function() {
-		return (this.requestor === Meteor.userId()) ?
-		Meteor.users.findOne(this.bookData.ownerId).profile.name :
-		Meteor.users.findOne(this.requestor).profile.name
+		return (Session.get('_requestor') === Meteor.userId()) ?
+		Meteor.users.findOne(Session.get('_owner')).profile.name :
+		Meteor.users.findOne(Session.get('_requestor')).profile.name
 	}
 });
 
@@ -43,8 +43,8 @@ Template.chat.events({
 		e.preventDefault();
 		var message = template.find('#messageInput').value.trim();
 
-		var cRequestor = this.requestor;
-		var cOwner = this.bookData.ownerId;
+		var cRequestor = Session.get("_requestor");
+		var cOwner =  Session.get("_owner");
 
 		var recipient = (function() {
 					return (cRequestor === Meteor.userId()) ? cOwner : cRequestor;
@@ -94,7 +94,9 @@ Template.chat.rendered = function() {
 	}
 
 	Session.set("_requestor", dataContext.requestor);
-	Session.set("_owner", dataContext.bookData.ownerId);
+	Session.set("_owner", dataContext.productData.ownerId);
+
+
 
 	//Make messages as READ
 	this.autorun(function() {
