@@ -2,7 +2,7 @@
 // RENDERED
 
 //Template.resultsCamFind.rendered = function() {
-//    
+//
 //}
 
 // HELPERS
@@ -28,18 +28,18 @@ Template.resultsCamFind.helpers({
     return false;
   },
   getCategoryIcon: function() {
-    return Categories.getCategoryIconByText(this.category);     
+    return Categories.getCategoryIconByText(this.category);
   },
   isOnlyOneCategory: function() {
-      
+
     if(Session.get('isOnlyOneCategory'))  {
         return Session.get('isOnlyOneCategory');
     }
-    else {    
+    else {
         var result = Session.get('allResults');
 
         var currentCategory = '';
-        var nCategory = 0;  
+        var nCategory = 0;
 
         $.each(result, function(index, r) {
             if(r.amazonCategory !== currentCategory) {
@@ -57,7 +57,7 @@ Template.resultsCamFind.helpers({
             return false;
         }
     }
-      
+
   },
   waitingForPrices: function() {
       return Lend.validatePrices() ? "": "disabled";
@@ -169,8 +169,8 @@ Template.resultsCamFind.helpers({
 Template.resultsCamFind.events({
 
     'change .userPrice': function(e, template){
-      
-        var rentPrice = {   
+
+        var rentPrice = {
             "day": template.find('.dayPrice').value,
             "week": template.find('.weekPrice').value,
             "month": template.find('.monthPrice').value,
@@ -181,9 +181,9 @@ Template.resultsCamFind.events({
           Session.set('weekPrice', rentPrice.week);
           Session.set('monthPrice', rentPrice.month);
           Session.set('semesterPrice', rentPrice.semester);
-        
+
     },
-    
+
     // hide/show products by category
     'click .menu-category': function(e, template) {
         var category = $('.' + $(this)[0].amazonCategory.replace(/\s/g,"").replace(/\&/g,""));
@@ -200,10 +200,8 @@ Template.resultsCamFind.events({
     },
 
     'click .product': function(e, template) {
-
-          Session.set('allResults', false);
-          Session.set('scanResult', this);
-
+        //Session.set('allResults', );
+        Session.set('scanResult', this);
     },
 });
 

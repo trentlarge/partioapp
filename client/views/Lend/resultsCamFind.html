@@ -1,19 +1,8 @@
 <!-- RESULTS -->
 <template name="resultsCamFind">
-
-<!--
-  <div class="content has-header">
-     {{ > camfindinput }}
-  </div>
--->
-
   {{#ionContent}}
-
     {{#if scanResult}}
         {{#with scanResult}}
-
-<!--        <a class="back"> <i class="icon ion-ios-arrow-back"></i> Back </a>-->
-
         <div class="card">
             <div class="item no-padding">
                 <div class="center">
@@ -72,9 +61,7 @@
           </button>
         </div>
         {{/with}}
-
     {{else}}
-
         {{#if allResults}}
         <div class="resultsCamFind">
 <!--            <h4 class="center" style="margin-top:10px;">Select a Product</h4>-->
@@ -119,7 +106,5 @@
             <div class="content"><p>Not found. Please try again.</p></div>
         {{/if}}
     {{/if}}
-
   {{/ionContent}}
-
 </template>

@@ -168,11 +168,14 @@ Template.lend.events({
 
   'click .back': function(e, template) {
         //temporary solution
-        var inputBox = $('.search-share-header-input');
-        var inputValue = inputBox.val();
-        inputBox.val(Lend.latestProduct);
-        inputBox.trigger({type: 'keypress', charCode: 13});
-        inputBox.val(inputValue);
+        console.log(Session.get('lendTab'));
+        // var inputBox = $('.search-share-header-input');
+        // var inputValue = inputBox.val();
+        // inputBox.val(Lend.latestProduct);
+        // inputBox.trigger({type: 'keypress', charCode: 13});
+        // inputBox.val(inputValue);
+        Session.set('scanResult', null);
+        Session.set('lendTab', 'resultsCamFind');
    },
 })
 
@@ -225,17 +228,19 @@ Template.lend.helpers({
     console.log('price rendered: ' + Session.get('userPrice'));
     return Session.get('userPrice');
   },
-  bookResult: function() {
-//    return (Session.get('scanResult').category === "Book") ? true : false;
-      return Session.get('scanResult');
-  },
+//   bookResult: function() {
+// //    return (Session.get('scanResult').category === "Book") ? true : false;
+//       return Session.get('scanResult');
+//   },
 
   dynamicTemplate: function(){
     return (Session.get('lendTab')) ? Session.get('lendTab') : 'camfind' ;
   },
   isScanResult: function() {
-      console.log(Session.get('scanResult'));
     return Session.get('scanResult');
+  },
+  lastSearch: function(){
+    return Lend.latestProduct
   }
 });
 
@@ -251,6 +256,7 @@ Template.lend.rendered = function() {
   // reseting results
   Session.set('scanResult', null);
   Session.set('allResults', null);
+  Session.set('lastSearch', null);
   // Session.set('lendTab', 'camfind')
   // $('.tab-item[data-id=camfind]').addClass('active');
 
@@ -275,7 +281,7 @@ function ClearData(){
   Session.set('barcodeEntry', null);
   Session.set('manualEntry', null);
   Session.set('photoTaken', null)
-  Session.set('lastSearchCamFind', '')
+  Session.set('lastSearch', null);
   Session.set('allResults', null)
 }
 

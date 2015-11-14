@@ -7,7 +7,7 @@ Template.lendTabs.events({
 
 Template.lendTabs.helpers({
   isActiveClass : function(context) {
-    
+
     //Default: CamFind
     if(!Session.get('lendTab')){
       if(context.hash.name == 'camfind') {
@@ -25,5 +25,12 @@ Template.lendTabs.helpers({
     }
 
     return false;
+  },
+  hideClass : function(){
+      if(Session.get('scanResult')){
+        return 'hide';
+      } else {
+        return '';
+      }
   }
 });

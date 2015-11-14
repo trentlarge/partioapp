@@ -3,22 +3,26 @@
 	<!-- MODAL -->
 	{{#ionModal title="Share Product" customTemplate=true}}
     <div class="bar bar-header bar-royal">
-      
+
         {{#if isScanResult}}
-            <button class="back button button-clear" style="position:absolute;z-index:100;">
-                {{> ionIcon icon='ios-arrow-back'}}
-            </button>
-        {{else}}
-        {{/if}}
-        
-        {{> searchShareHeader}}
-        
-        <h2 class="title">Share Product</h2>
-        
-        <button type="button" id="closeLend" title="Close" class="button button-clear pull-left"> 
-            <i class="icon ion-ios-close-outline pull-left"></i>
+					<button class="back button button-clear" style="position:absolute;z-index:100;">
+						{{> ionIcon icon='ios-arrow-back'}}
+					</button>
+					<h2 class="title" style=" display:inline-block;
+																    width:60%;
+																    white-space: nowrap;
+																    overflow:hidden !important;
+																    text-overflow: ellipsis;
+																		margin:0 auto">{{ isScanResult.title }}</h2>
+        	{{else}}
+						{{> searchShareHeader}}
+					{{/if}}
+
+
+        <button type="button" id="closeLend" style="right: 5px;position: absolute;" title="Close" class="button button-clear">
+            <i class="icon ion-ios-close-outline"></i>
         </button>
-        
+
 <!--			<button type="button" id="reset" title="Reset" class="button button-clear pull-right"><i class="icon ion-ios-reload pull-right"></i> </button>-->
     </div>
 
@@ -35,9 +39,11 @@
 
 <!-- NEW TAB -->
 <template name="lendTabs">
-  {{#ionTabs style="ios" class="tabs-background-dark tabs-color-light"}}
+	<div class="tabs-background-dark tabs-color-light {{ hideClass }} tabs-icon-top">
+    <div class="tabs">
      <a class="tab-item {{#if isActiveClass name="camfind" }} active {{/if}}" data-id="camfind"><i class="icon ion-android-image"></i>IMAGE SEARCH</a>
   	 <a class="tab-item {{#if isActiveClass name="barcode" }} active {{/if}}" data-id="barcode"><i class="icon ion-ios-barcode"></i>BARCODE</a>
   	 <a class="tab-item {{#if isActiveClass name="manual" }} active {{/if}}" data-id="manual"><i class="icon ion-ios-compose"></i>MANUAL ENTRY</a>
-  {{/ionTabs}}
+	 </div>
+ </div>
 </template>

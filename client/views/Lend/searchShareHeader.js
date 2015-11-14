@@ -16,7 +16,8 @@ Template.searchShareHeader.events({
         if (e.charCode == 13 || e.keyCode == 13) {
             //reset sessions
             Session.set('scanResult', null);
-            
+            Session.set('allResults', null);
+
             if(Session.get('lendTab') !== 'barcode') {
                 Session.set('lendTab', 'camfind');
                 PartioLoad.show('Searching similar products...');
@@ -27,10 +28,11 @@ Template.searchShareHeader.events({
 
             //get keywords
             var key = template.find('.search-share-header-input').value;
-    //        Session.set("lastSearchCamFind", key);
+            Session.set("lastSearch", key);
 
             //check if exist in all results cache
             if(Lend.allResultsCache[key]) {
+                Session.set('scanResult', null);
                 Session.set('allResults', Lend.allResultsCache[key]);
                 Session.set('lendTab', 'resultsCamFind');
                 PartioLoad.hide();
@@ -66,7 +68,7 @@ Template.searchShareHeader.events({
                     //add on cache
                     Lend.allResultsCache[key] = result;
                     Lend.latestProduct = key;
-
+                    Session.set('scanResult', null);
                     Session.set('allResults', result);
                     Session.set('lendTab', 'resultsCamFind');
                     PartioLoad.hide();
@@ -83,6 +85,9 @@ Template.searchShareHeader.events({
 Template.searchShareHeader.helpers({
     placeholder: function() {
         return Session.get('placeholder');
+    },
+    lastSearch: function(){
+      return Session.get('lastSearch');
     }
 })
 
