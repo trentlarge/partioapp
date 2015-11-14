@@ -7,39 +7,39 @@
         {{> ionIcon icon='navicon' class="energized"}}
         {{/if}}
       </button>
-      
+
       {{> searchHeader}}
   {{/contentFor}}
-  
+
   {{#contentFor "headerTitle"}}
     <h1 class="title">Borrowed Items</h1>
   {{/contentFor}}
-      
+
   {{#contentFor "headerButtonRight"}}
-    <a href="/" class="button button-clear"> 
-        <object id="spinner-logo-simple" data="logo/spinner-logo-simple.svg" type="image/svg+xml"></object> 
+    <a href="/" class="button button-clear">
+        <object id="spinner-logo-simple" data="logo/spinner-logo-simple.svg" type="image/svg+xml"></object>
     </a>
-  {{/contentFor}} 
+  {{/contentFor}}
 
 <!--   {{#contentFor "headerButtonRight"}}
     <button class="button button-clear" data-ion-modal="lend">{{> ionIcon icon="ios-plus-outline" class="assertive"}}</button>
   {{/contentFor}} -->
 
   {{#if isTapping}}
-      
+
       {{> searchBox}}
-      
+
       {{#ionView}}
         {{#ionContent class="has-subheader overflow-scroll"}}
           {{> searchResult}}
         {{/ionContent}}
       {{/ionView}}
-      
+
   {{else}}
 
   {{#ionView}}
     {{#ionContent}}
-    
+
     {{#if dataExists}}
 
       {{#if toBeApproved.count}}
@@ -48,7 +48,7 @@
         {{#each toBeApproved}}
 
           {{#ionItem path='connectRent' _id=this._id class="item-avatar-2"}}
-              <div class="book-avatar"><div class="book-avatar-inner" style="background: url('{{bookData.image}}') no-repeat; background-size:cover; background-position: 50% 20%;"></div></div>
+                <div class="book-avatar"><div class="book-avatar-inner" style="background: url('{{productData.image}}') no-repeat; background-size:cover; background-position: 50% 20%;"></div></div>
               <p class="main-title-text">{{productData.title}}</p>
               <p class="main-sub-text">Rent/Week: ${{productData.customPrice}}</p>
               <span class="badge-low badge badge-energized">{{state}}</span>
@@ -64,7 +64,7 @@
         <!-- <div class="borrowedBookDetail"> -->
 
           {{#ionItem path="connectRent" iconRight=true class="item-avatar-2"}}
-              <div class="book-avatar"><div class="book-avatar-inner" style="background: url('{{bookData.image}}') no-repeat; background-size:cover; background-position: 50% 20%;"></div></div>
+              <div class="book-avatar"><div class="book-avatar-inner" style="background: url('{{productData.image}}') no-repeat; background-size:cover; background-position: 50% 20%;"></div></div>
               <p class="main-title-text">{{productData.title}}</p>
               <p class="main-sub-text">Rent/Week: ${{productData.customPrice}}</p>
               {{#if itemReturned}}
@@ -85,6 +85,6 @@
 
     {{/ionContent}}
   {{/ionView}}
-      
+
   {{/if}}
 </template>
