@@ -78,7 +78,6 @@
           <input type="email" value="{{currentUser.email.[0].address}}" placeholder="Enter Email" id="profileemail">
         </label>
         {{/if}}
-
         <label class="item item-input" id="logout">
           <span class="input-label"><p>Logout</p></span>
         </label>
@@ -86,15 +85,22 @@
 
       <div class="padding-horizontal">
       {{#if currentUser.emails.[0].verified}}
+
+
+        <a class="item item-icon-right" href="{{pathFor 'savedCards'}}" >
+          <p>Change Password</p>
+          {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
+        </a>
+      {{/if}}
+      </div>
+
+
+      <div class="padding-horizontal">
+      {{#if currentUser.emails.[0].verified}}
         <a class="item item-icon-right" href="{{pathFor 'savedCards'}}" >
           <p>Payment Cards</p>
           {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
         </a>
-
-        <!-- <a class="item item-icon-right" href="{{pathFor 'bankAccount'}}">
-          <p>Bank Account</p>
-          {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
-        </a> -->
       {{else}}
         {{#if emailSet}}
           <br>

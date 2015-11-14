@@ -78,11 +78,15 @@ input {
 
 
 .popup-buttons .button-positive {
-
-    //background-color: #4cd964;
     border-color: #D8880C;
     background-color: #F0970D;
     color: #FFF;
+}
+
+.popup-buttons .button-positive.active {
+    border-color: #D8880C;
+    background-color: #D8880C;
+    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1) inset;
 }
 
 .transparent-list {
