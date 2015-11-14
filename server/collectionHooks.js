@@ -3,6 +3,7 @@ Products.after.insert(function(userId, doc) {
 })
 
 Products.before.update(function(userId, doc) {
+	// removeFromSearch(userId, doc.searchId);
 	// Products.update({ _id: doc._id },
 	// 								{ $set:{ lastSearchId: doc.searchId }})
 })

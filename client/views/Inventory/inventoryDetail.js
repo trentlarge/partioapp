@@ -44,15 +44,16 @@ Template.inventoryDetail.events({
     var edited = template.find('.semesterPrice').value;
     var description = template.find('.fieldDescriptionLend').value;
     var title = template.find('.title').value;
-
-
-    if(title != last_title) {
-      var last_title = template.find('.last_title').value;
-    }
-
+    var last_title = template.find('.last_title').value;
 
     Products.update({_id: this._id}, {$set: {title: title, customPrice: edited, rentPrice: editedPrices, description: description}});
     Session.set('editMode', false);
+
+
+    if(title != last_title) {
+          
+    }
+
   }
 });
 
