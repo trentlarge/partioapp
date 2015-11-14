@@ -56,8 +56,8 @@ Template.connect.events({
 		var connectionId = this._id;
 		var ean = this.productData.ean;
 
-		var bookId = this.productData._id;
-    	var searchCollectionId = Search.findOne({productUniqueId: bookId})._id;
+		var productTitle = this.productData.title;
+    	var searchCollectionId = Search.findOne({title: productTitle})._id;
 
 		IonPopup.confirm({
 			cancelText: 'No',

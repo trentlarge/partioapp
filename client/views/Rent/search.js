@@ -6,18 +6,19 @@ Template.search.helpers({
     return Meteor.users.findOne(userId).profile.name;
   },
   peopleList: function() {
-    var uniqueId = Search.findOne(this._id).uniqueId;
-
-    console.log(Products.find({"uniqueId": uniqueId}).fetch());
-
-    return Products.find({"uniqueId": uniqueId});
-
+    var title = Search.findOne(this._id).title;
+    return Products.find({"title": title});
   },
+
   commonBookTitle: function() {
-    var uniqueId = Search.findOne(this._id).uniqueId;
-    return Products.findOne({"uniqueId": uniqueId}).title;
+    var _title = Search.findOne(this._id).title;
+    var products = Products.findOne({title: _title});
+    if(!products) {
+      console.log(' error products');
+    } else {
+      return products.title;
+    }
   },
-
 
   requestSent: function() {
     return Connections.findOne({"requestor": Meteor.userId(), "productData.ownerId": this.ownerId, "productData._id": this._id}) ? true: false;
