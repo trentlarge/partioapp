@@ -189,8 +189,8 @@ Template.connectRent.events({
                 rentDays.append(Math.floor(totalDays) + ' days');
             }
 
-            var startDate = $('.range-start').data('datepicker').getFormattedDate('yyyy-mm-dd'),
-                endDate = $('.range-end').data('datepicker').getFormattedDate('yyyy-mm-dd');
+            var startDate = $('.range-start').data('datepicker').getFormattedDate('mm-dd-yyyy'),
+                endDate = $('.range-end').data('datepicker').getFormattedDate('mm-dd-yyyy');
 
             rentPeriod.append(startDate + ' to ' + endDate); 
         }
