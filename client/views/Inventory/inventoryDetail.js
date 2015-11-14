@@ -44,18 +44,9 @@ Template.inventoryDetail.events({
     var edited = template.find('.semesterPrice').value;
     var description = template.find('.fieldDescriptionLend').value;
     var title = template.find('.title').value;
-    var last_title = template.find('.last_title').value;
 
     Products.update({_id: this._id}, {$set: {title: title, customPrice: edited, rentPrice: editedPrices, description: description}});
     Session.set('editMode', false);
-
-    if(title != last_title) {
-      var last_title = template.find('.last_title').value;
-      var _search = Search.findOne({title:last_title});
-      if(_search){
-          Meteor.call('updateAuthors', _search._id);
-      }
-    }
   }
 });
 
