@@ -762,7 +762,7 @@ var amazonAllResultsItemSearchProcessing = function(result) {
 
             // sort results by amazon category
             necessaryFields.sort(function(a, b) {
-                return (a.amazonCategory < b.amazonCategory) ? 1 : -1;
+                return (a.amazonCategory > b.amazonCategory) ? 1 : -1;
             });
 
             return necessaryFields;

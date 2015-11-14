@@ -287,7 +287,7 @@ function ClearData(){
 
 function ValidateInputs(details)
 {
-  if(!details.title || details.title < 1) {
+  if(!details.title || details.title.length < 1) {
     showInvalidPopUp('Invalid Inputs', 'Please enter a valid Title.');
     return false;
   }

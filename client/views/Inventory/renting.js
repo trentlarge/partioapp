@@ -4,7 +4,10 @@ Template.renting.rendered = function() {
 
 Template.renting.helpers({
   toBeApproved: function() {
-    return Connections.find({"requestor": Meteor.userId(), "state": {$ne: "IN USE", $ne: "DONE"}})
+    return Connections.find({"requestor": Meteor.userId(), "state": 'WAITING'}); //{$ne: "IN USE", $ne: "DONE"}})
+  },
+  toBePaid: function() {
+    return Connections.find({"requestor": Meteor.userId(), "state": 'PAYMENT'}); //{$ne: "IN USE", $ne: "DONE"}})
   },
   currentlyBorrowed: function() {
   	return Connections.find({"requestor": Meteor.userId(), "state": "DONE"});
