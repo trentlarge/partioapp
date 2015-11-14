@@ -89,6 +89,7 @@ Template.connectRent.helpers({
                 (Number(this.productData.rentPrice.week) * rentPrice.weeks) +
                 (Number(this.productData.rentPrice.day) * rentPrice.days);
 
+        Session.set('amountPrice', price);
 		return price;
 	},
     validatePrice: function() {
@@ -266,14 +267,14 @@ Template.connectRent.events({
 		IonModal.open("chat", Connections.findOne(this));
 	},
 	'click #payAndRent': function() {
-
+        
 		if (Meteor.user().profile.cards) {
 			Session.set('payRedirect', false);
 			var payerCardId = Meteor.user().profile.cards.data[0].id;
 			var connectionId = this._id;
 			var payerCustomerId = Meteor.user().profile.customer.id;
 			var recipientAccountId = Meteor.users.findOne(this.productData.ownerId).profile.stripeAccount.id;
-			var amount = (Number(this.productData.customPrice) * Session.get('sliderValue')).toFixed(2);
+			var amount = Session.get('amountPrice');//(Number(this.productData.customPrice) * Session.get('sliderValue')).toFixed(2);
 			var transactionsId = Meteor.user().profile.transactionsId;
 			var transactionsRecipientId = Meteor.users.findOne(this.productData.ownerId).profile.transactionsId;
 			var recipientDebitId = Meteor.users.findOne(this.productData.ownerId).profile.payoutCard.id;

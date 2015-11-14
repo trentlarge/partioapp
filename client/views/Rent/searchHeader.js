@@ -36,10 +36,10 @@ Template.searchHeader.events({
     'keyup .search-header-input': function(e, template) {
         
         var text = $(e.target).val().trim();
-        console.log('Search Query: ' + text);
+        PackageSearch.search(text);
+        //console.log('Search Query: ' + text);
         if(text.length > 1) {
             Session.set('isTapping', true);
-            PackageSearch.search(text);
         } 
         else {
             Session.set('isTapping', false);
@@ -53,5 +53,5 @@ Template.searchHeader.helpers({
     searchText: function() {
         return Session.get('searchText');
     },
-})
+})  
             
