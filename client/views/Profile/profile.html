@@ -58,11 +58,6 @@
           <span class="input-label"><p>Email</p></span>
           <input disabled type="email" value="{{currentUser.emails.[0].address}}">
         </label>
-        <label class="item item-input" id="changePassword">
-          <span class="input-label"><p>Change Password</p></span>
-          <!-- <input id="changePassword" type="text" value=""> -->
-        </label>
-
        {{else}}
          <label class="item item-input item-select college-select">
           <div class="input-label"><p>College</p></div>
@@ -78,23 +73,36 @@
           <input type="email" value="{{currentUser.email.[0].address}}" placeholder="Enter Email" id="profileemail">
         </label>
         {{/if}}
-
-        <label class="item item-input" id="logout">
-          <span class="input-label"><p>Logout</p></span>
-        </label>
       </div>
 
       <div class="padding-horizontal">
       {{#if currentUser.emails.[0].verified}}
-        <a class="item item-icon-right" href="{{pathFor 'savedCards'}}" >
-          <p>Payment Cards</p>
+
+
+        <a class="item item-icon-right" href="{{pathFor 'changePassword'}}" >
+          <p>Change Password</p>
           {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
         </a>
+      {{/if}}
+      </div>
+<br />
 
-        <!-- <a class="item item-icon-right" href="{{pathFor 'bankAccount'}}">
-          <p>Bank Account</p>
-          {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
-        </a> -->
+      <div class="padding-horizontal">
+      {{#if currentUser.emails.[0].verified}}
+      <a class="item item-icon-right" href="{{pathFor 'savedCards'}}" >
+        <p>Payment Cards</p>
+        {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
+      </a>
+      {{/if}}
+      </div>
+<br />
+
+      <div class="padding-horizontal">
+      {{#if currentUser.emails.[0].verified}}
+        <a class="item item-icon-right" id="logout" href="{{pathFor}}" >
+          <p>Logout</p>
+          {{> ionIcon icon="android-exit" class="energized right-arrow"}}
+        </a>
       {{else}}
         {{#if emailSet}}
           <br>
