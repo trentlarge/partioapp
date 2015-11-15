@@ -75,7 +75,7 @@
         {{/if}}
       </div>
 
-      <div class="list list-inset">
+      <div class="padding-horizontal">
       {{#if currentUser.emails.[0].verified}}
 
 
@@ -85,9 +85,9 @@
         </a>
       {{/if}}
       </div>
+<br />
 
-
-      <div class="list list-inset">
+      <div class="padding-horizontal">
       {{#if currentUser.emails.[0].verified}}
       <a class="item item-icon-right" href="{{pathFor 'savedCards'}}" >
         <p>Payment Cards</p>
@@ -95,9 +95,9 @@
       </a>
       {{/if}}
       </div>
+<br />
 
-
-      <div class="list list-inset">
+      <div class="padding-horizontal">
       {{#if currentUser.emails.[0].verified}}
         <a class="item item-icon-right" id="logout" href="{{pathFor}}" >
           <p>Logout</p>
