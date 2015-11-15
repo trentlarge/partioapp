@@ -114,7 +114,9 @@ Template.lend.events({
   },
 
   'click #closeLend': function() {
-    $('.modal-backdrop').fadeOut();
+    $('.modal-backdrop').fadeOut('slow', function(){
+        $(this).remove();
+    });
     ClearData();
   },
 
