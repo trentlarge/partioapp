@@ -230,23 +230,3 @@ function CheckLocatioOn()
 	navigator.geolocation.getCurrentPosition(onSuccess, onError);
 	console.log('getCurrentPosition');
 }
-
-var currentTakerPosition, argMeetupLatLong;
-function CheckLocatioOnForTaker()
-{
-	navigator.geolocation.getCurrentPosition(onSuccessMethod, onErrorMethod);
-}
-
-var onSuccessMethod = function(position)
-{
-	currentTakerPosition = position;
-
-	Session.set('takerCurrentPosition', {lat: currentTakerPosition.coords.latitude, lng: currentTakerPosition.coords.longitude});
-	console.log('coords: ' + Session.get('takerCurrentPosition').lat);
-	console.log(argMeetupLatLong);
-	IonModal.open('onlyMap', argMeetupLatLong);
-}
-
-function onErrorMethod(error) {
-	console.log('Err: '+ error);
-}
