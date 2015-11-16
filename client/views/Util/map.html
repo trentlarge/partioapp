@@ -17,3 +17,20 @@
 
   {{/ionModal}}
 </template>
+
+<template name="onlyMap">
+  {{#ionModal customTemplate=true}}
+
+      <div class="bar bar-header bar-stable item-input-inset">
+        <button data-dismiss="modal" class="button button-clear"><h6>DONE</h6></button>
+      </div>
+
+      {{#ionView}}
+      <div id="mapchat-box">
+          <div id="pin"></div>
+          {{> googleMap name="onlyMap" options=onlyMapOptions}}
+      </div>
+      {{/ionView}}
+
+  {{/ionModal}}
+</template>
