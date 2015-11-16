@@ -73,7 +73,7 @@ Template.search.helpers({
 });
 
 Template.search.events({
-  'click #requestBook': function() {
+  'click #requestProduct': function() {
     console.log('requesting book...');
     var ownerId = this.ownerId;
     var productId = this._id;

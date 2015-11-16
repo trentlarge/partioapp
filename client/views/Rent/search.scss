@@ -1,0 +1,75 @@
+.listing-search {
+    
+    .item {
+        display: flex;
+    }
+    
+    .profile-image-box {
+        vertical-align: top;
+        display: inline-block;
+        text-align: center;
+        padding-right: 15px;
+        border-right: 1px solid #DDD;
+
+        .rating-box {
+            display: block;
+        }
+
+        .profile-image {
+            height: 80px;
+            border-radius: 100%;
+        }
+    }
+
+    .profile-content {
+        padding-left: 15px;
+        overflow: hidden;
+        
+        .button {
+            margin-bottom: 0;
+            height: 30px;
+            min-height: 30px;
+            font-weight: 1px;
+            line-height: 0;
+            font-size: 12px;
+        }
+    }
+    
+    table.rent-table {
+        width: 100%;
+        
+        th, td {
+            text-align: center;
+            width: 25%;
+            padding: 1px;
+            border: 1px solid #ffffff;
+        }
+        
+        th {
+            color: #ffffff;
+            font-size: 12px;
+            -webkit-box-shadow: inset 0px -10px 0px 0px rgba(255,255,255,0.1);
+            -moz-box-shadow: inset 0px -10px 0px 0px rgba(255,255,255,0.1);
+            box-shadow: inset 0px -10px 0px 0px rgba(255,255,255,0.1);
+            opacity: .8;
+            
+            &:nth-child(odd) {
+                background-color: #f0970d; 
+            }
+
+            &:nth-child(even) {
+                background-color: #df5707; 
+            }
+            
+            &:first-child {
+                border-top-left-radius: 5px;
+            }
+            
+            &:last-child {
+                border-top-right-radius: 5px;
+            }
+        
+        }
+        
+    }
+}
