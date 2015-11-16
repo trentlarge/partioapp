@@ -56,10 +56,14 @@
               {{#if requestSent}}
                 <span class="badge badge-mid">Request Sent</span>
               {{else}}
-                {{#if qtynotZero}}
-                    <button id="requestProduct" class="button button-block">REQUEST</button>
+                {{#if isOwner}}
+                    <button class="button button-block" disabled>OWNER</button>
                 {{else}}
-                    <button class="button button-block" disabled>UNAVAIBLE</button>
+                    {{#if qtynotZero}}
+                        <button id="requestProduct" class="button button-block">REQUEST</button>
+                    {{else}}
+                        <button class="button button-block" disabled>UNAVAIBLE</button>
+                    {{/if}}
                 {{/if}}
               {{/if}}
               

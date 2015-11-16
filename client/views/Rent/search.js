@@ -9,6 +9,9 @@ Template.search.helpers({
     var title = Search.findOne(this._id).title;
     return Products.find({"title": title});
   },
+  isOwner: function() {
+      return (this.ownerId === Meteor.userId()) ? true : false;
+  },
 
   commonBookTitle: function() {
     var _title = Search.findOne(this._id).title;
