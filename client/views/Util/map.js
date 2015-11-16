@@ -43,7 +43,7 @@ Template.map.created = function() {
 
 		centerMarker = new google.maps.Marker({
 			position: map.options.center,
-			icon: '/img/mappin.png',
+			icon: '/icons/icon-marker-destination.png',
 			map: map.instance
 		});
 
@@ -54,6 +54,7 @@ Template.map.created = function() {
 		map.instance.addListener('drag', function(e) {
 			centerMarker.setPosition(map.instance.getCenter());
 		});
+
 	});
 };
 
@@ -84,7 +85,7 @@ Template.map.helpers({
 
 			var meetupMapOptions = {
 				center: meetingCoordinates,
-				zoom: 8
+				zoom: 18
 			};
 
 			return meetupMapOptions;
@@ -119,5 +120,65 @@ Template.map.events({
 				}
       		});
 		});
+	}
+});
+
+
+// ---
+// ---
+
+
+Template.onlyMap.created = function() {
+	var self = this;
+
+	GoogleMaps.ready('onlyMap', function(map) {
+		var meetupMarker = new google.maps.Marker({
+			position: self.data.meetupLocation,
+			icon: '/icons/icon-marker-destination.png',
+			map: map.instance
+		});
+
+		var takerMarker = new google.maps.Marker({
+			position: self.data.takerLocation,
+			icon: '/icons/icon-current-location.png',
+			map: map.instance
+		});
+
+		var latlngbounds = new google.maps.LatLngBounds();
+		latlngbounds.extend(meetupMarker.getPosition());
+		latlngbounds.extend(takerMarker.getPosition());
+		map.instance.fitBounds(latlngbounds);
+
+		var directionsDisplay = new google.maps.DirectionsRenderer({ suppressMarkers: true });
+		var directionsService = new google.maps.DirectionsService();
+		directionsDisplay.setMap(map.instance);
+
+		var request = {
+			origin: takerMarker.getPosition(),
+			destination: meetupMarker.getPosition(),
+			travelMode: google.maps.TravelMode.WALKING
+		};
+		directionsService.route(request, function(result, status)
+		{
+			if(status == google.maps.DirectionsStatus.OK) {
+				directionsDisplay.setDirections(result);
+			} else {
+				console.log('Directions service: failed due to: ' + status);
+			}
+		});
+	});
+};
+
+
+Template.onlyMap.helpers({
+	"onlyMapOptions": function() {
+		if (GoogleMaps.loaded()) {
+
+			var meetupMapOptions = {
+				center: this.meetupLocation,
+				zoom: 18
+			};
+			return meetupMapOptions;
+		}
 	}
 });

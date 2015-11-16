@@ -338,20 +338,31 @@ Template.connectRent.events({
 
 		});
 	},
-	'click #showMap': function()
-	{
-		this.meetupLocation = Connections.findOne(this._id).meetupLocation;
 
+	'click #showMap': function(e, t) {
+		e.preventDefault();
 
-
-		if (this.meetupLatLong === "Location not set")
-		{
+		var connection = Connections.findOne(this._id);
+		if(!connection) {
 			return false;
 		}
-		else
-		{
-			argMeetupLatLong = Connections.findOne(this._id).meetupLatLong;
-			CheckLocatioOnForTaker();
+		this.meetupLocation = connection.meetupLocation || { lat: 0, lng: 0 };
+
+		if (this.meetupLatLong === "Location not set") {
+			return false;
+		} else {
+			navigator.geolocation.getCurrentPosition(function(position) {
+				IonModal.open('onlyMap', { 
+					meetupLocation: connection.meetupLatLong,
+					takerLocation: {
+					 	lat: position.coords.latitude,
+					 	lng: position.coords.longitude
+					}
+				});
+			}, function(error) {
+				// error
+				console.log('Err: '+ error);
+			});
 		}
 	}
 });
