@@ -1,4 +1,6 @@
 RegisterController = RouteController.extend({
+	loadingTemplate: 'register',
+
 	onBeforeAction: function() {
 		this.next();
 	},
