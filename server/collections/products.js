@@ -12,6 +12,7 @@ Products.allow({
 	}
 });
 
+
 Products.before.insert(function(userId, doc) {
 
 });
@@ -25,11 +26,11 @@ Products.before.remove(function(userId, doc) {
 });
 
 Products.after.insert(function(userId, doc) {
-
+	Meteor.call('refreshSearch', userId, doc);
 });
 
 Products.after.update(function(userId, doc, fieldNames, modifier, options) {
-	
+	Meteor.call('refreshSearch', userId, doc);
 });
 
 Products.after.remove(function(userId, doc) {

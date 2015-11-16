@@ -1,22 +1,3 @@
-Products.after.insert(function(userId, doc) {
-	Meteor.call('refreshSearch', userId, doc);
-})
-
-Products.before.update(function(userId, doc) {
-	// removeFromSearch(userId, doc.searchId);
-	// Products.update({ _id: doc._id },
-	// 								{ $set:{ lastSearchId: doc.searchId }})
-})
-
-Products.after.update(function (userId, doc) {
-	Meteor.call('refreshSearch', userId, doc);
-});
-
-// Products.before.delete(function (userId, doc) {
-//   refreshSearch(userId, doc)
-// });
-
-
 Meteor.methods({
 	refreshSearch: function(userId, product){
 		var ownerData = Meteor.users.findOne(userId);
@@ -78,40 +59,5 @@ Meteor.methods({
 
 		return true;
 
-	}
-});
-
-
-Meteor.methods({
-	updateAuthors:function(searchId){
-		console.log('update authors ---------'+searchId)
-	 var products = Products.find({ searchId: searchId }).fetch();
-	 console.log(products);
-	 var bufferOwner = []
-
-	 if(products.length > 0){
-
-		 for (var i = 0; i < products.length; i++) {
-			 var owner_ = Meteor.users.findOne(products[i].ownerId);
-			 if(owner_){
-				 bufferOwner.push(owner_.profile.name);
-			 }
-		 }
-
-		 var owners = bufferOwner.join(', ');
-
-		 console.log(owners);
-
-		 if(bufferOwner.length > 0){
-			 Search.update({_id: searchId },
-										 { $set: { authors: owners,
-											 qty: bufferOwner.length }}, function(){
-												return true;
-											 })
-		 }
-
-		} else {
-			Search.remove({_id:searchId});
-		}
 	}
 });
