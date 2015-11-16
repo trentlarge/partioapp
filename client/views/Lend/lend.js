@@ -12,7 +12,7 @@ Template.lend.events({
               'searchId': null,
               //"authors": template.find('#manualauthor').value,
               //"publisher": template.find('#manualpublisher').value,
-              "description": $('.manualDescription').val(),
+              "conditionId": $('.manualCondition').val(),
               "manualEntry": true,
               "ownerId": Meteor.userId(),
               "category": $('.manualCategory').val(),
@@ -74,7 +74,7 @@ Template.lend.events({
                     // "lendingPeriod": lendingPeriod,
                     "ownerId": Meteor.userId(),
                     'searchId': null,
-                    "description": Session.get('description'),
+                    "conditionId": Session.get('condition'),
                     "rentPrice": {
                         "day": Session.get('dayPrice'),
                         "week": Session.get('weekPrice'),
@@ -109,8 +109,8 @@ Template.lend.events({
     Session.set('userPrice', e.target.value);
   },
 
-  'keyup .fieldDescriptionLend': function(e, template){
-    Session.set('description', e.target.value);
+  'change .fieldConditionLend': function(e, template){
+    Session.set('condition', e.target.value);
   },
 
   'click #closeLend': function() {

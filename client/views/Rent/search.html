@@ -11,7 +11,7 @@
     {{#ionContent class="listing-search overflow-scroll"}}
 
 
-    <div class="item item-divider"><h2>{{commonBookTitle}}</h2></div>
+    <div class="item item-divider"><h2>{{commonProductTitle}}</h2></div>
 
 
       <div class="list">
@@ -51,10 +51,10 @@
                         </tbody>
                     </table>
               </p>
-              <p class="main-sub-text">Condition of the item: {{description}}</p>
+              <p class="main-sub-text">Condition of the item: {{getCondition}}</p>
               
               {{#if requestSent}}
-                <span class="badge badge-mid">Request Sent</span>
+                <button class="button button-block" disabled>REQUEST SENT</button>
               {{else}}
                 {{#if isOwner}}
                     <button class="button button-block" disabled>OWNER</button>

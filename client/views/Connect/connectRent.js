@@ -246,12 +246,13 @@ Template.connectRent.events({
 				console.log('Cancelled')
 			},
 			onOk: function() {
-				Meteor.call('returnBook', connectionId, function(error, result) {
+				Meteor.call('returnItem', connectionId, function(error, result) {
 					console.log(error, result)
 				})
 
 				IonPopup.close();
-				IonModal.open("feedback", Connections.findOne(connectionId));
+                Router.go('/renting');
+//				IonModal.open("feedback", Connections.findOne(connectionId));
 			}
 
 		});

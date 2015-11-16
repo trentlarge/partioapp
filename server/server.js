@@ -356,11 +356,11 @@ Meteor.methods({
 
   },
 
-  returnBook: function(connectionId) {
+  returnItem: function(connectionId) {
     var connect = Connections.findOne(connectionId);
     var borrowerName = Meteor.users.findOne(connect.requestor).profile.name;
 
-    Connections.update({_id: connectionId}, {$set: {"state": "RETURN"}});
+    Connections.update({_id: connectionId}, {$set: {"state": "RETURNED"}});
 
     var message = borrowerName + " wants to return the book " + connect.productData.title;
     sendPush(connect.productData.ownerId, message);
@@ -382,14 +382,14 @@ Meteor.methods({
     console.log(requestorId, productId, ownerId);
 
     var requestorName = Meteor.users.findOne(requestorId).profile.name;
-    var book = Products.findOne(productId);
+    var product = Products.findOne(productId);
 
     var connection = {
       requestor: requestorId,
       state: 'WAITING',
       requestDate: new Date(),
       borrowedDate: null,
-      productData: book,
+      productData: product,
       chat: [  ],
       meetupLocation: "Location not set",
       meetupLatLong: "Location not set"
@@ -397,7 +397,7 @@ Meteor.methods({
 
     Connections.insert(connection);
 
-    var message = requestorName + " sent you a request for " + book.title
+    var message = requestorName + " sent you a request for " + product.title
     sendPush(ownerId, message);
     sendNotification(ownerId, requestorId, message, "request");
 

@@ -14,6 +14,9 @@ Template.inventory.helpers({
   },
   statusWaiting: function() {
     return Connections.findOne(this._id).state === "WAITING" ? true: false;
+  },
+  getCondition: function() {
+      return Rating.getConditionByIndex(this.conditionId);
   }
 });
 

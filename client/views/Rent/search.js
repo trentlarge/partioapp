@@ -12,8 +12,11 @@ Template.search.helpers({
   isOwner: function() {
       return (this.ownerId === Meteor.userId()) ? true : false;
   },
+  getCondition: function() {
+      return Rating.getConditionByIndex(this.conditionId);
+  },
 
-  commonBookTitle: function() {
+  commonProductTitle: function() {
     var _title = Search.findOne(this._id).title;
     var products = Products.findOne({title: _title});
     if(!products) {

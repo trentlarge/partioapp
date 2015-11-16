@@ -49,9 +49,15 @@
             <span class="input-label"><p>Semester (4m)</p></span>
             <input type="number" class="userPrice semesterPrice" placeholder="0.00" value="{{calculatedPrice4Months}}">
           </label>
-          <label class="item item-input item-stacked-label">
-            <p>Condition of the item:</p>
-            <textarea name="description" class="fieldDescriptionLend" rows="8" cols="40"></textarea>
+            <label class="item item-input item-select">
+            <div class="input-label">
+              <p>Condition of the item:</p>
+            </div>
+            <select name="condition" class="fieldConditionLend">
+                {{#each getConditions}}
+                    <option value="{{index}}">{{value}}</option>
+                {{/each}}
+            </select>
           </label>
         </div>
         <div class="padding-horizontal">

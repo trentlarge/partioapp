@@ -65,7 +65,7 @@
               <div class="book-avatar"><div class="book-avatar-inner" style="background: url('{{image}}') no-repeat; background-size:cover; background-position: 50% 20%;"></div></div>
               <p class="main-title-text">{{title}}</p>
               <p class="main-sub-text">Rent: ${{rentPrice.day}}|${{rentPrice.week}}|${{rentPrice.month}}|${{rentPrice.semester}}</p>
-              <p class="main-sub-text">Condition of the item: {{description}}</p>
+              <p class="main-sub-text">Condition of the item: {{getCondition}}</p>
               {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
           {{/ionItem}}
         {{/each}}

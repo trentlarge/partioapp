@@ -58,10 +58,23 @@
                 <span class="input-label"><p>Semester (4m)</p></span>
                 <input type="number" class="userPrice semesterPrice" value="{{semesterPrice}}">
             </label>
+             <label class="item item-input item-select">
+                <div class="input-label">
+                  <p>Condition of the item:</p>
+                </div>
+                <select class="manualDescription">
+                    {{#each getConditions}}
+                        <option value="{{index}}">{{value}}</option>
+                    {{/each}}
+                </select>
+              </label>
+            
+<!--
             <label class="item item-input item-stacked-label">
                 <p>Condition of the item:</p>
                 <textarea name="description" class="manualDescription" rows="8" cols="40"></textarea>
             </label>
+-->
 
             <div class="padding-horizontal">
                 <button class="submitProduct button button-block button-energized" {{waitingForPrices}}>

@@ -12,6 +12,9 @@ Template.manual.helpers({
   getCategories: function() {
     return Categories.getCategories();  
   },
+  getConditions: function() {
+    return Rating.getConditions();  
+  },
   waitingForPrices: function() {
       return Lend.validatePrices() ? "": "disabled";
   },

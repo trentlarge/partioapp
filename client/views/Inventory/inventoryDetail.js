@@ -42,10 +42,9 @@ Template.inventoryDetail.events({
      }
 
     var edited = template.find('.semesterPrice').value;
-    var description = template.find('.fieldDescriptionLend').value;
     var title = template.find('.title').value;
 
-    Products.update({_id: this._id}, {$set: {title: title, customPrice: edited, rentPrice: editedPrices, description: description}});
+    Products.update({_id: this._id}, {$set: {title: title, customPrice: edited, rentPrice: editedPrices}});
     Session.set('editMode', false);
   }
 });
