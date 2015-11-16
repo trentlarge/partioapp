@@ -1,5 +1,16 @@
 .product-list {
     
+    .badge.share-status {
+        top: 0;
+        height: 15px;
+        line-height: 1;
+        border-radius: 0;
+        border-bottom-left-radius: 5px;
+        border-bottom-right-radius: 5px;
+        color: #8B8B8B;
+        background-color: #DDDDDD;
+    }
+    
     .item-avatar-2 .product-avatar {
       position: absolute;
       height: 80px;
@@ -62,6 +73,56 @@
     padding-bottom: 100px;
     color: #272727;
     
+    .item-table {
+        padding: 5px;
+    }
+    
+    table.rent-table {
+        width: 100%;
+        
+        input {
+            width: 100%;
+        }
+        
+        th, td {
+            text-align: center;
+            width: 25%;
+            padding: 4px;
+            border: 1px solid #ffffff;
+        }
+        
+        td {
+            font-size: 14px;
+        }
+        
+        th {
+            color: #ffffff;
+            font-size: 14px;
+            -webkit-box-shadow: inset 0px -10px 0px 0px rgba(255,255,255,0.1);
+            -moz-box-shadow: inset 0px -10px 0px 0px rgba(255,255,255,0.1);
+            box-shadow: inset 0px -10px 0px 0px rgba(255,255,255,0.1);
+            opacity: .8;
+            
+            &:nth-child(odd) {
+                background-color: #f0970d; 
+            }
+
+            &:nth-child(even) {
+                background-color: #df5707; 
+            }
+            
+            &:first-child {
+                border-top-left-radius: 5px;
+            }
+            
+            &:last-child {
+                border-top-right-radius: 5px;
+            }
+        
+        }
+        
+    }
+    
     .product-image {
         margin-top: 10px;
         max-height: 200px;
@@ -79,11 +140,13 @@
     
     .details-box {
         
+        padding: 5px;
         display: flex;
         background-color: #FAFAFA;
         border-bottom: 1px solid #E0E0E0;
              
         i, .customPrice {
+            border-radius: 2px;
             padding: 10px;            
             text-align: center;
             width: 42px;
@@ -118,7 +181,7 @@
     }
     
     .features {
-        padding: 10px;
+//        padding: 10px;
     }
     
     .features-details {

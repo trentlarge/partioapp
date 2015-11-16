@@ -1,8 +1,14 @@
 .badge.rent-status {
-    margin-top: 37px;
+    top: 0;
+    height: 15px;
+    line-height: 1;
     border-radius: 0;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-    color: #ffffff;
-    background-color: #F0970D;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    color: #8B8B8B;
+    background-color: #DDDDDD;
+}
+
+.item .badge.rent-status {
+    top: 0;
 }
