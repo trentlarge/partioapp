@@ -10,6 +10,8 @@
         text-align: center;
         padding-right: 15px;
         border-right: 1px solid #DDD;
+        width: 120px;
+        max-width: 120px;
 
         .rating-box {
             display: block;
@@ -18,6 +20,10 @@
         .profile-image {
             height: 80px;
             border-radius: 100%;
+        }
+        
+        p {
+            white-space: normal;
         }
     }
 
