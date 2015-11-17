@@ -17,13 +17,17 @@ ChatController = RouteController.extend({
 	},
 
 	data: function() {
-		return {
-			//
-			// read data from database here like this:
-			//   someData: SomeCollection.find(),
-			//   moreData: OtherCollection.find()
-			// ...
-		};
+		return Connections.findOne({_id: this.params._id})
+
+			/*
+					return {
+						//
+						// read data from database here like this:
+						//   someData: SomeCollection.find(),
+						//   moreData: OtherCollection.find()
+						// ...
+					};
+			*/
 	},
 
 	onAfterAction: function() {

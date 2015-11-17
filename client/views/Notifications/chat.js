@@ -25,7 +25,13 @@ Template.chat.helpers({
 	direction: function() {
 		return (this.sender === Meteor.userId()) ? "right": "left";
 	},
+
+
+
 	avatar: function() {
+		console.log(Meteor.user());
+
+
 		return (this.sender === Meteor.userId()) ? Meteor.user().profile.avatar : Meteor.users.findOne(this.sender).profile.avatar;
 	},
 
@@ -78,6 +84,9 @@ Template.chat.events({
 
 Template.chat.rendered = function() {
 	var dataContext = this.data;
+
+	console.log(this.data)
+
 	//Chat input textarea auto-resize when more than 1 line is entered
 	autosize($('textarea'));
 
