@@ -20,15 +20,15 @@
 
           <div class="profile-image-box">
             {{#if noProfileYet}}
-                <img class="profile-image" src="profile_image_placeholder.jpg">
+            <div style="background: url('profile_image_placeholder.jpg') no-repeat; background-size:cover; background-position: 50% 50%;" class="profile-avatar"></div>
             {{else}}
-                <img class="profile-image" src="{{userThumbnail ownerId}}">
+            <div style="background: url({{userThumbnail ownerId}}) no-repeat; background-size:cover; background-position: 50% 50%;" class="profile-avatar"></div>
             {{/if}}
-            
+
             <p class="main-title-text">{{userName ownerId}} </p>
             <span class="rating-box"> {{> rating}}</span>
           </div>
-            
+
           <div class="profile-content">
           <!-- <img src="{{userThumbnail ownerId}}"> -->
 
@@ -52,7 +52,7 @@
                     </table>
               </p>
               <p class="main-sub-text">Condition of the item: {{getCondition}}</p>
-              
+
               {{#if requestSent}}
                 <button class="button button-block" disabled>REQUEST SENT</button>
               {{else}}
@@ -66,7 +66,7 @@
                     {{/if}}
                 {{/if}}
               {{/if}}
-              
+
           </div>
         </a>
         {{/each}}
