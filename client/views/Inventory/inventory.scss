@@ -1,5 +1,16 @@
 .product-list {
     
+    .hidden {
+        -webkit-animation: fadeIn 1s;
+        animation: fadeIn 1s;
+        display: none;
+    }
+    
+    .item-divider {
+        padding-top: 12px;
+        padding-bottom: 12px;
+    }
+    
     .badge.share-status {
         top: 0;
         height: 15px;
