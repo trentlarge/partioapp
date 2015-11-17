@@ -27,6 +27,6 @@ NotificationsController = RouteController.extend({
 	},
 
 	onAfterAction: function() {
-		
+
 	}
 });
