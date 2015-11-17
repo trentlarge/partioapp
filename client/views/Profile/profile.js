@@ -66,30 +66,6 @@ Template.profile.events({
   }
 });
 
-Template.appLayout.events({
-  'click #cancelProfile': function() {
-    Router.go('/');
-  },
-  'click #saveProfile': function() {
-
-    PartioLoad.show();
-
-    var updatedProfile = {
-      "name": $('#profilename').val(),
-      "college": $('#profileuniversity').val(),
-      "mobile": $('#profilemobile').val()
-    }
-    console.log(updatedProfile);
-    Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.name": updatedProfile.name,"profile.mobile": updatedProfile.mobile, "profile.college": updatedProfile.college}}, function(error) {
-      if (!error) {
-        PartioLoad.hide();
-        console.log("success!");
-        Session.set('profileEdit', false);
-      }
-    });
-  }
-})
-
 Template.settingsProfileImage.helpers({
   'noProfileYet': function() {
     if (Meteor.user().profile.avatar === "notSet") {
