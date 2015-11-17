@@ -24,6 +24,7 @@
           <div class="center">
             <p class="dark">{{name}}</p>
             <p class="line-height-one">{{college}}</p>
+            <span class="rating-box">{{> rating}}</span>
           </div>
         </div>
         {{/with}}
@@ -76,23 +77,52 @@
             <i class="icon ion-ios-telephone assertive"></i>
             CALL
           </a>
+            
+          {{#if paymentPending}}    
           <a class="tab-item" id="cancelRequest">
             <i class="icon ion-ios-close royal"></i>
             REJECT
           </a>
+          {{/if}}
         </div>
 
       </div>
 
+     {{#if isBorrowed}}
+        <div class="padding-horizontal list">
+            <div class="item item-divider">Rent Details:</div>
+            <div class="item">
+                <div class="center">
+                    <p class="rent-days">{{getDaysLeft}}</p>
+                    <p class="rent-period">{{getBorrowPeriod}}</p>
+                </div>
+            </div>
+        </div>
+    {{/if}}
+    
+    {{#if isReturned}}
+        <div class="padding-horizontal list">
+            <div class="item item-divider">Rent Details:</div>
+            <div class="item">
+                <div class="center">
+                    <p class="rent-period">{{getBorrowPeriod}}</p>
+                </div>
+            </div>
+        </div>
+    {{/if}}
+    
       <div class="padding-horizontal list">
       {{#if alreadyApproved}}
 
-        <div class="item item-divider"><h3>Set Meetup Location</h3></div>
+           {{#if isReturned}}
+           {{else}}
+              <div class="item item-divider"><h3>Set Meetup Location</h3></div>
 
-          <a class="item item-button-right" id="changeMeetupLocation" href="#">
-            <p>{{preferredLocation}}</p>
-            <button class="button button-outline button-energized"><i class="icon ion-ios-location"></i></button>
-          </a>
+              <a class="item item-button-right" id="changeMeetupLocation" href="#">
+                <p>{{preferredLocation}}</p>
+                <button class="button button-outline button-energized"><i class="icon ion-ios-location"></i></button>
+              </a>
+          {{/if}}
 
           {{#if returnItem}}
           <br>

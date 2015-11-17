@@ -1,7 +1,18 @@
 
 Template.inventory.helpers({
-  myBooks: function() {
+  myProducts: function() {
     return Products.find({"ownerId": Meteor.userId()})
+  },
+  getState: function() {
+      if(this.state === 'PAYMENT') {
+          return 'RENTER PAYMENT';    
+      }
+      else if(this.state === 'IN USE') {
+          return 'BORROWED';    
+      }
+      else {
+          return this.state;
+      }
   },
   newRequests: function() {
   	return Connections.find({"productData.ownerId": Meteor.userId(), "state": {$ne: "DONE"} })

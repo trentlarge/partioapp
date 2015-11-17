@@ -7,6 +7,7 @@
 // 	IonSideMenu.snapper.enable();
 // });
 
+
 Template.connect.rendered = function() {
 	var dataContext = this.data;
 	//Chat input textarea auto-resize when more than 1 line is entered
@@ -38,6 +39,32 @@ Template.connect.helpers({
 	alreadyApproved: function() {
 		return (Connections.findOne(this._id).state !== "WAITING") ? true : false;
 	},
+    isBorrowed: function() {
+        return (this.state === 'IN USE') ? true : false;
+    },
+    isReturned: function() {
+        return (this.state === 'RETURNED') ? true : false;
+    },
+    getDaysLeft: function() {
+       var diff;
+       if($.now() > new Date(this.date.start).getTime()) {
+           diff = new Date(this.date.end - $.now());
+       }  
+       else {
+           diff = new Date(this.date.end - this.date.start);
+       }    
+       var totalDays = Math.floor((diff/1000/60/60/24) + 1); 
+    
+       if(totalDays <= 1) {
+           return totalDays + ' day left'
+       }
+       return totalDays + ' days left';
+    },
+    getBorrowPeriod: function() {
+        var startDate = formatDate(this.date.start),
+            endDate = formatDate(this.date.end);
+        return startDate + ' to ' + endDate;
+    },
 	phoneNumber: function() {
 		return Meteor.users.findOne(this.requestor).profile.mobile;
 	},
@@ -50,7 +77,13 @@ Template.connect.helpers({
 	},
 	connectData: function() {
 		return Connections.findOne(this._id);
-	}
+	},
+    paymentPending: function() {
+        if(this.state === 'PAYMENT' || this.state === 'WAITING') {
+            return true;
+        }
+        return false;
+    }
 });
 
 Template.connect.events({
@@ -229,4 +262,20 @@ function CheckLocatioOn()
 {
 	navigator.geolocation.getCurrentPosition(onSuccess, onError);
 	console.log('getCurrentPosition');
+}
+
+function formatDate(dateObject) {
+    var d = new Date(dateObject);
+    var day = d.getDate();
+    var month = d.getMonth() + 1;
+    var year = d.getFullYear();
+    if (day < 10) {
+        day = "0" + day;
+    }
+    if (month < 10) {
+        month = "0" + month;
+    }
+    var date = month + "-" + day + "-" + year;
+
+    return date;
 }

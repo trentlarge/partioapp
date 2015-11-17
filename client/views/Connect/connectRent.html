@@ -9,7 +9,7 @@
 
 
   {{#ionView}}
-    {{#ionContent class="connectRent"}}
+    {{#ionContent class="connectRent prevent-keyboardglitch"}}
       <div class="card">
 
         {{#with userInfo}}
@@ -25,6 +25,7 @@
           <div class="center">
             <p class="dark">{{name}}</p>
             <p class="line-height-one">{{college}}</p>
+            <span class="rating-box">{{> rating}}</span>
           </div>
         </div>
         {{/with}}
@@ -81,14 +82,39 @@
             <i class="icon ion-ios-telephone assertive"></i>
             CALL
           </a>
+          {{#if paymentPending}}
           <a class="tab-item" id="cancel-request">
             <i class="icon ion-ios-close royal"></i>
             CANCEL
           </a>
+          {{/if}}
         </div>
 
       </div>
 
+      {{#if isBorrowed}}
+        <div class="padding-horizontal list">
+            <div class="item item-divider">Rent Details:</div>
+            <div class="item">
+                <div class="center">
+                    <p class="rent-days">{{getDaysLeft}}</p>
+                    <p class="rent-period">{{getBorrowPeriod}}</p>
+                </div>
+            </div>
+        </div>
+      {{/if}}
+    
+      {{#if isReturned}}
+        <div class="padding-horizontal list">
+            <div class="item item-divider">Rent Details:</div>
+            <div class="item">
+                <div class="center">
+                    <p class="rent-period">{{getBorrowPeriod}}</p>
+                </div>
+            </div>
+        </div>
+      {{/if}}
+    
       {{#if paymentPending}}
         <div class="padding-horizontal">
           <div class="item item-divider"><h3>Rent Period</h3></div>
@@ -148,7 +174,8 @@
 
     
       {{else}}
-
+        {{#if isReturned}}
+        {{else}}
         <div class="padding-horizontal">
           <div class="item item-divider"><h3>Meetup Location</h3></div>
           <a class="item item-button-right" href="#" id="showMap">
@@ -156,16 +183,15 @@
             <!-- <button class="button button-outline button-energized" data-ion-modal="map"><i class="icon ion-ios-location"></i></button> -->
           </a>
         </div>
+       {{/if}}
 
       {{/if}}
 
       <div class="padding-horizontal">
         {{#if paymentDone}}
-
-        {{#unless itemReturnDone}}
-        <button id="returnItem" class="button button-block">RETURN ITEM</button>
-        {{/unless}}
-
+            {{#unless itemReturnDone}}
+                <button id="returnItem" class="button button-block">RETURN ITEM</button>
+            {{/unless}}
         {{else}}
             {{#if approvedStatus}}
                 <button id="payAndRent" class="button button-block button-energized {{validatePrice}}">

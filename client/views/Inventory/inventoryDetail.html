@@ -46,11 +46,14 @@
             </div>
          </div>
 
+        <div class="item item-divider features"><h2>Features <i class="chevron-icon icon ion-chevron-right"></i></h2></div>
+<!--
         <div class="subtitle-box features">
             <div class="center">
                 <span>FEATURES </span><i class="chevron-icon icon ion-chevron-right"></i>
             </div>
         </div>
+-->
 
         <div class="row features-details hidden">
             <div class="col col-25">
@@ -83,12 +86,43 @@
         </div>
 -->
 
+        
+        <div class="item item-divider"><h2>Rent Price</h2></div>
+<!--
         <div class="subtitle-box">
             <div class="center">
                 <span>RENT PRICE</span>
             </div>
         </div>
+-->
 
+        <div class="item-table">
+            <table class="rent-table">
+                <tbody>
+                    <tr>
+                        <th><i class="icon">D</i></th>
+                        <th><i class="icon">W</i></th>
+                        <th><i class="icon">M</i></th>
+                        <th><i class="icon">S</i></th>
+                    </tr>
+                    <tr>
+                        {{#if editMode}}
+                        <td><input class="detail dayPrice" type="number" id="editPrice" value="{{rentPrice.day}}"></td>
+                        <td><input class="detail weekPrice" type="number" id="editPrice" value="{{rentPrice.week}}"></td>
+                        <td><input class="detail monthPrice" type="number" id="editPrice" value="{{rentPrice.month}}"></td>
+                        <td><input class="detail semesterPrice" type="number" id="editPrice" value="{{rentPrice.semester}}"></td>
+                        {{else}}
+                        <td>${{rentPrice.day}}</td>
+                        <td>${{rentPrice.week}}</td>
+                        <td>${{rentPrice.month}}</td>
+                        <td>${{rentPrice.semester}}</td>
+                        {{/if}}
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+<!--
         <div class="row-details">
             <div class="col col-50">
                 <div class="details-box">
@@ -133,6 +167,7 @@
                 </div>
             </div>
         </div>
+-->
 
         {{#if editMode}}
             <div class="padding-horizontal">

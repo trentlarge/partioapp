@@ -61,7 +61,7 @@ Template.inventoryDetail.helpers({
     {
       var ConnectionStatus = ConnectionObj.state;
 
-      if(ConnectionStatus != "DONE")
+      if(ConnectionStatus != "RETURNED")
       {
         //Check if book is in RENTING mode and disable edit option
         return false;
@@ -74,3 +74,21 @@ Template.inventoryDetail.helpers({
     return (this.manualEntry) ? true : false;
   }
 })
+
+function showInvalidPopUp(strTitle, strMessage)
+{
+  IonPopup.show({
+          title: strTitle,
+          template: '<div class="center">'+strMessage+'</div>',
+          buttons:
+          [{
+            text: 'OK',
+            type: 'button-assertive',
+            onTap: function()
+            {
+              IonPopup.close();
+            }
+          }]
+        });
+}
+
