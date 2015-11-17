@@ -14,7 +14,6 @@ Template.changePassword.events({
        return aString.length > 5;
      }
 
-
     if (new_password === new_repeat_password) {
 
         var isValidPassword = checkPasswordIsValid(new_password);

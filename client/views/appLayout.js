@@ -9,6 +9,27 @@ Template.appLayout.events({
 		console.log("toggling!");
 		Session.set('testPay', event.target.checked);
 	},
+	'click #cancelProfile': function() {
+    Router.go('/');
+  },
+  'click #saveProfile': function() {
+
+    PartioLoad.show();
+
+    var updatedProfile = {
+      "name": $('#profilename').val(),
+      "college": $('#profileuniversity').val(),
+      "mobile": $('#profilemobile').val()
+    }
+    console.log(updatedProfile);
+    Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.name": updatedProfile.name,"profile.mobile": updatedProfile.mobile, "profile.college": updatedProfile.college}}, function(error) {
+      if (!error) {
+        PartioLoad.hide();
+        console.log("success!");
+        Session.set('profileEdit', false);
+      }
+    });
+  }
 	// 'click #logout': function() {
 	// 	IonPopup.confirm({
 	// 	  okText: 'Logout',
