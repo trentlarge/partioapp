@@ -27,7 +27,7 @@ Template.search.helpers({
   },
 
   requestSent: function() {
-    return Connections.findOne({"requestor": Meteor.userId(), "productData.ownerId": this.ownerId, "productData._id": this._id}) ? true: false;
+    return Connections.findOne({"requestor": Meteor.userId(), "productData.ownerId": this.ownerId, "productData._id": this._id, $or: [ { state: 'WAITING' }, { state: 'PAYMENT' }, { state: 'IN USE' } ]}) ? true : false;
   },
   qtynotZero: function() {
 
@@ -80,41 +80,14 @@ Template.search.helpers({
 
 Template.search.events({
   'click #requestProduct': function() {
-    console.log('requesting book...');
+    console.log('requesting product...');
     var ownerId = this.ownerId;
     var productId = this._id;
-
-    if (this.ownerId === Meteor.userId()) {
-      IonPopup.show({
-        title: 'You own this item! :)',
-        template: '',
-        buttons:
-        [{
-          text: 'OK',
-          type: 'button-energized',
-          onTap: function() {
-            IonPopup.close();
-          }
-        }]
-      });
-    } else if ( Connections.findOne({"productData._id": this._id}) && (Meteor.userId() === Connections.findOne({"productData._id": this._id}).requestor)) {
-      IonPopup.show({
-        title: 'You already borrowed this item!',
-        template: '',
-        buttons:
-        [{
-          text: 'OK',
-          type: 'button-energized',
-          onTap: function() {
-            IonPopup.close();
-          }
-        }]
-      });
-    } else {
-      IonPopup.confirm({
+      
+    IonPopup.confirm({
         okText: 'Proceed',
         cancelText: 'Cancel',
-        title: 'Continuing will send a request to the book Owner',
+        title: 'Continuing will send a request to the product Owner',
         template: '<div class="center">You\'ll receive a notification once the owner accepts your request</div>',
         onOk: function() {
           console.log("proceeding with connection");
@@ -141,7 +114,67 @@ Template.search.events({
           console.log('Cancelled');
         }
       });
-    }
+
+//    if (this.ownerId === Meteor.userId()) {
+//      IonPopup.show({
+//        title: 'You own this item! :)',
+//        template: '',
+//        buttons:
+//        [{
+//          text: 'OK',
+//          type: 'button-energized',
+//          onTap: function() {
+//            IonPopup.close();
+//          }
+//        }]
+//      });
+//    } 
+//      else if ( Connections.findOne({"productData._id": this._id}) && (Meteor.userId() === Connections.findOne({"productData._id": this._id}).requestor)) {
+//      IonPopup.show({
+//        title: 'You already borrowed this item!',
+//        template: '',
+//        buttons:
+//        [{
+//          text: 'OK',
+//          type: 'button-energized',
+//          onTap: function() {
+//            IonPopup.close();
+//          }
+//        }]
+//      });
+//    } 
+//      else {
+//      IonPopup.confirm({
+//        okText: 'Proceed',
+//        cancelText: 'Cancel',
+//        title: 'Continuing will send a request to the book Owner',
+//        template: '<div class="center">You\'ll receive a notification once the owner accepts your request</div>',
+//        onOk: function() {
+//          console.log("proceeding with connection");
+//          PartioLoad.show();
+//          Meteor.call('requestOwner', Meteor.userId(), productId, ownerId, function(error, result) {
+//            if (!error) {
+//              PartioLoad.hide();
+//              console.log(result);
+//              IonLoading.show({
+//                duration: 2000,
+//                delay: 400,
+//                customTemplate: '<div class="center"><h5>Request Sent</h5></div>',
+//              });
+//              // Meteor.setTimeout(function() {
+//              //   Router.go('/booksLent');
+//              // }, 2500)
+//            } else {
+//              PartioLoad.hide();
+//              console.log(error);
+//            }
+//          })
+//        },
+//        onCancel: function() {
+//          console.log('Cancelled');
+//        }
+//      });
+//    }
 
 
   }
