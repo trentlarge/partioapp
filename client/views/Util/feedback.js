@@ -1,6 +1,6 @@
 Template.feedback.helpers({
 	userInfo: function() {
-		return Meteor.users.findOne({_id: this.bookData.ownerId}).profile;
+		return Meteor.users.findOne({_id: this.productData.ownerId}).profile;
 	},
 	noProfileYet: function() {
 		if (this.avatar === "notSet") {
@@ -13,7 +13,7 @@ Template.feedback.helpers({
 
 Template.feedback.events({
 	'click #submitFeedback': function() {
-		var personId = this.bookData.ownerId;
+		var personId = this.productData.ownerId;
 		var rating = $('input[name=rating]:checked').val();
 
 		if (rating) {

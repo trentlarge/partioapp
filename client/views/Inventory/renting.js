@@ -29,6 +29,6 @@ Template.renting.helpers({
 
 Template.renting.events({
 	'click .borrowedBookDetail': function() {
-		Router.go('/listing/'+this.bookData._id);
+		Router.go('/listing/'+this.productData._id);
 	}
 });
