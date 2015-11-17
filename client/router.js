@@ -11,7 +11,6 @@ Router.waitOn(function () {
 	Meteor.subscribe("notifications");
 	Meteor.subscribe("products");
 	Meteor.subscribe("search");
-	Meteor.subscribe("searchcamfind");
 	Meteor.subscribe("transactions");
 	Meteor.subscribe("all_users");
 });
@@ -21,7 +20,7 @@ Router.waitOn(function () {
 //
 // route names don't have underscores (e.g. emailverification) so I didn't left router to auto-choose controller name
 // because controller name for (example) emailverification will be "EmailverificationController" - that's unreadable
-// this is why we have controller name manually set: { ... , controller: "EmailVerificationController" } 
+// this is why we have controller name manually set: { ... , controller: "EmailVerificationController" }
 // (which is little bit more readable)
 //
 Router.route('/', { name: 'main', controller: 'MainController' });
