@@ -1,4 +1,4 @@
-BookDetailController = RouteController.extend({
+ProductDetailController = RouteController.extend({
 	onBeforeAction: function() {
 		this.next();
 	},
@@ -30,6 +30,6 @@ BookDetailController = RouteController.extend({
 	},
 
 	onAfterAction: function() {
-		
+
 	}
 });

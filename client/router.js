@@ -38,7 +38,7 @@ Router.route('/chat/:_id', { name: 'chat', controller: 'ChatController' });
 Router.route('/categories', { name: 'categories', controller: 'CategoriesController' });
 Router.route('/listing', { name: 'listing', controller: 'ListingController' });
 Router.route('/listing/search/:_id', { name: 'search', controller: 'SearchController' });
-Router.route('/listing/:_id', { name: 'bookDetail', controller: "BookDetailController" });
+Router.route('/listing/:_id', { name: 'productDetail', controller: "ProductDetailController" });
 Router.route('/transactions', { name: 'transactions', controller: 'TransactionsController' });
 Router.route('/profile', { name: 'profile', controller: 'ProfileController' });
 Router.route('/profile/savedcards', { name: 'savedCards', controller: 'SavedCardsController' });

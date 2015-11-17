@@ -1,8 +1,8 @@
-<template name="bookDetail">
+<template name="productDetail">
   {{#contentFor "headerButtonLeft"}}
       {{>ionNavBackButton path="listing"}}
   {{/contentFor}}
-  
+
   {{#contentFor "headerTitle"}}
     <h1 class="title">Product Details</h1>
   {{/contentFor}}
@@ -11,7 +11,7 @@
   {{#ionView}}
     {{#ionContent}}
       <div class="card">
-        
+
         <div class="row item row-center">
           <div class="col col-33">
             <div class="bookDetail-container">
@@ -85,13 +85,9 @@
       </div>
 
       <div class="padding-horizontal">
-        <button id="request-book" class="button button-block button-assertive">REQUEST PRODUCT</button>   
+        <button id="request-book" class="button button-block button-assertive">REQUEST PRODUCT</button>
         </div>
 
     {{/ionContent}}
   {{/ionView}}
 </template>
-
-
-
-

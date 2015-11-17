@@ -1,4 +1,4 @@
-Template.bookDetail.helpers({
+Template.productDetail.helpers({
 	owner: function() {
 		return Meteor.users.findOne(this.userId).profile.name;
 	},
@@ -20,7 +20,7 @@ Template.bookDetail.helpers({
 	}
 });
 
-Template.bookDetail.events({
+Template.productDetail.events({
 	'click #requestBook': function() {
 		console.log('requesting book...');
 		var productId = this._id;
