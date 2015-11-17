@@ -65,7 +65,7 @@ Template.connectRent.helpers({
 		return Connections.findOne(this._id).payment ? true:false;
 	},
 	itemReturnDone: function() {
-		return (Connections.findOne(this._id).state === "RETURN" || Connections.findOne(this._id).state === "DONE" ) ? true : false;
+		return (Connections.findOne(this._id).state === "RETURNED" || Connections.findOne(this._id).state === "DONE" ) ? true : false;
 	},
 	paymentPending: function() {
 		return Connections.findOne(this._id).state === "PAYMENT" ? true : false;
@@ -147,7 +147,33 @@ Template.connectRent.helpers({
     },
     activeSemesters: function() {
          return (Session.get('numberSemesters') > 0) ? 'active' : '';
-    }
+    },
+    isBorrowed: function() {
+        return (this.state === 'IN USE') ? true : false;
+    },
+    isReturned: function() {
+        return (this.state === 'RETURNED') ? true : false;
+    },
+    getDaysLeft: function() {
+       var diff;
+       if($.now() > new Date(this.date.start).getTime()) {
+           diff = new Date(this.date.end - $.now());
+       }  
+       else {
+           diff = new Date(this.date.end - this.date.start);
+       }    
+       var totalDays = Math.floor((diff/1000/60/60/24) + 1); 
+    
+       if(totalDays <= 1) {
+           return totalDays + ' day left'
+       }
+       return totalDays + ' days left';
+    },
+    getBorrowPeriod: function() {
+        var startDate = formatDate(this.date.start),
+            endDate = formatDate(this.date.end);
+        return startDate + ' to ' + endDate;
+    },
 });
 
 
@@ -279,6 +305,10 @@ Template.connectRent.events({
 			var transactionsId = Meteor.user().profile.transactionsId;
 			var transactionsRecipientId = Meteor.users.findOne(this.productData.ownerId).profile.transactionsId;
 			var recipientDebitId = Meteor.users.findOne(this.productData.ownerId).profile.payoutCard.id;
+            var rentDate = {
+                start : $(".range-start").datepicker("getDate"),
+                end : $(".range-end").datepicker("getDate")
+            }
 
 			IonPopup.confirm({
 				cancelText: 'Cancel',
@@ -290,7 +320,7 @@ Template.connectRent.events({
 				},
 				onOk: function() {
 					PartioLoad.show();
-					Meteor.call('chargeCard', payerCustomerId, payerCardId, recipientDebitId, amount, connectionId, transactionsId, transactionsRecipientId, function(error, result) {
+					Meteor.call('chargeCard', payerCustomerId, payerCardId, recipientDebitId, amount, rentDate, connectionId, transactionsId, transactionsRecipientId, function(error, result) {
 						if (!error) {
 							PartioLoad.hide();
 							IonPopup.show({
@@ -367,3 +397,19 @@ Template.connectRent.events({
 		}
 	}
 });
+
+function formatDate(dateObject) {
+    var d = new Date(dateObject);
+    var day = d.getDate();
+    var month = d.getMonth() + 1;
+    var year = d.getFullYear();
+    if (day < 10) {
+        day = "0" + day;
+    }
+    if (month < 10) {
+        month = "0" + month;
+    }
+    var date = month + "-" + day + "-" + year;
+
+    return date;
+}
