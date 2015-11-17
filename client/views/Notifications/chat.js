@@ -28,6 +28,7 @@ Template.chat.helpers({
 	avatar: function() {
 		return (this.sender === Meteor.userId()) ? Meteor.user().profile.avatar : Meteor.users.findOne(this.sender).profile.avatar;
 	},
+
 	chatWith: function() {
 		return (Session.get('_requestor') === Meteor.userId()) ?
 		Meteor.users.findOne(Session.get('_owner')).profile.name :
