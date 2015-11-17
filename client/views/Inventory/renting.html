@@ -41,13 +41,12 @@
     {{#ionContent class="renting-list"}}
 
     {{#if dataExists}}
-
+      <div class="list">
       {{#if toBeApproved.count}}
-        <div class="list">
-        <div class="item item-divider"><h3>Waiting for Owner's Approval</h3></div>
+          <div class="item item-divider waiting"><h3>Waiting for Owner's Approval <i class="chevron-icon icon ion-chevron-down"></i></h3></div>
         {{#each toBeApproved}}
 
-          {{#ionItem path='connectRent' _id=this._id class="item-avatar-2"}}
+          {{#ionItem path='connectRent' _id=this._id class="item-avatar-2 waiting-item"}}
                 <div class="product-avatar"><div class="product-avatar-inner" style="background: url('{{productData.image}}') no-repeat; background-size:cover; background-position: 50% 20%;"></div></div>
               <p class="main-title-text">{{productData.title}}</p>
               <p class="main-sub-text">Rent Price:</p>
@@ -75,15 +74,13 @@
               </div>
           {{/ionItem}}
         {{/each}}
-        </div>
       {{/if}}
       
       {{#if toBePaid.count}}
-        <div class="list">
-        <div class="item item-divider"><h3>Waiting for Payment</h3></div>
+        <div class="item item-divider payment"><h3>Waiting for Payment <i class="chevron-icon icon ion-chevron-down"></i></h3></div>
         {{#each toBePaid}}
 
-          {{#ionItem path='connectRent' _id=this._id class="item-avatar-2"}}
+          {{#ionItem path='connectRent' _id=this._id class="item-avatar-2 payment-item"}}
                 <div class="product-avatar"><div class="product-avatar-inner" style="background: url('{{productData.image}}') no-repeat; background-size:cover; background-position: 50% 20%;"></div></div>
               <p class="main-title-text">{{productData.title}}</p>
               <p class="main-sub-text">Rent Price:</p>
@@ -111,16 +108,14 @@
               </div>
           {{/ionItem}}
         {{/each}}
-        </div>
       {{/if}}
 
       {{#if currentlyBorrowed.count}}
-        <div class="list">
-        <div class="item item-divider"><h3>Borrowed Items</h3></div>
+        <div class="item item-divider borrowed"><h3>Borrowed Items <i class="chevron-icon icon ion-chevron-down"></i></h3></div>
         {{#each currentlyBorrowed}}
         <!-- <div class="borrowedBookDetail"> -->
 
-          {{#ionItem path="connectRent" class="item-avatar-2"}}
+          {{#ionItem path="connectRent" class="item-avatar-2 borrowed-item"}}
               <div class="product-avatar"><div class="product-avatar-inner" style="background: url('{{productData.image}}') no-repeat; background-size:cover; background-position: 50% 20%;"></div></div>
               <p class="main-title-text">{{productData.title}}</p>
               <p class="main-sub-text">Rent Price:</p>
@@ -149,15 +144,13 @@
           {{/ionItem}}
         <!-- </div> -->
         {{/each}}
-        </div>
       {{/if}}
       
     {{#if isReturned.count}}
-        <div class="list">
-        <div class="item item-divider"><h3>Returned Items</h3></div>
+        <div class="item item-divider returned"><h3>Returned Items <i class="chevron-icon icon ion-chevron-right"></i></h3></div>
         {{#each isReturned}}
 
-          {{#ionItem path="connectRent" class="item-avatar-2"}}
+          {{#ionItem path="connectRent" class="item-avatar-2 returned-item hidden"}}
                 <div class="book-avatar"><div class="book-avatar-inner" style="background: url('{{productData.image}}') no-repeat; background-size:cover; background-position: 50% 20%;"></div></div>
               <p class="main-title-text">{{productData.title}}</p>
               <p class="main-sub-text">Rent Price:</p>
@@ -185,9 +178,8 @@
               </div>
           {{/ionItem}}
         {{/each}}
-        </div>
       {{/if}}  
-      
+      </div>
     {{else}}
       <div class="Aligner">
         <h6 class="dark">Browse listings on partiO and start renting!</h6>

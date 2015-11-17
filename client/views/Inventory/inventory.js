@@ -15,8 +15,11 @@ Template.inventory.helpers({
       }
   },
   newRequests: function() {
-  	return Connections.find({"productData.ownerId": Meteor.userId(), "state": {$ne: "DONE"} })
+  	return Connections.find({"productData.ownerId": Meteor.userId(), $or: [ {"state": "WAITING"}, {"state": "PAYMENT"}, {"state": "IN USE"} ]});
   },
+  finalizedRequests: function() {
+  	return Connections.find({"productData.ownerId": Meteor.userId(), "state": "RETURNED"});
+  },                
   dataExists: function() {
   	return (Products.find({"ownerId": Meteor.userId()}).count() || Connections.find({"productData.ownerId": Meteor.userId(), "state": {$ne: "IN USE"}}).count()) ? true : false;
   },
@@ -32,6 +35,51 @@ Template.inventory.helpers({
 });
 
 Template.inventory.events({
+    'click .final-requests': function() {
+        
+        var requests = $('.final-requests');
+        var requestsItem = $('.final-request-item');
+
+        if(requestsItem.hasClass('hidden')){
+            requestsItem.removeClass('hidden');
+            requests.find('.chevron-icon').removeClass('ion-chevron-right').addClass('ion-chevron-down');
+        }
+        else {
+            requestsItem.addClass('hidden');
+            requests.find('.chevron-icon').removeClass('ion-chevron-down').addClass('ion-chevron-right');
+        }
+        
+    },
+    'click .requests': function() {
+        
+        var requests = $('.requests');
+        var requestsItem = $('.request-item');
+
+        if(requestsItem.hasClass('hidden')){
+            requestsItem.removeClass('hidden');
+            requests.find('.chevron-icon').removeClass('ion-chevron-right').addClass('ion-chevron-down');
+        }
+        else {
+            requestsItem.addClass('hidden');
+            requests.find('.chevron-icon').removeClass('ion-chevron-down').addClass('ion-chevron-right');
+        }
+        
+    },
+    'click .products': function() {
+        
+        var products = $('.products');
+        var productsItem = $('.product-item');
+
+        if(productsItem.hasClass('hidden')){
+            productsItem.removeClass('hidden');
+            products.find('.chevron-icon').removeClass('ion-chevron-right').addClass('ion-chevron-down');
+        }
+        else {
+            productsItem.addClass('hidden');
+            products.find('.chevron-icon').removeClass('ion-chevron-down').addClass('ion-chevron-right');
+        }
+        
+    },
   'click #respondToReq': function()
   {
     var requestor = this.requestor;
