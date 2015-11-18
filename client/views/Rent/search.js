@@ -27,7 +27,8 @@ Template.search.helpers({
   },
 
   requestSent: function() {
-    return Connections.findOne({"requestor": Meteor.userId(), "productData.ownerId": this.ownerId, "productData._id": this._id, $or: [ { state: 'WAITING' }, { state: 'PAYMENT' }, { state: 'IN USE' } ]}) ? true : false;
+    //return Connections.findOne({"requestor": Meteor.userId(), "productData.ownerId": this.ownerId, "productData._id": this._id, $or: [ { state: 'WAITING' }, { state: 'PAYMENT' }, { state: 'IN USE' } ]}) ? true : false;
+    return Connections.findOne({"requestor": Meteor.userId(), "productData.ownerId": this.ownerId, "productData._id": this._id}) ? true : false;
   },
   qtynotZero: function() {
 

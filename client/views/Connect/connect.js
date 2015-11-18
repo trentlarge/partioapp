@@ -21,6 +21,9 @@ Template.connect.helpers({
     getCategoryIcon: function() {
         return Categories.getCategoryIconByText(this.productData.category);
     },
+    getCondition: function() {
+      return Rating.getConditionByIndex(this.productData.conditionId);
+    },
     getRequestDate: function() {
         return formatDate(this.requestDate);  
     },
@@ -62,23 +65,18 @@ Template.connect.helpers({
     },
     getDaysLeft: function() {
        var diff;
-       if($.now() > new Date(this.date.start).getTime()) {
-           diff = new Date(this.date.end - $.now());
-       }  
-       else {
-           diff = new Date(this.date.end - this.date.start);
-       }    
-       var totalDays = Math.floor((diff/1000/60/60/24) + 1); 
-    
-       if(totalDays <= 1) {
-           return totalDays + ' day left'
+       if($.now() > new Date(this.borrowDetails.date.start).getTime()) {
+           diff = new Date(this.borrowDetails.date.end - $.now());
        }
-       return totalDays + ' days left';
-    },
-    getBorrowPeriod: function() {
-        var startDate = formatDate(this.date.start),
-            endDate = formatDate(this.date.end);
-        return startDate + ' to ' + endDate;
+       else {
+           diff = new Date(this.borrowDetails.date.end - this.borrowDetails.date.start);
+       }
+       var daysLeft = Math.floor((diff/1000/60/60/24) + 1);
+
+       if(daysLeft <= 1) {
+           return daysLeft + ' day left'
+       }
+       return daysLeft + ' days left';
     },
 	phoneNumber: function() {
 		return Meteor.users.findOne(this.requestor).profile.mobile;
@@ -88,7 +86,7 @@ Template.connect.helpers({
 		return Connections.findOne(this._id).meetupLocation;
 	},
 	returnItem: function() {
-		return Connections.findOne(this._id).state === "RETURN" ? true : false;
+		return Connections.findOne(this._id).state === "RETURNED" ? true : false;
 	},
 	connectData: function() {
 		return Connections.findOne(this._id);
@@ -102,6 +100,21 @@ Template.connect.helpers({
 });
 
 Template.connect.events({
+    'click .product-details': function(e, template) {
+
+      var productDetails = $('.product-details');
+      var productDetailsItem = $('.product-details-item');
+
+        if(productDetailsItem.hasClass('hidden')){
+            productDetailsItem.removeClass('hidden');
+            productDetails.find('.chevron-icon').removeClass('ion-chevron-right').addClass('ion-chevron-down');
+        }
+        else {
+            productDetailsItem.addClass('hidden');
+            productDetails.find('.chevron-icon').removeClass('ion-chevron-down').addClass('ion-chevron-right');
+        }
+
+    },
 	'click #confirmReturn': function() {
 		console.log(this);
 		var connectionId = this._id;
@@ -131,14 +144,12 @@ Template.connect.events({
 
 		});
 	},
+    'click #btnCallUser': function(err, template) {
+        var _requestor = Session.get("_requestor");
+        var _owner 	 	 = Session.get("_owner");
 
-		'click #btnCallUser': function(err, template) {
-			var _requestor = Session.get("_requestor");
-			var _owner 	 	 = Session.get("_owner");
-
-			PartioCall.init(_requestor, _owner);
-		},
-
+        PartioCall.init(_requestor, _owner);
+    },
 	'click #startChatOwner': function() {
 		IonModal.open("chat", Connections.findOne(this));
 	},

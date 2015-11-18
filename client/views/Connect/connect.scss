@@ -6,7 +6,7 @@
         display: flex;
     }
     
-    .profile-image-box {
+    .profile-image-box, .product-image-box {
         vertical-align: top;
         display: inline-block;
         text-align: center;
@@ -33,9 +33,42 @@
     }
 
     .profile-content {
-//        padding-left: 15px;
         overflow: hidden;
         width: 100%;
+    }
+    
+    .product-content {
+        padding-left: 15px;
+        overflow: hidden;
+        width: 100%;
+        
+        p {
+            display: -webkit-flex;
+            display: flex;
+            -webkit-align-items: center; /* Safari 7.0+ */    
+            align-items: center;
+            
+            &.product-title {
+                padding-bottom: 10px;
+                white-space: normal;
+                color: #272727;
+            }
+        }
+        
+        i {
+            color: #ffffff;
+            border-radius: 2px;
+            padding: 5px;            
+            text-align: center;
+            width: 30px;
+            min-width: 30px;
+            font-size: 15px;
+            margin-right: 10px;
+            background-color: #f0970d;
+            -webkit-box-shadow: inset 0px -10px 0px 0px rgba(255,255,255,0.1);
+            -moz-box-shadow: inset 0px -10px 0px 0px rgba(255,255,255,0.1);
+            box-shadow: inset 0px -10px 0px 0px rgba(255,255,255,0.1);
+        }
     }
     
     table.borrow-details {

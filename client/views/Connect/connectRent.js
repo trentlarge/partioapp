@@ -38,6 +38,24 @@ Template.connectRent.helpers({
     getCategoryIcon: function() {
       return Categories.getCategoryIconByText(this.productData.category);
     },
+    getCondition: function() {
+      return Rating.getConditionByIndex(this.productData.conditionId);
+    },
+    getRequestDate: function() {
+        return formatDate(this.requestDate);  
+    },
+    getStartDate: function() {
+        return formatDate(this.borrowDetails.date.start);
+    },
+    getEndDate: function() {
+        return formatDate(this.borrowDetails.date.end);
+    },
+    getTotalDays: function() {
+        if( this.borrowDetails.date.totalDays > 1 ) {
+            return this.borrowDetails.date.totalDays + ' days';
+        }
+        return this.borrowDetails.date.totalDays + ' day';
+    },
 	noProfileYet: function() {
 		if (this.avatar === "notSet") {
 			return true;
@@ -58,13 +76,13 @@ Template.connectRent.helpers({
 		return Connections.findOne(this._id).meetupLocation;
 	},
 	paymentDone: function() {
-		return Connections.findOne(this._id).payment ? true:false;
+		return Connections.findOne(this._id).payment ? true : false;
 	},
 	itemReturnDone: function() {
 		return (Connections.findOne(this._id).state === "RETURNED" || Connections.findOne(this._id).state === "DONE" ) ? true : false;
 	},
 	paymentPending: function() {
-		return Connections.findOne(this._id).state === "PAYMENT" ? true : false;
+		return (Connections.findOne(this._id).state === "PAYMENT" || Connections.findOne(this._id).state === "WAITING") ? true : false;
 	},
 	calculatedPrice: function() {
 
@@ -102,42 +120,6 @@ Template.connectRent.helpers({
             return 'disabled';
         }
     },
-    numberDays: function() {
-        return Session.get('numberDays');
-    },
-    numberWeeks: function() {
-        return Session.get('numberWeeks');
-    },
-    numberMonths: function() {
-        return Session.get('numberMonths');
-    },
-    numberSemesters: function() {
-        return Session.get('numberSemesters');
-    },
-    totalPriceDays: function() {
-        return Session.get('numberDays') * this.productData.rentPrice.day;
-    },
-    totalPriceWeeks: function() {
-        return Session.get('numberWeeks') * this.productData.rentPrice.week;
-    },
-    totalPriceMonths: function() {
-        return Session.get('numberMonths') * this.productData.rentPrice.month;
-    },
-    totalPriceSemesters: function() {
-        return Session.get('numberSemesters') * this.productData.rentPrice.semester;
-    },
-    activeDays: function() {
-         return (Session.get('numberDays') > 0) ? 'active' : '';
-    },
-    activeWeeks: function() {
-         return (Session.get('numberWeeks') > 0) ? 'active' : '';
-    },
-    activeMonths: function() {
-         return (Session.get('numberMonths') > 0) ? 'active' : '';
-    },
-    activeSemesters: function() {
-         return (Session.get('numberSemesters') > 0) ? 'active' : '';
-    },
     isBorrowed: function() {
         return (this.state === 'IN USE') ? true : false;
     },
@@ -146,105 +128,43 @@ Template.connectRent.helpers({
     },
     getDaysLeft: function() {
        var diff;
-       if($.now() > new Date(this.date.start).getTime()) {
-           diff = new Date(this.date.end - $.now());
+       if($.now() > new Date(this.borrowDetails.date.start).getTime()) {
+           diff = new Date(this.borrowDetails.date.end - $.now());
        }
        else {
-           diff = new Date(this.date.end - this.date.start);
+           diff = new Date(this.borrowDetails.date.end - this.borrowDetails.date.start);
        }
-       var totalDays = Math.floor((diff/1000/60/60/24) + 1);
+       var daysLeft = Math.floor((diff/1000/60/60/24) + 1);
 
-       if(totalDays <= 1) {
-           return totalDays + ' day left'
+       if(daysLeft <= 1) {
+           return daysLeft + ' day left'
        }
-       return totalDays + ' days left';
-    },
-    getBorrowPeriod: function() {
-        var startDate = formatDate(this.date.start),
-            endDate = formatDate(this.date.end);
-        return startDate + ' to ' + endDate;
-    },
+       return daysLeft + ' days left';
+    }
 });
 
 
 Template.connectRent.events({
+    'click .product-details': function(e, template) {
+
+      var productDetails = $('.product-details');
+      var productDetailsItem = $('.product-details-item');
+
+        if(productDetailsItem.hasClass('hidden')){
+            productDetailsItem.removeClass('hidden');
+            productDetails.find('.chevron-icon').removeClass('ion-chevron-right').addClass('ion-chevron-down');
+        }
+        else {
+            productDetailsItem.addClass('hidden');
+            productDetails.find('.chevron-icon').removeClass('ion-chevron-down').addClass('ion-chevron-right');
+        }
+    },
 	'click #btnCallUser': function(err, template) {
 		var _requestor = Session.get("_requestor");
 		var _owner 	 	 = Session.get("_owner");
 
 		PartioCall.init(_requestor, _owner);
 	},
-
-  'changeDate .range-end': function(e, template) {
-
-      var start = $(".range-start").datepicker("getDate"),
-          end   = $(".range-end").datepicker("getDate");
-
-      var diff = new Date(end - start);
-      var totalDays = (diff/1000/60/60/24) + 1;
-
-      if($('.selected').length === 0) {
-          totalDays = 0;
-      }
-
-      //rent days and period
-      var rentDays = $('.rent-days'),
-          rentPeriod = $('.rent-period');
-
-      rentDays.empty();
-      rentPeriod.empty();
-
-      if(totalDays > 0) {
-
-          if(totalDays === 1) {
-              rentDays.append(Math.floor(totalDays) + ' day');
-          }
-          else {
-              rentDays.append(Math.floor(totalDays) + ' days');
-          }
-
-          var startDate = $('.range-start').data('datepicker').getFormattedDate('mm-dd-yyyy'),
-              endDate = $('.range-end').data('datepicker').getFormattedDate('mm-dd-yyyy');
-
-          rentPeriod.append(startDate + ' to ' + endDate);
-      }
-
-
-      //rent prices
-
-      //semesters
-      var semesters = Math.floor(totalDays/120);
-      totalDays =  Math.floor(totalDays % 120);
-      //months
-      var months = Math.floor(totalDays/30);
-      totalDays =  Math.floor(totalDays % 30);
-      //weeks
-      var weeks = Math.floor(totalDays/7);
-      totalDays =  Math.floor(totalDays % 7);
-      //days
-      var days = totalDays;
-
-      var rentPrice = {
-          "semesters": semesters,
-          "months": months,
-          "weeks": weeks,
-          "days": days,
-      };
-
-      Session.set('rentPrice', rentPrice);
-
-      Session.set('numberDays', days);
-      Session.set('numberWeeks', weeks);
-      Session.set('numberMonths', months);
-      Session.set('numberSemesters', semesters);
-
-      if(days > 0){ $('.thDay').addClass('active') } else { $('.thDay').removeClass('active') }
-      if(weeks > 0){ $('.thWeek').addClass('active') } else { $('.thWeek').removeClass('active') }
-      if(months > 0){ $('.thMonth').addClass('active') } else { $('.thMonth').removeClass('active') }
-      if(semesters > 0){ $('.thSemester').addClass('active') } else { $('.thSemester').removeClass('active') }
-
-    },
-
 	'click #returnItem': function() {
 		var connectionId = this._id;
 		var requestorName = Meteor.users.findOne(this.requestor).profile.name;
@@ -264,18 +184,12 @@ Template.connectRent.events({
 				})
 
 				IonPopup.close();
-                Router.go('/renting');
-//				IonModal.open("feedback", Connections.findOne(connectionId));
+//                Router.go('/renting');
+				IonModal.open("feedback", Connections.findOne(connectionId));
 			}
 
 		});
 
-	},
-	'change #slider': function(e) {
-		Session.set('sliderValue', e.target.value);
-	},
-	'touchstart #slider-container': function(e) {
-		e.stopPropagation();
 	},
 	'click #startChat': function() {
 		IonModal.open("chat", Connections.findOne(this));
@@ -288,14 +202,10 @@ Template.connectRent.events({
 			var connectionId = this._id;
 			var payerCustomerId = Meteor.user().profile.customer.id;
 			var recipientAccountId = Meteor.users.findOne(this.productData.ownerId).profile.stripeAccount.id;
-			var amount = Session.get('amountPrice');//(Number(this.productData.customPrice) * Session.get('sliderValue')).toFixed(2);
+			var amount = this.borrowDetails.price.total; 
 			var transactionsId = Meteor.user().profile.transactionsId;
 			var transactionsRecipientId = Meteor.users.findOne(this.productData.ownerId).profile.transactionsId;
 			var recipientDebitId = Meteor.users.findOne(this.productData.ownerId).profile.payoutCard.id;
-//            var rentDate = {
-//                start : $(".range-start").datepicker("getDate"),
-//                end : $(".range-end").datepicker("getDate")
-//            }
 
 			IonPopup.confirm({
 				cancelText: 'Cancel',
