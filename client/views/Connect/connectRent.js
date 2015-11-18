@@ -244,7 +244,7 @@ Template.connectRent.events({
 			Router.go('/profile/savedcards');
 		}
 	},
-	'click #cancel-request': function() {
+	'click #cancelRequest': function() {
 		connectionId = this._id;
 		console.log('Cancelling Book Request');
 
