@@ -27,6 +27,6 @@ ProfileController = RouteController.extend({
 	},
 
 	onAfterAction: function() {
-		
+
 	}
 });

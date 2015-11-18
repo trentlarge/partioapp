@@ -1,6 +1,7 @@
 Router.configure({
 	layoutTemplate: 'appLayout',
-	routeControllerNameConverter: "upperCamelCase"
+	routeControllerNameConverter: "upperCamelCase",
+	loadingTemplate: 'loadingData',
 });
 
 // !!!
@@ -73,25 +74,18 @@ Router.route('/logout', {name: 'logout',
 //
 // !!!
 
-Router.onBeforeAction(loginChecker, {except: ['emailverification', 'register', 'login', 'twilio']} );
-// Router.onAfterAction(stopSpinner);
-
-function loginChecker() {
-	if (Meteor.userId()) {
-		if (Meteor.user().emails && Meteor.user().emails[0].verified) {
-			this.next()
-		} else {
-			this.render('profile');
-		}
-	} else {
-		// if (Meteor.loggingIn()) {
-		// 	IonLoading.show();
-		// } else {
+Router.onBeforeAction(function(pause){
+		if(!Meteor.user()) {
 			this.render('login');
-		//}
-	}
-}
-
-// function stopSpinner() {
-// //	IonLoading.hide();
-// }
+		} else {
+			if(Meteor.user().emails[0]){
+				if(Meteor.user().emails[0].verified) {
+					this.next();
+				} else {
+					this.render('profile');
+				}
+			} else {
+				this.render('profile');
+			}
+		}
+}, {except: ['emailverification', 'register', 'login', 'twilio']} );
