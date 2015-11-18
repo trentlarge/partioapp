@@ -32,6 +32,6 @@ SearchController = RouteController.extend({
 	},
 
 	onAfterAction: function() {
-		
+
 	}
 });

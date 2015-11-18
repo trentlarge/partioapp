@@ -27,6 +27,6 @@ CategoriesController = RouteController.extend({
 	},
 
 	onAfterAction: function() {
-		
+
 	}
 });
