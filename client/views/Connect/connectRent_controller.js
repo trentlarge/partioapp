@@ -4,14 +4,17 @@ ConnectRentController = RouteController.extend({
 	},
 
 	action: function() {
-		this.render();
+		if(this.ready()) {
+			PartioLoad.hide();
+			this.render();
+		}
 	},
 
 	waitOn: function() {
 		return [
 			// subscribe to data here
 			// Meteor.subscribe("someSubscription"),
-			// Meteor.subscribe("otherSubscription"),
+			Meteor.subscribe("connections"),
 			// ...
 		];
 	},
@@ -30,6 +33,6 @@ ConnectRentController = RouteController.extend({
 	},
 
 	onAfterAction: function() {
-		
+
 	}
 });
