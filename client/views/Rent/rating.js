@@ -9,8 +9,6 @@ Template.rating.helpers({
             var ratingArray = this.rating;
             var totalCount = ratingArray.length;
             var sum = _.reduce(ratingArray, function(memo, num) {
-                console.log(Number(memo));
-                console.log(Number(num));
               return (Number(memo) + Number(num));
             });
             return parseFloat(sum/totalCount).toFixed(1);
