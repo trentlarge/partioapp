@@ -24,6 +24,23 @@ app.model.Lend = (function () {
 
    };
 
+   function onlyNumber(string)
+   {
+      console.log('COMO CHEGA: '+string);
+       //var numsStr = string.replace(/[^0-9]/g,'');
+       var number = Number(string.replace(/[^0-9\.-]+/g,""));
+       console.log('APENAS NUMEROS: '+number);
+       return number;
+       //parseInt(numsStr);
+   }
+
+ function format1(n) {
+     return n.toFixed(2).replace(/./g, function(c, i, a) {
+         return i > 0 && c !== "." && (a.length - i) % 3 === 0 ? "," + c : c;
+     });
+ }
+
+
    Lend = {
 
         //initialize vars
@@ -62,7 +79,8 @@ app.model.Lend = (function () {
             {
                 this.RentingFinalPrice = parseFloat((this.RentingOneDayPercentage/100) * this.RentingAmazonPrice);
 
-                console.log('ONE_DAY price original'+ this.RentingFinalPrice);
+                console.log('#######'+ this.RentingAmazonPrice);
+                console.log('ONE_DAY price original '+this.RentingFinalPrice);
 
                 if(this.RentingFinalPrice < 3.00)
                     this.RentingFinalPrice = 3.00;
@@ -74,7 +92,7 @@ app.model.Lend = (function () {
 
                 this.RentingFinalPrice = parseFloat(this.RentingFinalPrice * 7);
 //                console.log('Pricex7: ' + this.RentingFinalPrice);
-                console.log('ONE_WEEK price original'+ this.RentingFinalPrice);
+                console.log('ONE_WEEK price original'+ onlyNumber(this.RentingFinalPrice));
 
                 if(this.RentingFinalPrice < 7.00) //$1.00 per day
                     this.RentingFinalPrice = 7.00;
@@ -118,7 +136,7 @@ app.model.Lend = (function () {
 
         GetRentingPercentages : function(strRentingTimeSpan, priceValue)
         {
-            this.RentingAmazonPrice = parseFloat(priceValue);
+            this.RentingAmazonPrice = onlyNumber(priceValue);
             this.RentingTimeSpan = strRentingTimeSpan;
             this.RentingOneDayPercentage = 4;
             this.RentingOneWeekPercentage = 2;

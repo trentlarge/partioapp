@@ -76,16 +76,20 @@ Router.route('/logout', {name: 'logout',
 
 Router.onBeforeAction(function(pause){
 		if(!Meteor.user()) {
-			this.render('login');
+			Router.go('/login')
 		} else {
 			if(Meteor.user().emails[0]){
 				if(Meteor.user().emails[0].verified) {
 					this.next();
 				} else {
-					this.render('profile');
+					if(Router.current().route.getName() == 'profile') {
+						this.next();
+					} else {
+						Router.go('/profile')
+					}
 				}
 			} else {
-				this.render('profile');
+				Router.go('/profile')
 			}
 		}
-}, {except: ['emailverification', 'register', 'login', 'twilio']} );
+}, {except: ['emailverification', 'register', 'login']} );

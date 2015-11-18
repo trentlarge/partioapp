@@ -49,6 +49,35 @@ Template.appLayout.events({
 	// }
 });
 
+Template.appLayout.helpers({
+	showSideMenu: function(){
+		var routeName = Router.current().route.getName();
+		console.log(routeName);
+		console.log(Router.current())
+
+		switch (routeName) {
+			case 'profile':
+				if(!Meteor.user().emails[0].verified){
+					return false;
+				} else {
+					return true;
+				}
+				break;
+			case 'login':
+				return false;
+				break;
+			case 'emailverification':
+				return false;
+				break;
+			case 'register':
+				return false;
+				break;
+			default:
+				return true;
+		}
+	}
+});
+
 Template.sAlertCustom.events({
 	'click .whichalert': function() {
 		Router.go(this.goToChat)
