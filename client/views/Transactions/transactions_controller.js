@@ -4,7 +4,7 @@ TransactionsController = RouteController.extend({
 	},
 
 	action: function() {
- 		{
+ 		
 			if(this.ready()) {
 				PartioLoad.hide();
 				this.render();
@@ -14,7 +14,7 @@ TransactionsController = RouteController.extend({
 	waitOn: function() {
 		return [
 			// subscribe to data here
-			Meteor.subscribe("transactions"),
+			Meteor.subscribe("transactions")
 			// Meteor.subscribe("otherSubscription"),
 			// ...
 		];
