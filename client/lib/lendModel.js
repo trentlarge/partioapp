@@ -92,7 +92,7 @@ app.model.Lend = (function () {
 
                 this.RentingFinalPrice = parseFloat(this.RentingFinalPrice * 7);
 //                console.log('Pricex7: ' + this.RentingFinalPrice);
-                console.log('ONE_WEEK price original'+ onlyNumber(this.RentingFinalPrice));
+                console.log('ONE_WEEK price original'+ this.RentingFinalPrice);
 
                 if(this.RentingFinalPrice < 7.00) //$1.00 per day
                     this.RentingFinalPrice = 7.00;
