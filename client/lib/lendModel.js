@@ -130,9 +130,8 @@ app.model.Lend = (function () {
             console.log('RentingPartioSharePercentage: ' + this.RentingFinalPrice);
 
 
-            this.RentingFinalPrice = Number((this.RentingFinalPrice).toFixed(1)).toFixed(2);
-            console.log('RentingFinalPrice: ' + this.RentingFinalPrice);
-            //console.log('+++++++++++++++++ RentingFinalPrice:'+Number((this.RentingFinalPrice).toFixed(1)).toFixed(2));
+            this.RentingFinalPrice = Math.round(Number((this.RentingFinalPrice).toFixed(1))).toFixed(2);
+            console.log('RentingFinalPrice: ' + Math.round(this.RentingFinalPrice));
         },
 
         GetRentingPercentages : function(strRentingTimeSpan, priceValue)
