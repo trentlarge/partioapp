@@ -41,7 +41,7 @@
     <!-- <div class="content has-header"> -->
 
       {{> settingsProfileImage}}
-            
+
       <div class="list list-inset">
         <form id="profileEdit">
           <label class="item item-input">
@@ -114,10 +114,9 @@
         </a>
       {{else}}
         {{#if emailSet}}
-          <br>
-          <p class="assertive center">Verify your email address to proceed</p>
+          <h3 class="assertive center">Verify your email address to proceed</h3>
         {{else}}
-          <p class="dark center">Your Email should be your official college email address</p>
+          <h3 class="dark center">Your Email should be your official college email address</h3>
           <br>
           <button id="save-college-email" class="button button-block button-energized">SAVE</button>
         {{/if}}
