@@ -1,18 +1,79 @@
-.datepicker table tr td.range, .datepicker table tr td.range:hover, .datepicker table tr td.range.disabled, .datepicker table tr td.range.disabled:hover {
-    display: table-cell;
-}
-
-.range {
-    padding: 0;
-    font-size: 20px;
-    display: inline-block;
-    width: 290px;
-    margin: 0 auto;
-}
-
 .connect, .connectRent {
     
-    color: #272727;
+     color: #272727;
+    
+    .item {
+        display: flex;
+    }
+    
+    .profile-image-box {
+        vertical-align: top;
+        display: inline-block;
+        text-align: center;
+        padding-right: 15px;
+        border-right: 1px solid #DDD;
+        width: 120px;
+        max-width: 120px;
+
+        .rating-box {
+            display: block;
+        }
+
+        .profile-avatar {
+            margin: 0;
+        }
+        
+        .college {
+            font-size: 11px;
+        }
+        
+        p {
+            white-space: normal;
+        }
+    }
+
+    .profile-content {
+//        padding-left: 15px;
+        overflow: hidden;
+        width: 100%;
+    }
+    
+    table.borrow-details {
+        
+        font-size: 14px;
+        width: 100%;
+        
+        tr {
+            
+            &:first-child {
+                float: right;
+                font-size: 12px;
+            }
+            
+            &:not(:first-child) {
+                
+                td {
+                    padding-left: 15px;
+                    padding-bottom: 5px;
+                    padding-top: 5px;
+                }
+                
+                .divider {
+                    background-color: #f5f5f5;
+                    border-bottom: 1px solid #DDD;
+                    border-top-right-radius: 2px;
+                }
+                
+                .price {
+                    font-size: 18px;
+                    color: #f0970d;
+                }
+                
+            }
+            
+        }        
+    }
+    
     
     table.rent-table {
         width: 100%;

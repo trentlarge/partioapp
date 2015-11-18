@@ -34,10 +34,6 @@ Template.connectRent.rendered = function() {
 
 }
 
-Template.connectRent.onRendered(function() {
-	Session.set('sliderValue', 4);
-})
-
 Template.connectRent.helpers({
     getCategoryIcon: function() {
       return Categories.getCategoryIconByText(this.productData.category);
@@ -69,12 +65,6 @@ Template.connectRent.helpers({
 	},
 	paymentPending: function() {
 		return Connections.findOne(this._id).state === "PAYMENT" ? true : false;
-	},
-	todaysDate: function() {
-		return moment().format('MM/DD');
-	},
-	endDate: function() {
-		return moment().add(Session.get('sliderValue'), 'w').format('MM/DD');
 	},
 	calculatedPrice: function() {
 
@@ -302,10 +292,10 @@ Template.connectRent.events({
 			var transactionsId = Meteor.user().profile.transactionsId;
 			var transactionsRecipientId = Meteor.users.findOne(this.productData.ownerId).profile.transactionsId;
 			var recipientDebitId = Meteor.users.findOne(this.productData.ownerId).profile.payoutCard.id;
-            var rentDate = {
-                start : $(".range-start").datepicker("getDate"),
-                end : $(".range-end").datepicker("getDate")
-            }
+//            var rentDate = {
+//                start : $(".range-start").datepicker("getDate"),
+//                end : $(".range-end").datepicker("getDate")
+//            }
 
 			IonPopup.confirm({
 				cancelText: 'Cancel',
@@ -317,7 +307,7 @@ Template.connectRent.events({
 				},
 				onOk: function() {
 					PartioLoad.show();
-					Meteor.call('chargeCard', payerCustomerId, payerCardId, recipientDebitId, amount, rentDate, connectionId, transactionsId, transactionsRecipientId, function(error, result) {
+					Meteor.call('chargeCard', payerCustomerId, payerCardId, recipientDebitId, amount, connectionId, transactionsId, transactionsRecipientId, function(error, result) {
 						if (!error) {
 							PartioLoad.hide();
 							IonPopup.show({

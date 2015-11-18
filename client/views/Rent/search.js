@@ -6,8 +6,8 @@ Template.search.helpers({
     return Meteor.users.findOne(userId).profile.name;
   },
   peopleList: function() {
-    var title = Search.findOne(this._id).title;
-    return Products.find({"title": title});
+    var search = Search.findOne(this._id);
+    return Products.find({"title": search.title});
   },
   isOwner: function() {
       return (this.ownerId === Meteor.userId()) ? true : false;
@@ -17,8 +17,8 @@ Template.search.helpers({
   },
 
   commonProductTitle: function() {
-    var _title = Search.findOne(this._id).title;
-    var products = Products.findOne({title: _title});
+    var search = Search.findOne(this._id);
+    var products = Products.findOne({title: search.title});
     if(!products) {
       console.log(' error products');
     } else {
@@ -83,37 +83,40 @@ Template.search.events({
     console.log('requesting product...');
     var ownerId = this.ownerId;
     var productId = this._id;
+    console.log(this);
+    console.log(Products.findOne(this._id));
+    IonModal.open("requestRent", Products.findOne(this._id));
       
-    IonPopup.confirm({
-        okText: 'Proceed',
-        cancelText: 'Cancel',
-        title: 'Continuing will send a request to the product Owner',
-        template: '<div class="center">You\'ll receive a notification once the owner accepts your request</div>',
-        onOk: function() {
-          console.log("proceeding with connection");
-          PartioLoad.show();
-          Meteor.call('requestOwner', Meteor.userId(), productId, ownerId, function(error, result) {
-            if (!error) {
-              PartioLoad.hide();
-              console.log(result);
-              IonLoading.show({
-                duration: 2000,
-                delay: 400,
-                customTemplate: '<div class="center"><h5>Request Sent</h5></div>',
-              });
-              // Meteor.setTimeout(function() {
-              //   Router.go('/booksLent');
-              // }, 2500)
-            } else {
-              PartioLoad.hide();
-              console.log(error);
-            }
-          })
-        },
-        onCancel: function() {
-          console.log('Cancelled');
-        }
-      });
+//    IonPopup.confirm({
+//        okText: 'Proceed',
+//        cancelText: 'Cancel',
+//        title: 'Continuing will send a request to the product Owner',
+//        template: '<div class="center">You\'ll receive a notification once the owner accepts your request</div>',
+//        onOk: function() {
+//          console.log("proceeding with connection");
+//          PartioLoad.show();
+//          Meteor.call('requestOwner', Meteor.userId(), productId, ownerId, function(error, result) {
+//            if (!error) {
+//              PartioLoad.hide();
+//              console.log(result);
+//              IonLoading.show({
+//                duration: 2000,
+//                delay: 400,
+//                customTemplate: '<div class="center"><h5>Request Sent</h5></div>',
+//              });
+//              // Meteor.setTimeout(function() {
+//              //   Router.go('/booksLent');
+//              // }, 2500)
+//            } else {
+//              PartioLoad.hide();
+//              console.log(error);
+//            }
+//          })
+//        },
+//        onCancel: function() {
+//          console.log('Cancelled');
+//        }
+//      });
 
 //    if (this.ownerId === Meteor.userId()) {
 //      IonPopup.show({

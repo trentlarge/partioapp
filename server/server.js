@@ -368,7 +368,7 @@ Meteor.methods({
     sendNotification(connect.requestor, connect.productData.ownerId, message, "info");
   },
 
-  requestOwner: function(requestorId, productId, ownerId) {
+  requestOwner: function(requestorId, productId, ownerId, borrowDetails) {
     console.log(requestorId, productId, ownerId);
 
     var requestorName = Meteor.users.findOne(requestorId).profile.name;
@@ -378,7 +378,7 @@ Meteor.methods({
       requestor: requestorId,
       state: 'WAITING',
       requestDate: new Date(),
-      borrowedDate: null,
+      borrowDetails: borrowDetails,
       productData: product,
       chat: [  ],
       meetupLocation: "Location not set",
@@ -430,7 +430,7 @@ Meteor.methods({
     Connections.update({_id: payer}, {$set: {state: "IN USE"}});
     return "yes, payment done"
   },
-  'chargeCard': function(payerCustomerId, payerCardId, recipientDebitId, amount, rentDate, connectionId, transactionsId, transactionsRecipientId) {
+  'chargeCard': function(payerCustomerId, payerCardId, recipientDebitId, amount, connectionId, transactionsId, transactionsRecipientId) {
     this.unblock();
     console.log(payerCustomerId, payerCardId, recipientDebitId, amount, connectionId, transactionsId, transactionsRecipientId);
     var formattedAmount = (amount * 100).toFixed(0);
@@ -458,7 +458,7 @@ Meteor.methods({
           receivedAmount: result.amount/100
         }
 
-        Connections.update({_id: connectionId}, {$set: {state: "IN USE", payment: result, date: rentDate}});
+        Connections.update({_id: connectionId}, {$set: {state: "IN USE", payment: result}});
         Search.update({"ean": Connections.findOne(connectionId).productData.ean}, {$inc: {qty: -1}})
         Transactions.update({_id: transactionsId}, {$push: {spending: payerTrans}});
         Transactions.update({_id: transactionsRecipientId}, {$push: {earning: recipientTrans}});

@@ -21,6 +21,21 @@ Template.connect.helpers({
     getCategoryIcon: function() {
         return Categories.getCategoryIconByText(this.productData.category);
     },
+    getRequestDate: function() {
+        return formatDate(this.requestDate);  
+    },
+    getStartDate: function() {
+        return formatDate(this.borrowDetails.date.start);
+    },
+    getEndDate: function() {
+        return formatDate(this.borrowDetails.date.end);
+    },
+    getTotalDays: function() {
+        if( this.borrowDetails.date.totalDays > 1 ) {
+            return this.borrowDetails.date.totalDays + ' days';
+        }
+        return this.borrowDetails.date.totalDays + ' day';
+    },
 	noProfileYet: function() {
 		if (this.avatar === "notSet") {
 			return true;
