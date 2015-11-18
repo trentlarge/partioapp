@@ -10,19 +10,31 @@
   {{#ionBody}}
     {{> sAlert template='sAlertCustom'}}
 
-    {{#ionSideMenuContainer side="left"}}
+    {{#if showSideMenu}}
+      {{#ionSideMenuContainer side="left"}}
+         <!-- sidemenu -->
+         {{> sidemenu }}
 
-       <!-- sidemenu -->
-       {{> sidemenu }}
+         <!-- content -->
+          {{#ionSideMenuContent}}
+            {{> ionNavBar class="bar-royal"}}
+            {{#ionNavView}}
+              {{> yield}}
+            {{/ionNavView}}
+          {{/ionSideMenuContent}}
+      {{/ionSideMenuContainer}}
+    {{else}}
 
-       <!-- content -->
-        {{#ionSideMenuContent}}
-          {{> ionNavBar class="bar-royal"}}
-          {{#ionNavView}}
-            {{> yield}}
-          {{/ionNavView}}
-        {{/ionSideMenuContent}}
-    {{/ionSideMenuContainer}}
+      {{#ionView}}
+        {{> ionNavBar class="bar-royal"}}
+        {{#ionNavView}}
+          {{> yield}}
+        {{/ionNavView}}
+      {{/ionView}}
+
+    {{/if}}
+
+
 
   {{/ionBody}}
 </template>
