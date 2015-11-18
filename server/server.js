@@ -33,6 +33,45 @@ Kadira.connect('qhAvzzmgKeHaZ9rd9', '338e5eb7-842c-47f5-bfe7-7a4d3b9c0607');
       return 'Welcome to partiO!';
     };
     Accounts.emailTemplates.verifyEmail.text = function(user, url) {
+
+
+
+      // var body =
+      // '<!DOCTYPE html>\
+      //         <html>\
+      //             <head>\
+      //                 <title>Partio</title>\
+      //                 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">\
+      //                 <style>\
+      //                 a {\
+      //                     color:#95cbab;\
+      //                 }\
+      //                 </style>\
+      //             </head>\
+      //             <body>\
+      //                 <table width="750" bgcolor="#F8EFE0">\
+      //                     <tr height="373">\
+      //                         <td><img src="http://partio.cloudservice.io/img/template_cabecalho.jpg" /></td>\
+      //                     </tr>\
+      //                     <tr>\
+      //                         <td>\
+      //                             <div style="width:640px;font-family:arial; tex-align:left; margin-left:50px;color:#858380">\
+      //                                 <h1 style="color:#2ea570;font-size:40px">Subject</h1>\
+      //                                 <p style="font-size:20px;line-height:38px;">O texto vai aqui</p>\
+      //                             </div>\
+      //                         </td>\
+      //                     </tr>\
+      //                     <tr height="262">\
+      //                         <td><img src="http://partio.cloudservice.io/img/template_rodape.jpg" /></td>\
+      //                     </tr>\
+      //                 </table>\
+      //             </body>\
+      //         </html>';
+      //
+      //
+      //
+      //       return body;
+
       return "Hello there! \n\n" +
       "Welcome aboard partiO! \n" +
       "The things you own end up making money for you! Sounds familiar? Er..nevermind! To make this happen, it all starts with one link. \n" +
@@ -290,10 +329,6 @@ Meteor.methods({
       }
     }
 
-  },
-  generateSinchTicket: function() {
-    if (!Meteor.userId()) throw new Meteor.Error(401, "You must be authenticated!");
-    return SinchTicketGenerator('8e10bb06-6bbb-4682-993d-c5e30a719882', 'ndWxLrf6qE2ESyOVh+L8Nw==', {username: Meteor.userId()});
   },
   priceFromAmazon: function(barcode) {
     // var originalFormat = format;
