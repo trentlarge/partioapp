@@ -27,6 +27,6 @@ SavedCardsController = RouteController.extend({
 	},
 
 	onAfterAction: function() {
-		
+
 	}
 });
