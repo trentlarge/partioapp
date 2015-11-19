@@ -97,7 +97,9 @@
         <div class="package {{isCategorySelected}}">
             {{#ionItem path='search' _id=this._id iconRight=true class="item-avatar-2 qty-check"}}
           <!-- {{#ionItem path='bookDetail' _id=this._id iconRight=true class="item-avatar-2"}} -->
-                <div class="book-avatar"><div class="book-avatar-inner" style="background: url('{{image}}') no-repeat; background-size:cover; background-position: 50% 20%;"></div></div>
+                <div class="product-avatar">
+                  <img class="product-avatar-inner" src="{{image}}"/>
+                </div>
                 <p class="main-title-text">{{{title}}}</p>
                 <p class="main-sub-text">{{{authors}}}</p>
                 <!-- <p class="main-sub-text">Description: {{{description}}}</p> -->
