@@ -13,7 +13,9 @@ Router.waitOn(function () {
 	// Meteor.subscribe("products");
 	// Meteor.subscribe("search");
 	// Meteor.subscribe("transactions");
-	// Meteor.subscribe("all_users");
+	Meteor.subscribe("current_user_data");
+	Meteor.subscribe("all_users");
+
 });
 //
 // !!!
