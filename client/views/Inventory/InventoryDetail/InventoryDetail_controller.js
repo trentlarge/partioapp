@@ -1,10 +1,10 @@
-InventoryController = RouteController.extend({
+InventoryDetailController = RouteController.extend({
 	onBeforeAction: function() {
 		this.next();
 	},
 
 	action: function() {
-		if(this.ready()) {
+		if(this.ready){
 			this.render();
 		}
 	},
@@ -20,12 +20,8 @@ InventoryController = RouteController.extend({
 
 	data: function() {
 		return {
-			//
-			// read data from database here like this:
-			//   someData: SomeCollection.find(),
-			//   moreData: OtherCollection.find()
-			// ...
-		};
+			myProducts: Products.find({ownerId: Meteor.userId()})
+		}
 	},
 
 	onAfterAction: function() {

@@ -1,0 +1,139 @@
+<template name="inventory">
+  {{#contentFor "headerButtonLeft"}}
+      <button class="button button-clear pull-left" data-ion-menu-toggle="left">
+        {{#if isAndroid}}
+        {{> ionIcon icon='android-more-vertical'}}
+        {{else}}
+        {{> ionIcon icon='navicon' class="energized"}}
+        {{/if}}
+      </button>
+  {{/contentFor}}
+
+  {{#contentFor "headerTitle"}}
+    <h1 class="title">Inventory</h1>
+  {{/contentFor}}
+
+  {{#contentFor "headerButtonRight"}}
+    <a href="/" class="button button-clear">
+        <object id="spinner-logo-simple" data="/logo/spinner-logo-simple.svg" type="image/svg+xml"></object>
+    </a>
+  {{/contentFor}}
+
+  {{#ionView}}
+    {{#ionContent class="product-list"}}
+
+      <!-- FINALIZED REQUESTS -->
+
+      {{#if myProducts}}
+        {{#if finalizedRequests}}
+          <div class="item item-divider final-requests"><h3>Finalized requests <i class="chevron-icon icon ion-chevron-right"></i></h3></div>
+          {{#each finalizedRequests}}
+            {{#ionItem path="connect" _id=this._id class="item-avatar-2 final-request-item hidden"}}
+              <div  class="product-avatar"><div class="product-avatar-inner" style="background: url('{{productData.image}}') no-repeat; background-size:cover; background-position: 50% 20%;"></div></div>
+              <p class="main-title-text">{{productData.title}}</p>
+              <p class="main-sub-text">Rent Price:</p>
+              <p class="main-sub-text">
+                <table class="rent-table">
+                  <tbody>
+                    <tr>
+                      <th><i class="icon">D</i></th>
+                      <th><i class="icon">W</i></th>
+                      <th><i class="icon">M</i></th>
+                      <th><i class="icon">S</i></th>
+                    </tr>
+                    <tr>
+                      <td>${{productData.rentPrice.day}}</td>
+                      <td>${{productData.rentPrice.week}}</td>
+                      <td>${{productData.rentPrice.month}}</td>
+                      <td>${{productData.rentPrice.semester}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </p>
+              <span class="badge share-status">{{getState}}</span>
+              <div class="item-icon-right">
+                {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
+              </div>
+            {{/ionItem}}
+          {{/each}}
+        {{/if}}
+
+        <!-- NEW REQUESTS -->
+
+        {{#if newRequests}}
+          <div class="item item-divider requests"><h3>Requests from others <i class="chevron-icon icon ion-chevron-right"></i></h3></div>
+          {{#each newRequests}}
+            {{#ionItem path="connect" _id=this._id class="item-avatar-2 request-item"}}
+              <div  class="product-avatar"><div class="product-avatar-inner" style="background: url('{{productData.image}}') no-repeat; background-size:cover; background-position: 50% 20%;"></div></div>
+              <p class="main-title-text">{{productData.title}}</p>
+              <p class="main-sub-text">Rent Price:</p>
+              <p class="main-sub-text">
+                <table class="rent-table">
+                  <tbody>
+                    <tr>
+                      <th><i class="icon">D</i></th>
+                      <th><i class="icon">W</i></th>
+                      <th><i class="icon">M</i></th>
+                      <th><i class="icon">S</i></th>
+                    </tr>
+                    <tr>
+                      <td>${{productData.rentPrice.day}}</td>
+                      <td>${{productData.rentPrice.week}}</td>
+                      <td>${{productData.rentPrice.month}}</td>
+                      <td>${{productData.rentPrice.semester}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </p>
+              <span class="badge share-status">{{getState}}</span>
+              <div class="item-icon-right">
+                {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
+              </div>
+            {{/ionItem}}
+          {{/each}}
+        {{/if}}
+
+        <!-- LISTING ALL USER PRODUCTS -->
+        <div class="item item-divider products"><h3>My products <i class="chevron-icon icon ion-chevron-down"></i></h3></div>
+        {{#each myProducts}}
+          {{#ionItem path='inventoryDetail' _id=this._id class="item-avatar-2 product-item"}}
+            <div class="product-avatar"><div class="product-avatar-inner" style="background: url('{{image}}') no-repeat; background-size:cover; background-position: 50% 20%;"></div></div>
+            <p class="main-title-text">{{title}}</p>
+            <p class="main-sub-text">Condition of the item: {{getCondition}}</p>
+            <p class="main-sub-text">Rent Price:</p>
+            <p class="main-sub-text">
+              <table class="rent-table">
+                <tbody>
+                  <tr>
+                    <th><i class="icon">D</i></th>
+                    <th><i class="icon">W</i></th>
+                    <th><i class="icon">M</i></th>
+                    <th><i class="icon">S</i></th>
+                  </tr>
+                  <tr>
+                    <td>${{rentPrice.day}}</td>
+                    <td>${{rentPrice.week}}</td>
+                    <td>${{rentPrice.month}}</td>
+                    <td>${{rentPrice.semester}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </p>
+            <div class="item-icon-right">
+            {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
+            </div>
+          {{/ionItem}}
+        {{/each}}
+      {{else}}
+        <div class="center">
+          <a href="/" class="button" style="margin-top:30px;border:0;background-color:transparent;">
+            <div class="logo-share">
+                <object id="spinner-logo-simple" data="/logo/spinner-logo-simple.svg" type="image/svg+xml" style="height: 150px;"></object>
+            </div>
+            <h6 class="dark">Start sharing your items on partiO!</h6>
+          </a>
+        </div>
+      {{/if}}
+    {{/ionContent}}
+  {{/ionView}}
+</template>
