@@ -12,15 +12,27 @@ InventoryDetailController = RouteController.extend({
 	waitOn: function() {
 		return [
 			// subscribe to data here
-			Meteor.subscribe("products"),
-			// Meteor.subscribe("otherSubscription"),
-			// ...
+			Meteor.subscribe("myProducts"),
+			Meteor.subscribe("myConnectionsOwner"),
 		];
 	},
 
 	data: function() {
 		return {
-			myProducts: Products.find({ownerId: Meteor.userId()})
+			product: Products.findOne({ownerId: Meteor.userId()}),
+			getCategoryIcon: function(_productCategory) {
+		    return Categories.getCategoryIconByText(_productCategory);
+		  },
+		  editMode: function(_productId) {
+		    var ConnectionObj = Connections.findOne({'productData._id': _productId});
+		    if(ConnectionObj){
+		      var ConnectionStatus = ConnectionObj.state;
+		      if(ConnectionStatus != "RETURNED"){
+		        return false;
+		      }
+		    }
+		    return Session.get('editMode') ? true : false;
+		  }
 		}
 	},
 

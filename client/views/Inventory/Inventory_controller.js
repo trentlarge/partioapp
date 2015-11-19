@@ -20,15 +20,15 @@ InventoryController = RouteController.extend({
 			myProducts: function() {
 				return Products.find({ownerId: Meteor.userId()})
 			},
-			getState: function() {
-				if(this.state === 'PAYMENT') {
+			getState: function(state) {
+				if(state === 'PAYMENT') {
 					return 'RENTER PAYMENT';
 				}
-				else if(this.state === 'IN USE') {
+				else if(state === 'IN USE') {
 					return 'BORROWED';
 				}
 				else {
-					return this.state;
+					return state;
 				}
 			},
 			newRequests: function() {
@@ -37,14 +37,8 @@ InventoryController = RouteController.extend({
 		  finalizedRequests: function() {
 		  	return Connections.find({"productData.ownerId": Meteor.userId(), "state": "RETURNED"});
 		  },
-		  status: function() {
-		    return Connections.findOne(this._id).approved ? "IN USE" : "WAITING" ;
-		  },
-		  statusWaiting: function() {
-		    return Connections.findOne(this._id).state === "WAITING" ? true: false;
-		  },
 		  getCondition: function() {
-		      return Rating.getConditionByIndex(this.conditionId);
+		    return Rating.getConditionByIndex(this.conditionId);
 		  }
 		}
 	},

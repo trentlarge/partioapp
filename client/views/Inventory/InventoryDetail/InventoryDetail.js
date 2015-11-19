@@ -44,36 +44,10 @@ Template.inventoryDetail.events({
     var edited = template.find('.semesterPrice').value;
     var title = template.find('.title').value;
 
-    Products.update({_id: this._id}, {$set: {title: title, customPrice: edited, rentPrice: editedPrices}});
+    Products.update({_id: this.product._id}, {$set: {title: title, customPrice: edited, rentPrice: editedPrices}});
     Session.set('editMode', false);
   }
 });
-
-Template.inventoryDetail.helpers({
-  getCategoryIcon: function() {
-      return Categories.getCategoryIconByText(this.category);
-  },
-  editMode: function() {
-
-    var ConnectionObj = Connections.findOne({'productData._id': this._id});
-
-    if(ConnectionObj)
-    {
-      var ConnectionStatus = ConnectionObj.state;
-
-      if(ConnectionStatus != "RETURNED")
-      {
-        //Check if book is in RENTING mode and disable edit option
-        return false;
-      }
-    }
-
-    return Session.get('editMode') ? true : false;
-  },
-  manualEntry: function() {
-    return (this.manualEntry) ? true : false;
-  }
-})
 
 function showInvalidPopUp(strTitle, strMessage)
 {
@@ -91,4 +65,3 @@ function showInvalidPopUp(strTitle, strMessage)
           }]
         });
 }
-
