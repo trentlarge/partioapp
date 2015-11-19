@@ -3,7 +3,7 @@
   {{#ionContent}}
     {{#if scanResult}}
         {{#with scanResult}}
-        <div class="card">
+        <div class="resultsCamFind-details padding-horizontal padding-vertical">
             <div class="item no-padding">
                 <div class="center">
                     <img class="scanResult-thumbnail" src="{{image}}">
@@ -28,11 +28,11 @@
                     {{/each}}
                 </div>
             </div>
-        </div>
-        <div class="list list-inset">
+            
           <div class="item item-divider">
             Rent Price
           </div>
+            
           <label class="item item-input">
               <span class="input-label"><p>Day</p></span>
             <input type="number" class="userPrice dayPrice" placeholder="0.00" value="{{calculatedPriceDay}}">
