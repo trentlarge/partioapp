@@ -59,19 +59,12 @@ Template.lend.events({
         if (Session.get('scanResult')) {
 
             if(Lend.validatePrices()) {
-                Session.set('BookAddType', 'SCAN');
+//                Session.set('BookAddType', 'SCAN');
 
                 var submitProduct = Session.get('scanResult');
-
-                // if(submitProduct.asin) {
-                //     var _uniqueId = submitProduct.asin;
-                // } else if(product.ean) {
-                //     var _uniqueId = submitProduct.ean;
-                // }
-
                 var product = _.extend(submitProduct,
                 {
-                    // "lendingPeriod": lendingPeriod,
+                    "title": $('.productTitle').val(),
                     "ownerId": Meteor.userId(),
                     'searchId': null,
                     "conditionId": Session.get('condition'),
@@ -82,8 +75,13 @@ Template.lend.events({
                         "semester": Session.get('semesterPrice')
                     }
                 });
+                
+                if(!ValidateInputs(product)){
+                    PartioLoad.hide();
+                    return;
+                }
 
-                 Lend.addProductToInventory(product);
+                Lend.addProductToInventory(product);
             }
 
         } else {
@@ -191,37 +189,6 @@ Template.lend.helpers({
   manualEntry: function() {
     return Session.get('manualEntry')
   },
-  // scanResult: function() {
-  //   return Session.get('scanResult');
-  // },
-  calculatedPrice: function() {
-    if (Session.get('scanResult') &&
-        Session.get('BookAddType') != 'MANUAL') {
-      if (Session.get('scanResult').price === "--") {
-        return false;
-      }
-      else
-      {
-        if(RentingFinalPrice == null ||
-          RentingFinalPrice == 0)
-        {
-          var priceValue = (Session.get('scanResult').price).split("$")[1];
-          console.log('priceValue: ' + priceValue);
-          Session.set('priceValue', priceValue);
-
-          Session.set('userPrice', (Number(priceValue)/5).toFixed(2));
-
-          GetRentingPercentages('ONE_WEEK');
-          Session.set('userPrice', RentingFinalPrice);
-
-          // return (Number(priceValue)/5).toFixed(2);
-          return RentingFinalPrice;
-        }
-
-        return RentingFinalPrice;
-      }
-    }
-  },
   waitingForPrice: function() {
     return Session.get('userPrice') ? "": "disabled";
     //return Session.get('userPrice') ? "": "";
@@ -230,11 +197,6 @@ Template.lend.helpers({
     console.log('price rendered: ' + Session.get('userPrice'));
     return Session.get('userPrice');
   },
-//   bookResult: function() {
-// //    return (Session.get('scanResult').category === "Book") ? true : false;
-//       return Session.get('scanResult');
-//   },
-
   dynamicTemplate: function(){
     return (Session.get('lendTab')) ? Session.get('lendTab') : 'camfind' ;
   },
@@ -246,27 +208,16 @@ Template.lend.helpers({
   }
 });
 
-// Template.lend.destroyed = function() {
-//   Session.set('scanResult', null);
-//   Session.set('barcodeEntry', null);
-//   Session.set('manualEntry', null);
-//   Session.set('photoTaken', null)
-// }
-
 Template.lend.rendered = function() {
-  // Session.set('viewFinder', true);
-  // reseting results
+
   Session.set('scanResult', null);
   Session.set('allResults', null);
   Session.set('lastSearch', null);
-  // Session.set('lendTab', 'camfind')
-  // $('.tab-item[data-id=camfind]').addClass('active');
 
   if(Session.set('lendTab') == 'resultsCamFind' && !Session.get('allResults')){
     Session.set('lendTab', 'camfind');
   }
 }
-
 
 function ClearData(){
   console.log('ClearData');
@@ -289,8 +240,15 @@ function ClearData(){
 
 function ValidateInputs(details)
 {
+    console.log(JSON.stringify(details));
+    
   if(!details.title || details.title.length < 1) {
     showInvalidPopUp('Invalid Inputs', 'Please enter a valid Title.');
+    return false;
+  }
+    
+  if(!details.conditionId || details.conditionId < 1) {
+    showInvalidPopUp('Invalid Inputs', 'Please enter a valid Condition of the item.');
     return false;
   }
 
