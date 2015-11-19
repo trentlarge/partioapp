@@ -101,8 +101,8 @@ Kadira.connect('qhAvzzmgKeHaZ9rd9', '338e5eb7-842c-47f5-bfe7-7a4d3b9c0607');
                           <tr>\
                               <td>\
                                   <div style="width:640px;font-family:arial; tex-align:left; margin-left:50px;color:#999">\
-                                      <h1 style="color:#263238;font-size:40px">Hello there!</h1>\
-                                      <p style="font-size:20px;line-height:38px;">Hello '+user+',<br />\
+                                      <h1 style="color:#263238;font-size:40px">Hello!</h1>\
+                                      <p style="font-size:20px;line-height:38px;">\
                                       To reset your password, simply click the link below.\
                                        '+url+'\
                                        <br />Thanks.<br />\
