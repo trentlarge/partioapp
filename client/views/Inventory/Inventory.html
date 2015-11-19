@@ -28,8 +28,10 @@
         {{#if finalizedRequests}}
           <div class="item item-divider final-requests"><h3>Finalized requests <i class="chevron-icon icon ion-chevron-right"></i></h3></div>
           {{#each finalizedRequests}}
-            {{#ionItem path="connect" _id=this._id class="item-avatar-2 final-request-item hidden"}}
-              <div  class="product-avatar"><div class="product-avatar-inner" style="background: url('{{productData.image}}') no-repeat; background-size:cover; background-position: 50% 20%;"></div></div>
+            {{#ionItem path="connect" _id=productData._id class="item-avatar-2 final-request-item hidden"}}
+              <div class="product-avatar">
+                <img class="product-avatar-inner" src="{{productData.image}}"/>
+              </div>
               <p class="main-title-text">{{productData.title}}</p>
               <p class="main-sub-text">Rent Price:</p>
               <p class="main-sub-text">
@@ -50,7 +52,7 @@
                   </tbody>
                 </table>
               </p>
-              <span class="badge share-status">{{getState _id}}</span>
+              <span class="badge share-status">{{getState productData._id}}</span>
               <div class="item-icon-right">
                 {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
               </div>
@@ -63,8 +65,10 @@
         {{#if newRequests}}
           <div class="item item-divider requests"><h3>Requests from others <i class="chevron-icon icon ion-chevron-right"></i></h3></div>
           {{#each newRequests}}
-            {{#ionItem path="connect" _id=this._id class="item-avatar-2 request-item"}}
-              <div  class="product-avatar"><div class="product-avatar-inner" style="background: url('{{productData.image}}') no-repeat; background-size:cover; background-position: 50% 20%;"></div></div>
+            {{#ionItem path="connect" _id=productData._id class="item-avatar-2 request-item"}}
+              <div class="product-avatar">
+                <img class="product-avatar-inner" src="{{productData.image}}"/>
+              </div>
               <p class="main-title-text">{{productData.title}}</p>
               <p class="main-sub-text">Rent Price:</p>
               <p class="main-sub-text">
@@ -85,7 +89,7 @@
                   </tbody>
                 </table>
               </p>
-              <span class="badge share-status">{{getState _id}}</span>
+              <span class="badge share-status">{{getState productData._id}}</span>
               <div class="item-icon-right">
                 {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
               </div>
@@ -96,8 +100,10 @@
         <!-- LISTING ALL USER PRODUCTS -->
         <div class="item item-divider products"><h3>My products <i class="chevron-icon icon ion-chevron-down"></i></h3></div>
         {{#each myProducts}}
-          {{#ionItem path='inventoryDetail' _id=this._id class="item-avatar-2 product-item"}}
-            <div class="product-avatar"><div class="product-avatar-inner" style="background: url('{{image}}') no-repeat; background-size:cover; background-position: 50% 20%;"></div></div>
+          {{#ionItem path='inventoryDetail' _id=_id class="item-avatar-2 product-item"}}
+            <div class="product-avatar">
+              <img class="product-avatar-inner" src="{{image}}"/>
+            </div>
             <p class="main-title-text">{{title}}</p>
             <p class="main-sub-text">Condition of the item: {{getCondition}}</p>
             <p class="main-sub-text">Rent Price:</p>

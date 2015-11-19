@@ -12,14 +12,14 @@ InventoryDetailController = RouteController.extend({
 	waitOn: function() {
 		return [
 			// subscribe to data here
-			Meteor.subscribe("myProducts"),
-			Meteor.subscribe("myConnectionsOwner"),
+			Meteor.subscribe("singleProduct", this.params._id)
 		];
 	},
 
 	data: function() {
 		return {
-			product: Products.findOne({ownerId: Meteor.userId()}),
+			product: Products.findOne(this.params._id),
+
 			getCategoryIcon: function(_productCategory) {
 		    return Categories.getCategoryIconByText(_productCategory);
 		  },
