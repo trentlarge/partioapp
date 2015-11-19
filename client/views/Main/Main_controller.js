@@ -4,7 +4,9 @@ MainController = RouteController.extend({
 	},
 
 	action: function() {
-		this.render();
+		if(this.ready()) {
+			this.render();
+		}
 	},
 
 	waitOn: function() {
@@ -12,7 +14,7 @@ MainController = RouteController.extend({
 			// subscribe to data here
 			// Meteor.subscribe("someSubscription"),
 			// Meteor.subscribe("otherSubscription"),
-			// ...
+			Meteor.subscribe("current_user_data"),
 		];
 	},
 
@@ -27,6 +29,6 @@ MainController = RouteController.extend({
 	},
 
 	onAfterAction: function() {
-		
+
 	}
 });
