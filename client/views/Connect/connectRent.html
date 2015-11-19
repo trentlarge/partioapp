@@ -20,6 +20,44 @@
             </div>    
         {{/if}}
           
+        <div class="item item-divider product-details"><h2>Product Details <i class="chevron-icon icon ion-chevron-right"></i></h2></div>
+          
+        <div class="item product-details-item hidden">
+          
+            <div class="product-image-box">
+                <img class="connect-thumbnail" src="{{productData.image}}">
+            </div>
+          
+            <div class="product-content">
+                <p class="product-title">{{productData.title}}</p>
+                <p><i class="icon {{getCategoryIcon}}"></i> {{productData.amazonCategory}}</p>
+                <p><i class="icon ion-cash"></i> {{productData.price}}</p>
+                <p><i class="icon ion-clipboard"></i> {{getCondition}}</p>
+            </div>
+
+        </div>
+          
+        <div class="item product-details-item center hidden">
+            <table class="rent-table">
+                <tbody class="prices">
+                <tr>
+                    <th><i>D</i></th>
+                    <th><i>W</i></th>
+                    <th><i>M</i></th>
+                    <th><i>S</i></th>
+                </tr>
+                <tr>
+                    <td>${{productData.rentPrice.day}}</td>
+                    <td>${{productData.rentPrice.week}}</td>
+                    <td>${{productData.rentPrice.month}}</td>
+                    <td>${{productData.rentPrice.semester}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+          
+        <div class="item item-divider"><h2>Lending Details</h2></div>
+          
         <div class="item">
             
             {{#with userInfo}}
@@ -60,42 +98,6 @@
                     </tbody>
                 </table>
             </div>
-        </div>
-
-        <div class="item item-divider product-details"><h2>Product Details <i class="chevron-icon icon ion-chevron-right"></i></h2></div>
-          
-        <div class="item product-details-item hidden">
-          
-            <div class="product-image-box">
-                <img class="connect-thumbnail" src="{{productData.image}}">
-            </div>
-          
-            <div class="product-content">
-                <p class="product-title">{{productData.title}}</p>
-                <p><i class="icon {{getCategoryIcon}}"></i> {{productData.amazonCategory}}</p>
-                <p><i class="icon ion-cash"></i> {{productData.price}}</p>
-                <p><i class="icon ion-clipboard"></i> {{getCondition}}</p>
-            </div>
-
-        </div>
-          
-        <div class="item product-details-item center hidden">
-            <table class="rent-table">
-                <tbody class="prices">
-                <tr>
-                    <th><i>D</i></th>
-                    <th><i>W</i></th>
-                    <th><i>M</i></th>
-                    <th><i>S</i></th>
-                </tr>
-                <tr>
-                    <td>${{productData.rentPrice.day}}</td>
-                    <td>${{productData.rentPrice.week}}</td>
-                    <td>${{productData.rentPrice.month}}</td>
-                    <td>${{productData.rentPrice.semester}}</td>
-                </tr>
-                </tbody>
-            </table>
         </div>
           
         <div class="item tabs tabs-icon-left">

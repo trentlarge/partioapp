@@ -6,6 +6,16 @@
         display: flex;
     }
     
+    .item-divider {
+        
+        padding-top: 10px;
+        padding-bottom: 10px;
+        
+        h2 {
+            height: 21px
+        }
+    }
+    
     .profile-image-box, .product-image-box {
         vertical-align: top;
         display: inline-block;
