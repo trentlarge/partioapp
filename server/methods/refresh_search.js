@@ -1,35 +1,37 @@
-Meteor.methods({
-	refreshSearch: function(userId, product){
+refreshSearch = function(userId, product){
 		var ownerData = Meteor.users.findOne(userId);
 		var existingSearch = Search.findOne({title: product.title })
 
-		var last_search = null;
+		var currentSearchId = null;
 
 		if(product.searchId){
-			last_search = product.searchId;
+			currentSearchId = product.searchId;
 		}
 
+		//there is some search with this title
 		if (existingSearch) {
 
-			//already have this search id
-			if(product.searchId == existingSearch._id){
+			//Product already have this searchId
+			if(currentSearchId == existingSearch._id){
 				return false;
 
-			//going to another search
+			//Changing this product last searchId to another exisiting searchId
 			} else {
 				var search_id =  existingSearch._id;
 				Products.update({ _id: product._id },
 												{ $set:{ searchId: search_id  }})
 
-				Meteor.call('updateAuthors', search_id, function(){
-					if(last_search){
-						console.log('===========================')
-						Meteor.call('updateAuthors', last_search);
+				//Update the Authors related of this searchId
+				updateAuthors(search_id, function(){
+
+					//If product had another searchId before, update this another searchId
+					if(currentSearchId){
+						updateAuthors(currentSearchId);
 					}
 				});
 			}
 
-		//creating a new
+		//creating a new search
 		} else {
 			var newSearch = {
 				image: product.image,
@@ -38,26 +40,22 @@ Meteor.methods({
 				qty: 0,
 			}
 
+			//Inserting new Search
 			Search.insert(newSearch, function(err, docInserted){
 				var search_id =  docInserted;
 				Products.update({ _id: product._id },
 												{ $set:{ searchId: search_id  }})
 
-				Meteor.call('updateAuthors', search_id, function(){
-					if(last_search){
-						console.log('===========================')
-						Meteor.call('updateAuthors', last_search);
+				//Update Authors from this new Search.
+				updateAuthors(search_id, function(){
+
+					//If product had another searchId before, update this another searchId
+					if(currentSearchId){
+						updateAuthors(currentSearchId);
 					}
 				});
 			});
 		}
 
-		// if(last_search){
-		// 	console.log('===========================')
-		// 	Meteor.call('updateAuthors', last_search);
-		// }
-
 		return true;
-
 	}
-});

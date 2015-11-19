@@ -52,8 +52,6 @@ Template.appLayout.events({
 Template.appLayout.helpers({
 	showSideMenu: function(){
 		var routeName = Router.current().route.getName();
-		console.log(routeName);
-		console.log(Router.current())
 
 		switch (routeName) {
 			case 'profile':

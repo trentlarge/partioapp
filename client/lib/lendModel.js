@@ -82,8 +82,8 @@ app.model.Lend = (function () {
                 console.log('#######'+ this.RentingAmazonPrice);
                 console.log('ONE_DAY price original '+this.RentingFinalPrice);
 
-                if(this.RentingFinalPrice < 3.00)
-                    this.RentingFinalPrice = 3.00;
+                // if(this.RentingFinalPrice < 3.00)
+                //     this.RentingFinalPrice = 3.00;
             }
             else if(this.RentingTimeSpan == 'ONE_WEEK')
             {
@@ -94,8 +94,8 @@ app.model.Lend = (function () {
 //                console.log('Pricex7: ' + this.RentingFinalPrice);
                 console.log('ONE_WEEK price original'+ this.RentingFinalPrice);
 
-                if(this.RentingFinalPrice < 7.00) //$1.00 per day
-                    this.RentingFinalPrice = 7.00;
+                // if(this.RentingFinalPrice < 7.00) //$1.00 per day
+                //     this.RentingFinalPrice = 7.00;
             }
             else if(this.RentingTimeSpan == 'ONE_MONTH')
             {
@@ -103,8 +103,8 @@ app.model.Lend = (function () {
                 this.RentingFinalPrice = parseFloat(this.RentingFinalPrice * 30);
                 console.log('ONE_MONTH price original'+ this.RentingFinalPrice);
 
-                if(this.RentingFinalPrice < 15.00) //$0.50 per day
-                    this.RentingFinalPrice = 15.00;
+                // if(this.RentingFinalPrice < 15.00) //$0.50 per day
+                //     this.RentingFinalPrice = 15.00;
             }
             else if(this.RentingTimeSpan == 'FOUR_MONTHS')
             {
@@ -113,8 +113,8 @@ app.model.Lend = (function () {
 
                 console.log('FOUR_MONTHS price original'+ this.RentingFinalPrice);
 
-                if(this.RentingFinalPrice < 30.00) //$0.25 per day
-                    this.RentingFinalPrice = 30.00;
+                // if(this.RentingFinalPrice < 30.00) //$0.25 per day
+                //     this.RentingFinalPrice = 30.00;
             }
 
             console.log('RentingTimeSpan: ' + this.RentingTimeSpan);
