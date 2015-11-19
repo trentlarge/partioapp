@@ -20,7 +20,7 @@ InventoryController = RouteController.extend({
 			myProducts: function() {
 				return Products.find({ownerId: Meteor.userId()})
 			},
-			getState: function(state) {
+			labelState: function(state) {
 				if(state === 'PAYMENT') {
 					return 'RENTER PAYMENT';
 				}
