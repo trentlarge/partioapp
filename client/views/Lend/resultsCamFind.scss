@@ -20,6 +20,54 @@
     .item-input {
         margin-left: 0;
     }
+    
+    .features-details {
+        border-top: 0;
+        border-bottom: 0;
+    }
+    
+    .row-details {
+        display: flex;
+        
+        .col {
+            padding: 0;
+        }   
+    }
+    
+    .details-box {
+        
+        padding: 5px;
+        display: flex;
+             
+        i {
+            color: #fff;
+            border-radius: 2px;
+            padding: 10px;            
+            text-align: center;
+            width: 42px;
+            min-width: 42px;
+            font-size: 19px;
+            opacity: .8;
+            -webkit-box-shadow: inset 0px -20px 0px 0px rgba(255,255,255,0.1);
+            -moz-box-shadow: inset 0px -20px 0px 0px rgba(255,255,255,0.1);
+            box-shadow: inset 0px -20px 0px 0px rgba(255,255,255,0.1);
+        }
+        
+        .bk-energized { background-color: #f0970d; }
+        .bk-assertive { background-color: #df5707; }
+        
+        .detail {
+            font-size: 14px;
+            padding: 10px;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        
+    }
+    
 }
 
 .resultsCamFind {

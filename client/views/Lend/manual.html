@@ -11,33 +11,32 @@
 		</div>
 
 		<div class="list list-inset overflow-scroll">
-			<form>
-				<label class="item item-input">
-	<!--				<span class="input-label"><p>Title</p></span>-->
-					<input class="manualTitle" type="text" value="" placeholder="Title">
-				</label>
-	<!--
-				<label class="item item-input">
-					<span class="input-label"><p>Author</p></span>
-					<input id="manualauthor" type="text" value="">
-				</label>
-				<label class="item item-input">
-					<span class="input-label"><p>Publisher</p></span>
-					<input id="manualpublisher" type="text" value="">
-				</label>
-	-->
-			</form>
+
+            <label class="item item-input">
+                <input class="manualTitle" type="text" value="" placeholder="Title">
+            </label>
             
             <label class="item item-input item-select">
-            <div class="input-label">
-              Category
-            </div>
-            <select class="manualCategory">
-                {{#each getCategories}}
-                    <option>{{text}}</option>
-                {{/each}}
-            </select>
-          </label>
+                <div class="input-label">
+                  Category
+                </div>
+                <select class="manualCategory">
+                    {{#each getCategories}}
+                        <option>{{text}}</option>
+                    {{/each}}
+                </select>
+            </label>
+            
+             <label class="item item-input item-select">
+                <div class="input-label">
+                  <p>Condition of the item:</p>
+                </div>
+                <select class="manualCondition">
+                    {{#each getConditions}}
+                        <option value="{{index}}">{{value}}</option>
+                    {{/each}}
+                </select>
+            </label>
             
             <div class="item item-divider">
                 Rent Price
@@ -57,17 +56,7 @@
             <label class="item item-input">
                 <span class="input-label"><p>Semester (4m)</p></span>
                 <input type="number" class="userPrice semesterPrice" value="{{semesterPrice}}">
-            </label>
-             <label class="item item-input item-select">
-                <div class="input-label">
-                  <p>Condition of the item:</p>
-                </div>
-                <select class="manualDescription">
-                    {{#each getConditions}}
-                        <option value="{{index}}">{{value}}</option>
-                    {{/each}}
-                </select>
-              </label>
+            </label>            
             
 <!--
             <label class="item item-input item-stacked-label">
