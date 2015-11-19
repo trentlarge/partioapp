@@ -4,7 +4,9 @@ ChangePasswordController = RouteController.extend({
 	},
 
 	action: function() {
-		this.render();
+		if(this.ready()) {
+			this.render();
+		}
 	},
 
 	waitOn: function() {
@@ -13,6 +15,7 @@ ChangePasswordController = RouteController.extend({
 			// Meteor.subscribe("someSubscription"),
 			// Meteor.subscribe("otherSubscription"),
 			// ...
+			Meteor.subscribe("current_user_data"),
 		];
 	},
 

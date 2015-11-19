@@ -1,8 +1,5 @@
 Template.changePassword.events({
   'click #save-password': function() {
-
-
-
     var new_password = $('#new_password').val() || '';
     var new_repeat_password = $('#new_repeat_password').val() || '';
 
