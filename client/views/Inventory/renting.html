@@ -1,4 +1,4 @@
-  <template name="renting">
+<template name="renting">
   {{#contentFor "headerButtonLeft"}}
       <button class="button button-clear pull-left" data-ion-menu-toggle="left">
         {{#if isAndroid}}
@@ -75,7 +75,7 @@
           {{/ionItem}}
         {{/each}}
       {{/if}}
-      
+
       {{#if toBePaid.count}}
         <div class="item item-divider payment"><h3>Waiting for Payment <i class="chevron-icon icon ion-chevron-down"></i></h3></div>
         {{#each toBePaid}}
@@ -145,7 +145,7 @@
         <!-- </div> -->
         {{/each}}
       {{/if}}
-      
+
     {{#if isReturned.count}}
         <div class="item item-divider returned"><h3>Returned Items <i class="chevron-icon icon ion-chevron-right"></i></h3></div>
         {{#each isReturned}}
@@ -178,7 +178,7 @@
               </div>
           {{/ionItem}}
         {{/each}}
-      {{/if}}  
+      {{/if}}
       </div>
     {{else}}
       <div class="Aligner">
