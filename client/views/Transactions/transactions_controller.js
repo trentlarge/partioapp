@@ -4,11 +4,9 @@ TransactionsController = RouteController.extend({
 	},
 
 	action: function() {
- 		
-			if(this.ready()) {
-				PartioLoad.hide();
-				this.render();
-			}
+		if(this.ready()) {
+			this.render();
+		}
 	},
 
 	waitOn: function() {
