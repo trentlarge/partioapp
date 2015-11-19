@@ -51,9 +51,11 @@ Template.appLayout.events({
 
 Template.appLayout.helpers({
 	showSideMenu: function(){
-		var routeName = Router.current().route.getName();
+		//var mainTemplateName = Router.current().route.getName();
+		var mainTemplateName = Router.current()._layout._regions.main._template;
+		console.log(mainTemplateName);
 
-		switch (routeName) {
+		switch (mainTemplateName) {
 			case 'profile':
 				if(!Meteor.user().emails[0].verified){
 					return false;
@@ -67,7 +69,10 @@ Template.appLayout.helpers({
 			case 'emailverification':
 				return false;
 				break;
-			case 'register':
+			case 'Register':
+				return false;
+				break;
+			case 'loadingData':
 				return false;
 				break;
 			default:

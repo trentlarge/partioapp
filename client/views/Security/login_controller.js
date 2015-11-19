@@ -1,6 +1,4 @@
 LoginController = RouteController.extend({
-	loadingTemplate: 'loadingTemplate',
-
 	onBeforeAction: function() {
 		this.next();
 	},
@@ -10,9 +8,6 @@ LoginController = RouteController.extend({
 	},
 
 	waitOn: function() {
-		Accounts.loginServicesConfigured(function() {
-
-		});
 		return [
 			// subscribe to data here
 			// Meteor.subscribe("someSubscription"),
@@ -32,6 +27,6 @@ LoginController = RouteController.extend({
 	},
 
 	onAfterAction: function() {
-		
+
 	}
 });

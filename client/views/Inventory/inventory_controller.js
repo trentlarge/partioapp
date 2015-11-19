@@ -5,7 +5,6 @@ InventoryController = RouteController.extend({
 
 	action: function() {
 		if(this.ready()) {
-			PartioLoad.hide();
 			this.render();
 		}
 	},

@@ -54,8 +54,8 @@ Router.route('/logout', {name: 'logout',
 		  title: 'Logging out',
 		  template: '<div class="center">Are you sure you want to logout?</div>',
 		  onOk: function() {
-		    Router.go('/login')
 		    Meteor.logout();
+				Router.go('/login')
 		    IonPopup.close();
 		  },
 		  onCancel: function() {
@@ -74,23 +74,18 @@ Router.route('/logout', {name: 'logout',
 //Router.route('/listing/:_id', { name: 'productDetail', controller: "ProductDetailController" });
 //
 // !!!
-
 Router.onBeforeAction(function(pause){
-		if(!Meteor.user()) {
-			Router.go('/login')
-		} else {
-			if(Meteor.user().emails[0]){
-				if(Meteor.user().emails[0].verified) {
-					this.next();
-				} else {
-					if(Router.current().route.getName() == 'profile') {
-						this.next();
-					} else {
-						Router.go('/profile')
-					}
-				}
+	if(!Meteor.user()) {
+		this.render('login')
+	} else {
+		if(Meteor.user().emails[0]){
+			if(Meteor.user().emails[0].verified) {
+				this.next();
 			} else {
-				Router.go('/profile')
+				this.render('profile')
 			}
+		} else {
+			this.render('profile')
 		}
+	}
 }, {except: ['emailverification', 'register', 'login']} );

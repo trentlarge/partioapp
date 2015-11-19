@@ -39,10 +39,12 @@ Template.register.events({
 	    	location: Session.get('newLocation')
 	    };
 
-			PartioLoad.show('Thank you! Now we\'re creating your account.')
+
 
 	  if (email && password && profileDetails.name && profileDetails.college) {
 			if (emailCheck(profileDetails.college, email)) {
+				PartioLoad.show('Please wait, we\'re creating your account....')
+
     		Accounts.createUser({email: email, password: password, telephone: profileDetails.telephone, profileDetails: profileDetails}, function(error) {
 	    			if (error) {
 	    				PartioLoad.hide();
