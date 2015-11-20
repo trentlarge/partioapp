@@ -34,7 +34,7 @@ Kadira.connect('qhAvzzmgKeHaZ9rd9', '338e5eb7-842c-47f5-bfe7-7a4d3b9c0607');
     };
     Accounts.emailTemplates.verifyEmail.html = function(user, url) {
 
-      url = url.replace("http://localhost:3000/", process.env.ROOT_URL+':3000');
+      url = url.replace("http://localhost:3000/", process.env.ROOT_URL);
 
       var body =
       '<!DOCTYPE html>\
@@ -84,7 +84,7 @@ Kadira.connect('qhAvzzmgKeHaZ9rd9', '338e5eb7-842c-47f5-bfe7-7a4d3b9c0607');
 
     Accounts.emailTemplates.resetPassword.html = function(user, url) {
 
-      url = url.replace("http://localhost:3000/", process.env.ROOT_URL+':3000');
+      url = url.replace("http://localhost:3000/", process.env.ROOT_URL);
 
       var body =
       '<!DOCTYPE html>\
