@@ -1,4 +1,44 @@
 
+<<<<<<< HEAD:client/views/Inventory/Inventory.js
+=======
+Template.inventory.helpers({
+  myProducts: function() {
+    return Products.find({"ownerId": Meteor.userId()})
+  },
+  getState: function() {
+      if(this.state === 'PAYMENT') {
+          return 'RENTER PAYMENT';    
+      }
+      else if(this.state === 'IN USE') {
+          return 'BORROWED';    
+      }
+      else {
+          return this.state;
+      }
+  },
+  newRequests: function() {
+  	return Connections.find({"productData.ownerId": Meteor.userId(), $or: [ {"state": "WAITING"}, {"state": "PAYMENT"}, {"state": "IN USE"} ]});
+  },
+  finalizedRequests: function() {
+  	return Connections.find({"productData.ownerId": Meteor.userId(), "state": "RETURNED"});
+  },                
+  dataExists: function() {
+  	return (Products.find({"ownerId": Meteor.userId()}).count() || Connections.find({"productData.ownerId": Meteor.userId(), "state": {$ne: "IN USE"}}).count()) ? true : false;
+  },
+  status: function() {
+    return Connections.findOne(this._id).approved ? "IN USE" : "WAITING" ;
+  },
+  statusWaiting: function() {
+    return Connections.findOne(this._id).state === "WAITING" ? true: false;
+  },
+  getCondition: function() {
+      return Rating.getConditionByIndex(this.conditionId);
+  },
+  getProductCondition: function() {
+      return Rating.getConditionByIndex(this.productData.conditionId);
+  }
+});
+>>>>>>> brazuca:client/views/Inventory/inventory.js
 
 Template.inventory.events({
     'click .final-requests': function() {

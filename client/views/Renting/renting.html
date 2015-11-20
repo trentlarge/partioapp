@@ -47,8 +47,11 @@
         {{#each toBeApproved}}
 
           {{#ionItem path='connectRent' _id=this._id class="item-avatar-2 waiting-item"}}
-                <div class="product-avatar"><div class="product-avatar-inner" style="background: url('{{productData.image}}') no-repeat; background-size:cover; background-position: 50% 20%;"></div></div>
+              <div class="product-avatar">
+                <img class="product-avatar-inner" src="{{productData.image}}"/>
+              </div>
               <p class="main-title-text">{{productData.title}}</p>
+              <p class="main-sub-text">Condition of the item: {{getProductCondition}}</p>
               <p class="main-sub-text">Rent Price:</p>
                   <p class="main-sub-text">
                         <table class="rent-table">
@@ -81,8 +84,11 @@
         {{#each toBePaid}}
 
           {{#ionItem path='connectRent' _id=this._id class="item-avatar-2 payment-item"}}
-                <div class="product-avatar"><div class="product-avatar-inner" style="background: url('{{productData.image}}') no-repeat; background-size:cover; background-position: 50% 20%;"></div></div>
+              <div class="product-avatar">
+                <img class="product-avatar-inner" src="{{productData.image}}"/>
+              </div>
               <p class="main-title-text">{{productData.title}}</p>
+              <p class="main-sub-text">Condition of the item: {{getProductCondition}}</p>
               <p class="main-sub-text">Rent Price:</p>
                   <p class="main-sub-text">
                         <table class="rent-table">
@@ -116,8 +122,11 @@
         <!-- <div class="borrowedBookDetail"> -->
 
           {{#ionItem path="connectRent" class="item-avatar-2 borrowed-item"}}
-              <div class="product-avatar"><div class="product-avatar-inner" style="background: url('{{productData.image}}') no-repeat; background-size:cover; background-position: 50% 20%;"></div></div>
+              <div class="product-avatar">
+                <img class="product-avatar-inner" src="{{productData.image}}"/>
+              </div>
               <p class="main-title-text">{{productData.title}}</p>
+              <p class="main-sub-text">Condition of the item: {{getProductCondition}}</p>
               <p class="main-sub-text">Rent Price:</p>
                   <p class="main-sub-text">
                         <table class="rent-table">
@@ -151,8 +160,11 @@
         {{#each isReturned}}
 
           {{#ionItem path="connectRent" class="item-avatar-2 returned-item hidden"}}
-                <div class="book-avatar"><div class="book-avatar-inner" style="background: url('{{productData.image}}') no-repeat; background-size:cover; background-position: 50% 20%;"></div></div>
+              <div class="product-avatar">
+                <img class="product-avatar-inner" src="{{productData.image}}"/>
+              </div>
               <p class="main-title-text">{{productData.title}}</p>
+              <p class="main-sub-text">Condition of the item: {{getProductCondition}}</p>
               <p class="main-sub-text">Rent Price:</p>
                   <p class="main-sub-text">
                         <table class="rent-table">

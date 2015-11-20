@@ -7,7 +7,8 @@ Template.notifications.helpers({
 
 Template.notifications.events({ 
     'click .show-message': function() {
-        ShowNotificationMessage(this.message);
+        //ShowNotificationMessage(this.message);
+        Router.go(this.router);
      }
 });
 
