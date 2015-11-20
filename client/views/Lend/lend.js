@@ -35,7 +35,6 @@ Template.lend.events({
         if (manualProduct.title){
 
           Session.set('manualProduct', manualProduct);
-          Session.set('BookAddType', 'MANUAL');
           Lend.addProductToInventoryManually(Session.get('manualProduct'));
 
         } else {
@@ -113,6 +112,7 @@ Template.lend.events({
 
   'click #closeLend': function() {
     $('.modal-backdrop').fadeOut(function(){
+        IonModal.close();
         $(this).remove();
     });
     ClearData();
@@ -175,7 +175,7 @@ Template.lend.events({
         // inputBox.trigger({type: 'keypress', charCode: 13});
         // inputBox.val(inputValue);
         Session.set('scanResult', null);
-        Session.set('lendTab', 'resultsCamFind');
+        Session.set('lendTab', 'results');
    },
 })
 
@@ -188,14 +188,6 @@ Template.lend.helpers({
   },
   manualEntry: function() {
     return Session.get('manualEntry')
-  },
-  waitingForPrice: function() {
-    return Session.get('userPrice') ? "": "disabled";
-    //return Session.get('userPrice') ? "": "";
-  },
-  userPrice: function() {
-    console.log('price rendered: ' + Session.get('userPrice'));
-    return Session.get('userPrice');
   },
   dynamicTemplate: function(){
     return (Session.get('lendTab')) ? Session.get('lendTab') : 'camfind' ;
@@ -214,7 +206,7 @@ Template.lend.rendered = function() {
   Session.set('allResults', null);
   Session.set('lastSearch', null);
 
-  if(Session.set('lendTab') == 'resultsCamFind' && !Session.get('allResults')){
+  if(Session.set('lendTab') == 'results' && !Session.get('allResults')){
     Session.set('lendTab', 'camfind');
   }
 }
@@ -222,7 +214,7 @@ Template.lend.rendered = function() {
 function ClearData(){
   console.log('ClearData');
 
-  if(Session.get('lendTab') == 'resultsCamFind') {
+  if(Session.get('lendTab') == 'results') {
     Session.set('lendTab', 'camfind');
   }
 

@@ -34,7 +34,7 @@ Template.searchShareHeader.events({
             if(Lend.allResultsCache[key]) {
                 Session.set('scanResult', null);
                 Session.set('allResults', Lend.allResultsCache[key]);
-                Session.set('lendTab', 'resultsCamFind');
+                Session.set('lendTab', 'results');
                 PartioLoad.hide();
                 $(".modal").css("background-image", "");
                 Lend.latestProduct = key;
@@ -70,7 +70,7 @@ Template.searchShareHeader.events({
                     Lend.latestProduct = key;
                     Session.set('scanResult', null);
                     Session.set('allResults', result);
-                    Session.set('lendTab', 'resultsCamFind');
+                    Session.set('lendTab', 'results');
                     PartioLoad.hide();
                     $(".modal").css("background-image", "");
 
