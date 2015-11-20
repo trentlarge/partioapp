@@ -7,7 +7,7 @@
 
 // HELPERS
 
-Template.resultsCamFind.helpers({
+Template.results.helpers({
   allResults: function(){
     return Session.get('allResults');
   },
@@ -169,7 +169,7 @@ Template.resultsCamFind.helpers({
 
 // EVENTS
 
-Template.resultsCamFind.events({
+Template.results.events({
 
     'click .features': function(e, template) {
 

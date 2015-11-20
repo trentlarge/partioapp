@@ -1,9 +1,9 @@
 <!-- RESULTS -->
-<template name="resultsCamFind">
+<template name="results">
   {{#ionContent}}
     {{#if scanResult}}
         {{#with scanResult}}
-        <div class="resultsCamFind-details padding-horizontal padding-vertical">
+        <div class="results-details padding-horizontal padding-vertical">
             <div class="item no-padding">
                 <div class="center">
                     <img class="scanResult-thumbnail" src="{{image}}">
@@ -93,7 +93,7 @@
         {{/with}}
     {{else}}
         {{#if allResults}}
-        <div class="resultsCamFind">
+        <div class="results">
 <!--            <h4 class="center" style="margin-top:10px;">Select a Product</h4>-->
 
             {{#each allResults}}

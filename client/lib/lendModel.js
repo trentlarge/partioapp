@@ -172,8 +172,9 @@ app.model.Lend = (function () {
               onTap: function() {
                 $('#closeLend').click();
                 IonPopup.close();
+                //IonModal.close();
                 Router.go('/inventory');
-                IonModal.close();
+                
               }
             }]
             });
@@ -196,6 +197,7 @@ app.model.Lend = (function () {
               onTap: function() {
                 $('#closeLend').click();
                 IonPopup.close();
+                //IonModal.close();
                 Router.go('/inventory');
               }
             }]
