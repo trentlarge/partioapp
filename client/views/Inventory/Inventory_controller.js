@@ -37,11 +37,8 @@ InventoryController = RouteController.extend({
             finalizedRequests: function() {
                 return Connections.find({"productData.ownerId": Meteor.userId(), "state": "RETURNED"});
             },
-            getCondition: function() {
-                return Rating.getConditionByIndex(this.conditionId);
-            },
-            getProductCondition: function() {
-                return Rating.getConditionByIndex(this.productData.conditionId);
+            getCondition: function(conditionId) {
+                return Rating.getConditionByIndex(conditionId);
             }
 		}
 	},
