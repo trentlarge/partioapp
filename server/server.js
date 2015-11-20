@@ -34,8 +34,6 @@ Kadira.connect('qhAvzzmgKeHaZ9rd9', '338e5eb7-842c-47f5-bfe7-7a4d3b9c0607');
     };
     Accounts.emailTemplates.verifyEmail.html = function(user, url) {
 
-      url = url.replace("http://localhost:3000/", process.env.ROOT_URL);
-
       var body =
       '<!DOCTYPE html>\
               <html>\
@@ -75,7 +73,6 @@ Kadira.connect('qhAvzzmgKeHaZ9rd9', '338e5eb7-842c-47f5-bfe7-7a4d3b9c0607');
                   </body>\
               </html>';
 
-              console.log(url);
 
 
             return body;
@@ -83,8 +80,6 @@ Kadira.connect('qhAvzzmgKeHaZ9rd9', '338e5eb7-842c-47f5-bfe7-7a4d3b9c0607');
     };
 
     Accounts.emailTemplates.resetPassword.html = function(user, url) {
-
-      url = url.replace("http://localhost:3000/", process.env.ROOT_URL);
 
       var body =
       '<!DOCTYPE html>\
@@ -153,15 +148,14 @@ function buildRegExp(searchText) {
 
 // END LISTING SEARCH ------------------------------
 
-var sendNotification = function(toId, fromId, message, type, router) {
+var sendNotification = function(toId, fromId, message, type) {
   Notifications.insert({
     toId: toId,
     fromId: fromId,
     message: message,
     read: false,
     timestamp: new Date(),
-    type: type,
-    router: router
+    type: type
   })
 }
 
@@ -239,7 +233,58 @@ Meteor.methods({
         "image_request[remote_image_url]" : imageUrl,
         "image_request[locale]" : "en_US"
       }
-    })
+    });
+  },
+
+  camfindGetTokenBase64: function(dataURI) {
+    var mashapeURL = "https://camfind.p.mashape.com/image_requests";
+    var mashapeKey = "7W5OJWzlcsmshYSMTJW8yE4L2mJQp1cuOVKjsneO6N0wPTpaS1";
+
+    // base64 encoded data to Buffer conversion
+    var atob = Meteor.npmRequire('atob');
+    var byteString = atob(dataURI.split(',')[1]);
+    var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0]
+    var arrayBuffer = new ArrayBuffer(byteString.length);
+    var tmp = new Uint8Array(arrayBuffer);
+    for (var i = 0; i < byteString.length; i++) {
+        tmp[i] = byteString.charCodeAt(i);
+    }
+    var buffer = new Buffer(arrayBuffer.byteLength);
+    var view = new Uint8Array(arrayBuffer);
+    for (var i = 0; i < buffer.length; ++i) {
+        buffer[i] = view[i];
+    }
+
+    // HTTP request payload
+    var formData = {
+      // Pass a simple key-value pair
+      "image_request[locale]": "en_US",
+      "image_request[image]": {
+        value: buffer,
+        options: {
+          filename: "image-" + Math.random().toString().substr(2) + ".jpg",
+          contentType: mimeString
+        }
+      }
+    };
+
+    // HTTP request
+    var request = Meteor.npmRequire("request");
+    var response = Async.runSync(function(done) {
+      request.post({
+        url: mashapeURL,
+        headers: { "X-Mashape-Key": mashapeKey },
+        formData: formData
+      }, function(err, httpResponse, body) {
+        var result = {
+          data: JSON.parse(body),
+          statusCode: httpResponse.statusCode
+        };
+
+        done(err, result);
+      });
+    });
+    return response.result;
   },
 
   camfindGetResponse: function(token) {
@@ -425,7 +470,7 @@ Meteor.methods({
     var message = 'You got a rating of ' + rating + ' from ' + ratedByName;
 
     sendPush(personId, message)
-    sendNotification(personId, ratedBy, message, "info", "/profile")
+    sendNotification(personId, ratedBy, message, "info")
 
   },
 
@@ -437,7 +482,7 @@ Meteor.methods({
 
     var message = borrowerName + " wants to return the book " + connect.productData.title;
     sendPush(connect.productData.ownerId, message);
-    sendNotification(connect.productData.ownerId, connect.requestor, message, "info", "/inventory");
+    sendNotification(connect.productData.ownerId, connect.requestor, message, "info");
   },
 
   confirmReturn: function(searchId, connectionId) {
@@ -448,7 +493,7 @@ Meteor.methods({
 
     var message = ownerName + " confirmed your return of " + connect.productData.title;
     sendPush(connect.requestor, message);
-    sendNotification(connect.requestor, connect.productData.ownerId, message, "info", "/renting");
+    sendNotification(connect.requestor, connect.productData.ownerId, message, "info");
   },
 
   requestOwner: function(requestorId, productId, ownerId, borrowDetails) {
@@ -472,7 +517,7 @@ Meteor.methods({
 
     var message = requestorName + " sent you a request for " + product.title
     sendPush(ownerId, message);
-    sendNotification(ownerId, requestorId, message, "request", "/inventory");
+    sendNotification(ownerId, requestorId, message, "request");
 
     return true;
 
@@ -489,7 +534,7 @@ Meteor.methods({
 
     var message = ownerName + " accepted your request for " + connect.productData.title;
     sendPush(connect.requestor, message);
-    sendNotification(connect.requestor, connect.productData.ownerId, message, "approved", "/renting");
+    sendNotification(connect.requestor, connect.productData.ownerId, message, "approved");
 
     return true;
   },
@@ -501,7 +546,7 @@ Meteor.methods({
 
     var message =  "Your request for " + connect.productData.title + " has been declined.";
     sendPush(connect.requestor, message);
-    sendNotification(connect.requestor, connect.productData.ownerId, message, "declined", "/renting");
+    sendNotification(connect.requestor, connect.productData.ownerId, message, "declined");
 
     Connections.remove(connectionId);
 
@@ -550,7 +595,7 @@ Meteor.methods({
         var moneyGiver = Meteor.users.findOne(thisConnectionData.requestor).profile.name
         var message = 'You received a payment of $' + amount + ' from ' + moneyGiver
         sendPush(thisConnectionData.productData.ownerId, message);
-        sendNotification(thisConnectionData.productData.ownerId, thisConnectionData.requestor, message, "info", "/inventory")
+        sendNotification(thisConnectionData.productData.ownerId, thisConnectionData.requestor, message, "info")
 
       }
 
@@ -1134,3 +1179,4 @@ var amazonItemSearch = function(keys, callback) {
 
 //   }, 5000)
 // })
+
