@@ -1,4 +1,5 @@
 Template.savedCards.events({
+
 	'click #add-credit-card': function(e) {
 
 		PartioLoad.show();

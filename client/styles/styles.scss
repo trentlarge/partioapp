@@ -951,6 +951,17 @@ input[type="color"] {
   float: right;
 }
 
+.trash-item {
+    position: absolute;
+    top: 0;
+    right: 47px;
+    z-index: 3;
+    visibility: visible;
+    padding: 14px;
+    height: 100%;
+    font-size: 24px;
+} 
+
 .item-radio input:checked ~ .item-content {
   background: #FFF;
 }
