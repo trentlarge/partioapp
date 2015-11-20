@@ -31,7 +31,7 @@ Template.resultsCamFind.helpers({
     return Categories.getCategoryIconByText(this.category);
   },
   getConditions: function() {
-    return Rating.getConditions();  
+    return Rating.getConditions();
   },
   isOnlyOneCategory: function() {
 
