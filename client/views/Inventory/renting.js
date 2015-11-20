@@ -24,6 +24,9 @@ Template.renting.helpers({
   },
   isTapping: function() {
       return Session.get('isTapping');
+  },
+  getProductCondition: function() {
+      return Rating.getConditionByIndex(this.productData.conditionId);
   }
 });
 

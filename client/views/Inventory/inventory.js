@@ -31,6 +31,9 @@ Template.inventory.helpers({
   },
   getCondition: function() {
       return Rating.getConditionByIndex(this.conditionId);
+  },
+  getProductCondition: function() {
+      return Rating.getConditionByIndex(this.productData.conditionId);
   }
 });
 

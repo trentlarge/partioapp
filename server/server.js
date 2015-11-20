@@ -153,14 +153,15 @@ function buildRegExp(searchText) {
 
 // END LISTING SEARCH ------------------------------
 
-var sendNotification = function(toId, fromId, message, type) {
+var sendNotification = function(toId, fromId, message, type, router) {
   Notifications.insert({
     toId: toId,
     fromId: fromId,
     message: message,
     read: false,
     timestamp: new Date(),
-    type: type
+    type: type,
+    router: router
   })
 }
 
@@ -424,7 +425,7 @@ Meteor.methods({
     var message = 'You got a rating of ' + rating + ' from ' + ratedByName;
 
     sendPush(personId, message)
-    sendNotification(personId, ratedBy, message, "info")
+    sendNotification(personId, ratedBy, message, "info", "/profile")
 
   },
 
@@ -436,7 +437,7 @@ Meteor.methods({
 
     var message = borrowerName + " wants to return the book " + connect.productData.title;
     sendPush(connect.productData.ownerId, message);
-    sendNotification(connect.productData.ownerId, connect.requestor, message, "info");
+    sendNotification(connect.productData.ownerId, connect.requestor, message, "info", "/inventory");
   },
 
   confirmReturn: function(searchId, connectionId) {
@@ -447,7 +448,7 @@ Meteor.methods({
 
     var message = ownerName + " confirmed your return of " + connect.productData.title;
     sendPush(connect.requestor, message);
-    sendNotification(connect.requestor, connect.productData.ownerId, message, "info");
+    sendNotification(connect.requestor, connect.productData.ownerId, message, "info", "/renting");
   },
 
   requestOwner: function(requestorId, productId, ownerId, borrowDetails) {
@@ -471,7 +472,7 @@ Meteor.methods({
 
     var message = requestorName + " sent you a request for " + product.title
     sendPush(ownerId, message);
-    sendNotification(ownerId, requestorId, message, "request");
+    sendNotification(ownerId, requestorId, message, "request", "/inventory");
 
     return true;
 
@@ -488,7 +489,7 @@ Meteor.methods({
 
     var message = ownerName + " accepted your request for " + connect.productData.title;
     sendPush(connect.requestor, message);
-    sendNotification(connect.requestor, connect.productData.ownerId, message, "approved");
+    sendNotification(connect.requestor, connect.productData.ownerId, message, "approved", "/renting");
 
     return true;
   },
@@ -500,7 +501,7 @@ Meteor.methods({
 
     var message =  "Your request for " + connect.productData.title + " has been declined.";
     sendPush(connect.requestor, message);
-    sendNotification(connect.requestor, connect.productData.ownerId, message, "declined");
+    sendNotification(connect.requestor, connect.productData.ownerId, message, "declined", "/renting");
 
     Connections.remove(connectionId);
 
@@ -549,7 +550,7 @@ Meteor.methods({
         var moneyGiver = Meteor.users.findOne(thisConnectionData.requestor).profile.name
         var message = 'You received a payment of $' + amount + ' from ' + moneyGiver
         sendPush(thisConnectionData.productData.ownerId, message);
-        sendNotification(thisConnectionData.productData.ownerId, thisConnectionData.requestor, message, "info")
+        sendNotification(thisConnectionData.productData.ownerId, thisConnectionData.requestor, message, "info", "/inventory")
 
       }
 
