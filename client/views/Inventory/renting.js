@@ -51,7 +51,7 @@ Template.renting.events({
         var paymentItem = $('.payment-item');
 
         if(paymentItem.hasClass('hidden')){
-            borrowedItem.removeClass('hidden');
+            paymentItem.removeClass('hidden');
             payment.find('.chevron-icon').removeClass('ion-chevron-right').addClass('ion-chevron-down');
         }
         else {

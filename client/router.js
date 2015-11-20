@@ -1,6 +1,7 @@
 Router.configure({
 	layoutTemplate: 'appLayout',
-	routeControllerNameConverter: "upperCamelCase"
+	routeControllerNameConverter: "upperCamelCase",
+	loadingTemplate: 'loadingData',
 });
 
 // !!!
@@ -38,6 +39,7 @@ Router.route('/chat/:_id', { name: 'chat', controller: 'ChatController' });
 Router.route('/categories', { name: 'categories', controller: 'CategoriesController' });
 Router.route('/listing', { name: 'listing', controller: 'ListingController' });
 Router.route('/listing/search/:_id', { name: 'search', controller: 'SearchController' });
+Router.route('/listing/search/request/:_id', { name: 'requestRent', controller: 'RequestRentController' });
 Router.route('/transactions', { name: 'transactions', controller: 'TransactionsController' });
 Router.route('/profile', { name: 'profile', controller: 'ProfileController' });
 Router.route('/profile/savedcards', { name: 'savedCards', controller: 'SavedCardsController' });
@@ -52,8 +54,8 @@ Router.route('/logout', {name: 'logout',
 		  title: 'Logging out',
 		  template: '<div class="center">Are you sure you want to logout?</div>',
 		  onOk: function() {
-		    Router.go('/login')
 		    Meteor.logout();
+				Router.go('/login')
 		    IonPopup.close();
 		  },
 		  onCancel: function() {
@@ -72,26 +74,18 @@ Router.route('/logout', {name: 'logout',
 //Router.route('/listing/:_id', { name: 'productDetail', controller: "ProductDetailController" });
 //
 // !!!
-
-Router.onBeforeAction(loginChecker, {except: ['emailverification', 'register', 'login', 'twilio']} );
-// Router.onAfterAction(stopSpinner);
-
-function loginChecker() {
-	if (Meteor.userId()) {
-		if (Meteor.user().emails && Meteor.user().emails[0].verified) {
-			this.next()
-		} else {
-			this.render('profile');
-		}
+Router.onBeforeAction(function(pause){
+	if(!Meteor.user()) {
+		this.render('login')
 	} else {
-		// if (Meteor.loggingIn()) {
-		// 	IonLoading.show();
-		// } else {
-			this.render('login');
-		//}
+		if(Meteor.user().emails[0]){
+			if(Meteor.user().emails[0].verified) {
+				this.next();
+			} else {
+				this.render('profile')
+			}
+		} else {
+			this.render('profile')
+		}
 	}
-}
-
-// function stopSpinner() {
-// //	IonLoading.hide();
-// }
+}, {except: ['emailverification', 'register', 'login']} );

@@ -35,7 +35,9 @@
           <div class="item item-divider final-requests"><h3>Finalized Requests <i class="chevron-icon icon ion-chevron-right"></i></h3></div>
         {{#each finalizedRequests}}
               {{#ionItem path="connect" _id=this._id class="item-avatar-2 final-request-item hidden"}}
-                  <div  class="product-avatar"><div class="product-avatar-inner" style="background: url('{{productData.image}}') no-repeat; background-size:cover; background-position: 50% 20%;"></div></div>
+                  <div class="product-avatar">
+                    <img class="product-avatar-inner" src="{{image}}"/>
+                  </div>
                   <p class="main-title-text">{{productData.title}}</p>
                   <p class="main-sub-text">Rent Price:</p>
                   <p class="main-sub-text">
@@ -68,7 +70,9 @@
           <div class="item item-divider requests"><h3>Requests from others <i class="chevron-icon icon ion-chevron-down"></i></h3></div>
         {{#each newRequests}}
               {{#ionItem path="connect" _id=this._id class="item-avatar-2 request-item"}}
-                  <div  class="product-avatar"><div class="product-avatar-inner" style="background: url('{{productData.image}}') no-repeat; background-size:cover; background-position: 50% 20%;"></div></div>
+                  <div class="product-avatar">
+                    <img class="product-avatar-inner" src="{{image}}"/>
+                  </div>
                   <p class="main-title-text">{{productData.title}}</p>
                   <p class="main-sub-text">Rent Price:</p>
                   <p class="main-sub-text">
@@ -102,7 +106,9 @@
         {{#each myProducts}}
 
           {{#ionItem path='inventoryDetail' _id=this._id class="item-avatar-2 product-item"}}
-               <div class="product-avatar"><div class="product-avatar-inner" style="background: url('{{image}}') no-repeat; background-size:cover; background-position: 50% 20%;"></div></div>
+              <div class="product-avatar">
+                  <img class="product-avatar-inner" src="{{image}}"/>
+              </div>
               <p class="main-title-text">{{title}}</p>
               <p class="main-sub-text">Condition of the item: {{getCondition}}</p>
               <p class="main-sub-text">Rent Price:</p>

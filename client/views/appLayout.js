@@ -49,6 +49,38 @@ Template.appLayout.events({
 	// }
 });
 
+Template.appLayout.helpers({
+	showSideMenu: function(){
+		//var mainTemplateName = Router.current().route.getName();
+		var mainTemplateName = Router.current()._layout._regions.main._template;
+		console.log(mainTemplateName);
+
+		switch (mainTemplateName) {
+			case 'profile':
+				if(!Meteor.user().emails[0].verified){
+					return false;
+				} else {
+					return true;
+				}
+				break;
+			case 'login':
+				return false;
+				break;
+			case 'emailverification':
+				return false;
+				break;
+			case 'Register':
+				return false;
+				break;
+			case 'loadingData':
+				return false;
+				break;
+			default:
+				return true;
+		}
+	}
+});
+
 Template.sAlertCustom.events({
 	'click .whichalert': function() {
 		Router.go(this.goToChat)

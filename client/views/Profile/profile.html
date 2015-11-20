@@ -1,31 +1,40 @@
 <template name="profile">
-  {{#contentFor "headerButtonLeft"}}
+
+  {{#if currentUser.emails.[0].verified}}
+    {{#contentFor "headerButtonLeft"}}
+        {{#if profileEdit}}
+          <button id="cancelProfile" class="button button-clear button-stable">Cancel</button>
+        {{else}}
+          <button class="button button-clear pull-left" data-ion-menu-toggle="left">
+            {{#if isAndroid}}
+            {{> ionIcon icon='android-more-vertical'}}
+            {{else}}
+            {{> ionIcon icon='navicon' class="energized"}}
+            {{/if}}
+          </button>
+        {{/if}}
+    {{/contentFor}}
+
+    {{#contentFor "headerTitle"}}
+      <h1 class="title">Profile</h1>
+    {{/contentFor}}
+
+    {{#contentFor "headerButtonRight"}}
       {{#if profileEdit}}
-        <button id="cancelProfile" class="button button-clear button-stable">Cancel</button>
-      {{else}}
-        <button class="button button-clear pull-left" data-ion-menu-toggle="left">
-          {{#if isAndroid}}
-          {{> ionIcon icon='android-more-vertical'}}
-          {{else}}
-          {{> ionIcon icon='navicon' class="energized"}}
-          {{/if}}
-        </button>
+        <button id="saveProfile" class="button button-clear button-energized">Save</button>
+        {{else}}
+          <a href="/" class="button button-clear">
+              <object id="spinner-logo-simple" data="/logo/spinner-logo-simple.svg" type="image/svg+xml"></object>
+          </a>
       {{/if}}
-  {{/contentFor}}
-
-  {{#contentFor "headerTitle"}}
-    <h1 class="title">Profile</h1>
-  {{/contentFor}}
-
-  {{#contentFor "headerButtonRight"}}
-    {{#if profileEdit}}
-      <button id="saveProfile" class="button button-clear button-energized">Save</button>
-      {{else}}
-        <a href="/" class="button button-clear">
-            <object id="spinner-logo-simple" data="logo/spinner-logo-simple.svg" type="image/svg+xml"></object>
-        </a>
-    {{/if}}
-  {{/contentFor}}
+    {{/contentFor}}
+  {{else}}
+    {{#contentFor "headerTitle"}}
+      <h1 class="title">
+          <object id="spinner-logo-simple" data="/logo/spinner-logo-simple.svg" type="image/svg+xml"></object>
+      </h1>
+    {{/contentFor}}
+  {{/if}}
 
   {{#ionView}}
     {{#ionContent}}
@@ -99,16 +108,17 @@
 
       <div class="padding-horizontal">
       {{#if currentUser.emails.[0].verified}}
-        <a class="item item-icon-right" id="logout" href="{{pathFor}}" >
+        <a class="item item-icon-right" id="logout"  >
           <p>Logout</p>
           {{> ionIcon icon="android-exit" class="energized right-arrow"}}
         </a>
       {{else}}
         {{#if emailSet}}
+          <h3 class="assertive center">Thank you. Now, verify your email inbox to proceed.</h3>
           <br>
-          <p class="assertive center">Verify your email address to proceed</p>
+          <p class="text-center">{{> ionIcon icon="ios-email-outline" class=""}} <a href="mailto:support@partio.xyz">support@partio.xyz</a></p>
         {{else}}
-          <p class="dark center">Your Email should be your official college email address</p>
+          <h3 class="dark center">Your Email should be your official college email address</h3>
           <br>
           <button id="save-college-email" class="button button-block button-energized">SAVE</button>
         {{/if}}

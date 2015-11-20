@@ -4,13 +4,15 @@ InventoryDetailController = RouteController.extend({
 	},
 
 	action: function() {
-		this.render();
+		if(this.ready){
+			this.render();
+		}
 	},
 
 	waitOn: function() {
 		return [
 			// subscribe to data here
-			// Meteor.subscribe("someSubscription"),
+			Meteor.subscribe("products"),
 			// Meteor.subscribe("otherSubscription"),
 			// ...
 		];
@@ -30,6 +32,6 @@ InventoryDetailController = RouteController.extend({
 	},
 
 	onAfterAction: function() {
-		
+
 	}
 });

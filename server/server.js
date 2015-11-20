@@ -32,15 +32,96 @@ Kadira.connect('qhAvzzmgKeHaZ9rd9', '338e5eb7-842c-47f5-bfe7-7a4d3b9c0607');
     Accounts.emailTemplates.verifyEmail.subject = function(user) {
       return 'Welcome to partiO!';
     };
-    Accounts.emailTemplates.verifyEmail.text = function(user, url) {
-      return "Hello there! \n\n" +
-      "Welcome aboard partiO! \n" +
-      "The things you own end up making money for you! Sounds familiar? Er..nevermind! To make this happen, it all starts with one link. \n" +
-      "The one below. Click to verify and get sharing! \n\n" +
-      url + "\n\n" +
-      "For any queries or support, feel free to contact partio.missioncontrol@gmail.com \n" +
-      "Best\n" +
-      "partiO team"
+    Accounts.emailTemplates.verifyEmail.html = function(user, url) {
+
+      var body =
+      '<!DOCTYPE html>\
+              <html>\
+                  <head>\
+                      <title>Partio</title>\
+                      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">\
+                      <style>\
+                      a {\
+                          color:#95cbab;\
+                      }\
+                      </style>\
+                  </head>\
+                  <body>\
+                      <table width="750" bgcolor="#f6f6f6">\
+                          <tr height="373">\
+                              <td><img src="http://partio.cloudservice.io/img/template_cabecalho.jpg" /></td>\
+                          </tr>\
+                          <tr>\
+                              <td>\
+                                  <div style="width:640px;font-family:arial; tex-align:left; margin-left:50px;color:#999">\
+                                      <h1 style="color:#263238;font-size:40px">Hello there!</h1>\
+                                      <p style="font-size:20px;line-height:38px;">Welcome aboard partiO!<br />\
+                                      The things you own end up making money for you! Sounds familiar? Er..nevermind! To make this happen, it all starts with one link.<br />\
+                                      The one below. Click to verify and get sharing<br />\
+                                       '+url+'\
+                                       <br />For any queries or support, feel free to contact partio.missioncontrol@gmail.com\
+                                      Best<br />\
+                                      partiO team\
+                                      </p>\
+                                  </div>\
+                              </td>\
+                          </tr>\
+                          <tr height="262">\
+                              <td><img src="http://partio.cloudservice.io/img/template_rodape.jpg" /></td>\
+                          </tr>\
+                      </table>\
+                  </body>\
+              </html>';
+
+
+
+            return body;
+
+    };
+
+    Accounts.emailTemplates.resetPassword.html = function(user, url) {
+
+      var body =
+      '<!DOCTYPE html>\
+              <html>\
+                  <head>\
+                      <title>Partio</title>\
+                      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">\
+                      <style>\
+                      a {\
+                          color:#95cbab;\
+                      }\
+                      </style>\
+                  </head>\
+                  <body>\
+                      <table width="750" bgcolor="#f6f6f6">\
+                          <tr height="373">\
+                              <td><img src="http://partio.cloudservice.io/img/template_cabecalho.jpg" /></td>\
+                          </tr>\
+                          <tr>\
+                              <td>\
+                                  <div style="width:640px;font-family:arial; tex-align:left; margin-left:50px;color:#999">\
+                                      <h1 style="color:#263238;font-size:40px">Hello!</h1>\
+                                      <p style="font-size:20px;line-height:38px;">\
+                                      To reset your password, simply click the link below.\
+                                       '+url+'\
+                                       <br />Thanks.<br />\
+                                      partiO team\
+                                      </p>\
+                                  </div>\
+                              </td>\
+                          </tr>\
+                          <tr height="262">\
+                              <td><img src="http://partio.cloudservice.io/img/template_rodape.jpg" /></td>\
+                          </tr>\
+                      </table>\
+                  </body>\
+              </html>';
+
+
+
+            return body;
+
     };
 
     // Stripe = StripeSync('sk_test_RBrpczGtVbB1tSaG66gglMTH');
@@ -291,10 +372,6 @@ Meteor.methods({
     }
 
   },
-  generateSinchTicket: function() {
-    if (!Meteor.userId()) throw new Meteor.Error(401, "You must be authenticated!");
-    return SinchTicketGenerator('8e10bb06-6bbb-4682-993d-c5e30a719882', 'ndWxLrf6qE2ESyOVh+L8Nw==', {username: Meteor.userId()});
-  },
   priceFromAmazon: function(barcode) {
     // var originalFormat = format;
     var originalBarcode = barcode;
@@ -368,7 +445,7 @@ Meteor.methods({
     sendNotification(connect.requestor, connect.productData.ownerId, message, "info");
   },
 
-  requestOwner: function(requestorId, productId, ownerId) {
+  requestOwner: function(requestorId, productId, ownerId, borrowDetails) {
     console.log(requestorId, productId, ownerId);
 
     var requestorName = Meteor.users.findOne(requestorId).profile.name;
@@ -378,7 +455,7 @@ Meteor.methods({
       requestor: requestorId,
       state: 'WAITING',
       requestDate: new Date(),
-      borrowedDate: null,
+      borrowDetails: borrowDetails,
       productData: product,
       chat: [  ],
       meetupLocation: "Location not set",
@@ -430,7 +507,7 @@ Meteor.methods({
     Connections.update({_id: payer}, {$set: {state: "IN USE"}});
     return "yes, payment done"
   },
-  'chargeCard': function(payerCustomerId, payerCardId, recipientDebitId, amount, rentDate, connectionId, transactionsId, transactionsRecipientId) {
+  'chargeCard': function(payerCustomerId, payerCardId, recipientDebitId, amount, connectionId, transactionsId, transactionsRecipientId) {
     this.unblock();
     console.log(payerCustomerId, payerCardId, recipientDebitId, amount, connectionId, transactionsId, transactionsRecipientId);
     var formattedAmount = (amount * 100).toFixed(0);
@@ -458,7 +535,7 @@ Meteor.methods({
           receivedAmount: result.amount/100
         }
 
-        Connections.update({_id: connectionId}, {$set: {state: "IN USE", payment: result, date: rentDate}});
+        Connections.update({_id: connectionId}, {$set: {state: "IN USE", payment: result}});
         Search.update({"ean": Connections.findOne(connectionId).productData.ean}, {$inc: {qty: -1}})
         Transactions.update({_id: transactionsId}, {$push: {spending: payerTrans}});
         Transactions.update({_id: transactionsRecipientId}, {$push: {earning: recipientTrans}});

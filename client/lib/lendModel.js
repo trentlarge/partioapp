@@ -24,36 +24,53 @@ app.model.Lend = (function () {
 
    };
 
+   function onlyNumber(string)
+   {
+      console.log('COMO CHEGA: '+string);
+       //var numsStr = string.replace(/[^0-9]/g,'');
+       var number = Number(string.replace(/[^0-9\.-]+/g,""));
+       console.log('APENAS NUMEROS: '+number);
+       return number;
+       //parseInt(numsStr);
+   }
+
+ function format1(n) {
+     return n.toFixed(2).replace(/./g, function(c, i, a) {
+         return i > 0 && c !== "." && (a.length - i) % 3 === 0 ? "," + c : c;
+     });
+ }
+
+
    Lend = {
 
         //initialize vars
         init : function() {
             this.allResultsCache = {};
         },
-       
+
         validatePrices : function() {
-            
+
             if(!Session.get('dayPrice') || !Session.get('weekPrice') || !Session.get('monthPrice') || !Session.get('semesterPrice')) {
                 return false;
             }
-            
+
             var lowerValue = 1,
                 highestValue = 100000;
-            
+
             var dayPrice = parseFloat(Session.get('dayPrice'), 10),
                 weekPrice = parseFloat(Session.get('weekPrice'), 10),
                 monthPrice = parseFloat(Session.get('monthPrice'), 10),
                 semesterPrice = parseFloat(Session.get('semesterPrice'), 10);
-            
+
             if(dayPrice < lowerValue || weekPrice < lowerValue || monthPrice < lowerValue || semesterPrice < lowerValue) {
                 return false;
             }
             if(dayPrice > highestValue || weekPrice > highestValue || monthPrice > highestValue || semesterPrice > highestValue) {
                 return false;
             }
-            
+
             return true;
-            
+
         },
 
         CalculateRentingCharges : function() {
@@ -62,8 +79,11 @@ app.model.Lend = (function () {
             {
                 this.RentingFinalPrice = parseFloat((this.RentingOneDayPercentage/100) * this.RentingAmazonPrice);
 
-                if(this.RentingFinalPrice < 3.00)
-                    this.RentingFinalPrice = 3.00;
+                console.log('#######'+ this.RentingAmazonPrice);
+                console.log('ONE_DAY price original '+this.RentingFinalPrice);
+
+                // if(this.RentingFinalPrice < 3.00)
+                //     this.RentingFinalPrice = 3.00;
             }
             else if(this.RentingTimeSpan == 'ONE_WEEK')
             {
@@ -72,25 +92,29 @@ app.model.Lend = (function () {
 
                 this.RentingFinalPrice = parseFloat(this.RentingFinalPrice * 7);
 //                console.log('Pricex7: ' + this.RentingFinalPrice);
+                console.log('ONE_WEEK price original'+ this.RentingFinalPrice);
 
-                if(this.RentingFinalPrice < 7.00) //$1.00 per day
-                    this.RentingFinalPrice = 7.00;
+                // if(this.RentingFinalPrice < 7.00) //$1.00 per day
+                //     this.RentingFinalPrice = 7.00;
             }
             else if(this.RentingTimeSpan == 'ONE_MONTH')
             {
                 this.RentingFinalPrice = parseFloat((this.RentingOneMonthPercentage/100) * this.RentingAmazonPrice);
                 this.RentingFinalPrice = parseFloat(this.RentingFinalPrice * 30);
+                console.log('ONE_MONTH price original'+ this.RentingFinalPrice);
 
-                if(this.RentingFinalPrice < 15.00) //$0.50 per day
-                    this.RentingFinalPrice = 15.00;
+                // if(this.RentingFinalPrice < 15.00) //$0.50 per day
+                //     this.RentingFinalPrice = 15.00;
             }
             else if(this.RentingTimeSpan == 'FOUR_MONTHS')
             {
                 this.RentingFinalPrice = parseFloat((this.RentingFourMonthsPercentage/100) * this.RentingAmazonPrice);
                 this.RentingFinalPrice = parseFloat(this.RentingFinalPrice * 30 * 4);
 
-                if(this.RentingFinalPrice < 30.00) //$0.25 per day
-                    this.RentingFinalPrice = 30.00;
+                console.log('FOUR_MONTHS price original'+ this.RentingFinalPrice);
+
+                // if(this.RentingFinalPrice < 30.00) //$0.25 per day
+                //     this.RentingFinalPrice = 30.00;
             }
 
             console.log('RentingTimeSpan: ' + this.RentingTimeSpan);
@@ -112,12 +136,12 @@ app.model.Lend = (function () {
 
         GetRentingPercentages : function(strRentingTimeSpan, priceValue)
         {
-            this.RentingAmazonPrice = parseFloat(priceValue);
+            this.RentingAmazonPrice = onlyNumber(priceValue);
             this.RentingTimeSpan = strRentingTimeSpan;
-            this.RentingOneDayPercentage = 2;
-            this.RentingOneWeekPercentage = 1;
-            this.RentingOneMonthPercentage = 0.5;
-            this.RentingFourMonthsPercentage = 0.25;
+            this.RentingOneDayPercentage = 4;
+            this.RentingOneWeekPercentage = 2;
+            this.RentingOneMonthPercentage = 1;
+            this.RentingFourMonthsPercentage = 0.50;
 
             this.RentingPartioSharePercentage = 10;
 
@@ -131,9 +155,9 @@ app.model.Lend = (function () {
         {
             this.RentingFinalPrice = 0.0;
         },
-       
+
         addProductToInventoryManually : function(manualProduct) {
-    
+
             Products.insert(manualProduct);
             this.clearPrices();
 
@@ -156,10 +180,10 @@ app.model.Lend = (function () {
         },
 
         addProductToInventory : function(product) {
-            
+
             Products.insert(product);
             this.clearPrices();
-            
+
             PartioLoad.hide();
 
             IonPopup.show({
@@ -177,14 +201,14 @@ app.model.Lend = (function () {
             }]
             });
         },
-       
+
         clearPrices() {
             Session.set('dayPrice', null);
             Session.set('weekPrice', null);
             Session.set('monthPrice', null);
             Session.set('semesterPrice', null);
         }
-       
+
    };
 
    return Lend;

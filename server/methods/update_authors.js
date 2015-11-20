@@ -1,11 +1,10 @@
-Meteor.methods({
-	updateAuthors:function(searchId){
-		console.log('update authors ---------'+searchId)
-	 var products = Products.find({ searchId: searchId }).fetch();
-	 console.log(products);
-	 var bufferOwner = []
+updateAuthors = function(searchId){
+		//console.log('update authors ---------'+searchId)
+		var products = Products.find({ searchId: searchId }).fetch();
+		console.log(products);
+		var bufferOwner = []
 
-	 if(products.length > 0){
+		if(products.length > 0){
 
 		 for (var i = 0; i < products.length; i++) {
 			 var owner_ = Meteor.users.findOne(products[i].ownerId);
@@ -23,11 +22,9 @@ Meteor.methods({
 										 { $set: { authors: owners,
 											 qty: bufferOwner.length }}, function(){
 												return true;
-											 })
+										 	});
 		 }
-
 		} else {
 			Search.remove({_id:searchId});
 		}
 	}
-});

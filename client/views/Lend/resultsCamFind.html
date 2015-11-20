@@ -3,36 +3,67 @@
   {{#ionContent}}
     {{#if scanResult}}
         {{#with scanResult}}
-        <div class="card">
+        <div class="resultsCamFind-details padding-horizontal padding-vertical">
             <div class="item no-padding">
                 <div class="center">
                     <img class="scanResult-thumbnail" src="{{image}}">
-                </div>
+                </div>    
             </div>
-
-            <div class="row item">
+            
+            <div class="item item-divider features">
+                <h2>Features <i class="chevron-icon icon ion-chevron-right"></i></h2>
+            </div>
+            
+            <div class="item no-padding row-details features-details hidden">
+                 <div class="col col-50">
+                    <div class="details-box">
+                        <i class="icon {{getCategoryIcon}} bk-energized"></i>
+                        <span class="detail">{{amazonCategory}}</span>
+                    </div>
+                </div>
+                <div class="col col-50">
+                    <div class="details-box">
+                        <i class="icon ion-cash bk-energized"></i>
+                        <span class="detail">{{price}}</span>
+                    </div>
+                </div>
+             </div>
+            
+             <div class="row item features-details hidden">
                 <div class="col col-33">
-                    <p>Amazon Price</p>
-                    <p>Title</p>
-                    <p>Category</p>
                     {{#each attributes}}
                     <p>{{key}}</p>
                     {{/each}}
                 </div>
                 <div class="col col-67 scan-result">
-                    <p>{{price}}</p>
-                    <p>{{title}}</p>
-                    <p>{{amazonCategory}}</p>
                     {{#each attributes}}
                     <p>{{value}}</p>
                     {{/each}}
                 </div>
             </div>
-        </div>
-        <div class="list list-inset">
+
+            
+        
+          <label class="item item-input">
+                <input type="text" class="productTitle" placeholder="Title" value="{{title}}">
+          </label>
+            
+          
+          <label class="item item-input item-select">
+            <div class="input-label">
+              <p>Condition of the item:</p>
+            </div>
+            <select name="condition" class="fieldConditionLend">
+                {{#each getConditions}}
+                    <option value="{{index}}">{{value}}</option>
+                {{/each}}
+            </select>
+          </label>
+            
           <div class="item item-divider">
-            Rent Price
+              <h2>Rent Price</h2>
           </div>
+            
           <label class="item item-input">
               <span class="input-label"><p>Day</p></span>
             <input type="number" class="userPrice dayPrice" placeholder="0.00" value="{{calculatedPriceDay}}">
@@ -48,16 +79,6 @@
           <label class="item item-input">
             <span class="input-label"><p>Semester (4m)</p></span>
             <input type="number" class="userPrice semesterPrice" placeholder="0.00" value="{{calculatedPrice4Months}}">
-          </label>
-            <label class="item item-input item-select">
-            <div class="input-label">
-              <p>Condition of the item:</p>
-            </div>
-            <select name="condition" class="fieldConditionLend">
-                {{#each getConditions}}
-                    <option value="{{index}}">{{value}}</option>
-                {{/each}}
-            </select>
           </label>
         </div>
         <div class="padding-horizontal">

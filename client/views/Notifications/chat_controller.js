@@ -4,14 +4,16 @@ ChatController = RouteController.extend({
 	},
 
 	action: function() {
-		this.render();
+		if(this.ready()) {
+			this.render();
+		}
 	},
 
 	waitOn: function() {
 		return [
 			// subscribe to data here
 			// Meteor.subscribe("someSubscription"),
-			// Meteor.subscribe("otherSubscription"),
+			Meteor.subscribe("connections"),
 			// ...
 		];
 	},
