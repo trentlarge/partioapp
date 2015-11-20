@@ -7,7 +7,14 @@ Meteor.publish("all_users", function() {
 
 Meteor.publish("singleUser", function(idUser) {
 	return Users.find({ _id: idUser }, { fields: { profile: 1, emails: 1, roles: 1 }}, { limit: 1 });
-
 });
+
+Meteor.publish("manyUsersById", function(idUsers) {
+	console.log(idUsers);
+	//return Users.find({ _id: idUser }, { fields: { profile: 1, emails: 1, roles: 1 }}, { limit: 1 });
+});
+
+
+
 //
 // !!!

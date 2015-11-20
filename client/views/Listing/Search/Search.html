@@ -22,11 +22,11 @@
             {{#if noProfileYet}}
             <div style="background: url('profile_image_placeholder.jpg') no-repeat; background-size:cover; background-position: 50% 50%;" class="profile-avatar"></div>
             {{else}}
-            <div style="background: url({{userThumbnail ownerId}}) no-repeat; background-size:cover; background-position: 50% 50%;" class="profile-avatar"></div>
+            <div style="background: url({{../userThumbnail ownerId}}) no-repeat; background-size:cover; background-position: 50% 50%;" class="profile-avatar"></div>
             {{/if}}
 
             <p class="main-title-text">{{userName ownerId}} </p>
-            <span class="rating-box"> {{> rating}}</span>
+            <span class="rating-box">{{> rating}}</span>
           </div>
 
           <div class="profile-content">
