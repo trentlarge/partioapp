@@ -24,8 +24,8 @@
 
       <!-- FINALIZED REQUESTS -->
 
-      {{#if myProducts}}
-        {{#if finalizedRequests}}
+      {{#if myProducts.count}}
+        {{#if finalizedRequests.count}}
           <div class="item item-divider final-requests"><h3>Finalized requests <i class="chevron-icon icon ion-chevron-right"></i></h3></div>
           {{#each finalizedRequests}}
             {{#ionItem path="connect" _id=productData._id class="item-avatar-2 final-request-item hidden"}}
@@ -33,6 +33,7 @@
                 <img class="product-avatar-inner" src="{{productData.image}}"/>
               </div>
               <p class="main-title-text">{{productData.title}}</p>
+              <p class="main-sub-text">Condition of the item: {{../getCondition productData.conditionId}}</p>
               <p class="main-sub-text">Rent Price:</p>
               <p class="main-sub-text">
                 <table class="rent-table">
@@ -62,7 +63,7 @@
 
         <!-- NEW REQUESTS -->
 
-        {{#if newRequests}}
+        {{#if newRequests.count}}
           <div class="item item-divider requests"><h3>Requests from others <i class="chevron-icon icon ion-chevron-down"></i></h3></div>
           {{#each newRequests}}
             {{#ionItem path="connect" _id=productData._id class="item-avatar-2 request-item"}}
@@ -70,6 +71,7 @@
                 <img class="product-avatar-inner" src="{{productData.image}}"/>
               </div>
               <p class="main-title-text">{{productData.title}}</p>
+              <p class="main-sub-text">Condition of the item: {{../getCondition productData.conditionId}}</p>
               <p class="main-sub-text">Rent Price:</p>
               <p class="main-sub-text">
                 <table class="rent-table">
@@ -105,7 +107,7 @@
               <img class="product-avatar-inner" src="{{image}}"/>
             </div>
             <p class="main-title-text">{{title}}</p>
-            <p class="main-sub-text">Condition of the item: {{getCondition}}</p>
+            <p class="main-sub-text">Condition of the item: {{../getCondition conditionId}}</p>
             <p class="main-sub-text">Rent Price:</p>
             <p class="main-sub-text">
               <table class="rent-table">
