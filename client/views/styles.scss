@@ -55,8 +55,7 @@
 @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
 //modal animation
 .modal-backdrop {
-    -webkit-animation: fadeIn 500ms linear;
-
+    -webkit-animation: bounce 400ms linear;
 }
 
 input {
