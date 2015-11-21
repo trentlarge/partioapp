@@ -758,7 +758,7 @@ Meteor.methods({
       
     var result = [];  
     
-    for(var i=0; i<3; i++) {
+    for(var i=0; i<5; i++) {
         result.push(getAmazonItemSearchSynchronously(keys, i+1));   
         console.log(result[i]);
     }
@@ -896,11 +896,11 @@ var amazonAllResultsItemSearchProcessing = function(result) {
             } catch(e) {console.log(e)}
 
             } else {
-              throw new Meteor.Error("No match for this item")
+//              throw new Meteor.Error("No match for this item")
             }
       } else {
-        console.log(result.ItemSearchResponse.Items[0].Request[0].Errors[0].Error[0].Code[0]);
-        throw new Meteor.Error(result.ItemSearchResponse.Items[0].Request[0].Errors[0].Error[0].Message[0]);
+//        console.log(result.ItemSearchResponse.Items[0].Request[0].Errors[0].Error[0].Code[0]);
+//        throw new Meteor.Error(result.ItemSearchResponse.Items[0].Request[0].Errors[0].Error[0].Message[0]);
       }
         
     }
@@ -1032,6 +1032,7 @@ var amazonItemSearch = function(keys, itemPage, callback) {
 
   opHelper.execute('ItemSearch', {
       'SearchIndex': 'All',
+      'Condition': 'New',
       'Keywords': keys,
       'ResponseGroup': ['ItemAttributes', 'Medium', 'Offers'],
       'ItemPage': itemPage,
