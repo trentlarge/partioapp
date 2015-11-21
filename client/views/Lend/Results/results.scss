@@ -70,6 +70,10 @@
     
 }
 
+.results-content .results {
+    margin-bottom: 50px;
+}
+
 .results {
     background: white;
 
@@ -109,7 +113,22 @@
         max-height: 100px;
         min-height: 100px;
         border-bottom: 1px solid #EEE;
+        display: -webkit-flex; /* Safari */
+        -webkit-align-items: center; /* Safari 7.0+ */
+        display: flex;
+        align-items: center;
 
+        .row {
+            margin: 0;
+        }
+        
+        .image-col {
+            display: -webkit-flex; /* Safari */
+            -webkit-align-items: center; /* Safari 7.0+ */
+            display: flex;
+            align-items: center;
+        }
+        
         .price {
             font-size: 20px;
             margin-top: 10px;

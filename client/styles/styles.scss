@@ -433,40 +433,6 @@ ion-side-menu.menu-left.menu {
   vertical-align: middle;
 }
 
-.viewfinder {
-  display: table;
-  position: relative;
-  width: 175px;
-  height: 150px;
-  background-color: white;
-  margin: 0 auto;
-  text-align: center;
-  line-height: 100%;
-  // margin-top: 22vh;
-}
-
-.viewfinder::before,
-.viewfinder::after {
-  position: absolute;
-  content: '';
-  width: 17px;
-  height: calc(100% + 4px);
-  top: -2px;
-  left: -2px;
-  background: -webkit-linear-gradient(#f0970d, #f0970d 20px, transparent 20px, transparent calc(100% - 20px), #f0970d calc(100% - 20px));
-  background: linear-gradient(#f0970d, #f0970d 20px, transparent 20px, transparent calc(100% - 20px), #f0970d calc(100% - 20px));
-  z-index: -1;
-}
-
-.viewfinder::after {
-  left: calc(100% - 15px);
-}
-
-.viewfinder img {
-  height: 20vh;
-  width: auto;
-}
-
 .scan-result p {
   overflow: hidden;
   white-space: nowrap;

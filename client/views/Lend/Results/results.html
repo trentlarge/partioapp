@@ -1,6 +1,6 @@
 <!-- RESULTS -->
 <template name="results">
-  {{#ionContent}}
+  {{#ionContent class="results-content"}}
     {{#if scanResult}}
         {{#with scanResult}}
         <div class="results-details padding-horizontal padding-vertical">
@@ -51,7 +51,7 @@
 
           <label class="item item-input item-select">
             <div class="input-label">
-              <p>Condition of the item:</p>
+              <p>Condition:</p>
             </div>
             <select name="condition" class="fieldConditionLend">
                 {{#each getConditions}}
@@ -65,19 +65,19 @@
           </div>
 
           <label class="item item-input">
-              <span class="input-label"><p>Day</p></span>
+              <span class="input-label"><p>Day:</p></span>
             <input type="number" class="userPrice dayPrice" placeholder="0.00" value="{{calculatedPriceDay}}">
           </label>
           <label class="item item-input">
-            <span class="input-label"><p>Week</p></span>
+            <span class="input-label"><p>Week:</p></span>
             <input type="number" class="userPrice weekPrice" placeholder="0.00" value="{{calculatedPriceWeek}}">
           </label>
           <label class="item item-input">
-            <span class="input-label"><p>Month</p></span>
+            <span class="input-label"><p>Month:</p></span>
             <input type="number" class="userPrice monthPrice" placeholder="0.00" value="{{calculatedPriceMonth}}">
           </label>
           <label class="item item-input">
-            <span class="input-label"><p>Semester (4m)</p></span>
+            <span class="input-label"><p>Semester (4m):</p></span>
             <input type="number" class="userPrice semesterPrice" placeholder="0.00" value="{{calculatedPrice4Months}}">
           </label>
         </div>
@@ -109,10 +109,10 @@
 
                 <div class="product {{splitCategory}} {{#if isOnlyOneCategory}} {{else}} hidden {{/if}}">
                     <div class="row">
-                        <div class="col col-20">
-                                <div class="center">
-                                    <img class="scanResult-thumbnail" src="{{image}}">
-                                </div>
+                        <div class="col col-20 image-col">
+                            <div class="center">
+                                <img class="scanResult-thumbnail" src="{{image}}">
+                            </div>
                         </div>
 <!--
                         <div class="col col-20">
