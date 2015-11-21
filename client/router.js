@@ -8,14 +8,13 @@ Router.configure({
 // Temporary solution: subscribe to all data before we setup controllers
 //
 Router.waitOn(function () {
-	Meteor.subscribe("connections");
-	Meteor.subscribe("notifications");
-	Meteor.subscribe("products");
-	Meteor.subscribe("search");
-	Meteor.subscribe("transactions");
-	//Meteor.subscribe("current_user_data");
-
-	Meteor.subscribe("all_users");
+	//Meteor.subscribe("connections");
+	//Meteor.subscribe("notifications");
+	//Meteor.subscribe("products");
+	//Meteor.subscribe("search");
+	//Meteor.subscribe("transactions");
+	Meteor.subscribe("current_user_data");
+	//Meteor.subscribe("all_users");
 
 });
 //
