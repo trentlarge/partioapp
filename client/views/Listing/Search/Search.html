@@ -10,28 +10,18 @@
   {{#ionView}}
     {{#ionContent class="listing-search overflow-scroll"}}
 
-
-    <div class="item item-divider"><h2>{{commonProductTitle}}</h2></div>
-
-
+    <div class="item item-divider"><h2>{{ search.title }}</h2></div>
       <div class="list">
-        {{#each peopleList}}
+        {{#each products }}
+          {{ products.title }}
         <a class="item" href="#">
-
           <div class="profile-image-box">
-            {{#if noProfileYet}}
-            <div style="background: url('profile_image_placeholder.jpg') no-repeat; background-size:cover; background-position: 50% 50%;" class="profile-avatar"></div>
-            {{else}}
-            <div style="background: url({{../userThumbnail ownerId}}) no-repeat; background-size:cover; background-position: 50% 50%;" class="profile-avatar"></div>
-            {{/if}}
-
-            <p class="main-title-text">{{userName ownerId}} </p>
-            <span class="rating-box">{{> rating}}</span>
+            <div style="background: url({{ ../ownerAvatar ownerData.profile.avatar }}) no-repeat; background-size:cover; background-position: 50% 50%;" class="profile-avatar"></div>
+            <p class="main-title-text"> {{ ownerData.profile.name }} </p>
+            <span class="rating-box">{{ > rating}}</span>
           </div>
-
           <div class="profile-content">
           <!-- <img src="{{userThumbnail ownerId}}"> -->
-
               <p class="main-sub-text">Rent Price:</p>
               <p class="main-sub-text">
                     <table class="rent-table">
@@ -46,33 +36,31 @@
                                 <td>${{rentPrice.day}}</td>
                                 <td>${{rentPrice.week}}</td>
                                 <td>${{rentPrice.month}}</td>
-                                <td>${{rentPrice.semester}}</td>
+                                <td>${{Price.semester}}</td>
                             </tr>
                         </tbody>
                     </table>
               </p>
               <p class="main-sub-text">Condition of the item: {{getCondition}}</p>
 
-              {{#if requestSent}}
+              {{#if ../requestSent}}
                 <button class="button button-block" disabled>REQUEST SENT</button>
               {{else}}
-                {{#if isOwner}}
-                    <button class="button button-block" disabled>OWNER</button>
+                {{#if ../isOwner}}
+                  <button class="button button-block" disabled>OWNER</button>
                 {{else}}
-                    {{#if qtynotZero}}
+                    {{#if ../qtynotZero}}
 <!--                        <button class="button button-block" data-ion-modal="requestRent">REQUEST</button>-->
-                        <button id="requestProduct" class="button button-block">REQUEST</button>
+                      <button id="requestProduct" class="button button-block">REQUEST</button>
                     {{else}}
-                        <button class="button button-block" disabled>UNAVAIBLE</button>
+                      <button class="button button-block" disabled>UNAVAIBLE</button>
                     {{/if}}
                 {{/if}}
               {{/if}}
-
           </div>
         </a>
         {{/each}}
       </div>
-
     {{/ionContent}}
   {{/ionView}}
 

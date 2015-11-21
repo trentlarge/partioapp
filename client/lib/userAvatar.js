@@ -1,7 +1,7 @@
-userAvatar = function(userId){
-  if(Meteor.users.findOne(userId)) {
-      Meteor.users.findOne(userId).profile.avatar === "notSet" ? "/profile_image_placeholder.jpg" : Meteor.users.findOne(userId).profile.avatar;
+userAvatar = function(data){
+  if(data === 'notSet') {
+    return "/profile_image_placeholder.jpg"
   } else {
-    return false;
+    return data;
   }
 }

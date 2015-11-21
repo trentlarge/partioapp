@@ -12,5 +12,6 @@ Meteor.publish("singleProduct", function(idProduct) {
 });
 
 Meteor.publish("productsByTitle", function(_title) {
-	return Products.find({ title: _title});
+  var cursor = Products.find({ title: _title});
+  return Products.publishJoinedCursors(cursor);
 });
