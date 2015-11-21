@@ -99,6 +99,7 @@ observe-sequence@1.0.7
 ordered-dict@1.0.4
 peerlibrary:aws-sdk@2.2.6_1
 peerlibrary:blocking@0.5.2
+perak:joins@1.0.6
 perak:user-roles@1.0.10
 promise@0.5.1
 raix:eventemitter@0.1.3
