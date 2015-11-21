@@ -1,12 +1,19 @@
 <!-- TAB 1 - CAMFIND -->
 <template name="camfind">
     <div class="camfind">
-         <div class="content has-header">
+         <div class="content">
 <!--            {{ > camfindinput }}-->
-              <div class="viewfinder hide-on-keyboard-open has-header" id="cam-find">
-                 <p>TAP FOR SEARCH<br>PRODUCT OR<br>SCAN OBJECT</p>
+<!--
+            <div class="viewfinder hide-on-keyboard-open" id="cam-find">             
+                <p>TAP FOR SEARCH<br>PRODUCT OR<br>SCAN OBJECT</p>
+            </div>
+-->
+             <div class="box-camfind hide-on-keyboard-open" id="cam-find">
+                <div class="icon-box">
+                    <i class="icon ion-image"></i>
+                    <p class="caption">TAP TO <br/> SCAN IMAGE</p>
+                </div>
              </div>
-
          </div>
     </div>
 </template>

@@ -34,8 +34,6 @@ Kadira.connect('qhAvzzmgKeHaZ9rd9', '338e5eb7-842c-47f5-bfe7-7a4d3b9c0607');
     };
     Accounts.emailTemplates.verifyEmail.html = function(user, url) {
 
-      url = url.replace("http://localhost:3000/", process.env.ROOT_URL);
-
       var body =
       '<!DOCTYPE html>\
               <html>\
@@ -75,7 +73,6 @@ Kadira.connect('qhAvzzmgKeHaZ9rd9', '338e5eb7-842c-47f5-bfe7-7a4d3b9c0607');
                   </body>\
               </html>';
 
-              console.log(url);
 
 
             return body;
@@ -83,8 +80,6 @@ Kadira.connect('qhAvzzmgKeHaZ9rd9', '338e5eb7-842c-47f5-bfe7-7a4d3b9c0607');
     };
 
     Accounts.emailTemplates.resetPassword.html = function(user, url) {
-
-      url = url.replace("http://localhost:3000/", process.env.ROOT_URL);
 
       var body =
       '<!DOCTYPE html>\
@@ -153,15 +148,14 @@ function buildRegExp(searchText) {
 
 // END LISTING SEARCH ------------------------------
 
-var sendNotification = function(toId, fromId, message, type, router) {
+var sendNotification = function(toId, fromId, message, type) {
   Notifications.insert({
     toId: toId,
     fromId: fromId,
     message: message,
     read: false,
     timestamp: new Date(),
-    type: type,
-    router: router
+    type: type
   })
 }
 
@@ -239,7 +233,58 @@ Meteor.methods({
         "image_request[remote_image_url]" : imageUrl,
         "image_request[locale]" : "en_US"
       }
-    })
+    });
+  },
+
+  camfindGetTokenBase64: function(dataURI) {
+    var mashapeURL = "https://camfind.p.mashape.com/image_requests";
+    var mashapeKey = "7W5OJWzlcsmshYSMTJW8yE4L2mJQp1cuOVKjsneO6N0wPTpaS1";
+
+    // base64 encoded data to Buffer conversion
+    var atob = Meteor.npmRequire('atob');
+    var byteString = atob(dataURI.split(',')[1]);
+    var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0]
+    var arrayBuffer = new ArrayBuffer(byteString.length);
+    var tmp = new Uint8Array(arrayBuffer);
+    for (var i = 0; i < byteString.length; i++) {
+        tmp[i] = byteString.charCodeAt(i);
+    }
+    var buffer = new Buffer(arrayBuffer.byteLength);
+    var view = new Uint8Array(arrayBuffer);
+    for (var i = 0; i < buffer.length; ++i) {
+        buffer[i] = view[i];
+    }
+
+    // HTTP request payload
+    var formData = {
+      // Pass a simple key-value pair
+      "image_request[locale]": "en_US",
+      "image_request[image]": {
+        value: buffer,
+        options: {
+          filename: "image-" + Math.random().toString().substr(2) + ".jpg",
+          contentType: mimeString
+        }
+      }
+    };
+
+    // HTTP request
+    var request = Meteor.npmRequire("request");
+    var response = Async.runSync(function(done) {
+      request.post({
+        url: mashapeURL,
+        headers: { "X-Mashape-Key": mashapeKey },
+        formData: formData
+      }, function(err, httpResponse, body) {
+        var result = {
+          data: JSON.parse(body),
+          statusCode: httpResponse.statusCode
+        };
+
+        done(err, result);
+      });
+    });
+    return response.result;
   },
 
   camfindGetResponse: function(token) {
@@ -324,80 +369,6 @@ Meteor.methods({
       return response.result;
     },
 
-  // AMAZON SEARCH -------------------------------------------------------------------
-  itemFromAmazon: function(keys) {
-
-    var getAmazonItemSearchSynchronously =  Meteor.wrapAsync(amazonItemSearch);
-    var result = getAmazonItemSearchSynchronously(keys);
-
-    console.log('x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x');
-    console.log(result);
-
-    if (result.html && (result.html.body[0].b[0] === "Http/1.1 Service Unavailable")) {
-      console.log(result.html.body[0].b[0]);
-      throw new Meteor.Error("Error from Amazon - Service Unavailable");
-    } else {
-        if (result.ItemSearchResponse.Items[0].Item && (result.ItemSearchResponse.Items[0].Request[0].IsValid[0] === "True")) {
-            return amazonResultItemSearchProcessing(result);
-        } else {
-          console.log(result.ItemSearchResponse.Items[0].Request[0].Errors[0].Error[0].Code[0]);
-          throw new Meteor.Error(result.ItemSearchResponse.Items[0].Request[0].Errors[0].Error[0].Code[0]);
-      }
-    }
-
-  },
-
-  AllItemsFromAmazon: function(keys) {
-
-    var getAmazonItemSearchSynchronously =  Meteor.wrapAsync(amazonItemSearch);
-    var result = getAmazonItemSearchSynchronously(keys);
-
-    if (result.html && (result.html.body[0].b[0] === "Http/1.1 Service Unavailable")) {
-      console.log(result.html.body[0].b[0]);
-      throw new Meteor.Error("Error from Amazon - Service Unavailable");
-
-    } else {
-      if (result.ItemSearchResponse.Items[0].Item && (result.ItemSearchResponse.Items[0].Request[0].IsValid[0] === "True")) {
-        console.log('AllItemsFromAmazon: OK');
-        return amazonAllResultsItemSearchProcessing(result);
-
-      } else {
-        console.log('AllItemsFromAmazon: error');
-        console.log(result.ItemSearchResponse.Items[0].Request[0].Errors[0].Error[0].Code[0]);
-
-        switch (result.ItemSearchResponse.Items[0].Request[0].Errors[0].Error[0].Code[0]) {
-          case 'AWS.ECommerceService.NoExactMatches':
-            var text = 'You search does not match. Please try again with different words or take another photo.';
-            break;
-          default:
-            var text = result.ItemSearchResponse.Items[0].Request[0].Errors[0].Error[0].Code[0];
-        }
-
-        throw new Meteor.Error(text);
-      }
-    }
-
-  },
-  priceFromAmazon: function(barcode) {
-    // var originalFormat = format;
-    var originalBarcode = barcode;
-    console.log("originalBarcode: "+ originalBarcode);
-    var getAmazonPriceSearchSynchronously =  Meteor.wrapAsync(amazonPriceSearch);
-    var result = getAmazonPriceSearchSynchronously(barcode);
-
-    if (result.html && (result.html.body[0].b[0] === "Http/1.1 Service Unavailable")) {
-      console.log(result.html.body[0].b[0]);
-      throw new Meteor.Error("Error from Amazon - Service Unavailable");
-    } else {
-        if (result.ItemLookupResponse.Items[0].Item && (result.ItemLookupResponse.Items[0].Request[0].IsValid[0] === "True")) {
-          return amazonResultProcessing(result);
-        } else {
-          console.log(result.ItemLookupResponse.Items[0].Request[0].Errors[0].Error[0].Code[0]);
-          throw new Meteor.Error(result.ItemLookupResponse.Items[0].Request[0].Errors[0].Error[0].Code[0]);
-      }
-    }
-  },
-
   'updateOfficialEmail': function(userId, college, email) {
     Meteor.users.update({"_id": userId}, {$set: {"emails": [{"address": email, "verified": false}], "profile.college": college}}, function(error) {
       if (!error) {
@@ -425,7 +396,7 @@ Meteor.methods({
     var message = 'You got a rating of ' + rating + ' from ' + ratedByName;
 
     sendPush(personId, message)
-    sendNotification(personId, ratedBy, message, "info", "/profile")
+    sendNotification(personId, ratedBy, message, "info")
 
   },
 
@@ -437,7 +408,7 @@ Meteor.methods({
 
     var message = borrowerName + " wants to return the book " + connect.productData.title;
     sendPush(connect.productData.ownerId, message);
-    sendNotification(connect.productData.ownerId, connect.requestor, message, "info", "/inventory");
+    sendNotification(connect.productData.ownerId, connect.requestor, message, "info");
   },
 
   confirmReturn: function(searchId, connectionId) {
@@ -448,7 +419,7 @@ Meteor.methods({
 
     var message = ownerName + " confirmed your return of " + connect.productData.title;
     sendPush(connect.requestor, message);
-    sendNotification(connect.requestor, connect.productData.ownerId, message, "info", "/renting");
+    sendNotification(connect.requestor, connect.productData.ownerId, message, "info");
   },
 
   requestOwner: function(requestorId, productId, ownerId, borrowDetails) {
@@ -472,7 +443,7 @@ Meteor.methods({
 
     var message = requestorName + " sent you a request for " + product.title
     sendPush(ownerId, message);
-    sendNotification(ownerId, requestorId, message, "request", "/inventory");
+    sendNotification(ownerId, requestorId, message, "request");
 
     return true;
 
@@ -489,7 +460,7 @@ Meteor.methods({
 
     var message = ownerName + " accepted your request for " + connect.productData.title;
     sendPush(connect.requestor, message);
-    sendNotification(connect.requestor, connect.productData.ownerId, message, "approved", "/renting");
+    sendNotification(connect.requestor, connect.productData.ownerId, message, "approved");
 
     return true;
   },
@@ -501,7 +472,7 @@ Meteor.methods({
 
     var message =  "Your request for " + connect.productData.title + " has been declined.";
     sendPush(connect.requestor, message);
-    sendNotification(connect.requestor, connect.productData.ownerId, message, "declined", "/renting");
+    sendNotification(connect.requestor, connect.productData.ownerId, message, "declined");
 
     Connections.remove(connectionId);
 
@@ -550,7 +521,7 @@ Meteor.methods({
         var moneyGiver = Meteor.users.findOne(thisConnectionData.requestor).profile.name
         var message = 'You received a payment of $' + amount + ' from ' + moneyGiver
         sendPush(thisConnectionData.productData.ownerId, message);
-        sendNotification(thisConnectionData.productData.ownerId, thisConnectionData.requestor, message, "info", "/inventory")
+        sendNotification(thisConnectionData.productData.ownerId, thisConnectionData.requestor, message, "info")
 
       }
 
@@ -801,41 +772,167 @@ Meteor.methods({
       console.log(error)
       throw new Meteor.Error('payment-failed', 'The payment failed');
     }
-  }
+  },
+    
+    // AMAZON SEARCH -------------------------------------------------------------------
+//  itemFromAmazon: function(keys) {
+//
+//    var getAmazonItemSearchSynchronously =  Meteor.wrapAsync(amazonItemSearch);
+//    var result = getAmazonItemSearchSynchronously(keys);
+//
+//    console.log('x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x');
+//    console.log(result);
+//
+//    if (result.html && (result.html.body[0].b[0] === "Http/1.1 Service Unavailable")) {
+//      console.log(result.html.body[0].b[0]);
+//      throw new Meteor.Error("Error from Amazon - Service Unavailable");
+//    } else {
+//        if (result.ItemSearchResponse.Items[0].Item && (result.ItemSearchResponse.Items[0].Request[0].IsValid[0] === "True")) {
+//            return amazonResultItemSearchProcessing(result);
+//        } else {
+//          console.log(result.ItemSearchResponse.Items[0].Request[0].Errors[0].Error[0].Code[0]);
+//          throw new Meteor.Error(result.ItemSearchResponse.Items[0].Request[0].Errors[0].Error[0].Code[0]);
+//      }
+//    }
+//
+//  },
+
+  AllItemsFromAmazon: function(keys) {
+
+    var getAmazonItemSearchSynchronously =  Meteor.wrapAsync(amazonItemSearch);
+      
+    var result = [];  
+    
+    for(var i=0; i<5; i++) {
+        result.push(getAmazonItemSearchSynchronously(keys, i+1));   
+        console.log(result[i]);
+    }
+
+    if (result.html && (result.html.body[0].b[0] === "Http/1.1 Service Unavailable")) {
+      console.log(result.html.body[0].b[0]);
+      throw new Meteor.Error("Error from Amazon - Service Unavailable");
+
+    } else {
+      if (result[0].ItemSearchResponse.Items[0].Item && (result[0].ItemSearchResponse.Items[0].Request[0].IsValid[0] === "True")) {
+        console.log('AllItemsFromAmazon: OK');
+        return amazonAllResultsItemSearchProcessing(result);
+
+      } else {
+        console.log('AllItemsFromAmazon: error');
+        console.log(result[0].ItemSearchResponse.Items[0].Request[0].Errors[0].Error[0].Code[0]);
+
+        switch (result[0].ItemSearchResponse.Items[0].Request[0].Errors[0].Error[0].Code[0]) {
+          case 'AWS.ECommerceService.NoExactMatches':
+            var text = 'You search does not match. Please try again with different words or take another photo.';
+            break;
+          default:
+            var text = result[0].ItemSearchResponse.Items[0].Request[0].Errors[0].Error[0].Code[0];
+        }
+
+        throw new Meteor.Error(text);
+      }
+    }
+
+  },
+  priceFromAmazon: function(barcode) {
+    // var originalFormat = format;
+    var originalBarcode = barcode;
+    console.log("originalBarcode: "+ originalBarcode);
+    var getAmazonPriceSearchSynchronously =  Meteor.wrapAsync(amazonPriceSearch);
+    var result = getAmazonPriceSearchSynchronously(barcode);
+
+    if (result.html && (result.html.body[0].b[0] === "Http/1.1 Service Unavailable")) {
+      console.log(result.html.body[0].b[0]);
+      throw new Meteor.Error("Error from Amazon - Service Unavailable");
+    } else {
+        if (result.ItemLookupResponse.Items[0].Item && (result.ItemLookupResponse.Items[0].Request[0].IsValid[0] === "True")) {
+          return amazonResultProcessing(result);
+        } else {
+          console.log(result.ItemLookupResponse.Items[0].Request[0].Errors[0].Error[0].Code[0]);
+          throw new Meteor.Error(result.ItemLookupResponse.Items[0].Request[0].Errors[0].Error[0].Code[0]);
+      }
+    }
+  },
+    
 })
 
 var amazonAllResultsItemSearchProcessing = function(result) {
 
-    if (result.ItemSearchResponse.Items[0].Item){
-        if (result.ItemSearchResponse.Items[0].Item[0].ItemAttributes[0]) {
-            try {
-                var necessaryFields = [];
+    var necessaryFields = [];
 
-                for(var i = 0; i < result.ItemSearchResponse.Items[0].Item.length; i++) {
+    for(var itemPage = 0; itemPage < result.length; itemPage++) {
+    
+    var Items = result[itemPage].ItemSearchResponse.Items[0];
+    
+    if (Items.Item){
+        if (Items.Item[0].ItemAttributes[0]) {
+            try {
+                
+                for(var i = 0; i < Items.Item.length; i++) {
+                    
                     necessaryFields.push({
-                        price : (function() {return result.ItemSearchResponse.Items[0].Item[i].Offers[0].Offer ? result.ItemSearchResponse.Items[0].Item[i].Offers[0].Offer[0].OfferListing[0].Price[0].FormattedPrice[0] : "--"})(),
-                        title : result.ItemSearchResponse.Items[0].Item[i].ItemAttributes[0].Title[0],
-                        category : CategoriesServer.getCategory(result.ItemSearchResponse.Items[0].Item[i].ItemAttributes[0].ProductGroup[0]),
-                        amazonCategory : result.ItemSearchResponse.Items[0].Item[i].ItemAttributes[0].ProductGroup[0],
-                        image: result.ItemSearchResponse.Items[0].Item[i].MediumImage[0].URL[0],
-                        asin: result.ItemSearchResponse.Items[0].Item[i].ASIN[0],
+                        price : (function() {return Items.Item[i].Offers[0].Offer ? Items.Item[i].Offers[0].Offer[0].OfferListing[0].Price[0].FormattedPrice[0] : "--"})(),
+                        title : Items.Item[i].ItemAttributes[0].Title[0],
+                        category : CategoriesServer.getCategory(Items.Item[i].ItemAttributes[0].ProductGroup[0]),
+                        amazonCategory : Items.Item[i].ItemAttributes[0].ProductGroup[0],
+                        image: (function() {
+                            if(Items.Item[i].MediumImage){
+                                if(Items.Item[i].MediumImage[0].URL) {
+                                    return Items.Item[i].MediumImage[0].URL[0];
+                                }
+                            }
+                            else if(Items.Item[i].LargeImage) {
+                                if(Items.Item[i].LargeImage[0].URL) {
+                                    return Items.Item[i].LargeImage[0].URL[0];
+                                }
+                            }
+                            else if(Items.Item[i].SmallImage) {
+                                if(Items.Item[i].SmallImage[0].URL) {
+                                    return Items.Item[i].SmallImage[0].URL[0];
+                                }
+                            }
+                            else if(Items.Item[i].ThumbnailImage) {
+                                if(Items.Item[i].ThumbnailImage[0].URL) {
+                                    return Items.Item[i].ThumbnailImage[0].URL[0];
+                                }
+                            }
+                            else if(Items.Item[i].SwatchImage) {
+                                if(Items.Item[i].SwatchImage[0].URL) {
+                                    return Items.Item[i].SwatchImage[0].URL[0];
+                                }
+                            }
+                            else if(Items.Item[i].TinyImage) {
+                                if(Items.Item[i].TinyImage[0].URL) {
+                                    return Items.Item[i].TinyImage[0].URL[0];
+                                }
+                            }
+                            else {
+                                return '';
+                            }     
+                        })(),
+                        asin: Items.Item[i].ASIN[0],
                         attributes: [],
                     });
+                    
+                    
+                    for(var property in Items.Item[i].ItemAttributes[0]) {
 
-                    for(var property in result.ItemSearchResponse.Items[0].Item[i].ItemAttributes[0]) {
-
-                        var possibleProperties = ['Actor', 'Artist', 'Author', 'Binding', 'Brand', 'Creator', 'Director', 'Edition', 'Feature', 'Publisher'];
+                        var possibleProperties = ['Actor', 'Artist', 'Author', 'Binding', 'Brand', 'Color', 'Creator', 'Director', 'Edition', 'Feature', 'Publisher'];
 
                         if(possibleProperties.indexOf(property) >= 0) {
+                            
+                            var attrs = Items.Item[i].ItemAttributes[0][property];
 
-                            var attrs = result.ItemSearchResponse.Items[0].Item[i].ItemAttributes[0][property];
-
-                            if(typeof attrs[0] === 'string') {
-                                necessaryFields[i].attributes.push({
-                                    key: property,
-                                    value: attrs.toString().replace(/,/g, ', ')
-                                });
+                            if(attrs) {
+//                                if(typeof attrs === 'string') {
+                                    necessaryFields[i].attributes.push({
+                                        key: property,
+                                        value: attrs.toString().replace(/,/g, ', ')
+                                    });
+//                                }
                             }
+                            
+                           
                         }
                     }
 
@@ -843,73 +940,74 @@ var amazonAllResultsItemSearchProcessing = function(result) {
                 }
             } catch(e) {console.log(e)}
 
-            console.log('amazonAllResultsItemSearchProcessing -x-x-x-x-x-x-x-x-x-x-x-x-x');
-            console.log(necessaryFields)
-
-            // sort results by amazon category
-            necessaryFields.sort(function(a, b) {
-                return (a.amazonCategory > b.amazonCategory) ? 1 : -1;
-            });
-
-            return necessaryFields;
-
             } else {
-              throw new Meteor.Error("No match for this item")
+//              throw new Meteor.Error("No match for this item")
             }
       } else {
-        console.log(result.ItemSearchResponse.Items[0].Request[0].Errors[0].Error[0].Code[0]);
-        throw new Meteor.Error(result.ItemSearchResponse.Items[0].Request[0].Errors[0].Error[0].Message[0]);
+//        console.log(result.ItemSearchResponse.Items[0].Request[0].Errors[0].Error[0].Code[0]);
+//        throw new Meteor.Error(result.ItemSearchResponse.Items[0].Request[0].Errors[0].Error[0].Message[0]);
       }
+        
+    }
 
+    console.log('amazonAllResultsItemSearchProcessing -x-x-x-x-x-x-x-x-x-x-x-x-x');
+
+    // sort results by amazon category
+    necessaryFields.sort(function(a, b) {
+        return (a.amazonCategory > b.amazonCategory) ? 1 : -1;
+    });
+
+    return necessaryFields;
+    
 }
 
-var amazonResultItemSearchProcessing = function(result) {
-
-    if (result.ItemSearchResponse.Items[0].Item){
-        if (result.ItemSearchResponse.Items[0].Item[0].ItemAttributes[0]) {
-               try {
-                var necessaryFields = {
-                    price : (function() {return result.ItemSearchResponse.Items[0].Item[0].Offers[0].Offer ? result.ItemSearchResponse.Items[0].Item[0].Offers[0].Offer[0].OfferListing[0].Price[0].FormattedPrice[0] : "--"})(),
-                    title : result.ItemSearchResponse.Items[0].Item[0].ItemAttributes[0].Title[0],
-                    category : CategoriesServer.getCategory(result.ItemSearchResponse.Items[0].Item[0].ItemAttributes[0].ProductGroup[0]),
-                    amazonCategoy : result.ItemSearchResponse.Items[0].Item[0].ItemAttributes[0].ProductGroup[0],
-                    image: result.ItemSearchResponse.Items[0].Item[0].MediumImage[0].URL[0],
-                    attributes: [],
-                }
-
-                for(var property in result.ItemSearchResponse.Items[0].Item[0].ItemAttributes[0]) {
-
-                    var possibleProperties = ['Actor', 'Artist', 'Author', 'Binding', 'Brand', 'Creator', 'Director', 'Edition', 'Feature', 'Publisher'];
-
-                    if(possibleProperties.indexOf(property) >= 0) {
-
-                        var attrs = result.ItemSearchResponse.Items[0].Item[0].ItemAttributes[0][property];
-
-                        if(typeof attrs[0] === 'string') {
-
-                            necessaryFields.attributes.push({
-                                key: property,
-                                value: attrs.toString().replace(/,/g, ', ')
-                            });
-
-                        }
-
-                    }
-
-                }
-
-            } catch(e) {console.log(e)}
-
-              return necessaryFields;
-            } else {
-              throw new Meteor.Error("No match for this item. Are you sure you're scanning a Book?")
-            }
-      } else {
-        console.log(result.ItemSearchResponse.Items[0].Request[0].Errors[0].Error[0].Code[0]);
-        throw new Meteor.Error(result.ItemSearchResponse.Items[0].Request[0].Errors[0].Error[0].Message[0]);
-      }
-
-}
+//var amazonResultItemSearchProcessing = function(result) {
+//
+//    if (result.ItemSearchResponse.Items[0].Item){
+//        if (result.ItemSearchResponse.Items[0].Item[0].ItemAttributes[0]) {
+//               try {
+//                var necessaryFields = {
+//                    price : (function() {return result.ItemSearchResponse.Items[0].Item[0].Offers[0].Offer ? result.ItemSearchResponse.Items[0].Item[0].Offers[0].Offer[0].OfferListing[0].Price[0].FormattedPrice[0] : "--"})(),
+//                    title : result.ItemSearchResponse.Items[0].Item[0].ItemAttributes[0].Title[0],
+//                    category : CategoriesServer.getCategory(result.ItemSearchResponse.Items[0].Item[0].ItemAttributes[0].ProductGroup[0]),
+//                    amazonCategoy : result.ItemSearchResponse.Items[0].Item[0].ItemAttributes[0].ProductGroup[0],
+//                    image: result.ItemSearchResponse.Items[0].Item[0].MediumImage[0].URL[0],
+//                    attributes: [],
+//                }
+//
+//                for(var property in result.ItemSearchResponse.Items[0].Item[0].ItemAttributes[0]) {
+//
+//                    var possibleProperties = ['Actor', 'Artist', 'Author', 'Binding', 'Brand', 'Creator', 'Director', 'Edition', 'Feature', 'Publisher'];
+//
+//                    if(possibleProperties.indexOf(property) >= 0) {
+//
+//                        var attrs = result.ItemSearchResponse.Items[0].Item[0].ItemAttributes[0][property];
+//
+//                        if(typeof attrs[0] === 'string') {
+//
+//                            necessaryFields.attributes.push({
+//                                key: property,
+//                                value: attrs.toString().replace(/,/g, ', ')
+//                            });
+//
+//                        }
+//
+//                    }
+//
+//                }
+//
+//            } catch(e) {console.log(e)}
+//
+//              return necessaryFields;
+//            } else {
+//              throw new Meteor.Error("No match for this item. Are you sure you're scanning a Book?")
+//            }
+//      } else {
+//        console.log(result.ItemSearchResponse.Items[0].Request[0].Errors[0].Error[0].Code[0]);
+//        throw new Meteor.Error(result.ItemSearchResponse.Items[0].Request[0].Errors[0].Error[0].Message[0]);
+//      }
+//
+//}
 
 var amazonResultProcessing = function(result) {
   console.log(JSON.stringify(result));
@@ -968,7 +1066,7 @@ var amazonPriceSearch = function(barcode, callback) {
   }, callback )
 }
 
-var amazonItemSearch = function(keys, callback) {
+var amazonItemSearch = function(keys, itemPage, callback) {
   OperationHelper = apac.OperationHelper;
 
   var opHelper = new OperationHelper({
@@ -979,8 +1077,10 @@ var amazonItemSearch = function(keys, callback) {
 
   opHelper.execute('ItemSearch', {
       'SearchIndex': 'All',
+      'Condition': 'New',
       'Keywords': keys,
-      'ResponseGroup': ['ItemAttributes', 'Medium', 'Offers']
+      'ResponseGroup': ['ItemAttributes', 'Medium', 'Offers'],
+      'ItemPage': itemPage,
   }, callback);
 
 }
@@ -1134,3 +1234,4 @@ var amazonItemSearch = function(keys, callback) {
 
 //   }, 5000)
 // })
+

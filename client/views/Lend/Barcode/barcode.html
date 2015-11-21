@@ -1,7 +1,7 @@
 <!-- TAB 2 - BARCODE -->
 <template name="barcode">
     <div class="barcode">
-        <div class="content has-header">
+        <div class="content">
 <!--
             <div class="list">
                 <div class="item item-input-inset">
@@ -11,9 +11,18 @@
             </div>
 -->
 
+            <div class="box-barcode hide-on-keyboard-open" id="barcode">
+                <div class="icon-box">
+                    <i class="fa fa-barcode"></i>
+                    <p class="caption">TAP TO <br/> SCAN BARCODE</p>
+                </div>
+             </div>
+            
+<!--
             <div class="viewfinder get-photo has-header hide-on-keyboard-open" id="barcode">
                 <p>SCAN BARCODE</p>
             </div>
+-->
         </div>
     </div>
 </template>
