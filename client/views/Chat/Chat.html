@@ -11,8 +11,8 @@
     {{#ionContent}}
       <div class="message-wrapper" data-keyboard-attach>
       {{#each messages}}
-        <div class="each-chatblock {{direction}}">
-          <div class="chat-bubble {{direction}}">
+        <div class="each-chatblock {{../getDirection sender}}">
+          <div class="chat-bubble {{../getDirection sender}}">
             <div class="message">
               {{message}}
             </div>
@@ -20,7 +20,7 @@
               <p>{{cleanDate}}</p>
             </div>
           </div>
-          <div class="profile-pic {{direction}}" style="background: url({{profilePic avatar}}) no-repeat; background-size:cover; background-position: 50% 50%;"></div>
+          <div class="profile-pic {{../getDirection sender}}" style="background: url({{../getAvatar sender}}) no-repeat; background-size:cover; background-position: 50% 50%;"></div>
         </div>
       {{/each}}
 

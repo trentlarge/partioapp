@@ -39,32 +39,26 @@ ChatController = RouteController.extend({
 			owner: this.owner(),
 
 			messages: function() {
-				console.log(this.requestor)
-				//console.log(this.connection);
-				//console.log(this.requestor);
-				//console.log(this.owner);
-				//Connections.findOne(this.params._id).observe({
-					//changed: function(newDoc, oldDoc) {
-						// console.log(newDoc);
-						// console.log(oldDoc);
-						//setTimeout(function(){
-							//$('.content').scrollTop($('.message-wrapper')[0].scrollHeight);
-						//},0);
-					//}
-				//})
 				return this.connection.chat;
 			},
 
-			direction: function() {
-				//return (this.sender === Meteor.userId()) ? "right": "left";
+			getDirection: function(senderId) {
+				if(senderId == Meteor.userId()){
+					return "right";
+				} else {
+					return "left";
+				}
 			},
 
-			avatar: function() {
-				//return (this.sender === Meteor.userId()) ? Meteor.user().profile.avatar : Meteor.users.findOne(this.sender).profile.avatar;
+			getAvatar: function(senderId) {
+				if(senderId == this.requestor._id){
+					return userAvatar(this.requestor.profile.avatar);
+				} else {
+					return userAvatar(this.owner.profile.avatar);
+				}
 			},
 
 			chatWith: function() {
-				console.log(this.requestor)
 				if(this.connection) {
 					if(this.requestor._id === Meteor.userId()) {
 						return this.owner.profile.name;
