@@ -1,47 +1,3 @@
-
-Template.chat.helpers({
-	// inCall: function() {
-	// 	return Session.get("_inCall");
-	// },
-	// incomingCaller: function() {
-	// 	return Session.get("_incomingCaller");
-	// },
-	// callStatus: function() {
-	// 	return Session.get("_callStatus");
-	// },
-	messages: function() {
-		var chatCursor = Connections.find({_id: this._id});
-		chatCursor.observe({
-			changed: function(newDoc, oldDoc) {
-				// console.log(newDoc);
-				// console.log(oldDoc);
-				setTimeout(function(){
-					$('.content').scrollTop($('.message-wrapper')[0].scrollHeight);
-				},0);
-			}
-		})
-		return Connections.findOne({_id: this._id}).chat;
-	},
-	direction: function() {
-		return (this.sender === Meteor.userId()) ? "right": "left";
-	},
-
-
-
-	avatar: function() {
-		console.log(Meteor.user());
-
-
-		return (this.sender === Meteor.userId()) ? Meteor.user().profile.avatar : Meteor.users.findOne(this.sender).profile.avatar;
-	},
-
-	chatWith: function() {
-		return (Session.get('_requestor') === Meteor.userId()) ?
-		Meteor.users.findOne(Session.get('_owner')).profile.name :
-		Meteor.users.findOne(Session.get('_requestor')).profile.name
-	}
-});
-
 Template.chat.events({
 	// 'click .end-call': function(e,t) {
 	// 	PartioCaller.endCall();
@@ -50,16 +6,17 @@ Template.chat.events({
 		e.preventDefault();
 		var message = template.find('#messageInput').value.trim();
 
-		var cRequestor = Session.get("_requestor");
-		var cOwner =  Session.get("_owner");
+		var cRequestor = this.requestor._id;
+		var cOwner =  this.owner._id;
 
 		var recipient = (function() {
-					return (cRequestor === Meteor.userId()) ? cOwner : cRequestor;
-				}) ();
+			return (cRequestor === Meteor.userId()) ? cOwner : cRequestor;
+		}) ();
 
 		if (message.length > 0) {
 			$('#messageInput').val('');
-			Meteor.call('sendMessage', message, Meteor.userId(), recipient, this._id, function(error, result) {
+
+			Meteor.call('sendMessage', message, Meteor.userId(), recipient, this.connection._id, function(error, result) {
 				if (!error) {
 					$('.content').scrollTop($('.message-wrapper')[0].scrollHeight);
 					$('#messageInput').val('');
@@ -73,6 +30,7 @@ Template.chat.events({
 		}
 		$('#messageInput').focus();
 	},
+
 	'input textarea': function(e, template) {
 		if (e.target.value.length > 0) {
 			$("#chatSubmit").removeClass("disabled");
@@ -83,9 +41,9 @@ Template.chat.events({
 });
 
 Template.chat.rendered = function() {
-	var dataContext = this.data;
+	//var dataContext = this.data;
 
-	console.log(this.data)
+	//console.log(this.data)
 
 	//Chat input textarea auto-resize when more than 1 line is entered
 	autosize($('textarea'));
@@ -103,16 +61,16 @@ Template.chat.rendered = function() {
 		});
 	}
 
-	Session.set("_requestor", dataContext.requestor);
-	Session.set("_owner", dataContext.productData.ownerId);
+	//Session.set("_requestor", dataContext.requestor);
+	//Session.set("_owner", dataContext.productData.ownerId);
 
-
+	var _connectionId = this.data.connection._id;
 
 	//Make messages as READ
-	this.autorun(function() {
-		if (Chat.find({connectionId: dataContext._id, state: "new"}).count()) {
-			console.log("Messages are now Read: " + Chat.find({connectionId: dataContext._id, state: "new"}).count());
-			Chat.update({connectionId: dataContext._id, state: "new"}, {$set: {state: "read"}}, {multi: true})
-		}
-	})
+	// this.autorun(function() {
+	// 	if (Chat.find({connectionId: _connectionId, state: "new"}).count()) {
+	// 		console.log("Messages are now Read: " + Chat.find({connectionId: _connectionId, state: "new"}).count());
+	// 		Chat.update({connectionId: _connectionId, state: "new"}, {$set: {state: "read"}}, {multi: true})
+	// 	}
+	// })
 }

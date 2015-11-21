@@ -15,6 +15,7 @@ Meteor.methods({
 			state: "new"
 		}
 		Connections.update({_id: connectionId}, {$push: {chat: messageInsert}});
+		console.log(Meteor.users.findOne(sender).profile.name + " says: " +  message);
 
 		sendPush(recipient, Meteor.users.findOne(sender).profile.name + " says: " +  message)
 		// sendNotification(personId, ratedBy, message, "info")

@@ -7,6 +7,6 @@ Meteor.publish("myConnectionsOwner", function() {
 });
 
 Meteor.publish("singleConnect", function(idConnect) {
-	console.log(idConnect);
-	return Connections.find({ _id: idConnect}, {limit: 1});
+	var cursor = Connections.find({ _id: idConnect}, {limit: 1});
+  return Connections.publishJoinedCursors(cursor);
 });
