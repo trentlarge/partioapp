@@ -27,7 +27,7 @@ Template.camfind.events({
             var options = {
               width: 577,
               height: 1024,
-              quality: 75,
+              quality: 75
             }
         }
 
@@ -36,13 +36,8 @@ Template.camfind.events({
             PartioLoad.show('We\'re identifying your image. This process could take few seconds...');
 
             attachImageAndWaitCamFind(data);
-
-            // start uploading
-            Meteor.call('amazons3upload', data, function(error, result){
-              console.log("----amazons3upload----");
-
-              // get first contact with camfind
-              Meteor.call('camfindGetToken', result, function(error, result) {
+              Meteor.call('camfindGetTokenBase64', data, function(error, result) {
+                console.log(error, result);
                 if (!error && result.statusCode == 200) {
                   console.log("----camfindGetToken----");
 
@@ -101,7 +96,6 @@ Template.camfind.events({
                   })
                 }
               });
-            })
           }
         });
         return true;
