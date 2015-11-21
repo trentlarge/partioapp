@@ -2,7 +2,7 @@ Template.main.events({
 	'click .bottom-part': function() {
 		console.log('bottom-part');
         Session.set('searchText', '');
-		Router.go('/categories');
+		Router.go('/listing');
 	},
 
 	'click .top-part': function(event){
