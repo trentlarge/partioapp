@@ -144,12 +144,12 @@ Template.savedCards.onRendered(function() {
 Template.savedCards.helpers({
 	addedCards: function() {
 		if (!!Meteor.user().profile.cards) {
-			return Meteor.user().profile.cards.data;
+			//return Meteor.user().profile.cards.data;
 		}
 	},
 	addedDebitCard: function() {
 		if (Meteor.user().profile.payoutCard && Meteor.user().profile.payoutCard.external_accounts.data) {
-			return Meteor.user().profile.payoutCard.external_accounts.data[0];
+		//	return Meteor.user().profile.payoutCard.external_accounts.data[0];
 		}
 	}
 })
