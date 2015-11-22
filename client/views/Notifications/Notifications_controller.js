@@ -12,7 +12,7 @@ NotificationsController = RouteController.extend({
 	waitOn: function() {
 		return [
 			// subscribe to data here
-			Meteor.subscribe("notifications"),
+			Meteor.subscribe("myNotifications", Meteor.userId()),
 			// Meteor.subscribe("otherSubscription"),
 			// ...
 		];
@@ -20,6 +20,10 @@ NotificationsController = RouteController.extend({
 
 	data: function() {
 		return {
+			teste: function() {
+				console.log('metodo teste - notifications');
+				return Meteor.userId();
+			},
 			//
 			// read data from database here like this:
 			//   someData: SomeCollection.find(),
