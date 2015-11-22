@@ -4,8 +4,14 @@ Template.notifications.helpers({
 	}
 })
 
+Template.notifications.rendered = function() {
 
-Template.notifications.events({ 
+
+
+}
+
+
+Template.notifications.events({
     'click .show-message': function() {
         //ShowNotificationMessage(this.message);
         Router.go(this.router);
@@ -21,7 +27,7 @@ function ShowNotificationMessage(strMessage)
 	IonPopup.show({
 		title: 'Alert',
 		template: '<div class="center">'+strMessage+'</div>',
-		buttons: 
+		buttons:
 		[{
 			text: 'OK',
 			type: 'button-energized',

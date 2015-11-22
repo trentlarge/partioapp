@@ -46,7 +46,7 @@ Router.route('/transactions', { name: 'transactions', controller: 'TransactionsC
 Router.route('/profile', { name: 'profile', controller: 'ProfileController' });
 Router.route('/profile/savedcards', { name: 'savedCards', controller: 'SavedCardsController' });
 Router.route('/profile/changepassword', { name: 'changePassword', controller: 'ChangePasswordController' });
-Router.route('/notifications', { name: 'notifications', controller: 'NotificationsController' });
+Router.route('/notifications', { name: 'notifications', controller: 'NotificationsController' }); //  Controlle OK
 
 Router.route('/logout', {name: 'logout',
 	onBeforeAction: function(){
