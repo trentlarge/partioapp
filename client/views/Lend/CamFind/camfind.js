@@ -128,6 +128,7 @@ function attachImageAndWaitCamFind(url){
   $(".modal").css("background-size", "cover");
   $(".modal").css("background-position", "center");
 
+    Session.set('camfindImage', url);
 }
 
 function resetImageCamFind(){

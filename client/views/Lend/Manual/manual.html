@@ -13,7 +13,7 @@
 		<div class="list list-inset overflow-scroll">
 
             <label class="item item-input">
-                <input class="manualTitle" type="text" value="" placeholder="Title">
+                <input class="manualTitle" type="text" value="{{manualTitle}}" placeholder="Title">
             </label>
             
             <label class="item item-input item-select">
@@ -22,7 +22,7 @@
                 </div>
                 <select class="manualCategory">
                     {{#each getCategories}}
-                        <option>{{text}}</option>
+                        <option {{selectedCategory text}}>{{text}}</option>
                     {{/each}}
                 </select>
             </label>

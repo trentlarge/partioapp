@@ -18,8 +18,8 @@ Template.lendTabs.helpers({
         return true;
       }
 
-      //resultsCamFind
-      if(Session.get('lendTab') == 'resultsCamFind' && context.hash.name == 'camfind'){
+      //results
+      if(Session.get('lendTab') == 'results' && context.hash.name == 'camfind'){
         return true;
       }
     }

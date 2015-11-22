@@ -176,6 +176,12 @@ Template.lend.events({
         // inputBox.val(inputValue);
         Session.set('scanResult', null);
         Session.set('lendTab', 'results');
+      
+        //reset prices;
+        Session.set('dayPrice', null);
+        Session.set('weekPrice', null);
+        Session.set('monthPrice', null);
+        Session.set('semesterPrice', null);
    },
 })
 
@@ -212,22 +218,26 @@ Template.lend.rendered = function() {
 }
 
 function ClearData(){
-  console.log('ClearData');
+    console.log('ClearData');
 
-  if(Session.get('lendTab') == 'results') {
+    if(Session.get('lendTab') == 'results') {
     Session.set('lendTab', 'camfind');
-  }
+    }
 
-  RentingFinalPrice = null;
-  Session.set('scanResult', null);
-  Session.set('priceValue', null);
-  Session.set('userPrice', null);
-  Session.set('priceValue', null);
-  Session.set('barcodeEntry', null);
-  Session.set('manualEntry', null);
-  Session.set('photoTaken', null)
-  Session.set('lastSearch', null);
-  Session.set('allResults', null)
+    Session.set('scanResult', null);
+    Session.set('priceValue', null);
+    Session.set('priceValue', null);
+    Session.set('barcodeEntry', null);
+    Session.set('manualEntry', null);
+    Session.set('photoTaken', null)
+    Session.set('lastSearch', null);
+    Session.set('allResults', null)
+  
+    //reset prices;
+    Session.set('dayPrice', null);
+    Session.set('weekPrice', null);
+    Session.set('monthPrice', null);
+    Session.set('semesterPrice', null);
 }
 
 function ValidateInputs(details)

@@ -1,7 +1,7 @@
 
 // RENDERED
 
-//Template.resultsCamFind.rendered = function() {
+//Template.results.rendered = function() {
 //
 //}
 
@@ -73,21 +73,14 @@ Template.results.helpers({
     var scanResult = Session.get('scanResult');
 
     if (scanResult) {
-      if (scanResult.price === "--") {
-        Session.set('userPrice', false);
-        return false;
-      }
-      else
-      {
+      if (scanResult.price !== "--") {
+          
           var priceValueDay = (scanResult.price).split("$")[1];
-          Lend.GetRentingPercentages('ONE_DAY', priceValueDay);
-
-          if(Lend.RentingFinalPrice > 0) {
-              Session.set('dayPrice', Lend.RentingFinalPrice);
-              return Lend.RentingFinalPrice;
-          }
-          else {
-              Session.set('userPrice', false);
+          var price = Lend.calculatePrice('ONE_DAY', priceValueDay);
+          
+          if(price > 0) {
+              Session.set('dayPrice', price);
+              return price;
           }
       }
     }
@@ -100,22 +93,14 @@ Template.results.helpers({
     var scanResult = Session.get('scanResult');
 
     if (scanResult) {
-      if (scanResult.price === "--") {
-        Session.set('userPrice', false);
-        return false;
-      }
-      else
-      {
+      if (scanResult.price !== "--") {
           var priceValueWeek = (scanResult.price).split("$")[1];
-          Lend.GetRentingPercentages('ONE_WEEK', priceValueWeek);
-
-          if(Lend.RentingFinalPrice > 0) {
-              Session.set('weekPrice', Lend.RentingFinalPrice);
-              return Lend.RentingFinalPrice;
-          }
-          else {
-              Session.set('userPrice', false);
-          }
+          var price = Lend.calculatePrice('ONE_WEEK', priceValueWeek);
+          
+          if(price > 0) {
+              Session.set('weekPrice', price);
+              return price;
+          }    
       }
     }
 
@@ -126,22 +111,14 @@ Template.results.helpers({
     var scanResult = Session.get('scanResult');
 
     if (scanResult) {
-      if (scanResult.price === "--") {
-        Session.set('userPrice', false);
-        return false;
-      }
-      else
-      {
-          Lend.RentingTimeSpan = 'ONE_MONTH';
-          var priceValueMonth = (scanResult.price).split("$")[1];
-          Lend.GetRentingPercentages('ONE_MONTH', priceValueMonth);
+      if (scanResult.price !== "--") {
 
-          if(Lend.RentingFinalPrice > 0) {
-              Session.set('monthPrice', Lend.RentingFinalPrice);
-              return Lend.RentingFinalPrice;
-          }
-          else {
-              Session.set('userPrice', false);
+          var priceValueMonth = (scanResult.price).split("$")[1];
+          var price = Lend.calculatePrice('ONE_MONTH', priceValueMonth);
+          
+          if(price > 0) {
+              Session.set('monthPrice', price);
+              return price;
           }
       }
     }
@@ -155,11 +132,11 @@ Template.results.helpers({
     if (scanResult) {
       if (scanResult.price !== "--") {
           var priceValue4Months = (scanResult.price).split("$")[1];
-          Lend.GetRentingPercentages('FOUR_MONTHS', priceValue4Months);
+          var price = Lend.calculatePrice('FOUR_MONTHS', priceValue4Months);
 
-          if(Lend.RentingFinalPrice > 0) {
-              Session.set('semesterPrice', Lend.RentingFinalPrice);
-              return Lend.RentingFinalPrice;
+          if(price > 0) {
+              Session.set('semesterPrice', price);
+              return price;
           }
       }
     }
@@ -170,7 +147,81 @@ Template.results.helpers({
 // EVENTS
 
 Template.results.events({
+    
+    'click .notFound': function(e, template) {
+      
+        var results = Session.get('allResults');
+        var resultsLenght = 0;
+        var averagePrice = 0.0;
+        
+        var categories = [
+            {
+               text: 'Textbooks',
+               occurrences: 0,
+            },
+            {
+               text: 'Technology',
+               occurrences: 0,
+            },
+            {
+               text: 'Music',
+               occurrences: 0,
+            },
+            {
+               text: 'Home',
+               occurrences: 0,
+            },
+            {
+               text: 'Sports',
+               occurrences: 0,
+            },
+            {
+               text: 'Miscellaneous',
+               occurrences: 0,
+            }
+        ]
+        
+        $.each(results, function(index, result) {
+            
+            $.each(categories, function(key, category) {
+                if(result.category === category.text) {
+                    category.occurrences++;
+                }
+            });
+            
+            if(result.price !== '--') { 
+                var price = Number(result.price.replace(/[^0-9\.-]+/g,""));
 
+                if(price > 0) {
+                    averagePrice += price;
+                    resultsLenght++;
+                }
+            }         
+        })
+        
+        categories.sort(function(a, b) {
+            return (a.occurrences < b.occurrences) ? 1 : -1;
+        });
+
+        var averageFinalPrice = (averagePrice/resultsLenght).toFixed(2);
+        
+        var itemNotFound = {
+            'image' : Session.get('camfindImage'),
+            'title' : $('.search-share-header-input').val(),
+            'category' : categories[0].text,
+            'price' : {
+                'averagePrice' : averageFinalPrice,
+                'day' : Lend.calculatePrice('ONE_DAY', averageFinalPrice),
+                'week' : Lend.calculatePrice('ONE_WEEK', averageFinalPrice),
+                'month' : Lend.calculatePrice('ONE_MONTH', averageFinalPrice),
+                'semester' : Lend.calculatePrice('FOUR_MONTHS', averageFinalPrice)
+            }
+        }
+        
+        Session.set('itemNotFound', itemNotFound);
+        Session.set('lendTab', 'manual');
+        
+    },
     'click .features': function(e, template) {
 
       var features = $('.features');

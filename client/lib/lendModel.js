@@ -26,19 +26,15 @@ app.model.Lend = (function () {
 
    function onlyNumber(string)
    {
-      console.log('COMO CHEGA: '+string);
-       //var numsStr = string.replace(/[^0-9]/g,'');
        var number = Number(string.replace(/[^0-9\.-]+/g,""));
-       console.log('APENAS NUMEROS: '+number);
        return number;
-       //parseInt(numsStr);
    }
 
- function format1(n) {
-     return n.toFixed(2).replace(/./g, function(c, i, a) {
-         return i > 0 && c !== "." && (a.length - i) % 3 === 0 ? "," + c : c;
-     });
- }
+    function format1(n) {
+        return n.toFixed(2).replace(/./g, function(c, i, a) {
+            return i > 0 && c !== "." && (a.length - i) % 3 === 0 ? "," + c : c;
+        });
+    }
 
 
    Lend = {
@@ -72,88 +68,58 @@ app.model.Lend = (function () {
             return true;
 
         },
-
-        CalculateRentingCharges : function() {
-
-            if(this.RentingTimeSpan == 'ONE_DAY')
-            {
-                this.RentingFinalPrice = parseFloat((this.RentingOneDayPercentage/100) * this.RentingAmazonPrice);
-
-                console.log('#######'+ this.RentingAmazonPrice);
-                console.log('ONE_DAY price original '+this.RentingFinalPrice);
-
-                // if(this.RentingFinalPrice < 3.00)
-                //     this.RentingFinalPrice = 3.00;
-            }
-            else if(this.RentingTimeSpan == 'ONE_WEEK')
-            {
-                this.RentingFinalPrice = parseFloat((this.RentingOneWeekPercentage/100) * this.RentingAmazonPrice);
-//                console.log('RentingOneWeekPercentage: ' + this.RentingFinalPrice);
-
-                this.RentingFinalPrice = parseFloat(this.RentingFinalPrice * 7);
-//                console.log('Pricex7: ' + this.RentingFinalPrice);
-                console.log('ONE_WEEK price original'+ this.RentingFinalPrice);
-
-                // if(this.RentingFinalPrice < 7.00) //$1.00 per day
-                //     this.RentingFinalPrice = 7.00;
-            }
-            else if(this.RentingTimeSpan == 'ONE_MONTH')
-            {
-                this.RentingFinalPrice = parseFloat((this.RentingOneMonthPercentage/100) * this.RentingAmazonPrice);
-                this.RentingFinalPrice = parseFloat(this.RentingFinalPrice * 30);
-                console.log('ONE_MONTH price original'+ this.RentingFinalPrice);
-
-                // if(this.RentingFinalPrice < 15.00) //$0.50 per day
-                //     this.RentingFinalPrice = 15.00;
-            }
-            else if(this.RentingTimeSpan == 'FOUR_MONTHS')
-            {
-                this.RentingFinalPrice = parseFloat((this.RentingFourMonthsPercentage/100) * this.RentingAmazonPrice);
-                this.RentingFinalPrice = parseFloat(this.RentingFinalPrice * 30 * 4);
-
-                console.log('FOUR_MONTHS price original'+ this.RentingFinalPrice);
-
-                // if(this.RentingFinalPrice < 30.00) //$0.25 per day
-                //     this.RentingFinalPrice = 30.00;
-            }
-
-            console.log('RentingTimeSpan: ' + this.RentingTimeSpan);
-            console.log('RentingAmazonPrice: ' + this.RentingAmazonPrice);
-            console.log('RentingAmazonRentalPrice: ' + this.RentingAmazonRentalPrice);
-
-            this.RentingFinalPrice += parseFloat((this.RentingStripeFeePercent/100) * this.RentingFinalPrice);
-            console.log('RentingStripeFeePercent: ' + this.RentingFinalPrice);
-            this.RentingFinalPrice += parseFloat(this.RentingStripeAdditionalFee);
-            console.log('RentingStripeAdditionalFee: ' + this.RentingFinalPrice);
-
-            this.RentingFinalPrice += parseFloat((this.RentingPartioSharePercentage/100) * this.RentingFinalPrice);
-            console.log('RentingPartioSharePercentage: ' + this.RentingFinalPrice);
-
-
-            this.RentingFinalPrice = Math.round(Number((this.RentingFinalPrice).toFixed(1))).toFixed(2);
-            console.log('RentingFinalPrice: ' + Math.round(this.RentingFinalPrice));
+       
+        calculatePrice : function(timeSpan, amazonPrice) {
+            return this.calculateRentingCharges(timeSpan, amazonPrice);
         },
 
-        GetRentingPercentages : function(strRentingTimeSpan, priceValue)
-        {
-            this.RentingAmazonPrice = onlyNumber(priceValue);
-            this.RentingTimeSpan = strRentingTimeSpan;
-            this.RentingOneDayPercentage = 4;
-            this.RentingOneWeekPercentage = 2;
-            this.RentingOneMonthPercentage = 1;
-            this.RentingFourMonthsPercentage = 0.50;
+        calculateRentingCharges : function(timeSpan, amazonPrice) {
 
-            this.RentingPartioSharePercentage = 10;
+            //set percentages
+            var renting = {  
+                amazonPrice: onlyNumber(amazonPrice),
+                timeSpan: timeSpan,
+                percentage: {
+                    day: 4,
+                    week: 2,
+                    month: 1,
+                    semester: 0.5,
+                    partioShare: 10,
+                    stripeFee: 2.9,
+                    stripeAdditionalFee: 0.3
+                }
+            }
+                
+            var rentingFinalPrice = 0.0;
+            
+            if(renting.timeSpan == 'ONE_DAY')
+            {
+                rentingFinalPrice = parseFloat((renting.percentage.day/100) * renting.amazonPrice);
+            }
+            else if(renting.timeSpan == 'ONE_WEEK')
+            {
+                rentingFinalPrice = parseFloat((renting.percentage.week/100) * renting.amazonPrice);
+                rentingFinalPrice = parseFloat(rentingFinalPrice * 7);
+            }
+            else if(renting.timeSpan == 'ONE_MONTH')
+            {
+                rentingFinalPrice = parseFloat((renting.percentage.month/100) * renting.amazonPrice);
+                rentingFinalPrice = parseFloat(rentingFinalPrice * 30);
+            }
+            else if(renting.timeSpan == 'FOUR_MONTHS')
+            {
+                rentingFinalPrice = parseFloat((renting.percentage.semester/100) * renting.amazonPrice);
+                rentingFinalPrice = parseFloat(rentingFinalPrice * 30 * 4);
+            }
 
-            this.RentingStripeFeePercent = 2.9;
-            this.RentingStripeAdditionalFee = 0.3;
+            rentingFinalPrice += parseFloat((renting.percentage.stripeFee/100) * rentingFinalPrice);
+            rentingFinalPrice += parseFloat(renting.percentage.stripeAdditionalFee);
+            rentingFinalPrice += parseFloat((renting.percentage.partioShare/100) * rentingFinalPrice);
+            rentingFinalPrice = Math.round(Number((rentingFinalPrice).toFixed(1))).toFixed(2);
+//            console.log('RentingFinalPrice: ' + Math.round(rentingFinalPrice));
+            
+            return rentingFinalPrice;
 
-            this.CalculateRentingCharges();
-        },
-
-        ClearRentingValue : function()
-        {
-            this.RentingFinalPrice = 0.0;
         },
 
         addProductToInventoryManually : function(manualProduct) {

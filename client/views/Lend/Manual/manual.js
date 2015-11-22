@@ -1,8 +1,29 @@
 Template.manual.rendered = function() {
-    Session.set('dayPrice', '');
-    Session.set('weekPrice', '');
-    Session.set('monthPrice', '');
-    Session.set('semesterPrice', '');
+    
+    var itemNotFound = Session.get('itemNotFound');
+    if(itemNotFound) {
+        Session.set('photoTaken', itemNotFound.image);
+        Session.set('manualTitle', itemNotFound.title);
+        Session.set('selectedCategory', itemNotFound.category);
+        Session.set('dayPrice', itemNotFound.price.day);
+        Session.set('weekPrice', itemNotFound.price.week);
+        Session.set('monthPrice', itemNotFound.price.month);
+        Session.set('semesterPrice', itemNotFound.price.semester); 
+    }
+    else {
+        Session.set('manualTitle', null);
+        Session.set('dayPrice', null);
+        Session.set('weekPrice', null);
+        Session.set('monthPrice', null);
+        Session.set('semesterPrice', null); 
+    }  
+}
+
+Template.manual.destroyed = function() {
+    Session.set('itemNotFound', null);
+    Session.set('photoTaken', null);
+    Session.set('camfindImage', null);
+    Session.set('selectedCategory', null);
 }
 
 Template.manual.helpers({
@@ -12,6 +33,9 @@ Template.manual.helpers({
   getCategories: function() {
     return Categories.getCategories();  
   },
+  selectedCategory: function(category) {
+      return (category === Session.get('selectedCategory')) ? 'selected' : '';
+  },
   getConditions: function() {
     return Rating.getConditions();  
   },
@@ -20,6 +44,9 @@ Template.manual.helpers({
   },
   validatePrices: function(){
       return Lend.validatePrices();
+  },
+  manualTitle: function() {
+      return Session.get('manualTitle');  
   },
   dayPrice: function(){
       return Session.get('dayPrice');
