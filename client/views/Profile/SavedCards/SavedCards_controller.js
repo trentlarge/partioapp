@@ -12,8 +12,9 @@ SavedCardsController = RouteController.extend({
 			// subscribe to data here
 			// Meteor.subscribe("someSubscription"),
 			// Meteor.subscribe("otherSubscription"),
-			Meteor.subscribe("current_user_data"),
-			
+			//Meteor.subscribe("current_user_data"),
+
+
 		];
 	},
 
