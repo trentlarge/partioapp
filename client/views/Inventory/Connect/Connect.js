@@ -49,9 +49,10 @@ Template.connect.events({
 	},
 
   'click #btnCallUser': function(err, template) {
-      var _requestor = Session.get("_requestor");
-      var _owner 	 	 = Session.get("_owner");
-      PartioCall.init(_requestor, _owner);
+      console.log(this.data);
+      //var _requestor = Session.get("_requestor");
+      //var _owner 	 	 = Session.get("_owner");
+      //PartioCall.init(_requestor, _owner);
   },
 
 	'click #startChatOwner': function() {
@@ -82,23 +83,21 @@ Template.connect.events({
 	},
 
 	'click #ownerAccept': function() {
-		var requestor = this.requestor;
-		console.log(requestor);
-		Meteor.call('ownerAccept', this._id, requestor, function(error, result) {
+    var requestor = this.connectData.requestor;
+		Meteor.call('ownerAccept', this.connectData._id, requestor, function(error, result) {
 			if (!error) {
 				IonPopup.show({
-	    			title: 'Great!',
-	    			template: '<div class="center">Make sure you setup a meeting location and pass on the item to <strong>'+ Meteor.users.findOne(requestor).profile.name+'</strong> once you receive the payment. </div>',
-	    			buttons:
-	    			[{
-	    				text: 'OK',
-	    				type: 'button-assertive',
-	    				onTap: function() {
-	    					IonPopup.close();
-
-	    				}
-	    			}]
-	    		});
+    			title: 'Great!',
+    			template: '<div class="center">Make sure you setup a meeting location and pass on the item to <strong>'+this.connectData.requestorData.profile.name+'</strong> once you receive the payment. </div>',
+    			buttons:
+    			[{
+    				text: 'OK',
+    				type: 'button-assertive',
+    				onTap: function() {
+    					IonPopup.close();
+    				}
+    			}]
+    		});
 			}
 		});
 	},

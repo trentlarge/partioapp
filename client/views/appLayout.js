@@ -2,18 +2,21 @@ Template.appLayout.events({
 	'click #editCurrent': function() {
 		Session.set('editMode', true);
 	},
+
 	'click .backFromEdit': function() {
 		Session.set('editMode', false);
 	},
+
 	'change #payToggle': function(event) {
 		console.log("toggling!");
 		Session.set('testPay', event.target.checked);
 	},
+
 	'click #cancelProfile': function() {
     Router.go('/');
   },
-  'click #saveProfile': function() {
 
+  'click #saveProfile': function() {
     PartioLoad.show();
 
     var updatedProfile = {
@@ -91,28 +94,26 @@ Template.sAlertCustom.events({
 })
 
 Meteor.startup(function() {
+  Stripe.setPublishableKey('pk_test_OYfO9mHIQFha7How6lNpwUiQ');
 
-    Stripe.setPublishableKey('pk_test_OYfO9mHIQFha7How6lNpwUiQ');
+  GoogleMaps.load({
+  	key: 'AIzaSyDMyxBlvIc4b4hoWqTw4lGr5OviU8FlQc8',
+  	libraries: 'places'
+  });
 
-    GoogleMaps.load({
-    	key: 'AIzaSyDMyxBlvIc4b4hoWqTw4lGr5OviU8FlQc8',
-    	libraries: 'places'
-    });
-
-    sAlert.config({
-        effect: 'jelly',
-        position: 'top',
-        timeout: 6000,
-        html: false,
-        onRouteClose: true,
-        stack: {
-            spacing: 1, // in px
-            limit: 3 // when fourth alert appears all previous ones are cleared
-        },
-        offset: 0, // in px - will be added to first alert (bottom or top - depends of the position in config)
-        beep: '/alert.mp3'  // or you can pass an object:
-    });
-
+  sAlert.config({
+    effect: 'jelly',
+    position: 'top',
+    timeout: 6000,
+    html: false,
+    onRouteClose: true,
+    stack: {
+        spacing: 1, // in px
+        limit: 3 // when fourth alert appears all previous ones are cleared
+    },
+    offset: 0, // in px - will be added to first alert (bottom or top - depends of the position in config)
+    beep: '/alert.mp3'  // or you can pass an object:
+  });
 });
 
 Template.registerHelper('cleanDate', function() {
@@ -126,25 +127,36 @@ Template.registerHelper('profilePic', function(avatar) {
 Session.set('alertCount', 0);
 
 //CREATING a local collection for Chat
-Chat = new Meteor.Collection(null);
+//Chat = new Meteor.Collection(null);
+
 
 Template.appLayout.onRendered(function() {
-	var self = this;
+	//console.log('aquiiii');
+	console.log(this.data)
 
-	self.autorun(function() {
-		var query1 = Notifications.find({toId: Meteor.userId(), read: false});
-		// var query2 = Connections.find({
+	this.autorun(function() {
+
+
+		var _newNotificatons = this.notifications;
+		//var _newChatMessages = this.newChatMessages;
+
+		//var query1 = Notifications.find({toId: Meteor.userId(), read: false});
+
+		// var _newChatMessages = Connections.find({
 		// 	$or: [{requestor: Meteor.userId()}, {"productData.ownerId": Meteor.userId()}],
 		// 	"chat.state": "new",
 		// 	"chat.sender": {$ne: Meteor.userId()}
 		// });
 
-		var chatQuery = Connections.find({ $or: [{requestor: Meteor.userId()}, {"productData.ownerId": Meteor.userId()}] });
+		// var chatQuery = this.connectDat
 
-		chatQuery.observeChanges({
+		var _chatMessages = this.chatMessages;
+		//Connections.find({ $or: [{requestor: Meteor.userId()}, {"productData.ownerId": Meteor.userId()}] });
+
+		_chatMessages.observeChanges({
 			changed: function(id, fields) {
-				console.log(id);
-				console.log(fields);
+				// console.log(id);
+				// console.log(fields);
 
 				fields.chat.forEach(function(item) {
 					if ( (item.sender !== Meteor.userId) && (!Chat.findOne({connectionId: id, timestamp: item.timestamp})) ) {
@@ -168,13 +180,10 @@ Template.appLayout.onRendered(function() {
 			}
 		})
 
-		query1.observeChanges({
+		_newNotificatons.observeChanges({
 			added: function(id, fields) {
-
 				if (fields.type === "request") {
-
-					if(IsPopUpOpen)
-					{
+					if(IsPopUpOpen){
 						//PopUp is open already, no need for a new one.
 						return;
 					}
@@ -200,9 +209,7 @@ Template.appLayout.onRendered(function() {
 						}]
 					});
 				} else if (fields.type === "approved") {
-
-					if(IsPopUpOpen)
-					{
+					if(IsPopUpOpen){
 						//PopUp is open already, no need for a new one.
 						return;
 					}
@@ -228,11 +235,9 @@ Template.appLayout.onRendered(function() {
 							}
 						}]
 					});
-				}
-				else if (fields.type === "declined") {
+				} else if (fields.type === "declined") {
 
-					if(IsPopUpOpen)
-					{
+					if(IsPopUpOpen) {
 						//PopUp is open already, no need for a new one.
 						return;
 					}
@@ -248,13 +253,13 @@ Template.appLayout.onRendered(function() {
 							type: 'button-energized',
 							onTap: function() {
 								IsPopUpOpen = false;
-
 								IonPopup.close();
 								Meteor.setTimeout(function(){
 									Router.go('/renting');
 									Notifications.update({_id: id}, {$set: {read: true}});
 									Session.set('alertCount', Session.get('alertCount') + 1);
-MainController								},500)
+									//MainController
+								},500)
 							}
 						}]
 					});
@@ -274,12 +279,11 @@ MainController								},500)
 
 
 var IsPopUpOpen;
-function ShowRequestPopUp(strBookName)
-{
+
+function ShowRequestPopUp(strBookName){
 	console.log('IsPopUpOpen: ' + IsPopUpOpen);
 
-	if(IsPopUpOpen)
-	{
+	if(IsPopUpOpen){
 		//PopUp is open already, no need for a new one.
 		return;
 	}
@@ -315,8 +319,7 @@ function ShowRequestPopUp(strBookName)
 	});
 }
 
-function RandomPopup()
-{
+function RandomPopup(){
 	IsPopUpOpen = true;
 
 	IonPopup.show({
@@ -335,10 +338,8 @@ function RandomPopup()
 	});
 }
 
-function ShowApprovalPopUp(strBookName)
-{
-	if(IsPopUpOpen)
-	{
+function ShowApprovalPopUp(strBookName){
+	if(IsPopUpOpen){
 		//PopUp is open already, no need for a new one.
 		return;
 	}
@@ -355,18 +356,11 @@ function ShowApprovalPopUp(strBookName)
 			onTap: function() {
 				IonPopup.close();
 				Meteor.setTimeout(function(){
-					// Alerts.update({_id: currentOne}, {$set: {unread: false}})
-					//Router.go('renting');
-
 					var currentPage = Iron.Location.get().path;
-
-					if(currentPage.indexOf("renting")>=0)
-					{
+					if(currentPage.indexOf("renting")>=0) {
 					    //do something you want
-					}
-					else
-					{
-						Router.go('renting');
+					} else {
+						Router.go('/renting');
 					}
 
 				},1000)
@@ -375,10 +369,8 @@ function ShowApprovalPopUp(strBookName)
 	});
 }
 
-function ShowPaymentPopUp(bookNameString, paymentAmountInt)
-{
-	if(IsPopUpOpen)
-	{
+function ShowPaymentPopUp(bookNameString, paymentAmountInt) {
+	if(IsPopUpOpen){
 		//PopUp is open already, no need for a new one.
 		return;
 	}
@@ -402,10 +394,8 @@ function ShowPaymentPopUp(bookNameString, paymentAmountInt)
 	});
 }
 
-function ShowRequestDeniedPopUp(bookName)
-{
-	if(IsPopUpOpen)
-	{
+function ShowRequestDeniedPopUp(bookName){
+	if(IsPopUpOpen){
 		//PopUp is open already, no need for a new one.
 		return;
 	}
