@@ -20,6 +20,17 @@ SavedCardsController = RouteController.extend({
 
 	data: function() {
 		return {
+
+			addedCards: function() {
+				if (!!Meteor.user().profile.cards) {
+					return Meteor.user().profile.cards.data;
+				}
+			},
+			addedDebitCard: function() {
+				if (Meteor.user().profile.payoutCard && Meteor.user().profile.payoutCard.external_accounts.data) {
+					return Meteor.user().profile.payoutCard.external_accounts.data[0];
+				}
+			}
 			//
 			// read data from database here like this:
 			//   someData: SomeCollection.find(),
