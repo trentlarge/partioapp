@@ -23,7 +23,7 @@ Session.setDefault('spendClicked', false);
 Template.earningList.helpers({
 	earning: function() {
 		if (Meteor.user() && Transactions.findOne(Meteor.user().profile.transactionsId)) {
-			return Transactions.findOne(Meteor.user().profile.transactionsId).earning;	
+			return Transactions.findOne(Meteor.user().profile.transactionsId).earning;
 		}
 	},
 	totalEarning: function() {
@@ -33,7 +33,7 @@ Template.earningList.helpers({
 			earningArray.forEach(function(item) {
 				total += item.receivedAmount
 			});
-			return Number(total).toFixed(2);	
+			return Number(total).toFixed(2);
 		} else {
 			return Number(0).toFixed(2);
 		}
@@ -48,7 +48,7 @@ Template.earningList.helpers({
 Template.spendingList.helpers({
 	spending: function() {
 		if (Meteor.user() && Transactions.findOne(Meteor.user().profile.transactionsId)) {
-			return Transactions.findOne(Meteor.user().profile.transactionsId).spending;	
+			return Transactions.findOne(Meteor.user().profile.transactionsId).spending;
 		}
 	},
 	totalSpending: function() {

@@ -12,18 +12,16 @@ NotificationsController = RouteController.extend({
 	waitOn: function() {
 		return [
 			// subscribe to data here
-			Meteor.subscribe("myNotifications", Meteor.userId()),
+			//Meteor.subscribe("myNotifications", Meteor.userId()),
 			// ...
 		];
 	},
 
 	data: function() {
 		return {
-			//
-			// read data from database here like this:
-			//   someData: SomeCollection.find(),
-			//   moreData: OtherCollection.find()
-			// ...
+			'notifications': function() {
+				return Notifications.find({toId: Meteor.userId()}, {sort: {timestamp: -1}});
+			}
 		};
 	},
 

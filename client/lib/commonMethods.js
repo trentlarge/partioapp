@@ -17,3 +17,18 @@ CheckLocationOn = function(){
   navigator.geolocation.getCurrentPosition(onSuccess, onError);
   console.log('getCurrentPosition');
 }
+
+ShowNotificationMessage = function(strMessage){
+	IonPopup.show({
+		title: 'Alert',
+		template: '<div class="center">'+strMessage+'</div>',
+		buttons:
+		[{
+			text: 'OK',
+			type: 'button-energized',
+			onTap: function() {
+				IonPopup.close();
+			}
+		}]
+	});
+}
