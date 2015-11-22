@@ -907,7 +907,7 @@ var amazonAllResultsItemSearchProcessing = function(result) {
                                 }
                             }
                             else {
-                                return '';
+                                return 'image-not-available.png';
                             }     
                         })(),
                         asin: Items.Item[i].ASIN[0],
