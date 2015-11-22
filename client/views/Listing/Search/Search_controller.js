@@ -38,7 +38,7 @@ SearchController = RouteController.extend({
 			ownerAvatar: function(data) {
 				return userAvatar(data);
 			},
-
+			
 		  isOwner: function(productId) {
 		      return (this.search.ownerId === Meteor.userId()) ? true : false;
 		  },
