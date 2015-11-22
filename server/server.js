@@ -799,7 +799,7 @@ Meteor.methods({
 
   AllItemsFromAmazon: function(keys) {
 
-    var getAmazonItemSearchSynchronously =  Meteor.wrapAsync(amazonItemSearch);
+    var getAmazonItemSearchSynchronously = Meteor.wrapAsync(amazonItemSearch);
       
     var result = [];  
     
@@ -862,92 +862,106 @@ var amazonAllResultsItemSearchProcessing = function(result) {
 
     for(var itemPage = 0; itemPage < result.length; itemPage++) {
     
-    var Items = result[itemPage].ItemSearchResponse.Items[0];
-    
-    if (Items.Item){
-        if (Items.Item[0].ItemAttributes[0]) {
-            try {
-                
-                for(var i = 0; i < Items.Item.length; i++) {
-                    
-                    necessaryFields.push({
-                        price : (function() {return Items.Item[i].Offers[0].Offer ? Items.Item[i].Offers[0].Offer[0].OfferListing[0].Price[0].FormattedPrice[0] : "--"})(),
-                        title : Items.Item[i].ItemAttributes[0].Title[0],
-                        category : CategoriesServer.getCategory(Items.Item[i].ItemAttributes[0].ProductGroup[0]),
-                        amazonCategory : Items.Item[i].ItemAttributes[0].ProductGroup[0],
-                        image: (function() {
-                            if(Items.Item[i].MediumImage){
-                                if(Items.Item[i].MediumImage[0].URL) {
-                                    return Items.Item[i].MediumImage[0].URL[0];
-                                }
-                            }
-                            else if(Items.Item[i].LargeImage) {
-                                if(Items.Item[i].LargeImage[0].URL) {
-                                    return Items.Item[i].LargeImage[0].URL[0];
-                                }
-                            }
-                            else if(Items.Item[i].SmallImage) {
-                                if(Items.Item[i].SmallImage[0].URL) {
-                                    return Items.Item[i].SmallImage[0].URL[0];
-                                }
-                            }
-                            else if(Items.Item[i].ThumbnailImage) {
-                                if(Items.Item[i].ThumbnailImage[0].URL) {
-                                    return Items.Item[i].ThumbnailImage[0].URL[0];
-                                }
-                            }
-                            else if(Items.Item[i].SwatchImage) {
-                                if(Items.Item[i].SwatchImage[0].URL) {
-                                    return Items.Item[i].SwatchImage[0].URL[0];
-                                }
-                            }
-                            else if(Items.Item[i].TinyImage) {
-                                if(Items.Item[i].TinyImage[0].URL) {
-                                    return Items.Item[i].TinyImage[0].URL[0];
-                                }
-                            }
-                            else {
-                                return 'image-not-available.png';
-                            }     
-                        })(),
-                        asin: Items.Item[i].ASIN[0],
-                        attributes: [],
-                    });
-                    
-                    
-                    for(var property in Items.Item[i].ItemAttributes[0]) {
+        var Items = result[itemPage].ItemSearchResponse.Items[0];
 
-                        var possibleProperties = ['Actor', 'Artist', 'Author', 'Binding', 'Brand', 'Color', 'Creator', 'Director', 'Edition', 'Feature', 'Publisher'];
+        if (Items.Item){
+            if (Items.Item[0].ItemAttributes[0]) {
+                try {
 
-                        if(possibleProperties.indexOf(property) >= 0) {
-                            
-                            var attrs = Items.Item[i].ItemAttributes[0][property];
+                    for(var i = 0; i < Items.Item.length; i++) {
 
-                            if(attrs) {
-//                                if(typeof attrs === 'string') {
-                                    necessaryFields[i].attributes.push({
-                                        key: property,
-                                        value: attrs.toString().replace(/,/g, ', ')
-                                    });
-//                                }
-                            }
-                            
-                           
-                        }
+                        necessaryFields.push({
+                            price : (function() {return Items.Item[i].Offers[0].Offer ? Items.Item[i].Offers[0].Offer[0].OfferListing[0].Price[0].FormattedPrice[0] : "--"})(),
+                            title : Items.Item[i].ItemAttributes[0].Title[0],
+                            category : CategoriesServer.getCategory(Items.Item[i].ItemAttributes[0].ProductGroup[0]),
+                            amazonCategory : Items.Item[i].ItemAttributes[0].ProductGroup[0],
+                            image: (function() {
+                                if(Items.Item[i].MediumImage){
+                                    if(Items.Item[i].MediumImage[0].URL) {
+                                        return Items.Item[i].MediumImage[0].URL[0];
+                                    }
+                                }
+                                else if(Items.Item[i].LargeImage) {
+                                    if(Items.Item[i].LargeImage[0].URL) {
+                                        return Items.Item[i].LargeImage[0].URL[0];
+                                    }
+                                }
+                                else if(Items.Item[i].SmallImage) {
+                                    if(Items.Item[i].SmallImage[0].URL) {
+                                        return Items.Item[i].SmallImage[0].URL[0];
+                                    }
+                                }
+                                else if(Items.Item[i].ThumbnailImage) {
+                                    if(Items.Item[i].ThumbnailImage[0].URL) {
+                                        return Items.Item[i].ThumbnailImage[0].URL[0];
+                                    }
+                                }
+                                else if(Items.Item[i].SwatchImage) {
+                                    if(Items.Item[i].SwatchImage[0].URL) {
+                                        return Items.Item[i].SwatchImage[0].URL[0];
+                                    }
+                                }
+                                else if(Items.Item[i].TinyImage) {
+                                    if(Items.Item[i].TinyImage[0].URL) {
+                                        return Items.Item[i].TinyImage[0].URL[0];
+                                    }
+                                }
+                                else {
+                                    return 'image-not-available.png';
+                                }     
+                            })(),
+                            asin: Items.Item[i].ASIN[0],
+                            attributes: (function() {
+                                
+                                var attributes = [];
+                                
+                                for(var property in Items.Item[i].ItemAttributes[0]) {
+
+                                    var possibleProperties = [
+                                        'Actor', 
+                                        'Artist', 
+                                        'Author', 
+                                        'Binding', 
+                                        'Brand', 
+                                        'Color', 
+                                        'Creator', 
+                                        'Director', 
+                                        'Edition', 
+                                        //'Feature', 
+                                        'Publisher'
+                                    ];
+
+                                    if(possibleProperties.indexOf(property) >= 0) {
+
+                                        var attrs = Items.Item[i].ItemAttributes[0][property];
+                                        
+                                        if(attrs) {
+                                            if(attrs.toString() !== '[object Object]'){
+                                                attributes.push({
+                                                    key: property,
+                                                    value: attrs.toString().replace(/,/g, ', ')
+                                                });
+                                            }
+                                        }
+                                    }
+                                }
+
+                                return attributes;
+                                
+                            })(),
+                        });
+
                     }
+                } catch(e) {console.log(e)}
 
-
+                } else {
+    //              throw new Meteor.Error("No match for this item")
                 }
-            } catch(e) {console.log(e)}
+          } else {
+    //        console.log(result.ItemSearchResponse.Items[0].Request[0].Errors[0].Error[0].Code[0]);
+    //        throw new Meteor.Error(result.ItemSearchResponse.Items[0].Request[0].Errors[0].Error[0].Message[0]);
+          }
 
-            } else {
-//              throw new Meteor.Error("No match for this item")
-            }
-      } else {
-//        console.log(result.ItemSearchResponse.Items[0].Request[0].Errors[0].Error[0].Code[0]);
-//        throw new Meteor.Error(result.ItemSearchResponse.Items[0].Request[0].Errors[0].Error[0].Message[0]);
-      }
-        
     }
 
     console.log('amazonAllResultsItemSearchProcessing -x-x-x-x-x-x-x-x-x-x-x-x-x');
