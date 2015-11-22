@@ -116,7 +116,6 @@ app.model.Lend = (function () {
             rentingFinalPrice += parseFloat(renting.percentage.stripeAdditionalFee);
             rentingFinalPrice += parseFloat((renting.percentage.partioShare/100) * rentingFinalPrice);
             rentingFinalPrice = Math.round(Number((rentingFinalPrice).toFixed(1))).toFixed(2);
-//            console.log('RentingFinalPrice: ' + Math.round(rentingFinalPrice));
             
             return rentingFinalPrice;
 
