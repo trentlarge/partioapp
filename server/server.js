@@ -1,133 +1,103 @@
-  //SERVER FRESH START SEQUENCE
-  // Meteor.users.remove({});
-  // Products.remove({});
-  // Search.remove({});
-  // Connections.remove({});
-  // Transactions.remove({});
-  // Notifications.remove({});
-
-//var SinchTicketGenerator = Meteor.npmRequire('sinch-ticketgen');
-
-  // SERVER FRESH START SEQUENCE
-
 // ServiceConfiguration.loginServiceConfiguration.remove({
 //     service: "facebook"
 // });
 
 Kadira.connect('qhAvzzmgKeHaZ9rd9', '338e5eb7-842c-47f5-bfe7-7a4d3b9c0607');
 
+Meteor.startup(function() {
+  // process.env.MAIL_URL="smtp://partio@cloudservice.io:partio1234@smtp.zoho.com:465";
+  // Accounts.emailTemplates.from = 'partio@cloudservice.io';
+  // Stripe = StripeSync('sk_test_RBrpczGtVbB1tSaG66gglMTH');
+  process.env.MAIL_URL="smtp://support%40partio.xyz:partio123!@smtp.zoho.com:465/";
+  Accounts.emailTemplates.from = 'support@partio.xyz';
+  Accounts.emailTemplates.siteName = 'partiO';
 
+  Accounts.emailTemplates.verifyEmail.subject = function(user) {
+    return 'Welcome to partiO!';
+  };
 
-  Meteor.startup(function() {
-    //Future = Meteor.npmRequire('fibers/future');
+  Accounts.emailTemplates.verifyEmail.html = function(user, url) {
+    var body =
+    '<!DOCTYPE html>\
+            <html>\
+                <head>\
+                    <title>Partio</title>\
+                    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">\
+                    <style>\
+                    a {\
+                        color:#95cbab;\
+                    }\
+                    </style>\
+                </head>\
+                <body>\
+                    <table width="750" bgcolor="#f6f6f6">\
+                        <tr height="373">\
+                            <td><img src="http://partio.cloudservice.io/img/template_cabecalho.jpg" /></td>\
+                        </tr>\
+                        <tr>\
+                            <td>\
+                                <div style="width:640px;font-family:arial; tex-align:left; margin-left:50px;color:#999">\
+                                    <h1 style="color:#263238;font-size:40px">Hello there!</h1>\
+                                    <p style="font-size:20px;line-height:38px;">Welcome aboard partiO!<br />\
+                                    The things you own end up making money for you! Sounds familiar? Er..nevermind! To make this happen, it all starts with one link.<br />\
+                                    The one below. Click to verify and get sharing<br />\
+                                     '+url+'\
+                                     <br />For any queries or support, feel free to contact partio.missioncontrol@gmail.com\
+                                    Best<br />\
+                                    partiO team\
+                                    </p>\
+                                </div>\
+                            </td>\
+                        </tr>\
+                        <tr height="262">\
+                            <td><img src="http://partio.cloudservice.io/img/template_rodape.jpg" /></td>\
+                        </tr>\
+                    </table>\
+                </body>\
+            </html>';
+    return body;
+  };
 
-    process.env.MAIL_URL="smtp://support%40partio.xyz:partio123!@smtp.zoho.com:465/";
-    Accounts.emailTemplates.from = 'support@partio.xyz';
-
-    // process.env.MAIL_URL="smtp://partio@cloudservice.io:partio1234@smtp.zoho.com:465";
-    // Accounts.emailTemplates.from = 'partio@cloudservice.io';
-    Accounts.emailTemplates.siteName = 'partiO';
-
-
-    Accounts.emailTemplates.verifyEmail.subject = function(user) {
-      return 'Welcome to partiO!';
-    };
-    Accounts.emailTemplates.verifyEmail.html = function(user, url) {
-
-      var body =
-      '<!DOCTYPE html>\
-              <html>\
-                  <head>\
-                      <title>Partio</title>\
-                      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">\
-                      <style>\
-                      a {\
-                          color:#95cbab;\
-                      }\
-                      </style>\
-                  </head>\
-                  <body>\
-                      <table width="750" bgcolor="#f6f6f6">\
-                          <tr height="373">\
-                              <td><img src="http://partio.cloudservice.io/img/template_cabecalho.jpg" /></td>\
-                          </tr>\
-                          <tr>\
-                              <td>\
-                                  <div style="width:640px;font-family:arial; tex-align:left; margin-left:50px;color:#999">\
-                                      <h1 style="color:#263238;font-size:40px">Hello there!</h1>\
-                                      <p style="font-size:20px;line-height:38px;">Welcome aboard partiO!<br />\
-                                      The things you own end up making money for you! Sounds familiar? Er..nevermind! To make this happen, it all starts with one link.<br />\
-                                      The one below. Click to verify and get sharing<br />\
-                                       '+url+'\
-                                       <br />For any queries or support, feel free to contact partio.missioncontrol@gmail.com\
-                                      Best<br />\
-                                      partiO team\
-                                      </p>\
-                                  </div>\
-                              </td>\
-                          </tr>\
-                          <tr height="262">\
-                              <td><img src="http://partio.cloudservice.io/img/template_rodape.jpg" /></td>\
-                          </tr>\
-                      </table>\
-                  </body>\
-              </html>';
-
-
-
-            return body;
-
-    };
-
-    Accounts.emailTemplates.resetPassword.html = function(user, url) {
-
-      var body =
-      '<!DOCTYPE html>\
-              <html>\
-                  <head>\
-                      <title>Partio</title>\
-                      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">\
-                      <style>\
-                      a {\
-                          color:#95cbab;\
-                      }\
-                      </style>\
-                  </head>\
-                  <body>\
-                      <table width="750" bgcolor="#f6f6f6">\
-                          <tr height="373">\
-                              <td><img src="http://partio.cloudservice.io/img/template_cabecalho.jpg" /></td>\
-                          </tr>\
-                          <tr>\
-                              <td>\
-                                  <div style="width:640px;font-family:arial; tex-align:left; margin-left:50px;color:#999">\
-                                      <h1 style="color:#263238;font-size:40px">Hello!</h1>\
-                                      <p style="font-size:20px;line-height:38px;">\
-                                      To reset your password, simply click the link below.\
-                                       '+url+'\
-                                       <br />Thanks.<br />\
-                                      partiO team\
-                                      </p>\
-                                  </div>\
-                              </td>\
-                          </tr>\
-                          <tr height="262">\
-                              <td><img src="http://partio.cloudservice.io/img/template_rodape.jpg" /></td>\
-                          </tr>\
-                      </table>\
-                  </body>\
-              </html>';
-
-
-
-            return body;
-
-    };
-
-    // Stripe = StripeSync('sk_test_RBrpczGtVbB1tSaG66gglMTH');
-
-  });
-
+  Accounts.emailTemplates.resetPassword.html = function(user, url) {
+    var body =
+    '<!DOCTYPE html>\
+            <html>\
+                <head>\
+                    <title>Partio</title>\
+                    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">\
+                    <style>\
+                    a {\
+                        color:#95cbab;\
+                    }\
+                    </style>\
+                </head>\
+                <body>\
+                    <table width="750" bgcolor="#f6f6f6">\
+                        <tr height="373">\
+                            <td><img src="http://partio.cloudservice.io/img/template_cabecalho.jpg" /></td>\
+                        </tr>\
+                        <tr>\
+                            <td>\
+                                <div style="width:640px;font-family:arial; tex-align:left; margin-left:50px;color:#999">\
+                                    <h1 style="color:#263238;font-size:40px">Hello!</h1>\
+                                    <p style="font-size:20px;line-height:38px;">\
+                                    To reset your password, simply click the link below.\
+                                     '+url+'\
+                                     <br />Thanks.<br />\
+                                    partiO team\
+                                    </p>\
+                                </div>\
+                            </td>\
+                        </tr>\
+                        <tr height="262">\
+                            <td><img src="http://partio.cloudservice.io/img/template_rodape.jpg" /></td>\
+                        </tr>\
+                    </table>\
+                </body>\
+            </html>';
+    return body;
+  };
+});
 
 // LISTING SEARCH ------------------------------
 SearchSource.defineSource('packages', function(searchText, options) {
@@ -147,7 +117,6 @@ function buildRegExp(searchText) {
 }
 
 // END LISTING SEARCH ------------------------------
-
 var sendNotification = function(toId, fromId, message, type) {
   Notifications.insert({
     toId: toId,
@@ -377,9 +346,7 @@ Meteor.methods({
     });
   },
   'updatePassword': function(userId, password) {
-
     console.log('chamou updatePassword');
-
     Meteor.bindEnvironment(function(){
       Accounts.setPassword(userId, password, { logout: true });
       console.log('chamou updatePassword');
@@ -389,7 +356,6 @@ Meteor.methods({
     })
   },
 
-
   'submitRating': function(rating, personId, ratedBy) {
     Meteor.users.update({_id: personId}, {$push: {"profile.rating": rating}});
     var ratedByName = Meteor.users.findOne(ratedBy).profile.name;
@@ -397,7 +363,6 @@ Meteor.methods({
 
     sendPush(personId, message)
     sendNotification(personId, ratedBy, message, "info")
-
   },
 
   returnItem: function(connectionId) {
@@ -464,26 +429,26 @@ Meteor.methods({
 
     return true;
   },
+
   'ownerDecline': function(connectionId) {
     Meteor._sleepForMs(1000);
-
     var connect = Connections.findOne(connectionId);
     var ownerName = Meteor.users.findOne(connect.productData.ownerId).profile.name;
-
     var message =  "Your request for " + connect.productData.title + " has been declined.";
     sendPush(connect.requestor, message);
     sendNotification(connect.requestor, connect.productData.ownerId, message, "declined");
-
     Connections.remove(connectionId);
 
     return true;
   },
+
   'payNow': function(payer) {
     console.log(payer);
     Meteor._sleepForMs(1000);
     Connections.update({_id: payer}, {$set: {state: "IN USE"}});
     return "yes, payment done"
   },
+
   'chargeCard': function(payerCustomerId, payerCardId, recipientDebitId, amount, connectionId, transactionsId, transactionsRecipientId) {
     this.unblock();
     console.log(payerCustomerId, payerCardId, recipientDebitId, amount, connectionId, transactionsId, transactionsRecipientId);
@@ -529,6 +494,7 @@ Meteor.methods({
       console.log(e);
     }
   },
+
   'createCustomer': function(MeteorUserId) {
     console.log("creating customer for stripe on server using this ID ---> "+MeteorUserId);
     this.unblock();
@@ -545,6 +511,7 @@ Meteor.methods({
       throw new Meteor.Error('Error while adding user as a customer to payment profile');
     }
   },
+
   'listCards': function() {
     this.unblock();
     try {
@@ -658,169 +625,56 @@ Meteor.methods({
       throw new Meteor.Error('Error while creating account');
     }
   },
-  // 'camFindCall' : function(argImageData) {
-  //
-  //   if(!argImageData)
-  //   {
-  //     console.log('error!');
-  //   }
-  //
-  //   HTTP.post('https://camfind.p.mashape.com/image_requests',
-  //   {
-  //     "headers":
-  //     {
-  //       "X-Mashape-Key" : "7W5OJWzlcsmshYSMTJW8yE4L2mJQp1cuOVKjsneO6N0wPTpaS1"
-  //     },
-  //     "params" :
-  //     {
-  //       "image_request[remote_image_url]": "http://logok.org/wp-content/uploads/2014/03/Air-Jordan-Nike-Jumpman-logo.png",
-  //       // "image_request[image]" : argImageData,
-  //       "image_request[locale]" : "en_US"
-  //     }
-  //   },
-  //   function( error, response )
-  //   {
-  //     if(!error)
-  //     {
-  //       console.log('camFindCall: ' + JSON.stringify(response));
-  //     }
-  //     else
-  //     {
-  //       console.log('camFindCall error: ' + error);
-  //     }
-  //
-  //   });
-  //
-  // },
   'createNAAAH': function() {
     this.unblock();
     try {
-      // var result = Stripe.accounts.create({
-      //   managed: true,
-      //   country: 'US',
-      //   email: 'mail.krishna@aol.com'
-      // });
 
-    // var result = Stripe.accounts.create({
-    //   managed: true,
-    //   country: 'US'
-    // })
+     var result = Stripe.accounts.create({
+      "managed": true,
+      "country": "US",
+      "legal_entity[type]": "individual",
+      "legal_entity[first_name]": "Test",
+      "legal_entity[last_name]": "Man",
+      "legal_entity[ssn_last_4]": 1234,
+      "legal_entity[address][line1]": "Some lane",
+      "legal_entity[address][city]": "San Francisco",
+      "legal_entity[address][state]": "TX",
+      "legal_entity[address][postal_code]": "12345",
+      "tos_acceptance[date]": Math.floor(Date.now() / 1000),
+      "tos_acceptance[ip]": "8.8.8.8",
+      "bank_account[country]": "US",
+      "bank_account[routing_number]": "110000000",
+      "bank_account[account_number]": "000123456789"
+     })
 
-    // var result = Stripe.charges.create({
-    //     amount: 5000,
-    //     currency: 'usd',
-    //     customer: 'cus_6oRs14YG2c4pYy',
-    //     description: "new payment",
-    //     destination: "acct_16akhXKN2gXXNyID",
-    //     application_fee: 800,
-    //     receipt_email: "nishanth.saka@gmail.com"
-    //   });
-
-    // var result = Stripe.customers.create({
-    //   description: "this is tankampa's account",
-    //   source: "tok_16al3yG9HDjn1DNAkYW0RRZZ"
-    // })
-
-
-
-    // var result = Stripe.accounts.retrieve({
-    //   id: "acct_16akhXKN2gXXNyID"
-    // });
-
-    // var result = Stripe.accounts.update("acct_16akhXKN2gXXNyID", {
-    //   // "legal_entity[dob[day]]": "02",
-    //   // "legal_entity[dob[month]]": "11",
-    //   // "legal_entity[dob[year]]": "1980",
-    //   // "legal_entity[first_name]": "Tankampa",
-    //   // "legal_entity[last_name]": "haha",
-    //   // "tos_acceptance[date]": Math.floor(Date.now() / 1000),
-    //   // "tos_acceptance[ip]": '123.123.9.1',
-      // "bank_account[country]": 'US',
-      // "bank_account[routing_number]": '110000000',
-      // "bank_account[account_number]": '000123456789'
-      // "legal_entity[ssn_last_4]": 1234,
-      // "legal_entity[address][line1]": "Some lane",
-      // "legal_entity[address][city]": "San Francisco",
-      // "legal_entity[address][state]": "TX",
-      // "legal_entity[address][postal_code]": "12345"
-    //   }
-    //   // "support_phone": "555-867-5309"
-    // )
-
-   var result = Stripe.accounts.create({
-    "managed": true,
-    "country": "US",
-    "legal_entity[type]": "individual",
-    "legal_entity[first_name]": "Test",
-    "legal_entity[last_name]": "Man",
-    "legal_entity[ssn_last_4]": 1234,
-    "legal_entity[address][line1]": "Some lane",
-    "legal_entity[address][city]": "San Francisco",
-    "legal_entity[address][state]": "TX",
-    "legal_entity[address][postal_code]": "12345",
-    "tos_acceptance[date]": Math.floor(Date.now() / 1000),
-    "tos_acceptance[ip]": "8.8.8.8",
-    "bank_account[country]": "US",
-    "bank_account[routing_number]": "110000000",
-    "bank_account[account_number]": "000123456789"
-   })
-
-      console.log(result)
-      return true;
-    }
-    catch(error) {
-      console.log(error)
-      throw new Meteor.Error('payment-failed', 'The payment failed');
-    }
-  },
-    
-    // AMAZON SEARCH -------------------------------------------------------------------
-//  itemFromAmazon: function(keys) {
-//
-//    var getAmazonItemSearchSynchronously =  Meteor.wrapAsync(amazonItemSearch);
-//    var result = getAmazonItemSearchSynchronously(keys);
-//
-//    console.log('x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x');
-//    console.log(result);
-//
-//    if (result.html && (result.html.body[0].b[0] === "Http/1.1 Service Unavailable")) {
-//      console.log(result.html.body[0].b[0]);
-//      throw new Meteor.Error("Error from Amazon - Service Unavailable");
-//    } else {
-//        if (result.ItemSearchResponse.Items[0].Item && (result.ItemSearchResponse.Items[0].Request[0].IsValid[0] === "True")) {
-//            return amazonResultItemSearchProcessing(result);
-//        } else {
-//          console.log(result.ItemSearchResponse.Items[0].Request[0].Errors[0].Error[0].Code[0]);
-//          throw new Meteor.Error(result.ItemSearchResponse.Items[0].Request[0].Errors[0].Error[0].Code[0]);
-//      }
-//    }
-//
-//  },
+        console.log(result)
+        return true;
+      }
+      catch(error) {
+        console.log(error)
+        throw new Meteor.Error('payment-failed', 'The payment failed');
+      }
+    },
 
   AllItemsFromAmazon: function(keys) {
-
     var getAmazonItemSearchSynchronously = Meteor.wrapAsync(amazonItemSearch);
-      
-    var result = [];  
-    
+    var result = [];
+
     for(var i=0; i<5; i++) {
-        result.push(getAmazonItemSearchSynchronously(keys, i+1));   
-        console.log(result[i]);
+      result.push(getAmazonItemSearchSynchronously(keys, i+1));
+      console.log(result[i]);
     }
 
     if (result.html && (result.html.body[0].b[0] === "Http/1.1 Service Unavailable")) {
       console.log(result.html.body[0].b[0]);
       throw new Meteor.Error("Error from Amazon - Service Unavailable");
-
     } else {
       if (result[0].ItemSearchResponse.Items[0].Item && (result[0].ItemSearchResponse.Items[0].Request[0].IsValid[0] === "True")) {
         console.log('AllItemsFromAmazon: OK');
         return amazonAllResultsItemSearchProcessing(result);
-
       } else {
         console.log('AllItemsFromAmazon: error');
         console.log(result[0].ItemSearchResponse.Items[0].Request[0].Errors[0].Error[0].Code[0]);
-
         switch (result[0].ItemSearchResponse.Items[0].Request[0].Errors[0].Error[0].Code[0]) {
           case 'AWS.ECommerceService.NoExactMatches':
             var text = 'You search does not match. Please try again with different words or take another photo.';
@@ -828,7 +682,6 @@ Meteor.methods({
           default:
             var text = result[0].ItemSearchResponse.Items[0].Request[0].Errors[0].Error[0].Code[0];
         }
-
         throw new Meteor.Error(text);
       }
     }
@@ -853,175 +706,104 @@ Meteor.methods({
       }
     }
   },
-    
+
 })
 
 var amazonAllResultsItemSearchProcessing = function(result) {
-
-    var necessaryFields = [];
-
-    for(var itemPage = 0; itemPage < result.length; itemPage++) {
-    
-        var Items = result[itemPage].ItemSearchResponse.Items[0];
-
-        if (Items.Item){
-            if (Items.Item[0].ItemAttributes[0]) {
-                try {
-
-                    for(var i = 0; i < Items.Item.length; i++) {
-
-                        necessaryFields.push({
-                            price : (function() {return Items.Item[i].Offers[0].Offer ? Items.Item[i].Offers[0].Offer[0].OfferListing[0].Price[0].FormattedPrice[0] : "--"})(),
-                            title : Items.Item[i].ItemAttributes[0].Title[0],
-                            category : CategoriesServer.getCategory(Items.Item[i].ItemAttributes[0].ProductGroup[0]),
-                            amazonCategory : Items.Item[i].ItemAttributes[0].ProductGroup[0],
-                            image: (function() {
-                                if(Items.Item[i].MediumImage){
-                                    if(Items.Item[i].MediumImage[0].URL) {
-                                        return Items.Item[i].MediumImage[0].URL[0];
-                                    }
-                                }
-                                else if(Items.Item[i].LargeImage) {
-                                    if(Items.Item[i].LargeImage[0].URL) {
-                                        return Items.Item[i].LargeImage[0].URL[0];
-                                    }
-                                }
-                                else if(Items.Item[i].SmallImage) {
-                                    if(Items.Item[i].SmallImage[0].URL) {
-                                        return Items.Item[i].SmallImage[0].URL[0];
-                                    }
-                                }
-                                else if(Items.Item[i].ThumbnailImage) {
-                                    if(Items.Item[i].ThumbnailImage[0].URL) {
-                                        return Items.Item[i].ThumbnailImage[0].URL[0];
-                                    }
-                                }
-                                else if(Items.Item[i].SwatchImage) {
-                                    if(Items.Item[i].SwatchImage[0].URL) {
-                                        return Items.Item[i].SwatchImage[0].URL[0];
-                                    }
-                                }
-                                else if(Items.Item[i].TinyImage) {
-                                    if(Items.Item[i].TinyImage[0].URL) {
-                                        return Items.Item[i].TinyImage[0].URL[0];
-                                    }
-                                }
-                                else {
-                                    return 'image-not-available.png';
-                                }     
-                            })(),
-                            asin: Items.Item[i].ASIN[0],
-                            attributes: (function() {
-                                
-                                var attributes = [];
-                                
-                                for(var property in Items.Item[i].ItemAttributes[0]) {
-
-                                    var possibleProperties = [
-                                        'Actor', 
-                                        'Artist', 
-                                        'Author', 
-                                        'Binding', 
-                                        'Brand', 
-                                        'Color', 
-                                        'Creator', 
-                                        'Director', 
-                                        'Edition', 
-                                        //'Feature', 
-                                        'Publisher'
-                                    ];
-
-                                    if(possibleProperties.indexOf(property) >= 0) {
-
-                                        var attrs = Items.Item[i].ItemAttributes[0][property];
-                                        
-                                        if(attrs) {
-                                            if(attrs.toString() !== '[object Object]'){
-                                                attributes.push({
-                                                    key: property,
-                                                    value: attrs.toString().replace(/,/g, ', ')
-                                                });
-                                            }
-                                        }
-                                    }
-                                }
-
-                                return attributes;
-                                
-                            })(),
-                        });
-
+  var necessaryFields = [];
+  for(var itemPage = 0; itemPage < result.length; itemPage++) {
+    var Items = result[itemPage].ItemSearchResponse.Items[0];
+      if (Items.Item){
+        if (Items.Item[0].ItemAttributes[0]) {
+          try {
+            for(var i = 0; i < Items.Item.length; i++) {
+              necessaryFields.push({
+                price : (function() {return Items.Item[i].Offers[0].Offer ? Items.Item[i].Offers[0].Offer[0].OfferListing[0].Price[0].FormattedPrice[0] : "--"})(),
+                title : Items.Item[i].ItemAttributes[0].Title[0],
+                category : CategoriesServer.getCategory(Items.Item[i].ItemAttributes[0].ProductGroup[0]),
+                amazonCategory : Items.Item[i].ItemAttributes[0].ProductGroup[0],
+                image: (function() {
+                  if(Items.Item[i].MediumImage){
+                    if(Items.Item[i].MediumImage[0].URL) {
+                        return Items.Item[i].MediumImage[0].URL[0];
                     }
-                } catch(e) {console.log(e)}
+                  } else if(Items.Item[i].LargeImage) {
+                    if(Items.Item[i].LargeImage[0].URL) {
+                        return Items.Item[i].LargeImage[0].URL[0];
+                    }
+                  } else if(Items.Item[i].SmallImage) {
+                    if(Items.Item[i].SmallImage[0].URL) {
+                        return Items.Item[i].SmallImage[0].URL[0];
+                    }
+                  } else if(Items.Item[i].ThumbnailImage) {
+                    if(Items.Item[i].ThumbnailImage[0].URL) {
+                        return Items.Item[i].ThumbnailImage[0].URL[0];
+                    }
+                  } else if(Items.Item[i].SwatchImage) {
+                    if(Items.Item[i].SwatchImage[0].URL) {
+                        return Items.Item[i].SwatchImage[0].URL[0];
+                    }
+                  } else if(Items.Item[i].TinyImage) {
+                    if(Items.Item[i].TinyImage[0].URL) {
+                        return Items.Item[i].TinyImage[0].URL[0];
+                    }
+                  } else {
+                      return 'image-not-available.png';
+                  }
+                })(),
+                asin: Items.Item[i].ASIN[0],
+                attributes: (function() {
+                  var attributes = [];
+                  for(var property in Items.Item[i].ItemAttributes[0]) {
+                    var possibleProperties = [
+                      'Actor',
+                      'Artist',
+                      'Author',
+                      'Binding',
+                      'Brand',
+                      'Color',
+                      'Creator',
+                      'Director',
+                      'Edition',
+                      //'Feature',
+                      'Publisher'
+                    ];
 
-                } else {
-    //              throw new Meteor.Error("No match for this item")
-                }
-          } else {
-    //        console.log(result.ItemSearchResponse.Items[0].Request[0].Errors[0].Error[0].Code[0]);
-    //        throw new Meteor.Error(result.ItemSearchResponse.Items[0].Request[0].Errors[0].Error[0].Message[0]);
-          }
-
+                    if(possibleProperties.indexOf(property) >= 0) {
+                      var attrs = Items.Item[i].ItemAttributes[0][property];
+                      if(attrs) {
+                        if(attrs.toString() !== '[object Object]'){
+                          attributes.push({
+                            key: property,
+                            value: attrs.toString().replace(/,/g, ', ')
+                          });
+                        }
+                      }
+                    }
+                  }
+                  return attributes;
+                })(),
+              });
+            }
+        } catch(e) {console.log(e)}
+      } else {
+//      throw new Meteor.Error("No match for this item")
+      }
+    } else {
+//     console.log(result.ItemSearchResponse.Items[0].Request[0].Errors[0].Error[0].Code[0]);
+//     throw new Meteor.Error(result.ItemSearchResponse.Items[0].Request[0].Errors[0].Error[0].Message[0]);
     }
+  }
 
-    console.log('amazonAllResultsItemSearchProcessing -x-x-x-x-x-x-x-x-x-x-x-x-x');
+  console.log('amazonAllResultsItemSearchProcessing -x-x-x-x-x-x-x-x-x-x-x-x-x');
 
-    // sort results by amazon category
-    necessaryFields.sort(function(a, b) {
-        return (a.amazonCategory > b.amazonCategory) ? 1 : -1;
-    });
+  // sort results by amazon category
+  necessaryFields.sort(function(a, b) {
+      return (a.amazonCategory > b.amazonCategory) ? 1 : -1;
+  });
 
-    return necessaryFields;
-    
+  return necessaryFields;
 }
-
-//var amazonResultItemSearchProcessing = function(result) {
-//
-//    if (result.ItemSearchResponse.Items[0].Item){
-//        if (result.ItemSearchResponse.Items[0].Item[0].ItemAttributes[0]) {
-//               try {
-//                var necessaryFields = {
-//                    price : (function() {return result.ItemSearchResponse.Items[0].Item[0].Offers[0].Offer ? result.ItemSearchResponse.Items[0].Item[0].Offers[0].Offer[0].OfferListing[0].Price[0].FormattedPrice[0] : "--"})(),
-//                    title : result.ItemSearchResponse.Items[0].Item[0].ItemAttributes[0].Title[0],
-//                    category : CategoriesServer.getCategory(result.ItemSearchResponse.Items[0].Item[0].ItemAttributes[0].ProductGroup[0]),
-//                    amazonCategoy : result.ItemSearchResponse.Items[0].Item[0].ItemAttributes[0].ProductGroup[0],
-//                    image: result.ItemSearchResponse.Items[0].Item[0].MediumImage[0].URL[0],
-//                    attributes: [],
-//                }
-//
-//                for(var property in result.ItemSearchResponse.Items[0].Item[0].ItemAttributes[0]) {
-//
-//                    var possibleProperties = ['Actor', 'Artist', 'Author', 'Binding', 'Brand', 'Creator', 'Director', 'Edition', 'Feature', 'Publisher'];
-//
-//                    if(possibleProperties.indexOf(property) >= 0) {
-//
-//                        var attrs = result.ItemSearchResponse.Items[0].Item[0].ItemAttributes[0][property];
-//
-//                        if(typeof attrs[0] === 'string') {
-//
-//                            necessaryFields.attributes.push({
-//                                key: property,
-//                                value: attrs.toString().replace(/,/g, ', ')
-//                            });
-//
-//                        }
-//
-//                    }
-//
-//                }
-//
-//            } catch(e) {console.log(e)}
-//
-//              return necessaryFields;
-//            } else {
-//              throw new Meteor.Error("No match for this item. Are you sure you're scanning a Book?")
-//            }
-//      } else {
-//        console.log(result.ItemSearchResponse.Items[0].Request[0].Errors[0].Error[0].Code[0]);
-//        throw new Meteor.Error(result.ItemSearchResponse.Items[0].Request[0].Errors[0].Error[0].Message[0]);
-//      }
-//
-//}
 
 var amazonResultProcessing = function(result) {
   console.log(JSON.stringify(result));
@@ -1096,156 +878,4 @@ var amazonItemSearch = function(keys, itemPage, callback) {
       'ResponseGroup': ['ItemAttributes', 'Medium', 'Offers'],
       'ItemPage': itemPage,
   }, callback);
-
 }
-
-
-
-//   {
-//   statusCode: 200,
-//   content: '{"access_token": "b82cad2ac582b2fe4bbc313aa7c9a9a528794bde7df025a7b8e0fd51e6773799", "expires_in": 5184000, "token_type": "bearer", "user": {"username": "gabriel-simoes", "first_name": "Gabriel", "last_name": "Simoes", "display_name": "Gabriel Simoes", "is_friend": false, "friends_count": 154, "is_active": true, "about": " ", "email": "gsimoes@rollins.edu", "phone": "14079511926", "profile_picture_url": "https://s3.amazonaws.com/venmo/no-image.gif", "friend_request": null, "is_blocked": false, "trust_request": null, "id": "1494475771740160877", "identity": null, "date_joined": "2014-08-24T23:36:35"}, "balance": "0.00", "refresh_token": "85e487232f4c28b4097eb4951912eb0439d75aefbe4d285ee2ab3f715811aeb9"}',
-//   headers:
-//    { server: 'nginx',
-//      date: 'Thu, 30 Jul 2015 14:25:50 GMT',
-//      'content-type': 'application/json; charset=UTF-8',
-//      'content-length': '711',
-//      connection: 'close',
-//      vary: 'Accept-Encoding',
-//      'set-cookie': [ 'csrftoken2=d9a26966efc94d45a2856fe40f4928ad; Domain=.venmo.com; Path=/' ],
-//      expires: 'Thu, 30 Jul 2015 14:25:49 GMT',
-//      'cache-control': 'no-cache',
-//      'strict-transport-security': 'max-age=31536000' },
-//   data:
-//    { access_token: 'b82cad2ac582b2fe4bbc313aa7c9a9a528794bde7df025a7b8e0fd51e6773799',
-//      expires_in: 5184000,
-//      token_type: 'bearer',
-//      user:
-//       { username: 'gabriel-simoes',
-//         first_name: 'Gabriel',
-//         last_name: 'Simoes',
-//         display_name: 'Gabriel Simoes',
-//         is_friend: false,
-//         friends_count: 154,
-//         is_active: true,
-//         about: ' ',
-//         email: 'gsimoes@rollins.edu',
-//         phone: '14079511926',
-//         profile_picture_url: 'https://s3.amazonaws.com/venmo/no-image.gif',
-//         friend_request: null,
-//         is_blocked: false,
-//         trust_request: null,
-//         id: '1494475771740160877',
-//         identity: null,
-//         date_joined: '2014-08-24T23:36:35' },
-//      balance: '0.00',
-//      refresh_token: '85e487232f4c28b4097eb4951912eb0439d75aefbe4d285ee2ab3f715811aeb9' }
-// }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// amazonInitialTestData = function(callback) {
-//   OperationHelper = apac.OperationHelper;
-
-//   var opHelper = new OperationHelper({
-//     awsId:     'AKIAJ5R6HKU33B4DAF3A',
-//     awsSecret: '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',
-//     assocId:   'codefynecom06-20'
-//   });
-
-//   opHelper.execute('ItemSearch', {
-//     'SearchIndex': 'Blended',
-//     'Operation': 'ItemSearch',
-//     'Keywords': 'tesla',
-//     'ResponseGroup': ['ItemAttributes', 'Images', 'OfferListings']
-//   }, callback )
-// }
-
-// var productGroup = [];
-// Products.find().map(function(eachProduct) {
-//   productGroup.push(eachProduct.category);
-// })
-
-// photograph
-// university
-// college
-// football
-
-// Meteor.startup(function() {
-//   Meteor.setTimeout(function() {
-//     console.log('data dump attempt...');
-//     var getInitialData =  Meteor.wrapAsync(amazonInitialTestData);
-//     var result = getInitialData();
-//     console.log(JSON.stringify(result));
-
-//     var dump1 = result.ItemSearchResponse.Items[0].Item;
-//     // console.log(dump1);
-
-//     dump1.forEach(function(itemSet) {
-//       console.log(itemSet);
-//       if (itemSet.ItemAttributes && itemSet.MediumImage && itemSet.Offers) {
-//           if (itemSet.ItemAttributes[0].ISBN !== undefined) {
-//             var necessaryFields = {
-//               price : (function() {return itemSet.Offers[0].Offer ? itemSet.Offers[0].Offer[0].OfferListing[0].Price[0].FormattedPrice[0] : "--"})(),
-//               title : itemSet.ItemAttributes[0].Title[0],
-//               category : itemSet.ItemAttributes[0].ProductGroup[0],
-//               publisher : itemSet.ItemAttributes[0].Publisher[0],
-//               image: itemSet.MediumImage[0].URL[0],
-//               pageUrl: itemSet.DetailPageURL[0],
-//               publicationDate: itemSet.ItemAttributes[0].PublicationDate[0],
-//               pages: (function() {return itemSet.ItemAttributes[0].NumberOfPages ? itemSet.ItemAttributes[0].NumberOfPages[0] : "--"})(),
-//               ean: itemSet.ItemAttributes[0].EAN[0],
-//               binding: itemSet.ItemAttributes[0].Binding[0],
-//               authors: (function() {return itemSet.ItemAttributes[0].Authors ? itemSet.ItemAttributes[0].Authors[0] : "--"})()
-//             }
-//             console.log(necessaryFields);
-//             var customPrice = necessaryFields.price.split("$")[1];
-//             var insertData = _.extend(necessaryFields, {
-//               "ownerId": "DbRr7gwsFk5gPcPvq",
-//               "customPrice": (Number(customPrice)/5).toFixed(2)
-//             });
-//             Products.insert(insertData);
-
-//           } else {
-//             var necessaryFields = {
-//               price : (function() {return itemSet.Offers[0].Offer ? itemSet.Offers[0].Offer[0].OfferListing[0].Price[0].FormattedPrice[0] : "--"})(),
-//               title : itemSet.ItemAttributes[0].Title[0],
-//               category : itemSet.ItemAttributes[0].ProductGroup[0],
-//               manufacturer : (function() {return itemSet.ItemAttributes[0].Manufacturer ? itemSet.ItemAttributes[0].Manufacturer[0] : "--"})(),
-//               brand : (function() {return itemSet.ItemAttributes[0].Brand ? itemSet.ItemAttributes[0].Brand[0] : "--"})(),
-//               image: itemSet.MediumImage[0].URL[0],
-//               asin: itemSet.ASIN[0],
-//               pageUrl: itemSet.DetailPageURL[0],
-//               model: (function() {return itemSet.ItemAttributes[0].Model ? itemSet.ItemAttributes[0].Model[0] : "--"})()
-//             }
-//             console.log(necessaryFields);
-//             var customPrice = necessaryFields.price.split("$")[1];
-//             var insertData = _.extend(necessaryFields, {
-//               "ownerId": "DbRr7gwsFk5gPcPvq",
-//               "customPrice": (Number(customPrice)/5).toFixed(2)
-//             });
-//             Products.insert(insertData);
-//           }
-//       } else {
-//         return;
-//       }
-//     })
-
-
-//   }, 5000)
-// })
-
