@@ -23,7 +23,7 @@ Template.connect.events({
   },
 
 	'click #confirmReturn': function() {
-		var connectionId = this._id;
+		var connectionId = this.connectData._id;
 		var ean = this.productData.ean;
 
 		var productTitle = this.productData.title;
@@ -59,7 +59,7 @@ Template.connect.events({
 	// },
 
 	'click #cancelRequest': function() {
-		connectionId = this._id;
+		connectionId = this.connectData._id;
 		console.log('Cancelling Book Request');
 
 		IonPopup.confirm({
@@ -80,12 +80,14 @@ Template.connect.events({
 	},
 
 	'click #ownerAccept': function() {
-    var requestor = this.connectData.requestor;
-		Meteor.call('ownerAccept', this.connectData._id, requestor, function(error, result) {
+    PartioLoad.show();
+    var requestor = this.requestorInfo();
+		Meteor.call('ownerAccept', this.connectData._id, requestor._id, function(error, result) {
 			if (!error) {
+        PartioLoad.hide();
 				IonPopup.show({
     			title: 'Great!',
-    			template: '<div class="center">Make sure you setup a meeting location and pass on the item to <strong>'+this.connectData.requestorData.profile.name+'</strong> once you receive the payment. </div>',
+    			template: '<div class="center">Make sure you setup a meeting location and pass on the item to <strong>'+requestor.profile.name+'</strong> once you receive the payment. </div>',
     			buttons:
     			[{
     				text: 'OK',
@@ -95,7 +97,11 @@ Template.connect.events({
     				}
     			}]
     		});
-			}
+			} else {
+        console.log('some error');
+        console.log(error);
+        PartioLoad.hide();
+      }
 		});
 	},
 

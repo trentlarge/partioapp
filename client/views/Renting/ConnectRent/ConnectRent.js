@@ -1,11 +1,4 @@
 Template.connectRent.rendered = function() {
-
-	//var dataContext = this.data.connectData;
-
-	//Chat input textarea auto-resize when more than 1 line is entered
-	//Session.set("_requestor", dataContext.requestor);
-	//Session.set("_owner", this.data.connectData.productData.ownerId);
-
   var nowTemp = new Date();
   var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
 
@@ -27,6 +20,7 @@ Template.connectRent.rendered = function() {
       "weeks": 0,
       "days": 0,
   }
+
   Session.set('rentPrice', rentPrice);
   Session.set('numberDays', 0);
   Session.set('numberWeeks', 0);
@@ -87,6 +81,8 @@ Template.connectRent.events({
 	'click #payAndRent': function() {
 		if (Meteor.user().profile.cards) {
 			Session.set('payRedirect', false);
+
+      console.log(this.connectData)
 			var payerCardId = Meteor.user().profile.cards.data[0].id;
 			var connectionId = this.connectData._id;
 			var payerCustomerId = Meteor.user().profile.customer.id;
