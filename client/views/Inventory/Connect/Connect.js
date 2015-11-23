@@ -27,7 +27,7 @@ Template.connect.events({
 		var ean = this.productData.ean;
 
 		var productTitle = this.productData.title;
-    	var searchCollectionId = Search.findOne({title: productTitle})._id;
+    var searchCollectionId = Search.findOne({title: productTitle})._id;
 
 		IonPopup.confirm({
 			cancelText: 'No',
@@ -49,15 +49,14 @@ Template.connect.events({
 	},
 
   'click #btnCallUser': function(err, template) {
-      console.log(this.data);
-      //var _requestor = Session.get("_requestor");
-      //var _owner 	 	 = Session.get("_owner");
-      //PartioCall.init(_requestor, _owner);
+      var _requestor = this.connectData.requestor;
+      var _owner 	 	 = this.connectData.productData.ownerId;
+      PartioCall.init(_requestor, _owner);
   },
 
-	'click #startChatOwner': function() {
-		IonModal.open("chat", Connections.findOne(this));
-	},
+	// 'click #startChatOwner': function() {
+	// 	IonModal.open("chat", Connections.findOne(this));
+	// },
 
 	'click #cancelRequest': function() {
 		connectionId = this._id;
@@ -72,13 +71,11 @@ Template.connect.events({
 				console.log('Cancelled')
 			},
 			onOk: function() {
-
 				Connections.remove({"_id": connectionId});
-				Chat.remove({connectionId: connectionId})
+				//Chat.remove({connectionId: connectionId})
 				IonPopup.close();
 				Router.go('/inventory');
 			}
-
 		});
 	},
 
@@ -103,10 +100,11 @@ Template.connect.events({
 	},
 
 	'click #changeMeetupLocation': function() {
-		connectionId = this._id;
+    PartioLoad.show();
+		connectionId = this.connectData._id;
 		console.log('connectionId: '+ connectionId);
-		meetingCoordinates = Connections.findOne(this._id).meetupLatLong;
-		CheckLocatioOn();
+		meetingCoordinates = this.connectData.meetupLatLong;
+		CheckLocationOn();
 	}
 })
 
@@ -114,7 +112,13 @@ var meetingCoordinates;
 var connectionId;
 var currentPosition;
 
+var CheckLocationOn = function(){
+  navigator.geolocation.getCurrentPosition(onSuccess, onError);
+  console.log('getCurrentPosition');
+}
+
 var onSuccess = function(position){
+  PartioLoad.hide();
 	meetingCoordinates = Connections.findOne(connectionId).meetupLatLong;
 	currentPosition = position;
 	console.log('onSuccess');
@@ -137,7 +141,8 @@ var onSuccess = function(position){
 	IonModal.open('map', essentialData);
 };
 
-function onError(error) {
+var onError = function(error) {
+  PartioLoad.hide();
 	console.log('onError');
 
 	IonPopup.show({

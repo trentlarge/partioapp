@@ -6,39 +6,36 @@ Template.connectRent.rendered = function() {
 	//Session.set("_requestor", dataContext.requestor);
 	//Session.set("_owner", this.data.connectData.productData.ownerId);
 
-    var nowTemp = new Date();
-    var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
+  var nowTemp = new Date();
+  var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
 
-    $('.range').datepicker({
-        format: 'mm-dd-yyyy',
-        startDate: 'd',
-        todayHighlight: true,
-        toggleActive: true,
-        inputs: $('.range-start, .range-end'),
-    });
+  $('.range').datepicker({
+      format: 'mm-dd-yyyy',
+      startDate: 'd',
+      todayHighlight: true,
+      toggleActive: true,
+      inputs: $('.range-start, .range-end'),
+  });
 
-    $('.datepicker-days .active').click(function(){
-        $(this).removeClass('selected').removeClass('active');
-    });
+  $('.datepicker-days .active').click(function(){
+      $(this).removeClass('selected').removeClass('active');
+  });
 
-    var rentPrice = {
-        "semesters": 0,
-        "months": 0,
-        "weeks": 0,
-        "days": 0,
-    }
-
-    Session.set('rentPrice', rentPrice);
-    Session.set('numberDays', 0);
-    Session.set('numberWeeks', 0);
-    Session.set('numberMonths', 0);
-    Session.set('numberSemesters', 0);
-
+  var rentPrice = {
+      "semesters": 0,
+      "months": 0,
+      "weeks": 0,
+      "days": 0,
+  }
+  Session.set('rentPrice', rentPrice);
+  Session.set('numberDays', 0);
+  Session.set('numberWeeks', 0);
+  Session.set('numberMonths', 0);
+  Session.set('numberSemesters', 0);
 }
 
 Template.connectRent.events({
 	'click .product-details': function(e, template) {
-
 		var productDetails = $('.product-details');
 		var productDetailsItem = $('.product-details-item');
 
@@ -54,7 +51,6 @@ Template.connectRent.events({
 	'click #btnCallUser': function(err, template) {
 		var _requestor = this.connectData.requestor;
 		var _owner 	 	 = this.connectData.productData.ownerId;
-
 		PartioCall.init(_requestor, _owner);
 	},
 
@@ -77,12 +73,10 @@ Template.connectRent.events({
 				})
 
 				IonPopup.close();
-//                Router.go('/renting');
-				IonModal.open("feedback", Connections.findOne(connectionId));
+//      Router.go('/renting');
+				IonModal.open("feedback", this.connectData);
 			}
-
 		});
-
 	},
 
 	// 'click #startChat': function() {
@@ -91,7 +85,6 @@ Template.connectRent.events({
 	//
 
 	'click #payAndRent': function() {
-
 		if (Meteor.user().profile.cards) {
 			Session.set('payRedirect', false);
 			var payerCardId = Meteor.user().profile.cards.data[0].id;
@@ -133,7 +126,6 @@ Template.connectRent.events({
 						}
 					})
 				}
-
 			});
 		} else {
 			Session.set('payRedirect', this.connectData._id);
@@ -153,9 +145,9 @@ Template.connectRent.events({
 				console.log('Cancelled')
 			},
 			onOk: function() {
-
+        //remove data from client is not a good pratice
 				Connections.remove({"_id": connectionId});
-				Chat.remove({connectionId: connectionId})
+				//Chat.remove({connectionId: connectionId})
 				IonPopup.close();
 				Router.go('/listing');
 			}
@@ -165,17 +157,21 @@ Template.connectRent.events({
 
 	'click #showMap': function(e, t) {
 		e.preventDefault();
-
 		var connection = this.connectData;
-		if(!connection) {
+
+    if(!connection) {
 			return false;
 		}
+
+    PartioLoad.show();
 		this.meetupLocation = connection.meetupLocation || { lat: 0, lng: 0 };
 
 		if (this.meetupLatLong === "Location not set") {
+      PartioLoad.hide();
 			return false;
 		} else {
 			navigator.geolocation.getCurrentPosition(function(position) {
+        PartioLoad.hide();
 				IonModal.open('onlyMap', {
 					meetupLocation: connection.meetupLatLong,
 					takerLocation: {
@@ -184,25 +180,10 @@ Template.connectRent.events({
 					}
 				});
 			}, function(error) {
+        PartioLoad.hide();
 				// error
 				console.log('Err: '+ error);
 			});
 		}
 	}
 });
-
-// function formatDate(dateObject) {
-//     var d = new Date(dateObject);
-//     var day = d.getDate();
-//     var month = d.getMonth() + 1;
-//     var year = d.getFullYear();
-//     if (day < 10) {
-//         day = "0" + day;
-//     }
-//     if (month < 10) {
-//         month = "0" + month;
-//     }
-//     var date = month + "-" + day + "-" + year;
-//
-//     return date;
-// }

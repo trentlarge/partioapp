@@ -13,11 +13,6 @@ formatDate = function(dateObject) {
     return date;
 }
 
-CheckLocationOn = function(){
-  navigator.geolocation.getCurrentPosition(onSuccess, onError);
-  console.log('getCurrentPosition');
-}
-
 ShowNotificationMessage = function(strMessage){
 	IonPopup.show({
 		title: 'Alert',

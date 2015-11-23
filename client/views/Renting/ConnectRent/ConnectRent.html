@@ -9,140 +9,122 @@
 
   {{#ionView}}
     {{#ionContent class="connectRent prevent-keyboardglitch"}}
-
       <div class="padding-horizontal padding-vertical list">
-
-        {{#if isBorrowed}}
-            <div class="item">
-                <div class="center" style="width:100%">
-                    {{getDaysLeft}}
-                </div>
+        {{#if ../isBorrowed}}
+          <div class="item">
+            <div class="center" style="width:100%">
+              {{../getDaysLeft}}
             </div>
+          </div>
         {{/if}}
 
         <div class="item item-divider product-details"><h2>Product Details <i class="chevron-icon icon ion-chevron-right"></i></h2></div>
 
         <div class="item product-details-item hidden">
-
-            <div class="product-image-box">
-                <img class="connect-thumbnail" src="{{connectData.productData.image}}">
-            </div>
-
-            <div class="product-content">
-                <p class="product-title">{{connectData.productData.title}}</p>
-                <p><i class="icon {{../getCategoryIcon}}"></i> {{connectData.productData.amazonCategory}}</p>
-                <p><i class="icon ion-cash"></i> {{connectData.productData.price}}</p>
-                <p><i class="icon ion-clipboard"></i> {{../getCondition}}</p>
-            </div>
-
+          <div class="product-image-box">
+              <img class="connect-thumbnail" src="{{connectData.productData.image}}">
+          </div>
+          <div class="product-content">
+              <p class="product-title">{{connectData.productData.title}}</p>
+              <p><i class="icon {{../getCategoryIcon}}"></i> {{connectData.productData.amazonCategory}}</p>
+              <p><i class="icon ion-cash"></i> {{connectData.productData.price}}</p>
+              <p><i class="icon ion-clipboard"></i> {{../getCondition}}</p>
+          </div>
         </div>
 
         <div class="item product-details-item center hidden">
-            <table class="rent-table">
-                <tbody class="prices">
-                <tr>
-                    <th><i>D</i></th>
-                    <th><i>W</i></th>
-                    <th><i>M</i></th>
-                    <th><i>S</i></th>
-                </tr>
-                <tr>
-                    <td>${{connectData.productData.rentPrice.day}}</td>
-                    <td>${{connectData.productData.rentPrice.week}}</td>
-                    <td>${{connectData.productData.rentPrice.month}}</td>
-                    <td>${{connectData.productData.rentPrice.semester}}</td>
-                </tr>
-                </tbody>
-            </table>
+          <table class="rent-table">
+            <tbody class="prices">
+            <tr>
+              <th><i>D</i></th>
+              <th><i>W</i></th>
+              <th><i>M</i></th>
+              <th><i>S</i></th>
+            </tr>
+            <tr>
+              <td>${{connectData.productData.rentPrice.day}}</td>
+              <td>${{connectData.productData.rentPrice.week}}</td>
+              <td>${{connectData.productData.rentPrice.month}}</td>
+              <td>${{connectData.productData.rentPrice.semester}}</td>
+            </tr>
+            </tbody>
+          </table>
         </div>
 
         <div class="item item-divider"><h2>Lending Details</h2></div>
 
         <div class="item">
+          <div class="profile-image-box">
+            <div style="background: url('{{ownerAvatar}}') no-repeat; background-size:cover; background-position: 50% 50%;" class="profile-avatar"></div>
+            <p class="main-title-text">{{connectData.productData.ownerData.profile.name}} </p>
+            <p class="college">{{connectData.productData.ownerData.profile.college}}</p>
+            <span class="rating-box"> {{> rating}}</span>
+          </div>
 
-            {{#with userInfo}}
-                <div class="profile-image-box">
-                    {{#if noProfileYet}}
-                    <div style="background: url('profile_image_placeholder.jpg') no-repeat; background-size:cover; background-position: 50% 50%;" class="profile-avatar"></div>
-                    {{else}}
-                    <div style="background: url('{{avatar}}') no-repeat; background-size:cover; background-position: 50% 50%;" class="profile-avatar"></div>
-                    {{/if}}
-
-                    <p class="main-title-text">{{name}} </p>
-                    <p class="college">{{college}}</p>
-                    <span class="rating-box"> {{> rating}}</span>
-                </div>
-            {{/with}}
-
-            <div class="profile-content">
-                <table class="borrow-details">
-                    <tbody>
-                        <tr>
-                            <td> {{getRequestDate}} </td>
-                        </tr>
-                        <tr>
-                            <td class="divider"> <i class="icon ion-ios-calendar-outline"></i> Period: </td>
-                        </tr>
-                        <tr>
-                            <td> {{getTotalDays}} </td>
-                        </tr>
-                        <tr>
-                            <td> {{getStartDate}} to {{getEndDate}} </td>
-                        </tr>
-                         <tr>
-                            <td class="divider"> <i class="icon ion-cash"></i> Price: </td>
-                        </tr>
-                        <tr>
-                            <td> Total: <span class="price">${{borrowDetails.price.total}}</span> </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+          <div class="profile-content">
+            <table class="borrow-details">
+              <tbody>
+                <tr>
+                  <td> {{../getRequestDate}} </td>
+                </tr>
+                <tr>
+                  <td class="divider"> <i class="icon ion-ios-calendar-outline"></i> Period: </td>
+                </tr>
+                <tr>
+                  <td> {{../getTotalDays}} </td>
+                </tr>
+                <tr>
+                  <td> {{../getStartDate}} to {{../getEndDate}} </td>
+                </tr>
+                <tr>
+                  <td class="divider"> <i class="icon ion-cash"></i> Price: </td>
+                </tr>
+                <tr>
+                  <td> Total: <span class="price">${{connectData.borrowDetails.price.total}}</span> </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
-
         <div class="item tabs tabs-icon-left">
-            <a class="tab-item" href="/chat/{{this._id}}">
-                <i class="icon ion-ios-chatboxes assertive"></i>
-                CHAT
-            </a>
+          <a class="tab-item" href="/chat/{{connectData._id}}">
+            <i class="icon ion-ios-chatboxes assertive"></i>
+            CHAT
+          </a>
+          <a class="tab-item" id="btnCallUser">
+            <i class="icon ion-ios-telephone assertive"></i>
+            CALL
+          </a>
 
-            <a class="tab-item" id="btnCallUser">
-                <i class="icon ion-ios-telephone assertive"></i>
-                CALL
+          {{#if ../paymentPending}}
+            <a class="tab-item" id="cancelRequest">
+              <i class="icon ion-ios-close royal"></i>
+              CANCEL
             </a>
-
-            {{#if paymentPending}}
-                <a class="tab-item" id="cancelRequest">
-                    <i class="icon ion-ios-close royal"></i>
-                    CANCEL
-                </a>
-            {{/if}}
+          {{/if}}
         </div>
 
-        {{#if isReturned}}
+        {{#if ../isReturned}}
         {{else}}
-            <div class="item item-divider">
-                <h2>Meetup Location</h2>
-            </div>
-            <a class="item item-button-right" id="showMap" href="#">
-                <p>{{preferredLocation}}</p>
-            </a>
+          <div class="item item-divider">
+            <h2>Meetup Location</h2>
+          </div>
+          <a class="item item-button-right" id="showMap" href="#">
+            <p>{{preferredLocation}}</p>
+          </a>
         {{/if}}
 
-        {{#if paymentDone}}
-            {{#unless itemReturnDone}}
-                <button id="returnItem" class="button button-block">RETURN ITEM</button>
-            {{/unless}}
+        {{#if ../paymentDone}}
+          {{#unless ../itemReturnDone}}
+            <button id="returnItem" class="button button-block">RETURN ITEM</button>
+          {{/unless}}
         {{else}}
-            {{#if approvedStatus}}
-                <button id="payAndRent" class="button button-block button-energized">
-                  PAY TOTAL &nbsp; ${{borrowDetails.price.total}}</button>
-            {{else}}
-                <button id="payAndRent" class="button button-block button-energized disabled">
-                  AWAITING APPROVAL</button>
-            {{/if}}
+          {{#if ../approvedStatus}}
+            <button id="payAndRent" class="button button-block button-energized">PAY TOTAL &nbsp; ${{connectData.borrowDetails.price.total}}</button>
+          {{else}}
+            <button id="payAndRent" class="button button-block button-energized disabled">AWAITING APPROVAL</button>
+          {{/if}}
         {{/if}}
-
       </div>
     {{/ionContent}}
   {{/ionView}}
