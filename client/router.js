@@ -4,6 +4,9 @@ Router.configure({
 	loadingTemplate: 'loadingData',
 });
 
+
+
+
 // !!!
 // Temporary solution: subscribe to all data before we setup controllers
 //
@@ -17,6 +20,9 @@ Router.waitOn(function () {
 	Meteor.subscribe("current_user_data");
 	//Meteor.subscribe("all_users");
 });
+
+
+
 //
 // !!!
 

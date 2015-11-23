@@ -16,7 +16,7 @@ ConnectController = RouteController.extend({
 		if(this.connection())
 			_subs.push( Meteor.subscribe("singleUser", this.connection().requestor) );
 
-			console.log(_subs);
+			// console.log(_subs);
 
 		return _subs;
 	},

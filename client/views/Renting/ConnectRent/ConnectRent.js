@@ -1,8 +1,10 @@
 Template.connectRent.rendered = function() {
-	var dataContext = this.data;
+
+	//var dataContext = this.data.connectData;
+
 	//Chat input textarea auto-resize when more than 1 line is entered
-	Session.set("_requestor", dataContext.requestor);
-	Session.set("_owner", dataContext.productData.ownerId);
+	//Session.set("_requestor", dataContext.requestor);
+	//Session.set("_owner", this.data.connectData.productData.ownerId);
 
     var nowTemp = new Date();
     var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
@@ -35,30 +37,31 @@ Template.connectRent.rendered = function() {
 }
 
 Template.connectRent.events({
-    'click .product-details': function(e, template) {
+	'click .product-details': function(e, template) {
 
-      var productDetails = $('.product-details');
-      var productDetailsItem = $('.product-details-item');
+		var productDetails = $('.product-details');
+		var productDetailsItem = $('.product-details-item');
 
-        if(productDetailsItem.hasClass('hidden')){
-            productDetailsItem.removeClass('hidden');
-            productDetails.find('.chevron-icon').removeClass('ion-chevron-right').addClass('ion-chevron-down');
-        }
-        else {
-            productDetailsItem.addClass('hidden');
-            productDetails.find('.chevron-icon').removeClass('ion-chevron-down').addClass('ion-chevron-right');
-        }
-    },
+	  if(productDetailsItem.hasClass('hidden')){
+	      productDetailsItem.removeClass('hidden');
+	      productDetails.find('.chevron-icon').removeClass('ion-chevron-right').addClass('ion-chevron-down');
+	  } else {
+	      productDetailsItem.addClass('hidden');
+	      productDetails.find('.chevron-icon').removeClass('ion-chevron-down').addClass('ion-chevron-right');
+	  }
+	},
+
 	'click #btnCallUser': function(err, template) {
-		var _requestor = Session.get("_requestor");
-		var _owner 	 	 = Session.get("_owner");
+		var _requestor = this.connectData.requestor;
+		var _owner 	 	 = this.connectData.productData.ownerId;
 
 		PartioCall.init(_requestor, _owner);
 	},
+
 	'click #returnItem': function() {
-		var connectionId = this._id;
-		var requestorName = Meteor.users.findOne(this.requestor).profile.name;
-		var ownerId = this.productData.ownerId;
+		var connectionId 	= this.connectData._id;
+		var requestorName = this.connectData.requestorData.profile.name;
+		var ownerId 			= this.connectData.productData.ownerId;
 
 		IonPopup.confirm({
 			cancelText: 'Cancel',
@@ -81,21 +84,24 @@ Template.connectRent.events({
 		});
 
 	},
-	'click #startChat': function() {
-		IonModal.open("chat", Connections.findOne(this));
-	},
+
+	// 'click #startChat': function() {
+	// 	IonModal.open("chat", Connections.findOne(this));
+	// },
+	//
+
 	'click #payAndRent': function() {
 
 		if (Meteor.user().profile.cards) {
 			Session.set('payRedirect', false);
 			var payerCardId = Meteor.user().profile.cards.data[0].id;
-			var connectionId = this._id;
+			var connectionId = this.connectData._id;
 			var payerCustomerId = Meteor.user().profile.customer.id;
-			var recipientAccountId = Meteor.users.findOne(this.productData.ownerId).profile.stripeAccount.id;
-			var amount = this.borrowDetails.price.total;
+			var recipientAccountId = this.connectData.productData.ownerData.profile.stripeAccount.id;
+			var amount = this.connectData.borrowDetails.price.total;
 			var transactionsId = Meteor.user().profile.transactionsId;
-			var transactionsRecipientId = Meteor.users.findOne(this.productData.ownerId).profile.transactionsId;
-			var recipientDebitId = Meteor.users.findOne(this.productData.ownerId).profile.payoutCard.id;
+			var transactionsRecipientId = this.connectData.productData.ownerData.profile.transactionsId;
+			var recipientDebitId = this.connectData.productData.ownerData.profile.payoutCard.id;
 
 			IonPopup.confirm({
 				cancelText: 'Cancel',
@@ -130,12 +136,12 @@ Template.connectRent.events({
 
 			});
 		} else {
-			Session.set('payRedirect', this._id);
+			Session.set('payRedirect', this.connectData._id);
 			Router.go('/profile/savedcards');
 		}
 	},
 	'click #cancelRequest': function() {
-		connectionId = this._id;
+		connectionId = this.connectData._id;
 		console.log('Cancelling Book Request');
 
 		IonPopup.confirm({
@@ -160,7 +166,7 @@ Template.connectRent.events({
 	'click #showMap': function(e, t) {
 		e.preventDefault();
 
-		var connection = Connections.findOne(this._id);
+		var connection = this.connectData;
 		if(!connection) {
 			return false;
 		}
@@ -185,18 +191,18 @@ Template.connectRent.events({
 	}
 });
 
-function formatDate(dateObject) {
-    var d = new Date(dateObject);
-    var day = d.getDate();
-    var month = d.getMonth() + 1;
-    var year = d.getFullYear();
-    if (day < 10) {
-        day = "0" + day;
-    }
-    if (month < 10) {
-        month = "0" + month;
-    }
-    var date = month + "-" + day + "-" + year;
-
-    return date;
-}
+// function formatDate(dateObject) {
+//     var d = new Date(dateObject);
+//     var day = d.getDate();
+//     var month = d.getMonth() + 1;
+//     var year = d.getFullYear();
+//     if (day < 10) {
+//         day = "0" + day;
+//     }
+//     if (month < 10) {
+//         month = "0" + month;
+//     }
+//     var date = month + "-" + day + "-" + year;
+//
+//     return date;
+// }

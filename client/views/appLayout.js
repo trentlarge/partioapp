@@ -81,64 +81,40 @@ Template.appLayout.helpers({
 			default:
 				return true;
 		}
-	}
-});
-
-Template.sAlertCustom.events({
-	'click .whichalert': function() {
-		Router.go(this.goToChat)
 	},
-	'click .s-alert-close': function(e) {
-		e.stopPropagation();
-	}
-})
 
-Meteor.startup(function() {
-  Stripe.setPublishableKey('pk_test_OYfO9mHIQFha7How6lNpwUiQ');
-
-  GoogleMaps.load({
-  	key: 'AIzaSyDMyxBlvIc4b4hoWqTw4lGr5OviU8FlQc8',
-  	libraries: 'places'
-  });
-
-  sAlert.config({
-    effect: 'jelly',
-    position: 'top',
-    timeout: 6000,
-    html: false,
-    onRouteClose: true,
-    stack: {
-        spacing: 1, // in px
-        limit: 3 // when fourth alert appears all previous ones are cleared
-    },
-    offset: 0, // in px - will be added to first alert (bottom or top - depends of the position in config)
-    beep: '/alert.mp3'  // or you can pass an object:
-  });
 });
 
-Template.registerHelper('cleanDate', function() {
-	return moment(this.timestamp).fromNow();
-});
+getNewNotifications = function(){
+	return Notifications.find({toId: Meteor.userId(), read: false});
+}
 
-Template.registerHelper('profilePic', function(avatar) {
-	return (avatar === "notSet") ? "/profile_image_placeholder.jpg" : avatar;
-})
+getNewChatMessages = function(){
+	return Connections.find({
+		$or: [{requestor: Meteor.userId()}, {"productData.ownerId": Meteor.userId()}],
+		"chat.state": "new",
+		"chat.sender": {$ne: Meteor.userId()}
+	});
+}
 
-Session.set('alertCount', 0);
+getChatMessages = function(){
+		return Connections.find({ $or: [{requestor: Meteor.userId()}, {"productData.ownerId": Meteor.userId()}] });
+}
 
-//CREATING a local collection for Chat
+
+
 //Chat = new Meteor.Collection(null);
 
-
 Template.appLayout.onRendered(function() {
-	//console.log('aquiiii');
-	console.log(this.data)
 
 	this.autorun(function() {
+		var _newNotificatons = getNewNotifications();
+		var _newChatMessages = getNewChatMessages();
+		var _chatMessages 	 = getChatMessages();
+		//console.log(getNewChatMessages().fetch())
 
+		//return false;
 
-		var _newNotificatons = this.notifications;
-		//var _newChatMessages = this.newChatMessages;
 
 		//var query1 = Notifications.find({toId: Meteor.userId(), read: false});
 
@@ -150,32 +126,32 @@ Template.appLayout.onRendered(function() {
 
 		// var chatQuery = this.connectDat
 
-		var _chatMessages = this.chatMessages;
+
 		//Connections.find({ $or: [{requestor: Meteor.userId()}, {"productData.ownerId": Meteor.userId()}] });
 
 		_chatMessages.observeChanges({
 			changed: function(id, fields) {
-				// console.log(id);
-				// console.log(fields);
+				console.log(id);
+				console.log(fields);
 
-				fields.chat.forEach(function(item) {
-					if ( (item.sender !== Meteor.userId) && (!Chat.findOne({connectionId: id, timestamp: item.timestamp})) ) {
-						Chat.insert({
-							connectionId: id,
-							message: item.message,
-							state: "new",
-							timestamp: item.timestamp
-						});
-
-						if (Iron.Location.get().path !== '/chat/' + id ) {
-							sAlert.info({
-								goToChat: '/chat/' + id,
-								headerMessage: Meteor.users.findOne(item.sender).profile.name + ':',
-								message: item.message
-							});
-						}
-					}
-				})
+				// fields.chat.forEach(function(item) {
+				// 	if ( (item.sender !== Meteor.userId) && (!Chat.findOne({connectionId: id, timestamp: item.timestamp})) ) {
+				// 		Chat.insert({
+				// 			connectionId: id,
+				// 			message: item.message,
+				// 			state: "new",
+				// 			timestamp: item.timestamp
+				// 		});
+				//
+				// 		if (Iron.Location.get().path !== '/chat/' + id ) {
+				// 			sAlert.info({
+				// 				goToChat: '/chat/' + id,
+				// 				headerMessage: Meteor.users.findOne(item.sender).profile.name + ':',
+				// 				message: item.message
+				// 			});
+				// 		}
+				// 	}
+				// })
 
 			}
 		})
@@ -277,6 +253,50 @@ Template.appLayout.onRendered(function() {
 	})
 })
 
+
+Template.registerHelper('cleanDate', function() {
+	return moment(this.timestamp).fromNow();
+});
+
+Template.registerHelper('profilePic', function(avatar) {
+	return (avatar === "notSet") ? "/profile_image_placeholder.jpg" : avatar;
+})
+
+Template.sAlertCustom.events({
+	'click .whichalert': function() {
+		Router.go(this.goToChat)
+	},
+	'click .s-alert-close': function(e) {
+		e.stopPropagation();
+	}
+})
+
+Meteor.startup(function() {
+  Stripe.setPublishableKey('pk_test_OYfO9mHIQFha7How6lNpwUiQ');
+
+  GoogleMaps.load({
+  	key: 'AIzaSyDMyxBlvIc4b4hoWqTw4lGr5OviU8FlQc8',
+  	libraries: 'places'
+  });
+
+  sAlert.config({
+    effect: 'jelly',
+    position: 'top',
+    timeout: 6000,
+    html: false,
+    onRouteClose: true,
+    stack: {
+        spacing: 1, // in px
+        limit: 3 // when fourth alert appears all previous ones are cleared
+    },
+    offset: 0, // in px - will be added to first alert (bottom or top - depends of the position in config)
+    beep: '/alert.mp3'  // or you can pass an object:
+  });
+});
+
+Session.set('alertCount', 0);
+
+//CREATING a local collection for Chat
 
 var IsPopUpOpen;
 

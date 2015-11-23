@@ -9,34 +9,34 @@
 
   {{#ionView}}
     {{#ionContent class="connectRent prevent-keyboardglitch"}}
-    
+
       <div class="padding-horizontal padding-vertical list">
 
-        {{#if isBorrowed}} 
+        {{#if isBorrowed}}
             <div class="item">
                 <div class="center" style="width:100%">
                     {{getDaysLeft}}
                 </div>
-            </div>    
-        {{/if}}
-          
-        <div class="item item-divider product-details"><h2>Product Details <i class="chevron-icon icon ion-chevron-right"></i></h2></div>
-          
-        <div class="item product-details-item hidden">
-          
-            <div class="product-image-box">
-                <img class="connect-thumbnail" src="{{productData.image}}">
             </div>
-          
+        {{/if}}
+
+        <div class="item item-divider product-details"><h2>Product Details <i class="chevron-icon icon ion-chevron-right"></i></h2></div>
+
+        <div class="item product-details-item hidden">
+
+            <div class="product-image-box">
+                <img class="connect-thumbnail" src="{{connectData.productData.image}}">
+            </div>
+
             <div class="product-content">
-                <p class="product-title">{{productData.title}}</p>
-                <p><i class="icon {{getCategoryIcon}}"></i> {{productData.amazonCategory}}</p>
-                <p><i class="icon ion-cash"></i> {{productData.price}}</p>
-                <p><i class="icon ion-clipboard"></i> {{getCondition}}</p>
+                <p class="product-title">{{connectData.productData.title}}</p>
+                <p><i class="icon {{../getCategoryIcon}}"></i> {{connectData.productData.amazonCategory}}</p>
+                <p><i class="icon ion-cash"></i> {{connectData.productData.price}}</p>
+                <p><i class="icon ion-clipboard"></i> {{../getCondition}}</p>
             </div>
 
         </div>
-          
+
         <div class="item product-details-item center hidden">
             <table class="rent-table">
                 <tbody class="prices">
@@ -47,19 +47,19 @@
                     <th><i>S</i></th>
                 </tr>
                 <tr>
-                    <td>${{productData.rentPrice.day}}</td>
-                    <td>${{productData.rentPrice.week}}</td>
-                    <td>${{productData.rentPrice.month}}</td>
-                    <td>${{productData.rentPrice.semester}}</td>
+                    <td>${{connectData.productData.rentPrice.day}}</td>
+                    <td>${{connectData.productData.rentPrice.week}}</td>
+                    <td>${{connectData.productData.rentPrice.month}}</td>
+                    <td>${{connectData.productData.rentPrice.semester}}</td>
                 </tr>
                 </tbody>
             </table>
         </div>
-          
+
         <div class="item item-divider"><h2>Lending Details</h2></div>
-          
+
         <div class="item">
-            
+
             {{#with userInfo}}
                 <div class="profile-image-box">
                     {{#if noProfileYet}}
@@ -73,7 +73,7 @@
                     <span class="rating-box"> {{> rating}}</span>
                 </div>
             {{/with}}
-            
+
             <div class="profile-content">
                 <table class="borrow-details">
                     <tbody>
@@ -99,7 +99,7 @@
                 </table>
             </div>
         </div>
-          
+
         <div class="item tabs tabs-icon-left">
             <a class="tab-item" href="/chat/{{this._id}}">
                 <i class="icon ion-ios-chatboxes assertive"></i>
@@ -111,7 +111,7 @@
                 CALL
             </a>
 
-            {{#if paymentPending}}    
+            {{#if paymentPending}}
                 <a class="tab-item" id="cancelRequest">
                     <i class="icon ion-ios-close royal"></i>
                     CANCEL
@@ -128,7 +128,7 @@
                 <p>{{preferredLocation}}</p>
             </a>
         {{/if}}
-          
+
         {{#if paymentDone}}
             {{#unless itemReturnDone}}
                 <button id="returnItem" class="button button-block">RETURN ITEM</button>
