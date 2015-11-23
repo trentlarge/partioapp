@@ -4,6 +4,7 @@
 // Ionic
 @import '.meteor/local/build/programs/server/assets/packages/meteoric_ionic-sass/_ionic';
 @import '.meteor/local/build/programs/server/assets/packages/meteoric_ionicons-sass/_ionicons';
+
 // .logo-spinner {
 //     height: 150px;
 //     -webkit-animation-name: rotate;
@@ -959,7 +960,7 @@ input[type="color"] {
     padding: 14px;
     height: 100%;
     font-size: 24px;
-} 
+}
 
 .item-radio input:checked ~ .item-content {
   background: #FFF;
