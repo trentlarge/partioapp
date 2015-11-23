@@ -13,12 +13,9 @@ Template.productDetail.events({
   }
 });
 
-Template.productDetail.rendered = function() {
-  console.log("product detail rendered");
-  Template.productDetail.helpers({
-    getCategoryIcon: function(cat) {
-      console.log(cat);
-      return Categories.getCategoryIconByText(cat);
-    }
-  })
-}
+Template.productDetail.helpers({
+  getCategoryIcon: function(category) {
+    console.log(category);
+    return Categories.getCategoryIconByText(category);
+  }
+})

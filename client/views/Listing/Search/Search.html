@@ -13,7 +13,7 @@
     <div class="item item-divider"><h2>{{ search.title }}</h2></div>
       <div class="list">
         {{#each products }}
-          {{ products.title }}
+
         <a class="item" href="#">
           <div class="profile-image-box">
             <div style="background: url({{ ../ownerAvatar ownerData.profile.avatar }}) no-repeat; background-size:cover; background-position: 50% 50%;" class="profile-avatar"></div>
@@ -36,12 +36,12 @@
                                 <td>${{rentPrice.day}}</td>
                                 <td>${{rentPrice.week}}</td>
                                 <td>${{rentPrice.month}}</td>
-                                <td>${{Price.semester}}</td>
+                                <td>${{rentPrice.semester}}</td>
                             </tr>
                         </tbody>
                     </table>
               </p>
-              <p class="main-sub-text">Condition of the item: {{getCondition}}</p>
+              <p class="main-sub-text">Condition of the item: {{ ../getCondition conditionId }}</p>
 
               {{#if ../requestSent}}
                 <button class="button button-block" disabled>REQUEST SENT</button>
@@ -50,16 +50,14 @@
                   <button class="button button-block" disabled>OWNER</button>
                 {{else}}
                     {{#if ../qtynotZero}}
-<!--                        <button class="button button-block" data-ion-modal="requestRent">REQUEST</button>-->
                       <button id="requestProduct" class="button button-block">REQUEST</button>
                     {{else}}
                       <button class="button button-block" disabled>UNAVAIBLE</button>
                     {{/if}}
                 {{/if}}
               {{/if}}
-              
-<!--                <button id="moreInfo" class="button button-block">MORE INFO</button> -->
-                    <button id="moreInfo" class="button button-block">MORE INFO</button>
+
+              <button id="moreInfo" class="button button-block">MORE INFO</button>
           </div>
         </a>
         {{/each}}

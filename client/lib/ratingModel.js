@@ -37,14 +37,14 @@ app.model.Rating = (function () {
                 {
                     index: 5,
                     value: 'Excellent',
-                }      
+                }
             ];
         },
-       
+
         getConditions: function() {
             return this.conditions;
         },
-       
+
         getConditionByIndex: function(index) {
             return this.conditions[index].value;
         }
