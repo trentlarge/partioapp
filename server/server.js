@@ -511,9 +511,11 @@ Meteor.methods({
       throw new Meteor.Error('Error while adding user as a customer to payment profile');
     }
   },
-  'delCustomer': function(tokenId, customerId, MeteorUserId) {
+  'delCustomer': function(customerId, MeteorUserId) {
 
     console.log('deletado');
+    var allCards = Stripe.customers.listCards('cus_6omXOz0ZAXVwrm');
+    console.log(allCards);
 
       Stripe.customers.deleteCard(customerId,"card_17AajxEqax26zIzTuZZ4lMgH",function(err, confirmation) {
           // asynchronously called

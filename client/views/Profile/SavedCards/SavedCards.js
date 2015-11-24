@@ -13,7 +13,7 @@ Template.savedCards.events({
 						onOk: function()
 						{
 							console.log('Ok adicionado');
-							Meteor.call('delCustomer', token.id, Meteor.user().profile.customer.id, Meteor.userId(), function(error, result) {
+							Meteor.call('delCustomer',Meteor.user().profile.customer.id, Meteor.userId(), function(error, result) {
 
 								console.log('chama metodo delCustomer');
 								console.log(error);
