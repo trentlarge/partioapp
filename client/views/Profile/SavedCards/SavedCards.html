@@ -12,25 +12,7 @@
 
         <br>
         <div class="padding list">
-          <div class="item item-divider item-button-right"><h3>Receive Funds</h3><button id="test-card-1" class="button button-small push-up button-clear"><h6 class="positive">Test Cards</h6></button></div>
 
-          {{#with addedDebitCard}}
-          <a class="item item-icon-right">
-            <p>{{brand}}&nbsp;&nbsp; XXXX-{{last4}}</p>
-            <i class="icon ion-checkmark energized custom-icon"></i>
-          </a>
-          {{else}}
-
-          {{/with}}
-
-                      <a class="item item-icon-left" id="add-debit-card">
-            <i class="icon ion-ios-plus-outline energized custom-icon"></i>
-            <p class="graytext">Debit Card Only</p>
-          </a>
-
-        </div>
-
-        <div class="padding-horizontal list">
           <div class="item item-divider item-button-right"><h3>Payment Cards</h3><button id="test-card-2" class="button button-small push-up button-clear"><h6 class="positive">Test Cards</h6></button></div>
           <!-- {{#each addedCards}}
           <a class="item item-icon-right">
@@ -55,6 +37,25 @@
 
             <p class="graytext">Credit/Debit Card</p>
           </a>
+        </div>
+
+        <div class="padding-horizontal list">
+          <div class="item item-divider item-button-right"><h3>Receive Funds</h3><button id="test-card-1" class="button button-small push-up button-clear"><h6 class="positive">Test Cards</h6></button></div>
+
+          {{#with addedDebitCard}}
+          <a class="item item-icon-right">
+            <p>{{brand}}&nbsp;&nbsp; XXXX-{{last4}}</p>
+            <i class="icon ion-checkmark energized custom-icon"></i>
+          </a>
+          {{else}}
+
+          {{/with}}
+
+                      <a class="item item-icon-left" id="add-debit-card">
+            <i class="icon ion-ios-plus-outline energized custom-icon"></i>
+            <p class="graytext">Debit Card Only</p>
+          </a>
+
         </div>
 
 <!--         <div class="list">

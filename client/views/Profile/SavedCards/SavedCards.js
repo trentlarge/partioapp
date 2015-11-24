@@ -93,6 +93,25 @@ Template.savedCards.onRendered(function() {
 		token: function(token) {
 			PartioLoad.show();
 			console.log(token);
+
+			console.log('RESULTADO STRIPE');
+			if(token.card.funding === 'debit'){
+
+						IonPopup.confirm({
+							title: 'Card Debit Add Receive',
+							template: '<div class="center">Cartao de debito</div>',
+							onCancel: function()
+							{
+								console.log('Cancelled')
+							},
+							onOk: function()
+							{
+								console.log('Ok adicionado')
+							}
+						});
+
+			}
+
 			Meteor.call('addPaymentCard', token.id, Meteor.user().profile.customer.id, Meteor.userId(), function(error, result) {
 				PartioLoad.hide();
 				console.log(error);
@@ -114,11 +133,17 @@ Template.savedCards.onRendered(function() {
 		panelLabel: 'Save Card',
 		token: function(token) {
 			PartioLoad.show();
-			console.log(token);
+
+
+
+
+
 			Meteor.call('addDebitCard', token.id, Meteor.user().profile.stripeAccount.id, Meteor.userId(), function(error, result) {
 				PartioLoad.hide();
 				if (!error) {
 					console.log('On successfully completing the transaction, add the book to the inventory');
+
+
 
 					if(Session.get('BookAddType') == 'MANUAL')
 					{
