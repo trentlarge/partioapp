@@ -1,5 +1,24 @@
 Template.savedCards.events({
 
+
+	'click #trash-card': function() {
+
+					IonPopup.confirm({
+						title: 'Trash Card',
+						template: '<div class="center">Are you sure you want to delete this card?</div>',
+						onCancel: function()
+						{
+							console.log('Cancelled')
+						},
+						onOk: function()
+						{
+							console.log('Ok adicionado');
+
+						}
+					});
+
+	},
+
 	'click #add-credit-card': function(e) {
 
 		PartioLoad.show();
@@ -120,50 +139,50 @@ Template.savedCards.onRendered(function() {
 				console.log(error);
 				console.log(result);
 
-												console.log('RESULTADO STRIPE');
-												if(token.card.funding === 'debit'){
-
-															IonPopup.confirm({
-																title: 'Card Debit Add Receive ',
-																template: '<div class="center">Want to add this card to receipts?</div>',
-																onCancel: function()
-																{
-																	console.log('Cancelled')
-																},
-																onOk: function()
-																{
-																	console.log('Ok adicionado');
-
-																			// add Receive funds debit
-																			Meteor.call('createDebitAccount', Meteor.userId(), function(error, result) {
-																					console.log('STRIPE ACOUNT GERADO');
-																					console.log('token.id: '+token.id);
-																					console.log('Meteor.user().profile.customer.id: '+Meteor.user().profile.stripeAccount.id);
-																					console.log('Meteor.userId(): '+Meteor.userId());
-
-																					stripeHandlerCredit = StripeCheckout.configure({
-																						key: 'pk_test_OYfO9mHIQFha7How6lNpwUiQ',
-																						token: function(token) {
-																							PartioLoad.show();
-																							console.log(token);
-																							Meteor.call('addDebitCard', token.id, Meteor.user().profile.stripeAccount.id, Meteor.userId(), function(error, result) {
-																								PartioLoad.hide();
-																								if (!error) {
-																									console.log('On successfully completing the transaction, add the book to the inventory');
-																									PartioLoad.hide();
-																								} else {
-																									console.log(error)
-																								}
-																							})
-																						}
-
-																					});
-
-																			});
-																}
-															});
-
-												}
+												// console.log('RESULTADO STRIPE');
+												// if(token.card.funding === 'debit'){
+												//
+												// 			IonPopup.confirm({
+												// 				title: 'Card Debit Add Receive ',
+												// 				template: '<div class="center">Want to add this card to receipts?</div>',
+												// 				onCancel: function()
+												// 				{
+												// 					console.log('Cancelled')
+												// 				},
+												// 				onOk: function()
+												// 				{
+												// 					console.log('Ok adicionado');
+												//
+												// 							// add Receive funds debit
+												// 							Meteor.call('createDebitAccount', Meteor.userId(), function(error, result) {
+												// 									console.log('STRIPE ACOUNT GERADO');
+												// 									console.log('token.id: '+token.id);
+												// 									console.log('Meteor.user().profile.customer.id: '+Meteor.user().profile.stripeAccount.id);
+												// 									console.log('Meteor.userId(): '+Meteor.userId());
+												//
+												// 									stripeHandlerCredit = StripeCheckout.configure({
+												// 										key: 'pk_test_OYfO9mHIQFha7How6lNpwUiQ',
+												// 										token: function(token) {
+												// 											PartioLoad.show();
+												// 											console.log(token);
+												// 											Meteor.call('addDebitCard', token.id, Meteor.user().profile.stripeAccount.id, Meteor.userId(), function(error, result) {
+												// 												PartioLoad.hide();
+												// 												if (!error) {
+												// 													console.log('On successfully completing the transaction, add the book to the inventory');
+												// 													PartioLoad.hide();
+												// 												} else {
+												// 													console.log(error)
+												// 												}
+												// 											})
+												// 										}
+												//
+												// 									});
+												//
+												// 							});
+												// 				}
+												// 			});
+												//
+												// }
 
 				if (Session.get('payRedirect')) {
 					Router.go('/renting/connect/'+Session.get('payRedirect'));

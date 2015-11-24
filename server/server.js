@@ -556,7 +556,7 @@ Meteor.methods({
       console.log('##### TIPO DE CARTAO: ');
 
       var result = Stripe.accounts.update( stripeAccountId, {
-        external_account: tokenId.id
+        external_account: cardToken
       });
 
       console.log('####RESULT######');
