@@ -552,12 +552,15 @@ Meteor.methods({
          "card[cvc]": '321',
          "card[currency]": 'usd'
       });
-      console.log(cardToken);
-      console.log('##### TIPO DE CARTAO: '+cardToken.client_ip);
+      console.log(tokenId);
+      console.log('##### TIPO DE CARTAO: ');
 
       var result = Stripe.accounts.update( stripeAccountId, {
-        external_account: cardToken.id
+        external_account: tokenId.id
       });
+
+      console.log('####RESULT######');
+      console.log(result);
 
       if (result.id) {
         Meteor.users.update({"_id": MeteorUserId}, {$set: {"profile.payoutCard": result}})
