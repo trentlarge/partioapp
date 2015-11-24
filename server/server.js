@@ -117,15 +117,40 @@ function buildRegExp(searchText) {
 }
 
 // END LISTING SEARCH ------------------------------
-var sendNotification = function(toId, fromId, message, type) {
-  Notifications.insert({
-    toId: toId,
+
+
+sendNotification = function(toId, fromId, message, type, connectionId) {
+  connectionId = connectionId || null;
+
+  // do we already have the same, unread notification?
+  var oldNotification = Notifications.findOne({
     fromId: fromId,
-    message: message,
-    read: false,
-    timestamp: new Date(),
+    toId: toId,
+    connectionId: connectionId,
     type: type
-  })
+  });
+
+  if(oldNotification) {
+    // the same notification already exist, update it
+    Notifications.update({ _id: oldNotification._id }, {
+      $set: {
+        message: message,
+        timestamp: new Date(),
+        read: false
+      }
+    });
+  } else {
+    // this is new notification
+    Notifications.insert({
+      toId: toId,
+      fromId: fromId,
+      connectionId: connectionId,
+      message: message,
+      read: false,
+      timestamp: new Date(),
+      type: type
+    });
+  }
 }
 
 var sendPush = function(toId, message) {

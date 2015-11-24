@@ -13,7 +13,7 @@ Router.configure({
 Router.waitOn(function () {
 	Meteor.subscribe("myConnectionsOwner", this.userId);
 	Meteor.subscribe("myConnectionsRequestor", this.userId);
-	Meteor.subscribe("myNotificationsReceived", this.userId);
+	Meteor.subscribe("myNotificationsReceived");
 	//Meteor.subscribe("products");
 	//Meteor.subscribe("search");
 	//Meteor.subscribe("transactions");

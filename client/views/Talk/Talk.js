@@ -4,10 +4,25 @@ Template.talk.created = function() {
 
 Template.talk.rendered = function() {
 	var self = this;
+
+	// Chat input textarea auto-resize when more than 1 line is entered
+	autosize($('textarea'));
+
+	// Scroll to bottom of the screen
+	$('.content').scrollTop( $('.message-wrapper')[0].scrollHeight );
+
+	// Adjust scroll when keyboard is fired up
+	if(window.cordova && window.cordova.plugins.Keyboard) {
+		cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+
+		window.addEventListener('native.keyboardshow', function() {
+			$('.content').scrollTop( $('.message-wrapper')[0].scrollHeight );
+		});
+	}
+
 	// mark message as read imediatelly as message arrives
 	this.autorun(function() {
 		if(self.data.connection && self.data.unreadMessages && self.data.unreadMessages.count()) {
-console.log(self.data.unreadMessages.count());
 			Meteor.call("markMessagesRead", self.data.connection._id, function(e, r) {
 				if(e) {
 					console.log(e.message);
@@ -19,6 +34,9 @@ console.log(self.data.unreadMessages.count());
 
 Template.talk.helpers({
 	"chatWith": function() {
+		if(!this.connection) {
+			return "";
+		}
 		var owner = this.connection.productData.ownerData;
 		var requestor = this.connection.requestorData;
 
@@ -75,5 +93,15 @@ Template.talk.events({
 		} else {
 			$("#chatSubmit").addClass("disabled");
 		}
+	}
+});
+
+Template.message.helpers({
+	"direction": function() { 
+		return this.fromId == Meteor.userId() ? "right" : "left"; 
+	},
+
+	"avatar": function() { 
+		return userAvatar(this.fromUser.profile.avatar);
 	}
 });

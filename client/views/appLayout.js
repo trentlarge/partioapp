@@ -105,6 +105,8 @@ getChatMessages = function(){
 
 //Chat = new Meteor.Collection(null);
 
+// SCREAMS FOR REFACTOR!!! -->
+
 Template.appLayout.onRendered(function() {
 
 	this.autorun(function() {
@@ -134,9 +136,8 @@ Template.appLayout.onRendered(function() {
 				console.log(id);
 				console.log(fields);
 
-				fields.chat.forEach(function(item) {
+//				fields.chat.forEach(function(item) {
 
-console.log(item);
 					
 
 				// 	if ( (item.sender !== Meteor.userId) && (!Chat.findOne({connectionId: id, timestamp: item.timestamp})) ) {
@@ -147,15 +148,15 @@ console.log(item);
 				// 			timestamp: item.timestamp
 				// 		});
 				//
-				 		if (Iron.Location.get().path !== '/chat/' + id ) {
-				 			sAlert.info({
-				 				goToChat: '/talk/' + id,
+//				 		if (Iron.Location.get().path !== '/chat/' + id ) {
+//				 			sAlert.info({
+//				 				goToChat: '/talk/' + id,
 //				 				headerMessage: Meteor.users.findOne(item.sender).profile.name + ':',
-				 				message: item.message
-				 			});
-				 		}
-				// 	}
-				});
+//				 				message: item.message
+//				 			});
+//				 		}
+//				 	}
+//				});
 
 			}
 		})

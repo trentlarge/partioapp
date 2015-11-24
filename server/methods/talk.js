@@ -1,5 +1,5 @@
 Meteor.methods({
-	'sendTalk': function(fromId, toId, connectionId, message) {
+	"sendTalk": function(fromId, toId, connectionId, message) {
 		if(fromId != this.userId && toId != this.userId) {
 			throw new Meteor.Error(404, "Access denied");
 		}
@@ -21,10 +21,16 @@ Meteor.methods({
 		Meteor.setTimeout(function() {
 			var doc = Talk.findOne({ _id: docId });
 			if(doc && doc.state == "new") {
-				// !!!
-				// Send notification to user "toId"
-				// !!!
-				console.log("Message is unread");
+				// calculate how many unread messages has sent
+				var unreadCount = Talk.find({ fromId: fromId, toId: toId, connectionId: connectionId, state: "new" }).count();
+				if(unreadCount) {
+					// read sender's name
+					var fromUser = Users.findOne({ _id: fromId });
+					if(fromUser) {
+						var notifyMessage = "You have " + unreadCount + " unread messages from " + fromUser.profile.name;
+						sendNotification(toId, fromId, notifyMessage, "chat", connectionId);
+					}
+				}
 			}
 		}, 3000);
 
@@ -32,8 +38,7 @@ Meteor.methods({
 		return docId;
 	},
 
-	'markMessagesRead': function(connectionId) {
-		console.log("Marking messages read: ", connectionId, this.userId);
+	"markMessagesRead": function(connectionId) {
 		Talk.update({ 
 			connectionId: connectionId,
 			toId: this.userId 

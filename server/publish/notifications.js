@@ -1,7 +1,3 @@
-Meteor.publish("notifications", function() {
-	return Notifications.find({}, {});
-});
-
-Meteor.publish("myNotificationsReceived", function(userId) {
-	return Notifications.find({toId: userId}, {sort: {timestamp: -1}});
+Meteor.publish("myNotificationsReceived", function() {
+	return Notifications.find({toId: this.userId}, {sort: {timestamp: -1}});
 });

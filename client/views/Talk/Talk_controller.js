@@ -25,16 +25,7 @@ TalkController = RouteController.extend({
 				Connections.findOne({ _id: this.params._id }),
 
 			messages: 
-				Talk.find({ 
-					connectionId: this.params._id 
-				},
-				{
-					transform: function(doc) {
-						doc.direction = doc.fromId == currentUserId ? "right" : "left";
-						doc.avatar = userAvatar(doc.fromUser.profile.avatar);
-						return doc;
-					}
-				}),
+				Talk.find({ connectionId: this.params._id }),
 
 			unreadMessages:
 				Talk.find({ 
