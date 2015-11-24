@@ -3,19 +3,6 @@
 
 Template.results.rendered = function() {
     Session.set('scanResult', null);
-    
-    $( document ).ready(function() {
-        var titles = $('p.title');
-        $.each(titles, function(i, title) {
-            console.log($(this).height() + ' > ' + $('.title-box').height());
-            if($(this).height() > $('.title-box').height()) {
-                $(this).text(function (index, text) {
-                    return text.replace(/\W*\s(\S)*$/, '...');
-                });
-            }
-        });
-    });
-   
 }
 
 // HELPERS

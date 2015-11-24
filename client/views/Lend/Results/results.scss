@@ -8,9 +8,13 @@
       to { opacity: 1; }
 }
 
+.results-content {
+    margin-bottom: 50px;
+    background-color: #ffffff;
+}
+
 .results {
     background: white;
-    margin-bottom: 50px;
 
     .item {
         padding: 0;
@@ -159,9 +163,7 @@
         float: right;
         color: #f0970d;
         cursor: pointer;
-        padding-top: 16px;
-        padding-right: 5px;
-        padding-bottom: 20px;
+        padding: 16px;
     }
 
     .hidden {
