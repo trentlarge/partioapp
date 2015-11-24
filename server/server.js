@@ -449,49 +449,78 @@ Meteor.methods({
     return "yes, payment done"
   },
 
-  'chargeCard': function(payerCustomerId, payerCardId, recipientDebitId, amount, connectionId, transactionsId, transactionsRecipientId) {
+  //'chargeCard': function(payerCustomerId, payerCardId, recipientDebitId, amount, connectionId, transactionsId, transactionsRecipientId) {
+  'chargeCard': function(connectionId) {
     this.unblock();
-    console.log(payerCustomerId, payerCardId, recipientDebitId, amount, connectionId, transactionsId, transactionsRecipientId);
-    var formattedAmount = (amount * 100).toFixed(0);
+    var connect = Connections.findOne(connectionId);
+    var owner = false;
+    var requestor = false;
 
-    try{
-      var result = Stripe.charges.create({
-        amount: formattedAmount,
-        currency: "usd",
-        customer: payerCustomerId,
-        source: payerCardId,
-        destination: recipientDebitId
-      });
+    if(connect) {
+      owner = Meteor.users.findOne(connect.productData.ownerId);
+      requestor = Meteor.users.findOne(connect.requestor);
 
-      console.log(result);
-      if (result.status === 'succeeded') {
-        var payerTrans = {
-          date: result.created,
-          productName: Connections.findOne(connectionId).productData.title,
-          paidAmount: result.amount/100
+      // console.log(connect)
+      var payerCardId = Meteor.user().profile.cards.data[0].id;
+      var connectionId = connect._id;
+      var payerCustomerId = Meteor.user().profile.customer.id;
+      var recipientAccountId = owner.profile.stripeAccount.id;
+      var amount = connect.borrowDetails.price.total;
+      var transactionsId = Meteor.user().profile.transactionsId;
+      var transactionsRecipientId = owner.profile.transactionsId;
+      var recipientDebitId = owner.profile.payoutCard.id;
+
+      // console.log('-connect')
+      // console.log(connect);
+      // console.log('-requestor')
+      // console.log(requestor);
+      // console.log('-owner')
+      // console.log(owner);
+
+      //return 'ok';
+
+
+      console.log(payerCustomerId, payerCardId, recipientDebitId, amount, connectionId, transactionsId, transactionsRecipientId);
+      var formattedAmount = (amount * 100).toFixed(0);
+
+      try{
+        var result = Stripe.charges.create({
+          amount: formattedAmount,
+          currency: "usd",
+          customer: payerCustomerId,
+          source: payerCardId,
+          destination: recipientDebitId
+        });
+
+        console.log(result);
+        if (result.status === 'succeeded') {
+          var payerTrans = {
+            date: result.created,
+            productName: Connections.findOne(connectionId).productData.title,
+            paidAmount: result.amount/100
+          }
+
+          var recipientTrans = {
+            date: result.created,
+            productName: Connections.findOne(connectionId).productData.title,
+            receivedAmount: result.amount/100
+          }
+
+          Connections.update({_id: connectionId}, {$set: {state: "IN USE", payment: result}});
+          Search.update({"ean": Connections.findOne(connectionId).productData.ean}, {$inc: {qty: -1}})
+          Transactions.update({_id: transactionsId}, {$push: {spending: payerTrans}});
+          Transactions.update({_id: transactionsRecipientId}, {$push: {earning: recipientTrans}});
+
+          var thisConnectionData = Connections.findOne(connectionId)
+          var moneyGiver = Meteor.users.findOne(thisConnectionData.requestor).profile.name
+          var message = 'You received a payment of $' + amount + ' from ' + moneyGiver
+          sendPush(thisConnectionData.productData.ownerId, message);
+          sendNotification(thisConnectionData.productData.ownerId, thisConnectionData.requestor, message, "info")
         }
 
-        var recipientTrans = {
-          date: result.created,
-          productName: Connections.findOne(connectionId).productData.title,
-          receivedAmount: result.amount/100
-        }
-
-        Connections.update({_id: connectionId}, {$set: {state: "IN USE", payment: result}});
-        Search.update({"ean": Connections.findOne(connectionId).productData.ean}, {$inc: {qty: -1}})
-        Transactions.update({_id: transactionsId}, {$push: {spending: payerTrans}});
-        Transactions.update({_id: transactionsRecipientId}, {$push: {earning: recipientTrans}});
-
-        var thisConnectionData = Connections.findOne(connectionId)
-        var moneyGiver = Meteor.users.findOne(thisConnectionData.requestor).profile.name
-        var message = 'You received a payment of $' + amount + ' from ' + moneyGiver
-        sendPush(thisConnectionData.productData.ownerId, message);
-        sendNotification(thisConnectionData.productData.ownerId, thisConnectionData.requestor, message, "info")
-
+      } catch(e) {
+        console.log(e);
       }
-
-    } catch(e) {
-      console.log(e);
     }
   },
 

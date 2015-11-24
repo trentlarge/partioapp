@@ -79,18 +79,19 @@ Template.connectRent.events({
 	//
 
 	'click #payAndRent': function() {
+
 		if (Meteor.user().profile.cards) {
 			Session.set('payRedirect', false);
 
-      console.log(this.connectData)
-			var payerCardId = Meteor.user().profile.cards.data[0].id;
+      // console.log(this.connectData)
+			// var payerCardId = Meteor.user().profile.cards.data[0].id;
 			var connectionId = this.connectData._id;
-			var payerCustomerId = Meteor.user().profile.customer.id;
-			var recipientAccountId = this.connectData.productData.ownerData.profile.stripeAccount.id;
+			// var payerCustomerId = Meteor.user().profile.customer.id;
+			// var recipientAccountId = this.connectData.productData.ownerData.profile.stripeAccount.id;
 			var amount = this.connectData.borrowDetails.price.total;
-			var transactionsId = Meteor.user().profile.transactionsId;
-			var transactionsRecipientId = this.connectData.productData.ownerData.profile.transactionsId;
-			var recipientDebitId = this.connectData.productData.ownerData.profile.payoutCard.id;
+			// var transactionsId = Meteor.user().profile.transactionsId;
+			// var transactionsRecipientId = this.connectData.productData.ownerData.profile.transactionsId;
+			// var recipientDebitId = this.connectData.productData.ownerData.profile.payoutCard.id;
 
 			IonPopup.confirm({
 				cancelText: 'Cancel',
@@ -102,7 +103,10 @@ Template.connectRent.events({
 				},
 				onOk: function() {
 					PartioLoad.show();
-					Meteor.call('chargeCard', payerCustomerId, payerCardId, recipientDebitId, amount, connectionId, transactionsId, transactionsRecipientId, function(error, result) {
+          //Meteor.call('chargeCard', payerCustomerId, payerCardId, recipientDebitId, amount, connectionId, transactionsId, transactionsRecipientId, function(error, result) {
+          Meteor.call('chargeCard', connectionId, function(error, result) {
+            console.log(result);
+
 						if (!error) {
 							PartioLoad.hide();
 							IonPopup.show({
@@ -119,7 +123,9 @@ Template.connectRent.events({
 									}
 								}]
 							});
-						}
+						} else {
+              console.log('some error with charge card', error);
+            }
 					})
 				}
 			});
