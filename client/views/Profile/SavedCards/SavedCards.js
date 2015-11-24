@@ -112,19 +112,13 @@ Template.savedCards.onRendered(function() {
 
 
 										Meteor.call('createDebitAccount', Meteor.userId(), function(error, result) {
-											if (!error) {
 
-												stripeHandlerDebit.open({
-													email: Meteor.user().profile.email,
-													allowRememberMe: false,
-													opened: function() { PartioLoad.hide() },
-													closed: function() { PartioLoad.hide() }
-												});
-											}
+											console.log('STRIPE ACOUNT GERADO');
+
 										});
 
 										console.log('token.id: '+token.id);
-										console.log('Meteor.user().profile.customer.id: '+Meteor.user().profile.customer.id);
+										console.log('Meteor.user().profile.customer.id: '+Meteor.user().profile.stripeAccount.id);
 										console.log('Meteor.userId(): '+Meteor.userId());
 
 
