@@ -59,7 +59,7 @@
     
     .category {
         color: #272727;
-        text-transform: uppercase;
+//        text-transform: uppercase;
     }
     
     .category-icon {
@@ -68,8 +68,8 @@
 
     .product {
         margin: 0px;
-        -webkit-animation: fadeIn 1s;
-        animation: fadeIn 1s;
+        -webkit-animation: fadeIn 0.5s;
+        animation: fadeIn 0.5s;
         display: block;
         max-height: 100px;
         min-height: 100px;
@@ -109,7 +109,8 @@
         .ellipsis:before {
             content:"";
             float: left;
-            width: 5px; height: 40px; 
+            width: 5px; 
+            height: 40px; 
         }
 
         .ellipsis > *:first-child {
@@ -142,18 +143,9 @@
             background: linear-gradient(to right, rgba(255, 255, 255, 0), white 50%, white); 
         }
         
-//        .title-box {
-//            max-height: 40px;
-//            overflow: hidden;
-//            
-//            .title {
-//                white-space: normal;
-//            }
-//        }
-        
         .price {
-            font-size: 20px;
-            margin-top: 10px;
+            font-size: 18px;
+            margin-top: 5px;
             color: #E3900F;
         }
         
@@ -166,11 +158,6 @@
         padding: 16px;
     }
 
-    .hidden {
-        -webkit-animation: fadeIn 1s;
-        animation: fadeIn 1s;
-        display: none;
-    }
 }
 
 .back {

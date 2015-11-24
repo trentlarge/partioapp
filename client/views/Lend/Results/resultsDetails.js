@@ -141,11 +141,11 @@ Template.resultsDetails.events({
 
         if(featureDetails.hasClass('hidden')){
             featureDetails.removeClass('hidden');
-            features.find('.chevron-icon').removeClass('ion-chevron-right').addClass('ion-chevron-down');
+            features.find('.chevron-icon').removeClass('ion-chevron-up').addClass('ion-chevron-down');
         }
         else {
             featureDetails.addClass('hidden');
-            features.find('.chevron-icon').removeClass('ion-chevron-down').addClass('ion-chevron-right');
+            features.find('.chevron-icon').removeClass('ion-chevron-down').addClass('ion-chevron-up');
         }
 
     },
