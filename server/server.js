@@ -553,6 +553,7 @@ Meteor.methods({
          "card[currency]": 'usd'
       });
       console.log(cardToken);
+      console.log('##### TIPO DE CARTAO: '+cardToken.client_ip);
 
       var result = Stripe.accounts.update( stripeAccountId, {
         external_account: cardToken.id
@@ -560,6 +561,7 @@ Meteor.methods({
 
       if (result.id) {
         Meteor.users.update({"_id": MeteorUserId}, {$set: {"profile.payoutCard": result}})
+
       }
     } catch(e) {
       console.log(e);
