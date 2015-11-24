@@ -13,6 +13,7 @@ Template.searchShareHeader.rendered = function(){
         inputBox.val(Lend.latestProduct);
         inputBox.trigger({type: 'keypress', charCode: 13});
     }
+
 };
 
 Template.searchShareHeader.destroyed = function() {
@@ -23,6 +24,20 @@ Template.searchShareHeader.destroyed = function() {
 
 Template.searchShareHeader.events({
 
+    'focusout .search-share-header-input': function(e, template) {
+        
+        if(Session.get('allResults')) {
+            var inputSearch = $('.search-share-header-input');
+            
+            if(inputSearch.val().length > 0) {
+                inputSearch.addClass('has-text');    
+            }
+        }
+        
+    },
+    'focus .search-share-header-input': function(e, template) {
+        $('.search-share-header-input').removeClass('has-text');
+    },
     'keypress .search-share-header-input': function(e, template) {
 
         if (e.charCode == 13 || e.keyCode == 13) {
@@ -40,53 +55,58 @@ Template.searchShareHeader.events({
 
             //get keywords
             var key = template.find('.search-share-header-input').value;
-            Session.set("lastSearch", key);
 
             //check if exist in all results cache
             if(Lend.allResultsCache[key]) {
-                Session.set('scanResult', null);
+
                 Session.set('allResults', Lend.allResultsCache[key]);
                 Session.set('lendTab', 'results');
+                
+                Lend.latestProduct = key;
+                
                 PartioLoad.hide();
                 $(".modal").css("background-image", "");
-                Lend.latestProduct = key;
+             
+                $('.search-share-header-input').blur();
+                
             }
             else {
                 Meteor.call('AllItemsFromAmazon', key, function(error, result) {
+                    if(error && !result) {
+                        PartioLoad.hide();
+                        resetImageCamFind();
 
-                  if(error && !result) {
-                    PartioLoad.hide();
-                    resetImageCamFind();
+                        IonPopup.show({
+                            title: 'Ops...',
+                            template: '<div class="center">'+ error.message + '</div>',
+                            buttons:
+                            [{
+                                text: 'OK',
+                                type: 'button-energized',
+                                onTap: function() {
+                                    IonPopup.close();
+                                }
+                            }]
+                        });
+                    } else {
 
-                    IonPopup.show({
-                      title: 'Ops...',
-                        template: '<div class="center">'+ error.message + '</div>',
-                        buttons:
-                        [{
-                          text: 'OK',
-                          type: 'button-energized',
-                          onTap: function() {
-                            IonPopup.close();
-                          }
-                        }]
-                      });
+                        $.each(result, function(index, r) {
+                            result[index].index = index;
+                        });
 
-                  } else {
+                        //add on cache
+                        Lend.allResultsCache[key] = result;
+                        Lend.latestProduct = key;
+                        
+                        Session.set('allResults', result);
+                        Session.set('lendTab', 'results');
+                        
+                        PartioLoad.hide();
+                        $(".modal").css("background-image", "");
+                        
+                         $('.search-share-header-input').blur();
 
-                    $.each(result, function(index, r) {
-                        result[index].index = index;
-                    });
-
-                    //add on cache
-                    Lend.allResultsCache[key] = result;
-                    Lend.latestProduct = key;
-                    Session.set('scanResult', null);
-                    Session.set('allResults', result);
-                    Session.set('lendTab', 'results');
-                    PartioLoad.hide();
-                    $(".modal").css("background-image", "");
-
-                  }
+                    }
                 });
             }
         }

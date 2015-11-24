@@ -1,9 +1,9 @@
 
 // RENDERED
 
-Template.results.rendered = function() {
-    Session.set('scanResult', null);
-}
+//Template.results.rendered = function() {
+//    Session.set('scanResult', null);
+//}
 
 // HELPERS
 

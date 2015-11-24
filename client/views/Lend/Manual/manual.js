@@ -17,6 +17,12 @@ Template.manual.rendered = function() {
         Session.set('monthPrice', null);
         Session.set('semesterPrice', null); 
     }  
+    
+    Session.set('scanResult', null);
+    Session.set('allResults', null);
+
+    $('.search-share-header-input').val('');
+    $('.search-share-header-input').focus();
 }
 
 Template.manual.destroyed = function() {

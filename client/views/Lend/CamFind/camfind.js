@@ -1,3 +1,11 @@
+Template.camfind.rendered = function() {
+    Session.set('scanResult', null);
+    Session.set('allResults', null);
+
+    //$('.search-share-header-input').val('');
+    $('.search-share-header-input').focus();
+}
+
 Template.camfind.events({
   'click #cam-find': function(event, template) {
     IonActionSheet.show({

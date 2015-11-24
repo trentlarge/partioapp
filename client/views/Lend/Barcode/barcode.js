@@ -1,8 +1,11 @@
 Template.barcode.rendered = function(){
     Session.set('placeholder', "Enter barcode number...");   
-    $('.barcode').css({
-        'width':'100%'
-    });
+    
+    Session.set('scanResult', null);
+    Session.set('allResults', null);
+
+    $('.search-share-header-input').val('');
+    $('.search-share-header-input').focus();
 };
 
 Template.barcode.destroyed = function(){
