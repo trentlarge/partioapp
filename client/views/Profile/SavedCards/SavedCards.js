@@ -110,12 +110,25 @@ Template.savedCards.onRendered(function() {
 
 										// add Receive funds debit
 
+
+										Meteor.call('createDebitAccount', Meteor.userId(), function(error, result) {
+											if (!error) {
+
+												stripeHandlerDebit.open({
+													email: Meteor.user().profile.email,
+													allowRememberMe: false,
+													opened: function() { PartioLoad.hide() },
+													closed: function() { PartioLoad.hide() }
+												});
+											}
+										});
+
 										console.log('token.id: '+token.id);
 										console.log('Meteor.user().profile.customer.id: '+Meteor.user().profile.customer.id);
 										console.log('Meteor.userId(): '+Meteor.userId());
 
 
-											Meteor.call('addDebitCard', token.id, Meteor.user().profile.customer.id, Meteor.userId(), function(error, result) {
+											Meteor.call('addDebitCard', token.id, Meteor.user().profile.stripeAccount.id, Meteor.userId(), function(error, result) {
 												PartioLoad.hide();
 												if (!error) {
 													console.log('On successfully completing the transaction, add the book to the inventory');
