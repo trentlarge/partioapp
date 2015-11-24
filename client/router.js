@@ -38,6 +38,7 @@ Router.route('/reset-password/:token', {name: 'resetpassword', controller: 'Rese
 Router.route('/login', { name: 'login', controller: 'LoginController' });
 Router.route('/register', {name: 'register', controller: 'RegisterController' });
 Router.route('/lend', { name: 'lend', controller: 'LendController' });
+Router.route('/lend/details', { name: 'resultsDetails', controller: 'resultsDetailsController' });
 Router.route('/inventory', { name: 'inventory', controller: 'InventoryController' });
 Router.route('/inventory/:_id', { name: 'inventoryDetail', controller: 'InventoryDetailController' });
 Router.route('/inventory/connect/:_id', { name: 'connect', controller: 'ConnectController' });

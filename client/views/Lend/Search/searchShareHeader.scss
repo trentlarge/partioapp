@@ -1,7 +1,8 @@
 .search-share-header-icon {
     color: #272727;
     z-index: 20;
-    padding-left:15%;
+//    padding-left:5%;
+    margin-left: 20px;
     font-size: 25px;
     padding-top: 5px;
 }
@@ -9,6 +10,7 @@
 .search-share-header-input {
     background-color: #eee;
     width: 0%;
+    margin-right: 50px;
     color: #272727;
     z-index: 10;
     border-radius: 5px;

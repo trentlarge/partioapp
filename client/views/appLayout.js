@@ -56,7 +56,7 @@ Template.appLayout.helpers({
 	showSideMenu: function(){
 		//var mainTemplateName = Router.current().route.getName();
 		var mainTemplateName = Router.current()._layout._regions.main._template;
-		console.log(mainTemplateName);
+//		console.log(mainTemplateName);
 
 		switch (mainTemplateName) {
 			case 'profile':

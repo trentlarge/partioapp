@@ -660,7 +660,7 @@ Meteor.methods({
     var getAmazonItemSearchSynchronously = Meteor.wrapAsync(amazonItemSearch);
     var result = [];
 
-    for(var i=0; i<5; i++) {
+    for(var i=0; i<1; i++) {
       result.push(getAmazonItemSearchSynchronously(keys, i+1));
       console.log(result[i]);
     }

@@ -1,0 +1,113 @@
+<!-- RESULTS -->
+<template name="resultsDetails">
+{{#ionView}}
+    {{#if scanResult}}
+        {{#with scanResult}}
+            {{#contentFor "headerButtonLeft"}}
+                <button class="back button button-clear" style="z-index:100;">
+                    {{>ionNavBackButton path="lend"}}
+                </button>
+            {{/contentFor}}
+
+<!--
+            {{#contentFor "headerTitle"}}
+                <h1 class="title">{{title}}</h1>
+            {{/contentFor}}
+
+            {{#contentFor "headerButtonRight"}}
+                <a href="/" class="button button-clear">
+                    <object id="spinner-logo-simple" data="/logo/spinner-logo-simple.svg" type="image/svg+xml"></object>
+                </a>
+            {{/contentFor}}
+-->
+
+            {{#ionContent}}
+                <div class="results-details padding-horizontal padding-vertical">
+                    <div class="item no-padding">
+                        <div class="center">
+                            <img class="scanResult-thumbnail" src="{{image}}">
+                        </div>
+                    </div>
+
+                    <div class="item item-divider features">
+                        <h2>Features <i class="chevron-icon icon ion-chevron-right"></i></h2>
+                    </div>
+
+                    <div class="item no-padding row-details features-details hidden">
+                        <div class="col col-50">
+                            <div class="details-box">
+                                <i class="icon {{getCategoryIcon}} bk-energized"></i>
+                                <span class="detail">{{amazonCategory}}</span>
+                            </div>
+                        </div>
+                        <div class="col col-50">
+                            <div class="details-box">
+                                <i class="icon ion-cash bk-energized"></i>
+                                <span class="detail">{{price}}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row item features-details hidden">
+                        <div class="col col-33">
+                            {{#each attributes}}
+                                <p>{{key}}</p>
+                            {{/each}}
+                        </div>
+                        <div class="col col-67 scan-result">
+                            {{#each attributes}}
+                                <p>{{value}}</p>
+                            {{/each}}
+                        </div>
+                    </div>
+
+                    <label class="item item-input">
+                        <input type="text" class="productTitle" placeholder="Title" value="{{title}}">
+                    </label>
+
+                    <label class="item item-input item-select">
+                        <div class="input-label">
+                            <p>Condition:</p>
+                        </div>
+                        <select name="condition" class="fieldConditionLend">
+                            {{#each getConditions}}
+                                <option value="{{index}}">{{value}}</option>
+                            {{/each}}
+                        </select>
+                    </label>
+
+                    <div class="item item-divider">
+                        <h2>Rent Price</h2>
+                    </div>
+
+                    <label class="item item-input">
+                        <span class="input-label"><p>Day:</p></span>
+                        <input type="number" class="userPrice dayPrice" placeholder="0.00" value="{{calculatedPriceDay}}">
+                    </label>
+                    <label class="item item-input">
+                        <span class="input-label"><p>Week:</p></span>
+                        <input type="number" class="userPrice weekPrice" placeholder="0.00" value="{{calculatedPriceWeek}}">
+                    </label>
+                    <label class="item item-input">
+                        <span class="input-label"><p>Month:</p></span>
+                        <input type="number" class="userPrice monthPrice" placeholder="0.00" value="{{calculatedPriceMonth}}">
+                    </label>
+                    <label class="item item-input">
+                        <span class="input-label"><p>Semester (4m):</p></span>
+                        <input type="number" class="userPrice semesterPrice" placeholder="0.00" value="{{calculatedPrice4Months}}">
+                    </label>
+                    
+                    <button class="submitProduct button button-block button-energized" {{waitingForPrices}}>
+                        {{#if validatePrices}}
+                            Share this item!
+                        {{else}}
+                            Enter your price above
+                        {{/if}}
+                    </button>
+                </div>
+            {{/ionContent}}
+
+        {{/with}}
+    {{/if}}
+{{/ionView}}
+</template>

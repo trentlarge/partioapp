@@ -1,18 +1,28 @@
 
 // RENDERED
 
-//Template.results.rendered = function() {
-//
-//}
+Template.results.rendered = function() {
+    Session.set('scanResult', null);
+    
+    $( document ).ready(function() {
+        var titles = $('p.title');
+        $.each(titles, function(i, title) {
+            console.log($(this).height() + ' > ' + $('.title-box').height());
+            if($(this).height() > $('.title-box').height()) {
+                $(this).text(function (index, text) {
+                    return text.replace(/\W*\s(\S)*$/, '...');
+                });
+            }
+        });
+    });
+   
+}
 
 // HELPERS
 
 Template.results.helpers({
   allResults: function(){
     return Session.get('allResults');
-  },
-  scanResult: function() {
-    return Session.get('scanResult');
   },
   isDifferentCategory: function() {
       if(this.index === 0 || Lend.currentCategory !== this.amazonCategory) {
@@ -29,9 +39,6 @@ Template.results.helpers({
   },
   getCategoryIcon: function() {
     return Categories.getCategoryIconByText(this.category);
-  },
-  getConditions: function() {
-    return Rating.getConditions();
   },
   isOnlyOneCategory: function() {
 
@@ -62,86 +69,7 @@ Template.results.helpers({
     }
 
   },
-  waitingForPrices: function() {
-      return Lend.validatePrices() ? "": "disabled";
-  },
-  validatePrices: function(){
-      return Lend.validatePrices();
-  },
-  calculatedPriceDay: function() {
 
-    var scanResult = Session.get('scanResult');
-
-    if (scanResult) {
-      if (scanResult.price !== "--") {
-          
-          var priceValueDay = (scanResult.price).split("$")[1];
-          var price = Lend.calculatePrice('ONE_DAY', priceValueDay);
-          
-          if(price > 0) {
-              Session.set('dayPrice', price);
-              return price;
-          }
-      }
-    }
-
-  },
-
-
-  calculatedPriceWeek: function() {
-
-    var scanResult = Session.get('scanResult');
-
-    if (scanResult) {
-      if (scanResult.price !== "--") {
-          var priceValueWeek = (scanResult.price).split("$")[1];
-          var price = Lend.calculatePrice('ONE_WEEK', priceValueWeek);
-          
-          if(price > 0) {
-              Session.set('weekPrice', price);
-              return price;
-          }    
-      }
-    }
-
-  },
-
-  calculatedPriceMonth: function() {
-
-    var scanResult = Session.get('scanResult');
-
-    if (scanResult) {
-      if (scanResult.price !== "--") {
-
-          var priceValueMonth = (scanResult.price).split("$")[1];
-          var price = Lend.calculatePrice('ONE_MONTH', priceValueMonth);
-          
-          if(price > 0) {
-              Session.set('monthPrice', price);
-              return price;
-          }
-      }
-    }
-
-  },
-
-  calculatedPrice4Months: function() {
-
-    var scanResult = Session.get('scanResult');
-
-    if (scanResult) {
-      if (scanResult.price !== "--") {
-          var priceValue4Months = (scanResult.price).split("$")[1];
-          var price = Lend.calculatePrice('FOUR_MONTHS', priceValue4Months);
-
-          if(price > 0) {
-              Session.set('semesterPrice', price);
-              return price;
-          }
-      }
-    }
-
-  },
 });
 
 // EVENTS
@@ -222,36 +150,6 @@ Template.results.events({
         Session.set('lendTab', 'manual');
         
     },
-    'click .features': function(e, template) {
-
-      var features = $('.features');
-      var featureDetails = $('.features-details');
-
-        if(featureDetails.hasClass('hidden')){
-            featureDetails.removeClass('hidden');
-            features.find('.chevron-icon').removeClass('ion-chevron-right').addClass('ion-chevron-down');
-        }
-        else {
-            featureDetails.addClass('hidden');
-            features.find('.chevron-icon').removeClass('ion-chevron-down').addClass('ion-chevron-right');
-        }
-
-    },
-    'change .userPrice': function(e, template){
-
-        var rentPrice = {
-            "day": template.find('.dayPrice').value,
-            "week": template.find('.weekPrice').value,
-            "month": template.find('.monthPrice').value,
-            "semester": template.find('.semesterPrice').value,
-         }
-
-          Session.set('dayPrice', rentPrice.day);
-          Session.set('weekPrice', rentPrice.week);
-          Session.set('monthPrice', rentPrice.month);
-          Session.set('semesterPrice', rentPrice.semester);
-
-    },
 
     // hide/show products by category
     'click .menu-category': function(e, template) {
@@ -260,19 +158,24 @@ Template.results.events({
 
         if(category.hasClass('hidden')){
             category.removeClass('hidden');
-            categoryId.find('.chevron-icon').removeClass('ion-chevron-right').addClass('ion-chevron-down');
+            categoryId.find('.chevron-icon').removeClass('ion-chevron-up').addClass('ion-chevron-down');
         }
         else {
             category.addClass('hidden');
-            categoryId.find('.chevron-icon').removeClass('ion-chevron-down').addClass('ion-chevron-right');
+            categoryId.find('.chevron-icon').removeClass('ion-chevron-down').addClass('ion-chevron-up');
         }
     },
 
     'click .product': function(e, template) {
         //Session.set('allResults', );
         Session.set('scanResult', this);
+        Router.go('/lend/details');
+        //Session.set('lendTab', 'resultDetails');
     },
 });
+
+
+
 
 // DESTROYED
 //

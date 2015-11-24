@@ -1,5 +1,8 @@
 Template.barcode.rendered = function(){
     Session.set('placeholder', "Enter barcode number...");   
+    $('.barcode').css({
+        'width':'100%'
+    });
 };
 
 Template.barcode.destroyed = function(){
