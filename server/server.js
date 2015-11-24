@@ -549,7 +549,7 @@ Meteor.methods({
         "card[number]": '4000056655665556',
          "card[exp_month]": 12,
          "card[exp_year]": 2016,
-         "card[cvc]": '123',
+         "card[cvc]": '321',
          "card[currency]": 'usd'
       });
       console.log(cardToken);

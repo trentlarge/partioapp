@@ -98,15 +98,34 @@ Template.savedCards.onRendered(function() {
 			if(token.card.funding === 'debit'){
 
 						IonPopup.confirm({
-							title: 'Card Debit Add Receive',
-							template: '<div class="center">Cartao de debito</div>',
+							title: 'Card Debit Add Receive ',
+							template: '<div class="center">Want to add this card to receipts?</div>',
 							onCancel: function()
 							{
 								console.log('Cancelled')
 							},
 							onOk: function()
 							{
-								console.log('Ok adicionado')
+								console.log('Ok adicionado');
+
+										// add Receive funds debit
+
+										console.log('token.id: '+token.id);
+										console.log('Meteor.user().profile.customer.id: '+Meteor.user().profile.customer.id);
+										console.log('Meteor.userId(): '+Meteor.userId());
+
+
+											Meteor.call('addDebitCard', token.id, Meteor.user().profile.customer.id, Meteor.userId(), function(error, result) {
+												PartioLoad.hide();
+												if (!error) {
+													console.log('On successfully completing the transaction, add the book to the inventory');
+
+													PartioLoad.hide();
+												} else {
+													console.log(error)
+												}
+											})
+
 							}
 						});
 
