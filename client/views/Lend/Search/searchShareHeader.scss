@@ -1,3 +1,14 @@
+.lend-view {
+    
+    .content {
+        -webkit-transition: all 0.5s linear;
+        -moz-transition: all 0.5s linear;
+        -ms-transition: all 0.5s linear;
+        -o-transition: all 0.5s linear;
+        transition: all 0.5s linear;
+    }
+}
+
 .search-share-header-icon {
     color: #272727;
     z-index: 20;
@@ -9,6 +20,13 @@
 input[type="text"].search-share-header-input {
     padding-left: 40px;
     padding-top: 5px;
+    height: 30px;
+    margin-top: 2px;
+    
+    &::-webkit-input-placeholder {
+        padding-top: 2px;
+        color: rgba(39, 39, 39, 0.6);
+    }
 }
 
 input[type="text"].search-share-header-input.has-text {
@@ -17,7 +35,7 @@ input[type="text"].search-share-header-input.has-text {
 }
 
 .search-share-header-input {
-    background-color: #eee;
+    background-color: #BBB;
     border-top: 1px solid #bdbdbd;
     width: 0%;
     margin-right: 50px;

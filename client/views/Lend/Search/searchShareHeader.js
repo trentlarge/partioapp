@@ -32,14 +32,30 @@ Template.searchShareHeader.events({
             if(inputSearch.val().length > 0) {
                 inputSearch.addClass('has-text');    
             }
-        }
+            
+            $('.content').css({'opacity': '1'}, function() {
+                $('.view').css({'background': '#eceff1'});    
+            });
+            
+        }     
         
     },
     'focus .search-share-header-input': function(e, template) {
         $('.search-share-header-input').removeClass('has-text');
+        
+        if(Session.get('allResults')) {
+            $('.view').css({'background': '#000000'});
+            $('.content').css({'opacity': '.5'});
+        }
     },
     'keypress .search-share-header-input': function(e, template) {
 
+        if(Session.get('allResults')) {
+            $('.content').css({'opacity': '1'}, function() {
+                $('.view').css({'background': '#eceff1'});    
+            });
+        }
+        
         if (e.charCode == 13 || e.keyCode == 13) {
             //reset sessions
             Session.set('scanResult', null);
