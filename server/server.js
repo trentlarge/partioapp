@@ -739,7 +739,7 @@ var amazonAllResultsItemSearchProcessing = function(result) {
                 price : (function() {return Items.Item[i].Offers[0].Offer ? Items.Item[i].Offers[0].Offer[0].OfferListing[0].Price[0].FormattedPrice[0] : "--"})(),
                 title : Items.Item[i].ItemAttributes[0].Title[0],
                 category : CategoriesServer.getCategory(Items.Item[i].ItemAttributes[0].ProductGroup[0]),
-                amazonCategory : Items.Item[i].ItemAttributes[0].ProductGroup[0],
+                amazonCategory : CategoriesServer.getAmazonCategory(Items.Item[i].ItemAttributes[0].ProductGroup[0]),
                 image: (function() {
                   if(Items.Item[i].MediumImage){
                     if(Items.Item[i].MediumImage[0].URL) {
