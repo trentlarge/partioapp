@@ -1,143 +1,45 @@
-<!-- RESULTS -->
 <template name="results">
-  {{#ionContent class="results-content"}}
-    {{#if scanResult}}
-        {{#with scanResult}}
-        <div class="results-details padding-horizontal padding-vertical">
-            <div class="item no-padding">
-                <div class="center">
-                    <img class="scanResult-thumbnail" src="{{image}}">
-                </div>
-            </div>
-
-            <div class="item item-divider features">
-                <h2>Features <i class="chevron-icon icon ion-chevron-right"></i></h2>
-            </div>
-
-            <div class="item no-padding row-details features-details hidden">
-                 <div class="col col-50">
-                    <div class="details-box">
-                        <i class="icon {{getCategoryIcon}} bk-energized"></i>
-                        <span class="detail">{{amazonCategory}}</span>
-                    </div>
-                </div>
-                <div class="col col-50">
-                    <div class="details-box">
-                        <i class="icon ion-cash bk-energized"></i>
-                        <span class="detail">{{price}}</span>
-                    </div>
-                </div>
-             </div>
-
-             <div class="row item features-details hidden">
-                <div class="col col-33">
-                    {{#each attributes}}
-                    <p>{{key}}</p>
-                    {{/each}}
-                </div>
-                <div class="col col-67 scan-result">
-                    {{#each attributes}}
-                    <p>{{value}}</p>
-                    {{/each}}
-                </div>
-            </div>
-
-
-
-          <label class="item item-input">
-                <input type="text" class="productTitle" placeholder="Title" value="{{title}}">
-          </label>
-
-
-          <label class="item item-input item-select">
-            <div class="input-label">
-              <p>Condition:</p>
-            </div>
-            <select name="condition" class="fieldConditionLend">
-                {{#each getConditions}}
-                    <option value="{{index}}">{{value}}</option>
-                {{/each}}
-            </select>
-          </label>
-
-          <div class="item item-divider">
-              <h2>Rent Price</h2>
-          </div>
-
-          <label class="item item-input">
-              <span class="input-label"><p>Day:</p></span>
-            <input type="number" class="userPrice dayPrice" placeholder="0.00" value="{{calculatedPriceDay}}">
-          </label>
-          <label class="item item-input">
-            <span class="input-label"><p>Week:</p></span>
-            <input type="number" class="userPrice weekPrice" placeholder="0.00" value="{{calculatedPriceWeek}}">
-          </label>
-          <label class="item item-input">
-            <span class="input-label"><p>Month:</p></span>
-            <input type="number" class="userPrice monthPrice" placeholder="0.00" value="{{calculatedPriceMonth}}">
-          </label>
-          <label class="item item-input">
-            <span class="input-label"><p>Semester (4m):</p></span>
-            <input type="number" class="userPrice semesterPrice" placeholder="0.00" value="{{calculatedPrice4Months}}">
-          </label>
-        </div>
-        <div class="padding-horizontal">
-          <button class="submitProduct button button-block button-energized" {{waitingForPrices}}>
-          {{#if validatePrices}}
-            Share this item!
-          {{else}}
-            Enter your price above
-          {{/if}}
-          </button>
-        </div>
-        {{/with}}
-    {{else}}
-        {{#if allResults}}
+    {{#ionContent class="results-content"}}
+     {{#if allResults}}
         <div class="results">
-<!--            <h4 class="center" style="margin-top:10px;">Select a Product</h4>-->
 
             {{#each allResults}}
                 {{#if isDifferentCategory}}
                     <div class="center menu-category {{splitCategory}}-menu">
                         <a class="category">
-<!--                            <i class="category-icon icon {{getCategoryIcon}}"></i>-->
-                            <i class="icon {{getCategoryIcon}}"></i> {{amazonCategory}}
-                            <i class="chevron-icon icon {{#if isOnlyOneCategory}} ion-chevron-down {{else}} ion-chevron-right {{/if}}"></i>
+                            <i class="icon-left icon {{getCategoryIcon}}"></i> {{amazonCategory}}
+                            <i class="icon-right chevron-icon icon {{#if isOnlyOneCategory}} ion-chevron-down {{else}} ion-chevron-up {{/if}}"></i>
                         </a>
                     </div>
                 {{/if}}
 
-                <div class="product {{splitCategory}} {{#if isOnlyOneCategory}} {{else}} hidden {{/if}}">
+                <div class="item product {{splitCategory}} {{#if isOnlyOneCategory}} {{else}} hidden {{/if}}">
                     <div class="row">
                         <div class="col col-20 image-col">
                             <div class="center">
                                 <img class="scanResult-thumbnail" src="{{image}}">
                             </div>
                         </div>
-<!--
-                        <div class="col col-20">
-                            <p>Amazon Price</p>
-                            <p>Title</p>
-                            <p>Category</p>
-                        </div>
--->
-                        <div class="col col-80 scan-result">
-                            <p class="title">{{title}}</p>
+
+                        <div class="col col-80">
+                            <div class="ellipsis">
+                                <p class="title">{{title}}</p>
+                            </div>
                             <p class="price">{{price}}</p>
-<!--                            <p class="category" style="display:none;">{{category}}</p>-->
-<!--                            <p class="asin" style="display:none;">{{asin}}</p>-->
                         </div>
+                    </div>
+                    <div class="item-icon-right">
+                        {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
                     </div>
                 </div>
 
             {{/each}}
-            <div class="padding-horizontal">
-                <button class="notFound button button-block button-energized">Item not found!</button>
+            <div class="item">
+                <a class="notFound">Item not found <i class="icon ion-chevron-right"></i></a>
             </div>
         </div>
         {{else}}
             <div class="content"><p>Not found. Please try again.</p></div>
-        {{/if}}
-    {{/if}}
-  {{/ionContent}}
+        {{/if}} 
+    {{/ionContent}}
 </template>

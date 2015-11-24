@@ -1,29 +1,32 @@
 <template name="lend">
-    {{#ionModal title="Share Product" customTemplate=true}}
-        <div class="bar bar-header bar-royal">
+    {{#ionView class="lend-view"}}
+<!--    {{#ionModal title="Share Product" customTemplate=true}}-->
+    
+        {{#contentFor "headerButtonLeft"}}
+            <button class="button button-clear pull-left" data-ion-menu-toggle="left">
+                {{#if isAndroid}}
+                    {{> ionIcon icon='android-more-vertical'}}
+                {{else}}
+                    {{> ionIcon icon='navicon' class="energized"}}
+                {{/if}}
+            </button>
+            {{> searchShareHeader}}
+        {{/contentFor}}
 
-            {{#if isScanResult}}
-                <button class="back button button-clear" style="position:absolute;z-index:100;">
-                    {{> ionIcon icon='ios-arrow-back'}} Back
-                </button>
-            <!--
-            <h2 class="title" style=" display:inline-block;
-                                                        width:60%;
-                                                        white-space: nowrap;
-                                                        overflow:hidden !important;
-                                                        text-overflow: ellipsis;
-                                                            margin:0 auto">{{ isScanResult.title }}</h2>
-            -->
-            {{else}}
-                {{> searchShareHeader}}
-            {{/if}}
+        {{#contentFor "headerTitle"}}
+            <h1 class="title"></h1>
+        {{/contentFor}}
 
-
+        {{#contentFor "headerButtonRight"}}
+            <a href="/" class="button button-clear">
+                <object id="spinner-logo-simple" data="/logo/spinner-logo-simple.svg" type="image/svg+xml"></object>
+            </a>
+<!--
             <button type="button" id="closeLend" style="right: 5px;position: absolute;" title="Close" class="button button-clear">
                 <i class="icon ion-ios-close-outline"></i>
             </button>
-
-        </div>
+-->
+        {{/contentFor}}
 
         <!-- DYNAMIC TEMPLATE -->
         {{> UI.dynamic template=dynamicTemplate}}
@@ -31,7 +34,8 @@
         <!-- TAB -->
         {{>lendTabs}}
 
-    {{/ionModal}}
+<!--    {{/ionModal}}-->
+    {{/ionView}}
 </template>
 
 <!-- NEW TAB -->

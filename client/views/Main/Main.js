@@ -6,7 +6,9 @@ Template.main.events({
 	},
 
 	'click .top-part': function(event){
-		CheckStripeAccount();
+		if(CheckStripeAccount()) {
+            Router.go('/lend');
+        }
 	}
 });
 

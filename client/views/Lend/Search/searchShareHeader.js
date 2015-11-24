@@ -4,9 +4,21 @@ Template.searchShareHeader.rendered = function(){
     var inputBox = $('.search-share-header-input');
 
     inputBox.css({
-        'width': '70%'
+        'width': '100%'
     });
     inputBox.focus();
+    
+    //if back button is clicked, trigger enter button on search bar with latest product
+    if(Lend.latestProduct) {
+        inputBox.val(Lend.latestProduct);
+        inputBox.trigger({type: 'keypress', charCode: 13});
+    }
+};
+
+Template.searchShareHeader.destroyed = function() {
+    if(!Session.get('scanResult')) {
+        Lend.latestProduct = undefined;
+    }
 };
 
 Template.searchShareHeader.events({
@@ -85,9 +97,6 @@ Template.searchShareHeader.events({
 Template.searchShareHeader.helpers({
     placeholder: function() {
         return Session.get('placeholder');
-    },
-    lastSearch: function(){
-      return Session.get('lastSearch');
     }
 })
 
