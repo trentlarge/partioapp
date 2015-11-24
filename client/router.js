@@ -43,7 +43,7 @@ Router.route('/inventory/:_id', { name: 'inventoryDetail', controller: 'Inventor
 Router.route('/inventory/connect/:_id', { name: 'connect', controller: 'ConnectController' });
 Router.route('/renting', {name: 'renting', controller: 'RentingController' });
 Router.route('/renting/connect/:_id', { name: 'connectRent', controller: 'ConnectRentController' });
-Router.route('/chat/:_id', { name: 'chat', controller: 'ChatController' });
+Router.route('/talk/:_id', { name: 'talk', controller: 'TalkController' });
 Router.route('/categories', { name: 'categories', controller: 'CategoriesController' });
 Router.route('/listing', { name: 'listing', controller: 'ListingController' });
 Router.route('/listing/search/:_id', { name: 'search', controller: 'SearchController' });
