@@ -707,7 +707,7 @@ Meteor.methods({
     var getAmazonItemSearchSynchronously = Meteor.wrapAsync(amazonItemSearch);
     var result = [];
 
-    for(var i=0; i<1; i++) {
+    for(var i=0; i<5; i++) {
       result.push(getAmazonItemSearchSynchronously(keys, i+1));
       console.log(result[i]);
     }
@@ -819,7 +819,7 @@ var amazonAllResultsItemSearchProcessing = function(result) {
                     if(possibleProperties.indexOf(property) >= 0) {
                       var attrs = Items.Item[i].ItemAttributes[0][property];
                       if(attrs) {
-                        if(attrs.toString() !== '[object Object]'){
+                        if(attrs.toString().indexOf('[object Object]') < 0){
                           attributes.push({
                             key: property,
                             value: attrs.toString().replace(/,/g, ', ')

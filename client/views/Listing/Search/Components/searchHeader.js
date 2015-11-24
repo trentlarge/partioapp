@@ -7,8 +7,8 @@ Template.searchHeader.events({
         
         if(inputBox.css('width') === '0px' || inputBox.css('width') === '0%'){
             inputBox.css({
-                'width':'70%',
-                'padding-left': '35px'
+                'width':'100%',
+                'padding-left': '40px'
             });
             
             inputIcon.css({
