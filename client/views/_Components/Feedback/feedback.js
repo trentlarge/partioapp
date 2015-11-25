@@ -40,7 +40,6 @@ Template.feedback.events({
 });
 
 
-
 Template.feedbackborrower.helpers({
 	requestorData: function() {
 		//console.log(this.requestorData);
@@ -65,6 +64,7 @@ Template.feedbackborrower.helpers({
 		}
 	},
 	ownerData: function(){
+		console.log(this.productData.ownerData);
 		return this.productData.ownerData.profile;
 	}
 });
