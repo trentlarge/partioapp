@@ -83,6 +83,18 @@ Template.appLayout.helpers({
 		}
 	},
 
+	isFullscreen: function(){
+		var mainTemplateName = Router.current()._layout._regions.main._template;
+		switch (mainTemplateName) {
+			case 'login':
+				return true;
+				break;
+			default:
+				return false;
+		}
+	}
+
+
 });
 
 getNewNotifications = function(){
