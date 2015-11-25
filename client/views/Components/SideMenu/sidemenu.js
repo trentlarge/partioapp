@@ -3,7 +3,7 @@
 Template.sidemenu.events({
     'keypress #search': function(e, template) {
 
-        if(e.charCode == 13 || e.keyCore == 13) {   
+        if(e.charCode == 13 || e.keyCore == 13) {
             var searchText = $('#search').val();
 
             if(searchText != '') {
@@ -21,6 +21,10 @@ Template.sidemenu.events({
                 }
             }
         }
+    },
+
+    'click #logout': function(e, template){
+      logout();
     }
 })
 
