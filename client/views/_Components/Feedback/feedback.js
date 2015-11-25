@@ -1,14 +1,21 @@
 Template.feedback.helpers({
 	userInfo: function() {
-		return Meteor.users.findOne({_id: this.productData.ownerId}).profile;
+
+		console.log('--------------------------')
+		console.log(this);
+		console.log('--------------------------')
+
+		return this.productData.ownerData.profile;
 	},
-	noProfileYet: function() {
-		if (this.avatar === "notSet") {
-			return true;
+	ownerAvatar: function() {
+		if(this.productData.ownerData.profile.avatar == 'notSet' ||
+			 this.productData.ownerData.profile.avatar == ''
+		 ){
+			return '/profile_image_placeholder.jpg'
 		} else {
-			return false;
+			return this.productData.ownerData.profile.avatar;
 		}
-	}
+	},
 });
 
 Template.feedback.events({
@@ -35,17 +42,19 @@ Template.feedback.events({
 
 
 Template.feedbackborrower.helpers({
-	userInfo: function() {
-		console.log(this);
-		return Meteor.users.findOne({_id: this.requestor}).profile;
+	requestorInfo: function() {
+		//console.log(this.requestorData);
+		return this.requestorData.profile;
 	},
-	noProfileYet: function() {
-		if (this.avatar === "notSet") {
-			return true;
+	requestorAvatar: function() {
+		if(this.requestorData.profile.avatar == 'notSet' ||
+			 this.requestorData.profile.avatar == ''
+		 ){
+			return '/profile_image_placeholder.jpg'
 		} else {
-			return false;
+			return this.requestorData.profile.avatar;
 		}
-	}
+	},
 });
 
 Template.feedbackborrower.events({
