@@ -42,7 +42,7 @@ Template.feedback.events({
 
 
 Template.feedbackborrower.helpers({
-	requestorInfo: function() {
+	requestorData: function() {
 		//console.log(this.requestorData);
 		return this.requestorData.profile;
 	},
@@ -55,6 +55,18 @@ Template.feedbackborrower.helpers({
 			return this.requestorData.profile.avatar;
 		}
 	},
+	ownerAvatar: function() {
+		if(this.productData.ownerData.profile.avatar == 'notSet' ||
+			 this.productData.ownerData.profile.avatar == ''
+		 ){
+			return '/profile_image_placeholder.jpg'
+		} else {
+			return this.productData.ownerData.profile.avatar;
+		}
+	},
+	ownerData: function(){
+		return this.productData.ownerData.profile;
+	}
 });
 
 Template.feedbackborrower.events({
@@ -67,9 +79,8 @@ Template.feedbackborrower.events({
 			Meteor.call('submitRating', rating, personId, Meteor.userId(), function(error, result) {
 				if (!error) {
 					IonModal.close();
+					Meteor.call('removeConnection', connectionId);
 					Router.go('/inventory');
-					Connections.remove({_id: connectionId});
-					Chat.remove({connectionId: connectionId})
 				}
 			})
 		} else {
