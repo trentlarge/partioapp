@@ -4,7 +4,9 @@ LendController = RouteController.extend({
 	},
 
 	action: function() {
-		this.render();
+		if(this.ready()) {
+			this.render();
+		}
 	},
 
 	waitOn: function() {
@@ -27,6 +29,6 @@ LendController = RouteController.extend({
 	},
 
 	onAfterAction: function() {
-		
+
 	}
 });

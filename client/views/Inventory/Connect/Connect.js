@@ -23,28 +23,30 @@ Template.connect.events({
   },
 
 	'click #confirmReturn': function() {
-		var connectionId = this.connectData._id;
-		var ean = this.productData.ean;
-
-		var productTitle = this.productData.title;
-    var searchCollectionId = Search.findOne({title: productTitle})._id;
+		var connection = this.connectData;
+    var productTitle = connection.productData.title;
+    var searchCollectionId = Search.findOne({title: productTitle});
+    console.log(searchCollectionId);
 
 		IonPopup.confirm({
 			cancelText: 'No',
 			okText: 'Received',
-			title: 'Is your book returned?',
-			template: '<div class="center"><p> The book will now be available for others to borrow </p></div>',
+			title: 'Is your product returned?',
+			template: '<div class="center"><p> The product will now be available for others to borrow </p></div>',
 			onCancel: function() {
 				console.log('Cancelled')
 			},
 			onOk: function() {
-				Meteor.call('confirmReturn', searchCollectionId, connectionId, function(error, result) {
-					console.log(error, result);
+				Meteor.call('confirmReturn', searchCollectionId, connection._id, function(error, result) {
+					//console.log(error, result);
+          IonPopup.close();
+          if(!error) {
+            IonModal.open("feedbackborrower", connection);
+          } else {
+            console.log('some error', error);
+          }
 				})
-				IonPopup.close();
-				IonModal.open("feedbackborrower", Connections.findOne(connectionId));
 			}
-
 		});
 	},
 
