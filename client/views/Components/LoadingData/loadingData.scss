@@ -1,0 +1,12 @@
+@import "../../../styles/app-variables";
+
+.loadingData {
+  .loading-container {
+    min-height: 100%;
+    background: none;
+
+    .message {
+      color: $royal;
+    }
+  }
+}
