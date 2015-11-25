@@ -33,7 +33,7 @@ Template.searchShareHeader.events({
                 inputSearch.addClass('has-text');    
             }
             
-            $('.content').css({'opacity': '1'}, function() {
+            $('.darken-element').css({'opacity': '1'}, function() {
                 $('.view').css({'background': '#eceff1'});    
             });
             
@@ -45,13 +45,13 @@ Template.searchShareHeader.events({
         
         if(Session.get('allResults')) {
             $('.view').css({'background': '#000000'});
-            $('.content').css({'opacity': '.5'});
+            $('.darken-element').css({'opacity': '.5'});
         }
     },
     'keypress .search-share-header-input': function(e, template) {
 
         if(Session.get('allResults')) {
-            $('.content').css({'opacity': '1'}, function() {
+            $('.darken-element').css({'opacity': '1'}, function() {
                 $('.view').css({'background': '#eceff1'});    
             });
         }
