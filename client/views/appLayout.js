@@ -284,7 +284,7 @@ Template.sAlertCustom.events({
 })
 
 Meteor.startup(function() {
-  Stripe.setPublishableKey('pk_test_OYfO9mHIQFha7How6lNpwUiQ');
+  Stripe.setPublishableKey(Meteor.settings.STRIPE_SECRET);
 
   GoogleMaps.load({
   	key: 'AIzaSyDMyxBlvIc4b4hoWqTw4lGr5OviU8FlQc8',

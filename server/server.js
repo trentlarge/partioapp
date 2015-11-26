@@ -7,7 +7,8 @@
 Meteor.startup(function() {
   // process.env.MAIL_URL="smtp://partio@cloudservice.io:partio1234@smtp.zoho.com:465";
   // Accounts.emailTemplates.from = 'partio@cloudservice.io';
-  // Stripe = StripeSync('sk_test_RBrpczGtVbB1tSaG66gglMTH');
+  //Stripe = StripeSync(Meteor.settings.STRIPE_SECRET);
+
   process.env.MAIL_URL="smtp://support%40partio.xyz:partio123!@smtp.zoho.com:465/";
   Accounts.emailTemplates.from = 'support@partio.xyz';
   Accounts.emailTemplates.siteName = 'partiO';
