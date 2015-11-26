@@ -147,7 +147,8 @@ function CheckLocatioOn()
 
 Template.login.rendered = function() {
 
-    //$('.bar-header').hide();
+    	$(".bar-header").hide();
+
 	if(window.cordova && window.cordova.plugins.Keyboard) {
 		// cordova.plugins.Keyboard.disableScroll(true);
 		// cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
