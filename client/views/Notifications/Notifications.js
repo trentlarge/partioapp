@@ -9,8 +9,6 @@ Template.notifications.events({
     			Router.go("talk", { _id: this.connectionId });
     		}; break;
     	}
-        //ShowNotificationMessage(this.message);
-//        Router.go(this.router);
 		return false;
      }
 });
