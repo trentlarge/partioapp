@@ -14,6 +14,7 @@ ListingController = RouteController.extend({
 			// subscribe to data here
 			// Meteor.subscribe("someSubscription"),
 			Meteor.subscribe("search"),
+            Meteor.subscribe("products"),
 			// ...
 		];
 	},
