@@ -133,6 +133,11 @@ body.keyboard-open .platform-android .content.overflow-scroll {
             font-size: 24px;
         }
     }
+    
+    .menu-icon {
+        width: 14px;
+        display: inline-block;
+    }
 
     .logo-container {
         // background-color: green;
@@ -202,7 +207,7 @@ body.keyboard-open .platform-android .content.overflow-scroll {
     }
 
     .logout-button {
-        padding-top: 50px;
+        padding-top: 25px;
     }
 
 }
@@ -222,7 +227,7 @@ body.keyboard-open .platform-android .content.overflow-scroll {
 
 .text {
   margin-top: -32px;
-  margin-bottom: 20px
+  margin-bottom: 25px
 }
 
 .btn {
