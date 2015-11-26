@@ -1,7 +1,7 @@
 <template name="lend">
     {{#ionView class="lend-view"}}
 <!--    {{#ionModal title="Share Product" customTemplate=true}}-->
-    
+
         {{#contentFor "headerButtonLeft"}}
             <button class="button button-clear pull-left" data-ion-menu-toggle="left">
                 {{#if isAndroid}}
@@ -19,7 +19,7 @@
 
         {{#contentFor "headerButtonRight"}}
             <a href="/" class="button button-clear">
-                <object id="spinner-logo-simple" data="/logo/spinner-logo-simple.svg" type="image/svg+xml"></object>
+                <img id="spinner-logo-simple" src="/logo/spinner-logo-simple.png"  />
             </a>
 <!--
             <button type="button" id="closeLend" style="right: 5px;position: absolute;" title="Close" class="button button-clear">
