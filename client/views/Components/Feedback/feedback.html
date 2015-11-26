@@ -1,0 +1,100 @@
+<template name="feedback">
+  {{#ionModal customTemplate=true}}
+      <div class="bar bar-header bar-royal">
+<!--       <button type="button" data-dismiss="modal" class="button button-small ion-ios-arrow-back button-clear">Cancel</button> -->
+        <h2 class="title">Feedback</h2>
+      </div>
+
+      <div class="content has-header">
+        <div class="card">
+
+          <div class="item">
+            <div class="profile-image-container">
+              <div class="profile-avatar" style="background: url('{{ownerAvatar}}') no-repeat; background-size:cover; background-position: 50% 50%;"></div>
+            </div>
+
+            <div class="center">
+              <p class="dark">{{ownerData.name}}</p>
+              <p class="line-height-one">{{ownerData.college}}</p>
+            </div>
+          </div>
+
+          <div class="item item-text-wrap center">
+            Please rate your experience with <strong>{{ownerData.name}}</strong>
+            <br>
+            <!-- <h1 class="energized">
+              <i class="icon ion-ios-star-outline"></i>
+              <i class="icon ion-ios-star-outline"></i>
+              <i class="icon ion-ios-star-outline"></i>
+              <i class="icon ion-ios-star-outline"></i>
+              <i class="icon ion-ios-star"></i>
+            </h1> -->
+            <div class="flex-aligner">
+              <fieldset class="rating">
+                <input type="radio" id="star5" name="rating" value="5" checked /><label for="star5"></label>
+                <input type="radio" id="star4" name="rating" value="4" /><label for="star4"></label>
+                <input type="radio" id="star3" name="rating" value="3" /><label for="star3"></label>
+                <input type="radio" id="star2" name="rating" value="2" /><label for="star2"></label>
+                <input type="radio" id="star1" name="rating" value="1" /><label for="star1"></label>
+              </fieldset>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="padding-horizontal">
+          <button id="submitFeedback" class="button button-outline button-block">SUBMIT</button>
+        </div>
+
+      </div>
+  {{/ionModal}}
+</template>
+
+
+
+<template name="feedbackborrower">
+  {{#ionModal customTemplate=true}}
+      <div class="bar bar-header bar-royal">
+        <h2 class="title">Feedback</h2>
+      </div>
+
+      <div class="content has-header">
+
+        <div class="card">
+
+        <div class="item">
+          <div class="profile-image-container">
+            <div class="profile-avatar" style="background: url('{{requestorAvatar}}') no-repeat; background-size:cover; background-position: 50% 50%;"></div>
+          </div>
+
+          <div class="center">
+            <p class="dark">{{requestorData.name}}</p>
+            <p class="line-height-one">{{requestorData.college}}</p>
+          </div>
+        </div>
+
+        <div class="item item-text-wrap center">
+          Please rate your experience with <strong>{{requestorData.name}}</strong>
+          <br>
+
+          <div class="flex-aligner">
+            <fieldset class="rating">
+            <input type="radio" id="star5" name="rating" value="5" checked /><label for="star5"></label>
+            <input type="radio" id="star4" name="rating" value="4" /><label for="star4"></label>
+            <input type="radio" id="star3" name="rating" value="3" /><label for="star3"></label>
+            <input type="radio" id="star2" name="rating" value="2" /><label for="star2"></label>
+            <input type="radio" id="star1" name="rating" value="1" /><label for="star1"></label>
+          </fieldset>
+          </div>
+
+        </div>
+
+        </div>
+
+        <div class="padding-horizontal">
+          <button id="submitFeedback" class="button button-outline button-block">SUBMIT</button>
+        </div>
+
+      </div>
+  {{/ionModal}}
+</template>
