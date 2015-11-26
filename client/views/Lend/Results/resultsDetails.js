@@ -139,12 +139,12 @@ Template.resultsDetails.events({
       var features = $('.features');
       var featureDetails = $('.features-details');
 
-        if(featureDetails.hasClass('hidden')){
-            featureDetails.removeClass('hidden');
+        if(!featureDetails.is(':visible')){
+            featureDetails.slideDown('fast');
             features.find('.chevron-icon').removeClass('ion-chevron-up').addClass('ion-chevron-down');
         }
         else {
-            featureDetails.addClass('hidden');
+            featureDetails.slideUp('fast');
             features.find('.chevron-icon').removeClass('ion-chevron-down').addClass('ion-chevron-up');
         }
 

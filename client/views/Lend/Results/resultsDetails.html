@@ -33,31 +33,33 @@
                         <h2>Features <i class="chevron-icon icon ion-chevron-up"></i></h2>
                     </div>
 
-                    <div class="item no-padding row-details features-details hidden">
-                        <div class="col col-50">
-                            <div class="details-box">
-                                <i class="icon {{getCategoryIcon}} bk-energized"></i>
-                                <span class="detail">{{amazonCategory}}</span>
+                    <div class="features-details" style="display: none">
+                        <div class="item no-padding row-details">
+                            <div class="col col-50">
+                                <div class="details-box">
+                                    <i class="icon {{getCategoryIcon}} bk-energized"></i>
+                                    <span class="detail">{{amazonCategory}}</span>
+                                </div>
+                            </div>
+                            <div class="col col-50">
+                                <div class="details-box">
+                                    <i class="icon ion-cash bk-energized"></i>
+                                    <span class="detail">{{price}}</span>
+                                </div>
                             </div>
                         </div>
-                        <div class="col col-50">
-                            <div class="details-box">
-                                <i class="icon ion-cash bk-energized"></i>
-                                <span class="detail">{{price}}</span>
-                            </div>
-                        </div>
-                    </div>
 
-                    <div class="row item features-details hidden">
-                        <div class="col col-33">
-                            {{#each attributes}}
-                                <p>{{key}}</p>
-                            {{/each}}
-                        </div>
-                        <div class="col col-67 scan-result">
-                            {{#each attributes}}
-                                <p>{{value}}</p>
-                            {{/each}}
+                        <div class="row item">
+                            <div class="col col-33">
+                                {{#each attributes}}
+                                    <p>{{key}}</p>
+                                {{/each}}
+                            </div>
+                            <div class="col col-67 scan-result">
+                                {{#each attributes}}
+                                    <p>{{value}}</p>
+                                {{/each}}
+                            </div>
                         </div>
                     </div>
 
