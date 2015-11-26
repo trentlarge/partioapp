@@ -11,6 +11,13 @@ Template.results.helpers({
   allResults: function(){
     return Session.get('allResults');
   },
+  allResultsByCategory: function(){
+    var results = Session.get('allResults');
+    var amazonCategory = this.amazonCategory;
+    return results.filter(function(result) {
+        return result.amazonCategory === amazonCategory;
+    });
+  },
   isDifferentCategory: function() {
       if(this.index === 0 || Lend.currentCategory !== this.amazonCategory) {
           Lend.currentCategory = this.amazonCategory;
@@ -141,16 +148,17 @@ Template.results.events({
     // hide/show products by category
     'click .menu-category': function(e, template) {
         var category = $('.' + $(this)[0].amazonCategory.replace(/\s/g,"").replace(/\&/g,""));
-        var categoryId = $('.' + $(this)[0].amazonCategory.replace(/\s/g,"").replace(/\&/g,"") + '-menu');
+        var categoryMenu = $('.' + $(this)[0].amazonCategory.replace(/\s/g,"").replace(/\&/g,"") + '-menu');
 
-        if(category.hasClass('hidden')){
-            category.removeClass('hidden');
-            categoryId.find('.chevron-icon').removeClass('ion-chevron-up').addClass('ion-chevron-down');
+        if(!category.is(':visible')){
+            category.slideDown('fast');
+            categoryMenu.find('.chevron-icon').removeClass('ion-chevron-up').addClass('ion-chevron-down');
         }
         else {
-            category.addClass('hidden');
-            categoryId.find('.chevron-icon').removeClass('ion-chevron-down').addClass('ion-chevron-up');
+            category.slideUp('fast');
+            categoryMenu.find('.chevron-icon').removeClass('ion-chevron-down').addClass('ion-chevron-up');
         }
+
     },
 
     'click .product': function(e, template) {
