@@ -1,7 +1,17 @@
 Template.notifications.events({
-    'click .show-message': function() {
+    'click .show-message': function(e, t) {
+    	e.preventDefault();
+
+        console.log(this);
+
+    	switch(this.type) {
+    		case "chat": {
+    			Router.go("talk", { _id: this.connectionId });
+    		}; break;
+    	}
         //ShowNotificationMessage(this.message);
-        Router.go(this.router);
+//        Router.go(this.router);
+		return false;
      }
 });
 

@@ -49,6 +49,14 @@ Meteor.methods({
 		{
 			multi: true
 		});
+
+		Notifications.update({
+			connectionId: connectionId,
+			type: "chat"
+		},
+		{
+			$set: { read: true }
+		});
 	}
 });
 

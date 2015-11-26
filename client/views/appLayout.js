@@ -89,81 +89,14 @@ getNewNotifications = function(){
 	return Notifications.find({toId: Meteor.userId(), read: false});
 }
 
-getNewChatMessages = function(){
-	return Connections.find({
-		$or: [{requestor: Meteor.userId()}, {"productData.ownerId": Meteor.userId()}],
-		"chat.state": "new",
-		"chat.sender": {$ne: Meteor.userId()}
-	});
-}
-
-getChatMessages = function(){
-		return Connections.find({ $or: [{requestor: Meteor.userId()}, {"productData.ownerId": Meteor.userId()}] });
-}
-
-
-
-//Chat = new Meteor.Collection(null);
-
-// SCREAMS FOR REFACTOR!!! -->
-
 Template.appLayout.onRendered(function() {
 
-	this.autorun(function() {
-		var _newNotificatons = getNewNotifications();
-		var _newChatMessages = getNewChatMessages();
-		var _chatMessages 	 = getChatMessages();
-		//console.log(getNewChatMessages().fetch())
+	var _newNotificatons = getNewNotifications();
+	_newNotificatons.observeChanges({
+		added: function(id, fields) {
+			switch(fields.type) {
 
-		//return false;
-
-
-		//var query1 = Notifications.find({toId: Meteor.userId(), read: false});
-
-		// var _newChatMessages = Connections.find({
-		// 	$or: [{requestor: Meteor.userId()}, {"productData.ownerId": Meteor.userId()}],
-		// 	"chat.state": "new",
-		// 	"chat.sender": {$ne: Meteor.userId()}
-		// });
-
-		// var chatQuery = this.connectDat
-
-
-		//Connections.find({ $or: [{requestor: Meteor.userId()}, {"productData.ownerId": Meteor.userId()}] });
-
-		_chatMessages.observeChanges({
-			changed: function(id, fields) {
-				console.log(id);
-				console.log(fields);
-
-//				fields.chat.forEach(function(item) {
-
-					
-
-				// 	if ( (item.sender !== Meteor.userId) && (!Chat.findOne({connectionId: id, timestamp: item.timestamp})) ) {
-				// 		Chat.insert({
-				// 			connectionId: id,
-				// 			message: item.message,
-				// 			state: "new",
-				// 			timestamp: item.timestamp
-				// 		});
-				//
-//				 		if (Iron.Location.get().path !== '/chat/' + id ) {
-//				 			sAlert.info({
-//				 				goToChat: '/talk/' + id,
-//				 				headerMessage: Meteor.users.findOne(item.sender).profile.name + ':',
-//				 				message: item.message
-//				 			});
-//				 		}
-//				 	}
-//				});
-
-			}
-		})
-
-		_newNotificatons.observeChanges({
-			added: function(id, fields) {
-				if (fields.type === "request") {
+				case "request": {
 					if(IsPopUpOpen){
 						//PopUp is open already, no need for a new one.
 						return;
@@ -189,7 +122,9 @@ Template.appLayout.onRendered(function() {
 							}
 						}]
 					});
-				} else if (fields.type === "approved") {
+				}; break;
+
+				case "approved": {
 					if(IsPopUpOpen){
 						//PopUp is open already, no need for a new one.
 						return;
@@ -216,7 +151,9 @@ Template.appLayout.onRendered(function() {
 							}
 						}]
 					});
-				} else if (fields.type === "declined") {
+				}; break;
+
+				case "declined": {
 
 					if(IsPopUpOpen) {
 						//PopUp is open already, no need for a new one.
@@ -244,7 +181,22 @@ Template.appLayout.onRendered(function() {
 							}
 						}]
 					});
-				} else {
+				}; break;
+
+				case "chat": {
+					console.log(id, fields);
+
+				 		if (Iron.Location.get().path !== '/chat/' + id ) {
+				 			sAlert.info({
+				 				goToChat: '/talk/' + fields.connectionId,
+				 				headerMessage: "New message",
+				 				message: fields.message
+				 			});
+				 		}
+
+				}; break;
+
+				default: {
 					IonLoading.show({
 						duration: 2000,
 						customTemplate: '<div class="center"><h5>'+ fields.message 	+'</h5></div>',
@@ -252,11 +204,11 @@ Template.appLayout.onRendered(function() {
 					Notifications.update({_id: id}, {$set: {read: true}});
 					Session.set('alertCount', Session.get('alertCount') + 1);
 				}
-
 			}
-		})
-	})
-})
+
+		}
+	});
+});
 
 
 Template.registerHelper('cleanDate', function() {
