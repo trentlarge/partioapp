@@ -7,14 +7,13 @@ Template.main.events({
 
 	'click .top-part': function(event){
 		if(CheckStripeAccount()) {
-            Router.go('/lend');
-        }
+      Router.go('/lend');
+    }
 	}
 });
 
 function CheckStripeAccount () {
-  if (! Meteor.user().profile.stripeAccount)
-  {
+  if (!Meteor.user().profile.stripeAccount){
     PartioLoad.hide();
     IonPopup.show({
       title: 'ATTENTION!',

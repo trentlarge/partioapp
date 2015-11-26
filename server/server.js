@@ -540,168 +540,184 @@ Meteor.methods({
       throw new Meteor.Error('Error while adding user as a customer to payment profile');
     }
   },
-  'delCustomer': function(customerId, MeteorUserId) {
 
-    console.log('deletado');
-    var allCards = Stripe.customers.listCards('cus_6omXOz0ZAXVwrm');
-    console.log(allCards);
+  // 'delCustomer': function(customerId, MeteorUserId) {
+  //
+  //   console.log('deletado');
+  //   var allCards = Stripe.customers.listCards('cus_6omXOz0ZAXVwrm');
+  //   console.log(allCards);
+  //
+  //     Stripe.customers.deleteCard(customerId,"card_17AajxEqax26zIzTuZZ4lMgH",function(err, confirmation) {
+  //         // asynchronously called
+  //         console.log('deletado');
+  //         console.log(err);
+  //         console.log(confirmation);
+  //       }
+  //     );
+  // },
 
-      Stripe.customers.deleteCard(customerId,"card_17AajxEqax26zIzTuZZ4lMgH",function(err, confirmation) {
-          // asynchronously called
-          console.log('deletado');
-          console.log(err);
-          console.log(confirmation);
-        }
-      );
-  },
-  'listCards': function() {
-    this.unblock();
-    try {
-      var result = Stripe.customers.listCards('cus_6omXOz0ZAXVwrm');
-      console.log(result);
-    } catch(e){
-      console.log(e)
-    }
-  },
+  // 'listCards': function(customerId) {
+  //   this.unblock();
+  //   try {
+  //     var result = Stripe.customers.listCards(customerId);
+  //     console.log(result);
+  //   } catch(e){
+  //     console.log(e)
+  //   }
+  // },
 
-  'addPaymentCard': function(tokenId, customerId, MeteorUserId) {
-    console.log(tokenId, customerId, MeteorUserId);
+  'addPaymentCard': function(tokenId) {
+    console.log('>>>>> add card');
+    var customerId = Meteor.user().profile.customer.id;
+
     this.unblock();
     try {
       var result = Stripe.customers.createSource( customerId , tokenId);
-      console.log(result);
+      //console.log(result);
 
       if (result.id) {
-        var allCards = Stripe.customers.listCards(customerId);
-        console.log(allCards);
-        Meteor.users.update({"_id": MeteorUserId}, {$set: {"profile.cards": allCards}})
-      }
-    } catch(e) {
-      console.log(e);
-      throw new Meteor.Error('Error while adding card to account');
-    }
-  },
 
-  'addDebitCard': function(tokenId, stripeAccountId, MeteorUserId) {
-    console.log(tokenId, stripeAccountId, MeteorUserId);
-    this.unblock();
-    try {
-
-      var cardToken = Stripe.tokens.create({
-        "card[number]": '4000056655665556',
-         "card[exp_month]": 12,
-         "card[exp_year]": 2016,
-         "card[cvc]": '321',
-         "card[currency]": 'usd'
-      });
-      console.log(tokenId);
-      console.log('##### TIPO DE CARTAO: ');
-
-      var result = Stripe.accounts.update( stripeAccountId, {
-        external_account: cardToken
-      });
-
-      console.log('####RESULT######');
-      console.log(result);
-
-      if (result.id) {
-        Meteor.users.update({"_id": MeteorUserId}, {$set: {"profile.payoutCard": result}})
-
-      }
-    } catch(e) {
-      console.log(e);
-      throw new Meteor.Error('Error while adding card to account');
-    }
-  },
-
-  'createDebitAccount': function(MeteorUserId) {
-    var email = Meteor.users.findOne(MeteorUserId).profile.email;
-    this.unblock();
-
-    if (! Meteor.users.findOne(MeteorUserId).profile.stripeAccount) {
-      try {
-        var result = Stripe.accounts.create({
-          managed: true,
-          country: 'US',
-          email: email
-        });
-        console.log(result);
-
-        if (result.id) {
-          Meteor.users.update({"_id": MeteorUserId}, {$set: {"profile.stripeAccount": result}})
+        if (! Meteor.users.findOne(Meteor.userId()).profile.stripeAccount) {
+          Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.stripeAccount": result}})
+        } else {
+          console.log("Stripe Account already exists");
         }
-      } catch(error) {
-        console.log(error)
+
+        var allCards = Stripe.customers.listCards(customerId);
+        console.log('listing cards >>>>>>>>>> ')
+        console.log(allCards);
+        Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.cards": allCards}})
+
+      } else {
+        console.log('some error');
       }
-    } else {
-      console.log("Stripe Account already exists");
-      return true;
+    } catch(e) {
+      console.log(e);
+      throw new Meteor.Error('Error while adding card to account');
     }
   },
 
-  'createStripeAccount': function(firstname, lastname, ssn, routingnumber, bankaccount, MeteorUserId) {
-    this.unblock();
+  // 'addDebitCard': function(tokenId, stripeAccountId, MeteorUserId) {
+  //   console.log(tokenId, stripeAccountId, MeteorUserId);
+  //   this.unblock();
+  //   try {
+  //
+  //     var cardToken = Stripe.tokens.create({
+  //       "card[number]": '4000056655665556',
+  //        "card[exp_month]": 12,
+  //        "card[exp_year]": 2016,
+  //        "card[cvc]": '321',
+  //        "card[currency]": 'usd'
+  //     });
+  //     console.log(tokenId);
+  //     console.log('##### TIPO DE CARTAO: ');
+  //
+  //     var result = Stripe.accounts.update( stripeAccountId, {
+  //       external_account: cardToken
+  //     });
+  //
+  //     console.log('####RESULT######');
+  //     console.log(result);
+  //
+  //     if (result.id) {
+  //       Meteor.users.update({"_id": MeteorUserId}, {$set: {"profile.payoutCard": result}})
+  //
+  //     }
+  //   } catch(e) {
+  //     console.log(e);
+  //     throw new Meteor.Error('Error while adding card to account');
+  //   }
+  // },
+  //
+  // 'createDebitAccount': function(MeteorUserId) {
+  //   var email = Meteor.users.findOne(MeteorUserId).profile.email;
+  //   this.unblock();
+  //
+  //   if (! Meteor.users.findOne(MeteorUserId).profile.stripeAccount) {
+  //     try {
+  //       var result = Stripe.accounts.create({
+  //         managed: true,
+  //         country: 'US',
+  //         email: email
+  //       });
+  //       console.log(result);
+  //
+  //       if (result.id) {
+  //         Meteor.users.update({"_id": MeteorUserId}, {$set: {"profile.stripeAccount": result}})
+  //       }
+  //     } catch(error) {
+  //       console.log(error)
+  //     }
+  //   } else {
+  //     console.log("Stripe Account already exists");
+  //     return true;
+  //   }
+  // },
 
-    try {
-      var result = Stripe.accounts.create({
-        "managed": true,
-        "country": "US",
-        "legal_entity[type]": "individual",
-        "legal_entity[first_name]": firstname,
-        "legal_entity[last_name]": lastname,
-        "legal_entity[ssn_last_4]": ssn,
-        // "legal_entity[address][line1]": "Some lane",
-        // "legal_entity[address][city]": "San Francisco",
-        // "legal_entity[address][state]": "TX",
-        // "legal_entity[address][postal_code]": "12345",
-        "tos_acceptance[date]": Math.floor(Date.now() / 1000),
-        "tos_acceptance[ip]": "8.8.8.8",
-        "bank_account[country]": "US",
-        "bank_account[routing_number]": routingnumber,
-        "bank_account[account_number]": bankaccount
-      })
+  // 'createStripeAccount': function(firstname, lastname, ssn, routingnumber, bankaccount, MeteorUserId) {
+  //   this.unblock();
+  //
+  //   try {
+  //     var result = Stripe.accounts.create({
+  //       "managed": true,
+  //       "country": "US",
+  //       "legal_entity[type]": "individual",
+  //       "legal_entity[first_name]": firstname,
+  //       "legal_entity[last_name]": lastname,
+  //       "legal_entity[ssn_last_4]": ssn,
+  //       // "legal_entity[address][line1]": "Some lane",
+  //       // "legal_entity[address][city]": "San Francisco",
+  //       // "legal_entity[address][state]": "TX",
+  //       // "legal_entity[address][postal_code]": "12345",
+  //       "tos_acceptance[date]": Math.floor(Date.now() / 1000),
+  //       "tos_acceptance[ip]": "8.8.8.8",
+  //       "bank_account[country]": "US",
+  //       "bank_account[routing_number]": routingnumber,
+  //       "bank_account[account_number]": bankaccount
+  //     })
+  //
+  //     console.log(result);
+  //     if (result.id) {
+  //       Meteor.users.update({"_id": MeteorUserId}, {$set: {"profile.stripeAccount": result}})
+  //     }
+  //     return true;
+  //   }
+  //   catch(error) {
+  //     console.log(error)
+  //     throw new Meteor.Error('Error while creating account');
+  //   }
+  // },
 
-      console.log(result);
-      if (result.id) {
-        Meteor.users.update({"_id": MeteorUserId}, {$set: {"profile.stripeAccount": result}})
-      }
-      return true;
-    }
-    catch(error) {
-      console.log(error)
-      throw new Meteor.Error('Error while creating account');
-    }
-  },
-  'createNAAAH': function() {
-    this.unblock();
-    try {
-
-     var result = Stripe.accounts.create({
-      "managed": true,
-      "country": "US",
-      "legal_entity[type]": "individual",
-      "legal_entity[first_name]": "Test",
-      "legal_entity[last_name]": "Man",
-      "legal_entity[ssn_last_4]": 1234,
-      "legal_entity[address][line1]": "Some lane",
-      "legal_entity[address][city]": "San Francisco",
-      "legal_entity[address][state]": "TX",
-      "legal_entity[address][postal_code]": "12345",
-      "tos_acceptance[date]": Math.floor(Date.now() / 1000),
-      "tos_acceptance[ip]": "8.8.8.8",
-      "bank_account[country]": "US",
-      "bank_account[routing_number]": "110000000",
-      "bank_account[account_number]": "000123456789"
-     })
-
-        console.log(result)
-        return true;
-      }
-      catch(error) {
-        console.log(error)
-        throw new Meteor.Error('payment-failed', 'The payment failed');
-      }
-    },
+  // 'createNAAAH': function() {
+  //   this.unblock();
+  //   try {
+  //
+  //    var result = Stripe.accounts.create({
+  //     "managed": true,
+  //     "country": "US",
+  //     "legal_entity[type]": "individual",
+  //     "legal_entity[first_name]": "Test",
+  //     "legal_entity[last_name]": "Man",
+  //     "legal_entity[ssn_last_4]": 1234,
+  //     "legal_entity[address][line1]": "Some lane",
+  //     "legal_entity[address][city]": "San Francisco",
+  //     "legal_entity[address][state]": "TX",
+  //     "legal_entity[address][postal_code]": "12345",
+  //     "tos_acceptance[date]": Math.floor(Date.now() / 1000),
+  //     "tos_acceptance[ip]": "8.8.8.8",
+  //     "bank_account[country]": "US",
+  //     "bank_account[routing_number]": "110000000",
+  //     "bank_account[account_number]": "000123456789"
+  //    })
+  //
+  //       console.log(result)
+  //       return true;
+  //     }
+  //     catch(error) {
+  //       console.log(error)
+  //       throw new Meteor.Error('payment-failed', 'The payment failed');
+  //     }
+  //   },
 
   AllItemsFromAmazon: function(keys) {
     var getAmazonItemSearchSynchronously = Meteor.wrapAsync(amazonItemSearch);
