@@ -35,7 +35,6 @@ mdg:geolocation
 meteorhacks:async
 meteorhacks:search-source
 meteoric:ionic-sass
-meteoric:ionicons-sass
 meteoric:ionic
 mdg:reload-on-resume
 mrt:accounts-facebook-cordova
@@ -48,7 +47,6 @@ msavin:mongol
 mrt:twilio-meteor
 mrt:moment
 mrt:twilio
-meteorhacks:kadira
 dandv:jquery-rateit
 twbs:bootstrap
 aldeed:autoform-bs-datepicker
@@ -57,5 +55,6 @@ perak:user-roles
 perak:joins
 fortawesome:fontawesome
 fourseven:scss@=3.4.0-beta1
+meteoric:ionicons-sass
 hashwin:ionic-sass
 hashwin:ionicons-sass

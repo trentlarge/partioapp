@@ -4,6 +4,7 @@
 // Ionic
 @import '{hashwin:ionic-sass}/_ionic';
 @import '{hashwin:ionicons-sass}/_ionicons';
+//@import 'http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css';
 //@import '.meteor/local/build/programs/server/assets/packages/meteoric_ionic-sass/ionic';
 //@import '.meteor/local/build/programs/server/assets/packages/meteoric_ionicons-sass/ionicons';
 
@@ -70,7 +71,7 @@ input {
 }
 
 body.keyboard-open .platform-android .content.overflow-scroll {
-  bottom: 0px !important;
+    bottom: 0px !important;
 }
 
 .fieldDescriptionLend {
@@ -131,6 +132,11 @@ body.keyboard-open .platform-android .content.overflow-scroll {
         i {
             font-size: 24px;
         }
+    }
+    
+    .menu-icon {
+        width: 14px;
+        display: inline-block;
     }
 
     .logo-container {
@@ -201,7 +207,7 @@ body.keyboard-open .platform-android .content.overflow-scroll {
     }
 
     .logout-button {
-        padding-top: 50px;
+        padding-top: 25px;
     }
 
 }
@@ -221,7 +227,7 @@ body.keyboard-open .platform-android .content.overflow-scroll {
 
 .text {
   margin-top: -32px;
-  margin-bottom: 20px
+  margin-bottom: 25px
 }
 
 .btn {

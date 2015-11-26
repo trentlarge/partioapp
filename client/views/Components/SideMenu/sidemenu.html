@@ -35,19 +35,23 @@
         </a>
 -->
         <a href="{{pathFor "inventory"}}" class="item" data-ion-menu-close>
-          {{> ionIcon icon="ios-briefcase" class="energized"}} &nbsp;&nbsp; SHARED ITEMS
+<!--          {{> ionIcon icon="ios-briefcase" class="energized"}} &nbsp;&nbsp; SHARED ITEMS-->
+          {{> ionIcon icon="speakerphone" class="menu-icon energized"}} &nbsp;&nbsp; Shared items
           <span class="badge badge-alert badge-assertive">{{#if inventoryCount}}{{inventoryCount}}{{/if}}</span>
         </a>
         <a href="{{pathFor "renting"}}" class="item" data-ion-menu-close>
-          {{> ionIcon icon="ios-browsers" class="energized"}} &nbsp;&nbsp; BORROWED ITEMS
+<!--          {{> ionIcon icon="ios-browsers" class="energized"}} &nbsp;&nbsp; BORROWED ITEMS-->
+          {{> ionIcon icon="ios-cart" class="menu-icon energized"}} &nbsp;&nbsp; Borrowed items
           <span class="badge badge-alert badge-assertive">{{#if rentedCount}}{{rentedCount}}{{/if}}</span>
         </a>
         <a href="{{pathFor "transactions"}}" class="item" data-ion-menu-close>
-          {{> ionIcon icon="card" class="energized"}} &nbsp;&nbsp; TRANSACTIONS
+<!--          {{> ionIcon icon="card" class="energized"}} &nbsp;&nbsp; TRANSACTIONS-->
+          {{> ionIcon icon="card" class="menu-icon energized"}} &nbsp;&nbsp; Transactions
           <span class="badge badge-alert badge-assertive">{{#if transactionCount}}{{transactionCount}}{{/if}}</span>
         </a>
         <a href="{{pathFor "profile"}}" class="item" data-ion-menu-close>
-          {{> ionIcon icon="person" class="energized"}} &nbsp;&nbsp; MY PROFILE
+<!--          {{> ionIcon icon="person" class="energized"}} &nbsp;&nbsp; MY PROFILE-->
+          {{> ionIcon icon="android-person" class="menu-icon energized"}} &nbsp;&nbsp; My profile
         </a>
 <!--
         <a href="{{pathFor "notifications"}}" class="item" data-ion-menu-close>
@@ -68,7 +72,7 @@
             <button class="btn" id="logout" data-ion-menu-close>LOGOUT</button>
          </div>
 
-         <p class="padding beta">beta vTHE BEST</p>
+         <p class="beta">beta vTHE BEST</p>
 
       </div>
 

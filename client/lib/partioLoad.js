@@ -10,7 +10,7 @@ app.model.PartioLoad = (function () {
         PartioLoad.setMessage(message);
       }
 
-      var _loadTemplate = '<img src="/circle.png" class="logo-spinner" >';
+      var _loadTemplate = '<img src="https://testepartio.s3.amazonaws.com/circle.png" class="logo-spinner" >';
 
       if(Session.get('partioLoadMsg') != ''){
         _loadTemplate += "<div class='message'>"+Session.get('partioLoadMsg')+"</div>";

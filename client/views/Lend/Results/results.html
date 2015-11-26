@@ -11,27 +11,33 @@
                             <i class="icon-right chevron-icon icon {{#if isOnlyOneCategory}} ion-chevron-down {{else}} ion-chevron-up {{/if}}"></i>
                         </a>
                     </div>
+            
+                    <div class="{{splitCategory}}" style="{{#if isOnlyOneCategory}} {{else}} display:none; {{/if}}">
+                        {{#each allResultsByCategory}}
+                            <div class="item product">
+                                <div class="row">
+                                    <div class="col col-20 image-col">
+                                        <div class="center">
+                                            <img class="scanResult-thumbnail" src="{{image}}">
+                                        </div>
+                                    </div>
+
+                                    <div class="col col-80">
+                                        <div class="ellipsis">
+                                            <p class="title">{{title}}</p>
+                                        </div>
+                                        <p class="price">{{price}}</p>
+                                    </div>
+                                </div>
+                                <div class="item-icon-right">
+                                    {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
+                                </div>
+                            </div>
+                        {{/each}}
+                    </div>
                 {{/if}}
 
-                <div class="item product {{splitCategory}} {{#if isOnlyOneCategory}} {{else}} hidden {{/if}}">
-                    <div class="row">
-                        <div class="col col-20 image-col">
-                            <div class="center">
-                                <img class="scanResult-thumbnail" src="{{image}}">
-                            </div>
-                        </div>
-
-                        <div class="col col-80">
-                            <div class="ellipsis">
-                                <p class="title">{{title}}</p>
-                            </div>
-                            <p class="price">{{price}}</p>
-                        </div>
-                    </div>
-                    <div class="item-icon-right">
-                        {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
-                    </div>
-                </div>
+                
 
             {{/each}}
             <div class="item itemNotFound">

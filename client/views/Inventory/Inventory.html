@@ -15,7 +15,7 @@
 
   {{#contentFor "headerButtonRight"}}
     <a href="/" class="button button-clear">
-        <object id="spinner-logo-simple" data="/logo/spinner-logo-simple.svg" type="image/svg+xml"></object>
+        <img id="spinner-logo-simple" src="/logo/spinner-logo-simple.png" />
     </a>
   {{/contentFor}}
 
@@ -30,7 +30,7 @@
           {{#each finalizedRequests}}
             {{#ionItem path="connect" _id=productData._id class="item-avatar-2 final-request-item hidden"}}
               <div class="product-avatar">
-                <img class="product-avatar-inner" src="{{productData.image}}"/>
+                <img class="product-avatar-inner" src="{{productData.image}}" >
               </div>
               <p class="main-title-text">{{productData.title}}</p>
               <p class="main-sub-text">Condition of the item: {{../getCondition productData.conditionId}}</p>
@@ -119,7 +119,7 @@
                     <th><i class="icon">S</i></th>
                   </tr>
                   <tr>
-                    
+
                     <td>${{rentPrice.day}}</td>
                     <td>${{rentPrice.week}}</td>
                     <td>${{rentPrice.month}}</td>
@@ -137,7 +137,7 @@
         <div class="center">
           <a href="/" class="button" style="margin-top:30px;border:0;background-color:transparent;">
             <div class="logo-share">
-                <object id="spinner-logo-simple" data="/logo/spinner-logo-simple.svg" type="image/svg+xml" style="height: 150px;"></object>
+                <img id="spinner-logo-simple" src="/logo/spinner-logo-simple.png" />
             </div>
             <h6 class="dark">Start sharing your items on partiO!</h6>
           </a>
