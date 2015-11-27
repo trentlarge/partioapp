@@ -1,14 +1,14 @@
 <template name="loadingData">
   {{#contentFor "headerTitle"}}
     <h1 class="title">
-      <img id="spinner-logo-simple"  src="https://s3.amazonaws.com/testepartio/spinner-logo-simple.png" />
+      <img id="spinner-logo-simple"  src="{{ getImage 'spinner-logo' }}" />
     </h1>
   {{/contentFor}}
 
   {{#ionView class="loadingData"}}
     <div class="loading-container visible active">
       <div class="loading">
-        <img src="https://s3.amazonaws.com/testepartio/circle.png" class="logo-spinner"><div class="message">Let's PartiO...</div>
+        <img src="{{ getImage 'spinner-logo' }}" class="logo-spinner"><div class="message">Let's PartiO...</div>
       </div>
     </div>
   {{/ionView}}
