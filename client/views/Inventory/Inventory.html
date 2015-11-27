@@ -11,7 +11,7 @@
 
   {{#contentFor "headerButtonRight"}}
     <a href="/" class="button button-clear">
-        <img id="spinner-logo-simple" src="/logo/spinner-logo-simple.png" />
+        <img id="spinner-logo-simple" src="{{ getImage 'spinner-logo' }}" />
     </a>
   {{/contentFor}}
 
@@ -133,7 +133,7 @@
         <div class="center">
           <a href="/" class="button" style="margin-top:30px;border:0;background-color:transparent;">
             <div class="logo-share">
-                <img id="spinner-logo-simple" src="/logo/spinner-logo-simple.png" />
+                <img src="{{ getImage 'spinner-logo' }}" style="height:100px" />
             </div>
             <h6 class="dark">Start sharing your items on partiO!</h6>
           </a>

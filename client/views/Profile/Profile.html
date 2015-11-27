@@ -20,14 +20,14 @@
         <button id="saveProfile" class="button button-clear button-energized">Save</button>
         {{else}}
           <a href="/" class="button button-clear">
-              <img id="spinner-logo-simple" src="/logo/spinner-logo-simple.png" />
+              <img id="spinner-logo-simple" src="{{ getImage 'spinner-logo' }}" />
           </a>
       {{/if}}
     {{/contentFor}}
   {{else}}
     {{#contentFor "headerTitle"}}
       <h1 class="title">
-          <img id="spinner-logo-simple" src="/logo/spinner-logo-simple.png" />
+          <img id="spinner-logo-simple" src="{{ getImage 'spinner-logo' }}" />
       </h1>
     {{/contentFor}}
   {{/if}}
