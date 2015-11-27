@@ -1,12 +1,8 @@
 <template name="notifications">
   {{#contentFor "headerButtonLeft"}}
-        <button class="button button-clear pull-left" data-ion-menu-toggle="left">
-          {{#if isAndroid}}
-          {{> ionIcon icon='android-more-vertical'}}
-          {{else}}
-          {{> ionIcon icon='navicon' class="energized"}}
-          {{/if}}
-        </button>
+    <button class="button button-clear pull-left" data-ion-menu-toggle="left">
+      {{> ionIcon icon='navicon' class="energized"}}
+    </button>
   {{/contentFor}}
 
   {{#contentFor "headerTitle"}}

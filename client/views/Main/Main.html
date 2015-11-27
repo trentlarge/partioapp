@@ -1,11 +1,7 @@
 <template name="main">
   {{#contentFor "headerButtonLeft"}}
       <button class="button button-clear pull-left" data-ion-menu-toggle="left">
-        {{#if isAndroid}}
-        {{> ionIcon icon='android-more-vertical'}}
-        {{else}}
         {{> ionIcon icon='navicon' class="energized"}}
-        {{/if}}
       </button>
   {{/contentFor}}
 
@@ -14,7 +10,7 @@
         <img id="spinner-logo-simple" src="/logo/spinner-logo-simple.png" />
     </h1>
   {{/contentFor}}
-    
+
   {{#ionView class="main"}}
     <div class="content overflow-scroll has-header">
 <!--
@@ -39,7 +35,7 @@
 	    	</div>
 	    </div>
 -->
-        
+
          <div class="lend top-part flex-aligner">
 	    	<div class="center">
 	    		<img src="img/lend_white.png" class="lend-image">
@@ -59,7 +55,7 @@
                 </div>
 	    	</div>
 	    </div>
-        
+
 
     </div>
   {{/ionView}}

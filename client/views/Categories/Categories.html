@@ -1,11 +1,7 @@
 <template name="categories">
   {{#contentFor "headerButtonLeft"}}
       <button class="button button-clear " data-ion-menu-toggle="left">
-        {{#if isAndroid}}
-          {{> ionIcon icon='android-more-vertical'}}
-        {{else}}
-          {{> ionIcon icon='navicon' class="energized"}}
-        {{/if}}
+        {{> ionIcon icon='navicon' class="energized"}}
       </button>
   {{/contentFor}}
 
