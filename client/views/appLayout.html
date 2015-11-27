@@ -10,29 +10,44 @@
   {{#ionBody}}
     {{> sAlert template='sAlertCustom'}}
 
-    {{#if showSideMenu}}
-      {{#ionSideMenuContainer side="left"}}
-         <!-- sidemenu -->
-         {{> sidemenu }}
+    <!-- hide sidemenu and title bar -->
+    {{#if isFullscreen}}
+      {{> yield}}
 
-         <!-- content -->
-          {{#ionSideMenuContent}}
-            {{> ionNavBar class="bar-royal"}}
-            {{#ionNavView}}
-              {{> yield}}
-            {{/ionNavView}}
-          {{/ionSideMenuContent}}
-      {{/ionSideMenuContainer}}
+    <!-- default heaviour -->
     {{else}}
 
-      {{#ionView}}
-        {{> ionNavBar class="bar-royal"}}
-        {{#ionNavView}}
-          {{> yield}}
-        {{/ionNavView}}
-      {{/ionView}}
+      <!-- show side menu -->
+      {{#if showSideMenu}}
+        {{#ionSideMenuContainer side="left"}}
+           <!-- sidemenu -->
+           {{> sidemenu }}
+
+           <!-- content -->
+            {{#ionSideMenuContent}}
+              {{> ionNavBar class="bar-royal"}}
+              {{#ionNavView}}
+                {{> yield}}
+              {{/ionNavView}}
+            {{/ionSideMenuContent}}
+        {{/ionSideMenuContainer}}
+
+      <!-- hide side menu -->
+      {{else}}
+
+        {{#ionView}}
+          {{> ionNavBar class="bar-royal"}}
+          {{#ionNavView}}
+            {{> yield}}
+          {{/ionNavView}}
+        {{/ionView}}
+
+      {{/if}}
 
     {{/if}}
+
+
+
   {{/ionBody}}
 </template>
 

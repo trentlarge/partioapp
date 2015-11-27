@@ -1,24 +1,20 @@
 <template name="transactions">
   {{#contentFor "headerButtonLeft"}}
       <button class="button button-clear pull-left" data-ion-menu-toggle="left">
-        {{#if isAndroid}}
-        {{> ionIcon icon='android-more-vertical'}}
-        {{else}}
         {{> ionIcon icon='navicon' class="energized"}}
-        {{/if}}
       </button>
   {{/contentFor}}
-  
+
   {{#contentFor "headerTitle"}}
     <h1 class="title">Transactions</h1>
   {{/contentFor}}
- 
+
   {{#contentFor "headerButtonRight"}}
-    <a href="/" class="button button-clear"> 
-        <object id="spinner-logo-simple" data="logo/spinner-logo-simple.svg" type="image/svg+xml"></object> 
+    <a href="/" class="button button-clear">
+        <img id="spinner-logo-simple" src="/logo/spinner-logo-simple.png" />
     </a>
-  {{/contentFor}} 
-    
+  {{/contentFor}}
+
   {{#ionView}}
     <!-- <div class="Aligner">
     <h6 class="dark">No transactions yet!</h6>

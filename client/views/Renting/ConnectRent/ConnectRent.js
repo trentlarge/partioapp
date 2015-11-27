@@ -49,7 +49,7 @@ Template.connectRent.events({
 	},
 
 	'click #returnItem': function() {
-		var connectionId 	= this.connectData._id;
+		var connectionData = this.connectData;
 		var requestorName = this.connectData.requestorData.profile.name;
 		var ownerId 			= this.connectData.productData.ownerId;
 
@@ -60,15 +60,18 @@ Template.connectRent.events({
 			template: '<div class="center"><p>Please make sure the item is passed back to the owner</p></div>',
 			onCancel: function() {
 				console.log('Cancelled')
+        IonPopup.close();
 			},
 			onOk: function() {
-				Meteor.call('returnItem', connectionId, function(error, result) {
-					console.log(error, result)
+				Meteor.call('returnItem', connectionData._id, function(error, result) {
+          IonPopup.close();
+          if(!error){
+            //      Router.go('/renting');
+            IonModal.open("feedback", connectionData);
+          } else {
+            console.log('some error', $error);
+          }
 				})
-
-				IonPopup.close();
-//      Router.go('/renting');
-				IonModal.open("feedback", this.connectData);
 			}
 		});
 	},
@@ -79,18 +82,12 @@ Template.connectRent.events({
 	//
 
 	'click #payAndRent': function() {
+
 		if (Meteor.user().profile.cards) {
 			Session.set('payRedirect', false);
 
-      console.log(this.connectData)
-			var payerCardId = Meteor.user().profile.cards.data[0].id;
 			var connectionId = this.connectData._id;
-			var payerCustomerId = Meteor.user().profile.customer.id;
-			var recipientAccountId = this.connectData.productData.ownerData.profile.stripeAccount.id;
 			var amount = this.connectData.borrowDetails.price.total;
-			var transactionsId = Meteor.user().profile.transactionsId;
-			var transactionsRecipientId = this.connectData.productData.ownerData.profile.transactionsId;
-			var recipientDebitId = this.connectData.productData.ownerData.profile.payoutCard.id;
 
 			IonPopup.confirm({
 				cancelText: 'Cancel',
@@ -102,7 +99,10 @@ Template.connectRent.events({
 				},
 				onOk: function() {
 					PartioLoad.show();
-					Meteor.call('chargeCard', payerCustomerId, payerCardId, recipientDebitId, amount, connectionId, transactionsId, transactionsRecipientId, function(error, result) {
+          //Meteor.call('chargeCard', payerCustomerId, payerCardId, recipientDebitId, amount, connectionId, transactionsId, transactionsRecipientId, function(error, result) {
+          Meteor.call('chargeCard', connectionId, function(error, result) {
+            //console.log(result);
+
 						if (!error) {
 							PartioLoad.hide();
 							IonPopup.show({
@@ -119,7 +119,9 @@ Template.connectRent.events({
 									}
 								}]
 							});
-						}
+						} else {
+              console.log('some error with charge card', error);
+            }
 					})
 				}
 			});

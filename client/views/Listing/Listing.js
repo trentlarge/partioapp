@@ -5,8 +5,8 @@ Template.listing.rendered = function() {
     var inputIcon = $('.search-header-icon');
 
     inputBox.css({
-        'width':'70%',
-        'padding-left': '35px'
+        'width':'100%',
+        'padding-left': '40px'
     });
 
     inputIcon.css({

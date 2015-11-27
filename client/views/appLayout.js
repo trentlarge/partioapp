@@ -1,3 +1,8 @@
+
+UI.registerHelper('root_url', function(){
+  return __meteor_runtime_config__.ROOT_URL.slice(0,-1);
+});
+
 Template.appLayout.events({
 	'click #editCurrent': function() {
 		Session.set('editMode', true);
@@ -56,7 +61,7 @@ Template.appLayout.helpers({
 	showSideMenu: function(){
 		//var mainTemplateName = Router.current().route.getName();
 		var mainTemplateName = Router.current()._layout._regions.main._template;
-		console.log(mainTemplateName);
+//		console.log(mainTemplateName);
 
 		switch (mainTemplateName) {
 			case 'profile':
@@ -82,6 +87,18 @@ Template.appLayout.helpers({
 				return true;
 		}
 	},
+
+	isFullscreen: function(){
+		var mainTemplateName = Router.current()._layout._regions.main._template;
+		switch (mainTemplateName) {
+			case 'login':
+				return true;
+				break;
+			default:
+				return false;
+		}
+	}
+
 
 });
 
@@ -229,7 +246,7 @@ Template.sAlertCustom.events({
 })
 
 Meteor.startup(function() {
-  Stripe.setPublishableKey('pk_test_OYfO9mHIQFha7How6lNpwUiQ');
+  Stripe.setPublishableKey(Meteor.settings.STRIPE_SECRET);
 
   GoogleMaps.load({
   	key: 'AIzaSyDMyxBlvIc4b4hoWqTw4lGr5OviU8FlQc8',

@@ -1,4 +1,7 @@
+
+
 {
+  "STRIPE_SECRET": "sk_test_z3FwqB2S5uJxnQGRGKBA1Hzh",
   "AWSAccessKeyId": "AKIAIQK2APPMYYIAKOJQ",
   "AWSSecretAccessKey": "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",
   "facebook": {
@@ -8,8 +11,8 @@
   "public": {
     "facebook": {
       "permissions": [
-        "public_profile", 
-        "email", 
+        "public_profile",
+        "email",
         "user_friends"
       ]
     }

@@ -38,6 +38,7 @@ Router.route('/reset-password/:token', {name: 'resetpassword', controller: 'Rese
 Router.route('/login', { name: 'login', controller: 'LoginController' });
 Router.route('/register', {name: 'register', controller: 'RegisterController' });
 Router.route('/lend', { name: 'lend', controller: 'LendController' });
+Router.route('/lend/details', { name: 'resultsDetails', controller: 'resultsDetailsController' });
 Router.route('/inventory', { name: 'inventory', controller: 'InventoryController' });
 Router.route('/inventory/:_id', { name: 'inventoryDetail', controller: 'InventoryDetailController' });
 Router.route('/inventory/connect/:_id', { name: 'connect', controller: 'ConnectController' });
@@ -54,25 +55,27 @@ Router.route('/profile/savedcards', { name: 'savedCards', controller: 'SavedCard
 Router.route('/profile/changepassword', { name: 'changePassword', controller: 'ChangePasswordController' });
 Router.route('/notifications', { name: 'notifications', controller: 'NotificationsController' }); //  Controlle OK
 
-Router.route('/logout', {name: 'logout',
-	onBeforeAction: function(){
-		IonPopup.confirm({
-			okText: 'Logout',
-		  cancelText: 'Cancel',
-		  title: 'Logging out',
-		  template: '<div class="center">Are you sure you want to logout?</div>',
-		  onOk: function() {
-		    Meteor.logout();
-				Router.go('/login')
-		    IonPopup.close();
-		  },
-		  onCancel: function() {
-		    console.log('Cancelled');
-		    IonPopup.close();
-		  }
-		});
-	}
-});
+// Router.route('/logout', {name: 'logout',
+// 	onBeforeAction: function(){
+// 		IonPopup.confirm({
+// 			okText: 'Logout',
+// 		  cancelText: 'Cancel',
+// 		  title: 'Logging out',
+// 		  template: '<div class="center">Are you sure you want to logout?</div>',
+// 		  onOk: function() {
+// 		    Meteor.logout(function(){
+// 						Router.go('/')
+// 				});
+//
+// 		    IonPopup.close();
+// 		  },
+// 		  onCancel: function() {
+// 		    console.log('Cancelled');
+// 		    IonPopup.close();
+// 		  }
+// 		});
+// 	}
+// });
 
 // !!!
 // non-existing routes (?)

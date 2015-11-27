@@ -1,29 +1,28 @@
 <template name="lend">
-    {{#ionModal title="Share Product" customTemplate=true}}
-        <div class="bar bar-header bar-royal">
+    {{#ionView class="lend-view"}}
+<!--    {{#ionModal title="Share Product" customTemplate=true}}-->
 
-            {{#if isScanResult}}
-                <button class="back button button-clear" style="position:absolute;z-index:100;">
-                    {{> ionIcon icon='ios-arrow-back'}} Back
-                </button>
-            <!--
-            <h2 class="title" style=" display:inline-block;
-                                                        width:60%;
-                                                        white-space: nowrap;
-                                                        overflow:hidden !important;
-                                                        text-overflow: ellipsis;
-                                                            margin:0 auto">{{ isScanResult.title }}</h2>
-            -->
-            {{else}}
-                {{> searchShareHeader}}
-            {{/if}}
+        {{#contentFor "headerButtonLeft"}}
+            <button class="button button-clear pull-left" data-ion-menu-toggle="left">
+              {{> ionIcon icon='navicon' class="energized"}}
+            </button>
+            {{> searchShareHeader}}
+        {{/contentFor}}
 
+        {{#contentFor "headerTitle"}}
+            <h1 class="title"></h1>
+        {{/contentFor}}
 
+        {{#contentFor "headerButtonRight"}}
+            <a href="/" class="button button-clear">
+                <img id="spinner-logo-simple" src="/logo/spinner-logo-simple.png"  />
+            </a>
+<!--
             <button type="button" id="closeLend" style="right: 5px;position: absolute;" title="Close" class="button button-clear">
                 <i class="icon ion-ios-close-outline"></i>
             </button>
-
-        </div>
+-->
+        {{/contentFor}}
 
         <!-- DYNAMIC TEMPLATE -->
         {{> UI.dynamic template=dynamicTemplate}}
@@ -31,13 +30,14 @@
         <!-- TAB -->
         {{>lendTabs}}
 
-    {{/ionModal}}
+<!--    {{/ionModal}}-->
+    {{/ionView}}
 </template>
 
 <!-- NEW TAB -->
 <template name="lendTabs">
     <div class="tabs-background-royal tabs-color-light {{ hideClass }} tabs-icon-top">
-        <div class="tabs">
+        <div class="tabs darken-element">
             <a class="tab-item {{#if isActiveClass name="camfind" }} active {{/if}}" data-id="camfind"><i class="icon ion-android-image"></i>IMAGE SEARCH</a>
             <a class="tab-item {{#if isActiveClass name="barcode" }} active {{/if}}" data-id="barcode"><i class="icon ion-ios-barcode"></i>BARCODE</a>
             <a class="tab-item {{#if isActiveClass name="manual" }} active {{/if}}" data-id="manual"><i class="icon ion-ios-compose"></i>MANUAL ENTRY</a>

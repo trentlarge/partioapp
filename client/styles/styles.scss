@@ -68,14 +68,9 @@ input {
 }
 
 body.keyboard-open .platform-android .content.overflow-scroll {
-  bottom: 0px !important;
+    bottom: 0px !important;
 }
 
-// .content.overflow-scroll {
-// bottom: 0px !important;
-// }
-// .prevent-keyboardglitch {
-// 	bottom: 0px !important;
 .fieldDescriptionLend {
   background-color: #f1f1f1;
   height: 50px;
@@ -134,6 +129,11 @@ body.keyboard-open .platform-android .content.overflow-scroll {
         i {
             font-size: 24px;
         }
+    }
+
+    .menu-icon {
+        width: 14px;
+        display: inline-block;
     }
 
     .logo-container {
@@ -204,7 +204,7 @@ body.keyboard-open .platform-android .content.overflow-scroll {
     }
 
     .logout-button {
-        padding-top: 50px;
+        padding-top: 25px;
     }
 
 }
@@ -224,7 +224,7 @@ body.keyboard-open .platform-android .content.overflow-scroll {
 
 .text {
   margin-top: -32px;
-  margin-bottom: 20px
+  margin-bottom: 25px
 }
 
 .btn {
@@ -256,12 +256,13 @@ body.keyboard-open .platform-android .content.overflow-scroll {
 }
 
 #spinner-logo-simple {
-  height: 35px;
+  height: 30px;
 }
 
 .title {
+  text-align: center;
   #spinner-logo-simple {
-    margin-top: 5px;
+    margin-top: 7px;
   }
 }
 

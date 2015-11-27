@@ -1,11 +1,7 @@
 <template name="renting">
   {{#contentFor "headerButtonLeft"}}
       <button class="button button-clear pull-left" data-ion-menu-toggle="left">
-        {{#if isAndroid}}
-        {{> ionIcon icon='android-more-vertical'}}
-        {{else}}
         {{> ionIcon icon='navicon' class="energized"}}
-        {{/if}}
       </button>
 
       {{> searchHeader}}
@@ -17,7 +13,7 @@
 
   {{#contentFor "headerButtonRight"}}
     <a href="/" class="button button-clear">
-        <object id="spinner-logo-simple" data="logo/spinner-logo-simple.svg" type="image/svg+xml"></object>
+        <img id="spinner-logo-simple" src="logo/spinner-logo-simple.png" />
     </a>
   {{/contentFor}}
 

@@ -1,28 +1,24 @@
 Template.savedCards.events({
-
-
-	'click #trash-card': function() {
-
-					IonPopup.confirm({
-						title: 'Trash Card',
-						template: '<div class="center">Are you sure you want to delete this card?</div>',
-						onCancel: function()
-						{
-							console.log('Cancelled')
-						},
-						onOk: function()
-						{
-							console.log('Ok adicionado');
-
-						}
-					});
-
-	},
+	// 'click #trash-card': function(cardId) {
+	// 	IonPopup.confirm({
+	// 		title: 'Trash Card',
+	// 		template: '<div class="center">Are you sure you want to delete this card?</div>',
+	// 		onCancel: function(){
+	// 			console.log('Cancelled')
+	// 		},
+	// 		onOk: function(){
+	// 			console.log('Ok adicionado');
+	// 			Meteor.call('delCustomer',cardId, function(error, result) {
+	// 				console.log('chama metodo delCustomer');
+	// 				console.log(error);
+	// 				console.log(result);
+	// 			});
+	// 		}
+	// 	});
+	//},
 
 	'click #add-credit-card': function(e) {
-
 		PartioLoad.show();
-
 		stripeHandlerCredit.open({
 			name: 'partiO',
 			description: 'Add Card',
@@ -31,53 +27,57 @@ Template.savedCards.events({
 			email: Meteor.user().profile.email,
 			allowRememberMe: false,
 			opened: function() { PartioLoad.hide() },
-			closed: function() { PartioLoad.hide() }
-		});
-		e.preventDefault();
-	},
-	'click #list-cards': function() {
-		Meteor.call('listCards', function(error, result) {
-			console.log(error, result);
-		});
-	},
-	'click #add-debit-card': function(e) {
-
-		PartioLoad.show();
-
-
-		Meteor.call('createDebitAccount', Meteor.userId(), function(error, result) {
-			if (!error) {
-
-				stripeHandlerDebit.open({
-					email: Meteor.user().profile.email,
-					allowRememberMe: false,
-					opened: function() { PartioLoad.hide() },
-					closed: function() { PartioLoad.hide() }
-				});
+			closed: function() {
+				checkCards();
 			}
 		});
 		e.preventDefault();
 	},
-	'click #test-card-1': function() {
-		IonPopup.show({
-			title: 'Test DEBIT cards',
-			template: 	'<div class="center dark">\
-							5200 8282 8282 8210<br>\
-							4000 0566 5566 5556<br>\
-							<br>\
-							Expiry: Future Date<br>\
-							CVV: Any 3 digits<br>\
-						</div>',
-			buttons:
-			[{
-				text: 'OK',
-				type: 'button-energized',
-				onTap: function() {
-					IonPopup.close();
-				}
-			}]
-		});
-	},
+
+	// 'click #list-cards': function() {
+	// 	Meteor.call('listCards', function(error, result) {
+	// 		console.log(error, result);
+	// 	});
+	//},
+
+	// 'click #add-debit-card': function(e) {
+	// 	console.log(222222);
+	// 	PartioLoad.show();
+	// 	Meteor.call('createDebitAccount', Meteor.userId(), function(error, result) {
+	// 		if (!error) {
+	//
+	// 			stripeHandlerDebit.open({
+	// 				email: Meteor.user().profile.email,
+	// 				allowRememberMe: false,
+	// 				opened: function() { PartioLoad.hide() },
+	// 				closed: function() { PartioLoad.hide() }
+	// 			});
+	// 		}
+	// 	});
+	// 	e.preventDefault();
+	// },
+
+	// 'click #test-card-1': function() {
+	// 	IonPopup.show({
+	// 		title: 'Test DEBIT cards',
+	// 		template: 	'<div class="center dark">\
+	// 						5200 8282 8282 8210<br>\
+	// 						4000 0566 5566 5556<br>\
+	// 						<br>\
+	// 						Expiry: Future Date<br>\
+	// 						CVV: Any 3 digits<br>\
+	// 					</div>',
+	// 		buttons:
+	// 		[{
+	// 			text: 'OK',
+	// 			type: 'button-energized',
+	// 			onTap: function() {
+	// 				IonPopup.close();
+	// 			}
+	// 		}]
+	// 	});
+	// },
+
 	'click #test-card-2': function() {
 		IonPopup.show({
 			title: 'Test cards',
@@ -107,131 +107,131 @@ Template.savedCards.events({
 });
 
 
-getTokenStripe = function(){
-	stripeHandlerCredit = StripeCheckout.configure({
-		key: 'pk_test_OYfO9mHIQFha7How6lNpwUiQ',
-		token: function(token) {
-
-
-			console.log('getTokenStripe');
-			console.log(token);
-			return token;
-
-		}
-	})
+checkCards = function(){
+	console.log('opa');
 }
-
-
-
-
+//
+// getTokenStripe = function(){
+// 	stripeHandlerCredit = StripeCheckout.configure({
+// 		key: 'pk_test_OYfO9mHIQFha7How6lNpwUiQ',
+// 		token: function(token) {
+// 			console.log('getTokenStripe');
+// 			console.log(token);
+// 			return token;
+//
+// 		}
+// 	})
+// }
 
 
 Template.savedCards.onRendered(function() {
+
 	stripeHandlerCredit = StripeCheckout.configure({
 		key: 'pk_test_OYfO9mHIQFha7How6lNpwUiQ',
 		token: function(token) {
 			PartioLoad.show();
 			console.log(token);
 
-
-			Meteor.call('addPaymentCard', token.id, Meteor.user().profile.customer.id, Meteor.userId(), function(error, result) {
+			Meteor.call('addPaymentCard', token.id, function(error, result) {
 				PartioLoad.hide();
-				console.log(error);
-				console.log(result);
 
-												// console.log('RESULTADO STRIPE');
-												// if(token.card.funding === 'debit'){
-												//
-												// 			IonPopup.confirm({
-												// 				title: 'Card Debit Add Receive ',
-												// 				template: '<div class="center">Want to add this card to receipts?</div>',
-												// 				onCancel: function()
-												// 				{
-												// 					console.log('Cancelled')
-												// 				},
-												// 				onOk: function()
-												// 				{
-												// 					console.log('Ok adicionado');
-												//
-												// 							// add Receive funds debit
-												// 							Meteor.call('createDebitAccount', Meteor.userId(), function(error, result) {
-												// 									console.log('STRIPE ACOUNT GERADO');
-												// 									console.log('token.id: '+token.id);
-												// 									console.log('Meteor.user().profile.customer.id: '+Meteor.user().profile.stripeAccount.id);
-												// 									console.log('Meteor.userId(): '+Meteor.userId());
-												//
-												// 									stripeHandlerCredit = StripeCheckout.configure({
-												// 										key: 'pk_test_OYfO9mHIQFha7How6lNpwUiQ',
-												// 										token: function(token) {
-												// 											PartioLoad.show();
-												// 											console.log(token);
-												// 											Meteor.call('addDebitCard', token.id, Meteor.user().profile.stripeAccount.id, Meteor.userId(), function(error, result) {
-												// 												PartioLoad.hide();
-												// 												if (!error) {
-												// 													console.log('On successfully completing the transaction, add the book to the inventory');
-												// 													PartioLoad.hide();
-												// 												} else {
-												// 													console.log(error)
-												// 												}
-												// 											})
-												// 										}
-												//
-												// 									});
-												//
-												// 							});
-												// 				}
-												// 			});
-												//
-												// }
+				if(error) {
+					console.log('some error', error)
+					return false;
+				}
+
+				console.log(result);
 
 				if (Session.get('payRedirect')) {
 					Router.go('/renting/connect/'+Session.get('payRedirect'));
 				}
+
+				// console.log('RESULTADO STRIPE');
+				// if(token.card.funding === 'debit'){
+				//
+				// 			IonPopup.confirm({
+				// 				title: 'Card Debit Add Receive ',
+				// 				template: '<div class="center">Want to add this card to receipts?</div>',
+				// 				onCancel: function()
+				// 				{
+				// 					console.log('Cancelled')
+				// 				},
+				// 				onOk: function()
+				// 				{
+				// 					console.log('Ok adicionado');
+				//
+				// 							// add Receive funds debit
+				// 							Meteor.call('createDebitAccount', Meteor.userId(), function(error, result) {
+				// 									console.log('STRIPE ACOUNT GERADO');
+				// 									console.log('token.id: '+token.id);
+				// 									console.log('Meteor.user().profile.customer.id: '+Meteor.user().profile.stripeAccount.id);
+				// 									console.log('Meteor.userId(): '+Meteor.userId());
+				//
+				// 									stripeHandlerCredit = StripeCheckout.configure({
+				// 										key: 'pk_test_OYfO9mHIQFha7How6lNpwUiQ',
+				// 										token: function(token) {
+				// 											PartioLoad.show();
+				// 											console.log(token);
+				// 											Meteor.call('addDebitCard', token.id, Meteor.user().profile.stripeAccount.id, Meteor.userId(), function(error, result) {
+				// 												PartioLoad.hide();
+				// 												if (!error) {
+				// 													console.log('On successfully completing the transaction, add the book to the inventory');
+				// 													PartioLoad.hide();
+				// 												} else {
+				// 													console.log(error)
+				// 												}
+				// 											})
+				// 										}
+				//
+				// 									});
+				//
+				// 							});
+				// 				}
+				// 			});
+				//
+				// }
 			})
-
-
-
 		}
 	});
 
-	stripeHandlerDebit = StripeCheckout.configure({
-		key: 'pk_test_OYfO9mHIQFha7How6lNpwUiQ',
-		currency: 'usd',
-		name: 'partiO',
-		description: 'Add DEBIT Card',
-		zipCode: false,
-		default_for_currency : true,
-		panelLabel: 'Save Card',
-		token: function(token) {
-			PartioLoad.show();
-
-
-			Meteor.call('addDebitCard', token.id, Meteor.user().profile.stripeAccount.id, Meteor.userId(), function(error, result) {
-				PartioLoad.hide();
-				if (!error) {
-					console.log('On successfully completing the transaction, add the book to the inventory');
-
-
-
-					if(Session.get('BookAddType') == 'MANUAL')
-					{
-						AddProductToInventoryManually();
-					}
-					else
-					{
-						if(Session.get('scanResult') != null)
-						{
-							AddProductToInventory();
-						}
-					}
-
-					PartioLoad.hide();
-				} else {
-					console.log(error)
-				}
-			})
-		}
-	});
+	// stripeHandlerDebit = StripeCheckout.configure({
+	// 	key: 'pk_test_OYfO9mHIQFha7How6lNpwUiQ',
+	// 	currency: 'usd',
+	// 	name: 'partiO',
+	// 	description: 'Add DEBIT Card',
+	// 	zipCode: false,
+	// 	default_for_currency : true,
+	// 	panelLabel: 'Save Card',
+	// 	token: function(token) {
+	// 		PartioLoad.show();
+	//
+	//
+	// 		Meteor.call('addDebitCard', token.id, Meteor.user().profile.stripeAccount.id, Meteor.userId(), function(error, result) {
+	// 			PartioLoad.hide();
+	// 			if (!error) {
+	// 				console.log('On successfully completing the transaction, add the book to the inventory');
+	//
+	//
+	//
+	// 				// if(Session.get('BookAddType') == 'MANUAL')
+	// 				// {
+	// 				// 	AddProductToInventoryManually();
+	// 				// }
+	// 				// else
+	// 				// {
+	// 				// 	if(Session.get('scanResult') != null)
+	// 				// 	{
+	// 				// 		AddProductToInventory();
+	// 				// 	}
+	// 				// }
+	//
+	// 				PartioLoad.hide();
+	// 			} else {
+	// 				console.log(error)
+	// 			}
+	// 		})
+	// 	}
+	// });
 })
 
 Template.savedCards.helpers({
@@ -342,55 +342,54 @@ Template.savedCards.helpers({
 //         });
 // }
 
-function AddProductToInventoryManually()
-{
-  Products.insert(Session.get('manualBook'));
-  Session.set('userPrice', null);
-          PartioLoad.hide();
-          IonPopup.show({
-            title: 'Your Product sucessfully submitted',
-            template: '<div class="center">You can find this shared item in your Repository</div>',
-            buttons:
-            [{
-              text: 'OK',
-              type: 'button-energized',
-              onTap: function() {
-                IonPopup.close();
-                Router.go('/inventory');
-                IonModal.close();
-              }
-            }]
-          });
-}
-
-function AddProductToInventory() {
-	var submitProduct = Session.get('scanResult');
-	var insertData = _.extend(submitProduct,
-	{
-		"ownerId": Meteor.userId(),
-		"customPrice": Session.get('userPrice')
-	});
-
-	Products.insert(insertData);
-	Session.set('userPrice', null);
-	PartioLoad.hide();
-	IonPopup.show({
-		title: 'Your Product sucessfully submitted',
-		template: '<div class="center">And saved to your Inventory</div>',
-		buttons:
-		[{
-			text: 'OK',
-			type: 'button-energized',
-			onTap: function() {
-				Session.set('scanResult', null);
-				IonPopup.close();
-				Router.go('/inventory');
-				IonModal.close();
-
-			}
-		}]
-	});
-}
+// function AddProductToInventoryManually(){
+//   Products.insert(Session.get('manualBook'));
+//   Session.set('userPrice', null);
+//           PartioLoad.hide();
+//           IonPopup.show({
+//             title: 'Your Product sucessfully submitted',
+//             template: '<div class="center">You can find this shared item in your Repository</div>',
+//             buttons:
+//             [{
+//               text: 'OK',
+//               type: 'button-energized',
+//               onTap: function() {
+//                 IonPopup.close();
+//                 Router.go('/inventory');
+//                 IonModal.close();
+//               }
+//             }]
+//           });
+// }
+//
+// function AddProductToInventory() {
+// 	var submitProduct = Session.get('scanResult');
+// 	var insertData = _.extend(submitProduct,
+// 	{
+// 		"ownerId": Meteor.userId(),
+// 		"customPrice": Session.get('userPrice')
+// 	});
+//
+// 	Products.insert(insertData);
+// 	Session.set('userPrice', null);
+// 	PartioLoad.hide();
+// 	IonPopup.show({
+// 		title: 'Your Product sucessfully submitted',
+// 		template: '<div class="center">And saved to your Inventory</div>',
+// 		buttons:
+// 		[{
+// 			text: 'OK',
+// 			type: 'button-energized',
+// 			onTap: function() {
+// 				Session.set('scanResult', null);
+// 				IonPopup.close();
+// 				Router.go('/inventory');
+// 				IonModal.close();
+//
+// 			}
+// 		}]
+// 	});
+// }
 
 // Template.bankAccount.helpers({
 // 	noStripeYet: function() {

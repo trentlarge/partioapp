@@ -1,3 +1,13 @@
+Template.camfind.rendered = function() {
+    Session.set('scanResult', null);
+    Session.set('allResults', null);
+
+    $('.darken-element').css({'opacity': '1'});
+    $('.view').css({'background': '#eceff1'});
+    //$('.search-share-header-input').val('');
+    $('.search-share-header-input').focus();
+}
+
 Template.camfind.events({
   'click #cam-find': function(event, template) {
     IonActionSheet.show({
@@ -58,8 +68,8 @@ Template.camfind.events({
             							text: 'OK',
             							type: 'button-energized',
             							onTap: function() {
-                            IonPopup.close();
-                            resetImageCamFind();
+                                            IonPopup.close();
+                                            resetImageCamFind();
             							}
             						}]
             					});
@@ -76,8 +86,8 @@ Template.camfind.events({
             							text: 'OK',
             							type: 'button-energized',
             							onTap: function() {
-                            IonPopup.close();
-                            resetImageCamFind();
+                                            IonPopup.close();
+                                            resetImageCamFind();
             							}
             						}]
             					});
@@ -85,8 +95,11 @@ Template.camfind.events({
 
                     //completed -------
                     } else if(result.data.status == 'completed') {
-                      $('.search-share-header-input').val(result.data.name);
-                      $('.search-share-header-input').trigger({type: 'keypress', charCode: 13});
+                    
+                      var inputSearch = $('.search-share-header-input');
+                        
+                      inputSearch.val(result.data.name);
+                      inputSearch.trigger({type: 'keypress', charCode: 13});
 
                     } else {
                       console.log(result.data.status);
@@ -105,35 +118,24 @@ Template.camfind.events({
 });
 
 Template.camfind.helpers({
-  uploadProgress: function () {
-    return Session.get("progressUploadS3");
-  }
+    uploadProgress: function () {
+        return Session.get("progressUploadS3");
+    }
 })
-
-//Template.camfindinput.events({
-//
-//})
-//
-//Template.camfindinput.helpers({
-//  lastSearchCamFind: function(){
-//    return Session.get('lastSearchCamFind');
-//  },
-//});
 
 
 function attachImageAndWaitCamFind(url){
-  $("#cam-find").hide();
-  $(".item-input-inset").slideUp();
-  $(".modal").css("background-image", "url("+url+")");
-  $(".modal").css("background-size", "cover");
-  $(".modal").css("background-position", "center");
+    $("#cam-find").hide();
+    $(".item-input-inset").slideUp();
+    $(".modal").css("background-image", "url("+url+")");
+    $(".modal").css("background-size", "cover");
+    $(".modal").css("background-position", "center");
 
     Session.set('camfindImage', url);
 }
 
 function resetImageCamFind(){
-  $("#cam-find").show();
-  $(".item-input-inset").slideDown();
-  $(".modal").css("background-image", "");
-
+    $("#cam-find").show();
+    $(".item-input-inset").slideDown();
+    $(".modal").css("background-image", "");
 }

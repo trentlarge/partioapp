@@ -1,20 +1,17 @@
-ListingController = RouteController.extend({
+resultsDetailsController = RouteController.extend({
 	onBeforeAction: function() {
 		this.next();
 	},
 
 	action: function() {
-			if(this.ready()) {
-				this.render();
-			}
+		this.render();
 	},
 
 	waitOn: function() {
 		return [
 			// subscribe to data here
 			// Meteor.subscribe("someSubscription"),
-			Meteor.subscribe("search"),
-            Meteor.subscribe("products"),
+			// Meteor.subscribe("otherSubscription"),
 			// ...
 		];
 	},
@@ -30,6 +27,6 @@ ListingController = RouteController.extend({
 	},
 
 	onAfterAction: function() {
-
+		
 	}
 });
