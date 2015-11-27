@@ -1,3 +1,8 @@
+
+UI.registerHelper('root_url', function(){
+  return __meteor_runtime_config__.ROOT_URL.slice(0,-1);
+});
+
 Template.appLayout.events({
 	'click #editCurrent': function() {
 		Session.set('editMode', true);

@@ -133,7 +133,7 @@ body.keyboard-open .platform-android .content.overflow-scroll {
             font-size: 24px;
         }
     }
-    
+
     .menu-icon {
         width: 14px;
         display: inline-block;
@@ -263,6 +263,7 @@ body.keyboard-open .platform-android .content.overflow-scroll {
 }
 
 .title {
+  text-align: center;
   #spinner-logo-simple {
     margin-top: 7px;
   }
