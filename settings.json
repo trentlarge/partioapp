@@ -15,6 +15,10 @@
         "email",
         "user_friends"
       ]
+    },
+    "CordovaFileServer":{
+      "port":8081,
+      "localhost_only": false
     }
   }
 }

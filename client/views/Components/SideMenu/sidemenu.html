@@ -1,15 +1,12 @@
 <template name="sidemenu">
   {{#ionSideMenu}}
     <div>
-
 <!--
             <p>
           <input class="search" type="text" id="search-box" placeholder="  Search for an item..." />
             <button onclick="window.location.href='{{pathFor "notifications"}}'" class="gearicon item" data-ion-menu-close>{{> ionIcon icon="android-notifications" class="energized"}}</button>
         </p>
 -->
-
-
 
     <div class="list transparent-list">
         <div class="item top">
@@ -23,7 +20,7 @@
         </div>
 
          <div class="logo-container">
-            <a class="logo" href="/" data-ion-menu-close><img src="/logo/letsshare.png"/></a>&nbsp;
+            <a class="logo" href="/" data-ion-menu-close><img src="{{root_url}}/logo/letsshare.png"/></a>&nbsp;
           </div>
         <div class="content ion-content text" align="center">
            <h5 style="color:white;"> Welcome back,<b> {{currentUser.profile.name}}</b>.</h5>

@@ -1,6 +1,7 @@
 
-UI.registerHelper('root_url', function(){
-  return __meteor_runtime_config__.ROOT_URL.slice(0,-1);
+UI.registerHelper('public_url', function(file){
+	console.log(file)
+  return publicUrl(file);
 });
 
 Template.appLayout.events({

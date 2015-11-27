@@ -90,6 +90,7 @@ mrt:moment@2.8.1
 mrt:twilio@1.1.0
 mrt:twilio-meteor@1.1.0
 msavin:mongol@1.6.1
+natestrauser:cordova-file-server@0.1.2
 npm-bcrypt@0.7.8_2
 npm-container@1.2.0
 npm-mongo@1.4.39_1
