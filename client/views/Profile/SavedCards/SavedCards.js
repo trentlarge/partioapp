@@ -125,10 +125,9 @@ checkCards = function(){
 
 
 Template.savedCards.onRendered(function() {
-
 	stripeHandlerCredit = StripeCheckout.configure({
-		key: Meteor.settings.STRIPE_PUBKEY,
-		
+		key: Meteor.settings.public.STRIPE_PUBKEY,
+
 		token: function(token) {
 			PartioLoad.show();
 			console.log(token);
