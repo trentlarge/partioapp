@@ -40,152 +40,156 @@
       <div class="list">
       {{#if toBeApproved.count}}
           <div class="item item-divider waiting"><h3>Waiting for Owner's Approval <i class="chevron-icon icon ion-chevron-down"></i></h3></div>
-        {{#each toBeApproved}}
-
-          {{#ionItem path='connectRent' _id=this._id class="item-avatar-2 waiting-item"}}
-              <div class="product-avatar">
-                <img class="product-avatar-inner" src="{{productData.image}}"/>
-              </div>
-              <p class="main-title-text">{{productData.title}}</p>
-              <p class="main-sub-text">Condition of the item: {{getProductCondition}}</p>
-              <p class="main-sub-text">Rent Price:</p>
-                  <p class="main-sub-text">
-                        <table class="rent-table">
-                            <tbody>
-                                <tr>
-                                    <th><i class="icon">D</i></th>
-                                    <th><i class="icon">W</i></th>
-                                    <th><i class="icon">M</i></th>
-                                    <th><i class="icon">S</i></th>
-                                </tr>
-                                <tr>
-                                    <td>${{productData.rentPrice.day}}</td>
-                                    <td>${{productData.rentPrice.week}}</td>
-                                    <td>${{productData.rentPrice.month}}</td>
-                                    <td>${{productData.rentPrice.semester}}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                  </p>
-              <span class="badge rent-status">{{state}}</span>
-              <div class="item-icon-right">
-                {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
-              </div>
-          {{/ionItem}}
-        {{/each}}
+        <div class="waiting-item">
+            {{#each toBeApproved}}
+              {{#ionItem path='connectRent' _id=this._id class="item-avatar-2"}}
+                  <div class="product-avatar">
+                    <img class="product-avatar-inner" src="{{productData.image}}"/>
+                  </div>
+                  <p class="main-title-text">{{productData.title}}</p>
+                  <p class="main-sub-text">Condition of the item: {{getProductCondition}}</p>
+                  <p class="main-sub-text">Rent Price:</p>
+                      <p class="main-sub-text">
+                            <table class="rent-table">
+                                <tbody>
+                                    <tr>
+                                        <th><i class="icon">D</i></th>
+                                        <th><i class="icon">W</i></th>
+                                        <th><i class="icon">M</i></th>
+                                        <th><i class="icon">S</i></th>
+                                    </tr>
+                                    <tr>
+                                        <td>${{productData.rentPrice.day}}</td>
+                                        <td>${{productData.rentPrice.week}}</td>
+                                        <td>${{productData.rentPrice.month}}</td>
+                                        <td>${{productData.rentPrice.semester}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                      </p>
+                  <span class="badge rent-status">{{state}}</span>
+                  <div class="item-icon-right">
+                    {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
+                  </div>
+              {{/ionItem}}
+            {{/each}}
+        </div>
       {{/if}}
 
       {{#if toBePaid.count}}
         <div class="item item-divider payment"><h3>Waiting for Payment <i class="chevron-icon icon ion-chevron-down"></i></h3></div>
-        {{#each toBePaid}}
-
-          {{#ionItem path='connectRent' _id=this._id class="item-avatar-2 payment-item"}}
-              <div class="product-avatar">
-                <img class="product-avatar-inner" src="{{productData.image}}"/>
-              </div>
-              <p class="main-title-text">{{productData.title}}</p>
-              <p class="main-sub-text">Condition of the item: {{getProductCondition}}</p>
-              <p class="main-sub-text">Rent Price:</p>
-                  <p class="main-sub-text">
-                        <table class="rent-table">
-                            <tbody>
-                                <tr>
-                                    <th><i class="icon">D</i></th>
-                                    <th><i class="icon">W</i></th>
-                                    <th><i class="icon">M</i></th>
-                                    <th><i class="icon">S</i></th>
-                                </tr>
-                                <tr>
-                                    <td>${{productData.rentPrice.day}}</td>
-                                    <td>${{productData.rentPrice.week}}</td>
-                                    <td>${{productData.rentPrice.month}}</td>
-                                    <td>${{productData.rentPrice.semester}}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                  </p>
-              <span class="badge rent-status">{{state}}</span>
-              <div class="item-icon-right">
-                {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
-              </div>
-          {{/ionItem}}
-        {{/each}}
+        <div class="payment-item">
+            {{#each toBePaid}}
+              {{#ionItem path='connectRent' _id=this._id class="item-avatar-2"}}
+                  <div class="product-avatar">
+                    <img class="product-avatar-inner" src="{{productData.image}}"/>
+                  </div>
+                  <p class="main-title-text">{{productData.title}}</p>
+                  <p class="main-sub-text">Condition of the item: {{getProductCondition}}</p>
+                  <p class="main-sub-text">Rent Price:</p>
+                      <p class="main-sub-text">
+                            <table class="rent-table">
+                                <tbody>
+                                    <tr>
+                                        <th><i class="icon">D</i></th>
+                                        <th><i class="icon">W</i></th>
+                                        <th><i class="icon">M</i></th>
+                                        <th><i class="icon">S</i></th>
+                                    </tr>
+                                    <tr>
+                                        <td>${{productData.rentPrice.day}}</td>
+                                        <td>${{productData.rentPrice.week}}</td>
+                                        <td>${{productData.rentPrice.month}}</td>
+                                        <td>${{productData.rentPrice.semester}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                      </p>
+                  <span class="badge rent-status">{{state}}</span>
+                  <div class="item-icon-right">
+                    {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
+                  </div>
+              {{/ionItem}}
+            {{/each}}
+        </div>
       {{/if}}
 
       {{#if currentlyBorrowed.count}}
         <div class="item item-divider borrowed"><h3>Borrowed Items <i class="chevron-icon icon ion-chevron-down"></i></h3></div>
-        {{#each currentlyBorrowed}}
-        <!-- <div class="borrowedBookDetail"> -->
-
-          {{#ionItem path="connectRent" class="item-avatar-2 borrowed-item"}}
-              <div class="product-avatar">
-                <img class="product-avatar-inner" src="{{productData.image}}"/>
-              </div>
-              <p class="main-title-text">{{productData.title}}</p>
-              <p class="main-sub-text">Condition of the item: {{getProductCondition}}</p>
-              <p class="main-sub-text">Rent Price:</p>
-                  <p class="main-sub-text">
-                        <table class="rent-table">
-                            <tbody>
-                                <tr>
-                                    <th><i class="icon">D</i></th>
-                                    <th><i class="icon">W</i></th>
-                                    <th><i class="icon">M</i></th>
-                                    <th><i class="icon">S</i></th>
-                                </tr>
-                                <tr>
-                                    <td>${{productData.rentPrice.day}}</td>
-                                    <td>${{productData.rentPrice.week}}</td>
-                                    <td>${{productData.rentPrice.month}}</td>
-                                    <td>${{productData.rentPrice.semester}}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                  </p>
-              <span class="badge rent-status">{{state}}</span>
-              <div class="item-icon-right">
-                {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
-              </div>
-          {{/ionItem}}
-        <!-- </div> -->
-        {{/each}}
+        <div class="borrowed-item">
+            {{#each currentlyBorrowed}}
+            <!-- <div class="borrowedBookDetail"> -->
+              {{#ionItem path="connectRent" class="item-avatar-2"}}
+                  <div class="product-avatar">
+                    <img class="product-avatar-inner" src="{{productData.image}}"/>
+                  </div>
+                  <p class="main-title-text">{{productData.title}}</p>
+                  <p class="main-sub-text">Condition of the item: {{getProductCondition}}</p>
+                  <p class="main-sub-text">Rent Price:</p>
+                      <p class="main-sub-text">
+                            <table class="rent-table">
+                                <tbody>
+                                    <tr>
+                                        <th><i class="icon">D</i></th>
+                                        <th><i class="icon">W</i></th>
+                                        <th><i class="icon">M</i></th>
+                                        <th><i class="icon">S</i></th>
+                                    </tr>
+                                    <tr>
+                                        <td>${{productData.rentPrice.day}}</td>
+                                        <td>${{productData.rentPrice.week}}</td>
+                                        <td>${{productData.rentPrice.month}}</td>
+                                        <td>${{productData.rentPrice.semester}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                      </p>
+                  <span class="badge rent-status">{{state}}</span>
+                  <div class="item-icon-right">
+                    {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
+                  </div>
+              {{/ionItem}}
+            <!-- </div> -->
+            {{/each}}
+        </div>
       {{/if}}
 
     {{#if isReturned.count}}
-        <div class="item item-divider returned"><h3>Returned Items <i class="chevron-icon icon ion-chevron-right"></i></h3></div>
-        {{#each isReturned}}
-
-          {{#ionItem path="connectRent" class="item-avatar-2 returned-item hidden"}}
-              <div class="product-avatar">
-                <img class="product-avatar-inner" src="{{productData.image}}"/>
-              </div>
-              <p class="main-title-text">{{productData.title}}</p>
-              <p class="main-sub-text">Condition of the item: {{getProductCondition}}</p>
-              <p class="main-sub-text">Rent Price:</p>
-                  <p class="main-sub-text">
-                        <table class="rent-table">
-                            <tbody>
-                                <tr>
-                                    <th><i class="icon">D</i></th>
-                                    <th><i class="icon">W</i></th>
-                                    <th><i class="icon">M</i></th>
-                                    <th><i class="icon">S</i></th>
-                                </tr>
-                                <tr>
-                                    <td>${{productData.rentPrice.day}}</td>
-                                    <td>${{productData.rentPrice.week}}</td>
-                                    <td>${{productData.rentPrice.month}}</td>
-                                    <td>${{productData.rentPrice.semester}}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                  </p>
-              <span class="badge rent-status">{{state}}</span>
-              <div class="item-icon-right">
-                {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
-              </div>
-          {{/ionItem}}
-        {{/each}}
+        <div class="item item-divider returned"><h3>Returned Items <i class="chevron-icon icon ion-chevron-down"></i></h3></div>
+        <div class="returned-item">
+            {{#each isReturned}}
+              {{#ionItem path="connectRent" class="item-avatar-2"}}
+                  <div class="product-avatar">
+                    <img class="product-avatar-inner" src="{{productData.image}}"/>
+                  </div>
+                  <p class="main-title-text">{{productData.title}}</p>
+                  <p class="main-sub-text">Condition of the item: {{getProductCondition}}</p>
+                  <p class="main-sub-text">Rent Price:</p>
+                      <p class="main-sub-text">
+                            <table class="rent-table">
+                                <tbody>
+                                    <tr>
+                                        <th><i class="icon">D</i></th>
+                                        <th><i class="icon">W</i></th>
+                                        <th><i class="icon">M</i></th>
+                                        <th><i class="icon">S</i></th>
+                                    </tr>
+                                    <tr>
+                                        <td>${{productData.rentPrice.day}}</td>
+                                        <td>${{productData.rentPrice.week}}</td>
+                                        <td>${{productData.rentPrice.month}}</td>
+                                        <td>${{productData.rentPrice.semester}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                      </p>
+                  <span class="badge rent-status">{{state}}</span>
+                  <div class="item-icon-right">
+                    {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
+                  </div>
+              {{/ionItem}}
+            {{/each}}
+        </div>
       {{/if}}
       </div>
     {{else}}
