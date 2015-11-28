@@ -97,123 +97,6 @@ body.keyboard-open .platform-android .content.overflow-scroll {
     box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1) inset;
 }
 
-.transparent-list {
-
-    .top {
-        border: 0;
-        margin-top: 10px;
-
-        input {
-            display: inline;
-            background-color: #cccccc;
-            border-top: 1px solid #999999;
-            color: #272727;
-            border-radius: 20px;
-            padding-left: 15px;
-            width: 200px;
-            margin-bottom: 10px;
-            margin-right: 10px;
-        }
-
-        ::-webkit-input-placeholder {
-            padding-top: 2px;
-        }
-
-        .ion-search {
-            margin-top: -5px;
-            margin-left: -40px;
-            color: #272727;
-        }
-
-        .notification {
-            margin-left: 18px;
-        }
-
-        i {
-            font-size: 24px;
-        }
-    }
-    
-    .menu-icon {
-        width: 14px;
-        display: inline-block;
-    }
-
-    .logo-container {
-        // background-color: green;
-        display: -webkit-box;
-        display: -moz-box;
-        display: -ms-flexbox;
-        display: -webkit-flex;
-        display: flex;
-        -webkit-box-align: center;
-        -webkit-flex-align: center;
-        -ms-flex-align: center;
-        -webkit-align-items: center;
-        align-items: center;
-        -webkit-justify-content: center;
-        justify-content: center;
-        height: 30vh;
-        margin-top: -10px;
-    }
-
-    .logo-container img {
-        height: 21vh;
-    }
-
-    .logo-container-login {
-        // background-color: green;
-        display: -webkit-box;
-        display: -moz-box;
-        display: -ms-flexbox;
-        display: -webkit-flex;
-        display: flex;
-        -webkit-box-align: center;
-        -webkit-flex-align: center;
-        -ms-flex-align: center;
-        -webkit-align-items: center;
-        align-items: center;
-        -webkit-justify-content: center;
-        height: 220px;
-        margin-top: 39px;
-    }
-
-    .logo-container-login img {
-        height: 22vh;
-    }
-
-    h5 {
-        margin-top: 0;
-        margin-bottom: -5px;
-    }
-
-    .item {
-        background-color: transparent;
-        border-color: rgba(0, 0, 0, 0.3);
-        color: #F0F1F1;
-        padding-bottom: 15px;
-        padding-top: 15px;
-    }
-
-    #logout {
-        background-color: transparent;
-        color: #ffffff;
-        border-radius: 24px;
-        min-width: 200px;
-        min-height: 40px;
-        height: 40px;
-        border: 2px solid #ffffff;
-        line-height: 28px;
-    }
-
-    .logout-button {
-        padding-top: 25px;
-    }
-
-}
-
-
-
 .gearicon {
   font-size: 28px;
   background-color: #272727;
@@ -223,11 +106,6 @@ body.keyboard-open .platform-android .content.overflow-scroll {
 .logo {
   margin-top: -23px;
   margin-bottom: 20px;
-}
-
-.text {
-  margin-top: -32px;
-  margin-bottom: 25px
 }
 
 .btn {
@@ -263,6 +141,7 @@ body.keyboard-open .platform-android .content.overflow-scroll {
 }
 
 .title {
+  text-align: center;
   #spinner-logo-simple {
     margin-top: 7px;
   }
@@ -307,24 +186,6 @@ body.keyboard-open .platform-android .content.overflow-scroll {
 
 body.keyboard-open .platform-android .content.overflow-scroll {
   bottom: 0px !important;
-}
-
-ion-side-menu.menu-left.menu {
-  background-color: red !important;
-}
-
-.menu-left {
-  background-color: #272727 !important;
-  color: $menu-color !important;
-  overflow: hidden;
-  // background: url('/dvsup_@2X.png') repeat;
-}
-
-.beta {
-  font-size: 0.7em;
-  bottom: 1em;
-  text-align: center;
-  color: gray;
 }
 
 #bottom-triangle {

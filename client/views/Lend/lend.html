@@ -4,11 +4,7 @@
 
         {{#contentFor "headerButtonLeft"}}
             <button class="button button-clear pull-left" data-ion-menu-toggle="left">
-                {{#if isAndroid}}
-                    {{> ionIcon icon='android-more-vertical'}}
-                {{else}}
-                    {{> ionIcon icon='navicon' class="energized"}}
-                {{/if}}
+              {{> ionIcon icon='navicon' class="energized"}}
             </button>
             {{> searchShareHeader}}
         {{/contentFor}}
@@ -19,7 +15,7 @@
 
         {{#contentFor "headerButtonRight"}}
             <a href="/" class="button button-clear">
-                <img id="spinner-logo-simple" src="/logo/spinner-logo-simple.png"  />
+                <img id="spinner-logo-simple" src="{{ getImage 'spinner-logo' }}"  />
             </a>
 <!--
             <button type="button" id="closeLend" style="right: 5px;position: absolute;" title="Close" class="button button-clear">

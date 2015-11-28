@@ -3,6 +3,14 @@
     .item-divider {
         padding-top: 12px;
         padding-bottom: 12px;
+        
+        h3 {
+            height: 17px;
+        }
+        
+        i {
+            float: right;
+        }
     }
     
     .badge.share-status {

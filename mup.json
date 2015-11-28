@@ -2,7 +2,7 @@
  // Server authentication info
  "servers": [
    {
-     "host": "45.55.101.109",
+     "host": "http://partiodemo.com",
      "username": "root",
      //"password": "password",
      // or pem file (ssh based authentication)
@@ -30,7 +30,7 @@
  // ROOT_URL must be set to your correct domain (https or http)
  "env": {
    "PORT": 80,
-   "ROOT_URL": "http://45.55.101.109",
+   "ROOT_URL": "http://partiodemo.com",
    "STRIPE_SECRET": "sk_test_z3FwqB2S5uJxnQGRGKBA1Hzh",
    "MONGO_URL": "mongodb://partioCloud:partioCloud1234@apollo.modulusmongo.net:27017/Dodoh4ap"
  },

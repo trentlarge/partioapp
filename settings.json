@@ -1,7 +1,9 @@
 
 
 {
-  "STRIPE_SECRET": "sk_test_z3FwqB2S5uJxnQGRGKBA1Hzh",
+  "env": {
+    "STRIPE_SECRET": "sk_test_mBhGGg6jRC4iJhWzq5bZu1Lh"
+  },
   "AWSAccessKeyId": "AKIAIQK2APPMYYIAKOJQ",
   "AWSSecretAccessKey": "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",
   "facebook": {
@@ -9,6 +11,7 @@
     "secret": "668cabf44fb9f88b7a3d213f1bb0000b"
   },
   "public": {
+    "STRIPE_PUBKEY": "pk_test_GiLnb5tXpZoGOwYgcTT6rbeo",
     "facebook": {
       "permissions": [
         "public_profile",

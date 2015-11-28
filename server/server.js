@@ -7,7 +7,8 @@
 Meteor.startup(function() {
   // process.env.MAIL_URL="smtp://partio@cloudservice.io:partio1234@smtp.zoho.com:465";
   // Accounts.emailTemplates.from = 'partio@cloudservice.io';
-  //Stripe = StripeSync(Meteor.settings.STRIPE_SECRET);
+  //Stripe = StripeSync(Meteor.settings.env.STRIPE_SECRET);
+  Stripe.secretKey = Meteor.settings.env.STRIPE_SECRET+':null';
 
   process.env.MAIL_URL="smtp://support%40partio.xyz:partio123!@smtp.zoho.com:465/";
   Accounts.emailTemplates.from = 'support@partio.xyz';
@@ -525,19 +526,23 @@ Meteor.methods({
     }
   },
 
-  'createCustomer': function(MeteorUserId) {
-    console.log("creating customer for stripe on server using this ID ---> "+MeteorUserId);
+  'createCustomer': function() {
+    console.log("stripe_secret ---> "+Meteor.settings.env.STRIPE_SECRET);
+
     this.unblock();
+
+    //Stripe.secretKey = process.env.STRIPE_SECRET;
+
     try {
       var result = Stripe.customers.create({
-        "description": MeteorUserId
+        "description": Meteor.userId()
       });
       console.log(result);
       if (result.id) {
-        Meteor.users.update({"_id": MeteorUserId}, {$set: {"profile.customer": result}})
+        Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.customer": result}})
       }
     } catch(e) {
-      // console.log(e);
+      console.log(e);
       throw new Meteor.Error('Error while adding user as a customer to payment profile');
     }
   },
