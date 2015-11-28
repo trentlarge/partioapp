@@ -1,0 +1,12 @@
+@import '../../../styles/app-variables';
+
+.item-card {
+  .delete-card {
+    color:$energized;
+  }
+
+  .set-default {
+    color:$grey;
+    margin-right:40px;
+  }
+}

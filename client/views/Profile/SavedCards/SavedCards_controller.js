@@ -4,7 +4,9 @@ SavedCardsController = RouteController.extend({
 	},
 
 	action: function() {
-		this.render();
+		if(this.ready()){
+			this.render();
+		}
 	},
 
 	waitOn: function() {
@@ -12,30 +14,91 @@ SavedCardsController = RouteController.extend({
 			// subscribe to data here
 			// Meteor.subscribe("someSubscription"),
 			// Meteor.subscribe("otherSubscription"),
-			//Meteor.subscribe("current_user_data"),
-
-
+			Meteor.subscribe("current_user_data"),
 		];
 	},
 
 	data: function() {
 		return {
-
-			addedCards: function() {
-				if (!!Meteor.user().profile.cards) {
-					return Meteor.user().profile.cards.data;
+			cards: function() {
+				if (Meteor.user().profile.cards) {
+					return Meteor.user().profile.cards;
 				}
 			},
-			addedDebitCard: function() {
-				if (Meteor.user().profile.payoutCard && Meteor.user().profile.payoutCard.external_accounts.data) {
-					return Meteor.user().profile.payoutCard.external_accounts.data[0];
-				}
-			}
+
+			// getCreditCards: function(){
+			// 	var cards = this.cards().data;
+			// 	var result = []
 			//
-			// read data from database here like this:
-			//   someData: SomeCollection.find(),
-			//   moreData: OtherCollection.find()
-			// ...
+			// 	if(cards.length > 0) {
+			// 		for (var i = 0; i < cards.length; i++) {
+			// 			var _card = cards[i];
+			// 			if(_card.funding == 'credit') {
+			// 				result.push(_card);
+			// 			}
+			// 		}
+			// 	}
+			//
+			// 	return result;
+			//
+			// },
+			//
+			// getDebitCards: function(){
+			// 	var cards = this.cards().data;
+			// 	var result = []
+			//
+			// 	if(cards.length > 0) {
+			// 		for (var i = 0; i < cards.length; i++) {
+			// 			var _card = cards[i];
+			// 			if(_card.funding == 'debit') {
+			// 				result.push(_card);
+			// 			}
+			// 		}
+			// 	}
+			//
+			// 	return result;
+			// },
+
+			getReceiveCard: function() {
+				if (Meteor.user().profile) {
+					return Meteor.user().profile.defaultReceive;
+				}
+			},
+
+			getPayCard: function(){
+				if (Meteor.user().profile) {
+					return Meteor.user().profile.defaultPay;
+				}
+			},
+
+			checkIsDefault: function(cardId) {
+				if(!cardId) {
+					return false;
+				}
+
+				var toPay = false;
+				var toReceive = false;
+
+				if(this.getPayCard()) {
+					if(cardId == this.getPayCard().id)
+						toPay = true;
+				}
+
+				if(this.getReceiveCard()) {
+					if(cardId == this.getReceiveCard().id)
+						toReceive = true;
+				}
+
+				if(toPay && toReceive){
+					return 'both';
+				} else {
+					if(toPay) {
+						return 'pay';
+					} else if(toReceive) {
+						return 'receive';
+					}
+				}
+			},
 		};
 	},
 

@@ -1,23 +1,373 @@
-Template.savedCards.events({
-	// 'click #trash-card': function(cardId) {
-	// 	IonPopup.confirm({
-	// 		title: 'Trash Card',
-	// 		template: '<div class="center">Are you sure you want to delete this card?</div>',
-	// 		onCancel: function(){
-	// 			console.log('Cancelled')
-	// 		},
-	// 		onOk: function(){
-	// 			console.log('Ok adicionado');
-	// 			Meteor.call('delCustomer',cardId, function(error, result) {
-	// 				console.log('chama metodo delCustomer');
-	// 				console.log(error);
-	// 				console.log(result);
-	// 			});
+// METHODS --------------------------------------------
+setDefault = function(cardId) {
+	console.log(cardId);
+
+	IonPopup.confirm({
+		title: 'Set default card',
+		template: '<div class="center">Do you want set this card how default?</div>',
+		onCancel: function(){
+			console.log('Cancelled')
+		},
+		onOk: function(){
+			_cards.setCard(cardId);
+		}
+	});
+},
+
+deleteCard = function(cardId) {
+	console.log(cardId);
+
+	IonPopup.confirm({
+		title: 'Delete card',
+		template: '<div class="center">Are you sure you want to delete this card?</div>',
+		onCancel: function(){
+			console.log('Cancelled')
+		},
+		onOk: function(){
+			_cards.remove(cardId);
+		}
+	});
+},
+
+// OBJECT TO MANAGER CARDS ----------------------------------
+_cards = {
+	//list: false,
+	// defaultReceive: false,
+	// defaultPay: false,
+	creditCards: false,
+	debitCards: false,
+
+	refresh: function(){
+		this.creditCards = Template.savedCards.getCreditCards();
+		this.debitCards = Template.savedCards.getDebitCards();
+		this.checkStatus();
+	},
+
+	checkStatus: function(){
+		console.log(this.creditCards.length, this.debitCards.length)
+	},
+
+	remove: function(cardId){
+		PartioLoad.show();
+
+		if(!cardId){
+			PartioLoad.hide();
+			return false;
+		}
+
+		Meteor.call('removeCard', cardId, function(error, result) {
+			if(error) {
+				console.log('some error');
+			}
+
+			console.log('chama metodo removeCard');
+			_cards.refresh();
+			PartioLoad.hide();
+		});
+	},
+
+	// init: function(){
+	// 	this.updateList();
+	// },
+
+	// updateList: function(){
+	// 	var _creditCards = [];
+	// 	var _debitCards = [];
+	//
+	// 	$('.item-card').each(function(index, item){
+	// 		switch ($(item).data('funding')) {
+	// 			case 'credit':
+	// 				_creditCards.push($(item).data('id'));
+	// 			break;
+	// 			case 'debit':
+	// 				_debitCards.push($(item).data('id'));
+	// 			break;
 	// 		}
 	// 	});
-	//},
+	//
+	// 	this.creditCards = _creditCards;
+	// 	this.debitCards = _debitCards;
+	//
+	// 	//this.checkDefaults();
+	// },
 
-	'click #add-credit-card': function(e) {
+
+
+	// setCard: function(cardId){
+	// 	if(!cardId){
+	// 		return false;
+	// 	}
+	//
+	// 	console.log('set card'+cardId);
+
+			// var _pay = false;
+			// var _receive = false;
+			// var _card = false;
+			//
+			// this.list.data.map(function(card){
+			// 	if(card.id == cardId){
+			// 		if(funding == 'credit') {
+			// 			_pay = true;
+			// 			_card = card;
+			// 		} else if(funding == 'debit') {
+			// 			_pay = true;
+			// 			_receive = true;
+			// 			_card = card;
+			// 		}
+			// 	}
+			// })
+			//
+			// if(_pay)
+			// 	this.defaultPay = _card;
+			//
+			// if(_receive)
+			// 	this.defaultReceive = _card;
+			//
+			// this.saveDefaults();
+	//	},
+
+
+	// check: function(){
+	// 	if(!this.list) {
+	// 		return false;
+	// 	}
+	//
+	// 	var saveDefaultCards = false;
+	//
+	// 	//there is cards
+	// 	if(this.list.data.length > 0) {
+	//
+	//g
+	//etCreditCards 		var // check: function(){
+	// 	if(!this.list) {
+	// 		return false;
+	// 	}
+	//
+	// 	var saveDefaultCards = false;
+	//
+	// 	//there is cards
+	// 	if(this.list.data.length > 0) {
+	//
+	// 		var _debitCards = [];
+	// 		var _creditCards = [];
+	//
+	// 		this.list.data.map(function(card){
+	// 			if(card.funding == 'debit') {
+	// 				//_debitCards[card.id] = card
+	// 				_debitCards.push(card);
+	// 			} else if(card.funding == 'credit'){
+	// 				//_creditCards[card.id] = card
+	// 				_creditCards.push(card);
+	// 			}
+	// 		})
+	//
+	// 		this.debitCards = _debitCards;
+	// 		this.creditCards = _creditCards;
+	//
+	// 		console.log(_debitCards.length)
+	//
+	// 		//there are debit card(s)
+	// 		if(_debitCards.length > 0) {
+	//
+	// 			//there ins't default receive card
+	// 			if(!this.defaultReceive) {
+	// 				this.defaultReceive = _debitCards[0];
+	// 				//this.setDefaultReceive(_debitCards[0]);
+	// 				saveDefaultCards = true;
+	// 			}
+	//
+	// 			//there isn't default pay card
+	// 			if(!this.defaultPay) {
+	// 				this.defaultPay = _debitCards[0];
+	// 				//this.setDefaultPay(_debitCards[0]);
+	// 				saveDefaultCards = true;
+	// 			}
+	//
+	// 			this.setStatus('ok_cards');
+	//
+	// 		//no debit card(s)
+	// 		} else {
+	//
+	// 			//there are credit card(s)
+	// 			if(_creditCards.length > 0){
+	// 				if(!this.defaultPay) {
+	// 					this.defaultPay = _creditCards[0];
+	// 					saveDefaultCards = true;
+	// 				}
+	//
+	// 				this.setStatus('no_debits');
+	// 			}
+	// 		}
+	// 	//no cards
+	// 	} else {
+	// 		this.setStatus('no_cards');
+	// 	}
+	//
+	//
+	// 	if(saveDefaultCards)
+	// 		this.saveDefaults();
+	// },_debitCards = [];
+	// 		var _creditCards = [];
+	//
+	// 		this.list.data.map(function(card){
+	// 			if(card.funding == 'debit') {
+	// 				//_debitCards[card.id] = card
+	// 				_debitCards.push(card);
+	// 			} else if(card.funding == 'credit'){
+	// 				//_creditCards[card.id] = card
+	// 				_creditCards.push(card);
+	// 			}
+	// 		})
+	//
+	// 		this.debitCards = _debitCards;
+	// 		this.creditCards = _creditCards;
+	//
+	// 		console.log(_debitCards.length)
+	//
+	// 		//there are debit card(s)
+	// 		if(_debitCards.length > 0) {
+	//
+	// 			//there ins't default receive card
+	// 			if(!this.defaultReceive) {
+	// 				this.defaultReceive = _debitCards[0];
+	// 				//this.setDefaultReceive(_debitCards[0]);
+	// 				saveDefaultCards = true;
+	// 			}
+	//
+	// 			//there isn't default pay card
+	// 			if(!this.defaultPay) {
+	// 				this.defaultPay = _debitCards[0];
+	// 				//this.setDefaultPay(_debitCards[0]);
+	// 				saveDefaultCards = true;
+	// 			}
+	//
+	// 			this.setStatus('ok_cards');
+	//
+	// 		//no debit card(s)
+	// 		} else {
+	//
+	// 			//there are credit card(s)
+	// 			if(_creditCards.length > 0){
+	// 				if(!this.defaultPay) {
+	// 					this.defaultPay = _creditCards[0];
+	// 					saveDefaultCards = true;
+	// 				}
+	//
+	// 				this.setStatus('no_debits');
+	// 			}
+	// 		}
+	// 	//no cards
+	// 	} else {
+	// 		this.setStatus('no_cards');
+	// 	}
+	//
+	//
+	// 	if(saveDefaultCards)
+	// 		this.saveDefaults();
+	// },
+
+	// setCard: function(cardId){
+	// 	if(!cardId){
+	// 		return false;
+	// 	}
+	//
+	// 	var _pay = false;
+	// 	var _receive = false;
+	// 	var _card = false;
+	//
+	// 	this.list.data.map(function(card){
+	// 		if(card.id == cardId){
+	// 			if(funding == 'credit') {
+	// 				_pay = true;
+	// 				_card = card;
+	// 			} else if(funding == 'debit') {
+	// 				_pay = true;
+	// 				_receive = true;
+	// 				_card = card;
+	// 			}
+	// 		}
+	// 	})
+	//
+	// 	if(_pay)
+	// 		this.defaultPay = _card;
+	//
+	// 	if(_receive)
+	// 		this.defaultReceive = _card;
+	//
+	// 	this.saveDefaults();
+	// },
+
+	// setDefaultReceive: function(card){
+	// 	this.defaultReceive = card;
+	// },
+	//
+	// setDefaultPay: function(card){
+	// 	this.defaultPay = card;
+	// },
+
+	// saveDefaults: function(){
+	// 	Meteor.call('saveDefaultCards', this.defaultReceive, this.defaultPay, function (err, result){
+	// 		console.log('save default cards')
+	// 		console.log(err)
+	// 		console.log(result)
+	// 		this.check();
+	// 	});
+	// },
+
+	// setStatus: function(param){
+	// 	switch (param) {
+	// 		case 'ok_cards':
+	// 			console.log('alert: ok')
+	// 		break;
+	// 		case 'no_debits':
+	// 			console.log('alert: nao tem cartao de débito')
+	// 		break;
+	// 		case 'no_cards':
+	// 			console.log('alert: nao tem cartao')
+	// 		break;
+	// 		default:
+	// 	}
+	// },
+
+
+}
+
+
+Template.savedCards.getCreditCards = function(){
+	if (Meteor.user().profile.cards) {
+		var cards = Meteor.user().profile.cards.data;
+		var result = []
+
+		if(cards.length > 0) {
+			for (var i = 0; i < cards.length; i++) {
+				var _card = cards[i];
+				if(_card.funding == 'credit') {
+					result.push(_card);
+				}
+			}
+		}
+		return result;
+	}
+}
+
+Template.savedCards.getDebitCards = function(){
+	if (Meteor.user().profile.cards) {
+		var cards = Meteor.user().profile.cards.data;
+		var result = []
+		if(cards.length > 0) {
+			for (var i = 0; i < cards.length; i++) {
+				var _card = cards[i];
+				if(_card.funding == 'debit') {
+					result.push(_card);
+				}
+			}
+		}
+		return result;
+	}
+}
+
+Template.savedCards.events({
+	'click #add-card': function(e) {
 		PartioLoad.show();
 		stripeHandlerCredit.open({
 			name: 'partiO',
@@ -28,57 +378,14 @@ Template.savedCards.events({
 			allowRememberMe: false,
 			opened: function() { PartioLoad.hide() },
 			closed: function() {
-				checkCards();
+				//console.log(this);
+				// /_cards.init(this.data);
 			}
 		});
 		e.preventDefault();
 	},
 
-	// 'click #list-cards': function() {
-	// 	Meteor.call('listCards', function(error, result) {
-	// 		console.log(error, result);
-	// 	});
-	//},
-
-	// 'click #add-debit-card': function(e) {
-	// 	console.log(222222);
-	// 	PartioLoad.show();
-	// 	Meteor.call('createDebitAccount', Meteor.userId(), function(error, result) {
-	// 		if (!error) {
-	//
-	// 			stripeHandlerDebit.open({
-	// 				email: Meteor.user().profile.email,
-	// 				allowRememberMe: false,
-	// 				opened: function() { PartioLoad.hide() },
-	// 				closed: function() { PartioLoad.hide() }
-	// 			});
-	// 		}
-	// 	});
-	// 	e.preventDefault();
-	// },
-
-	// 'click #test-card-1': function() {
-	// 	IonPopup.show({
-	// 		title: 'Test DEBIT cards',
-	// 		template: 	'<div class="center dark">\
-	// 						5200 8282 8282 8210<br>\
-	// 						4000 0566 5566 5556<br>\
-	// 						<br>\
-	// 						Expiry: Future Date<br>\
-	// 						CVV: Any 3 digits<br>\
-	// 					</div>',
-	// 		buttons:
-	// 		[{
-	// 			text: 'OK',
-	// 			type: 'button-energized',
-	// 			onTap: function() {
-	// 				IonPopup.close();
-	// 			}
-	// 		}]
-	// 	});
-	// },
-
-	'click #test-card-2': function() {
+	'click #test-card': function() {
 		IonPopup.show({
 			title: 'Test cards',
 			template: 	'<div class="center dark">\
@@ -103,28 +410,13 @@ Template.savedCards.events({
 				}
 			}]
 		});
-	}
+	},
 });
 
 
-checkCards = function(){
-	console.log('opa');
-}
-//
-// getTokenStripe = function(){
-// 	stripeHandlerCredit = StripeCheckout.configure({
-// 		key: 'pk_test_OYfO9mHIQFha7How6lNpwUiQ',
-// 		token: function(token) {
-// 			console.log('getTokenStripe');
-// 			console.log(token);
-// 			return token;
-//
-// 		}
-// 	})
-// }
-
-
 Template.savedCards.onRendered(function() {
+	_cards.refresh();
+
 	stripeHandlerCredit = StripeCheckout.configure({
 		key: Meteor.settings.public.STRIPE_PUBKEY,
 
@@ -132,7 +424,7 @@ Template.savedCards.onRendered(function() {
 			PartioLoad.show();
 			console.log(token);
 
-			Meteor.call('addPaymentCard', token.id, function(error, result) {
+			Meteor.call('addCard', token.id, function(error, result) {
 				PartioLoad.hide();
 
 				if(error) {
@@ -140,7 +432,7 @@ Template.savedCards.onRendered(function() {
 					return false;
 				}
 
-				console.log(result);
+				_cards.refresh();
 
 				if (Session.get('payRedirect')) {
 					Router.go('/renting/connect/'+Session.get('payRedirect'));
@@ -235,6 +527,9 @@ Template.savedCards.onRendered(function() {
 })
 
 Template.savedCards.helpers({
+	// teste : function(){
+	// 	return 'opa';
+	// }
 	// addedCards: function() {
 	// 	if (!!Meteor.user().profile.cards) {
 	// 		return Meteor.user().profile.cards.data;
@@ -269,9 +564,7 @@ Template.savedCards.helpers({
 // 				{
 // 					console.log('On successfully completing the transaction, add the book to the inventory');
 
-// 					if(Session.get('BookAddType') == 'MANUAL')
-// 					{
-// 						AddProductToInventoryManually();
+// 					if(SlistdProductToInventoryManually();
 // 					}
 // 					else
 // 					{

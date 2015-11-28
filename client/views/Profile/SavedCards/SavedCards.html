@@ -13,7 +13,10 @@
         <br>
         <div class="padding list">
 
-          <div class="item item-divider item-button-right"><h3>Cards</h3><button id="test-card-2" class="button button-small push-up button-clear"><h6 class="positive">Test Cards</h6></button></div>
+          <div class="item item-divider item-button-right">
+            <h3>Cards</h3>
+            <button id="test-card" class="button button-small push-up button-clear"><h6 class="positive">Test Cards</h6></button>
+          </div>
           <!-- {{#each addedCards}}
           <a class="item item-icon-right">
             <p>{{brand}}&nbsp;&nbsp; XXXX-{{last4}}</p>
@@ -21,22 +24,20 @@
           </a>
           {{/each}} -->
 
-          {{#each addedCards}}
+          {{#each cards.data }}
 
-          <label class="item item-radio">
-            <input type="radio" name="group" value="{{last4}}" checked="checked">
-            <div class="item-content"><p>{{brand}}&nbsp;&nbsp; XXXX-{{last4}}&nbsp;&nbsp; {{funding}}</p></div>
-            <i class="radio-icon ion-checkmark energized"></i>
-            <!-- <i id="trash-card" class="ion-ios-trash ion-checkmark energized trash-item"></i> -->
-          </label>
+            <div class="item item-card item-icon-right {{../checkIsDefault id}}" data-id="{{id}}" data-funding="{{funding}}">
+              <p>XXXX-{{last4}} - {{brand}} <small>({{funding}})</small></p>
+              <i class="delete-card icon ion-ios-trash" onclick="deleteCard('{{id}}')"></i>
+              <i class="set-default icon ion-checkmark" onclick="setDefault('{{id}}')"></i>
+            </div>
 
           {{/each}}
 
-          <a class="item item-icon-left" id="add-credit-card">
+          <div class="item item-icon-left" id="add-card">
             <i class="icon ion-ios-plus-outline energized custom-icon"></i>
-
-            <p class="graytext">Credit/Debit Card</p>
-          </a>
+            <p class="graytext">New card</p>
+          </div>
         </div>
 
         <!-- <div class="padding-horizontal list">
@@ -68,6 +69,18 @@
         </label>
         {{/each}}
       </div> -->
+
+      {{#with getReceiveCard }}
+        <div>
+          {{id}} - {{funding}}
+        </div>
+      {{/with}}
+
+      {{#with getPayCard }}
+        <div>
+          {{id}} - {{funding}}
+        </div>
+      {{/with}}
 
         {{/ionContent}}
       {{/ionView}}
