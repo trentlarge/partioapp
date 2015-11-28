@@ -54,7 +54,7 @@ Router.route('/profile', { name: 'profile', controller: 'ProfileController' });
 Router.route('/profile/savedcards', { name: 'savedCards', controller: 'SavedCardsController' });
 Router.route('/profile/changepassword', { name: 'changePassword', controller: 'ChangePasswordController' });
 Router.route('/notifications', { name: 'notifications', controller: 'NotificationsController' }); //  Controlle OK
-
+Router.route('/loadingteste', { name: 'loadingData', controller: 'MainController' }); //  Controlle OK
 // Router.route('/logout', {name: 'logout',
 // 	onBeforeAction: function(){
 // 		IonPopup.confirm({
