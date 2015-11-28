@@ -1,6 +1,9 @@
 refreshSearch = function(userId, product){
 		var ownerData = Meteor.users.findOne(userId);
 		var existingSearch = Search.findOne({title: product.title })
+		var qty_products = Search.findOne({_id: product.searchId })
+
+		console.log(qty_products);
 
 		var currentSearchId = null;
 
@@ -10,6 +13,8 @@ refreshSearch = function(userId, product){
 
 		//there is some search with this title
 		if (existingSearch) {
+
+			console.log('existe search');
 
 			//Product already have this searchId
 			if(currentSearchId == existingSearch._id){
@@ -31,31 +36,50 @@ refreshSearch = function(userId, product){
 				});
 			}
 
-		//creating a new search
-		} else {
+
+	} else if(product.searchId && qty_products.qty === 1) {
+
+			console.log('update search');
+
 			var newSearch = {
 				image: product.image,
 				title: product.title,
-				authors: null,
-				qty: 0,
+				authors: ownerData.profile.name,
+				qty: 1,
 			}
 
 			//Inserting new Search
-			Search.insert(newSearch, function(err, docInserted){
-				var search_id =  docInserted;
-				Products.update({ _id: product._id },
-												{ $set:{ searchId: search_id  }})
+			Search.update(product.searchId, newSearch);
 
-				//Update Authors from this new Search.
-				updateAuthors(search_id, function(){
 
-					//If product had another searchId before, update this another searchId
-					if(currentSearchId){
-						updateAuthors(currentSearchId);
-					}
+			//creating a new search
+		} else {
+
+
+				var newSearch = {
+					image: product.image,
+					title: product.title,
+					authors: null,
+					qty: 0,
+				}
+
+				//Inserting new Search
+				Search.insert(newSearch, function(err, docInserted){
+					var search_id =  docInserted;
+					Products.update({ _id: product._id },
+													{ $set:{ searchId: search_id  }})
+
+					//Update Authors from this new Search.
+					updateAuthors(search_id, function(){
+
+						//If product had another searchId before, update this another searchId
+						if(currentSearchId){
+							updateAuthors(currentSearchId);
+						}
+					});
 				});
-			});
-		}
+
+			}
 
 		return true;
 	}
