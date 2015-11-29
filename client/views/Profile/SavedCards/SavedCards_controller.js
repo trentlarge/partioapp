@@ -26,38 +26,24 @@ SavedCardsController = RouteController.extend({
 				}
 			},
 
-			// getCreditCards: function(){
-			// 	var cards = this.cards().data;
-			// 	var result = []
-			//
-			// 	if(cards.length > 0) {
-			// 		for (var i = 0; i < cards.length; i++) {
-			// 			var _card = cards[i];
-			// 			if(_card.funding == 'credit') {
-			// 				result.push(_card);
-			// 			}
-			// 		}
-			// 	}
-			//
-			// 	return result;
-			//
-			// },
-			//
-			// getDebitCards: function(){
-			// 	var cards = this.cards().data;
-			// 	var result = []
-			//
-			// 	if(cards.length > 0) {
-			// 		for (var i = 0; i < cards.length; i++) {
-			// 			var _card = cards[i];
-			// 			if(_card.funding == 'debit') {
-			// 				result.push(_card);
-			// 			}
-			// 		}
-			// 	}
-			//
-			// 	return result;
-			// },
+			getCardById: function(idCard) {
+				if(!cardId)
+					return false;
+
+				var cards = this.cards();
+				var result = []
+
+				if(cards.length > 0) {
+					for (var i = 0; i < cards.length; i++) {
+						var _card = cards[i];
+
+						if(_card.id == idCard)
+							return result;
+					}
+
+					return false;
+				}
+			},
 
 			getReceiveCard: function() {
 				if (Meteor.user().profile) {
@@ -72,9 +58,8 @@ SavedCardsController = RouteController.extend({
 			},
 
 			checkIsDefault: function(cardId) {
-				if(!cardId) {
+				if(!cardId)
 					return false;
-				}
 
 				var toPay = false;
 				var toReceive = false;
