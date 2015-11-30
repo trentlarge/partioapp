@@ -530,15 +530,13 @@ Meteor.methods({
 
   'createCustomer': function() {
     console.log("stripe_secret ---> "+Meteor.settings.env.STRIPE_SECRET);
-
     this.unblock();
-
-    //Stripe.secretKey = process.env.STRIPE_SECRET;
-
+    
     try {
       var result = Stripe.customers.create({
         "description": Meteor.userId()
       });
+
       console.log(result);
       if (result.id) {
         Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.customer": result}})
@@ -562,11 +560,13 @@ Meteor.methods({
 
       if(result.deleted) {
 
-        if(Meteor.user().profile.defaultPay.id == cardId)
+        if(Meteor.user().profile.defaultPay.id == cardId){
           Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.defaultPay": false}})
+        }
 
-        if(Meteor.user().profile.defaultReceive.id == cardId)
+        if(Meteor.user().profile.defaultReceive.id == cardId){
           Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.defaultReceive": false}})
+        }
 
         var allCards = Stripe.customers.listCards(customerId);
         Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.cards": allCards}})
