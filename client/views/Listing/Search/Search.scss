@@ -97,7 +97,7 @@ table.rent-table {
         border: 1px solid #ffffff;
     }
 
-<<<<<<< HEAD
+
     th {
         color: #ffffff;
         font-size: 12px;
@@ -108,22 +108,7 @@ table.rent-table {
 
         &:nth-child(odd) {
             background-color: #f0970d;
-=======
-    .profile-content {
-        padding-left: 15px;
-        overflow: hidden;
-        width: 100%;
-        max-width: 300px;
-        
-        .button {
-            margin-bottom: 0;
-            height: 30px;
-            min-height: 30px;
-            font-weight: 1px;
-            line-height: 0;
-            font-size: 12px;
->>>>>>> refactor
-        }
+            }
 
         &:nth-child(even) {
             background-color: #df5707;
