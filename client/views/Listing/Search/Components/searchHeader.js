@@ -35,16 +35,21 @@ Template.searchHeader.events({
     
     'keyup .search-header-input': function(e, template) {
         
-        var text = $(e.target).val().trim();
-        PackageSearch.search(text);
-        //console.log('Search Query: ' + text);
-        if(text.length > 1) {
-            Session.set('isTapping', true);
-        } 
-        else {
-            Session.set('isTapping', false);
-        }
-                      
+        var words = $(e.target).val().trim().split(' ');
+        $.each(words, function(index, word) {
+            
+            PackageSearch.search(word);    
+            
+            if(word.length >= 1) {
+                Session.set('isTapping', true);
+            } 
+            else {
+                if(words.length === 1) {
+                    Session.set('isTapping', false);
+                } 
+            }
+            
+        });           
     }
     
 });

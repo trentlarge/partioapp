@@ -35,6 +35,9 @@ Accounts.onCreateUser(function(options,user) {
 		user.profile.mobile = options.profileDetails.mobile;
 		user.profile.mobileValidated = options.profileDetails.mobileValidated;
 		user.profile.name = options.profileDetails.name;
+		user.profile.defaultPay = false;
+		user.profile.defaultReceive = false;
+
 		//NOT TAKING LOCATION DETAILS ON REGISTRATION ANYMORE
 		// user.profile.address = options.profileDetails.location ? options.profileDetails.location.address : "-" ;
 		// user.profile.latLong = options.profileDetails.location ? options.profileDetails.location.latLong : "-";

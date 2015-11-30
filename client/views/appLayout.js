@@ -3,6 +3,10 @@ UI.registerHelper('root_url', function(){
   return __meteor_runtime_config__.ROOT_URL.slice(0,-1);
 });
 
+UI.registerHelper('getImage', function(image){
+  return base64imgs(image);
+});
+
 Template.appLayout.events({
 	'click #editCurrent': function() {
 		Session.set('editMode', true);
@@ -246,7 +250,7 @@ Template.sAlertCustom.events({
 })
 
 Meteor.startup(function() {
-  Stripe.setPublishableKey(Meteor.settings.STRIPE_SECRET);
+  Stripe.setPublishableKey(Meteor.settings.STRIPE_PUBKEY);
 
   GoogleMaps.load({
   	key: 'AIzaSyDMyxBlvIc4b4hoWqTw4lGr5OviU8FlQc8',

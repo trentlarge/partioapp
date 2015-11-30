@@ -1,3 +1,5 @@
+@import 'app-variables';
+
 .m-top-35 {
   margin-top:35px !important;
 }
@@ -8,4 +10,12 @@
 
 .border-radius-20 {
   border-radius: 20px;
+}
+
+.grey {
+  color: $grey;
+}
+
+.bluegrey {
+  color:$bluegrey;
 }

@@ -23,10 +23,17 @@
 
 input[type="text"].search-header-input {
     padding: 0;
+    height: 30px;
+    margin-top: 2px;
+    
+    &::-webkit-input-placeholder {
+        padding-top: 2px;
+        color: rgba(39, 39, 39, 0.6);
+    }
 }
 
 .search-header-input {
-    background-color: #eee;
+    background-color: #BBB;
     border-top: 1px solid #bdbdbd;
     width: 0%;
     margin-right: 50px;

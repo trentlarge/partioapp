@@ -7,7 +7,8 @@
 
   {{#contentFor "headerTitle"}}
     <h1 class="title">
-        <img id="spinner-logo-simple" src="/logo/spinner-logo-simple.png" />
+<!--        <img id="spinner-logo-simple" src="/logo/spinner-logo-simple.png" />-->
+        <img id="spinner-logo-simple" src="{{ getImage 'spinner-logo' }}" />
     </h1>
   {{/contentFor}}
 
@@ -38,7 +39,8 @@
 
          <div class="lend top-part flex-aligner">
 	    	<div class="center">
-	    		<img src="{{root_url}}/img/lend_white.png" class="lend-image">
+<!--	    		<img src="/img/lend_white.png" class="lend-image">-->
+                <img src="{{ getImage 'share-hand' }}" class="lend-image">
 	    		<br><br>
                 <div class="share-box">
 	    		     <span class="share">SHARE</span>
@@ -48,7 +50,8 @@
 
 	    <div class="rent bottom-part flex-aligner">
 	    	<div class="center">
-	    		<img src="{{root_url}}/img/borrow_white.png" class="borrow-image">
+<!--	    		<img src="/img/borrow_white.png" class="borrow-image">-->
+                <img src="{{ getImage 'borrow-hand' }}" class="borrow-image">
 	    		<br><br>
                 <div class="share-box">
 		    	 <span class="rent">BORROW</span>

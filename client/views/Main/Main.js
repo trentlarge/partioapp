@@ -22,7 +22,7 @@ function CheckStripeAccount () {
       PartioLoad.hide();
       IonPopup.show({
           title: 'ATTENTION!',
-          template: '<div class="center">A Debit Card should be linked to receive payments for your shared goods!</div>',
+          template: '<div class="center">First, you need update you card information!</div>',
           buttons:
           [{
           text: 'Add Card',

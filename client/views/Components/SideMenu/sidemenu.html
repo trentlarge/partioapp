@@ -23,7 +23,8 @@
         </div>
 
          <div class="logo-container">
-            <a class="logo" href="/" data-ion-menu-close><img src="/logo/letsshare.png"/></a>&nbsp;
+<!--            <a class="logo" href="/" data-ion-menu-close><img src="/logo/letsshare.png"/></a>&nbsp;-->
+             <a class="logo" href="/" data-ion-menu-close><img src="{{ getImage 'sidemenu-logo' }}"/></a>&nbsp;
           </div>
         <div class="content ion-content text" align="center">
            <h5 style="color:white;"> Welcome back,<b> {{currentUser.profile.name}}</b>.</h5>
@@ -68,11 +69,8 @@
         </div>
 -->
 
-         <div class="content ion-content center logout-button">
-            <button class="btn" id="logout" data-ion-menu-close>LOGOUT</button>
-         </div>
-
-         <p class="beta">beta vTHE BEST</p>
+         <button class="btn" id="logout" data-ion-menu-close>LOGOUT</button>
+         <p class="beta">beta v0.1</p>
 
       </div>
 

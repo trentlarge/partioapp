@@ -6,13 +6,13 @@ Template.inventory.events({
         var requests = $('.final-requests');
         var requestsItem = $('.final-request-item');
 
-        if(requestsItem.hasClass('hidden')){
-            requestsItem.removeClass('hidden');
-            requests.find('.chevron-icon').removeClass('ion-chevron-right').addClass('ion-chevron-down');
+        if(!requestsItem.is(':visible')){
+            requestsItem.slideDown('fast');
+            requests.find('.chevron-icon').removeClass('ion-chevron-up').addClass('ion-chevron-down');
         }
         else {
-            requestsItem.addClass('hidden');
-            requests.find('.chevron-icon').removeClass('ion-chevron-down').addClass('ion-chevron-right');
+            requestsItem.slideUp('fast');
+            requests.find('.chevron-icon').removeClass('ion-chevron-down').addClass('ion-chevron-up');
         }
 
     },
@@ -21,13 +21,13 @@ Template.inventory.events({
         var requests = $('.requests');
         var requestsItem = $('.request-item');
 
-        if(requestsItem.hasClass('hidden')){
-            requestsItem.removeClass('hidden');
-            requests.find('.chevron-icon').removeClass('ion-chevron-right').addClass('ion-chevron-down');
+        if(!requestsItem.is(':visible')){
+            requestsItem.slideDown('fast');
+            requests.find('.chevron-icon').removeClass('ion-chevron-up').addClass('ion-chevron-down');
         }
         else {
-            requestsItem.addClass('hidden');
-            requests.find('.chevron-icon').removeClass('ion-chevron-down').addClass('ion-chevron-right');
+            requestsItem.slideUp('fast');
+            requests.find('.chevron-icon').removeClass('ion-chevron-down').addClass('ion-chevron-up');
         }
 
     },
@@ -36,13 +36,13 @@ Template.inventory.events({
         var products = $('.products');
         var productsItem = $('.product-item');
 
-        if(productsItem.hasClass('hidden')){
-            productsItem.removeClass('hidden');
-            products.find('.chevron-icon').removeClass('ion-chevron-right').addClass('ion-chevron-down');
+        if(!productsItem.is(':visible')){
+            productsItem.slideDown('fast');
+            products.find('.chevron-icon').removeClass('ion-chevron-up').addClass('ion-chevron-down');
         }
         else {
-            productsItem.addClass('hidden');
-            products.find('.chevron-icon').removeClass('ion-chevron-down').addClass('ion-chevron-right');
+            productsItem.slideUp('fast');
+            products.find('.chevron-icon').removeClass('ion-chevron-down').addClass('ion-chevron-up');
         }
 
     },
