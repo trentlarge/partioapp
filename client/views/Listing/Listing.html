@@ -90,16 +90,42 @@
     <div id='search-result' class="list">
       {{#each getPackages}}
         <div class="package {{isCategorySelected}}">
-            {{#ionItem path='search' _id=this._id iconRight=true class="item-avatar-2 qty-check"}}
+            {{#ionItem path='search' _id=this._id class="item-avatar-2 qty-check"}}
           <!-- {{#ionItem path='bookDetail' _id=this._id iconRight=true class="item-avatar-2"}} -->
                 <div class="product-avatar">
                   <img class="product-avatar-inner" src="{{image}}"/>
                 </div>
-                <p class="main-title-text">{{{title}}}</p>
-                <p class="main-sub-text">{{{authors}}}</p>
+                <div class="ellipsis">
+                    <p class="main-title-text">{{title}}</p>
+                </div>
+<!--                <p class="main-sub-text"> {{../getQtyUsers qty}}</p>      
+{{../getMinDayRangePrice title}} -->
+                <div class="rent-table-box">
+                    <table class="rent-table">
+                        <tbody>
+                            <tr>
+                                <th><i class="icon">D</i></th>
+                                <th><i class="icon">W</i></th>
+                                <th><i class="icon">M</i></th>
+                                <th><i class="icon">S</i></th>
+                            </tr>
+                            <tr>
+                                <td>{{../getMinDayRangePrice title}}</td>
+                                <td>{{../getMinWeekRangePrice title}}</td>
+                                <td>{{../getMinMonthRangePrice title}}</td>
+                                <td>{{../getMinSemesterRangePrice title}}</td>
+                            </tr>
+                            
+                        </tbody>
+                    </table>
+                </div>
+            
+                <span class="badge-qty-users">{{../getQtyUsers qty}}</span>
                 <!-- <p class="main-sub-text">Description: {{{description}}}</p> -->
                 <!-- <span class="badge badge-mid {{qtyClass qty}}">{{qtyFormat qty}}</span> -->
-                {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
+                <div class="item-icon-right">
+                    {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
+                </div>
             {{/ionItem}}
         </div>
       {{/each}}
