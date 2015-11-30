@@ -84,6 +84,22 @@ SavedCardsController = RouteController.extend({
 					}
 				}
 			},
+
+			getInfo: function(cardId) {
+				var result = this.checkIsDefault(cardId);
+
+				switch (result) {
+					case 'both':
+						return ' using to pay and receive';
+						break;
+					case 'pay':
+						return ' using to pay';
+						break;
+					case 'receive':
+						return ' using to receive';
+						break;
+				}
+			}
 		};
 	},
 

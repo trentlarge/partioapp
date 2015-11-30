@@ -63,7 +63,6 @@ Cards = {
 		this.checkStatus();
 	},
 
-
 	//check user situation with the cards
 	checkStatus: function(){
 		console.log(this.creditCards.length, this.debitCards.length)
@@ -117,15 +116,20 @@ Cards = {
 
 	//showing user 'alerts'
 	setStatus: function(param){
+		$('.alerts').addClass('hidden');
+
 		switch (param) {
 			case 'ok':
-				console.log('alert: ok')
+				$('.alerts').addClass('hidden');
+				console.log('cards ok')
 			break;
 			case 'no_receive':
-				console.log('alert: nao tem como receber')
+				console.log('only credit');
+				$('.only-credit').removeClass('hidden');
 			break;
 			case 'no_cards':
-				console.log('alert: nao tem cartao')
+				console.log('no cards');
+				$('.no-cards').removeClass('hidden');
 			break;
 			default:
 		}
@@ -133,8 +137,10 @@ Cards = {
 
 	//setting default cards
 	setDefaultCards: function(receiveCard, payCard){
-		if(!receiveCard && !payCard)
+		if(!receiveCard && !payCard) {
 			return false;
+		}
+		//var cardData = this.getCardById(cardId);
 
 		Meteor.call('saveDefaultCards', receiveCard, payCard, function (err, result){
 			console.log('saveDefaultCards > saving default cards')
@@ -163,13 +169,13 @@ Cards = {
 		PartioLoad.show();
 
 		Meteor.call('removeCard', cardId, function(error, result) {
-			if(error)
+			if(error) {
 				console.log('removeCard > some error');
-
-			if(result)
+			} else {
 				console.log('removeCard > ok');
 				Cards.refresh();
 				PartioLoad.hide();
+			}
 		});
 	},
 }
@@ -221,13 +227,10 @@ Template.savedCards.events({
 		var cardId = cardData.id;
 		var funding = cardData.funding;
 
-
 		if(!cardId || !funding) {
 			console.log('event set-default > missing data')
 			return false;
 		}
-
-		//var cardData = this.getCardById(cardId);
 
 		IonPopup.confirm({
 			title: 'Set default card',
