@@ -1,6 +1,9 @@
-
-
 Template.inventory.events({
+    'click .start-share': function() {
+        if(CheckStripeAccount()) {
+            Router.go('/lend');
+        }
+    },
     'click .final-requests': function() {
 
         var requests = $('.final-requests');
@@ -137,6 +140,34 @@ Template.inventory.events({
 
 })
 
+function CheckStripeAccount () {
+    if (Meteor.user().profile.cards) {
+        if(Meteor.user().profile.cards.data.length > 0) {
+            return true;
+        }
+    }
+    else {
+      PartioLoad.hide();
+      IonPopup.show({
+          title: 'ATTENTION!',
+          template: '<div class="center">First, you need update you card information!</div>',
+          buttons:
+          [{
+          text: 'Add Card',
+          type: 'button-energized',
+          onTap: function()
+          {
+              IonPopup.close();
+              $('#closeLend').click();
+              Router.go('/profile/savedcards');
+              IonModal.close();
+          }
+          }]
+      });
+
+      return false;
+    }
+}
 
 function showInvalidPopUp(strTitle, strMessage)
 {
