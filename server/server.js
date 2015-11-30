@@ -451,7 +451,9 @@ Meteor.methods({
     return "yes, payment done"
   },
 
-  //'chargeCard': function(payerCustomerId, payerCardId, recipientDebitId, amount, connectionId, transactionsId, transactionsRecipientId) {
+
+  // STRIPE API (cards) -------------------------------------------------------------------
+
   'chargeCard': function(connectionId) {
     this.unblock();
     var connect = Connections.findOne(connectionId);
@@ -528,15 +530,13 @@ Meteor.methods({
 
   'createCustomer': function() {
     console.log("stripe_secret ---> "+Meteor.settings.env.STRIPE_SECRET);
-
     this.unblock();
-
-    //Stripe.secretKey = process.env.STRIPE_SECRET;
-
+    
     try {
       var result = Stripe.customers.create({
         "description": Meteor.userId()
       });
+
       console.log(result);
       if (result.id) {
         Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.customer": result}})
@@ -547,42 +547,47 @@ Meteor.methods({
     }
   },
 
-  // 'delCustomer': function(customerId, MeteorUserId) {
-  //
-  //   console.log('deletado');
-  //   var allCards = Stripe.customers.listCards('cus_6omXOz0ZAXVwrm');
-  //   console.log(allCards);
-  //
-  //     Stripe.customers.deleteCard(customerId,"card_17AajxEqax26zIzTuZZ4lMgH",function(err, confirmation) {
-  //         // asynchronously called
-  //         console.log('deletado');
-  //         console.log(err);
-  //         console.log(confirmation);
-  //       }
-  //     );
-  // },
+  'removeCard': function(cardId){
+    this.unblock();
 
-  // 'listCards': function(customerId) {
-  //   this.unblock();
-  //   try {
-  //     var result = Stripe.customers.listCards(customerId);
-  //     console.log(result);
-  //   } catch(e){
-  //     console.log(e)
-  //   }
-  // },
+    try {
+      console.log('removeCard '+cardId);
 
-  'addPaymentCard': function(tokenId) {
+      var customerId = Meteor.user().profile.customer.id;
+      console.log(customerId);
+
+      var result = Stripe.customers.deleteCard(customerId, cardId)
+
+      if(result.deleted) {
+
+        if(Meteor.user().profile.defaultPay.id == cardId){
+          Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.defaultPay": false}})
+        }
+
+        if(Meteor.user().profile.defaultReceive.id == cardId){
+          Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.defaultReceive": false}})
+        }
+
+        var allCards = Stripe.customers.listCards(customerId);
+        Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.cards": allCards}})
+      }
+    } catch(e) {
+      console.log(e);
+      throw new Meteor.Error('Error while removing card');
+    }
+  },
+
+  'addCard': function(tokenId) {
     console.log('>>>>> add card');
     var customerId = Meteor.user().profile.customer.id;
 
     this.unblock();
+
     try {
       var result = Stripe.customers.createSource( customerId , tokenId);
       //console.log(result);
 
       if (result.id) {
-
         if (! Meteor.users.findOne(Meteor.userId()).profile.stripeAccount) {
           Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.stripeAccount": result}})
         } else {
@@ -592,7 +597,9 @@ Meteor.methods({
         var allCards = Stripe.customers.listCards(customerId);
         console.log('listing cards >>>>>>>>>> ')
         console.log(allCards);
-        Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.cards": allCards}})
+        Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.cards": allCards}}, function(){
+          return true;
+        })
 
       } else {
         console.log('some error');
@@ -602,6 +609,49 @@ Meteor.methods({
       throw new Meteor.Error('Error while adding card to account');
     }
   },
+
+  'saveDefaultCards': function(receiveCard, payCard){
+    if(!receiveCard && !payCard) {
+      return false;
+    }
+
+    console.log(receiveCard, payCard);
+
+    try {
+      if(payCard)
+        var updatePayCard = Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.defaultPay": payCard }})
+
+      if(receiveCard)
+        var receiveCard = Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.defaultReceive": receiveCard }})
+
+
+      console.log(payCard,receiveCard);
+
+      return true;
+    } catch(e) {
+      console.log(e);
+      throw new Meteor.Error('Error while adding card to account');
+    }
+  },
+
+  // 'setCard': function(cardId){
+  //   if(!cardId) {
+  //     return false;
+  //   }
+  //
+  //   try {
+  //
+  //     var customerId = Meteor.user().profile.customer.id;
+  //
+  //     stripe.customers.retrieveCard(customerId, cardId, function(err, card) {
+  //       console.log(card)
+  //     });
+  //
+  //   } catch(e) {
+  //     console.log(e);
+  //     throw new Meteor.Error('Error while setting default card');
+  //   }
+  // },
 
   // 'addDebitCard': function(tokenId, stripeAccountId, MeteorUserId) {
   //   console.log(tokenId, stripeAccountId, MeteorUserId);
@@ -724,6 +774,9 @@ Meteor.methods({
   //       throw new Meteor.Error('payment-failed', 'The payment failed');
   //     }
   //   },
+
+
+  // SEARCH ITEMS FROM AMAZON --------------------------------------------------------
 
   AllItemsFromAmazon: function(keys) {
     var getAmazonItemSearchSynchronously = Meteor.wrapAsync(amazonItemSearch);

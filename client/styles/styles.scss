@@ -773,28 +773,26 @@ input[type="color"] {
   font-size: 20px !important;
 }
 
-.grey {
-  color: #BDC3C7;
-}
 
 .float-right {
   float: right;
 }
 
-.trash-item {
-    position: absolute;
-    top: 0;
-    right: 47px;
-    z-index: 3;
-    visibility: visible;
-    padding: 14px;
-    height: 100%;
-    font-size: 24px;
-}
+//.trash-item {
+    // position: absolute;
+    // top: 0;
+    // right: 47px;
+    // z-index: 3;
+    // visibility: visible;
+    // padding: 14px;
+    // height: 100%;
+    // font-size: 24px;
+    // margin-right: 50px;
+//}
 
-.item-radio input:checked ~ .item-content {
-  background: #FFF;
-}
+// .item-radio input:checked ~ .item-content {
+//   background: #FFF;
+// }
 
 .push-up {
   top: 0px !important;

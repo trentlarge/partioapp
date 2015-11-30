@@ -1,0 +1,25 @@
+@import '../../../styles/app-variables';
+
+.item-card {
+  .delete-card {
+    color:$energized;
+  }
+
+  .set-default {
+    color:$grey;
+    margin-right:40px;
+  }
+
+  &.pay {
+    .set-default {
+      color:$bluegrey;
+      margin-right:40px;
+    }
+  }
+
+  &.receive, &.both {
+    .set-default {
+      color:$energized;
+    }
+  }
+}
