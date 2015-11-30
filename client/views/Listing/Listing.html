@@ -98,31 +98,23 @@
                 <div class="ellipsis">
                     <p class="main-title-text">{{title}}</p>
                 </div>
-<!--                <p class="main-sub-text"> {{../getQtyUsers qty}}</p>      
-{{../getMinDayRangePrice title}} -->
-                <div class="rent-table-box">
-                    <table class="rent-table">
-                        <tbody>
-                            <tr>
-                                <th><i class="icon">D</i></th>
-                                <th><i class="icon">W</i></th>
-                                <th><i class="icon">M</i></th>
-                                <th><i class="icon">S</i></th>
-                            </tr>
-                            <tr>
-                                <td>{{../getMinDayRangePrice title}}</td>
-                                <td>{{../getMinWeekRangePrice title}}</td>
-                                <td>{{../getMinMonthRangePrice title}}</td>
-                                <td>{{../getMinSemesterRangePrice title}}</td>
-                            </tr>
-                            
-                        </tbody>
-                    </table>
-                </div>
-            
+                <table class="rent-table">
+                    <tbody>
+                        <tr>
+                            <th><i class="icon">D</i></th>
+                            <th><i class="icon">W</i></th>
+                            <th><i class="icon">M</i></th>
+                            <th><i class="icon">S</i></th>
+                        </tr>
+                        <tr>
+                            <td>{{../getMinDayRangePrice title}}</td>
+                            <td>{{../getMinWeekRangePrice title}}</td>
+                            <td>{{../getMinMonthRangePrice title}}</td>
+                            <td>{{../getMinSemesterRangePrice title}}</td>
+                        </tr>
+                    </tbody>
+                </table>
                 <span class="badge-qty-users">{{../getQtyUsers qty}}</span>
-                <!-- <p class="main-sub-text">Description: {{{description}}}</p> -->
-                <!-- <span class="badge badge-mid {{qtyClass qty}}">{{qtyFormat qty}}</span> -->
                 <div class="item-icon-right">
                     {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
                 </div>
