@@ -1,8 +1,10 @@
 updateAuthors = function(searchId){
-		//console.log('update authors ---------'+searchId)
+		console.log('update authors ---------'+searchId)
 		var products = Products.find({ searchId: searchId }).fetch();
 		console.log(products);
 		var bufferOwner = []
+
+		console.log('count products ---------'+products.length)
 
 		if(products.length > 0){
 
@@ -25,6 +27,7 @@ updateAuthors = function(searchId){
 										 	});
 		 }
 		} else {
+			console.log('################################ APAGOU');
 			Search.remove({_id:searchId});
 		}
 	}
