@@ -50,6 +50,14 @@ refreshSearch = function(userId, product){
 
 			//Inserting new Search
 			Search.update(product.searchId, newSearch);
+			//Update the Authors related of this searchId
+			updateAuthors(product.searchId, function(){
+
+				//If product had another searchId before, update this another searchId
+				if(currentSearchId){
+					updateAuthors(currentSearchId);
+				}
+			});
 
 
 			//creating a new search
