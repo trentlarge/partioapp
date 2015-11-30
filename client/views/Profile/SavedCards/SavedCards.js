@@ -222,8 +222,9 @@ Template.savedCards.events({
 		});
 	},
 
-	'click .set-default': function(e){
-		var cardData = this;
+    'click .set-pay-default': function(e) {
+        
+        var cardData = this;
 		var cardId = cardData.id;
 		var funding = cardData.funding;
 
@@ -234,36 +235,90 @@ Template.savedCards.events({
 
 		IonPopup.confirm({
 			title: 'Set default card',
-			template: '<div class="center">Do you want set this card how default?</div>',
+			template: '<div class="center">Do you want set this card how pay default?</div>',
 			onCancel: function(){
 				console.log('Cancelled')
 			},
 
 			onOk: function(){
 				var receiveCard = false;
-				var payCard = false;
-				var _pay = false;
-				var _receive = false;
-
-				if(funding == 'credit') {
-					_pay = true;
-				} else if(funding == 'debit') {
-					_pay = true;
-					_receive = true;
-				}
-
-				if(_pay) {
-					payCard = cardData;
-				}
-
-				if(_receive) {
-					receiveCard = cardData;
-				}
+				var payCard = cardData;
 
 				Cards.setDefaultCards(receiveCard, payCard);
 			}
 		});
-	},
+    },
+    
+    'click .set-receive-default': function(e) {
+        
+        var cardData = this;
+		var cardId = cardData.id;
+		var funding = cardData.funding;
+
+		if(!cardId || !funding) {
+			console.log('event set-default > missing data')
+			return false;
+		}
+
+		IonPopup.confirm({
+			title: 'Set default card',
+			template: '<div class="center">Do you want set this card how receive default?</div>',
+			onCancel: function(){
+				console.log('Cancelled')
+			},
+
+			onOk: function(){
+				var receiveCard = cardData;
+				var payCard = false;
+
+				Cards.setDefaultCards(receiveCard, payCard);
+			}
+		});
+        
+    },
+    
+//	'click .set-default': function(e){
+//		var cardData = this;
+//		var cardId = cardData.id;
+//		var funding = cardData.funding;
+//
+//		if(!cardId || !funding) {
+//			console.log('event set-default > missing data')
+//			return false;
+//		}
+//
+//		IonPopup.confirm({
+//			title: 'Set default card',
+//			template: '<div class="center">Do you want set this card how default?</div>',
+//			onCancel: function(){
+//				console.log('Cancelled')
+//			},
+//
+//			onOk: function(){
+//				var receiveCard = false;
+//				var payCard = false;
+//				var _pay = false;
+//				var _receive = false;
+//
+//				if(funding == 'credit') {
+//					_pay = true;
+//				} else if(funding == 'debit') {
+//					_pay = true;
+//					_receive = true;
+//				}
+//
+//				if(_pay) {
+//					payCard = cardData;
+//				}
+//
+//				if(_receive) {
+//					receiveCard = cardData;
+//				}
+//
+//				Cards.setDefaultCards(receiveCard, payCard);
+//			}
+//		});
+//	},
 
 	'click .delete-card': function(e){
 		var cardId = this.id;

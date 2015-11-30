@@ -1,25 +1,89 @@
 @import '../../../styles/app-variables';
 
-.item-card {
-  .delete-card {
-    color:$energized;
-  }
+.savedCard {
 
-  .set-default {
-    color:$grey;
-    margin-right:40px;
-  }
+    table { 
+        color: $royal;
+        margin: 0;
+        width: 100%;
+        min-width: 100%;
+        max-width: 100%;
+        font-size: 14px;
 
-  &.pay {
-    .set-default {
-      color:$bluegrey;
-      margin-right:40px;
+        tr {
+            td {
+                vertical-align: middle;
+                
+                &.brand {
+                    width: 10%;
+                    min-width: 10%;
+                    max-width: 10%;
+                    text-align: left;
+                }
+                &.funding {
+                    width: 15%;
+                    min-width: 15%;
+                    max-width: 15%;
+                    text-align: left;
+                }
+                &.numbers {
+                    width: 25%;
+                    min-width: 25%;
+                    max-width: 25%;
+                    text-align: left;
+                }
+                &.pay {
+                    width: 20%;
+                    min-width: 20%;
+                    max-width: 20%;
+                    font-size: 12px;
+                    letter-spacing: 1px;
+                    text-align: center;
+                }
+                &.receive {
+                    width: 20%;
+                    min-width: 20%;
+                    max-width: 20%;
+                    font-size: 12px;
+                    letter-spacing: 1px;
+                    text-align: center;
+                }
+                &.trash {
+                    width: 10%;
+                    min-width: 10%;
+                    max-width: 10%;
+                    font-size: 24px;
+                    text-align: right;
+                }
+            }
+        }
     }
-  }
-
-  &.receive, &.both {
-    .set-default {
-      color:$energized;
+    
+    .delete-card {
+        color: $energized;
+        cursor: pointer;
     }
-  }
+    
+    .set-default {
+        color: $grey;
+        cursor: pointer;
+        
+        &.default {
+            color: $assertive;
+        }
+    }
+    
+    .no-cards, .only-credit {
+        p {
+            white-space: normal;
+            
+            &.assertive {
+                color: $assertive;
+            }
+            &.energized {
+                color: $energized;
+            }
+        }
+    }
+
 }

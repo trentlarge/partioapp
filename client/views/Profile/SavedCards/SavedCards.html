@@ -8,7 +8,7 @@
   {{/contentFor}}
 
   {{#ionView}}
-    {{#ionContent}}
+    {{#ionContent class="savedCard"}}
 
       <br>
       <div class="padding list">
@@ -19,10 +19,19 @@
         </div>
 
         {{#each cards.data }}
-          <div class="item item-card item-icon-right {{../checkIsDefault id}}" data-id="{{id}}" data-funding="{{funding}}">
-            <p>XXXX-{{last4}} - {{brand}} <small>({{funding}}) {{../getInfo id}}</small></p>
-            <i class="delete-card icon ion-ios-trash"></i>
-            <i class="set-default icon ion-checkmark"></i>
+          <div class="item item-card" data-id="{{id}}" data-funding="{{funding}}">
+              <table>
+                <tbody>
+                    <tr>
+                        <td class="brand"><i class="{{../getBrandIcon brand}}"></i></td>
+                        <td class="funding"><i>{{funding}}</i></td>
+                        <td class="numbers"><i>XXXX-{{last4}}</i></td>
+                        <td class="pay"><i class="set-default set-pay-default {{../checkPayDefault id}}">PAY</i></td>
+                        <td class="receive"><i class="set-default set-receive-default {{../checkReceiveDefault id}}">{{../isDebit funding}}</i></td>
+                        <td class="trash"><i class="delete-card icon ion-ios-trash"></i></td>
+                    </tr>
+                </tbody>
+              </table>
           </div>
         {{/each}}
 
@@ -33,11 +42,13 @@
       </div>
 
       <div class="padding list">
-        <div class="item assertive hidden alerts no-cards">
-          <i class="set-default icon ion-close-circled"></i> Add a card to be able to share or borrow an item.
+        <div class="item item-icon-left hidden alerts no-cards">
+          <i class="icon assertive ion-alert-circled"></i> 
+          <p class="assertive">Add a card to be able to share or borrow an item.</p>
         </div>
-        <div class="item energized hidden alerts only-credit">
-          <i class="set-default icon ion-alert-circled "></i> Please, add a debit card if you want share an item.
+        <div class="item item-icon-left energized hidden alerts only-credit">
+          <i class="icon energized ion-alert-circled "></i>
+          <p class="energized">Please, add a debit card if you want share an item.</p>
         </div>
       </div>
 
