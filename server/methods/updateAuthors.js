@@ -8,6 +8,8 @@ updateAuthors = function(searchId){
 
 		if(products.length > 0){
 
+
+			console.log('refatora autores');
 		 for (var i = 0; i < products.length; i++) {
 			 var owner_ = Meteor.users.findOne(products[i].ownerId);
 			 if(owner_){
@@ -17,7 +19,7 @@ updateAuthors = function(searchId){
 
 		 var owners = bufferOwner.join(', ');
 
-		 console.log(owners);
+		 console.log('################################ DONOS '+owners);
 
 		 if(bufferOwner.length > 0){
 			 Search.update({_id: searchId },

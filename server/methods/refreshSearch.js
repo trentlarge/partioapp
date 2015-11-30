@@ -49,6 +49,7 @@ refreshSearch = function(userId, product){
 			if(products.length === 0){
 
 				Search.remove({_id:qty_products._id});
+				updateAuthors(qty_products._id);
 				console.log('############## APAGOU 2');
 
 			}
@@ -86,6 +87,10 @@ refreshSearch = function(userId, product){
 		} else {
 
 
+			console.log('INSERTE NOVO SEARCH');
+
+
+
 				var newSearch = {
 					image: product.image,
 					title: product.title,
@@ -96,8 +101,13 @@ refreshSearch = function(userId, product){
 				//Inserting new Search
 				Search.insert(newSearch, function(err, docInserted){
 					var search_id =  docInserted;
-					Products.update({ _id: product._id },
-													{ $set:{ searchId: search_id  }})
+					Products.update({ _id: product._id }, { $set:{ searchId: search_id  }}, function(err, docInserted){
+
+						console.log('ATUALIZA AUTHOR '+product.searchId);
+						console.log('ATUALIZA AUTHOR '+search_id);
+						updateAuthors(qty_products._id);
+
+					});
 
 					//Update Authors from this new Search.
 					updateAuthors(search_id, function(){
@@ -108,6 +118,8 @@ refreshSearch = function(userId, product){
 						}
 					});
 				});
+
+
 
 			}
 
