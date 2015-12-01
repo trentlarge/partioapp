@@ -47,7 +47,7 @@ Template.login.events({
 			template: '<div class="center">Reset link will be sent to this Email<br><br></div>',
 			okText: 'Submit',
 			inputType: 'email',
-			inputPlaceholder: 'Enter Email ID',
+			inputPlaceholder: 'Enter your registered email',
 			onOk: function(event, response) {
 				console.log(response);
 				Accounts.forgotPassword({email: response}, function(error){
@@ -146,7 +146,7 @@ function CheckLocatioOn()
 }
 
 Template.login.rendered = function() {
-    
+
     $(".bar-header").hide();
 
 	if(window.cordova && window.cordova.plugins.Keyboard) {

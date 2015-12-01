@@ -17,17 +17,16 @@
     z-index: 20;
     margin-left: 20px;
     font-size: 25px;
-    padding-top: 5px;
+    line-height: 30px;
     color: #eeeeee;
 }
 
 input[type="text"].search-header-input {
-    padding: 0;
     height: 30px;
-    margin-top: 2px;
+    line-height: 30px;
+    padding: 0;
     
     &::-webkit-input-placeholder {
-        padding-top: 2px;
         color: rgba(39, 39, 39, 0.6);
     }
 }
