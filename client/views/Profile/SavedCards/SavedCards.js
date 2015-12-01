@@ -122,11 +122,6 @@ Cards = {
 			case 'ok':
 				$('.alerts').addClass('hidden');
 				console.log('cards ok')
-
-				// if (Session.get('historyBack') == 'no_debit') {
-				// 	Session.set('historyBack', '');
-				// 	history.back();
-				// }
 			break;
 			case 'no_receive':
 				console.log('only credit');

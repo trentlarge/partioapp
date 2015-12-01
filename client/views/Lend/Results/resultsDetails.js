@@ -176,7 +176,6 @@ Template.resultsDetails.events({
               type: 'button-energized',
               onTap: function() {
                 IonPopup.close();
-                // Session.set('historyBack', 'no_debit');
                 Router.go('/profile/savedcards/');
               }
             }]
