@@ -10,7 +10,8 @@
   {{#ionView}}
     {{#ionContent class="listing-search overflow-scroll"}}
 
-    <div class="item item-divider"><h2>{{ search.title }}</h2></div>
+    <div class="item item-divider product-header-title"><h2>{{ search.title }}</h2></div>
+
       <div class="list">
         {{#each products }}
 
@@ -41,23 +42,23 @@
                         </tbody>
                     </table>
               </p>
-              <p class="main-sub-text">Condition of the item: {{ ../getCondition conditionId }}</p>
-
+              <p class="main-sub-text">Condition of the item: <strong>{{ ../getCondition conditionId }}</strong></p>
+              <button id="moreInfo" class="button button-block">MORE INFO <i class="fa fa-plus "></i></button>
               {{#if ../requestSent}}
-                <button class="button button-block" disabled>REQUEST SENT</button>
+                <button class="button button-block" disabled>REQUEST SENT <i class="fa fa-check "></i></button>
               {{else}}
                 {{#if ../isOwner}}
-                  <button class="button button-block" disabled>OWNER</button>
+
                 {{else}}
                     {{#if ../qtynotZero}}
-                      <button id="requestProduct" class="button button-block">REQUEST</button>
+                      <button id="requestProduct" class="button button-block">REQUEST <i class="fa fa-shopping-cart "></i></button>
                     {{else}}
-                      <button class="button button-block" disabled>UNAVAIBLE</button>
+                      <button class="button button-block" disabled>UNAVAIBLE <i class="fa fa-ban "></i></button>
                     {{/if}}
                 {{/if}}
               {{/if}}
 
-              <button id="moreInfo" class="button button-block">MORE INFO</button>
+
           </div>
         </a>
         {{/each}}

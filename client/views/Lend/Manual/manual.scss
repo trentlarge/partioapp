@@ -1,4 +1,29 @@
 .manual-entry {
     padding-bottom: 50px;
     background-color: #ffffff;
+    .input-label{
+        font-size: 13px;
+        color: #AAA;
+    }
+    .manualCategory{
+        font-size: 13px;
+    }
+    .item p{
+        font-size: 13px;
+        color: #AAA;
+    }
+    .item-divider{
+        font-size: 13px;
+        text-align: center;
+        text-transform: uppercase;
+        color: #242424;
+    }
+    .button.button-energized{
+        -webkit-box-shadow: inset 0px -22px 0px 0px #E48C02;
+        -moz-box-shadow: inset 0px -22px 0px 0px #E48C02;
+        box-shadow: inset 0px -22px 0px 0px #E48C02;
+        border-color: #d8880c;
+        background-color: #f0970d;
+        color: #fff;
+    }
 }

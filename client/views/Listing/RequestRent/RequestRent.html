@@ -1,8 +1,8 @@
 <template name="requestRent">
-  
-   {{#ionModal class="requestRent" customTemplate=true}} 
+
+   {{#ionModal class="requestRent" customTemplate=true}}
         <div class="bar bar-header bar-royal">
-        
+
           <h2 class="title" style=" display:inline-block;
 								width:60%;
 				                white-space: nowrap;
@@ -11,20 +11,20 @@
 								margin:0 auto">
               Rent Request
           </h2>
-            
+
           <button type="button" id="closeRequest" data-dismiss="modal" style="right: 5px;position: absolute;" title="Close" class="button button-clear">
                     <i class="icon ion-ios-close-outline"></i>
           </button>
         </div>
-    
+
     <div class="list has-header">
 
         <div class="padding-horizontal padding-vertical">
 
             <div class="list">
-                
-                <div class="item item-divider rent-price"><h3>Rent Price <i class="chevron-icon icon ion-chevron-right"></i></h3></div> 
-                
+
+                <div class="item item-divider rent-price"><h3>Rent Price <i class="chevron-icon icon ion-chevron-right"></i></h3></div>
+
                 <div class="item center rent-price-item hidden">
                     <table class="rent-table">
                         <tbody class="prices">
@@ -50,11 +50,11 @@
                     <div class="range">
                         <div class="range-start" style="display:none;"></div>
                         <div class="range-end"></div>
-                    </div>    
+                    </div>
                 </div>
 
                 <div class="item item-divider"><h3>Rent Details</h3></div>
-                
+
                 <div class="item">
                     <div class="center">
                         <p class="rent-days"></p>
@@ -78,7 +78,7 @@
                                     <td class="{{activeWeeks}}">${{totalPriceWeeks}}</td>
                                     <td class="{{activeMonths}}">${{totalPriceMonths}}</td>
                                     <td class="{{activeSemesters}}">${{totalPriceSemesters}}</td>
-                                </tr> 
+                                </tr>
                                 <tr>
                                     <td colspan="4" class="active">TOTAL: ${{calculatedPrice}}</td>
                                 </tr>
@@ -86,12 +86,12 @@
                         </table>
                     </div>
                 </div>
-                
+
             </div>
-            
+
             <button id="sendRequest" class="button button-block button-energized" {{enableRequest}}>SEND REQUEST</button>
         </div>
     </div>
-    
+
   {{/ionModal}}
 </template>

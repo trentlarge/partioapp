@@ -26,6 +26,74 @@ ListingController = RouteController.extend({
 			//   someData: SomeCollection.find(),
 			//   moreData: OtherCollection.find()
 			// ...
+            getQtyUsers: function(qty) {
+                if(qty === 1) {
+                    return '1 User';
+                }
+                return qty + ' Users';
+            },
+            
+            getMinDayRangePrice: function(title) {
+                
+                var products = Products.find({"title": title}).fetch();    
+                var minPrice = products[0].rentPrice.day;
+                
+                $.each(products, function(index, product) {
+                    if(product.rentPrice.day < minPrice) {
+                        minPrice = product.rentPrice.day;
+                    }
+                });
+
+                return '$' + minPrice;
+                
+            },
+            
+            getMinWeekRangePrice: function(title) {
+                
+                var products = Products.find({"title": title}).fetch();    
+                var minPrice = products[0].rentPrice.week;
+                
+                $.each(products, function(index, product) {
+                    if(product.rentPrice.week < minPrice) {
+                        minPrice = product.rentPrice.week;
+                    }
+                });
+
+                return '$' + minPrice;
+                
+            },
+            
+            getMinMonthRangePrice: function(title) {
+                
+                var products = Products.find({"title": title}).fetch();    
+                var minPrice = products[0].rentPrice.month;
+                
+                $.each(products, function(index, product) {
+                    if(product.rentPrice.month < minPrice) {
+                        minPrice = product.rentPrice.month;
+                    }
+                });
+
+                return '$' + minPrice;
+                
+            },
+            
+            getMinSemesterRangePrice: function(title) {
+                
+                var products = Products.find({"title": title}).fetch();    
+                var minPrice = products[0].rentPrice.semester;
+                
+                $.each(products, function(index, product) {
+                    if(product.rentPrice.semester < minPrice) {
+                        minPrice = product.rentPrice.semester;
+                    }
+                });
+
+                return '$' + minPrice;
+                
+            },
+            
+            
 		};
 	},
 
