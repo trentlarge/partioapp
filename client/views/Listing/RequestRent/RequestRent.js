@@ -1,5 +1,5 @@
 Template.requestRent.rendered = function() {
-    
+
 //	var dataContext = this.data;
 //	//Chat input textarea auto-resize when more than 1 line is entered
 //	Session.set("_requestor", dataContext.requestor);
@@ -28,13 +28,13 @@ Template.requestRent.rendered = function() {
     }
 
     Session.set('rentPrice', rentPrice);
-    
+
     Session.set('amountPrice', 0);
     Session.set('numberDays', 0);
     Session.set('numberWeeks', 0);
     Session.set('numberMonths', 0);
     Session.set('numberSemesters', 0);
-    
+
     Session.set('totalDays', 0);
 }
 
@@ -140,10 +140,10 @@ Template.requestRent.helpers({
 
 
 Template.requestRent.events({
-    
+
     'click #sendRequest': function() {
         console.log('requesting product...');
-       
+
         var ownerId = this.ownerId;
         var productId = this._id;
         var borrowDetails = {
@@ -162,7 +162,7 @@ Template.requestRent.events({
                 totalWeek : Session.get('numberWeeks') * this.rentPrice.week,
                 totalMonth : Session.get('numberMonths') * this.rentPrice.month,
                 totalSemester : Session.get('numberSemesters') * this.rentPrice.semester
-            }  
+            }
         };
 
         IonPopup.confirm({
@@ -196,10 +196,10 @@ Template.requestRent.events({
               console.log('Cancelled');
             }
           });
-        
+
     },
     'click .rent-price': function(e, template) {
-        
+
         var rentPrice = $('.rent-price');
         var rentPriceItem = $('.rent-price-item');
 
@@ -210,7 +210,7 @@ Template.requestRent.events({
         else {
             rentPriceItem.addClass('hidden');
             rentPrice.find('.chevron-icon').removeClass('ion-chevron-down').addClass('ion-chevron-right');
-        }   
+        }
     },
     'changeDate .range-end': function(e, template) {
 
@@ -225,7 +225,7 @@ Template.requestRent.events({
         }
 
         Session.set('totalDays', totalDays);
-        
+
         //rent days and period
         var rentDays = $('.rent-days'),
           rentPeriod = $('.rent-period');
@@ -242,10 +242,10 @@ Template.requestRent.events({
               rentDays.append(Math.floor(totalDays) + ' days');
           }
 
-          var startDate = $('.range-start').data('datepicker').getFormattedDate('mm-dd-yyyy'),
-              endDate = $('.range-end').data('datepicker').getFormattedDate('mm-dd-yyyy');
+          var startDate = $('.range-start').data('datepicker').getFormattedDate('mm/dd/yy'),
+              endDate = $('.range-end').data('datepicker').getFormattedDate('mm/dd/yy');
 
-          rentPeriod.append(startDate + ' to ' + endDate);
+          rentPeriod.append('('+startDate + ' to ' + endDate+')');
         }
 
 
