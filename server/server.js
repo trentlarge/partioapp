@@ -455,16 +455,6 @@ Meteor.methods({
   // STRIPE API (cards) -------------------------------------------------------------------
 
   'chargeCard': function(token, connectionId) {
-<<<<<<< HEAD
-=======
-
-    //https://github.com/stripe/stripe-node/issues/154
-    //i think this link will helps
->>>>>>> unstable
-
-    //https://github.com/stripe/stripe-node/issues/154
-    //i think this link will helps
-
     this.unblock();
     var connect = Connections.findOne(connectionId);
 
