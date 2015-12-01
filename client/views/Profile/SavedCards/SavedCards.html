@@ -1,6 +1,6 @@
 <template name="savedCards">
   {{#contentFor "headerButtonLeft"}}
-    {{>ionNavBackButton path="profile"}}
+    {{>ionNavBackButton}}
   {{/contentFor}}
 
   {{#contentFor "headerTitle"}}
@@ -43,7 +43,7 @@
 
       <div class="padding list">
         <div class="item item-icon-left hidden alerts no-cards">
-          <i class="icon assertive ion-alert-circled"></i> 
+          <i class="icon assertive ion-alert-circled"></i>
           <p class="assertive">Add a card to be able to share or borrow an item.</p>
         </div>
         <div class="item item-icon-left energized hidden alerts only-credit">

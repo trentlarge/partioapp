@@ -122,6 +122,11 @@ Cards = {
 			case 'ok':
 				$('.alerts').addClass('hidden');
 				console.log('cards ok')
+
+				// if (Session.get('historyBack') == 'no_debit') {
+				// 	Session.set('historyBack', '');
+				// 	history.back();
+				// }
 			break;
 			case 'no_receive':
 				console.log('only credit');
@@ -222,9 +227,8 @@ Template.savedCards.events({
 		});
 	},
 
-    'click .set-pay-default': function(e) {
-        
-        var cardData = this;
+  'click .set-pay-default': function(e) {
+    var cardData = this;
 		var cardId = cardData.id;
 		var funding = cardData.funding;
 
@@ -247,11 +251,10 @@ Template.savedCards.events({
 				Cards.setDefaultCards(receiveCard, payCard);
 			}
 		});
-    },
-    
-    'click .set-receive-default': function(e) {
-        
-        var cardData = this;
+  },
+
+  'click .set-receive-default': function(e) {
+    var cardData = this;
 		var cardId = cardData.id;
 		var funding = cardData.funding;
 
@@ -274,9 +277,9 @@ Template.savedCards.events({
 				Cards.setDefaultCards(receiveCard, payCard);
 			}
 		});
-        
-    },
-    
+
+  },
+
 //	'click .set-default': function(e){
 //		var cardData = this;
 //		var cardId = cardData.id;
@@ -361,14 +364,6 @@ Template.savedCards.onRendered(function() {
 				} else {
 					Cards.refresh();
 				}
-
-				//if(result) {
-
-
-					// if (Session.get('payRedirect')) {
-					// 	Router.go('/renting/connect/'+Session.get('payRedirect'));
-					// }
-				//}
 			})
 		}
 	});

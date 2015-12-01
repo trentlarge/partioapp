@@ -90,7 +90,7 @@ Template.resultsDetails.helpers({
                 if(price > 0) {
                     Session.set('weekPrice', price);
                     return price;
-                }    
+                }
             }
         }
 
@@ -133,7 +133,7 @@ Template.resultsDetails.helpers({
 });
 
 Template.resultsDetails.events({
-    
+
     'click .features': function(e, template) {
 
       var features = $('.features');
@@ -164,9 +164,27 @@ Template.resultsDetails.events({
           Session.set('semesterPrice', rentPrice.semester);
 
     },
-    
+
     'click .submitProduct': function(e, template) {
-        
+
+        if(!Meteor.user().profile.defaultReceive){
+          IonPopup.show({
+            title: 'Update profile',
+            template: '<div class="center">Please, update your debit card to share this item.</div>',
+            buttons: [{
+              text: 'OK',
+              type: 'button-energized',
+              onTap: function() {
+                IonPopup.close();
+                // Session.set('historyBack', 'no_debit');
+                Router.go('/profile/savedcards/');
+              }
+            }]
+          });
+
+          return false;
+        }
+
         if(Lend.validatePrices()) {
 
             var submitProduct = Session.get('scanResult');
@@ -191,42 +209,39 @@ Template.resultsDetails.events({
 
             Lend.addProductToInventory(product);
             Lend.latestProduct = undefined;
-            
-        }     
-        
+
+        }
+
     }
-    
+
 })
 
-function validateInputs(details)
-{
+function validateInputs(details){
+  if(!details.title || details.title.length < 1) {
+    showInvalidPopUp('Invalid Inputs', 'Please enter a valid Title.');
+    return false;
+  }
 
-    if(!details.title || details.title.length < 1) {
-        showInvalidPopUp('Invalid Inputs', 'Please enter a valid Title.');
-        return false;
-    }
+  if(!details.conditionId || details.conditionId < 1) {
+    showInvalidPopUp('Invalid Inputs', 'Please enter a valid Condition of the item.');
+    return false;
+  }
 
-    if(!details.conditionId || details.conditionId < 1) {
-        showInvalidPopUp('Invalid Inputs', 'Please enter a valid Condition of the item.');
-        return false;
-    }
-
-    return true;
+  return true;
 }
 
-function showInvalidPopUp(strTitle, strMessage)
-{
-    IonPopup.show({
-          title: strTitle,
-          template: '<div class="center">'+strMessage+'</div>',
-          buttons:
-          [{
-            text: 'OK',
-            type: 'button-energized',
-            onTap: function()
-            {
-              IonPopup.close();
-            }
-          }]
-    });
+function showInvalidPopUp(strTitle, strMessage){
+  IonPopup.show({
+    title: strTitle,
+    template: '<div class="center">'+strMessage+'</div>',
+    buttons:
+    [{
+      text: 'OK',
+      type: 'button-energized',
+      onTap: function()
+      {
+        IonPopup.close();
+      }
+    }]
+  });
 }
