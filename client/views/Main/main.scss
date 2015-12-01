@@ -1,0 +1,10 @@
+
+.button.button-calm{
+    border-color: #D8880C;
+    background-color: #F0970D;
+    color: #FFF;
+    &.active, &.activated{
+            border-color: #D8880C;
+    background-color: #F0970D;
+    }
+}

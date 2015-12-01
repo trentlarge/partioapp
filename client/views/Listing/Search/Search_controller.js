@@ -39,9 +39,9 @@ SearchController = RouteController.extend({
 				return userAvatar(data);
 			},
 
-		  isOwner: function(productId) {
-		      return (this.search.ownerId === Meteor.userId()) ? true : false;
-		  },
+			  isOwner: function(productId) {
+			      return (Products.findOne(this._id).ownerId === Meteor.userId()) ? true : false;
+			  },
 		  getCondition: function(conditionId) {
 		    return Rating.getConditionByIndex(conditionId);
 		  },

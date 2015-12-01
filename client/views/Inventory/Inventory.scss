@@ -81,5 +81,27 @@
         
     }
     
+     .not-yet {
+        padding-top: 50px;
+        
+        img {
+            padding-bottom: 20px;
+        }
+         
+        .btn {
+            background-color: #f0970d;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            
+            &:hover {
+                color: #ffffff;
+            }
+        }
+        
+        a {
+            margin-bottom: 20px;
+        }
+    }
+    
 }
 

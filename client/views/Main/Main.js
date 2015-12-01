@@ -7,8 +7,8 @@ Template.main.events({
 
 	'click .top-part': function(event){
 		if(CheckStripeAccount()) {
-      Router.go('/lend');
-    }
+            Router.go('/lend');
+        }
 	}
 });
 
