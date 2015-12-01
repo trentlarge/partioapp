@@ -22,7 +22,7 @@ InventoryController = RouteController.extend({
 			},
 			labelState: function(state) {
 				if(state === 'PAYMENT') {
-					return 'RENTER PAYMENT';
+					return 'WAITING ON RENTER PAYMENT';
 				}
 				else if(state === 'IN USE') {
 					return 'BORROWED';

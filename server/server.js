@@ -455,10 +455,16 @@ Meteor.methods({
   // STRIPE API (cards) -------------------------------------------------------------------
 
   'chargeCard': function(token, connectionId) {
+<<<<<<< HEAD
+=======
 
     //https://github.com/stripe/stripe-node/issues/154
     //i think this link will helps
-    
+>>>>>>> unstable
+
+    //https://github.com/stripe/stripe-node/issues/154
+    //i think this link will helps
+
     this.unblock();
     var connect = Connections.findOne(connectionId);
 
@@ -483,13 +489,22 @@ Meteor.methods({
         console.log(ownerCardId, ownerCustomerId, ownerTransactionsId);
         console.log('total > '+formattedAmount)
 
-        var result = Stripe.charges.create({
+        console.log(token);
+
+        var source = Stripe.customers.createSource(requestorCustomerId, token)
+        var charge = Stripe.charges.create({
           amount: formattedAmount,
           currency: "usd",
           customer: requestorCustomerId,
-          source: token,
+          source: source.id,
           //destination: requestorCardId
         });
+
+        console.log('---------------------------------')
+        console.log(source);
+        //console.log(charge);
+
+        return false;
 
         if (result.status === 'succeeded') {
           var requestorTransaction = {
@@ -522,7 +537,7 @@ Meteor.methods({
     }
   },
 
-  'createCustomer': function() {
+  'createCustomer': function(token) {
     console.log("stripe_secret ---> "+Meteor.settings.env.STRIPE_SECRET);
     this.unblock();
 
@@ -580,8 +595,9 @@ Meteor.methods({
 
     this.unblock();
 
+    var result = Stripe.customers.createSource( customerId , tokenId);
     try {
-      var result = Stripe.customers.createSource( customerId , tokenId);
+      console.log(result);
 
       console.log(result);
 
