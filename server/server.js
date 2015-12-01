@@ -10,8 +10,8 @@ Meteor.startup(function() {
   //Stripe = StripeSync(Meteor.settings.env.STRIPE_SECRET);
   Stripe.secretKey = Meteor.settings.env.STRIPE_SECRET+':null';
 
-  process.env.MAIL_URL="smtp://support%40partio.xyz:partio123!@smtp.zoho.com:465/";
-  Accounts.emailTemplates.from = 'support@partio.xyz';
+//  process.env.MAIL_URL="smtp://support%40partio.xyz:partio123!@smtp.zoho.com:465/";
+//  Accounts.emailTemplates.from = 'support@partio.xyz';
   Accounts.emailTemplates.siteName = 'partiO';
 
   Accounts.emailTemplates.verifyEmail.subject = function(user) {
@@ -400,7 +400,7 @@ Meteor.methods({
 
     var message = borrowerName + " wants to return the book " + connect.productData.title;
     sendPush(connect.productData.ownerId, message);
-    sendNotification(connect.productData.ownerId, connect.requestor, message, "info");
+    sendNotification(connect.productData.ownerId, connect.requestor, message, "info", connectionId);
   },
 
   confirmReturn: function(searchId, connectionId) {
@@ -411,7 +411,7 @@ Meteor.methods({
 
     var message = ownerName + " confirmed your return of " + connect.productData.title;
     sendPush(connect.requestor, message);
-    sendNotification(connect.requestor, connect.productData.ownerId, message, "info");
+    sendNotification(connect.requestor, connect.productData.ownerId, message, "info", connectionId);
   },
 
   requestOwner: function(requestorId, productId, ownerId, borrowDetails) {
@@ -431,11 +431,15 @@ Meteor.methods({
       meetupLatLong: "Location not set"
     };
 
-    Connections.insert(connection);
-
-    var message = requestorName + " sent you a request for " + product.title
-    sendPush(ownerId, message);
-    sendNotification(ownerId, requestorId, message, "request");
+    Connections.insert(connection, function(e, r) {
+      if(e) {
+        throw new Meteor.Error("requestOwner", e.message);
+      } else {
+        var message = requestorName + " sent you a request for " + product.title
+        sendPush(ownerId, message);
+        sendNotification(ownerId, requestorId, message, "request", r);
+      }
+    });
 
     return true;
 
@@ -463,7 +467,7 @@ Meteor.methods({
     var ownerName = Meteor.users.findOne(connect.productData.ownerId).profile.name;
     var message =  "Your request for " + connect.productData.title + " has been declined.";
     sendPush(connect.requestor, message);
-    sendNotification(connect.requestor, connect.productData.ownerId, message, "declined");
+    sendNotification(connect.requestor, connect.productData.ownerId, message, "declined", connectionId);
     Connections.remove(connectionId);
 
     return true;
@@ -544,7 +548,7 @@ Meteor.methods({
           var moneyGiver = Meteor.users.findOne(thisConnectionData.requestor).profile.name
           var message = 'You received a payment of $' + amount + ' from ' + moneyGiver
           sendPush(thisConnectionData.productData.ownerId, message);
-          sendNotification(thisConnectionData.productData.ownerId, thisConnectionData.requestor, message, "info")
+          sendNotification(thisConnectionData.productData.ownerId, thisConnectionData.requestor, message, "info", connectionId)
         }
 
       } catch(e) {
