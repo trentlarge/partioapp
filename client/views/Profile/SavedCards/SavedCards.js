@@ -183,7 +183,7 @@ Cards = {
 Template.savedCards.events({
 	'click #add-card': function(e) {
 		PartioLoad.show();
-		stripeHandlerCredit.open({
+		stripeHandler.open({
 			name: 'partiO',
 			description: 'Add Card',
 			zipCode: false,
@@ -299,7 +299,7 @@ Template.savedCards.events({
 Template.savedCards.onRendered(function() {
 	Cards.refresh();
 
-	stripeHandlerCredit = StripeCheckout.configure({
+	stripeHandler = StripeCheckout.configure({
 		key: Meteor.settings.public.STRIPE_PUBKEY,
 
 		token: function(token) {

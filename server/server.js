@@ -454,8 +454,11 @@ Meteor.methods({
 
   // STRIPE API (cards) -------------------------------------------------------------------
 
-  'chargeCard': function(connectionId) {
+  'chargeCard': function(token, connectionId) {
 
+    //https://github.com/stripe/stripe-node/issues/154
+    //i think this link will helps
+    
     this.unblock();
     var connect = Connections.findOne(connectionId);
 
@@ -484,8 +487,8 @@ Meteor.methods({
           amount: formattedAmount,
           currency: "usd",
           customer: requestorCustomerId,
-          source: Meteor.settings.public.STRIPE_PUBKEY,
-          destination: ownerCardId
+          source: token,
+          //destination: requestorCardId
         });
 
         if (result.status === 'succeeded') {
@@ -580,6 +583,8 @@ Meteor.methods({
     try {
       var result = Stripe.customers.createSource( customerId , tokenId);
 
+      console.log(result);
+
       if (result.id) {
         var allCards = Stripe.customers.listCards(customerId);
         console.log('listing cards >>>>>>>>>> ')
@@ -597,22 +602,35 @@ Meteor.methods({
     }
   },
 
+  // 'saveDefaultCards': function(receiveCard, payCard){
+  //   if(!receiveCard && !payCard) {
+  //     return false;
+  //   }
+  //
+  //   var customerId = Meteor.user().profile.customer.id;
+  //
+  //   console.log(Stripe.customers.retrieve(customerId));
+  // },
+
   'saveDefaultCards': function(receiveCard, payCard){
     if(!receiveCard && !payCard) {
       return false;
     }
 
-    console.log(receiveCard, payCard);
+    var customerId = Meteor.user().profile.customer.id;
 
     try {
-      if(payCard)
-        var updatePayCard = Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.defaultPay": payCard }})
+      if(payCard) {
+        //Stripe.customers.update(customerId, { default_source: payCard.id })
+        Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.defaultPay": payCard }})
+        //Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.customer.default_source": payCard.id }})
+      }
 
-      if(receiveCard)
-        var receiveCard = Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.defaultReceive": receiveCard }})
+      if(receiveCard) {
+        Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.defaultReceive": receiveCard }})
+      }
 
-
-      console.log(payCard,receiveCard);
+      //console.log(payCard,receiveCard);
 
       return true;
     } catch(e) {
