@@ -195,16 +195,22 @@ Template.requestRent.events({
         Meteor.call('requestOwner', Meteor.userId(), productId, ownerId, borrowDetails, function(error, result) {
           if (!error) {
             PartioLoad.hide();
-            $('#closeRequest').click();
-            console.log(result);
-            IonLoading.show({
-              duration: 2000,
-              delay: 400,
-              customTemplate: '<div class="center"><h5>Request Sent</h5></div>',
-            });
-            // Meteor.setTimeout(function() {
-            //   Router.go('/booksLent');
-            // }, 2500)
+            IonPopup.close();
+            setTimeout(function(){
+              IonPopup.show({
+                title: 'Request Sent',
+                template: '<div class="center">Now you just need to wait for owner\'s approval</div>',
+                buttons: [{
+                  text: 'OK',
+                  type: 'button-energized',
+                  onTap: function() {
+                    IonPopup.close();
+                    $('#closeRequest').click();
+                    Router.go('/renting');
+                  }
+                }]
+              });
+            }, 500);
           } else {
             PartioLoad.hide();
             console.log(error);
@@ -213,6 +219,7 @@ Template.requestRent.events({
       },
       onCancel: function() {
         console.log('Cancelled');
+        return false;
       }
     });
   },
@@ -304,19 +311,18 @@ Template.requestRent.events({
     },
 
 });
-
-function formatDate(dateObject) {
-    var d = new Date(dateObject);
-    var day = d.getDate();
-    var month = d.getMonth() + 1;
-    var year = d.getFullYear();
-    if (day < 10) {
-        day = "0" + day;
-    }
-    if (month < 10) {
-        month = "0" + month;
-    }
-    var date = month + "-" + day + "-" + year;
-
-    return date;
-}
+// function formatDate(dateObject) {
+//     var d = new Date(dateObject);
+//     var day = d.getDate();
+//     var month = d.getMonth() + 1;
+//     var year = d.getFullYear();
+//     if (day < 10) {
+//         day = "0" + day;
+//     }
+//     if (month < 10) {
+//         month = "0" + month;
+//     }
+//     var date = month + "-" + day + "-" + year;
+//
+//     return date;
+// }

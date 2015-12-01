@@ -455,73 +455,64 @@ Meteor.methods({
   // STRIPE API (cards) -------------------------------------------------------------------
 
   'chargeCard': function(connectionId) {
+
     this.unblock();
     var connect = Connections.findOne(connectionId);
-    var owner = false;
-    var requestor = false;
 
     if(connect) {
-      owner = Meteor.users.findOne(connect.productData.ownerId);
-      requestor = Meteor.users.findOne(connect.requestor);
+      try {
+        var requestor = Meteor.users.findOne(connect.requestor);
+        var requestorCardId = requestor.profile.defaultPay.id;
+        var requestorCustomerId = requestor.profile.customer.id;
+        var requestorTransactionsId = requestor.profile.transactionsId;
 
-      // console.log(connect)
-      var payerCardId = Meteor.user().profile.cards.data[0].id;
-      var connectionId = connect._id;
-      var payerCustomerId = Meteor.user().profile.customer.id;
-      var recipientAccountId = owner.profile.stripeAccount.id;
-      var amount = connect.borrowDetails.price.total;
-      var transactionsId = Meteor.user().profile.transactionsId;
-      var transactionsRecipientId = owner.profile.transactionsId;
-      var recipientDebitId = owner.profile.payoutCard.id;
+        var owner = Meteor.users.findOne(connect.productData.ownerId);
+        var ownerCardId = owner.profile.defaultReceive.id;
+        var ownerCustomerId = owner.profile.customer.id;
+        var ownerTransactionsId = owner.profile.transactionsId;
 
-      // console.log('-connect')
-      // console.log(connect);
-      // console.log('-requestor')
-      // console.log(requestor);
-      // console.log('-owner')
-      // console.log(owner);
+        var amount = connect.borrowDetails.price.total;
+        var formattedAmount = (amount * 100).toFixed(0);
 
-      //return 'ok';
+        console.log('requestor ---------')
+        console.log(requestorCardId, requestorCustomerId, requestorTransactionsId);
+        console.log('owner ---------')
+        console.log(ownerCardId, ownerCustomerId, ownerTransactionsId);
+        console.log('total > '+formattedAmount)
 
-
-      console.log(payerCustomerId, payerCardId, recipientDebitId, amount, connectionId, transactionsId, transactionsRecipientId);
-      var formattedAmount = (amount * 100).toFixed(0);
-
-      try{
         var result = Stripe.charges.create({
           amount: formattedAmount,
           currency: "usd",
-          customer: payerCustomerId,
-          source: payerCardId,
-          destination: recipientDebitId
+          customer: requestorCustomerId,
+          source: Meteor.settings.public.STRIPE_PUBKEY,
+          destination: ownerCardId
         });
 
-        console.log(result);
         if (result.status === 'succeeded') {
-          var payerTrans = {
+          var requestorTransaction = {
             date: result.created,
-            productName: Connections.findOne(connectionId).productData.title,
+            productName: connect.productData.title,
             paidAmount: result.amount/100
           }
 
-          var recipientTrans = {
+          var ownerTransaction = {
             date: result.created,
-            productName: Connections.findOne(connectionId).productData.title,
+            productName: connect.productData.title,
             receivedAmount: result.amount/100
           }
 
-          Connections.update({_id: connectionId}, {$set: {state: "IN USE", payment: result}});
-          Search.update({"ean": Connections.findOne(connectionId).productData.ean}, {$inc: {qty: -1}})
-          Transactions.update({_id: transactionsId}, {$push: {spending: payerTrans}});
-          Transactions.update({_id: transactionsRecipientId}, {$push: {earning: recipientTrans}});
+          Connections.update({_id: connect._id}, {$set: {state: "IN USE", payment: result}});
+          Transactions.update({_id: requestorTransactionsId}, {$push: {spending: requestorTransaction}});
+          Transactions.update({_id: ownerTransactionsId}, {$push: {earning: ownerTransaction}});
 
-          var thisConnectionData = Connections.findOne(connectionId)
-          var moneyGiver = Meteor.users.findOne(thisConnectionData.requestor).profile.name
-          var message = 'You received a payment of $' + amount + ' from ' + moneyGiver
-          sendPush(thisConnectionData.productData.ownerId, message);
-          sendNotification(thisConnectionData.productData.ownerId, thisConnectionData.requestor, message, "info")
+          var message = 'You received a payment of $' + amount + ' from ' + requestor.profile.name;
+
+          sendPush(owner._id, message);
+          sendNotification(owner._id, requestor._id, message, "info");
+
+        } else {
+          throw new Meteor.Error("some error when charging");
         }
-
       } catch(e) {
         console.log(e);
       }
@@ -531,7 +522,7 @@ Meteor.methods({
   'createCustomer': function() {
     console.log("stripe_secret ---> "+Meteor.settings.env.STRIPE_SECRET);
     this.unblock();
-    
+
     try {
       var result = Stripe.customers.create({
         "description": Meteor.userId()
@@ -559,7 +550,6 @@ Meteor.methods({
       var result = Stripe.customers.deleteCard(customerId, cardId)
 
       if(result.deleted) {
-
         if(Meteor.user().profile.defaultPay.id == cardId){
           Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.defaultPay": false}})
         }
@@ -570,7 +560,11 @@ Meteor.methods({
 
         var allCards = Stripe.customers.listCards(customerId);
         Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.cards": allCards}})
+
+      } else {
+        throw new Meteor.Error("some error when removing card");
       }
+
     } catch(e) {
       console.log(e);
       throw new Meteor.Error('Error while removing card');
@@ -585,15 +579,8 @@ Meteor.methods({
 
     try {
       var result = Stripe.customers.createSource( customerId , tokenId);
-      //console.log(result);
 
       if (result.id) {
-        if (! Meteor.users.findOne(Meteor.userId()).profile.stripeAccount) {
-          Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.stripeAccount": result}})
-        } else {
-          console.log("Stripe Account already exists");
-        }
-
         var allCards = Stripe.customers.listCards(customerId);
         console.log('listing cards >>>>>>>>>> ')
         console.log(allCards);
@@ -602,7 +589,7 @@ Meteor.methods({
         })
 
       } else {
-        console.log('some error');
+        throw new Meteor.Error("some error when adding card");
       }
     } catch(e) {
       console.log(e);
