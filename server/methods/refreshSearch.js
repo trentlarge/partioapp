@@ -105,7 +105,11 @@ refreshSearch = function(userId, product){
 
 						console.log('ATUALIZA AUTHOR '+product.searchId);
 						console.log('ATUALIZA AUTHOR '+search_id);
-						updateAuthors(qty_products._id);
+
+						if(qty_products){
+							updateAuthors(qty_products._id);
+						}
+
 
 					});
 
