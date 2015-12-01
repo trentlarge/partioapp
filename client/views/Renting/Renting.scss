@@ -11,6 +11,8 @@
         -webkit-align-items: center; /* Safari 7.0+ */
         display: flex;
         align-items: center;
+        -webkit-flex-direction: column;
+        flex-direction: column;
     }
 
     .product-avatar-inner {
