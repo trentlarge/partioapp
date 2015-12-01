@@ -8,7 +8,7 @@ Template.notifications.events({
             case "info": {
                 switch(this.state) {
                     case "RETURNED": {
-//                        if(this.)
+                        // !!!
                         Router.go("connect", { _id: this.connectionId });
                     }; break;
                 }
@@ -17,10 +17,10 @@ Template.notifications.events({
                 Router.go("connect", { _id: this.connectionId });
             }; break;
             case "approved": {
-                Router.go("search", { _id: this.connectionId });
+                Router.go("connectRent", { _id: this.connectionId });
             }; break;
             case "declined": {
-                Router.go("search", { _id: this.connectionId });
+                Router.go("connectRent", { _id: this.connectionId });
             }; break;
     		case "chat": {
     			Router.go("talk", { _id: this.connectionId });

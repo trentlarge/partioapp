@@ -456,7 +456,7 @@ Meteor.methods({
 
     var message = ownerName + " accepted your request for " + connect.productData.title;
     sendPush(connect.requestor, message);
-    sendNotification(connect.requestor, connect.productData.ownerId, message, "approved");
+    sendNotification(connect.requestor, connect.productData.ownerId, message, "approved", connectionId);
 
     return true;
   },
@@ -492,7 +492,7 @@ Meteor.methods({
     if(connect) {
       owner = Meteor.users.findOne(connect.productData.ownerId);
       requestor = Meteor.users.findOne(connect.requestor);
-
+console.log(owner);
       // console.log(connect)
       var payerCardId = Meteor.user().profile.cards.data[0].id;
       var connectionId = connect._id;
@@ -501,7 +501,7 @@ Meteor.methods({
       var amount = connect.borrowDetails.price.total;
       var transactionsId = Meteor.user().profile.transactionsId;
       var transactionsRecipientId = owner.profile.transactionsId;
-      var recipientDebitId = owner.profile.payoutCard.id;
+      var recipientDebitId = owner.profile.defaultPay.id;
 
       // console.log('-connect')
       // console.log(connect);
