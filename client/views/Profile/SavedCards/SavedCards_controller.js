@@ -58,31 +58,31 @@ SavedCardsController = RouteController.extend({
 			},
 
             checkPayDefault: function(cardId) {
-                
+
                 if(!cardId) return '';
-                
+
                 if(this.getPayCard()) {
 					if(cardId == this.getPayCard().id) {
                         return 'default';
                     }
 				}
-                
+
                 return '';
             },
-            
+
             checkReceiveDefault: function(cardId) {
-                
+
                 if(!cardId) return '';
-                
+
                 if(this.getReceiveCard()) {
 					if(cardId == this.getReceiveCard().id) {
                         return 'default';
                     }
 				}
-                
+
                 return '';
             },
-            
+
 			checkIsDefault: function(cardId) {
 				if(!cardId)
 					return false;
@@ -110,27 +110,27 @@ SavedCardsController = RouteController.extend({
 					}
 				}
 			},
-            
+
             isDebit: function(funding) {
-                
+
                 if(funding === 'debit') {
                     return 'RECEIVE';
                 }
-                
+
                 return '';
             },
-            
+
             getBrandIcon: function(brand) {
-              
+
                 if(brand === 'Visa') {
                     return 'fa fa-cc-visa';
                 }
                 else if(brand === 'MasterCard') {
                     return 'fa fa-cc-mastercard';
                 }
-                
+
                 return 'fa fa-credit-card-alt';
-                
+
             },
 
 			getInfo: function(cardId) {

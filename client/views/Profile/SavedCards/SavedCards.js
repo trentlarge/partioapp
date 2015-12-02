@@ -2,7 +2,7 @@ Template.savedCards.getCreditCards = function(){
 	var result = []
 
 	if (Meteor.user().profile.cards) {
-		var cards = Meteor.user().profile.cards.data;
+		var cards = Meteor.user().profile.cards;
 
 		if(cards.length > 0) {
 			for (var i = 0; i < cards.length; i++) {
@@ -21,7 +21,7 @@ Template.savedCards.getDebitCards = function(){
 	var result = []
 
 	if (Meteor.user().profile.cards) {
-		var cards = Meteor.user().profile.cards.data;
+		var cards = Meteor.user().profile.cards;
 
 		if(cards.length > 0) {
 			for (var i = 0; i < cards.length; i++) {
@@ -303,10 +303,11 @@ Template.savedCards.onRendered(function() {
 		key: Meteor.settings.public.STRIPE_PUBKEY,
 
 		token: function(token) {
+			console.log('------------------------------')
+			console.log(token)
 			PartioLoad.show();
-			console.log(token);
 
-			Meteor.call('addCard', token.id, function(error, result) {
+			Meteor.call('addCard', token, function(error, result) {
 				PartioLoad.hide();
 
 				if(error) {

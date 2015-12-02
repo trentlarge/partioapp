@@ -19,6 +19,7 @@ Meteor.startup(function() {
   };
 
   Accounts.emailTemplates.verifyEmail.html = function(user, url) {
+    console.log('new user activation url '+url);
     var body =
     '<!DOCTYPE html>\
             <html>\
@@ -479,22 +480,14 @@ Meteor.methods({
         console.log(ownerCardId, ownerCustomerId, ownerTransactionsId);
         console.log('total > '+formattedAmount)
 
-        console.log(token);
-
-        var source = Stripe.customers.createSource(requestorCustomerId, token)
         var charge = Stripe.charges.create({
           amount: formattedAmount,
           currency: "usd",
-          customer: requestorCustomerId,
-          source: source.id,
-          //destination: requestorCardId
+        //  customer: requestorCustomerId,
+          source: requestor.profile.defaultPay.stripeToken.id,
+        //  destination: requestorCardId
+          description: requestor.profile.name+' paying to '+owner.profile.name
         });
-
-        console.log('---------------------------------')
-        console.log(source);
-        //console.log(charge);
-
-        return false;
 
         if (result.status === 'succeeded') {
           var requestorTransaction = {
@@ -566,8 +559,20 @@ Meteor.methods({
           Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.defaultReceive": false}})
         }
 
-        var allCards = Stripe.customers.listCards(customerId);
-        Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.cards": allCards}})
+        var userCards = Meteor.user().profile.cards;
+        var cards = [];
+
+        userCards.map(function(item){
+          if(item.id) {
+            if(cardId != item.id) {
+              cards.push(item);
+            }
+          }
+        })
+
+        Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.cards": cards}}, function(){
+          return true;
+        });
 
       } else {
         throw new Meteor.Error("some error when removing card");
@@ -579,25 +584,31 @@ Meteor.methods({
     }
   },
 
-  'addCard': function(tokenId) {
+  'addCard': function(token) {
     console.log('>>>>> add card');
     var customerId = Meteor.user().profile.customer.id;
 
     this.unblock();
 
-    var result = Stripe.customers.createSource( customerId , tokenId);
+    var result = Stripe.customers.createSource(customerId , token.id);
+    var cards = []
+
     try {
-      console.log(result);
-
-      console.log(result);
-
       if (result.id) {
-        var allCards = Stripe.customers.listCards(customerId);
+        result.stripeToken = token;
         console.log('listing cards >>>>>>>>>> ')
-        console.log(allCards);
-        Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.cards": allCards}}, function(){
+
+        var userCards = Meteor.user().profile.cards;
+
+        if(userCards) {
+          cards = userCards;
+        }
+
+        cards.push(result);
+
+        Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.cards": cards}}, function(){
           return true;
-        })
+        });
 
       } else {
         throw new Meteor.Error("some error when adding card");
