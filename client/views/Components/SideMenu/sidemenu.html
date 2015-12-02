@@ -18,6 +18,7 @@
             <i class="icon ion-search" id="search-icon"></i>
             <a href="{{pathFor "notifications"}}" class="notification" data-ion-menu-close>
               {{> ionIcon icon="android-notifications" class="energized"}}
+              <span class="badge badge-alert badge-assertive">{{#if alertCount}}{{alertCount}}{{/if}}</span>
             </a>
 
         </div>

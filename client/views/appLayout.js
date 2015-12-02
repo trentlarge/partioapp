@@ -138,7 +138,6 @@ Template.appLayout.onRendered(function() {
 								Meteor.setTimeout(function(){
 									Router.go('/inventory');
 									Notifications.update({_id: id}, {$set: {read: true}});
-									Session.set('alertCount', Session.get('alertCount') + 1);
 								},500)
 							}
 						}]
@@ -167,7 +166,6 @@ Template.appLayout.onRendered(function() {
 								Meteor.setTimeout(function(){
 									Router.go('/renting');
 									Notifications.update({_id: id}, {$set: {read: true}});
-									Session.set('alertCount', Session.get('alertCount') + 1);
 								},500)
 							}
 						}]
@@ -196,7 +194,6 @@ Template.appLayout.onRendered(function() {
 								Meteor.setTimeout(function(){
 									Router.go('/renting');
 									Notifications.update({_id: id}, {$set: {read: true}});
-									Session.set('alertCount', Session.get('alertCount') + 1);
 									//MainController
 								},500)
 							}
@@ -205,8 +202,6 @@ Template.appLayout.onRendered(function() {
 				}; break;
 
 				case "chat": {
-					console.log(id, fields);
-
 				 		if (Iron.Location.get().path !== '/chat/' + id ) {
 				 			sAlert.info({
 				 				goToChat: '/talk/' + fields.connectionId,
@@ -223,7 +218,6 @@ Template.appLayout.onRendered(function() {
 						customTemplate: '<div class="center"><h5>'+ fields.message 	+'</h5></div>',
 					});
 					Notifications.update({_id: id}, {$set: {read: true}});
-					Session.set('alertCount', Session.get('alertCount') + 1);
 				}
 			}
 
@@ -272,7 +266,6 @@ Meteor.startup(function() {
   });
 });
 
-Session.set('alertCount', 0);
 
 //CREATING a local collection for Chat
 

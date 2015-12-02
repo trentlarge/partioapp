@@ -20,6 +20,8 @@ Template.talk.rendered = function() {
 		});
 	}
 
+	$("textarea").focus();
+
 	// mark message as read imediatelly as message arrives
 	this.autorun(function() {
 		if(self.data.connection && self.data.unreadMessages && self.data.unreadMessages.count()) {
@@ -85,6 +87,15 @@ Template.talk.events({
 		});
 
 		$('#messageInput').focus();
+	},
+
+	'keydown textarea': function(e, t) {
+		if(e.which === 13)
+		{
+			e.preventDefault();
+			$("#chatSubmit").click();
+			return false;
+		}
 	},
 
 	'input textarea': function(e, t) {

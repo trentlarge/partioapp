@@ -486,27 +486,27 @@ Meteor.methods({
   'chargeCard': function(token, connectionId) {
     this.unblock();
     var connect = Connections.findOne(connectionId);
-​
+
     if(connect) {
         var requestor = Meteor.users.findOne(connect.requestor);
         var requestorCardId = requestor.profile.defaultPay.id;
         var requestorCustomerId = requestor.profile.customer.id;
         var requestorTransactionsId = requestor.profile.transactionsId;
-​
+
         var owner = Meteor.users.findOne(connect.productData.ownerId);
         var ownerCardId = owner.profile.defaultReceive.id;
         var ownerCustomerId = owner.profile.customer.id;
         var ownerTransactionsId = owner.profile.transactionsId;
-​
+
         var amount = connect.borrowDetails.price.total;
         var formattedAmount = (amount * 100).toFixed(0);
-​
+
         console.log('requestor ---------')
         console.log(requestorCardId, requestorCustomerId, requestorTransactionsId);
         console.log('owner ---------')
         console.log(ownerCardId, ownerCustomerId, ownerTransactionsId);
         console.log('total > '+formattedAmount)
-​
+
         var result = Stripe.charges.create({
           amount: formattedAmount,
           currency: "usd",
@@ -515,29 +515,29 @@ Meteor.methods({
 //          destination: ownerCardId,
           description: requestor.profile.name+' paying to '+owner.profile.name
         });
-​
+
         if (result.status === 'succeeded') {
           var requestorTransaction = {
             date: result.created,
             productName: connect.productData.title,
             paidAmount: result.amount/100
           }
-​
+
           var ownerTransaction = {
             date: result.created,
             productName: connect.productData.title,
             receivedAmount: result.amount/100
           }
-​
+
           Connections.update({_id: connect._id}, {$set: {state: "IN USE", payment: result}});
           Transactions.update({_id: requestorTransactionsId}, {$push: {spending: requestorTransaction}});
           Transactions.update({_id: ownerTransactionsId}, {$push: {earning: ownerTransaction}});
-​
+
           var message = 'You received a payment of $' + amount + ' from ' + requestor.profile.name;
-​
+
           sendPush(owner._id, message);
           sendNotification(owner._id, requestor._id, message, "info");
-​
+
         } else {
           throw new Meteor.Error("some error when charging");
         }

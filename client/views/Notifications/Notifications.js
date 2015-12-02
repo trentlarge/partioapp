@@ -31,5 +31,5 @@ Template.notifications.events({
 });
 
 Template.notifications.onRendered(function() {
-	Session.set('alertCount', 0);
-})
+    Meteor.call("markAllNotificationsRead");
+});
