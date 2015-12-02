@@ -14,6 +14,16 @@
     
     color: #272727;
     
+    .item-divider {
+        i {
+            float: right;
+        }
+    }
+    
+    .rent-price-item {
+        display: none;
+    }
+    
     table.rent-table {
         width: 100%;
         

@@ -229,13 +229,13 @@ Template.requestRent.events({
         var rentPrice = $('.rent-price');
         var rentPriceItem = $('.rent-price-item');
 
-        if(rentPriceItem.hasClass('hidden')){
-            rentPriceItem.removeClass('hidden');
-            rentPrice.find('.chevron-icon').removeClass('ion-chevron-right').addClass('ion-chevron-down');
+        if(!rentPriceItem.is(':visible')){
+            rentPriceItem.slideDown('fast');
+            rentPrice.find('.chevron-icon').removeClass('ion-chevron-up').addClass('ion-chevron-down');
         }
         else {
-            rentPriceItem.addClass('hidden');
-            rentPrice.find('.chevron-icon').removeClass('ion-chevron-down').addClass('ion-chevron-right');
+            rentPriceItem.slideUp('fast');
+            rentPrice.find('.chevron-icon').removeClass('ion-chevron-down').addClass('ion-chevron-up');
         }
     },
     'changeDate .range-end': function(e, template) {
