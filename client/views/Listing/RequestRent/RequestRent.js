@@ -1,5 +1,5 @@
 Template.requestRent.rendered = function() {
-    
+
 //	var dataContext = this.data;
 //	//Chat input textarea auto-resize when more than 1 line is entered
 //	Session.set("_requestor", dataContext.requestor);
@@ -28,13 +28,13 @@ Template.requestRent.rendered = function() {
     }
 
     Session.set('rentPrice', rentPrice);
-    
+
     Session.set('amountPrice', 0);
     Session.set('numberDays', 0);
     Session.set('numberWeeks', 0);
     Session.set('numberMonths', 0);
     Session.set('numberSemesters', 0);
-    
+
     Session.set('totalDays', 0);
 }
 
@@ -140,66 +140,92 @@ Template.requestRent.helpers({
 
 
 Template.requestRent.events({
-    
-    'click #sendRequest': function() {
-        console.log('requesting product...');
-       
-        var ownerId = this.ownerId;
-        var productId = this._id;
-        var borrowDetails = {
-            date : {
-                start : $(".range-start").datepicker("getDate"),
-                end : $(".range-end").datepicker("getDate"),
-                totalDays : Session.get('totalDays'),
-                days : Session.get('numberDays'),
-                weeks : Session.get('numberWeeks'),
-                months : Session.get('numberMonths'),
-                semesters : Session.get('numberSemesters')
-            },
-            price : {
-                total : Session.get('amountPrice'),
-                totalDay : Session.get('numberDays') * this.rentPrice.day,
-                totalWeek : Session.get('numberWeeks') * this.rentPrice.week,
-                totalMonth : Session.get('numberMonths') * this.rentPrice.month,
-                totalSemester : Session.get('numberSemesters') * this.rentPrice.semester
-            }  
-        };
+  'click #sendRequest': function() {
 
-        IonPopup.confirm({
-            okText: 'Proceed',
-            cancelText: 'Cancel',
-            title: 'Continuing will send a request to the product Owner',
-            template: '<div class="center">You\'ll receive a notification once the owner accepts your request</div>',
-            onOk: function() {
-              console.log("proceeding with connection");
-              PartioLoad.show();
-              Meteor.call('requestOwner', Meteor.userId(), productId, ownerId, borrowDetails, function(error, result) {
-                if (!error) {
-                  PartioLoad.hide();
-                  $('#closeRequest').click();
-                  console.log(result);
-                  IonLoading.show({
-                    duration: 2000,
-                    delay: 400,
-                    customTemplate: '<div class="center"><h5>Request Sent</h5></div>',
-                  });
-                  // Meteor.setTimeout(function() {
-                  //   Router.go('/booksLent');
-                  // }, 2500)
-                } else {
-                  PartioLoad.hide();
-                  console.log(error);
-                }
-              })
-            },
-            onCancel: function() {
-              console.log('Cancelled');
-            }
-          });
-        
-    },
+    if(!Meteor.user().profile.defaultPay){
+      IonPopup.show({
+        title: 'Update profile',
+        template: '<div class="center">Please, update your cards to borrow this item.</div>',
+        buttons: [{
+          text: 'OK',
+          type: 'button-energized',
+          onTap: function() {
+            IonPopup.close();
+            $('#closeRequest').click();
+            Router.go('/profile/savedcards/');
+          }
+        }]
+      });
+
+      return false;
+    }
+
+
+    console.log('requesting product...');
+
+    var ownerId = this.ownerId;
+    var productId = this._id;
+    var borrowDetails = {
+      date : {
+        start : $(".range-start").datepicker("getDate"),
+        end : $(".range-end").datepicker("getDate"),
+        totalDays : Session.get('totalDays'),
+        days : Session.get('numberDays'),
+        weeks : Session.get('numberWeeks'),
+        months : Session.get('numberMonths'),
+        semesters : Session.get('numberSemesters')
+      },
+      price : {
+        total : Session.get('amountPrice'),
+        totalDay : Session.get('numberDays') * this.rentPrice.day,
+        totalWeek : Session.get('numberWeeks') * this.rentPrice.week,
+        totalMonth : Session.get('numberMonths') * this.rentPrice.month,
+        totalSemester : Session.get('numberSemesters') * this.rentPrice.semester
+      }
+    };
+
+    IonPopup.confirm({
+      okText: 'Proceed',
+      cancelText: 'Cancel',
+      title: 'Continuing will send a request to the product Owner',
+      template: '<div class="center">You\'ll receive a notification once the owner accepts your request</div>',
+      onOk: function() {
+        console.log("proceeding with connection");
+        PartioLoad.show();
+        Meteor.call('requestOwner', Meteor.userId(), productId, ownerId, borrowDetails, function(error, result) {
+          if (!error) {
+            PartioLoad.hide();
+            IonPopup.close();
+            setTimeout(function(){
+              IonPopup.show({
+                title: 'Request Sent',
+                template: '<div class="center">Now you just need to wait for owner\'s approval</div>',
+                buttons: [{
+                  text: 'OK',
+                  type: 'button-energized',
+                  onTap: function() {
+                    IonPopup.close();
+                    $('#closeRequest').click();
+                    Router.go('/renting');
+                  }
+                }]
+              });
+            }, 500);
+          } else {
+            PartioLoad.hide();
+            console.log(error);
+          }
+        })
+      },
+      onCancel: function() {
+        console.log('Cancelled');
+        return false;
+      }
+    });
+  },
+
     'click .rent-price': function(e, template) {
-        
+
         var rentPrice = $('.rent-price');
         var rentPriceItem = $('.rent-price-item');
 
@@ -210,7 +236,7 @@ Template.requestRent.events({
         else {
             rentPriceItem.addClass('hidden');
             rentPrice.find('.chevron-icon').removeClass('ion-chevron-down').addClass('ion-chevron-right');
-        }   
+        }
     },
     'changeDate .range-end': function(e, template) {
 
@@ -225,7 +251,7 @@ Template.requestRent.events({
         }
 
         Session.set('totalDays', totalDays);
-        
+
         //rent days and period
         var rentDays = $('.rent-days'),
           rentPeriod = $('.rent-period');
@@ -285,19 +311,18 @@ Template.requestRent.events({
     },
 
 });
-
-function formatDate(dateObject) {
-    var d = new Date(dateObject);
-    var day = d.getDate();
-    var month = d.getMonth() + 1;
-    var year = d.getFullYear();
-    if (day < 10) {
-        day = "0" + day;
-    }
-    if (month < 10) {
-        month = "0" + month;
-    }
-    var date = month + "-" + day + "-" + year;
-
-    return date;
-}
+// function formatDate(dateObject) {
+//     var d = new Date(dateObject);
+//     var day = d.getDate();
+//     var month = d.getMonth() + 1;
+//     var year = d.getFullYear();
+//     if (day < 10) {
+//         day = "0" + day;
+//     }
+//     if (month < 10) {
+//         month = "0" + month;
+//     }
+//     var date = month + "-" + day + "-" + year;
+//
+//     return date;
+// }
