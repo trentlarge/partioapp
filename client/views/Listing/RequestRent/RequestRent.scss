@@ -1,6 +1,82 @@
 .datepicker table tr td.range, .datepicker table tr td.range:hover, .datepicker table tr td.range.disabled, .datepicker table tr td.range.disabled:hover {
     display: table-cell;
 }
+.requestRent{
+    .range-end,.datepicker,.table-condensed,div.range{
+    width: 100%;
+    }
+    button#sendRequest{
+     background-color: #f0970d;
+    -webkit-box-shadow: inset 0px -24px 0px 0px rgba(255, 255, 255, 0.1);
+    -moz-box-shadow: inset 0px -24px 0px 0px rgba(255, 255, 255, 0.1);
+    box-shadow: inset 0px -24px 0px 0px rgba(255, 255, 255, 0.1);
+    opacity: .8;
+        }
+}
+
+.datepicker{
+        border: 1px solid #E8E8E8;
+    table{
+        thead{
+          tr{
+            &:first-child{
+                border-bottom: 1px solid #E57838;
+            }
+            &:last-child{
+
+                th{
+                    border-radius: 0px;
+                    background: #F4B350;
+                    border-radius: 0px;
+                    color: #fff;
+                }
+            }
+        }
+        }
+
+    }
+    table tr td{
+         &.today{
+            background: none;
+            font-weight: 600;
+            text-decoration: underline;
+        }
+        &.selected.active, &.selected, &.range{
+         color: #000000;
+        background-color: #ffdb99;
+        border-color: #ffb733;
+        border-radius: 0px;
+        }
+
+
+    }
+}
+.date-periods{
+    padding-bottom: 10px;
+}
+.datepicker-days{
+    tr{
+        th{
+            font-size: 15px;
+        }
+        td{
+            font-size: 13px;
+        }
+    }
+}
+
+.request-tab{
+            background: #F5F5F5;
+        -webkit-box-shadow: inset 0px -14px 0px 0px #EAEAEA;
+        -moz-box-shadow: inset 0px -14px 0px 0px #EAEAEA;
+        box-shadow: inset 0px -14px 0px 0px #EAEAEA;
+    h3{
+        text-align: center;
+        i{
+            float: right;
+        }
+    }
+}
 
 .range {
     padding: 0;
@@ -9,9 +85,12 @@
     width: 260px;
     margin: 0 auto;
 }
-
+.rent-period{
+    font-size: 13px;
+    color: #999;
+}
 .requestRent {
-    
+
     color: #272727;
     
     .item-divider {
@@ -26,35 +105,34 @@
     
     table.rent-table {
         width: 100%;
-        
+
         th, td {
             text-align: center;
             width: 25%;
             padding: 5px;
             border: 1px solid #ffffff;
         }
-        
+
         th {
             color: #ffffff;
             -webkit-box-shadow: inset 0px -10px 0px 0px rgba(255,255,255,0.1);
             -moz-box-shadow: inset 0px -10px 0px 0px rgba(255,255,255,0.1);
             box-shadow: inset 0px -10px 0px 0px rgba(255,255,255,0.1);
             opacity: .8;
-            
+
             &:first-child {
                 border-top-left-radius: 5px;
             }
-            
+
             &:last-child {
                 border-top-right-radius: 5px;
             }
-        
+
         }
-        
+
         .prices {
-        
-            th {
-                
+
+            th {         
                 &.one { background-color: #FF9800 }
                 &.two { background-color: #FB8C00 }
                 &.three { background-color: #F57C00 }
@@ -68,13 +146,15 @@
 //                    background-color: #df5707; 
 //                }
             }  
+
         }
-        
+
         .details {
-            
-            th { 
-                background-color: #9E9E9E; 
+
+            th {
+                background-color: #9E9E9E;
             }
+
             th.active {
                 
                 &.one { background-color: #FF9800 }
@@ -90,18 +170,26 @@
 //                    background-color: #df5707; 
 //                }
             }
+
             td {
                 color: #9E9E9E;
+                font-size: 13px;
             }
             td.active {
                 color: #272727;
             }
         }
-        
+
         td {
             background-color: #f5f5f5;
             border-bottom: 1px solid #eeeeee;
         }
-        
+        td.total_price{
+            background: #E8E8E8;
+            color: #000000;
+            font-size: 15px;
+        }
+
+
     }
 }
