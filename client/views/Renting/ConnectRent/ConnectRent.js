@@ -99,8 +99,8 @@ Template.connectRent.events({
 				},
 				onOk: function() {
 					PartioLoad.show();
-          //Meteor.call('chargeCard', payerCustomerId, payerCardId, recipientDebitId, amount, connectionId, transactionsId, transactionsRecipientId, function(error, result) {
-          Meteor.call('chargeCard', connectionId, function(error, result) {
+
+          Meteor.call('chargeCard', Meteor.settings.public.STRIPE_PUBKEY, connectionId, function(error, result) {
             //console.log(result);
 
 						if (!error) {
