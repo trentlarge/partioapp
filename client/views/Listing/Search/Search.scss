@@ -5,9 +5,9 @@
 .listing-search {
     .product-header-title{
         background: #F5F5F5;
-        -webkit-box-shadow: inset 0px -14px 0px 0px #EAEAEA;
-        -moz-box-shadow: inset 0px -14px 0px 0px #EAEAEA;
-        box-shadow: inset 0px -14px 0px 0px #EAEAEA;
+//        -webkit-box-shadow: inset 0px -14px 0px 0px #EAEAEA;
+//        -moz-box-shadow: inset 0px -14px 0px 0px #EAEAEA;
+//        box-shadow: inset 0px -14px 0px 0px #EAEAEA;
         h2{
             text-align: center;
             width: 100%;
@@ -106,13 +106,18 @@ table.rent-table {
         box-shadow: inset 0px -10px 0px 0px rgba(255,255,255,0.1);
         opacity: .8;
 
-        &:nth-child(odd) {
-            background-color: #f0970d;
-            }
-
-        &:nth-child(even) {
-            background-color: #df5707;
-        }
+        &.one { background-color: #FF9800 }
+        &.two { background-color: #FB8C00 }
+        &.three { background-color: #F57C00 }
+        &.four { background-color: #EF6C00 }
+        
+//        &:nth-child(odd) {
+//            background-color: #f0970d;
+//        }
+//
+//        &:nth-child(even) {
+//            background-color: #df5707;
+//        }
 
         &:first-child {
             border-top-left-radius: 5px;

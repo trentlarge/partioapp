@@ -43,6 +43,11 @@
 }
 
 #search-result {
+    
+    .item {
+        height: 105px;
+    }
+    
     .disabled {
         display: none;
     }

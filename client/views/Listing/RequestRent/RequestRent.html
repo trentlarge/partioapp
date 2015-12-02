@@ -29,10 +29,10 @@
                     <table class="rent-table">
                         <tbody class="prices">
                             <tr>
-                                <th><i>D</i></th>
-                                <th><i>W</i></th>
-                                <th><i>M</i></th>
-                                <th><i>S</i></th>
+                                <th class="one"><i class="icon">D</i></th>
+                                <th class="two"><i class="icon">W</i></th>
+                                <th class="three"><i class="icon">M</i></th>
+                                <th class="four"><i class="icon">S</i></th>
                             </tr>
                             <tr>
                                 <td>${{rentPrice.day}}</td>
@@ -62,10 +62,10 @@
                         <table class="rent-table">
                             <tbody class="details">
                                 <tr>
-                                    <th class="{{activeDays}}"><i>D</i></th>
-                                    <th class="{{activeWeeks}}"><i>W</i></th>
-                                    <th class="{{activeMonths}}"><i>M</i></th>
-                                    <th class="{{activeSemesters}}"><i>S</i></th>
+                                    <th class="{{activeDays}} one"><i>D</i></th>
+                                    <th class="{{activeWeeks}} two"><i>W</i></th>
+                                    <th class="{{activeMonths}} three"><i>M</i></th>
+                                    <th class="{{activeSemesters}} four"><i>S</i></th>
                                 </tr>
                                 <tr>
                                     <td class="{{activeDays}}">{{numberDays}}</td>
