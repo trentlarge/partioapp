@@ -10,6 +10,9 @@ Meteor.startup(function() {
   //Stripe = StripeSync(Meteor.settings.env.STRIPE_SECRET);
   Stripe.secretKey = Meteor.settings.env.STRIPE_SECRET+':null';
 
+  var cloudSightApiURL = "http://api.cloudsightapi.com/";
+  var cloudSightApiKey = "_ALbqMxPQlSXWt77oFVAdA";
+
   process.env.MAIL_URL="smtp://support%40partio.xyz:partio123!@smtp.zoho.com:465/";
   Accounts.emailTemplates.from = 'support@partio.xyz';
   Accounts.emailTemplates.siteName = 'partiO';
@@ -209,8 +212,10 @@ Meteor.methods({
   },
 
   camfindGetTokenBase64: function(dataURI) {
-    var mashapeURL = "https://camfind.p.mashape.com/image_requests";
-    var mashapeKey = "7W5OJWzlcsmshYSMTJW8yE4L2mJQp1cuOVKjsneO6N0wPTpaS1";
+
+
+    // var mashapeURL = "https://camfind.p.mashape.com/image_requests";
+    // var mashapeKey = "7W5OJWzlcsmshYSMTJW8yE4L2mJQp1cuOVKjsneO6N0wPTpaS1";
 
     // base64 encoded data to Buffer conversion
     var atob = Meteor.npmRequire('atob');
@@ -244,8 +249,9 @@ Meteor.methods({
     var request = Meteor.npmRequire("request");
     var response = Async.runSync(function(done) {
       request.post({
-        url: mashapeURL,
-        headers: { "X-Mashape-Key": mashapeKey },
+        url: cloudSightApiURL+'image_requests',
+        //headers: { "X-Mashape-Key": cloudSightApiKey },
+        headers: { "Authorization": "CloudSight "+cloudSightApiKey },
         formData: formData
       }, function(err, httpResponse, body) {
         var result = {
@@ -262,6 +268,8 @@ Meteor.methods({
   camfindGetResponse: function(token) {
     console.log('CamFind: request token >>> '+token);
     console.log('CamFind: waiting API status...');
+
+    return false;
 
     var response = Async.runSync(function(done) {
       var interval = Meteor.setInterval(function(){
