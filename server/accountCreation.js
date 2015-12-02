@@ -3,6 +3,8 @@ Accounts.onCreateUser(function(options,user) {
 	console.log("USER-->>" + JSON.stringify(user))
 	var meteorUserId = user._id;
 
+
+
 	if (user.services.facebook) {
 		var fbLink = user.services.facebook.link;
 		var linkId = fbLink.split("https://www.facebook.com/app_scoped_user_id/")[1].split("/")[0];
@@ -15,6 +17,8 @@ Accounts.onCreateUser(function(options,user) {
 		// user.profile.avatar = options.profile.avatar;
 		user.profile.college = '';
 		user.profile.mobile = '';
+		user.profile.defaultPay = false;
+		user.profile.defaultReceive = false;
 
 		var currentEmail = user.services.facebook.email;
 		if (currentEmail.split("@")[1] === "duke.edu" || currentEmail.split("@")[1] === "rollins.edu") {
@@ -35,6 +39,9 @@ Accounts.onCreateUser(function(options,user) {
 		user.profile.mobile = options.profileDetails.mobile;
 		user.profile.mobileValidated = options.profileDetails.mobileValidated;
 		user.profile.name = options.profileDetails.name;
+		user.profile.defaultPay = false;
+		user.profile.defaultReceive = false;
+
 		//NOT TAKING LOCATION DETAILS ON REGISTRATION ANYMORE
 		// user.profile.address = options.profileDetails.location ? options.profileDetails.location.address : "-" ;
 		// user.profile.latLong = options.profileDetails.location ? options.profileDetails.location.latLong : "-";

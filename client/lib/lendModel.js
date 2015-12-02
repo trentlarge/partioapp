@@ -128,7 +128,7 @@ app.model.Lend = (function () {
 
             PartioLoad.hide();
             IonPopup.show({
-            title: 'Your Product sucessfully submitted',
+            title: 'Your product is successfully submitted',
             template: '<div class="center">You can find this shared item in your Repository</div>',
             buttons:
             [{
@@ -153,7 +153,7 @@ app.model.Lend = (function () {
             PartioLoad.hide();
 
             IonPopup.show({
-            title: 'Your Product sucessfully submitted',
+            title: 'Your product is successfully submitted',
             template: '<div class="center">And saved to your Inventory</div>',
             buttons:
             [{

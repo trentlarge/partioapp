@@ -29,6 +29,9 @@ input[type="text"].search-header-input {
     &::-webkit-input-placeholder {
         color: rgba(39, 39, 39, 0.6);
     }
+    &::-moz-placeholder {
+        color: rgba(39, 39, 39, 0.6);
+    }
 }
 
 .search-header-input {

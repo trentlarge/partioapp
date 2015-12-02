@@ -64,7 +64,6 @@ Template.register.events({
 	    				Meteor.call('createCustomer', function(error, result) {
 	    					if (!error) {
 									PartioLoad.setMessage('Success! Your invitation will be send in few seconds, please check your inbox.')
-	    						console.log("Stripe Customer creation in progress!");
 	    						var userTransId = Transactions.insert({
 	    							earning: [],
 	    							spending: []
