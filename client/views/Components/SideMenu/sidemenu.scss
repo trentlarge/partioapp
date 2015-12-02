@@ -25,10 +25,14 @@ ion-side-menu.menu-left.menu {
             width: 200px;
             margin-bottom: 10px;
             margin-right: 10px;
-        }
-
-        ::-webkit-input-placeholder {
-            padding-top: 2px;
+            
+            &::-webkit-input-placeholder {
+                padding-top: 2px;
+                color: rgba(39, 39, 39, 0.6);
+            }
+            &::-moz-placeholder {
+                color: rgba(39, 39, 39, 0.6);
+            }
         }
 
         .ion-search {

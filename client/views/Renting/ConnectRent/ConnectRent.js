@@ -33,13 +33,14 @@ Template.connectRent.events({
 		var productDetails = $('.product-details');
 		var productDetailsItem = $('.product-details-item');
 
-	  if(productDetailsItem.hasClass('hidden')){
-	      productDetailsItem.removeClass('hidden');
-	      productDetails.find('.chevron-icon').removeClass('ion-chevron-right').addClass('ion-chevron-down');
-	  } else {
-	      productDetailsItem.addClass('hidden');
-	      productDetails.find('.chevron-icon').removeClass('ion-chevron-down').addClass('ion-chevron-right');
-	  }
+	  if(!productDetailsItem.is(':visible')){
+          productDetailsItem.slideDown('fast');
+          productDetails.find('.chevron-icon').removeClass('ion-chevron-up').addClass('ion-chevron-down');
+      }
+      else {
+          productDetailsItem.slideUp('fast');
+          productDetails.find('.chevron-icon').removeClass('ion-chevron-down').addClass('ion-chevron-up');
+      }
 	},
 
 	'click #btnCallUser': function(err, template) {
@@ -99,8 +100,8 @@ Template.connectRent.events({
 				},
 				onOk: function() {
 					PartioLoad.show();
-          //Meteor.call('chargeCard', payerCustomerId, payerCardId, recipientDebitId, amount, connectionId, transactionsId, transactionsRecipientId, function(error, result) {
-          Meteor.call('chargeCard', connectionId, function(error, result) {
+
+          Meteor.call('chargeCard', Meteor.settings.public.STRIPE_PUBKEY, connectionId, function(error, result) {
             //console.log(result);
 
 						if (!error) {

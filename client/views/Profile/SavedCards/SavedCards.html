@@ -1,162 +1,73 @@
 <template name="savedCards">
-    {{#contentFor "headerButtonLeft"}}
-      {{>ionNavBackButton path="profile"}}
-    {{/contentFor}}
+  {{#contentFor "headerButtonLeft"}}
+    {{>ionNavBackButton}}
+  {{/contentFor}}
+
 
     {{#contentFor "headerTitle"}}
       <h1 class="title" style="text-align:center;">Payment Cards</h1>
     {{/contentFor}}
 
-    {{#ionView}}
-      {{#ionContent}}
+  {{#ionView}}
+    {{#ionContent class="savedCard"}}
 
-        <br>
-        <div class="padding list">
+      <br>
+      <div class="padding list">
 
-          <div class="item item-divider item-button-right"><h3>Cards</h3><button id="test-card-2" class="button button-small push-up button-clear"><h6 class="positive">Test Cards</h6></button></div>
-          <!-- {{#each addedCards}}
-          <a class="item item-icon-right">
-            <p>{{brand}}&nbsp;&nbsp; XXXX-{{last4}}</p>
-            {{#if addedCards.[0]}}<i class="icon ion-checkmark energized custom-icon"></i>{{/if}}
-          </a>
-          {{/each}} -->
-
-          {{#each addedCards}}
-
-          <label class="item item-radio">
-            <input type="radio" name="group" value="{{last4}}" checked="checked">
-            <div class="item-content"><p>{{brand}}&nbsp;&nbsp; XXXX-{{last4}}&nbsp;&nbsp; {{funding}}</p></div>
-            <i class="radio-icon ion-checkmark energized"></i>
-            <!-- <i id="trash-card" class="ion-ios-trash ion-checkmark energized trash-item"></i> -->
-          </label>
-
-          {{/each}}
-
-          <a class="item item-icon-left" id="add-credit-card">
-            <i class="icon ion-ios-plus-outline energized custom-icon"></i>
-
-            <p class="graytext">Credit/Debit Card</p>
-          </a>
+        <div class="item item-divider item-button-right">
+          <h3>Cards</h3>
+          <button id="test-card" class="button button-small push-up button-clear"><h6 class="positive">Test Cards</h6></button>
         </div>
 
-        <!-- <div class="padding-horizontal list">
-          <div class="item item-divider item-button-right"><h3>Receive Funds</h3><button id="test-card-1" class="button button-small push-up button-clear"><h6 class="positive">Test Cards</h6></button></div>
-
-          {{#with addedDebitCard}}
-          <a class="item item-icon-right">
-            <p>{{brand}}&nbsp;&nbsp; XXXX-{{last4}}</p>
-            <i class="icon ion-checkmark energized custom-icon"></i>
-          </a>
-          {{else}}
-
-          {{/with}}
-
-                      <a class="item item-icon-left" id="add-debit-card">
-            <i class="icon ion-ios-plus-outline energized custom-icon"></i>
-            <p class="graytext">Debit Card Only</p>
-          </a>
-
-        </div> -->
-
-<!--         <div class="list">
-         {{#each addedCards}}
-         <div class="item item-divider"><h3>Cards for Payment</h3></div>
-         <label class="item item-radio">
-          <input type="radio" name="group" value="{{last4}}" checked="checked">
-          <div class="item-content center"><span class="capitalize">{{brand}}</span> &nbsp;&nbsp; XXXX-{{last4}}</div>
-          <i class="radio-icon ion-checkmark"></i>
-        </label>
+        {{#each cards.data }}
+          <div class="item item-card" data-id="{{id}}" data-funding="{{funding}}">
+              <table>
+                <tbody>
+                    <tr>
+                        <td class="brand"><i class="{{../getBrandIcon brand}}"></i></td>
+                        <td class="funding"><i>{{funding}}</i></td>
+                        <td class="numbers"><i>XXXX-{{last4}}</i></td>
+                        <td class="pay"><i class="set-default set-pay-default {{../checkPayDefault id}}">PAY</i></td>
+                        <td class="receive"><i class="set-default set-receive-default {{../checkReceiveDefault id}}">{{../isDebit funding}}</i></td>
+                        <td class="trash"><i class="delete-card icon ion-ios-trash"></i></td>
+                    </tr>
+                </tbody>
+              </table>
+          </div>
         {{/each}}
-      </div> -->
 
-        {{/ionContent}}
-      {{/ionView}}
+        <div class="item item-icon-left" id="add-card">
+          <i class="icon ion-ios-plus-outline energized custom-icon"></i>
+          <p class="graytext">New card</p>
+        </div>
+      </div>
+
+      <div class="padding list">
+        <div class="item item-icon-left hidden alerts no-cards">
+          <i class="icon assertive ion-alert-circled"></i>
+          <p class="assertive">Add a card to be able to share or borrow an item.</p>
+        </div>
+        <div class="item item-icon-left energized hidden alerts only-credit">
+          <i class="icon energized ion-alert-circled "></i>
+          <p class="energized">Please, add a debit card if you want share an item.</p>
+        </div>
+      </div>
+
+      <div class="padding">
+        <h3>debugging</h3>
+        {{#with getReceiveCard }}
+          <div>
+            <i class="set-default icon ion-checkmark energized"></i> DefaultReceiveCard = {{id}} - {{funding}} - {{last4}}
+          </div>
+        {{/with}}
+
+        {{#with getPayCard }}
+          <div>
+            <i class="set-default icon ion-checkmark bluegrey"></i> DefaultPayCard = {{id}} - {{funding}} - {{last4}}
+          </div>
+        {{/with}}
+      </div>
+
+    {{/ionContent}}
+  {{/ionView}}
 </template>
-
-
-
-
-
-
-
-
-<!-- <template name="bankAccount">
-	{{#contentFor "headerButtonLeft"}}
-      {{>ionNavBackButton path="profile"}}
-  	{{/contentFor}}
-
-  	{{#contentFor "headerTitle"}}
-    	<h1 class="title">Bank Account</h1>
-  	{{/contentFor}}
-
-  	{{#ionView}}
-    <div class="content has-header">
-    {{#if noStripeYet}}
-
-    <div class="padding-horizontal center">
-    <br>
-    <p class="subdued">The payments you receive for your shared goods will be credited to this account</p>
-    </div>
-
-		<div class="list list-inset">
-      <label class="item item-input">
-        <input type="text" placeholder="First Name" id="stripe-firstname">
-      </label>
-
-      <label class="item item-input">
-        <input type="text" placeholder="Last Name" id="stripe-lastname">
-      </label>
-
-      <label class="item item-input">
-        <input type="tel" placeholder="Last 4 Digits of SSN" id="stripe-ssn">
-      </label>
-
-      <label class="item item-input">
-        <input type="tel" placeholder="Routing Number (110000000)" id="stripe-routingnumber" disabled>
-      </label>
-
-      <label class="item item-input">
-        <input type="tel" placeholder="Bank Account (000123456789)" id="stripe-bankaccount" disabled>
-      </label>
-
-    </div>
-
-    <div class="padding-horizontal">
-     <a type="button" class="button button-block button-energized" id="stripe-create">Authorize Connection</a>
-   </div>
-
-   {{else}}
-      <div class="list card">
-
-      <div class="item">
-        <p class="subdued center">Your bank account is successfully linked</p>
-      </div>
-
-      {{#with stripeAccount}}
-      <a class="item" href="#">
-        <p>Bank Name <span class="item-note dark">{{bank_accounts.data.[0].bank_name}}</span></p>
-      </a>
-      <a class="item" href="#">
-        <p>Account Number <span class="item-note dark">XX{{bank_accounts.data.[0].last4}}</span></p>
-      </a>
-      <a class="item" href="#">
-        <p>Routing Number <span class="item-note dark">{{bank_accounts.data.[0].routing_number}}</span></p>
-      </a>
-      {{/with}}
-
-      <div class="item tabs tabs-secondary tabs-icon-left">
-        <a class="tab-item" href="#">
-          <i class="icon ion-ios-close"></i>
-          UNLINK BANK ACCOUNT
-        </a>
-      </div>
-
-    </div>
-
-   {{/if}}
-
-
-    </div>
-
-	{{/ionView}}
-</template> -->

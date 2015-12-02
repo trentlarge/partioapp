@@ -109,10 +109,10 @@
                 <table class="rent-table">
                     <tbody>
                         <tr>
-                            <th><i class="icon">D</i></th>
-                            <th><i class="icon">W</i></th>
-                            <th><i class="icon">M</i></th>
-                            <th><i class="icon">S</i></th>
+                            <th class="one"><i class="icon">DAY</i></th>
+                            <th class="two"><i class="icon">WEEK</i></th>
+                            <th class="three"><i class="icon">MONTH</i></th>
+                            <th class="four"><i class="icon">SEMESTER</i></th>
                         </tr>
                         <tr>
                             <td>{{../getMinDayRangePrice title}}</td>
@@ -120,6 +120,28 @@
                             <td>{{../getMinMonthRangePrice title}}</td>
                             <td>{{../getMinSemesterRangePrice title}}</td>
                         </tr>
+<!--
+                        <tr>
+                            <td class="one">{{../getMinDayRangePrice title}}</td>
+                            <td class="two">{{../getMinWeekRangePrice title}}</td>
+                            <td class="three">{{../getMinMonthRangePrice title}}</td>
+                            <td class="four">{{../getMinSemesterRangePrice title}}</td>
+                        </tr>
+-->
+<!--
+                        <tr>
+                            <th class="one"><i class="icon">D</i></th>
+                            <th class="two"><i class="icon">W</i></th>
+                            <th class="three"><i class="icon">M</i></th>
+                            <th class="four"><i class="icon">S</i></th>
+                        </tr>
+                        <tr>
+                            <td>{{../getMinDayRangePrice title}}</td>
+                            <td>{{../getMinWeekRangePrice title}}</td>
+                            <td>{{../getMinMonthRangePrice title}}</td>
+                            <td>{{../getMinSemesterRangePrice title}}</td>
+                        </tr>
+-->
                     </tbody>
                 </table>
                 <span class="badge-qty-users">{{../getQtyUsers qty}}</span>

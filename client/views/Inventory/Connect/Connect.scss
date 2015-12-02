@@ -11,9 +11,18 @@
         padding-top: 10px;
         padding-bottom: 10px;
         
+        i {
+            right: 16px;
+            position: absolute;
+        }
+        
         h2 {
             height: 21px
         }
+    }
+    
+    .product-details-item {
+        display: none;
     }
     
     .profile-image-box, .product-image-box {
@@ -21,7 +30,6 @@
         display: inline-block;
         text-align: center;
         padding-right: 15px;
-        border-right: 1px solid #DDD;
         width: 120px;
         min-width: 120px;
         max-width: 120px;
@@ -51,7 +59,10 @@
     .product-content {
         padding-left: 15px;
         overflow: hidden;
-        width: 100%;
+        display: inline-block;
+        width: auto;
+        max-width: 65%;
+        border-left: 1px solid #DDD;
         
         p {
             display: -webkit-flex;
