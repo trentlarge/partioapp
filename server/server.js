@@ -135,6 +135,7 @@ SearchSource.defineSource('packages', function(searchText, options) {
     return Search.find(selector, options).fetch();
   } else {
     var selector = {_id: { $nin: searchIds}};
+    console.log(Search.find(selector, options).fetch());
     return Search.find(selector, options).fetch();
   }
 });

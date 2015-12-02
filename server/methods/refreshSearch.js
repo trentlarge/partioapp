@@ -14,6 +14,7 @@ refreshSearch = function(userId, product){
 		if (existingSearch) {
 
 			console.log('existe search');
+			updateAuthors(product.searchId);
 
 			//Product already have this searchId
 			// Produto já têm este searchId
