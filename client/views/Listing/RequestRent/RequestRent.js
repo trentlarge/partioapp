@@ -140,6 +140,7 @@ Template.requestRent.helpers({
 
 
 Template.requestRent.events({
+
   'click #sendRequest': function() {
 
     if(!Meteor.user().profile.defaultPay){
@@ -268,10 +269,10 @@ Template.requestRent.events({
               rentDays.append(Math.floor(totalDays) + ' days');
           }
 
-          var startDate = $('.range-start').data('datepicker').getFormattedDate('mm-dd-yyyy'),
-              endDate = $('.range-end').data('datepicker').getFormattedDate('mm-dd-yyyy');
+          var startDate = $('.range-start').data('datepicker').getFormattedDate('mm/dd/yy'),
+              endDate = $('.range-end').data('datepicker').getFormattedDate('mm/dd/yy');
 
-          rentPeriod.append(startDate + ' to ' + endDate);
+          rentPeriod.append('('+startDate + ' to ' + endDate+')');
         }
 
 

@@ -24,6 +24,9 @@ input[type="text"].search-share-header-input {
     &::-webkit-input-placeholder {
         color: rgba(39, 39, 39, 0.6);
     }
+    &::-moz-placeholder {
+        color: rgba(39, 39, 39, 0.6);
+    }
 }
 
 input[type="text"].search-share-header-input.has-text {

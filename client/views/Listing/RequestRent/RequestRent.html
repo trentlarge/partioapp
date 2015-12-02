@@ -23,10 +23,30 @@
 
             <div class="list">
 
-                <div class="item item-divider rent-price"><h3>Rent Price <i class="chevron-icon icon ion-chevron-right"></i></h3></div>
+<!--                 <div class="item item-divider rent-price"><h3>Rent Price <i class="chevron-icon icon ion-chevron-right"></i></h3></div>
 
                 <div class="item center rent-price-item hidden">
-                    <table class="rent-table">
+
+                </div> -->
+
+                <div class="item item-divider request-tab"><h3>Rent Period <i class="fa fa-calendar"></i></h3></div>
+
+                <div class="item center">
+                    <div class="range">
+                        <div class="range-start" style="display:none;"></div>
+                        <div class="range-end"></div>
+                    </div>
+                </div>
+
+                <div class="item item-divider request-tab"><h3>Rent Price<i class="fa fa-money"></i></h3></div>
+
+                <div class="item">
+                    <div class="center">
+                    <p class="date-periods"><span class="rent-days"></span> <span class="rent-period"></span></p>
+
+<!--                         <p class="rent-days"></p>
+                        <p class="rent-period"></p> -->
+<!--                                             <table class="rent-table">
                         <tbody class="prices">
                             <tr>
                                 <th><i>D</i></th>
@@ -41,37 +61,29 @@
                                 <td>${{rentPrice.semester}}</td>
                             </tr>
                         </tbody>
-                    </table>
-                </div>
+                    </table> -->
 
-                <div class="item item-divider"><h3>Rent Period</h3></div>
-
-                <div class="item center">
-                    <div class="range">
-                        <div class="range-start" style="display:none;"></div>
-                        <div class="range-end"></div>
-                    </div>
-                </div>
-
-                <div class="item item-divider"><h3>Rent Details</h3></div>
-
-                <div class="item">
-                    <div class="center">
-                        <p class="rent-days"></p>
-                        <p class="rent-period"></p>
                         <table class="rent-table">
+
+
                             <tbody class="details">
-                                <tr>
+                                <tr >
                                     <th class="{{activeDays}}"><i>D</i></th>
                                     <th class="{{activeWeeks}}"><i>W</i></th>
                                     <th class="{{activeMonths}}"><i>M</i></th>
                                     <th class="{{activeSemesters}}"><i>S</i></th>
                                 </tr>
                                 <tr>
-                                    <td class="{{activeDays}}">{{numberDays}}</td>
-                                    <td class="{{activeWeeks}}">{{numberWeeks}}</td>
-                                    <td class="{{activeMonths}}">{{numberMonths}}</td>
-                                    <td class="{{activeSemesters}}">{{numberSemesters}}</td>
+                                    <td class="price_header {{activeDays}}">${{rentPrice.day}}</td>
+                                    <td class="price_header {{activeWeeks}}">${{rentPrice.week}}</td>
+                                    <td class="price_header {{activeMonths}}">${{rentPrice.month}}</td>
+                                    <td class="price_header {{activeSemesters}}">${{rentPrice.semester}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="{{activeDays}}">x{{numberDays}}</td>
+                                    <td class="{{activeWeeks}}">x{{numberWeeks}}</td>
+                                    <td class="{{activeMonths}}">x{{numberMonths}}</td>
+                                    <td class="{{activeSemesters}}">x{{numberSemesters}}</td>
                                 </tr>
                                 <tr>
                                     <td class="{{activeDays}}">${{totalPriceDays}}</td>
@@ -80,7 +92,7 @@
                                     <td class="{{activeSemesters}}">${{totalPriceSemesters}}</td>
                                 </tr>
                                 <tr>
-                                    <td colspan="4" class="active">TOTAL: ${{calculatedPrice}}</td>
+                                    <td colspan="4" class="active total_price">Total: ${{calculatedPrice}}</td>
                                 </tr>
                             </tbody>
                         </table>
