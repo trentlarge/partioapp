@@ -146,7 +146,9 @@ function CheckLocatioOn()
 }
 
 Template.login.rendered = function() {
-
+    
+    //document.querySelector('.fullscreen-bg__video').play();
+    //$('.fullscreen-bg__video')[0].play(); 
     $(".bar-header").hide();
 
 	if(window.cordova && window.cordova.plugins.Keyboard) {
