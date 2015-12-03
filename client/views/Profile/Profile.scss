@@ -1,5 +1,34 @@
 .profile-content {
     
+    .item-divider {
+        border: 0;
+        margin-bottom: -15px;
+        margin-right: 2px;
+        background: linear-gradient(135deg, transparent 10px, #DDD 0) top left, linear-gradient(225deg, transparent 10px, #DDD 0) top right, linear-gradient(315deg, transparent 10px, #DDD 0) bottom right, linear-gradient(45deg, transparent 10px, #DDD 0) bottom left;
+        background-size: 50% 50%;
+        background-repeat: no-repeat;
+//        height: 10px;
+//        min-height: 10px;
+//        margin: 0;
+//        padding: 0;
+//        margin-right: 2px;
+//        background-color: #DDDDDD;
+        
+//        &.top {
+//            border-top-left-radius: 1pc;
+//            border-top-right-radius: 1pc;
+//        }
+//        
+//        &.bottom {
+//            border-bottom-left-radius: 1pc;
+//            border-bottom-right-radius: 1pc;
+//        }
+    }
+    
+    a.item {
+        margin-right: 2px;
+    }
+    
     .profile-name {
         display: block;
     }
