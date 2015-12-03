@@ -24,7 +24,7 @@ InventoryDetailController = RouteController.extend({
 		    return Categories.getCategoryIconByText(_productCategory);
 		  },
 
-			editMode: function(_productId) {
+          editMode: function(_productId) {
 		    var ConnectionObj = Connections.findOne({'productData._id': _productId});
 		    if(ConnectionObj){
 		      var ConnectionStatus = ConnectionObj.state;

@@ -29,12 +29,13 @@ Template.appLayout.events({
     PartioLoad.show();
 
     var updatedProfile = {
-      "name": $('#profilename').val(),
+//      "name": $('#profilename').val(),
       "college": $('#profileuniversity').val(),
       "mobile": $('#profilemobile').val()
     }
     console.log(updatedProfile);
-    Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.name": updatedProfile.name,"profile.mobile": updatedProfile.mobile, "profile.college": updatedProfile.college}}, function(error) {
+//    Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.name": updatedProfile.name,"profile.mobile": updatedProfile.mobile, "profile.college": updatedProfile.college}}, function(error) {
+      Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.mobile": updatedProfile.mobile, "profile.college": updatedProfile.college}}, function(error) {
       if (!error) {
         PartioLoad.hide();
         console.log("success!");
@@ -110,169 +111,67 @@ getNewNotifications = function(){
 	return Notifications.find({toId: Meteor.userId(), read: false});
 }
 
-getNewChatMessages = function(){
-	return Connections.find({
-		$or: [{requestor: Meteor.userId()}, {"productData.ownerId": Meteor.userId()}],
-		"chat.state": "new",
-		"chat.sender": {$ne: Meteor.userId()}
-	});
-}
-
-getChatMessages = function(){
-		return Connections.find({ $or: [{requestor: Meteor.userId()}, {"productData.ownerId": Meteor.userId()}] });
-}
-
-
-
-//Chat = new Meteor.Collection(null);
-
 Template.appLayout.onRendered(function() {
 
-	this.autorun(function() {
-		var _newNotificatons = getNewNotifications();
-		var _newChatMessages = getNewChatMessages();
-		var _chatMessages 	 = getChatMessages();
-		//console.log(getNewChatMessages().fetch())
+	var _newNotificatons = getNewNotifications();
+	_newNotificatons.observeChanges({
+		added: function(id, fields) {
+			switch(fields.type) {
 
-		//return false;
-
-
-		//var query1 = Notifications.find({toId: Meteor.userId(), read: false});
-
-		// var _newChatMessages = Connections.find({
-		// 	$or: [{requestor: Meteor.userId()}, {"productData.ownerId": Meteor.userId()}],
-		// 	"chat.state": "new",
-		// 	"chat.sender": {$ne: Meteor.userId()}
-		// });
-
-		// var chatQuery = this.connectDat
-
-
-		//Connections.find({ $or: [{requestor: Meteor.userId()}, {"productData.ownerId": Meteor.userId()}] });
-
-		_chatMessages.observeChanges({
-			changed: function(id, fields) {
-				console.log(id);
-				console.log(fields);
-
-				// fields.chat.forEach(function(item) {
-				// 	if ( (item.sender !== Meteor.userId) && (!Chat.findOne({connectionId: id, timestamp: item.timestamp})) ) {
-				// 		Chat.insert({
-				// 			connectionId: id,
-				// 			message: item.message,
-				// 			state: "new",
-				// 			timestamp: item.timestamp
-				// 		});
-				//
-				// 		if (Iron.Location.get().path !== '/chat/' + id ) {
-				// 			sAlert.info({
-				// 				goToChat: '/chat/' + id,
-				// 				headerMessage: Meteor.users.findOne(item.sender).profile.name + ':',
-				// 				message: item.message
-				// 			});
-				// 		}
-				// 	}
-				// })
-
-			}
-		})
-
-		_newNotificatons.observeChanges({
-			added: function(id, fields) {
-				if (fields.type === "request") {
-					if(IsPopUpOpen){
-						//PopUp is open already, no need for a new one.
-						return;
-					}
-
-					IsPopUpOpen = true;
-
-					IonPopup.show({
-						title: 'Alert',
-						template: '<div class="center">'+ fields.message +'</div>',
-						buttons:
-						[{
-							text: 'OK',
-							type: 'button-energized',
-							onTap: function() {
-								IsPopUpOpen = false;
-								IonPopup.close();
-								Meteor.setTimeout(function(){
-									Router.go('/inventory');
-									Notifications.update({_id: id}, {$set: {read: true}});
-									Session.set('alertCount', Session.get('alertCount') + 1);
-								},500)
-							}
-						}]
+				case "request": {
+					sAlert.info({
+						notificationId: id,
+						routeName: "connect",
+						routeParams: { _id: fields.connectionId },
+						headerMessage: "Alert",
+						message: fields.message
 					});
-				} else if (fields.type === "approved") {
-					if(IsPopUpOpen){
-						//PopUp is open already, no need for a new one.
-						return;
-					}
+				}; break;
 
-					IsPopUpOpen = true;
-
-					IonPopup.show({
-						title: 'Alert',
-						template: '<div class="center">'+ fields.message +'</div>',
-						buttons:
-						[{
-							text: 'OK',
-							type: 'button-energized',
-							onTap: function() {
-								IsPopUpOpen = false;
-
-								IonPopup.close();
-								Meteor.setTimeout(function(){
-									Router.go('/renting');
-									Notifications.update({_id: id}, {$set: {read: true}});
-									Session.set('alertCount', Session.get('alertCount') + 1);
-								},500)
-							}
-						}]
+				case "approved": {
+					sAlert.info({
+						notificationId: id,
+						routeName: "connectRent",
+						routeParams: { _id: fields.connectionId },
+						headerMessage: "Alert",
+						message: fields.message
 					});
-				} else if (fields.type === "declined") {
+				}; break;
 
-					if(IsPopUpOpen) {
-						//PopUp is open already, no need for a new one.
-						return;
-					}
+				case "declined": {
 
-					IsPopUpOpen = true;
-
-					IonPopup.show({
-						title: 'Alert',
-						template: '<div class="center">'+ fields.message +'</div>',
-						buttons:
-						[{
-							text: 'OK',
-							type: 'button-energized',
-							onTap: function() {
-								IsPopUpOpen = false;
-								IonPopup.close();
-								Meteor.setTimeout(function(){
-									Router.go('/renting');
-									Notifications.update({_id: id}, {$set: {read: true}});
-									Session.set('alertCount', Session.get('alertCount') + 1);
-									//MainController
-								},500)
-							}
-						}]
+					sAlert.info({
+						notificationId: id,
+						routeName: "connectRent",
+						routeParams: { _id: fields.connectionId },
+						headerMessage: "Alert",
+						message: fields.message
 					});
-				} else {
+				}; break;
+
+				case "chat": {
+					if (Iron.Location.get().path !== '/talk/' + id ) {
+						sAlert.info({
+							routeName: "talk",
+							routeParams: { _id: fields.connectionId },
+							headerMessage: "New message",
+							message: fields.message
+						});
+					}
+				}; break;
+
+				default: {
 					IonLoading.show({
 						duration: 2000,
 						customTemplate: '<div class="center"><h5>'+ fields.message 	+'</h5></div>',
 					});
 					Notifications.update({_id: id}, {$set: {read: true}});
-					Session.set('alertCount', Session.get('alertCount') + 1);
 				}
-
 			}
-		})
-	})
-})
+
+		}
+	});
+});
 
 
 Template.registerHelper('cleanDate', function() {
@@ -285,7 +184,12 @@ Template.registerHelper('profilePic', function(avatar) {
 
 Template.sAlertCustom.events({
 	'click .whichalert': function() {
-		Router.go(this.goToChat)
+		if(this.notificationId) {
+			Notifications.update({ _id: this.notificationId }, { $set: { read: true } });
+		}
+		if(this.routeName) {
+			Router.go(this.routeName, this.routeParams);
+		}
 	},
 	'click .s-alert-close': function(e) {
 		e.stopPropagation();
@@ -315,7 +219,6 @@ Meteor.startup(function() {
   });
 });
 
-Session.set('alertCount', 0);
 
 //CREATING a local collection for Chat
 

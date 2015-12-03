@@ -50,7 +50,40 @@ Template.inventoryDetail.events({
 
     Products.update({_id: this.product._id}, {$set: {title: title, customPrice: edited, rentPrice: editedPrices}});
     Session.set('editMode', false);
+  },
+    
+  'click #editRemove': function(e, template) {
+      
+      var productId = this.product._id;
+      
+      IonPopup.show({
+			title: 'Remove product?',
+			template: '<div class="center">Remove product from your invetory?</div>',
+            buttons:
+            [
+                {
+                  text: 'Cancel',
+                  type: 'button-energized',
+                  onTap: function()
+                  {
+                    IonPopup.close();
+                  }
+                },
+                {
+                  text: 'Remove',
+                  type: 'button-assertive',
+                  onTap: function()
+                  {
+                    Products.remove({_id: productId});
+                    IonPopup.close();
+                    Router.go('/inventory');
+                  }
+                },
+           ]
+		});
+      
   }
+    
 });
 
 function showInvalidPopUp(strTitle, strMessage){

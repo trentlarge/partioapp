@@ -82,7 +82,6 @@ Template.map.helpers({
 		}
 
 		if (GoogleMaps.loaded()) {
-
 			var meetupMapOptions = {
 				center: meetingCoordinates,
 				zoom: 18
@@ -132,8 +131,11 @@ Template.onlyMap.created = function() {
 	var self = this;
 
 	GoogleMaps.ready('onlyMap', function(map) {
+		var meetupLocation = self.data.meetupLocation || { lat: 0, lng: 0 };
+		var takerLocation = self.data.takerLocation || { lat: 0, lng: 0 };
+
 		var meetupMarker = new google.maps.Marker({
-			position: self.data.meetupLocation,
+			position: meetupLocation,
 			icon: '/icons/icon-marker-destination.png',
 			map: map.instance
 		});
@@ -172,10 +174,11 @@ Template.onlyMap.created = function() {
 
 Template.onlyMap.helpers({
 	"onlyMapOptions": function() {
+		var meetupLocation = this.meetupLocation || { lat: 0, lng: 0 };
 		if (GoogleMaps.loaded()) {
 
 			var meetupMapOptions = {
-				center: this.meetupLocation,
+				center: meetupLocation,
 				zoom: 18
 			};
 			return meetupMapOptions;

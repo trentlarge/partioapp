@@ -1,0 +1,40 @@
+.profile-content {
+    
+    .profile-name {
+        display: block;
+    }
+    
+    .item-input {
+        
+        color: #272727;
+        
+        i {
+            padding-right: 10px;
+        }
+        
+        input {
+            
+            color: #272727;
+            
+            &:disabled {
+                background-color: #ffffff;
+                opacity: .6;
+            }
+        }
+    }
+    
+}
+
+#changePassword {
+    
+    .item-input {
+        background-color: #ffffff;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        
+        input {
+            background-color: #ffffff;
+        }
+    }
+    
+}

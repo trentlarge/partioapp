@@ -33,13 +33,14 @@ Template.connectRent.events({
 		var productDetails = $('.product-details');
 		var productDetailsItem = $('.product-details-item');
 
-	  if(productDetailsItem.hasClass('hidden')){
-	      productDetailsItem.removeClass('hidden');
-	      productDetails.find('.chevron-icon').removeClass('ion-chevron-right').addClass('ion-chevron-down');
-	  } else {
-	      productDetailsItem.addClass('hidden');
-	      productDetails.find('.chevron-icon').removeClass('ion-chevron-down').addClass('ion-chevron-right');
-	  }
+	  if(!productDetailsItem.is(':visible')){
+          productDetailsItem.slideDown('fast');
+          productDetails.find('.chevron-icon').removeClass('ion-chevron-up').addClass('ion-chevron-down');
+      }
+      else {
+          productDetailsItem.slideUp('fast');
+          productDetails.find('.chevron-icon').removeClass('ion-chevron-down').addClass('ion-chevron-up');
+      }
 	},
 
 	'click #btnCallUser': function(err, template) {
@@ -155,30 +156,32 @@ Template.connectRent.events({
 
 	'click #showMap': function(e, t) {
 		e.preventDefault();
+		PartioLoad.show();
+
 		var connection = this.connectData;
 
-    if(!connection) {
+		if(!connection) {
+			PartioLoad.hide();
 			return false;
 		}
 
-    PartioLoad.show();
-		this.meetupLocation = connection.meetupLocation || { lat: 0, lng: 0 };
+		var meetupLocation = connection.meetupLatLong || "Location not set";
 
-		if (this.meetupLatLong === "Location not set") {
-      PartioLoad.hide();
+		if (meetupLocation === "Location not set") {
+			PartioLoad.hide();
 			return false;
 		} else {
 			navigator.geolocation.getCurrentPosition(function(position) {
-        PartioLoad.hide();
+				PartioLoad.hide();
 				IonModal.open('onlyMap', {
-					meetupLocation: connection.meetupLatLong,
+					meetupLocation: meetupLocation,
 					takerLocation: {
 					 	lat: position.coords.latitude,
 					 	lng: position.coords.longitude
 					}
 				});
 			}, function(error) {
-        PartioLoad.hide();
+				PartioLoad.hide();
 				// error
 				console.log('Err: '+ error);
 			});

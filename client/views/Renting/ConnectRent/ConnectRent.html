@@ -18,9 +18,9 @@
           </div>
         {{/if}}
 
-        <div class="item item-divider product-details"><h2>Product Details <i class="chevron-icon icon ion-chevron-right"></i></h2></div>
+        <div class="item item-divider product-details"><h2>Product Details <i class="chevron-icon icon ion-chevron-up"></i></h2></div>
 
-        <div class="item product-details-item hidden">
+        <div class="item product-details-item">
           <div class="product-image-box">
               <img class="connect-thumbnail" src="{{connectData.productData.image}}">
           </div>
@@ -87,7 +87,7 @@
           </div>
         </div>
         <div class="item tabs tabs-icon-left">
-          <a class="tab-item" href="/chat/{{connectData._id}}">
+          <a class="tab-item" href="{{pathFor 'talk' _id=connectData._id}}">
             <i class="icon ion-ios-chatboxes assertive"></i>
             CHAT
           </a>

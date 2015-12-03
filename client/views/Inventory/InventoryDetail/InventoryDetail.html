@@ -42,7 +42,7 @@
           </div>
 
           <div class="item item-divider features">
-            <h2>Features <i class="chevron-icon icon ion-chevron-right"></i></h2>
+            <h2>Features <i class="chevron-icon icon ion-chevron-up"></i></h2>
           </div>
 
           <div class="row features-details" style="display: none;">
@@ -66,10 +66,10 @@
             <table class="rent-table">
               <tbody>
                 <tr>
-                  <th><i class="icon">D</i></th>
-                  <th><i class="icon">W</i></th>
-                  <th><i class="icon">M</i></th>
-                  <th><i class="icon">S</i></th>
+                    <th class="one"><i class="icon">D</i></th>
+                    <th class="two"><i class="icon">W</i></th>
+                    <th class="three"><i class="icon">M</i></th>
+                    <th class="four"><i class="icon">S</i></th>
                 </tr>
                 <tr>
                   {{#if editMode product._id }}
@@ -91,6 +91,11 @@
             <div class="padding-horizontal">
                 <button id="editSave" class="button button-block button-energized">SAVE</button>
             </div>
+<!--
+           <div class="padding-horizontal">
+                <button id="editRemove" class="button button-block button-assertive">REMOVE</button>
+            </div>
+-->
           {{/if}}
         </div>
      {{/ionContent}}

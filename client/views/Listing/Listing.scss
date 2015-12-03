@@ -43,6 +43,11 @@
 }
 
 #search-result {
+    
+    .item {
+        height: 105px;
+    }
+    
     .disabled {
         display: none;
     }
@@ -94,43 +99,6 @@
         }
     }
 
-//    .ellipsis:before {
-//        content:"";
-//        float: left;
-//        width: 5px; 
-//        height: 40px; 
-//    }
-//
-//    .ellipsis > *:first-child {
-//        float: right;
-//        width: 100%;
-//        margin-left: -5px; 
-//    }		
-//
-//    .ellipsis:after {
-//        content: "\02026";  
-//
-//        box-sizing: content-box;
-//        -webkit-box-sizing: content-box;
-//        -moz-box-sizing: content-box;
-//
-//        float: right; position: relative;
-//        top: -20px; 
-//        left: 100%; 
-//        width: 3em; 
-//        margin-left: -3em;
-//        padding-right: 5px;
-//
-//        text-align: right;
-//
-//        background: -webkit-gradient(linear, left top, right top,
-//            from(rgba(255, 255, 255, 0)), to(white), color-stop(50%, white));
-//        background: -moz-linear-gradient(to right, rgba(255, 255, 255, 0), white 50%, white);			
-//        background: -o-linear-gradient(to right, rgba(255, 255, 255, 0), white 50%, white);
-//        background: -ms-linear-gradient(to right, rgba(255, 255, 255, 0), white 50%, white);
-//        background: linear-gradient(to right, rgba(255, 255, 255, 0), white 50%, white); 
-//    }
-    
     table.rent-table {     
         width: 70%;
         max-width: 300px;
@@ -144,13 +112,8 @@
         }
         
         th {
-//            text-align: left;
             font-size: 7px;
         }
-        
-//        td {
-//            text-align: center;
-//        }
         
         th, td {
             width: 25%;

@@ -92,7 +92,17 @@
 .requestRent {
 
     color: #272727;
-
+    
+    .item-divider {
+        i {
+            float: right;
+        }
+    }
+    
+    .rent-price-item {
+        display: none;
+    }
+    
     table.rent-table {
         width: 100%;
 
@@ -122,15 +132,21 @@
 
         .prices {
 
-            th {
-                &:nth-child(odd) {
-                    background-color: #f0970d;
-                }
+            th {         
+                &.one { background-color: #FF9800 }
+                &.two { background-color: #FB8C00 }
+                &.three { background-color: #F57C00 }
+                &.four { background-color: #EF6C00 }
+                
+//                &:nth-child(odd) {
+//                    background-color: #f0970d; 
+//                }
+//
+//                &:nth-child(even) {
+//                    background-color: #df5707; 
+//                }
+            }  
 
-                &:nth-child(even) {
-                    background-color: #df5707;
-                }
-            }
         }
 
         .details {
@@ -138,15 +154,23 @@
             th {
                 background-color: #9E9E9E;
             }
-            // th.active {
-                th:nth-child(odd) {
-                    background-color: #f0970d;
-                }
 
-                th:nth-child(even) {
-                    background-color: #df5707;
-                }
-            // }
+            th.active {
+                
+                &.one { background-color: #FF9800 }
+                &.two { background-color: #FB8C00 }
+                &.three { background-color: #F57C00 }
+                &.four { background-color: #EF6C00 }
+                
+//                &:nth-child(odd) {
+//                    background-color: #f0970d; 
+//                }
+//
+//                &:nth-child(even) {
+//                    background-color: #df5707; 
+//                }
+            }
+
             td {
                 color: #9E9E9E;
                 font-size: 13px;

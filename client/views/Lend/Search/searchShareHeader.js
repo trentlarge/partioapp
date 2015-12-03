@@ -106,10 +106,6 @@ Template.searchShareHeader.events({
                         });
                     } else {
 
-                        $.each(result, function(index, r) {
-                            result[index].index = index;
-                        });
-
                         //add on cache
                         Lend.allResultsCache[key] = result;
                         Lend.latestProduct = key;

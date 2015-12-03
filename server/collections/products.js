@@ -34,5 +34,5 @@ Products.after.update(function(userId, doc, fieldNames, modifier, options) {
 });
 
 Products.after.remove(function(userId, doc) {
-
+    refreshSearch(userId, doc);
 });

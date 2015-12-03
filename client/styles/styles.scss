@@ -4,9 +4,6 @@
 // Ionic
 @import '{hashwin:ionic-sass}/_ionic';
 @import '{hashwin:ionicons-sass}/_ionicons';
-//@import 'http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css';
-//@import '.meteor/local/build/programs/server/assets/packages/meteoric_ionic-sass/ionic';
-//@import '.meteor/local/build/programs/server/assets/packages/meteoric_ionicons-sass/ionicons';
 
 // .logo-spinner {
 //     height: 150px;
@@ -79,10 +76,6 @@ body.keyboard-open .platform-android .content.overflow-scroll {
   height: 50px;
   margin-right: 65px;
   padding: 5px;
-}
-
-#changePassword input{
-  background-color: #F8F8F8;
 }
 
 .popup-buttons .button-positive {

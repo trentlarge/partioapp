@@ -71,8 +71,8 @@ Template.requestRent.helpers({
                 (Number(this.rentPrice.week) * rentPrice.weeks) +
                 (Number(this.rentPrice.day) * rentPrice.days);
 
-        Session.set('amountPrice', price);
-		return price;
+        Session.set('amountPrice', price.toFixed(2));
+		return price.toFixed(2);
 	},
     validatePrice: function() {
 
@@ -107,16 +107,16 @@ Template.requestRent.helpers({
         return Session.get('numberSemesters');
     },
     totalPriceDays: function() {
-        return Session.get('numberDays') * this.rentPrice.day;
+        return (Session.get('numberDays') * this.rentPrice.day).toFixed(2);
     },
     totalPriceWeeks: function() {
-        return Session.get('numberWeeks') * this.rentPrice.week;
+        return (Session.get('numberWeeks') * this.rentPrice.week).toFixed(2);
     },
     totalPriceMonths: function() {
-        return Session.get('numberMonths') * this.rentPrice.month;
+        return (Session.get('numberMonths') * this.rentPrice.month).toFixed(2);
     },
     totalPriceSemesters: function() {
-        return Session.get('numberSemesters') * this.rentPrice.semester;
+        return (Session.get('numberSemesters') * this.rentPrice.semester).toFixed(2);
     },
     activeDays: function() {
          return (Session.get('numberDays') > 0) ? 'active' : '';
@@ -230,13 +230,13 @@ Template.requestRent.events({
         var rentPrice = $('.rent-price');
         var rentPriceItem = $('.rent-price-item');
 
-        if(rentPriceItem.hasClass('hidden')){
-            rentPriceItem.removeClass('hidden');
-            rentPrice.find('.chevron-icon').removeClass('ion-chevron-right').addClass('ion-chevron-down');
+        if(!rentPriceItem.is(':visible')){
+            rentPriceItem.slideDown('fast');
+            rentPrice.find('.chevron-icon').removeClass('ion-chevron-up').addClass('ion-chevron-down');
         }
         else {
-            rentPriceItem.addClass('hidden');
-            rentPrice.find('.chevron-icon').removeClass('ion-chevron-down').addClass('ion-chevron-right');
+            rentPriceItem.slideUp('fast');
+            rentPrice.find('.chevron-icon').removeClass('ion-chevron-down').addClass('ion-chevron-up');
         }
     },
     'changeDate .range-end': function(e, template) {

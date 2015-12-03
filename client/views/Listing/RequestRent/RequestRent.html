@@ -23,11 +23,31 @@
 
             <div class="list">
 
-<!--                 <div class="item item-divider rent-price"><h3>Rent Price <i class="chevron-icon icon ion-chevron-right"></i></h3></div>
+<!--
 
-                <div class="item center rent-price-item hidden">
+                <div class="item item-divider rent-price">
+                    <h3>Rent Price <i class="chevron-icon icon ion-chevron-up"></i></h3>
+                </div>
 
-                </div> -->
+                <div class="item center rent-price-item">
+                    <table class="rent-table">
+                         <tbody class="prices">
+                            <tr>
+                                <th class="one"><i class="icon">D</i></th>
+                                <th class="two"><i class="icon">W</i></th>
+                                <th class="three"><i class="icon">M</i></th>
+                                <th class="four"><i class="icon">S</i></th>
+                            </tr>
+                            <tr>
+                                <td>${{rentPrice.day}}</td>
+                                <td>${{rentPrice.week}}</td>
+                                <td>${{rentPrice.month}}</td>
+                                <td>${{rentPrice.semester}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+-->
 
                 <div class="item item-divider request-tab"><h3>Rent Period <i class="fa fa-calendar"></i></h3></div>
 
@@ -44,34 +64,13 @@
                     <div class="center">
                     <p class="date-periods"><span class="rent-days"></span> <span class="rent-period"></span></p>
 
-<!--                         <p class="rent-days"></p>
-                        <p class="rent-period"></p> -->
-<!--                                             <table class="rent-table">
-                        <tbody class="prices">
-                            <tr>
-                                <th><i>D</i></th>
-                                <th><i>W</i></th>
-                                <th><i>M</i></th>
-                                <th><i>S</i></th>
-                            </tr>
-                            <tr>
-                                <td>${{rentPrice.day}}</td>
-                                <td>${{rentPrice.week}}</td>
-                                <td>${{rentPrice.month}}</td>
-                                <td>${{rentPrice.semester}}</td>
-                            </tr>
-                        </tbody>
-                    </table> -->
-
                         <table class="rent-table">
-
-
                             <tbody class="details">
-                                <tr >
-                                    <th class="{{activeDays}}"><i>D</i></th>
-                                    <th class="{{activeWeeks}}"><i>W</i></th>
-                                    <th class="{{activeMonths}}"><i>M</i></th>
-                                    <th class="{{activeSemesters}}"><i>S</i></th>
+                                <tr>
+                                    <th class="{{activeDays}} one"><i>D</i></th>
+                                    <th class="{{activeWeeks}} two"><i>W</i></th>
+                                    <th class="{{activeMonths}} three"><i>M</i></th>
+                                    <th class="{{activeSemesters}} four"><i>S</i></th>
                                 </tr>
                                 <tr>
                                     <td class="price_header {{activeDays}}">${{rentPrice.day}}</td>
