@@ -61,7 +61,7 @@ Template.camfind.events({
                     if(error){
                       console.log(error);
                       IonPopup.show({
-            						title: 'Phone activation',
+            						title: 'Image Search',
             						template: '<div class="center dark">Sorry, this service isn\'t available at this moment.</div>',
             						buttons:
             						[{
@@ -95,9 +95,9 @@ Template.camfind.events({
 
                     //completed -------
                     } else if(result.data.status == 'completed') {
-                    
+
                       var inputSearch = $('.search-share-header-input');
-                        
+
                       inputSearch.val(result.data.name);
                       inputSearch.trigger({type: 'keypress', charCode: 13});
 
@@ -107,6 +107,22 @@ Template.camfind.events({
                       return false;
                     }
                   })
+                } else {
+                  console.log(error);
+                  IonPopup.show({
+                    title: 'Image Search',
+                    template: '<div class="center dark">Sorry, this service isn\'t available at this moment.</div>',
+                    buttons:
+                    [{
+                      text: 'OK',
+                      type: 'button-energized',
+                      onTap: function() {
+                                        IonPopup.close();
+                                        resetImageCamFind();
+                      }
+                    }]
+                  });
+                  return false;
                 }
               });
           }

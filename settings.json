@@ -2,7 +2,8 @@
 
 {
   "env": {
-    "STRIPE_SECRET": "sk_test_mBhGGg6jRC4iJhWzq5bZu1Lh"
+    "STRIPE_SECRET": "sk_test_mBhGGg6jRC4iJhWzq5bZu1Lh",
+    "cloudSightKey" : "_ALbqMxPQlSXWt77oFVAdA"
   },
   "AWSAccessKeyId": "AKIAIQK2APPMYYIAKOJQ",
   "AWSSecretAccessKey": "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",

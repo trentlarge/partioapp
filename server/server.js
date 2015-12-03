@@ -10,9 +10,6 @@ Meteor.startup(function() {
   //Stripe = StripeSync(Meteor.settings.env.STRIPE_SECRET);
   Stripe.secretKey = Meteor.settings.env.STRIPE_SECRET+':null';
 
-  var cloudSightApiURL = "http://api.cloudsightapi.com/";
-  var cloudSightApiKey = "_ALbqMxPQlSXWt77oFVAdA";
-
   process.env.MAIL_URL="smtp://support%40partio.xyz:partio123!@smtp.zoho.com:465/";
   Accounts.emailTemplates.from = 'support@partio.xyz';
   Accounts.emailTemplates.siteName = 'partiO';
@@ -237,7 +234,14 @@ Meteor.methods({
   },
 
   camfindGetTokenBase64: function(dataURI) {
+    var cloudSightApiURL = "http://api.cloudsightapi.com/";
+    var cloudSightApiKey = (Meteor.settings.env.cloudSightKey) ? Meteor.settings.env.cloudSightKey : false;
 
+    if(!cloudSightApiKey) {
+      throw new Meteor.Error("cloudSightKey not configured. Check settings.json");
+      console.log('cloudSightKey not configured. Check settings.json');
+      return false;
+    }
 
     // var mashapeURL = "https://camfind.p.mashape.com/image_requests";
     // var mashapeKey = "7W5OJWzlcsmshYSMTJW8yE4L2mJQp1cuOVKjsneO6N0wPTpaS1";
@@ -291,16 +295,23 @@ Meteor.methods({
   },
 
   camfindGetResponse: function(token) {
+    var cloudSightApiURL = "http://api.cloudsightapi.com/";
+    var cloudSightApiKey = (Meteor.settings.env.cloudSightKey) ? Meteor.settings.env.cloudSightKey : false;
+
+    if(!cloudSightApiKey) {
+      throw new Meteor.Error("cloudSightKey not configured. Check settings.json");
+      console.log('cloudSightKey not configured. Check settings.json');
+      return false;
+    }
+
     console.log('CamFind: request token >>> '+token);
     console.log('CamFind: waiting API status...');
 
-    return false;
-
     var response = Async.runSync(function(done) {
       var interval = Meteor.setInterval(function(){
-        HTTP.get('https://camfind.p.mashape.com/image_responses/'+token, {
+        HTTP.get(cloudSightApiURL+'image_responses/'+token, {
           "headers": {
-            "X-Mashape-Key" : "7W5OJWzlcsmshYSMTJW8yE4L2mJQp1cuOVKjsneO6N0wPTpaS1"
+            "Authorization" : "CloudSight "+cloudSightApiKey
           }
         }, function(error, result){
           console.log('CamFind: ping Camfind >>> result.data.status = '+result.data.status);
