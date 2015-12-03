@@ -26,11 +26,11 @@ Template.rating.helpers({
             return parseFloat(sum/totalCount).toFixed(1);
           }
         } else {
-          return "0.0";
+          return "5.0";
         }
     }
     else {
-        return "0.0";
+        return "5.0";
     }
   },
 });
