@@ -11,10 +11,28 @@
 .results-content {
     margin-bottom: 50px;
     background-color: #ffffff;
+    
+    .tabs.tabs-top {
+        top: 0;
+        
+        .tab-item {
+            background-color: #D8D8D8;
+            text-decoration: none;
+            color: rgba(39, 39, 39, 0.4);
+            font-size: 12px;
+            
+            &.active {
+                background-color: #F8F8F8;
+                color: #272727;
+                border-bottom: 2px solid;
+            }
+        }
+    }
 }
 
 .results {
     background: white;
+//    margin-top: 49px;
 
     .item {
         padding: 0;

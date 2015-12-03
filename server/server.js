@@ -843,6 +843,9 @@ Meteor.methods({
 })
 
 var amazonAllResultsItemSearchProcessing = function(result) {
+    
+//  console.log(JSON.stringify(result[0].ItemSearchResponse.Items[0]));
+    
   var necessaryFields = [];
   for(var itemPage = 0; itemPage < result.length; itemPage++) {
     var Items = result[itemPage].ItemSearchResponse.Items[0];
@@ -851,7 +854,27 @@ var amazonAllResultsItemSearchProcessing = function(result) {
           try {
             for(var i = 0; i < Items.Item.length; i++) {
               necessaryFields.push({
-                price : (function() {return Items.Item[i].Offers[0].Offer ? Items.Item[i].Offers[0].Offer[0].OfferListing[0].Price[0].FormattedPrice[0] : "--"})(),
+                price: (function() { 
+                    if(Items.Item[i].ItemAttributes[0].ListPrice) {
+                        return Items.Item[i].ItemAttributes[0].ListPrice[0].FormattedPrice[0];
+                    }
+                    else if(Items.Item[i].OfferSummary) {
+                        if(Items.Item[i].OfferSummary[0].LowestNewPrice) {
+                            return Items.Item[i].OfferSummary[0].LowestNewPrice[0].FormattedPrice[0];
+                        }
+                        else if(Items.Item[i].OfferSummary[0].LowestRefurbishedPrice) {
+                            return Items.Item[i].OfferSummary[0].LowestRefurbishedPrice[0].FormattedPrice[0];
+                        }
+                        else if(Items.Item[i].OfferSummary[0].LowestUsedPrice) {
+                            return Items.Item[i].OfferSummary[0].LowestUsedPrice[0].FormattedPrice[0];
+                        }
+                    }
+                    return "--";
+                })(),
+                rank: (function() {
+                    return Items.Item[i].SalesRank ? Items.Item[i].SalesRank[0] : "0";
+                })(),
+                //price : (function() {return Items.Item[i].Offers[0].Offer ? Items.Item[i].Offers[0].Offer[0].OfferListing[0].Price[0].FormattedPrice[0] : "--"})(),
                 title : Items.Item[i].ItemAttributes[0].Title[0],
                 category : CategoriesServer.getCategory(Items.Item[i].ItemAttributes[0].ProductGroup[0]),
                 amazonCategory : CategoriesServer.getAmazonCategory(Items.Item[i].ItemAttributes[0].ProductGroup[0]),
@@ -930,9 +953,40 @@ var amazonAllResultsItemSearchProcessing = function(result) {
 
   console.log('amazonAllResultsItemSearchProcessing -x-x-x-x-x-x-x-x-x-x-x-x-x');
 
+  necessaryFields = necessaryFields.filter(function(necessaryField) {
+     return (necessaryField.price !== '--') && (necessaryField.price !== '$0.00'); 
+  });
+    
+  var amazonCategories = {};
+  for(var i = 0; i < necessaryFields.length; i++) {
+      
+      if(!amazonCategories[necessaryFields[i].amazonCategory]) {
+          amazonCategories[necessaryFields[i].amazonCategory] = 0;
+      }
+      amazonCategories[necessaryFields[i].amazonCategory] += parseInt(necessaryFields[i].rank);
+  };
+    
+  console.log(JSON.stringify(amazonCategories));
+      
+
+//  necessaryFields.sort(function(a, b) {
+//      return (a.rank < b.rank) ? 1 : -1;
+//  });
+    
   // sort results by amazon category
+//  necessaryFields.sort(function(a, b) {
+//      return (a.amazonCategory > b.amazonCategory) ? 1 : -1;
+//  });
+    
   necessaryFields.sort(function(a, b) {
-      return (a.amazonCategory > b.amazonCategory) ? 1 : -1;
+      
+      if(amazonCategories[a.amazonCategory] < amazonCategories[b.amazonCategory]) {
+          return 1;
+      }
+      else if(amazonCategories[a.amazonCategory] === amazonCategories[b.amazonCategory] && a.amazonCategory > b.amazonCategory) {
+          return 1;
+      }
+      return -1;
   });
 
   return necessaryFields;
@@ -1008,7 +1062,9 @@ var amazonItemSearch = function(keys, itemPage, callback) {
       'SearchIndex': 'All',
       'Condition': 'New',
       'Keywords': keys,
-      'ResponseGroup': ['ItemAttributes', 'Medium', 'Offers'],
+      //'ResponseGroup': ['ItemAttributes', 'Medium', 'Offers'],
+      'ResponseGroup': ['ItemAttributes', 'Medium'],
       'ItemPage': itemPage,
+      'MinimumPrice': 100,
   }, callback);
 }
