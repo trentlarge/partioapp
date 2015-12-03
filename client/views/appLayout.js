@@ -29,12 +29,13 @@ Template.appLayout.events({
     PartioLoad.show();
 
     var updatedProfile = {
-      "name": $('#profilename').val(),
+//      "name": $('#profilename').val(),
       "college": $('#profileuniversity').val(),
       "mobile": $('#profilemobile').val()
     }
     console.log(updatedProfile);
-    Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.name": updatedProfile.name,"profile.mobile": updatedProfile.mobile, "profile.college": updatedProfile.college}}, function(error) {
+//    Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.name": updatedProfile.name,"profile.mobile": updatedProfile.mobile, "profile.college": updatedProfile.college}}, function(error) {
+      Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.mobile": updatedProfile.mobile, "profile.college": updatedProfile.college}}, function(error) {
       if (!error) {
         PartioLoad.hide();
         console.log("success!");
