@@ -31,18 +31,25 @@
     background-size: cover;
     min-height: 100%;
 
+    display: -webkit-flex; /* Safari */
+    -webkit-align-items: center; /* Safari 7.0+ */
+    -webkit-justify-content: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
     h5 {
         display: inline-block;
         margin-left: 10px;
         margin-right: 10px;
         margin-top: 0;
-        color: #ffffff;
+        color: #272727;
         cursor: pointer;
     }
 
     #login-logo {
         width: 80%;
-        margin-top: 20%;
+//        margin-top: 20%;
         margin-bottom: 10px;
         padding: 31px;
         opacity: .9;
