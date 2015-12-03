@@ -10,8 +10,8 @@ Meteor.startup(function() {
   //Stripe = StripeSync(Meteor.settings.env.STRIPE_SECRET);
   Stripe.secretKey = Meteor.settings.env.STRIPE_SECRET+':null';
 
-//  process.env.MAIL_URL="smtp://support%40partio.xyz:partio123!@smtp.zoho.com:465/";
-//  Accounts.emailTemplates.from = 'support@partio.xyz';
+  process.env.MAIL_URL="smtp://support%40partio.xyz:partio123!@smtp.zoho.com:465/";
+  Accounts.emailTemplates.from = 'support@partio.xyz';
   Accounts.emailTemplates.siteName = 'partiO';
 
   Accounts.emailTemplates.verifyEmail.subject = function(user) {
