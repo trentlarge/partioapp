@@ -118,98 +118,45 @@ Template.appLayout.onRendered(function() {
 			switch(fields.type) {
 
 				case "request": {
-					if(IsPopUpOpen){
-						//PopUp is open already, no need for a new one.
-						return;
-					}
-
-					IsPopUpOpen = true;
-
-					IonPopup.show({
-						title: 'Alert',
-						template: '<div class="center">'+ fields.message +'</div>',
-						buttons:
-						[{
-							text: 'OK',
-							type: 'button-energized',
-							onTap: function() {
-								IsPopUpOpen = false;
-								IonPopup.close();
-								Meteor.setTimeout(function(){
-									Router.go('/inventory');
-									Notifications.update({_id: id}, {$set: {read: true}});
-								},500)
-							}
-						}]
+					sAlert.info({
+						notificationId: id,
+						routeName: "connect",
+						routeParams: { _id: fields.connectionId },
+						headerMessage: "Alert",
+						message: fields.message
 					});
 				}; break;
 
 				case "approved": {
-					if(IsPopUpOpen){
-						//PopUp is open already, no need for a new one.
-						return;
-					}
-
-					IsPopUpOpen = true;
-
-					IonPopup.show({
-						title: 'Alert',
-						template: '<div class="center">'+ fields.message +'</div>',
-						buttons:
-						[{
-							text: 'OK',
-							type: 'button-energized',
-							onTap: function() {
-								IsPopUpOpen = false;
-
-								IonPopup.close();
-								Meteor.setTimeout(function(){
-									Router.go('/renting');
-									Notifications.update({_id: id}, {$set: {read: true}});
-								},500)
-							}
-						}]
+					sAlert.info({
+						notificationId: id,
+						routeName: "connectRent",
+						routeParams: { _id: fields.connectionId },
+						headerMessage: "Alert",
+						message: fields.message
 					});
 				}; break;
 
 				case "declined": {
 
-					if(IsPopUpOpen) {
-						//PopUp is open already, no need for a new one.
-						return;
-					}
-
-					IsPopUpOpen = true;
-
-					IonPopup.show({
-						title: 'Alert',
-						template: '<div class="center">'+ fields.message +'</div>',
-						buttons:
-						[{
-							text: 'OK',
-							type: 'button-energized',
-							onTap: function() {
-								IsPopUpOpen = false;
-								IonPopup.close();
-								Meteor.setTimeout(function(){
-									Router.go('/renting');
-									Notifications.update({_id: id}, {$set: {read: true}});
-									//MainController
-								},500)
-							}
-						}]
+					sAlert.info({
+						notificationId: id,
+						routeName: "connectRent",
+						routeParams: { _id: fields.connectionId },
+						headerMessage: "Alert",
+						message: fields.message
 					});
 				}; break;
 
 				case "chat": {
-				 		if (Iron.Location.get().path !== '/chat/' + id ) {
-				 			sAlert.info({
-				 				goToChat: '/talk/' + fields.connectionId,
-				 				headerMessage: "New message",
-				 				message: fields.message
-				 			});
-				 		}
-
+					if (Iron.Location.get().path !== '/talk/' + id ) {
+						sAlert.info({
+							routeName: "talk",
+							routeParams: { _id: fields.connectionId },
+							headerMessage: "New message",
+							message: fields.message
+						});
+					}
 				}; break;
 
 				default: {
@@ -236,7 +183,12 @@ Template.registerHelper('profilePic', function(avatar) {
 
 Template.sAlertCustom.events({
 	'click .whichalert': function() {
-		Router.go(this.goToChat)
+		if(this.notificationId) {
+			Notifications.update({ _id: this.notificationId }, { $set: { read: true } });
+		}
+		if(this.routeName) {
+			Router.go(this.routeName, this.routeParams);
+		}
 	},
 	'click .s-alert-close': function(e) {
 		e.stopPropagation();

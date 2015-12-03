@@ -2,8 +2,6 @@ Template.notifications.events({
     'click .show-message': function(e, t) {
     	e.preventDefault();
 
-        console.log(this);
-
     	switch(this.type) {
             case "info": {
                 switch(this.state) {
