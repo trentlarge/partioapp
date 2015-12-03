@@ -1,2 +1,2 @@
-Products.join(Meteor.users, "ownerId", "ownerData", ['profile.name', 'profile.avatar']);
-Connections.join(Meteor.users, "requestor", "requestorData", ['profile.name', 'profile.avatar', 'profile.stripeAccount.id', 'profile.transactionsId','profile.payoutCard.id', 'profile.mobile']);
+Products.join(Meteor.users, "ownerId", "ownerData", ['profile.name', 'profile.avatar','profile.mobile']);
+Connections.join(Meteor.users, "requestor", "requestorData", ['profile.name', 'profile.avatar', 'profile.transactionsId', 'profile.mobile']);
