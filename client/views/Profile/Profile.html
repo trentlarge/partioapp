@@ -33,35 +33,41 @@
   {{/if}}
 
   {{#ionView}}
-    {{#ionContent}}
+    {{#ionContent class="profile-content"}}
     <!-- <div class="content has-header"> -->
 
       {{> settingsProfileImage}}
+      <div class="center">
+        <span class="profile-name">{{currentUser.profile.name}}</span>
+        <span class="rating-box">{{ > rating}}</span>
+      </div>
 
       <div class="list list-inset">
         <form id="profileEdit">
+<!--
           <label class="item item-input">
             <span class="input-label"><p>Name</p></span>
             <input id="profilename" type="text" value="{{currentUser.profile.name}}">
           </label>
+-->
 <!--           <label class="item item-input">
             <span class="input-label"><p>University</p></span>
             <input id="profileuniversity" type="text" value="{{currentUser.profile.college}}">
           </label> -->
-          <label class="item item-input">
-            <span class="input-label"><p>Mobile</p></span>
-            <input id="profilemobile" type="text" value="{{currentUser.profile.mobile}}">
-          </label>
+            <label class="item item-input">
+                <i class="icon ion-ios-telephone"></i>
+                <input id="profilemobile" type="text" value="{{currentUser.profile.mobile}}">
+            </label>
         </form>
        {{#if emailSet}}
 
-         <label class="item item-input">
-          <span class="input-label"><p>University</p></span>
-          <input disabled id="profileuniversity" type="text" value="{{currentUser.profile.college}}">
+        <label class="item item-input">
+            <i class="icon ion-university"></i>
+            <input id="profileuniversity" type="text" value="{{currentUser.profile.college}}" disabled>
         </label>
         <label class="item item-input">
-          <span class="input-label"><p>Email</p></span>
-          <input disabled type="email" value="{{currentUser.emails.[0].address}}">
+            <i class="icon ion-at"></i>
+            <input type="email" value="{{currentUser.emails.[0].address}}" disabled>
         </label>
        {{else}}
          <label class="item item-input item-select college-select">
