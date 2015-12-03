@@ -32,7 +32,7 @@ Template.sidemenu.events({
 
 Template.sidemenu.helpers({
 	'alertCount': function() {
-		return Session.get('alertCount');
+        return Notifications.find({toId: Meteor.userId(), read: false}).count();
 	},
     'inventoryCount': function() {
         return Connections.find({"productData.ownerId": Meteor.userId()}).count(); //Products.find({"ownerId": Meteor.userId()}).count();

@@ -10,8 +10,8 @@ Meteor.startup(function() {
   //Stripe = StripeSync(Meteor.settings.env.STRIPE_SECRET);
   Stripe.secretKey = Meteor.settings.env.STRIPE_SECRET+':null';
 
-  process.env.MAIL_URL="smtp://support%40partio.xyz:partio123!@smtp.zoho.com:465/";
-  Accounts.emailTemplates.from = 'support@partio.xyz';
+//  process.env.MAIL_URL="smtp://support%40partio.xyz:partio123!@smtp.zoho.com:465/";
+//  Accounts.emailTemplates.from = 'support@partio.xyz';
   Accounts.emailTemplates.siteName = 'partiO';
 
   Accounts.emailTemplates.verifyEmail.subject = function(user) {
@@ -119,15 +119,40 @@ function buildRegExp(searchText) {
 }
 
 // END LISTING SEARCH ------------------------------
-var sendNotification = function(toId, fromId, message, type) {
-  Notifications.insert({
-    toId: toId,
+
+
+sendNotification = function(toId, fromId, message, type, connectionId) {
+  connectionId = connectionId || null;
+
+  // do we already have the same, unread notification?
+  var oldNotification = Notifications.findOne({
     fromId: fromId,
-    message: message,
-    read: false,
-    timestamp: new Date(),
+    toId: toId,
+    connectionId: connectionId,
     type: type
-  })
+  });
+
+  if(oldNotification) {
+    // the same notification already exist, update it
+    Notifications.update({ _id: oldNotification._id }, {
+      $set: {
+        message: message,
+        timestamp: new Date(),
+        read: false
+      }
+    });
+  } else {
+    // this is new notification
+    Notifications.insert({
+      toId: toId,
+      fromId: fromId,
+      connectionId: connectionId,
+      message: message,
+      read: false,
+      timestamp: new Date(),
+      type: type
+    });
+  }
 }
 
 var sendPush = function(toId, message) {
@@ -375,7 +400,7 @@ Meteor.methods({
 
     var message = borrowerName + " wants to return the book " + connect.productData.title;
     sendPush(connect.productData.ownerId, message);
-    sendNotification(connect.productData.ownerId, connect.requestor, message, "info");
+    sendNotification(connect.productData.ownerId, connect.requestor, message, "info", connectionId);
   },
 
   confirmReturn: function(searchId, connectionId) {
@@ -386,7 +411,7 @@ Meteor.methods({
 
     var message = ownerName + " confirmed your return of " + connect.productData.title;
     sendPush(connect.requestor, message);
-    sendNotification(connect.requestor, connect.productData.ownerId, message, "info");
+    sendNotification(connect.requestor, connect.productData.ownerId, message, "info", connectionId);
   },
 
   requestOwner: function(requestorId, productId, ownerId, borrowDetails) {
@@ -406,11 +431,15 @@ Meteor.methods({
       meetupLatLong: "Location not set"
     };
 
-    Connections.insert(connection);
-
-    var message = requestorName + " sent you a request for " + product.title
-    sendPush(ownerId, message);
-    sendNotification(ownerId, requestorId, message, "request");
+    Connections.insert(connection, function(e, r) {
+      if(e) {
+        throw new Meteor.Error("requestOwner", e.message);
+      } else {
+        var message = requestorName + " sent you a request for " + product.title
+        sendPush(ownerId, message);
+        sendNotification(ownerId, requestorId, message, "request", r);
+      }
+    });
 
     return true;
 
@@ -427,7 +456,7 @@ Meteor.methods({
 
     var message = ownerName + " accepted your request for " + connect.productData.title;
     sendPush(connect.requestor, message);
-    sendNotification(connect.requestor, connect.productData.ownerId, message, "approved");
+    sendNotification(connect.requestor, connect.productData.ownerId, message, "approved", connectionId);
 
     return true;
   },
@@ -438,7 +467,7 @@ Meteor.methods({
     var ownerName = Meteor.users.findOne(connect.productData.ownerId).profile.name;
     var message =  "Your request for " + connect.productData.title + " has been declined.";
     sendPush(connect.requestor, message);
-    sendNotification(connect.requestor, connect.productData.ownerId, message, "declined");
+    sendNotification(connect.requestor, connect.productData.ownerId, message, "declined", connectionId);
     Connections.remove(connectionId);
 
     return true;
@@ -459,7 +488,6 @@ Meteor.methods({
     var connect = Connections.findOne(connectionId);
 
     if(connect) {
-      try {
         var requestor = Meteor.users.findOne(connect.requestor);
         var requestorCardId = requestor.profile.defaultPay.id;
         var requestorCustomerId = requestor.profile.customer.id;
@@ -479,22 +507,14 @@ Meteor.methods({
         console.log(ownerCardId, ownerCustomerId, ownerTransactionsId);
         console.log('total > '+formattedAmount)
 
-        console.log(token);
-
-        var source = Stripe.customers.createSource(requestorCustomerId, token)
-        var charge = Stripe.charges.create({
+        var result = Stripe.charges.create({
           amount: formattedAmount,
           currency: "usd",
           customer: requestorCustomerId,
-          source: source.id,
-          //destination: requestorCardId
+          source: requestorCardId,
+//          destination: ownerCardId,
+          description: requestor.profile.name+' paying to '+owner.profile.name
         });
-
-        console.log('---------------------------------')
-        console.log(source);
-        //console.log(charge);
-
-        return false;
 
         if (result.status === 'succeeded') {
           var requestorTransaction = {
@@ -521,12 +541,9 @@ Meteor.methods({
         } else {
           throw new Meteor.Error("some error when charging");
         }
-      } catch(e) {
-        console.log(e);
-      }
     }
   },
-
+  
   'createCustomer': function(token) {
     console.log("stripe_secret ---> "+Meteor.settings.env.STRIPE_SECRET);
     this.unblock();
