@@ -15,7 +15,7 @@
     </a>
   {{/contentFor}}
 
-  {{#ionView}}
+  {{#ionView class="transactions-view"}}
     <!-- <div class="Aligner">
     <h6 class="dark">No transactions yet!</h6>
     </div> -->
@@ -29,8 +29,7 @@
       </a>
     </div>
 
-    {{#ionContent}}
-    <br><br>
+    {{#ionContent class="transactions has-tabs-top"}}
       {{#if spendingClicked}}
         {{> spendingList}}
       {{else}}
@@ -44,68 +43,69 @@
 </template>
 
 <template name="earningList">
-  <div class="card card-special">
-      <div class="item item-text-wrap center">
-        <span class="dollar-text">$</span>{{totalEarning}}
-      </div>
+    
+    <div class="card card-special padding-vertical">
+        <div class="item item-text-wrap center">
+            <span class="dollar-text">$</span>{{totalEarning}}
+        </div>
     </div>
 
-    <div class="list list-inset">
+    <div class="card list list-inset">
 
-    {{#if earningAvailable}}
+        {{#if earningAvailable}}
 
-    {{#each earning}}
+                {{#each earning}}
+                <div class="item narrow-item">
+                    <div class="row">
+                        <div class="col col-75">
+                            <p>{{productName}}</p>
+                        </div>
+                        <div class="col right-align">
+                            <p>${{receivedAmount}}</p>
+                        </div>
+                    </div>
+                </div>
+            {{/each}}
 
-      <div class="item narrow-item">
-        <div class="row">
-          <div class="col col-75">
-            <p>{{productName}}</p>
-          </div>
-          <div class="col right-align">
-            <p>${{receivedAmount}}</p>
-          </div>
-        </div>
-      </div>
-    {{/each}}
-
-    {{else}}
-      <div class="Aligner">
-        <h6 class="dark">No transactions yet!</h6>
-      </div>
-    {{/if}}
+        {{else}}
+            <div class="Aligner">
+                <h6 class="dark">No transactions yet!</h6>
+            </div>
+        {{/if}}
 
     </div>
 </template>
 
 <template name="spendingList">
-  <div class="card card-special">
-      <div class="item item-text-wrap center">
-        <span class="dollar-text">$</span>{{totalSpending}}
-      </div>
+    
+    <div class="card card-special padding-vertical">
+        <div class="item item-text-wrap center">
+            <span class="dollar-text">$</span>{{totalSpending}}
+        </div>
     </div>
 
-    <div class="list list-inset">
+    <div class="card list list-inset">
 
-    {{#if spendingAvailable}}
+        {{#if spendingAvailable}}
 
-    {{#each spending}}
-      <div class="item narrow-item">
-        <div class="row">
-          <div class="col col-75">
-            <p>{{productName}}</p>
-          </div>
-          <div class="col right-align">
-            <p>${{paidAmount}}</p>
-          </div>
-        </div>
-      </div>
-    {{/each}}
+            {{#each spending}}
+                <div class="item narrow-item">
+                    <div class="row">
+                        <div class="col col-75">
+                            <p>{{productName}}</p>
+                        </div>
+                        <div class="col right-align">
+                            <p>${{paidAmount}}</p>
+                        </div>
+                    </div>
+                </div>
+            {{/each}}
 
-    {{else}}
-      <div class="Aligner">
-        <h6 class="dark">No transactions yet!</h6>
-      </div>
-    {{/if}}
+        {{else}}
+            <div class="Aligner">
+                <h6 class="dark">No transactions yet!</h6>
+            </div>
+        {{/if}}
 
     </div>
 </template>
