@@ -48,7 +48,13 @@ Template.inventoryDetail.events({
     var edited = template.find('.semesterPrice').value;
     var title = template.find('.title').value;
 
-    Products.update({_id: this.product._id}, {$set: {title: title, customPrice: edited, rentPrice: editedPrices}});
+    Meteor.call("updateProductData", this.product._id, title, edited, editedPrices, function(err, res) {
+      if(err) {
+        // !!! show error to user!
+        console.log(err);
+      }
+    });
+
     Session.set('editMode', false);
   },
     

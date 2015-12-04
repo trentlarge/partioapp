@@ -112,12 +112,12 @@ Template.map.events({
 				lng: mapCenter.lng()
 			};
 
-      		Connections.update({ _id: t.data.connectionId }, {
-				$set: {
-					meetupLocation: address,
-					meetupLatLong: latLng 
+			Meteor.call("updateMeetupLocation", t.data.connectionId, address, latLng, function(err, res) {
+				if(err) {
+					// !!! show error to user!
+					console.log(err);
 				}
-      		});
+			});
 		});
 	}
 });

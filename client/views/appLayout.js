@@ -189,7 +189,12 @@ Template.registerHelper('profilePic', function(avatar) {
 Template.sAlertCustom.events({
 	'click .whichalert': function() {
 		if(this.notificationId) {
-			Notifications.update({ _id: this.notificationId }, { $set: { read: true } });
+			Meteor.call("markNotificationRead", this.notificationId, function(err, res) {
+				if(err) {
+					// show error to user!
+					console.log(err);
+				}
+			});
 		}
 		if(this.routeName) {
 			Router.go(this.routeName, this.routeParams);
@@ -248,7 +253,6 @@ function ShowRequestPopUp(strBookName){
 				IonPopup.close();
 				IsPopUpOpen = false;
 				Meteor.setTimeout(function(){
-					//Alerts.update({connectionId: id}, {$set: {unread: false}})
 					var currentPage = Iron.Location.get().path;
 
 					if(currentPage.indexOf("inventory")>=0)
@@ -261,7 +265,7 @@ function ShowRequestPopUp(strBookName){
 					}
 
 
-				},1000)
+				}, 1000)
 			}
 		}]
 	});
