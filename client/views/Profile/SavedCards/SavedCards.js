@@ -303,21 +303,28 @@ Template.savedCards.onRendered(function() {
 		key: Meteor.settings.public.STRIPE_PUBKEY,
 
 		token: function(token) {
-			console.log('------------------------------')
-			console.log(token)
+			console.log('new card token > '+token)
 			PartioLoad.show();
 
-			Meteor.call('addCard', token, function(error, result) {
-				PartioLoad.hide();
-
+			Meteor.call('checkAccount', function(error, result) {
 				if(error) {
-					console.log('some error', error)
+					console.log('some error on checkAccount', error)
 					return false;
 
 				} else {
-					Cards.refresh();
+					Meteor.call('addCard', token, function(error, result) {
+						PartioLoad.hide();
+
+						if(error) {
+							console.log('some error on addCard', error)
+							return false;
+
+						} else {
+							Cards.refresh();
+						}
+					})
 				}
-			})
+			});
 		}
 	});
 })

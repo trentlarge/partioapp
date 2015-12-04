@@ -57,31 +57,29 @@ SavedCardsController = RouteController.extend({
 				}
 			},
 
-            checkPayDefault: function(cardId) {
+			checkPayDefault: function(cardId) {
+				if(!cardId) return '';
 
-                if(!cardId) return '';
-
-                if(this.getPayCard()) {
+				if(this.getPayCard()) {
 					if(cardId == this.getPayCard().id) {
-                        return 'default';
-                    }
+					  return 'default';
+					}
 				}
 
-                return '';
-            },
+				return '';
+			},
 
-            checkReceiveDefault: function(cardId) {
+			checkReceiveDefault: function(cardId) {
+				if(!cardId) return '';
 
-                if(!cardId) return '';
-
-                if(this.getReceiveCard()) {
+				if(this.getReceiveCard()) {
 					if(cardId == this.getReceiveCard().id) {
-                        return 'default';
-                    }
+						return 'default';
+					}
 				}
 
-                return '';
-            },
+				return '';
+			},
 
 			checkIsDefault: function(cardId) {
 				if(!cardId)
@@ -111,27 +109,24 @@ SavedCardsController = RouteController.extend({
 				}
 			},
 
-            isDebit: function(funding) {
+      isDebit: function(funding) {
+        if(funding === 'debit') {
+            return 'RECEIVE';
+        }
 
-                if(funding === 'debit') {
-                    return 'RECEIVE';
-                }
+        return '';
+      },
 
-                return '';
-            },
+      getBrandIcon: function(brand) {
+        if(brand === 'Visa') {
+            return 'fa fa-cc-visa';
+        }
+        else if(brand === 'MasterCard') {
+            return 'fa fa-cc-mastercard';
+        }
 
-            getBrandIcon: function(brand) {
-
-                if(brand === 'Visa') {
-                    return 'fa fa-cc-visa';
-                }
-                else if(brand === 'MasterCard') {
-                    return 'fa fa-cc-mastercard';
-                }
-
-                return 'fa fa-credit-card-alt';
-
-            },
+        return 'fa fa-credit-card-alt';
+      },
 
 			getInfo: function(cardId) {
 				var result = this.checkIsDefault(cardId);
