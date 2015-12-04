@@ -42,18 +42,19 @@
         <span class="rating-box">{{ > rating}}</span>
       </div>
 
-      <div class="list list-inset">
+      <div class="padding-horizontal padding-vertical">
         <form id="profileEdit">
 <!--
           <label class="item item-input">
             <span class="input-label"><p>Name</p></span>
             <input id="profilename" type="text" value="{{currentUser.profile.name}}">
           </label>
--->
-<!--           <label class="item item-input">
+        <label class="item item-input">
             <span class="input-label"><p>University</p></span>
             <input id="profileuniversity" type="text" value="{{currentUser.profile.college}}">
-          </label> -->
+          </label> 
+-->
+<!--            <div class="item item-divider top"></div>-->
             <label class="item item-input">
                 <i class="icon ion-ios-telephone"></i>
                 <input id="profilemobile" type="text" value="{{currentUser.profile.mobile}}">
@@ -84,48 +85,42 @@
           <input type="email" value="{{currentUser.email.[0].address}}" placeholder="Enter Email" id="profileemail">
         </label>
         {{/if}}
+
       </div>
 
-      <div class="padding-horizontal">
-      {{#if currentUser.emails.[0].verified}}
-
-
-        <a class="item item-icon-right" href="{{pathFor 'changePassword'}}" >
-          <p>Change Password</p>
-          {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
-        </a>
-      {{/if}}
-      </div>
-<br />
-
-      <div class="padding-horizontal">
-      {{#if currentUser.emails.[0].verified}}
-      <a class="item item-icon-right" href="{{pathFor 'savedCards'}}" >
-        <p>Payment Cards</p>
-        {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
-      </a>
-      {{/if}}
-      </div>
-<br />
-
-      <div class="padding-horizontal">
-      {{#if currentUser.emails.[0].verified}}
-        <a class="item item-icon-right" id="logout"  >
-          <p>Logout</p>
-          {{> ionIcon icon="android-exit" class="energized right-arrow"}}
-        </a>
-      {{else}}
-        {{#if emailSet}}
-          <h3 class="assertive center">Thank you. Now, verify your email inbox to proceed.</h3>
-          <br>
-          <p class="text-center">{{> ionIcon icon="ios-email-outline" class=""}} <a href="mailto:support@partio.xyz">support@partio.xyz</a></p>
-        {{else}}
-          <h3 class="dark center">Your Email should be your official college email address</h3>
-          <br>
-          <button id="save-college-email" class="button button-block button-energized">SAVE</button>
+    <div class="padding-horizontal padding-vertical">
+<!--        <div class="item item-divider top"></div>-->
+        
+        {{#if currentUser.emails.[0].verified}}
+            <a class="item item-icon-right" href="{{pathFor 'changePassword'}}" >
+                <p>Change Password</p>
+                {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
+            </a>
+            <a class="item item-icon-right" href="{{pathFor 'savedCards'}}" >
+                <p>Payment Cards</p>
+                {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
+            </a>
         {{/if}}
-      {{/if}}
-      </div>
+    </div>
+    
+    <div class="padding-horizontal padding-vertical">
+        {{#if currentUser.emails.[0].verified}}
+            <a class="item item-icon-right" id="logout"  >
+                <p>Logout</p>
+                {{> ionIcon icon="android-exit" class="energized right-arrow"}}
+            </a>
+        {{else}}
+            {{#if emailSet}}
+                <h3 class="assertive center">Thank you. Now, verify your email inbox to proceed.</h3>
+                <br>
+                <p class="text-center">{{> ionIcon icon="ios-email-outline" class=""}} <a href="mailto:support@partio.xyz">support@partio.xyz</a></p>
+                {{else}}
+                <h3 class="dark center">Your Email should be your official college email address</h3>
+                <br>
+                <button id="save-college-email" class="button button-block button-energized">SAVE</button>
+            {{/if}}
+        {{/if}}
+    </div>
 <!-- </div> -->
     {{/ionContent}}
   {{/ionView}}

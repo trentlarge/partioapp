@@ -53,6 +53,7 @@ App.launchScreens({
 
 App.setPreference('StatusBarOverlaysWebView', true);
 App.setPreference('StatusBarStyle', 'default');
+App.setPreference('AllowInlineMediaPlayback', true);
 
 // App.setPreference('StatusBarOverlaysWebView', false);
 // App.setPreference('StatusBarBackgroundColor', '#263238');

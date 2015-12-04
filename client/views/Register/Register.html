@@ -18,39 +18,37 @@
   {{#ionView class="register"}}
 <!--    {{#ionContent}}-->
   <div class="content ion-content overflow-scroll has-header">
-
       <div class="center">
-          <div class="spinner-logo-caption">Let's Share.</div>
+          <div class="spinner-logo-caption">Let's <b>Share</b>.</div>
       </div>
 
-    <div class="list padding-horizontal padding-vertical">
+    <div class="list padding-horizontal padding-vertical form-register-block">
       <label class="item item-input">
         <i class="icon ion-ios-person energized placeholder-icon"></i>
         &nbsp;<input type="text" name="name" class="border-radius-20" placeholder="Name">
       </label>
-      <br>
 
       <label class="item item-input">
         <i class="icon ion-ios-email energized placeholder-icon"></i>
         &nbsp;<input type="email" name="email" class="border-radius-20" placeholder="Email">
       </label>
-      <br>
+
       <label class="item item-input">
         <i class="icon ion-ios-telephone energized placeholder-icon"></i>
         &nbsp;<input type="text" name="mobile" class="border-radius-20" placeholder="Mobile">
       </label>
-      <br />
+
       <label class="item item-input">
         <i class="icon ion-ios-locked energized placeholder-icon"></i>
         &nbsp;<input type="password" name="password" class="border-radius-20" placeholder="Password">
       </label>
-      <br>
+
 
     <label class="item item-input item-select">
       <i class="icon ion-university energized placeholder-icon"></i>
       <div class="input-label border-radius-20"><p>College</p></div>
       <select id="college" class="border-radius-20">
-        <option selected><p>Select</p></option>
+        <option selected>Select</option>
         <option>Duke University</option>
         <option>Rollins College</option>
         <option>Test Gmail IDs</option>
@@ -71,12 +69,12 @@
           Grammy
         </span>
       </a> -->
-
+      <button id="registerButton" class=" button button-energized">REGISTER</button>
     </div>
 
-    <div class="padding-horizontal center">
+<!--     <div class="padding-horizontal center">
       <button id="registerButton" class="border-radius-20 button button-energized">REGISTER</button>
-    </div>
+    </div> -->
   </div>
 <!--    {{/ionContent}}-->
   {{/ionView}}

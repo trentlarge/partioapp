@@ -145,19 +145,34 @@ body.keyboard-open .platform-android .content.overflow-scroll {
 }
 
 .main {
-  min-height: 100%;
-  .lend {
-    background-color: #f0970d;
-  }
-  .rent {
-    background-color: #df5707;
-  }
-  .share-box {
-    border: 1px solid #ffffff;
-    min-width: 250px;
-    padding: 20px;
-    font-size: 30px;
-  }
+    min-height: 100%;
+    
+    .lend {
+        background-color: #f0970d;
+    }
+    
+    .rent {
+        background-color: #df5707;
+    }
+    
+    .share-box {
+        border: 1px solid #ffffff;
+        min-width: 250px;
+        padding: 20px;
+        font-size: 30px;
+    }
+    
+    .top-part {
+        height: 45vh;
+        font-size: 1.5em;
+        color: white;
+    }
+
+    .bottom-part {
+        height: 50vh;
+        font-size: 1.5em;
+        color: white;
+    }
 }
 
 .scroll-bar-indicator {
@@ -203,17 +218,7 @@ body.keyboard-open .platform-android .content.overflow-scroll {
   z-index: -1;
 }
 
-.top-part {
-  height: 45vh;
-  font-size: 1.5em;
-  color: white;
-}
 
-.bottom-part {
-  height: 50vh;
-  font-size: 1.5em;
-  color: white;
-}
 
 .check1 {
   background-color: pink;
@@ -340,6 +345,7 @@ body.keyboard-open .platform-android .content.overflow-scroll {
   -webkit-align-items: center;
   align-items: center;
   align-items: center;
+  justify-content: center;
   -webkit-justify-content: center;
 }
 
