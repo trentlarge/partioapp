@@ -559,17 +559,7 @@ Meteor.methods({
     this.unblock();
 
     if (!Meteor.user().profile.stripeAccount) {
-
       try {
-        //Creating Transactions Id
-        var userTransId = Transactions.insert({
-          earning: [],
-          spending: []
-        });
-
-        Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.transactionsId": userTransId}});
-        console.log('>>>>>>> creating transactions ID');
-
         //Creating Stripe Account
         var resultStripe = Stripe.accounts.create({
           managed: true,
@@ -580,10 +570,6 @@ Meteor.methods({
         console.log('stripe >>>>> creating stripe account');
         console.log(resultStripe);
 
-        if (resultStripe.id) {
-          Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.stripeAccount": resultStripe}})
-        }
-
         //Creating Customer
         var resultCustomer = Stripe.customers.create({
           "description": Meteor.userId()
@@ -591,18 +577,33 @@ Meteor.methods({
 
         console.log('stripe >>>>> creating customer');
         console.log(resultCustomer);
+        console.log(resultStripe);
 
-        if (resultCustomer.id) {
-          Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.customer": resultCustomer}})
+        if(!stripeResult.id) {
+          throw new Meteor.Error("checkAccount", "Error executing stripe.accounts.create");
         }
 
-        if(resultStripe.id && resultCustomer.id) {
-          return true;
+        if (!resultCustomer.id) {
+          throw new Meteor.Error("checkAccount", "Error executing stripe.customers.create ...");
         }
+
       } catch(error) {
-        console.log(error);
-        throw new Meteor.Error('Error while creating stripe account');
+        throw new Meteor.Error("checkAccount", error.message);
       }
+
+      //Creating Transactions Id
+      var userTransId = Transactions.insert({
+        earning: [],
+        spending: []
+      });
+
+      Meteor.users.update({"_id": Meteor.userId() }, {$set: {
+        "profile.stripeAccount": resultStripe,
+        "profile.customer": resultCustomer,
+        "profile.transactionsId": userTransId
+      }})
+
+      return true;
 
     } else {
       console.log("Stripe Account already exists");
