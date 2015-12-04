@@ -30,17 +30,16 @@ Template.appLayout.events({
 
     var updatedProfile = {
 //      "name": $('#profilename').val(),
-      "college": $('#profileuniversity').val(),
-      "mobile": $('#profilemobile').val()
-    }
-    console.log(updatedProfile);
-//    Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.name": updatedProfile.name,"profile.mobile": updatedProfile.mobile, "profile.college": updatedProfile.college}}, function(error) {
-      Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.mobile": updatedProfile.mobile, "profile.college": updatedProfile.college}}, function(error) {
-      if (!error) {
-        PartioLoad.hide();
-        console.log("success!");
-        Session.set('profileEdit', false);
-      }
+      college: $('#profileuniversity').val(),
+      mobile: $('#profilemobile').val()
+    };
+
+    Meteor.call("updateUserProfile", updatedProfile, function(err, res) {
+    	if(!err) {
+	        PartioLoad.hide();
+	        console.log("success!");
+	        Session.set('profileEdit', false);    		
+    	}
     });
   }
 	// 'click #logout': function() {
@@ -165,7 +164,12 @@ Template.appLayout.onRendered(function() {
 						duration: 2000,
 						customTemplate: '<div class="center"><h5>'+ fields.message 	+'</h5></div>',
 					});
-					Notifications.update({_id: id}, {$set: {read: true}});
+					Meteor.call("markNotificationRead", id, function(err, res) {
+						if(err) {
+							// !!! show error!
+							console.log(err);
+						}
+					});
 				}
 			}
 
