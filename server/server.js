@@ -19,6 +19,7 @@ Meteor.startup(function() {
   };
 
   Accounts.emailTemplates.verifyEmail.html = function(user, url) {
+    console.log('new user activation url '+url);
     var body =
     '<!DOCTYPE html>\
             <html>\
@@ -103,13 +104,40 @@ Meteor.startup(function() {
 
 // LISTING SEARCH ------------------------------
 SearchSource.defineSource('packages', function(searchText, options) {
+
+
+
+  var userProducts = Products.find({ownerId: Meteor.userId() }).fetch();
+
+  var searchIds = []
+
+  userProducts.map(function(prod){
+   searchIds.push(prod.searchId)
+  });
+
+
+  var user_id = Meteor.userId();
+
+  console.log('######### NOT IN');
+  //var result_products = Products.find({ownerId: user_id}, { searchId : 1, _id : 0}).fetch();
+  //console.log(result_products);
+  //console.log(user_id);
+  console.log(searchIds);
+
+  //db.search.find({ _id: { $nin: [ 'bwCTtntQjSkXGMFkx' ] } })
+
+
+
   var options = {sort: {isoScore: -1}, limit: 20};
   if(searchText) {
     var regExp = buildRegExp(searchText);
-    var selector = {$or: [{title: regExp},{category: regExp},{uniqueId: searchText}]};
+    var selector = {_id: { $nin: searchIds}, $or: [{title: regExp},{category: regExp},{uniqueId: searchText}]};
+    console.log('searchText');
     return Search.find(selector, options).fetch();
   } else {
-    return Search.find({}, options).fetch();
+    var selector = {_id: { $nin: searchIds}};
+    console.log(Search.find(selector, options).fetch());
+    return Search.find(selector, options).fetch();
   }
 });
 
@@ -171,25 +199,69 @@ var sendPush = function(toId, message) {
 Meteor.methods({
 
   // TWILIO  -------------------------------------------------------------------
+  twilioVerification: function(numberFrom) {
+    console.log('Twilio >>>>> twilioVerification called -x-x-x-x-x-x-x-x-x-');
+
+    var twilioAccount = (Meteor.settings.env.twilioAccount) ? Meteor.settings.env.twilioAccount : false;
+    var twilioKey = (Meteor.settings.env.twilioKey) ? Meteor.settings.env.twilioKey : false;
+
+    if(!twilioAccount || !twilioKey) {
+      throw new Meteor.Error("twilio not configured. Check settings.json");
+      console.log('twilio not configured. Check settings.json');
+      return false;
+    }
+
+    var twilioAuth = twilioAccount+":"+twilioKey;
+    var twilioUrl = "https://api.twilio.com/2010-04-01/Accounts/"+twilioAccount+'/';
+
+    var response = Async.runSync(function(done) {
+      var result = HTTP.call("POST", twilioUrl+'OutgoingCallerIds.json', {
+        "params": {
+          "PhoneNumber" : numberFrom
+        },
+        "auth" : twilioAuth
+      },function(error, result){
+        console.log(error);
+        console.log(result);
+        done(error, result);
+      });
+    });
+
+    return response.result;
+  },
+
+
   callTwilio: function(numbers) {
     console.log('Twilio >>>>> callTwilio called -x-x-x-x-x-x-x-x-x-');
     console.log('###################################');
     console.log(numbers);
     console.log('###################################');
 
+    var twilioAccount = (Meteor.settings.env.twilioAccount) ? Meteor.settings.env.twilioAccount : false;
+    var twilioKey = (Meteor.settings.env.twilioKey) ? Meteor.settings.env.twilioKey : false;
+    var twilioXml = (Meteor.settings.env.twilioXml) ? Meteor.settings.env.twilioXml : process.env.ROOT_URL+'twilio/';
+
+    if(!twilioAccount || !twilioKey) {
+      throw new Meteor.Error("twilio not configured. Check settings.json");
+      console.log('twilio not configured. Check settings.json');
+      return false;
+    }
+
+    var twilioAuth = twilioAccount+":"+twilioKey;
+    var twilioUrl = "https://api.twilio.com/2010-04-01/Accounts/"+twilioAccount+'/';
+
     var to = numbers.to.replace('+', '');
 
     var response = Async.runSync(function(done) {
-      var result = HTTP.post('https://api.twilio.com/2010-04-01/Accounts/ACa259379ccf43ebe0af6e2eb7f3bffc93/Calls.json', {
+      var result = HTTP.post(twilioUrl+'Calls.json', {
         "params": {
-          "Url" : "http://partioapp.com/twilio/"+to,
+          "Url" : twilioXml+to,
           "To" : numbers.from,
           "From" : '+19192630795'
         },
-        "auth" : 'ACa259379ccf43ebe0af6e2eb7f3bffc93:50582e08bc2d140b8e940fe1a54d9623'
+        "auth" : twilioAuth
       },function(error, result){
         console.log(error);
-        console.log('-x-x-x-x-x-x-x-x-x-x-x-x-x-');
         console.log(result);
         done(error, result);
       });
@@ -198,43 +270,33 @@ Meteor.methods({
     return response.result;
   },
 
-  twilioVerification: function(numberFrom) {
-    console.log('Twilio >>>>> twilioVerification called -x-x-x-x-x-x-x-x-x-');
-
-    var response = Async.runSync(function(done) {
-      var result = HTTP.call("POST", 'https://api.twilio.com/2010-04-01/Accounts/ACa259379ccf43ebe0af6e2eb7f3bffc93/OutgoingCallerIds.json', {
-        "params": {
-          "PhoneNumber" : numberFrom
-        },
-        "auth" : 'ACa259379ccf43ebe0af6e2eb7f3bffc93:50582e08bc2d140b8e940fe1a54d9623'
-      },function(error, result){
-        console.log(error);
-        console.log('-x-x-x-x-x-x-x-x-x-x-xx-x-');
-        console.log(result);
-        done(error, result);
-      });
-    });
-
-    return response.result;
-  },
 
 
   // CAMFIND -------------------------------------------------------------------
-  camfindGetToken: function(imageUrl){
-    return HTTP.post('https://camfind.p.mashape.com/image_requests', {
-      "headers": {
-        "X-Mashape-Key" : "7W5OJWzlcsmshYSMTJW8yE4L2mJQp1cuOVKjsneO6N0wPTpaS1"
-      },
-      "params": {
-        "image_request[remote_image_url]" : imageUrl,
-        "image_request[locale]" : "en_US"
-      }
-    });
-  },
+  // camfindGetToken: function(imageUrl){
+  //   return HTTP.post('https://camfind.p.mashape.com/image_requests', {
+  //     "headers": {
+  //       "X-Mashape-Key" : "7W5OJWzlcsmshYSMTJW8yE4L2mJQp1cuOVKjsneO6N0wPTpaS1"
+  //     },
+  //     "params": {
+  //       "image_request[remote_image_url]" : imageUrl,
+  //       "image_request[locale]" : "en_US"
+  //     }
+  //   });
+  // },
 
   camfindGetTokenBase64: function(dataURI) {
-    var mashapeURL = "https://camfind.p.mashape.com/image_requests";
-    var mashapeKey = "7W5OJWzlcsmshYSMTJW8yE4L2mJQp1cuOVKjsneO6N0wPTpaS1";
+    var cloudSightApiURL = "http://api.cloudsightapi.com/";
+    var cloudSightApiKey = (Meteor.settings.env.cloudSightKey) ? Meteor.settings.env.cloudSightKey : false;
+
+    if(!cloudSightApiKey) {
+      throw new Meteor.Error("cloudSightKey not configured. Check settings.json");
+      console.log('cloudSightKey not configured. Check settings.json');
+      return false;
+    }
+
+    // var mashapeURL = "https://camfind.p.mashape.com/image_requests";
+    // var mashapeKey = "7W5OJWzlcsmshYSMTJW8yE4L2mJQp1cuOVKjsneO6N0wPTpaS1";
 
     // base64 encoded data to Buffer conversion
     var atob = Meteor.npmRequire('atob');
@@ -268,8 +330,9 @@ Meteor.methods({
     var request = Meteor.npmRequire("request");
     var response = Async.runSync(function(done) {
       request.post({
-        url: mashapeURL,
-        headers: { "X-Mashape-Key": mashapeKey },
+        url: cloudSightApiURL+'image_requests',
+        //headers: { "X-Mashape-Key": cloudSightApiKey },
+        headers: { "Authorization": "CloudSight "+cloudSightApiKey },
         formData: formData
       }, function(err, httpResponse, body) {
         var result = {
@@ -284,14 +347,23 @@ Meteor.methods({
   },
 
   camfindGetResponse: function(token) {
+    var cloudSightApiURL = "http://api.cloudsightapi.com/";
+    var cloudSightApiKey = (Meteor.settings.env.cloudSightKey) ? Meteor.settings.env.cloudSightKey : false;
+
+    if(!cloudSightApiKey) {
+      throw new Meteor.Error("cloudSightKey not configured. Check settings.json");
+      console.log('cloudSightKey not configured. Check settings.json');
+      return false;
+    }
+
     console.log('CamFind: request token >>> '+token);
     console.log('CamFind: waiting API status...');
 
     var response = Async.runSync(function(done) {
       var interval = Meteor.setInterval(function(){
-        HTTP.get('https://camfind.p.mashape.com/image_responses/'+token, {
+        HTTP.get(cloudSightApiURL+'image_responses/'+token, {
           "headers": {
-            "X-Mashape-Key" : "7W5OJWzlcsmshYSMTJW8yE4L2mJQp1cuOVKjsneO6N0wPTpaS1"
+            "Authorization" : "CloudSight "+cloudSightApiKey
           }
         }, function(error, result){
           console.log('CamFind: ping Camfind >>> result.data.status = '+result.data.status);
@@ -421,6 +493,7 @@ Meteor.methods({
     var product = Products.findOne(productId);
 
     var connection = {
+      owner: ownerId,
       requestor: requestorId,
       state: 'WAITING',
       requestDate: new Date(),
@@ -507,12 +580,12 @@ Meteor.methods({
         console.log(ownerCardId, ownerCustomerId, ownerTransactionsId);
         console.log('total > '+formattedAmount)
 
-        var result = Stripe.charges.create({
+        var charge = Stripe.charges.create({
           amount: formattedAmount,
           currency: "usd",
-          customer: requestorCustomerId,
-          source: requestorCardId,
-//          destination: ownerCardId,
+        //  customer: requestorCustomerId,
+          source: requestor.profile.defaultPay.stripeToken.id,
+        //  destination: requestorCardId
           description: requestor.profile.name+' paying to '+owner.profile.name
         });
 
@@ -543,7 +616,7 @@ Meteor.methods({
         }
     }
   },
-  
+
   'createCustomer': function(token) {
     console.log("stripe_secret ---> "+Meteor.settings.env.STRIPE_SECRET);
     this.unblock();
@@ -583,8 +656,20 @@ Meteor.methods({
           Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.defaultReceive": false}})
         }
 
-        var allCards = Stripe.customers.listCards(customerId);
-        Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.cards": allCards}})
+        var userCards = Meteor.user().profile.cards;
+        var cards = [];
+
+        userCards.map(function(item){
+          if(item.id) {
+            if(cardId != item.id) {
+              cards.push(item);
+            }
+          }
+        })
+
+        Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.cards": cards}}, function(){
+          return true;
+        });
 
       } else {
         throw new Meteor.Error("some error when removing card");
@@ -596,25 +681,31 @@ Meteor.methods({
     }
   },
 
-  'addCard': function(tokenId) {
+  'addCard': function(token) {
     console.log('>>>>> add card');
     var customerId = Meteor.user().profile.customer.id;
 
     this.unblock();
 
-    var result = Stripe.customers.createSource( customerId , tokenId);
+    var result = Stripe.customers.createSource(customerId , token.id);
+    var cards = []
+
     try {
-      console.log(result);
-
-      console.log(result);
-
       if (result.id) {
-        var allCards = Stripe.customers.listCards(customerId);
+        result.stripeToken = token;
         console.log('listing cards >>>>>>>>>> ')
-        console.log(allCards);
-        Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.cards": allCards}}, function(){
+
+        var userCards = Meteor.user().profile.cards;
+
+        if(userCards) {
+          cards = userCards;
+        }
+
+        cards.push(result);
+
+        Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.cards": cards}}, function(){
           return true;
-        })
+        });
 
       } else {
         throw new Meteor.Error("some error when adding card");
@@ -860,9 +951,9 @@ Meteor.methods({
 })
 
 var amazonAllResultsItemSearchProcessing = function(result) {
-    
+
 //  console.log(JSON.stringify(result[0].ItemSearchResponse.Items[0]));
-    
+
   var necessaryFields = [];
   for(var itemPage = 0; itemPage < result.length; itemPage++) {
     var Items = result[itemPage].ItemSearchResponse.Items[0];
@@ -871,7 +962,7 @@ var amazonAllResultsItemSearchProcessing = function(result) {
           try {
             for(var i = 0; i < Items.Item.length; i++) {
               necessaryFields.push({
-                price: (function() { 
+                price: (function() {
                     if(Items.Item[i].ItemAttributes[0].ListPrice) {
                         return Items.Item[i].ItemAttributes[0].ListPrice[0].FormattedPrice[0];
                     }
@@ -971,31 +1062,31 @@ var amazonAllResultsItemSearchProcessing = function(result) {
   console.log('amazonAllResultsItemSearchProcessing -x-x-x-x-x-x-x-x-x-x-x-x-x');
 
   necessaryFields = necessaryFields.filter(function(necessaryField) {
-     return (necessaryField.price !== '--') && (necessaryField.price !== '$0.00'); 
+     return (necessaryField.price !== '--') && (necessaryField.price !== '$0.00');
   });
-    
+
   var amazonCategories = {};
   for(var i = 0; i < necessaryFields.length; i++) {
-      
+
       if(!amazonCategories[necessaryFields[i].amazonCategory]) {
           amazonCategories[necessaryFields[i].amazonCategory] = 0;
       }
       amazonCategories[necessaryFields[i].amazonCategory] += parseInt(necessaryFields[i].rank);
   };
-    
+
   console.log(JSON.stringify(amazonCategories));
 
 //  necessaryFields.sort(function(a, b) {
 //      return (a.rank < b.rank) ? 1 : -1;
 //  });
-    
+
   // sort results by amazon category
 //  necessaryFields.sort(function(a, b) {
 //      return (a.amazonCategory > b.amazonCategory) ? 1 : -1;
 //  });
-    
+
   necessaryFields.sort(function(a, b) {
-      
+
       if(amazonCategories[a.amazonCategory] < amazonCategories[b.amazonCategory]) {
           return 1;
       }

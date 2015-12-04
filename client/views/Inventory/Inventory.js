@@ -142,7 +142,7 @@ Template.inventory.events({
 
 function CheckStripeAccount () {
     if (Meteor.user().profile.cards) {
-        if(Meteor.user().profile.cards.data.length > 0) {
+        if(Meteor.user().profile.cards.length > 0) {
             return true;
         }
     }
