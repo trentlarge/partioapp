@@ -32,12 +32,14 @@ ListingController = RouteController.extend({
                 }
                 return qty + ' Users';
             },
-            
+
             getMinDayRangePrice: function(title) {
-                
-                var products = Products.find({"title": title}).fetch();    
+
+								console.log(title);
+
+                var products = Products.find({"title": title}).fetch();
                 var minPrice = products[0].rentPrice.day;
-                
+
                 $.each(products, function(index, product) {
                     if(product.rentPrice.day < minPrice) {
                         minPrice = product.rentPrice.day;
@@ -45,14 +47,14 @@ ListingController = RouteController.extend({
                 });
 
                 return '$' + minPrice;
-                
+
             },
-            
+
             getMinWeekRangePrice: function(title) {
-                
-                var products = Products.find({"title": title}).fetch();    
+
+                var products = Products.find({"title": title}).fetch();
                 var minPrice = products[0].rentPrice.week;
-                
+
                 $.each(products, function(index, product) {
                     if(product.rentPrice.week < minPrice) {
                         minPrice = product.rentPrice.week;
@@ -60,14 +62,14 @@ ListingController = RouteController.extend({
                 });
 
                 return '$' + minPrice;
-                
+
             },
-            
+
             getMinMonthRangePrice: function(title) {
-                
-                var products = Products.find({"title": title}).fetch();    
+
+                var products = Products.find({"title": title}).fetch();
                 var minPrice = products[0].rentPrice.month;
-                
+
                 $.each(products, function(index, product) {
                     if(product.rentPrice.month < minPrice) {
                         minPrice = product.rentPrice.month;
@@ -75,14 +77,14 @@ ListingController = RouteController.extend({
                 });
 
                 return '$' + minPrice;
-                
+
             },
-            
+
             getMinSemesterRangePrice: function(title) {
-                
-                var products = Products.find({"title": title}).fetch();    
+
+                var products = Products.find({"title": title}).fetch();
                 var minPrice = products[0].rentPrice.semester;
-                
+
                 $.each(products, function(index, product) {
                     if(product.rentPrice.semester < minPrice) {
                         minPrice = product.rentPrice.semester;
@@ -90,10 +92,10 @@ ListingController = RouteController.extend({
                 });
 
                 return '$' + minPrice;
-                
+
             },
-            
-            
+
+
 		};
 	},
 
