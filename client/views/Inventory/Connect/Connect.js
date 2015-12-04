@@ -51,9 +51,7 @@ Template.connect.events({
 	},
 
   'click #btnCallUser': function(err, template) {
-      var _requestor = this.connectData.requestor;
-      var _owner 	 	 = this.connectData.productData.ownerId;
-      PartioCall.init(_requestor, _owner);
+    PartioCall.init(this.connectData);
   },
 
 	// 'click #startChatOwner': function() {

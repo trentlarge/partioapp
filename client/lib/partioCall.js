@@ -7,7 +7,14 @@ app.model.PartioCall = (function () {
   'use strict';
 
   var PartioCall = {
-    init: function(requestor, owner) {
+    init: function(connection) {
+
+      console.log('chegou aqui')
+      console.log(connection);
+
+      var requestor = connection.requestor;
+      var owner = connection.owner;
+
       if(!requestor || !owner) {
         console.log('Expecting requestor and owner IDS'); return false;
       }
@@ -36,12 +43,15 @@ app.model.PartioCall = (function () {
 
       //calling connect owner
       if(Meteor.user()._id == requestor){
-        var _to = Meteor.users.findOne(owner).profile.mobile;
+        var _to = connection.productData.ownerData.profile.mobile;
 
       //calling connect requestor
       } else if(Meteor.user()._id == owner) {
-        var _to = Meteor.users.findOne(requestor).profile.mobile;
+        var _to = connection.requestorData.profile.mobile;
       }
+
+      console.log('()()()()()()()()()()()()()()()( )')
+      console.log(_from, _to)
 
       // DESTINATION NOT CONFIGURED HIM PHONE NUMMBER
       if(!_to || _to.trim() == '') {
