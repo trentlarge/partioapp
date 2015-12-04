@@ -16,14 +16,14 @@
     {{#ionContent class="savedCard"}}
 
       <br>
-      <div class="padding list">
+      <div class="card padding list">
 
         <div class="item item-divider item-button-right">
           <h3>Cards</h3>
           <button id="test-card" class="button button-small push-up button-clear"><h6 class="positive">Test Cards</h6></button>
         </div>
 
-        {{#each cards }}
+        {{#each cards.data}}
           <div class="item item-card" data-id="{{id}}" data-funding="{{funding}}">
               <table>
                 <tbody>
@@ -46,7 +46,7 @@
         </div>
       </div>
 
-      <div class="padding list">
+      <div class="card padding list">
         <div class="item item-icon-left hidden alerts no-cards">
           <i class="icon assertive ion-alert-circled"></i>
           <p class="assertive">Add a card to be able to share or borrow an item.</p>

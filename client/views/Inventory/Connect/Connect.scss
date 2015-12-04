@@ -1,14 +1,28 @@
+.view.connect-view, .view.connectRent-view {
+    background: #eeeeee;
+    background: -moz-linear-gradient(top, #eeeeee 0%, #e0e0e0 100%);
+    background: -webkit-linear-gradient(top, #eeeeee 0%,#e0e0e0 100%);
+    background: linear-gradient(to bottom, #eeeeee 0%,#e0e0e0 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#eeeeee', endColorstr='#e0e0e0',GradientType=0 );
+}
+
 .connect, .connectRent {
     
-     color: #272727;
+    color: #272727;
+    
+    .card {
+        padding: 0;
+    }
     
     .item {
         display: flex;
         margin-right: 1px;
+        border: 0;
         
          &.button-divider {
-            border-bottom-left-radius: 5px;
-            border-bottom-right-radius: 5px;
+            //border-bottom-left-radius: 5px;
+            //border-bottom-right-radius: 5px;
+            border-top: 1px solid #dddddd;
         }
     }
     
@@ -36,8 +50,12 @@
         }
         
         &.product-details {
-            border-top-left-radius: 5px;
-            border-top-right-radius: 5px;
+//            border-top-left-radius: 5px;
+//            border-top-right-radius: 5px;
+        }
+        
+        &.profile-details {
+            border-top: 1px solid #dddddd;
         }
         
     }
