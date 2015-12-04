@@ -172,25 +172,69 @@ var sendPush = function(toId, message) {
 Meteor.methods({
 
   // TWILIO  -------------------------------------------------------------------
+  twilioVerification: function(numberFrom) {
+    console.log('Twilio >>>>> twilioVerification called -x-x-x-x-x-x-x-x-x-');
+
+    var twilioAccount = (Meteor.settings.env.twilioAccount) ? Meteor.settings.env.twilioAccount : false;
+    var twilioKey = (Meteor.settings.env.twilioKey) ? Meteor.settings.env.twilioKey : false;
+
+    if(!twilioAccount || !twilioKey) {
+      throw new Meteor.Error("twilio not configured. Check settings.json");
+      console.log('twilio not configured. Check settings.json');
+      return false;
+    }
+
+    var twilioAuth = twilioAccount+":"+twilioKey;
+    var twilioUrl = "https://api.twilio.com/2010-04-01/Accounts/"+twilioAccount+'/';
+
+    var response = Async.runSync(function(done) {
+      var result = HTTP.call("POST", twilioUrl+'OutgoingCallerIds.json', {
+        "params": {
+          "PhoneNumber" : numberFrom
+        },
+        "auth" : twilioAuth
+      },function(error, result){
+        console.log(error);
+        console.log(result);
+        done(error, result);
+      });
+    });
+
+    return response.result;
+  },
+
+
   callTwilio: function(numbers) {
     console.log('Twilio >>>>> callTwilio called -x-x-x-x-x-x-x-x-x-');
     console.log('###################################');
     console.log(numbers);
     console.log('###################################');
 
+    var twilioAccount = (Meteor.settings.env.twilioAccount) ? Meteor.settings.env.twilioAccount : false;
+    var twilioKey = (Meteor.settings.env.twilioKey) ? Meteor.settings.env.twilioKey : false;
+    var twilioXml = (Meteor.settings.env.twilioXml) ? Meteor.settings.env.twilioXml : process.env.ROOT_URL+'twilio/';
+
+    if(!twilioAccount || !twilioKey) {
+      throw new Meteor.Error("twilio not configured. Check settings.json");
+      console.log('twilio not configured. Check settings.json');
+      return false;
+    }
+
+    var twilioAuth = twilioAccount+":"+twilioKey;
+    var twilioUrl = "https://api.twilio.com/2010-04-01/Accounts/"+twilioAccount+'/';
+
     var to = numbers.to.replace('+', '');
 
     var response = Async.runSync(function(done) {
-      var result = HTTP.post('https://api.twilio.com/2010-04-01/Accounts/ACa259379ccf43ebe0af6e2eb7f3bffc93/Calls.json', {
+      var result = HTTP.post(twilioUrl+'Calls.json', {
         "params": {
-          "Url" : "http://partioapp.com/twilio/"+to,
+          "Url" : twilioXml+to,
           "To" : numbers.from,
           "From" : '+19192630795'
         },
-        "auth" : 'ACa259379ccf43ebe0af6e2eb7f3bffc93:50582e08bc2d140b8e940fe1a54d9623'
+        "auth" : twilioAuth
       },function(error, result){
         console.log(error);
-        console.log('-x-x-x-x-x-x-x-x-x-x-x-x-x-');
         console.log(result);
         done(error, result);
       });
@@ -199,39 +243,20 @@ Meteor.methods({
     return response.result;
   },
 
-  twilioVerification: function(numberFrom) {
-    console.log('Twilio >>>>> twilioVerification called -x-x-x-x-x-x-x-x-x-');
-
-    var response = Async.runSync(function(done) {
-      var result = HTTP.call("POST", 'https://api.twilio.com/2010-04-01/Accounts/ACa259379ccf43ebe0af6e2eb7f3bffc93/OutgoingCallerIds.json', {
-        "params": {
-          "PhoneNumber" : numberFrom
-        },
-        "auth" : 'ACa259379ccf43ebe0af6e2eb7f3bffc93:50582e08bc2d140b8e940fe1a54d9623'
-      },function(error, result){
-        console.log(error);
-        console.log('-x-x-x-x-x-x-x-x-x-x-xx-x-');
-        console.log(result);
-        done(error, result);
-      });
-    });
-
-    return response.result;
-  },
 
 
   // CAMFIND -------------------------------------------------------------------
-  camfindGetToken: function(imageUrl){
-    return HTTP.post('https://camfind.p.mashape.com/image_requests', {
-      "headers": {
-        "X-Mashape-Key" : "7W5OJWzlcsmshYSMTJW8yE4L2mJQp1cuOVKjsneO6N0wPTpaS1"
-      },
-      "params": {
-        "image_request[remote_image_url]" : imageUrl,
-        "image_request[locale]" : "en_US"
-      }
-    });
-  },
+  // camfindGetToken: function(imageUrl){
+  //   return HTTP.post('https://camfind.p.mashape.com/image_requests', {
+  //     "headers": {
+  //       "X-Mashape-Key" : "7W5OJWzlcsmshYSMTJW8yE4L2mJQp1cuOVKjsneO6N0wPTpaS1"
+  //     },
+  //     "params": {
+  //       "image_request[remote_image_url]" : imageUrl,
+  //       "image_request[locale]" : "en_US"
+  //     }
+  //   });
+  // },
 
   camfindGetTokenBase64: function(dataURI) {
     var cloudSightApiURL = "http://api.cloudsightapi.com/";
