@@ -41,6 +41,7 @@ var fields = ['title', 'category', 'authors'];
 PackageSearch = new SearchSource('packages', fields, options);
 
 Template.searchResult.rendered = function() {
+    PackageSearch.cleanHistory();
     PackageSearch.search(Session.get('searchText'));
 };
 
@@ -62,10 +63,10 @@ Template.searchResult.helpers({
     return qty === 0 ? "badge-assertive" : "badge-energized"
   },
   isCategorySelected: function() {
-      
+
       var selectedCategories = Session.get('selectedCategories');
       var product = Products.findOne({ 'searchId':this._id });
-      
+
       if(selectedCategories) {
          if(selectedCategories.indexOf(product.category) >= 0) {
              return '';
@@ -75,7 +76,7 @@ Template.searchResult.helpers({
          }
       }
       else {
-        return '';   
+        return '';
       }
   }
 });
@@ -122,26 +123,24 @@ Template.searchBox.events({
 
   }, 200),
   "click .categoryFilter": function(e, template) {
-      
+
       var categoryFilterBox = $(e.currentTarget);
       categoryFilterBox.toggleClass('active');
-      
+
       var categories = Categories.getCategories();
       var selectedCategories = [];
 
       if($('.categoryFilter').hasClass('active')) {
-          $.each($('.categoryFilter.active'), function(index, categoryFilter) {  
+          $.each($('.categoryFilter.active'), function(index, categoryFilter) {
                 var categoryText = $(categoryFilter).find('span').text();
-                selectedCategories.push(categoryText);    
+                selectedCategories.push(categoryText);
           });
-          
+
           Session.set('selectedCategories', selectedCategories);
       }
       else {
           Session.set('selectedCategories', null);
       }
-      
+
   },
 });
-
-
