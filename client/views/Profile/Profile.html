@@ -79,10 +79,9 @@
 
       </div>
 
-    <div class="card padding-horizontal padding-vertical">
+      {{#if currentUser.emails.[0].verified}}
+        <div class="card padding-horizontal padding-vertical">
 <!--        <div class="item item-divider top"></div>-->
-        
-        {{#if currentUser.emails.[0].verified}}
             <a class="item item-icon-right" href="{{pathFor 'changePassword'}}" >
                 <p>Change Password</p>
                 {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
@@ -91,8 +90,8 @@
                 <p>Payment Cards</p>
                 {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
             </a>
-        {{/if}}
-    </div>
+        </div>
+    {{/if}}
     
     <div class="card padding-horizontal padding-vertical">
         {{#if currentUser.emails.[0].verified}}
