@@ -37,7 +37,6 @@ Template.appLayout.events({
     Meteor.call("updateUserProfile", updatedProfile, function(err, res) {
     	if(!err) {
 	        PartioLoad.hide();
-	        console.log("success!");
 	        Session.set('profileEdit', false);    		
     	}
     });

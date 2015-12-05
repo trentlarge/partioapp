@@ -107,7 +107,12 @@ Template.settingsProfileImage.events({
               },
               onOk: function()
               {
-                Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.avatar": "data:image/jpeg;base64," + imageData}});
+
+                Meteor.call("updateUserProfile", { avatar: "data:image/jpeg;base64," + imageData }, function(err, res) {
+                    if(err) {
+                      console.log(err.message);
+                    }
+                });
               }
             });
 
@@ -150,7 +155,11 @@ Template.settingsProfileImage.events({
               },
               onOk: function()
               {
-                Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.avatar": "data:image/jpeg;base64," + imageData}});
+                Meteor.call("updateUserProfile", { avatar: "data:image/jpeg;base64," + imageData }, function(err, res) {
+                    if(err) {
+                      console.log(err.message);
+                    }
+                });
               }
             });
 
@@ -181,9 +190,12 @@ Template.settingsProfileImage.events({
     var FR = new FileReader();
     FR.onload = function(e) {
      var newImage = e.target.result;
-     Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.avatar": newImage}});
+     Meteor.call("updateUserProfile", { avatar: newImage }, function(err, res) {
+        if(err) {
+          console.log(err);          
+        }
+     });
    };
    FR.readAsDataURL( input.target.files[0] );
-
 }
 })
