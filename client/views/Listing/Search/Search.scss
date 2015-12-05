@@ -52,6 +52,7 @@ p {
     width:100%;
 
     .button {
+        max-width: 300px;
         margin-bottom: 0;
         height: 30px;
         min-height: 30px;
@@ -85,10 +86,10 @@ p {
         }
 
     }
-}
-
-table.rent-table {
+    
+    table.rent-table {
     width: 100%;
+    max-width: 300px;
 
     th, td {
         text-align: center;
@@ -96,7 +97,6 @@ table.rent-table {
         padding: 1px;
         border: 1px solid #ffffff;
     }
-
 
     th {
         color: #ffffff;
@@ -110,14 +110,6 @@ table.rent-table {
         &.two { background-color: #FB8C00 }
         &.three { background-color: #F57C00 }
         &.four { background-color: #EF6C00 }
-        
-//        &:nth-child(odd) {
-//            background-color: #f0970d;
-//        }
-//
-//        &:nth-child(even) {
-//            background-color: #df5707;
-//        }
 
         &:first-child {
             border-top-left-radius: 5px;
@@ -131,3 +123,6 @@ table.rent-table {
 
 }
 }
+
+}
+

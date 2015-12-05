@@ -3,7 +3,9 @@
     .item-avatar-2 .product-avatar {
         position: absolute;
         height: 100px;
-        width: 60px;
+        width: 70px;
+        padding-right: 10px;
+        border-right: 1px solid #DDD;
         left: 12px;
         -webkit-justify-content: center;
         justify-content: center;
@@ -33,6 +35,28 @@
         }
     }
     
+    .main-title-text {
+        padding-left: 10px;
+    }
+    
+    .main-sub-text {
+        
+        padding-left: 10px;
+        
+        .ion-ios-calendar-outline, .ion-cash, .ion-ios-clock-outline {
+            font-size: 16px;
+            display: inline-flex;
+            width: 20px;
+            padding-right: 5px;
+            justify-content: center;
+        }
+        
+        .price {
+            font-size: 18px;
+            color: #f0970d;
+        }
+    }
+    
     .badge.rent-status {
         top: 0;
         height: 15px;
@@ -46,50 +70,6 @@
 
     .item .badge.rent-status {
         top: 0;
-    }
-    
-    table.rent-table {
-        width: 90%;
-        max-width: 400px;
-        
-        th, td {
-            text-align: center;
-            width: 25%;
-            padding: 1px;
-            border: 1px solid #ffffff;
-        }
-        
-        th {
-            color: #ffffff;
-            font-size: 12px;
-            -webkit-box-shadow: inset 0px -10px 0px 0px rgba(255,255,255,0.1);
-            -moz-box-shadow: inset 0px -10px 0px 0px rgba(255,255,255,0.1);
-            box-shadow: inset 0px -10px 0px 0px rgba(255,255,255,0.1);
-            opacity: .8;
-            
-            &.one { background-color: #FF9800 }
-            &.two { background-color: #FB8C00 }
-            &.three { background-color: #F57C00 }
-            &.four { background-color: #EF6C00 }
-            
-//            &:nth-child(odd) {
-//                background-color: #f0970d; 
-//            }
-//
-//            &:nth-child(even) {
-//                background-color: #df5707; 
-//            }
-            
-            &:first-child {
-                border-top-left-radius: 5px;
-            }
-            
-            &:last-child {
-                border-top-right-radius: 5px;
-            }
-        
-        }
-        
     }
     
     .not-yet {

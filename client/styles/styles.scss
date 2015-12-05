@@ -55,6 +55,15 @@
 @-moz-keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
 @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
 //modal animation
+
+.view {
+    background: #eeeeee;
+    background: -moz-linear-gradient(top, #eeeeee 0%, #e0e0e0 100%);
+    background: -webkit-linear-gradient(top, #eeeeee 0%,#e0e0e0 100%);
+    background: linear-gradient(to bottom, #eeeeee 0%,#e0e0e0 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#eeeeee', endColorstr='#e0e0e0',GradientType=0 );
+}
+
 .modal-backdrop {
     -webkit-animation: bounce 400ms linear;
 }
@@ -145,19 +154,34 @@ body.keyboard-open .platform-android .content.overflow-scroll {
 }
 
 .main {
-  min-height: 100%;
-  .lend {
-    background-color: #f0970d;
-  }
-  .rent {
-    background-color: #df5707;
-  }
-  .share-box {
-    border: 1px solid #ffffff;
-    min-width: 250px;
-    padding: 20px;
-    font-size: 30px;
-  }
+    min-height: 100%;
+    
+    .lend {
+        background-color: #f0970d;
+    }
+    
+    .rent {
+        background-color: #df5707;
+    }
+    
+    .share-box {
+        border: 1px solid #ffffff;
+        min-width: 250px;
+        padding: 20px;
+        font-size: 30px;
+    }
+    
+    .top-part {
+        height: 45vh;
+        font-size: 1.5em;
+        color: white;
+    }
+
+    .bottom-part {
+        height: 50vh;
+        font-size: 1.5em;
+        color: white;
+    }
 }
 
 .scroll-bar-indicator {
@@ -203,17 +227,7 @@ body.keyboard-open .platform-android .content.overflow-scroll {
   z-index: -1;
 }
 
-.top-part {
-  height: 45vh;
-  font-size: 1.5em;
-  color: white;
-}
 
-.bottom-part {
-  height: 50vh;
-  font-size: 1.5em;
-  color: white;
-}
 
 .check1 {
   background-color: pink;
@@ -340,6 +354,7 @@ body.keyboard-open .platform-android .content.overflow-scroll {
   -webkit-align-items: center;
   align-items: center;
   align-items: center;
+  justify-content: center;
   -webkit-justify-content: center;
 }
 
@@ -585,34 +600,8 @@ body.keyboard-open .platform-android .content.overflow-scroll {
   max-width: none !important;
 }
 
-.tab-bg {
-  background-color: #eceff1;
-  color: $assertive !important;
-}
-
 .tabs {
   color: #95a5a6;
-}
-
-.dollar-text {
-  font-size: 28px;
-  color: #95a5a6;
-}
-
-.card-special .item {
-  background-color: transparent !important;
-}
-
-.card-special {
-  background-color: transparent !important;
-  box-shadow: none !important;
-}
-
-.card-special div {
-  font-size: 40px;
-  color: $assertive;
-  padding: 40px 0;
-  font-family: Futura-CondensedMedium;
 }
 
 .narrow-item {

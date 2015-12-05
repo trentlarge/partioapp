@@ -7,17 +7,10 @@
     <h1 class="title">Rent Request</h1>
   {{/contentFor}}
 
-  {{#ionView}}
+  {{#ionView class="connectRent-view"}}
     {{#ionContent class="connectRent prevent-keyboardglitch"}}
-      <div class="padding-horizontal padding-vertical list">
-        {{#if ../isBorrowed}}
-          <div class="item">
-            <div class="center" style="width:100%">
-              {{../getDaysLeft}}
-            </div>
-          </div>
-        {{/if}}
-
+      <div class="card padding-horizontal padding-vertical list">
+          
         <div class="item item-divider product-details"><h2>Product Details <i class="chevron-icon icon ion-chevron-up"></i></h2></div>
 
         <div class="item product-details-item">
@@ -51,7 +44,7 @@
           </table>
         </div>
 
-        <div class="item item-divider"><h2>Lending Details</h2></div>
+        <div class="item item-divider profile-details"><h2>Lending Details</h2></div>
 
         <div class="item">
           <div class="profile-image-box">
@@ -68,16 +61,20 @@
                   <td> {{../getRequestDate}} </td>
                 </tr>
                 <tr>
-                  <td class="divider"> <i class="icon ion-ios-calendar-outline"></i> Period: </td>
+                  <td class="divider"> <i class="icon ion-ios-calendar-outline"></i> 
+                      <b>Period:</b> {{../getTotalDays}} 
+                  </td>
                 </tr>
                 <tr>
-                  <td> {{../getTotalDays}} </td>
+                  <td> 
+                    <i class="icon ion-ios-clock-outline"></i> {{../getDaysLeft}}
+                  </td>
                 </tr>
                 <tr>
                   <td> {{../getStartDate}} to {{../getEndDate}} </td>
                 </tr>
                 <tr>
-                  <td class="divider"> <i class="icon ion-cash"></i> Price: </td>
+                  <td class="divider"> <i class="icon ion-cash"></i> <b>Price:</b> </td>
                 </tr>
                 <tr>
                   <td> Total: <span class="price">${{connectData.borrowDetails.price.total}}</span> </td>
@@ -106,7 +103,7 @@
 
         {{#if ../isReturned}}
         {{else}}
-          <div class="item item-divider">
+          <div class="item item-divider meetup">
             <h2>Meetup Location</h2>
           </div>
           <a class="item item-button-right" id="showMap" href="#">
@@ -116,14 +113,18 @@
 
         {{#if ../paymentDone}}
           {{#unless ../itemReturnDone}}
-            <button id="returnItem" class="button button-block">RETURN ITEM</button>
+            <div class="item button-divider ">
+                <button id="returnItem" class="button button-block">RETURN ITEM</button>
+            </div>
           {{/unless}}
         {{else}}
-          {{#if ../approvedStatus}}
-            <button id="payAndRent" class="button button-block button-energized">PAY TOTAL &nbsp; ${{connectData.borrowDetails.price.total}}</button>
-          {{else}}
-            <button id="payAndRent" class="button button-block button-energized disabled">AWAITING APPROVAL</button>
-          {{/if}}
+          <div class="item button-divider ">
+              {{#if ../approvedStatus}}
+                <button id="payAndRent" class="button button-block button-energized">PAY TOTAL &nbsp; ${{connectData.borrowDetails.price.total}}</button>
+              {{else}}
+                <button id="payAndRent" class="button button-block button-energized disabled">AWAITING APPROVAL</button>
+              {{/if}}
+          </div>
         {{/if}}
       </div>
     {{/ionContent}}

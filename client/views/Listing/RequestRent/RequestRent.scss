@@ -3,15 +3,15 @@
 }
 .requestRent{
     .range-end,.datepicker,.table-condensed,div.range{
-    width: 100%;
+        width: 100%;
     }
     button#sendRequest{
-     background-color: #f0970d;
-    -webkit-box-shadow: inset 0px -24px 0px 0px rgba(255, 255, 255, 0.1);
-    -moz-box-shadow: inset 0px -24px 0px 0px rgba(255, 255, 255, 0.1);
-    box-shadow: inset 0px -24px 0px 0px rgba(255, 255, 255, 0.1);
-    opacity: .8;
-        }
+        background-color: #f0970d;
+        -webkit-box-shadow: inset 0px -24px 0px 0px rgba(255, 255, 255, 0.1);
+        -moz-box-shadow: inset 0px -24px 0px 0px rgba(255, 255, 255, 0.1);
+        box-shadow: inset 0px -24px 0px 0px rgba(255, 255, 255, 0.1);
+        opacity: .8;
+    }
 }
 
 .datepicker{
@@ -92,17 +92,21 @@
 .requestRent {
 
     color: #272727;
-    
+
     .item-divider {
         i {
-            float: right;
+            position: absolute;
+            right:20px;
+            top:9px;
+            display: block;
+
         }
     }
-    
+
     .rent-price-item {
         display: none;
     }
-    
+
     table.rent-table {
         width: 100%;
 
@@ -132,20 +136,20 @@
 
         .prices {
 
-            th {         
+            th {
                 &.one { background-color: #FF9800 }
                 &.two { background-color: #FB8C00 }
                 &.three { background-color: #F57C00 }
                 &.four { background-color: #EF6C00 }
-                
+
 //                &:nth-child(odd) {
-//                    background-color: #f0970d; 
+//                    background-color: #f0970d;
 //                }
 //
 //                &:nth-child(even) {
-//                    background-color: #df5707; 
+//                    background-color: #df5707;
 //                }
-            }  
+            }
 
         }
 
@@ -156,18 +160,18 @@
             }
 
             th.active {
-                
+
                 &.one { background-color: #FF9800 }
                 &.two { background-color: #FB8C00 }
                 &.three { background-color: #F57C00 }
                 &.four { background-color: #EF6C00 }
-                
+
 //                &:nth-child(odd) {
-//                    background-color: #f0970d; 
+//                    background-color: #f0970d;
 //                }
 //
 //                &:nth-child(even) {
-//                    background-color: #df5707; 
+//                    background-color: #df5707;
 //                }
             }
 
