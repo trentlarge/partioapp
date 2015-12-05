@@ -558,34 +558,43 @@ Meteor.methods({
   'checkAccount': function() {
     this.unblock();
 
+    //console.log(token);
     if (!Meteor.user().profile.stripeAccount) {
       try {
         //Creating Stripe Account
         var resultStripe = Stripe.accounts.create({
           managed: true,
           country: 'US',
-          email: Meteor.user().profile.email
+          email: Meteor.user().profile.email,
+          "legal_entity[type]": "individual",
+          "legal_entity[first_name]": Meteor.user().profile.name,
+          "legal_entity[last_name]": 'Partio',
+          "legal_entity[dob][day]": '11',
+          "legal_entity[dob][month]": '06',
+          "legal_entity[dob][year]": '1985',
+          "tos_acceptance[date]": Math.floor(Date.now() / 1000),
+          "tos_acceptance[ip]": this.connection.clientAddress,
         });
 
         console.log('stripe >>>>> creating stripe account');
         console.log(resultStripe);
 
-        //Creating Customer
-        var resultCustomer = Stripe.customers.create({
-          "description": Meteor.userId()
-        });
-
-        console.log('stripe >>>>> creating customer');
-        console.log(resultCustomer);
-        console.log(resultStripe);
-
-        if(!stripeResult.id) {
+        if(!resultStripe.id) {
           throw new Meteor.Error("checkAccount", "Error executing stripe.accounts.create");
         }
 
-        if (!resultCustomer.id) {
-          throw new Meteor.Error("checkAccount", "Error executing stripe.customers.create ...");
-        }
+        //Creating Customer
+        // var resultCustomer = Stripe.customers.create({
+        //    description: Meteor.user().profile.email,
+        //    stripe_account: resultStripe.id
+        // });
+        //
+        // console.log('stripe >>>>> creating customer');
+        // console.log(resultCustomer);
+        //
+        // if (!resultCustomer.id) {
+        //   throw new Meteor.Error("checkAccount", "Error executing stripe.customers.create");
+        // }
 
       } catch(error) {
         throw new Meteor.Error("checkAccount", error.message);
@@ -599,7 +608,7 @@ Meteor.methods({
 
       Meteor.users.update({"_id": Meteor.userId() }, {$set: {
         "profile.stripeAccount": resultStripe,
-        "profile.customer": resultCustomer,
+      //  "profile.customer": resultCustomer,
         "profile.transactionsId": userTransId
       }})
 
@@ -611,6 +620,45 @@ Meteor.methods({
     }
   },
 
+  'addCard': function(token) {
+    console.log('>>>>> add card');
+    var stripeAccountId = Meteor.user().profile.stripeAccount.id;
+
+    console.log(stripeAccountId);
+
+    this.unblock();
+
+
+    return false;
+
+    //var result = Stripe.customers.createSource(customerId , token.id);
+    var cards = []
+
+    try {
+      if (result.id) {
+        result.stripeToken = token;
+        console.log('listing cards >>>>>>>>>> ')
+
+        var userCards = Meteor.user().profile.cards;
+
+        if(userCards) {
+          cards = userCards;
+        }
+
+        cards.push(result);
+
+        Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.cards": cards}}, function(){
+          return true;
+        });
+
+      } else {
+        throw new Meteor.Error("some error when adding card");
+      }
+    } catch(e) {
+      console.log(e);
+      throw new Meteor.Error('Error while adding card to account');
+    }
+  },
 
   'chargeCard': function(token, connectionId) {
     this.unblock();
@@ -736,41 +784,6 @@ Meteor.methods({
     } catch(e) {
       console.log(e);
       throw new Meteor.Error('Error while removing card');
-    }
-  },
-
-  'addCard': function(token) {
-    console.log('>>>>> add card');
-    var customerId = Meteor.user().profile.customer.id;
-
-    this.unblock();
-
-    var result = Stripe.customers.createSource(customerId , token.id);
-    var cards = []
-
-    try {
-      if (result.id) {
-        result.stripeToken = token;
-        console.log('listing cards >>>>>>>>>> ')
-
-        var userCards = Meteor.user().profile.cards;
-
-        if(userCards) {
-          cards = userCards;
-        }
-
-        cards.push(result);
-
-        Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.cards": cards}}, function(){
-          return true;
-        });
-
-      } else {
-        throw new Meteor.Error("some error when adding card");
-      }
-    } catch(e) {
-      console.log(e);
-      throw new Meteor.Error('Error while adding card to account');
     }
   },
 
