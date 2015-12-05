@@ -36,25 +36,16 @@
     {{#ionContent class="profile-content"}}
     <!-- <div class="content has-header"> -->
 
-      {{> settingsProfileImage}}
-      <div class="center">
-        <span class="profile-name">{{currentUser.profile.name}}</span>
-        <span class="rating-box">{{ > rating}}</span>
+      <div class="item">
+          {{> settingsProfileImage}}
+          <div class="center">
+            <span class="profile-name">{{currentUser.profile.name}}</span>
+            <span class="rating-box">{{ > rating}}</span>
+          </div>
       </div>
 
-      <div class="padding-horizontal padding-vertical">
+      <div class="card padding-horizontal padding-vertical">
         <form id="profileEdit">
-<!--
-          <label class="item item-input">
-            <span class="input-label"><p>Name</p></span>
-            <input id="profilename" type="text" value="{{currentUser.profile.name}}">
-          </label>
-        <label class="item item-input">
-            <span class="input-label"><p>University</p></span>
-            <input id="profileuniversity" type="text" value="{{currentUser.profile.college}}">
-          </label> 
--->
-<!--            <div class="item item-divider top"></div>-->
             <label class="item item-input">
                 <i class="icon ion-ios-telephone"></i>
                 <input id="profilemobile" type="text" value="{{currentUser.profile.mobile}}">
@@ -88,10 +79,9 @@
 
       </div>
 
-    <div class="padding-horizontal padding-vertical">
+      {{#if currentUser.emails.[0].verified}}
+        <div class="card padding-horizontal padding-vertical">
 <!--        <div class="item item-divider top"></div>-->
-        
-        {{#if currentUser.emails.[0].verified}}
             <a class="item item-icon-right" href="{{pathFor 'changePassword'}}" >
                 <p>Change Password</p>
                 {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
@@ -100,10 +90,10 @@
                 <p>Payment Cards</p>
                 {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
             </a>
-        {{/if}}
-    </div>
+        </div>
+    {{/if}}
     
-    <div class="padding-horizontal padding-vertical">
+    <div class="card padding-horizontal padding-vertical">
         {{#if currentUser.emails.[0].verified}}
             <a class="item item-icon-right" id="logout"  >
                 <p>Logout</p>

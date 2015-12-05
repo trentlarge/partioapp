@@ -43,34 +43,30 @@
         <div class="waiting-item">
             {{#each toBeApproved}}
               {{#ionItem path='connectRent' _id=this._id class="item-avatar-2"}}
-                  <div class="product-avatar">
+                <div class="product-avatar">
                     <img class="product-avatar-inner" src="{{productData.image}}"/>
-                  </div>
-                  <p class="main-title-text">{{productData.title}}</p>
-                  <p class="main-sub-text">Condition of the item: {{getProductCondition}}</p>
-                  <p class="main-sub-text">Rent Price:</p>
-                      <p class="main-sub-text">
-                            <table class="rent-table">
-                                <tbody>
-                                    <tr>
-                                        <th class="one"><i class="icon">D</i></th>
-                                        <th class="two"><i class="icon">W</i></th>
-                                        <th class="three"><i class="icon">M</i></th>
-                                        <th class="four"><i class="icon">S</i></th>
-                                    </tr>
-                                    <tr>
-                                        <td>${{productData.rentPrice.day}}</td>
-                                        <td>${{productData.rentPrice.week}}</td>
-                                        <td>${{productData.rentPrice.month}}</td>
-                                        <td>${{productData.rentPrice.semester}}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                      </p>
-                  <span class="badge rent-status">{{state}}</span>
-                  <div class="item-icon-right">
+                </div>
+                <p class="main-title-text">{{productData.title}}</p>
+                <p class="main-sub-text">
+                    Condition of the item: <b>{{../getProductCondition productData.conditionId}}</b>
+                </p>
+                <p class="main-sub-text">
+                    <i class="icon ion-ios-calendar-outline"></i>
+                    {{../getTotalDays borrowDetails.date.totalDays}}
+                    ({{../getStartDate borrowDetails.date.start}} to {{../getEndDate borrowDetails.date.end}})
+                </p>
+                <p class="main-sub-text">
+                    <i class="icon ion-ios-clock-outline"></i>
+                    {{../getDaysLeft borrowDetails.date.start borrowDetails.date.end}}
+                </p>
+                <p class="main-sub-text">
+                    <i class="icon ion-cash"></i>
+                    <span class="price">${{borrowDetails.price.total}}</span>
+                </p>
+                <span class="badge rent-status">{{state}}</span>
+                <div class="item-icon-right">
                     {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
-                  </div>
+                </div>
               {{/ionItem}}
             {{/each}}
         </div>
@@ -81,34 +77,30 @@
         <div class="payment-item">
             {{#each toBePaid}}
               {{#ionItem path='connectRent' _id=this._id class="item-avatar-2"}}
-                  <div class="product-avatar">
+                <div class="product-avatar">
                     <img class="product-avatar-inner" src="{{productData.image}}"/>
-                  </div>
-                  <p class="main-title-text">{{productData.title}}</p>
-                  <p class="main-sub-text">Condition of the item: {{getProductCondition}}</p>
-                  <p class="main-sub-text">Rent Price:</p>
-                      <p class="main-sub-text">
-                            <table class="rent-table">
-                                <tbody>
-                                    <tr>
-                                        <th class="one"><i class="icon">D</i></th>
-                                        <th class="two"><i class="icon">W</i></th>
-                                        <th class="three"><i class="icon">M</i></th>
-                                        <th class="four"><i class="icon">S</i></th>
-                                    </tr>
-                                    <tr>
-                                        <td>${{productData.rentPrice.day}}</td>
-                                        <td>${{productData.rentPrice.week}}</td>
-                                        <td>${{productData.rentPrice.month}}</td>
-                                        <td>${{productData.rentPrice.semester}}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                      </p>
-                  <span class="badge rent-status">{{state}}</span>
-                  <div class="item-icon-right">
+                </div>
+                <p class="main-title-text">{{productData.title}}</p>
+                <p class="main-sub-text">
+                    Condition of the item: <b>{{../getProductCondition productData.conditionId}}</b>
+                </p>
+                <p class="main-sub-text">
+                    <i class="icon ion-ios-calendar-outline"></i>
+                    {{../getTotalDays borrowDetails.date.totalDays}}
+                    ({{../getStartDate borrowDetails.date.start}} to {{../getEndDate borrowDetails.date.end}})
+                </p>
+                <p class="main-sub-text">
+                    <i class="icon ion-ios-clock-outline"></i>
+                    {{../getDaysLeft borrowDetails.date.start borrowDetails.date.end}}
+                </p>
+                <p class="main-sub-text">
+                    <i class="icon ion-cash"></i>
+                    <span class="price">${{borrowDetails.price.total}}</span>
+                </p>
+                <span class="badge rent-status">{{state}}</span>
+                <div class="item-icon-right">
                     {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
-                  </div>
+                </div>
               {{/ionItem}}
             {{/each}}
         </div>
@@ -120,34 +112,30 @@
             {{#each currentlyBorrowed}}
             <!-- <div class="borrowedBookDetail"> -->
               {{#ionItem path="connectRent" class="item-avatar-2"}}
-                  <div class="product-avatar">
+                <div class="product-avatar">
                     <img class="product-avatar-inner" src="{{productData.image}}"/>
-                  </div>
-                  <p class="main-title-text">{{productData.title}}</p>
-                  <p class="main-sub-text">Condition of the item: {{getProductCondition}}</p>
-                  <p class="main-sub-text">Rent Price:</p>
-                      <p class="main-sub-text">
-                            <table class="rent-table">
-                                <tbody>
-                                    <tr>
-                                        <th class="one"><i class="icon">D</i></th>
-                                        <th class="two"><i class="icon">W</i></th>
-                                        <th class="three"><i class="icon">M</i></th>
-                                        <th class="four"><i class="icon">S</i></th>
-                                    </tr>
-                                    <tr>
-                                        <td>${{productData.rentPrice.day}}</td>
-                                        <td>${{productData.rentPrice.week}}</td>
-                                        <td>${{productData.rentPrice.month}}</td>
-                                        <td>${{productData.rentPrice.semester}}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                      </p>
-                  <span class="badge rent-status">{{state}}</span>
-                  <div class="item-icon-right">
+                </div>
+                <p class="main-title-text">{{productData.title}}</p>
+                <p class="main-sub-text">
+                    Condition of the item: <b>{{../getProductCondition productData.conditionId}}</b>
+                </p>
+                <p class="main-sub-text">
+                    <i class="icon ion-ios-calendar-outline"></i>
+                    {{../getTotalDays borrowDetails.date.totalDays}}
+                    ({{../getStartDate borrowDetails.date.start}} to {{../getEndDate borrowDetails.date.end}})
+                </p>
+                <p class="main-sub-text">
+                    <i class="icon ion-ios-clock-outline"></i>
+                    {{../getDaysLeft borrowDetails.date.start borrowDetails.date.end}}
+                </p>
+                <p class="main-sub-text">
+                    <i class="icon ion-cash"></i>
+                    <span class="price">${{borrowDetails.price.total}}</span>
+                </p>
+                <span class="badge rent-status">{{state}}</span>
+                <div class="item-icon-right">
                     {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
-                  </div>
+                </div>
               {{/ionItem}}
             <!-- </div> -->
             {{/each}}
@@ -159,34 +147,30 @@
         <div class="returned-item">
             {{#each isReturned}}
               {{#ionItem path="connectRent" class="item-avatar-2"}}
-                  <div class="product-avatar">
+                <div class="product-avatar">
                     <img class="product-avatar-inner" src="{{productData.image}}"/>
-                  </div>
-                  <p class="main-title-text">{{productData.title}}</p>
-                  <p class="main-sub-text">Condition of the item: {{getProductCondition}}</p>
-                  <p class="main-sub-text">Rent Price:</p>
-                      <p class="main-sub-text">
-                            <table class="rent-table">
-                                <tbody>
-                                    <tr>
-                                        <th class="one"><i class="icon">D</i></th>
-                                        <th class="two"><i class="icon">W</i></th>
-                                        <th class="three"><i class="icon">M</i></th>
-                                        <th class="four"><i class="icon">S</i></th>
-                                    </tr>
-                                    <tr>
-                                        <td>${{productData.rentPrice.day}}</td>
-                                        <td>${{productData.rentPrice.week}}</td>
-                                        <td>${{productData.rentPrice.month}}</td>
-                                        <td>${{productData.rentPrice.semester}}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                      </p>
-                  <span class="badge rent-status">{{state}}</span>
-                  <div class="item-icon-right">
+                </div>
+                <p class="main-title-text">{{productData.title}}</p>
+                <p class="main-sub-text">
+                    Condition of the item: <b>{{../getProductCondition productData.conditionId}}</b>
+                </p>
+                <p class="main-sub-text">
+                    <i class="icon ion-ios-calendar-outline"></i>
+                    {{../getTotalDays borrowDetails.date.totalDays}}
+                    ({{../getStartDate borrowDetails.date.start}} to {{../getEndDate borrowDetails.date.end}})
+                </p>
+                <p class="main-sub-text">
+                    <i class="icon ion-ios-clock-outline"></i>
+                    {{../getDaysLeft borrowDetails.date.start borrowDetails.date.end}}
+                </p>
+                <p class="main-sub-text">
+                    <i class="icon ion-cash"></i>
+                    <span class="price">${{borrowDetails.price.total}}</span>
+                </p>
+                <span class="badge rent-status">{{state}}</span>
+                <div class="item-icon-right">
                     {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
-                  </div>
+                </div>
               {{/ionItem}}
             {{/each}}
         </div>

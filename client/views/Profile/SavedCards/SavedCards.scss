@@ -2,6 +2,14 @@
 
 .savedCard {
 
+    .card {
+        padding: 0;
+    }
+    
+    .item-divider {
+        padding-top: 16px;
+    }
+    
     table { 
         color: $royal;
         margin: 0;

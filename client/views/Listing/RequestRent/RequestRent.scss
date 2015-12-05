@@ -3,15 +3,15 @@
 }
 .requestRent{
     .range-end,.datepicker,.table-condensed,div.range{
-    width: 100%;
+        width: 100%;
     }
     button#sendRequest{
-     background-color: #f0970d;
-    -webkit-box-shadow: inset 0px -24px 0px 0px rgba(255, 255, 255, 0.1);
-    -moz-box-shadow: inset 0px -24px 0px 0px rgba(255, 255, 255, 0.1);
-    box-shadow: inset 0px -24px 0px 0px rgba(255, 255, 255, 0.1);
-    opacity: .8;
-        }
+        background-color: #f0970d;
+        -webkit-box-shadow: inset 0px -24px 0px 0px rgba(255, 255, 255, 0.1);
+        -moz-box-shadow: inset 0px -24px 0px 0px rgba(255, 255, 255, 0.1);
+        box-shadow: inset 0px -24px 0px 0px rgba(255, 255, 255, 0.1);
+        opacity: .8;
+    }
 }
 
 .datepicker{
