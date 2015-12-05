@@ -187,8 +187,8 @@ Template.savedCards.events({
 			name: 'partiO',
 			description: 'Add Card',
 			zipCode: false,
-			panelLabel: 'Save Card',
 			currency: 'USD',
+			panelLabel: 'Save Card',
 			email: Meteor.user().profile.email,
 			allowRememberMe: false,
 			opened: function() { PartioLoad.hide() },
@@ -301,7 +301,9 @@ Template.savedCards.onRendered(function() {
 	Cards.refresh();
 
 	stripeHandler = StripeCheckout.configure({
+
 		key: Meteor.settings.public.STRIPE_PUBKEY,
+		currency: 'USD',
 
 		token: function(token) {
 			console.log('new card token >', token);
@@ -309,6 +311,8 @@ Template.savedCards.onRendered(function() {
 
 			Meteor.call('checkAccount', token, function(error, result) {
 				console.log(' return checkaccount');
+				console.log(result);
+				console.log(error)
 
 				if(error) {
 					console.log('some error on checkAccount', error)
