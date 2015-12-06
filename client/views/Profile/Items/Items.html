@@ -24,25 +24,26 @@
 
 
   {{#ionView}}
-    {{#ionContent class="profile-content"}}
-    <!-- <div class="content has-header"> -->
 
-      <div class="item">
-        <div class="profile-image-container">
 
-          <div class="profile-avatar" style="background: url('profile_image_placeholder.jpg') no-repeat; background-size:cover; background-position: 50% 50%;"></div>
-
-          <div class="profile-avatar" style="background: url('{{profileImage}}') no-repeat; background-size:cover; background-position: 50% 50%;"></div>
-
-        </div>
-          <div class="center">
-            <span class="profile-name">{{ownerData.profile.name}}opa</span>
-            <span class="rating-box">{{ > rating}} </span>
-          </div>
+  <div class="item">
+      {{> settingsProfileImage}}
+      <div class="center">
+        <span class="profile-name">{{currentUser.profile.name}}</span>
+        <span class="rating-box">{{ > rating}}</span>
       </div>
+  </div>
 
+
+
+
+
+      <div class="content product-list">
+      <div class="item item-divider products"><h3>Items</h3></div>
       <div class="product-item">
+
         {{#each items}}
+        <a class="item item-avatar-2" href="/listing/search/{{searchId}}">
 
             <div class="product-avatar">
               <img class="product-avatar-inner" src="{{image}}"/>
@@ -72,12 +73,12 @@
             <div class="item-icon-right">
             {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
             </div>
-
+          </a>
         {{/each}}
       </div>
+    </div>
 
 
-<!-- </div> -->
-    {{/ionContent}}
+
   {{/ionView}}
 </template>
