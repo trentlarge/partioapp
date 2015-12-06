@@ -15,14 +15,18 @@ ItemsController = RouteController.extend({
 			// Meteor.subscribe("someSubscription"),
 			// Meteor.subscribe("otherSubscription"),
 			//Meteor.subscribe("productsListOwner", 'cTdzt4agGotZJQ4eD'),
-			Meteor.subscribe("myProducts"),
+			Meteor.subscribe("productsListOwner",this.params._id),
 		];
+	},
+	search: function() {
+		return Products.find({ownerId:this.params._id})
 	},
 	data: function() {
 		return {
-			myProducts: function() {
-				return Products.find({ownerId: 'cTdzt4agGotZJQ4eD'})
-			},
+			items: this.search(),
+			// items: function() {
+			// 	return Products.find({ownerId: 'cTdzt4agGotZJQ4eD'})
+			// },
 			labelState: function(state) {
 				if(state === 'PAYMENT') {
 					return 'WAITING ON RENTER PAYMENT';
