@@ -19,6 +19,8 @@ caching-compiler@1.0.0
 caching-html-compiler@1.0.2
 callback-hook@1.0.4
 check@1.1.0
+chuangbo:cookie@1.1.0
+coffeescript@1.0.11
 dandv:jquery-rateit@1.0.22_2
 dburles:google-maps@1.1.5
 dburles:mongo-collection-instances@0.3.4
@@ -72,6 +74,8 @@ mdg:reload-on-resume@1.0.4
 meteor@1.1.10
 meteor-base@1.0.1
 meteorhacks:async@1.0.0
+meteorhacks:fast-render@2.11.0
+meteorhacks:inject-data@1.4.1
 meteorhacks:npm@1.5.0
 meteorhacks:picker@1.0.3
 meteorhacks:search-source@1.4.2
@@ -90,6 +94,7 @@ mrt:moment@2.8.1
 mrt:twilio@1.1.0
 mrt:twilio-meteor@1.1.0
 msavin:mongol@1.6.1
+multiply:iron-router-progress@1.0.2
 npm-bcrypt@0.7.8_2
 npm-container@1.2.0
 npm-mongo@1.4.39_1
