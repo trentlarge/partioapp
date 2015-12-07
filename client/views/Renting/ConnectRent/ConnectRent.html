@@ -7,9 +7,9 @@
     <h1 class="title">Rent Request</h1>
   {{/contentFor}}
 
-  {{#ionView}}
+  {{#ionView class="connectRent-view"}}
     {{#ionContent class="connectRent prevent-keyboardglitch"}}
-      <div class="padding-horizontal padding-vertical list">
+      <div class="card padding-horizontal padding-vertical list">
           
         <div class="item item-divider product-details"><h2>Product Details <i class="chevron-icon icon ion-chevron-up"></i></h2></div>
 
@@ -44,7 +44,7 @@
           </table>
         </div>
 
-        <div class="item item-divider"><h2>Lending Details</h2></div>
+        <div class="item item-divider profile-details"><h2>Lending Details</h2></div>
 
         <div class="item">
           <div class="profile-image-box">
@@ -61,14 +61,13 @@
                   <td> {{../getRequestDate}} </td>
                 </tr>
                 <tr>
-                  <td class="divider"> <i class="icon ion-ios-calendar-outline"></i> <b>Period:</b> </td>
+                  <td class="divider"> <i class="icon ion-ios-calendar-outline"></i> 
+                      <b>Period:</b> {{../getTotalDays}} 
+                  </td>
                 </tr>
                 <tr>
                   <td> 
-                      {{../getTotalDays}} 
-                      {{#if ../isBorrowed}}
-                         ({{../getDaysLeft}})
-                      {{/if}}
+                    <i class="icon ion-ios-clock-outline"></i> {{../getDaysLeft}}
                   </td>
                 </tr>
                 <tr>

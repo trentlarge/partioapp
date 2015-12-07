@@ -1,0 +1,45 @@
+.transactions-view {
+    
+     a {
+        text-decoration: none;
+        cursor: pointer;
+    }
+    
+    .tab-bg {
+        background-color: #ECECEC;
+        color: #272727 !important;
+        border-bottom: 2px solid #272727; 
+    }
+}
+
+.transactions {
+    
+    .card-special {
+        .item.item-text-wrap.center {
+            padding-bottom: 5px;
+            padding-top: 5px;
+        }
+    }
+    
+    .dollar-text {
+        font-size: 28px;
+        color: #95a5a6;
+    }
+
+    .card-special .item {
+        background-color: transparent !important;
+    }
+
+    .card-special {
+        background-color: transparent !important;
+        box-shadow: none !important;
+    }
+
+    .card-special div {
+        font-size: 40px;
+        color: #df5707;
+        padding: 40px 0;
+        font-family: Futura-CondensedMedium;
+    }
+    
+}

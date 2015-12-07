@@ -13,6 +13,28 @@
         }
     }
     
+    .main-title-text {
+        padding-left: 10px;
+    }
+    
+    .main-sub-text {
+        
+        padding-left: 10px;
+        
+        .ion-ios-calendar-outline, .ion-cash, .ion-ios-clock-outline {
+            font-size: 16px;
+            display: inline-flex;
+            width: 20px;
+            padding-right: 5px;
+            justify-content: center;
+        }
+        
+        .price {
+            font-size: 18px;
+            color: #f0970d;
+        }
+    }
+    
     .badge.share-status {
         top: 0;
         height: 15px;
@@ -27,7 +49,9 @@
     .item-avatar-2 .product-avatar {
         position: absolute;
         height: 100px;
-        width: 60px;
+        width: 70px;
+        padding-right: 10px;
+        border-right: 1px solid #DDD;
         left: 12px;
         -webkit-justify-content: center;
         justify-content: center;
