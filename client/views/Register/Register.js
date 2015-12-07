@@ -1,3 +1,7 @@
+Template.register.rendered = function() {
+    $('.input-mobile').inputmask({"mask": "(999) 999-9999"});   
+}
+
 collegeEmails = {
 	"Duke University": "duke.edu",
 	"Rollins College": "rollins.edu",

@@ -101,13 +101,16 @@
             </a>
         {{else}}
             {{#if emailSet}}
-                <h3 class="assertive center">Thank you. Now, verify your email inbox to proceed.</h3>
-                <br>
-                <p class="text-center">{{> ionIcon icon="ios-email-outline" class=""}} <a href="mailto:support@partio.xyz">support@partio.xyz</a></p>
+                <div class="item item-icon-left">
+                    <span class="activation-title assertive center">Welcome aboard partiO!</span> 
+                    <span class="activation-message center">Please verify your email address to proceed.</span>
+                    {{> ionIcon icon="alert-circled" class="assertive"}}
+                </div>
+                <p class="text-center email-support">{{> ionIcon icon="ios-email-outline"}} <a href="mailto:support@partio.xyz">support@partio.xyz</a></p>
                 {{else}}
-                <h3 class="dark center">Your Email should be your official college email address</h3>
-                <br>
-                <button id="save-college-email" class="button button-block button-energized">SAVE</button>
+                    <h3 class="dark center">Your Email should be your official college email address</h3>
+                    <br>
+                    <button id="save-college-email" class="button button-block button-energized">SAVE</button>
             {{/if}}
         {{/if}}
     </div>
