@@ -182,19 +182,37 @@ Cards = {
 
 Template.savedCards.events({
 	'click #add-card': function(e) {
-		PartioLoad.show();
-		stripeHandler.open({
-			name: 'partiO',
-			description: 'Add Card',
-			zipCode: false,
-			currency: 'USD',
-			panelLabel: 'Save Card',
-			email: Meteor.user().profile.email,
-			allowRememberMe: false,
-			opened: function() { PartioLoad.hide() },
-			closed: function() { PartioLoad.hide() }
+		// PartioLoad.show();
+		// stripeHandler.open({
+		// 	name: 'partiO',
+		// 	description: 'Add Card',
+		// 	zipCode: false,
+		// 	currency: 'USD',
+		// 	panelLabel: 'Save Card',
+		// 	email: Meteor.user().profile.email,
+		// 	allowRememberMe: false,
+		// 	opened: function() { PartioLoad.hide() },
+		// 	closed: function() { PartioLoad.hide() }
+		// });
+
+		Meteor.call('checkAccount', function(error, result) {
+			console.log('>>>>>> return checkaccount <<<<<');
+			if(result){
+				Stripe.card.createToken({
+			    number: '5200828282828210',
+			    cvc: '666',
+			    exp_month: '12',
+			    exp_year: '2021',
+					currency: 'usd',
+				}, function(status, response) {
+					if(response.id) {
+			    	Meteor.call('addCard', response.id);
+					}
+				});
+			}
 		});
-		e.preventDefault();
+
+		//e.preventDefault();
 	},
 
 	'click #test-card': function() {
@@ -303,13 +321,13 @@ Template.savedCards.onRendered(function() {
 	stripeHandler = StripeCheckout.configure({
 
 		key: Meteor.settings.public.STRIPE_PUBKEY,
-		currency: 'USD',
+		currency: 'usd',
 
 		token: function(token) {
 			console.log('new card token >', token);
 			PartioLoad.show();
 
-			Meteor.call('checkAccount', token, function(error, result) {
+			Meteor.call('checkAccount', function(error, result) {
 				console.log(' return checkaccount');
 				console.log(result);
 				console.log(error)

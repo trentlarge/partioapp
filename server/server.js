@@ -8,7 +8,9 @@ Meteor.startup(function() {
   // process.env.MAIL_URL="smtp://partio@cloudservice.io:partio1234@smtp.zoho.com:465";
   // Accounts.emailTemplates.from = 'partio@cloudservice.io';
   //Stripe = StripeSync(Meteor.settings.env.STRIPE_SECRET);
-  Stripe.secretKey = Meteor.settings.env.STRIPE_SECRET+':null';
+  //Stripe.secretKey = Meteor.settings.env.STRIPE_SECRET+':null';
+
+  Stripe = StripeAPI(Meteor.settings.env.STRIPE_SECRET);
 
   process.env.MAIL_URL="smtp://support%40partio.xyz:partio123!@smtp.zoho.com:465/";
   Accounts.emailTemplates.from = 'support@partio.xyz';
@@ -556,75 +558,52 @@ Meteor.methods({
 
   // Account & STRIPE API (cards) -------------------------------------------------------------------
   'checkAccount': function() {
-    this.unblock();
-
     if (!Meteor.user().profile.stripeAccount) {
-
       var clientIp = this.connection.clientAddress;
 
-      //console.log(token)
       var response = Async.runSync(function(done) {
-        try {
+        //Creating Stripe Account
+        Stripe.accounts.create({
+          managed: true,
+          country: 'US',
+          email: Meteor.user().profile.email,
+          "legal_entity[type]": "individual",
+          "legal_entity[first_name]": Meteor.user().profile.name,
+          "legal_entity[last_name]": 'Partio',
+          "legal_entity[dob][day]": '11',
+          "legal_entity[dob][month]": '06',
+          "legal_entity[dob][year]": '1985',
+          "tos_acceptance[date]": Math.floor(Date.now() / 1000),
+          "tos_acceptance[ip]": clientIp,
 
-          //Creating Stripe Account
-          var resultStripe = Stripe.accounts.create({
-            managed: true,
-            country: 'US',
-            email: Meteor.user().profile.email,
-            "legal_entity[type]": "individual",
-            "legal_entity[first_name]": Meteor.user().profile.name,
-            "legal_entity[last_name]": 'Partio',
-            "legal_entity[dob][day]": '11',
-            "legal_entity[dob][month]": '06',
-            "legal_entity[dob][year]": '1985',
-            "tos_acceptance[date]": Math.floor(Date.now() / 1000),
-            "tos_acceptance[ip]": clientIp,
-          });
+        }, Meteor.bindEnvironment(function (error, result) {
 
-          console.log('stripe >>>>> creating stripe account');
-          console.log(resultStripe);
-
-          if(!resultStripe.id) {
-            throw new Meteor.Error("checkAccount", "Error executing stripe.accounts.create");
+          if(error) {
+            done(error, false);
           }
 
-          //Creating Customer
-          // var resultCustomer = Stripe.customers.create({
-          //    description: Meteor.user().profile.email,
-          //    stripe_account: resultStripe.id
-          // });
-          //
-          // console.log('stripe >>>>> creating customer');
-          // console.log(resultCustomer);
-          //
-          // if (!resultCustomer.id) {
-          //   throw new Meteor.Error("checkAccount", "Error executing stripe.customers.create");
-          // }
+          console.log('>>>> new stripeAccount id: '+result.id)
 
-        } catch(error) {
-          throw new Meteor.Error("checkAccount", error.message);
-        }
+          //Creating Transactions Id
+          var userTransId = Transactions.insert({
+            earning: [],
+            spending: []
+          });
 
-        //Creating Transactions Id
-        var userTransId = Transactions.insert({
-          earning: [],
-          spending: []
-        });
+          Meteor.users.update({"_id": Meteor.userId() }, {$set: {
+            "profile.stripeAccount": result,
+            "profile.transactionsId": userTransId
+          }}, function(){
+              done(false, true);
+          })
 
-        Meteor.users.update({"_id": Meteor.userId() }, {$set: {
-          "profile.stripeAccount": resultStripe,
-        //  "profile.customer": resultCustomer,
-          "profile.transactionsId": userTransId
-        }}, function(){
-            done(null, true);
-        })
-      });
+        }));
+      })
 
       return response.result;
 
     } else {
-
-      console.log("Stripe Account already exists");
+      console.log("('>>>> stripeAccount already exists");
       return true;
     }
 
@@ -632,7 +611,6 @@ Meteor.methods({
 
   'addCard': function(token) {
     console.log('>>>>> add card');
-    this.unblock();
 
     if(!Meteor.user().profile.stripeAccount){
       throw new Meteor.Error("checkAccount", "missing stripeAccount");
@@ -640,74 +618,127 @@ Meteor.methods({
 
     var stripeAccountId = Meteor.user().profile.stripeAccount.id;
 
+    //     var cardToken = Stripe.tokens.create({
+    //       "card[number]": '4000056655665556',
+    //        "card[exp_month]": 12,
+    //        "card[exp_year]": 2016,
+    //        "card[cvc]": '321',
+    //        "card[currency]": 'usd'
+    //     });
+    //     console.log(tokenId);
+    //     console.log('##### TIPO DE CARTAO: ');
+    //
+
+      var result = Stripe.accounts.createExternalAccount( stripeAccountId, {
+        external_account: token
+      }, function(e, r){
+        console.log('####RESULT######');
+        console.log(e, r);
+      //  console.log(r.external_accounts.data);
+
+      });
+
+
+      //console.log(result);
+
+
     //console.log(stripeAccountId);
 
-    try {
+    // Stripe.accounts.createExternalAccount(
+    //   stripeAccountId,
+    //   {external_account: token.id },
+    //   function(err, card) {
 
-      var result = HTTP.post('https://api.stripe.com/v1/accounts/'+stripeAccountId+'/external_accounts', {
-        "params": {
-          "external_account" : token.id,
-        },
-        "auth" : Stripe.secretKey
-      },function(error, result){
-        console.log(error);
-        console.log(result);
-      });
+        // asynchronously called
+//      }
+//    );
 
-      return false;
+    //
+    //
+    //
+    // try {
+    //
+    //   var result = HTTP.post('https://api.stripe.com/v1/accounts/'+stripeAccountId+'/external_accounts', {
+    //     "params": {
+    //       "external_account" : token.id,
+    //     },
+    //     "auth" : Stripe.secretKey
+    //   },function(error, result){
+    //     console.log(error);
+    //     console.log(result);
+    //   });
+    //
+    //   return false;
+    //
+    //
+    //
+    //   Stripe.accounts.createExternalAccount(
+    //     stripeAccountId,
+    //     {external_account: token.id },
+    //     function(err, card) {
+    //
+    //       // asynchronously called
+    //     }
+    //   );
+    //
+    //   var result = Stripe.accounts.update( stripeAccountId, {
+    //     external_account: token.id
+    //   });
+    //
+    //   console.log('####RESULT######');
+    //   console.log(result);
 
-
-
-      Stripe.accounts.createExternalAccount(
-        stripeAccountId,
-        {external_account: token.id },
-        function(err, card) {
-
-          // asynchronously called
-        }
-      );
-
-      var result = Stripe.accounts.update( stripeAccountId, {
-        external_account: token.id
-      });
-
-      console.log('####RESULT######');
-      console.log(result);
-
-    } catch(error) {
-      throw new Meteor.Error("addCard", error.message);
-    }
-
-    return false;
+    // } catch(error) {
+    //   throw new Meteor.Error("addCard", error.message);
+    // }
+    //
+    // return false;
 
     //var result = Stripe.customers.createSource(customerId , token.id);
 
-    var cards = []
+    // var cards = []
+    //
+    // try {
+    //   if (result.id) {
+    //     result.stripeToken = token;
+    //     console.log('listing cards >>>>>>>>>> ')
+    //
+    //     var userCards = Meteor.user().profile.cards;
+    //
+    //     if(userCards) {
+    //       cards = userCards;
+    //     }
+    //
+    //     cards.push(result);
+    //
+    //     Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.cards": cards}}, function(){
+    //       return true;
+    //     });
+    //
+    //   } else {
+    //     throw new Meteor.Error("some error when adding card");
+    //   }
+    // } catch(e) {
+    //   console.log(e);
+    //   throw new Meteor.Error('Error while adding card to account');
+    // }
+  },
 
-    try {
-      if (result.id) {
-        result.stripeToken = token;
-        console.log('listing cards >>>>>>>>>> ')
+  'listCards': function(){
 
-        var userCards = Meteor.user().profile.cards;
-
-        if(userCards) {
-          cards = userCards;
-        }
-
-        cards.push(result);
-
-        Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.cards": cards}}, function(){
-          return true;
-        });
-
-      } else {
-        throw new Meteor.Error("some error when adding card");
-      }
-    } catch(e) {
-      console.log(e);
-      throw new Meteor.Error('Error while adding card to account');
+    if(!Meteor.user().profile.stripeAccount) {
+      return false;
     }
+
+    var response = Async.runSync(function(done) {
+      Stripe.accounts.listExternalAccounts(Meteor.user().profile.stripeAccount.id, {object: "card"},
+      function(err, cards) {
+        console.log(err, cards);
+        done(err, cards.data);
+      });
+    });
+
+    return response.result;
   },
 
   'chargeCard': function(token, connectionId) {

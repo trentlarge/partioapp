@@ -2,7 +2,7 @@
  // Server authentication info
  "servers": [
    {
-     "host": "http://partiodemo.com",
+     "host": "partiodemo.com",
      "username": "root",
      //"password": "password",
      // or pem file (ssh based authentication)
