@@ -1,12 +1,25 @@
 .transactions-view {
     
-     a {
+    a {
         text-decoration: none;
         cursor: pointer;
+        
+        &:hover {
+            color: rgba(39, 39, 39, 0.75);
+        }
+    }
+
+    .tabs.tabs-top {
+        background-color: #E0E0E0;
     }
     
     .tab-bg {
-        background-color: #ECECEC;
+        -webkit-transition: all 0.3s ease, border 1ms;         
+        -moz-transition: all 0.3s ease, border 1ms;       
+        -o-transition: all 0.3s ease, border 1ms;
+        -ms-transition: all 0.3s ease, border 1ms;          
+        transition: all 0.3s ease, border 1ms;
+        background-color: #F5F5F5;
         color: #272727 !important;
         border-bottom: 2px solid #272727; 
     }
@@ -18,6 +31,11 @@
         .item.item-text-wrap.center {
             padding-bottom: 5px;
             padding-top: 5px;
+            -webkit-transform:scale(1.2, 1.0);
+            -moz-transform:scale(1.2, 1.0);
+            -ms-transform:scale(1.2, 1.0);
+            -o-transform:scale(1.2, 1.0);
+            transform:scale(1.2,1.0);
         }
     }
     
