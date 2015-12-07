@@ -30,6 +30,7 @@ Template.register.events({
 		e.preventDefault();
 	    var email = template.find('[name=email]').value;
 	    var password = template.find('[name=password]').value;
+			var mobile = template.find('[name=mobile]').value;
 	    var profileDetails = {
 	    	name: template.find('[name=name]').value,
 				mobile: template.find('[name=mobile]').value,
@@ -40,6 +41,7 @@ Template.register.events({
 	    };
 
 
+			
 
 	  if (email && password && profileDetails.name && profileDetails.college) {
 			if (emailCheck(profileDetails.college, email)) {

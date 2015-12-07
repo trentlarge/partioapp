@@ -27,9 +27,15 @@
 
 
   <div class="item">
-      {{> settingsProfileImage}}
+
+      <div class="profile-image-container">
+
+        <div class="profile-avatar" style="background: url('{{connectData.profile.avatar}}') no-repeat; background-size:cover; background-position: 50% 50%;"></div>
+
+      </div>
+
       <div class="center">
-        <span class="profile-name">{{currentUser.profile.name}}</span><br />
+        <span class="profile-name">{{connectData.profile.name}}</span><br />
         <span class="rating-box">{{ > rating}}</span>
       </div>
   </div>
