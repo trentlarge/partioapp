@@ -1,3 +1,7 @@
+Template.profile.rendered = function() {
+    $('#profilemobile').inputmask({"mask": "(999) 999-9999"});   
+}
+
 Session.setDefault('profileEdit', false);
 
 Template.profile.helpers({
