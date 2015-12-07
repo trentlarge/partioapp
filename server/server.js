@@ -901,7 +901,7 @@ Meteor.methods({
     var getAmazonItemSearchSynchronously = Meteor.wrapAsync(amazonItemSearch);
     var result = [];
 
-    for(var i = 0; i < 3; i++) {
+    for(var i = 0; i < 2; i++) {
       result.push(getAmazonItemSearchSynchronously(keys, i+1));
       console.log(result[i]);
     }
@@ -1012,7 +1012,7 @@ var amazonAllResultsItemSearchProcessing = function(result) {
                         return Items.Item[i].TinyImage[0].URL[0];
                     }
                   } else {
-                      return 'image-not-available.png';
+                      return '/image-not-available.png';
                   }
                 })(),
                 asin: Items.Item[i].ASIN[0],

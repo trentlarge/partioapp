@@ -20,7 +20,11 @@
 
 
 .results-details-content {
-    background-color: #ffffff;
+    
+    .card {
+        padding: 0;
+    }
+    
 }
 
 .results-details {
@@ -30,6 +34,8 @@
     }
     
     .features {
+        
+        border: 0;
         
         i {
             float: right;
@@ -49,6 +55,10 @@
         border-bottom: 0;
         -webkit-animation: fadeIn 0.5s;
         animation: fadeIn 0.5s;
+    }
+    
+    .attributes {
+        border: 0;
     }
     
     .row-details {
@@ -91,6 +101,11 @@
             white-space: nowrap;
         }
         
+    }
+    
+    .item-button {
+        padding-top: 5px;
+        padding-bottom: 5px;
     }
     
 }

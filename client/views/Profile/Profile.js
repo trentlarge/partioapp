@@ -1,3 +1,31 @@
+Template.appLayout.events({
+    
+    'click #cancelProfile': function() {
+        Router.go('/');
+    },
+
+    'click #saveProfile': function() {
+        PartioLoad.show();
+
+        var updatedProfile = {
+            //"name": $('#profilename').val(),
+            "college": $('#profileuniversity').val(),
+            "mobile": $('#profilemobile').val()
+        }
+        Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.mobile": updatedProfile.mobile, "profile.college": updatedProfile.college}}, function(error) {
+            if (!error) {
+                PartioLoad.hide();
+                Session.set('profileEdit', false);
+            }
+        });
+    }
+
+})
+
+Template.profile.rendered = function() {
+    $('#profilemobile').inputmask({"mask": "+9 (999) 999-9999"});   
+}
+
 Session.setDefault('profileEdit', false);
 
 Template.profile.helpers({
@@ -19,37 +47,37 @@ Template.profile.destroyed = function() {
 }
 
 Template.profile.events({
-  'keyup #profileEdit': function(e, template) {
-    e.preventDefault();
-    Session.set('profileEdit', true);
-  },
-  'click #changePassword': function() {
-    console.log('changePassword');
-    IonPopup.alert({
-      title: 'Changing Password',
-      template: '<div class="center">Work in progress</div>',
-      okText: 'Got It!'
-    });
-  },
-  'click #save-college-email': function() {
+    'keyup #profileEdit': function(e, template) {
+        e.preventDefault();
+        Session.set('profileEdit', true);
+    },
+    'click #changePassword': function() {
+        console.log('changePassword');
+        IonPopup.alert({
+          title: 'Changing Password',
+          template: '<div class="center">Work in progress</div>',
+          okText: 'Got It!'
+        });
+    },
+    'click #save-college-email': function() {
 
-    var college = $('#profileuniversity').val();
-    var email = $('#profileemail').val();
+        var college = $('#profileuniversity').val();
+        var email = $('#profileemail').val();
 
-    if (college && email) {
-      if (emailCheck(college, email)) {
-        Meteor.call('updateOfficialEmail', Meteor.userId(), college, email, function(error, result){
-          if (!error) {
-            console.log(result);
-            console.log(error);
+        if (college && email) {
+          if (emailCheck(college, email)) {
+            Meteor.call('updateOfficialEmail', Meteor.userId(), college, email, function(error, result){
+              if (!error) {
+                console.log(result);
+                console.log(error);
+              }
+            })
           }
-        })
-      }
+        }
+    },
+    'click #logout': function() {
+        logout();
     }
-  },
-  'click #logout': function() {
-    logout();
-  }
 });
 
 Template.settingsProfileImage.helpers({
