@@ -194,6 +194,7 @@ Template.savedCards.events({
 		// 	opened: function() { PartioLoad.hide() },
 		// 	closed: function() { PartioLoad.hide() }
 		// });
+		PartioLoad.show('adding a default debit card just to test. We need to new card form. Soon more news...')
 
 		Meteor.call('checkAccount', function(error, result) {
 			console.log('>>>>>> return checkaccount <<<<<');
@@ -206,7 +207,10 @@ Template.savedCards.events({
 					currency: 'usd',
 				}, function(status, response) {
 					if(response.id) {
-			    	Meteor.call('addCard', response.id);
+			    	Meteor.call('addCard', response.id, function(error, result){
+							console.log(error, result);
+							PartioLoad.hide();
+						});
 					}
 				});
 			}

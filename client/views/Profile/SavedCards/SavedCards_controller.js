@@ -21,12 +21,12 @@ SavedCardsController = RouteController.extend({
 	data: function() {
 		return {
 			listCards: function(){
-				Meteor.call('listCards', function(err, result){
-					console.log(err, result)
-					if(result){
-						return result;
-					}
-				})
+				// Meteor.call('listCards', function(err, result){
+				// 	console.log(err, result)
+				// 	if(result){
+				// 		return result;
+				// 	}
+				// })
 				// if(Meteor.user().profile.stripeAccount) {
 				// 	return Meteor.user().profile.stripeAccount.id;
 				// }
@@ -43,9 +43,9 @@ SavedCardsController = RouteController.extend({
 
 				//
 				//
-				// if (Meteor.user().profile.cards) {
-				// 	return Meteor.user().profile.cards;
-				// }
+				if (Meteor.user().profile.cards) {
+					return Meteor.user().profile.cards;
+				}
 			},
 
 			getCardById: function(idCard) {
