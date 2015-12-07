@@ -71,44 +71,50 @@ Template.inventory.events({
         IonPopup.close();
         console.log("proceeding with connection");
         PartioLoad.show();
-        Meteor.call('ownerAccept', connectionId, function(error, result) {
-          if (!error)
-          {
-            // var connectionObj = Connections.findOne({_id: connectionId});
-            // var jsonConnect = JSON.stringify(connectionObj);
-            // console.log('book ID: ' + jsonConnect);
+        Meteor.call('ownerAccept', connectionId, function(err, res) {
+          PartioLoad.hide();
+          if(err) {
+            var errorMessage = err.reason || err.message;
+            if(err.details) {
+              errorMessage = errorMessage + "\nDetails:\n" + err.details;
+            }
+            sAlert.error(errorMessage);
+            return;
+          }
 
-            // var seachResult = Search.findOne({productUniqueId: });
-            // console.log('seachResult: ' + JSON.stringify(seachResult));
+          // var connectionObj = Connections.findOne({_id: connectionId});
+          // var jsonConnect = JSON.stringify(connectionObj);
+          // console.log('book ID: ' + jsonConnect);
 
-            //Once the book request is approved, decrease the count based on Book ID
-            // var result = Search.update({_id: searchCollectionId}, {$inc: {qty: -1}})
-            // console.log('Update result: ' + result);
+          // var seachResult = Search.findOne({productUniqueId: });
+          // console.log('seachResult: ' + JSON.stringify(seachResult));
 
-            //Connections.find({"requestor": Meteor.userId(), "state": "PAYMENT"});
-            // Connections.find(
-            //   {'productData._id': bookId, 'requestor': {$ne: requestor}},
-            //   {$set: {state: "DENIED"}},
-            //   {multi: true}
-            //   );
+          //Once the book request is approved, decrease the count based on Book ID
+          // var result = Search.update({_id: searchCollectionId}, {$inc: {qty: -1}})
+          // console.log('Update result: ' + result);
 
-            // Connections.find({'productData._id': bookId, 'requestor': {$ne: requestor}})
-            // .map(function(item) {
-            //   console.log('connectionforBookID: ' + item);
-            //   Connections.update({_id: item._id}, {$set: {"state": "DENIED"}});
-            // });
-            //console.log('connectionforBookID: ' + connectionforBookID);
+          //Connections.find({"requestor": Meteor.userId(), "state": "PAYMENT"});
+          // Connections.find(
+          //   {'productData._id': bookId, 'requestor': {$ne: requestor}},
+          //   {$set: {state: "DENIED"}},
+          //   {multi: true}
+          //   );
 
-            // connectionforBookID.forEach(function(item) {
-            //   console.log('connectionforBookID: ' + item);
-            // });
+          // Connections.find({'productData._id': bookId, 'requestor': {$ne: requestor}})
+          // .map(function(item) {
+          //   console.log('connectionforBookID: ' + item);
+          //   Connections.update({_id: item._id}, {$set: {"state": "DENIED"}});
+          // });
+          //console.log('connectionforBookID: ' + connectionforBookID);
 
-            PartioLoad.hide();
+          // connectionforBookID.forEach(function(item) {
+          //   console.log('connectionforBookID: ' + item);
+          // });
 
-            IonPopup.show({
-              title: 'Great!',
-              template: '<div class="center">Make sure you setup a meeting location and pass on the item to <strong>'+ Meteor.users.findOne(requestor).profile.name+'</strong> once you receive the payment. </div>',
-              buttons:
+          IonPopup.show({
+            title: 'Great!',
+            template: '<div class="center">Make sure you setup a meeting location and pass on the item to <strong>'+ Meteor.users.findOne(requestor).profile.name+'</strong> once you receive the payment. </div>',
+            buttons:
               [{
                 text: 'OK',
                 type: 'button-assertive',
@@ -118,21 +124,24 @@ Template.inventory.events({
                   IonPopup.close();
                 }
               }]
-            });
-          }
+          });
         });
       },
 
       onCancel: function() {
         // Connections.remove({"_id": connectionId});
         // console.log('Request Declined!');
-
-        Meteor.call('ownerDecline', connectionId, function(error, result) {
-          if(!error){
-            console.log('Request Declined!');
-          } else{
-            console.log('Declined Error: ' + error);
+        Meteor.call('ownerDecline', connectionId, function(err, res) {
+          if(err) {
+            var errorMessage = err.reason || err.message;
+            if(err.details) {
+              errorMessage = errorMessage + "\nDetails:\n" + err.details;
+            }
+            sAlert.error(errorMessage);
+            return;
           }
+
+          console.log('Request Declined!');
         });
       }
     });

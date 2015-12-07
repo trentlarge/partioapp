@@ -114,8 +114,12 @@ Template.map.events({
 
 			Meteor.call("updateMeetupLocation", t.data.connectionId, address, latLng, function(err, res) {
 				if(err) {
-					// !!! show error to user!
-					console.log(err);
+					var errorMessage = err.reason || err.message;
+					if(err.details) {
+						errorMessage = errorMessage + "\nDetails:\n" + err.details;
+					}
+					sAlert.error(errorMessage);
+					return;
 				}
 			});
 		});

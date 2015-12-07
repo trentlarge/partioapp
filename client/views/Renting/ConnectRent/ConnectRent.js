@@ -50,7 +50,7 @@ Template.connectRent.events({
 	'click #returnItem': function() {
 		var connectionData = this.connectData;
 		var requestorName = this.connectData.requestorData.profile.name;
-		var ownerId 			= this.connectData.productData.ownerId;
+		var ownerId	= this.connectData.productData.ownerId;
 
 		IonPopup.confirm({
 			cancelText: 'Cancel',
@@ -59,18 +59,22 @@ Template.connectRent.events({
 			template: '<div class="center"><p>Please make sure the item is passed back to the owner</p></div>',
 			onCancel: function() {
 				console.log('Cancelled')
-        IonPopup.close();
+        		IonPopup.close();
 			},
 			onOk: function() {
-				Meteor.call('returnItem', connectionData._id, function(error, result) {
-          IonPopup.close();
-          if(!error){
-            //      Router.go('/renting');
-            IonModal.open("feedback", connectionData);
-          } else {
-            console.log('some error', $error);
-          }
-				})
+				Meteor.call('returnItem', connectionData._id, function(err, result) {
+					IonPopup.close();
+					if(err) {
+						var errorMessage = err.reason || err.message;
+						if(err.details) {
+							errorMessage = errorMessage + "\nDetails:\n" + err.details;
+						}
+						sAlert.error(errorMessage);
+						return;
+					}
+
+		            IonModal.open("feedback", connectionData);
+				});
 			}
 		});
 	},
@@ -99,29 +103,34 @@ Template.connectRent.events({
 				onOk: function() {
 					PartioLoad.show();
 
-          Meteor.call('chargeCard', Meteor.settings.public.STRIPE_PUBKEY, connectionId, function(error, result) {
-            //console.log(result);
+					Meteor.call('chargeCard', Meteor.settings.public.STRIPE_PUBKEY, connectionId, function(err, res) {
 
-						if (!error) {
-							PartioLoad.hide();
-							IonPopup.show({
-								title: 'Payment Successful!',
-								template: '<div class="center">A record of this payment is stored under Transactions History</div>',
-								buttons:
-								[{
-									text: 'OK',
-									type: 'button-assertive',
-									onTap: function() {
-										IonPopup.close();
-										Router.go('/transactions');
-										Session.set('spendClicked', true);
-									}
-								}]
-							});
-						} else {
-              console.log('some error with charge card', error);
-            }
-					})
+						PartioLoad.hide();
+
+						if(err) {
+							var errorMessage = err.reason || err.message;
+							if(err.details) {
+								errorMessage = errorMessage + "\nDetails:\n" + err.details;
+							}
+							sAlert.error(errorMessage);
+							return;
+						}
+
+						IonPopup.show({
+							title: 'Payment Successful!',
+							template: '<div class="center">A record of this payment is stored under Transactions History</div>',
+							buttons:
+							[{
+								text: 'OK',
+								type: 'button-assertive',
+								onTap: function() {
+									IonPopup.close();
+									Router.go('/transactions');
+									Session.set('spendClicked', true);
+								}
+							}]
+						});
+					});
 				}
 			});
 		} else {

@@ -50,8 +50,12 @@ Template.inventoryDetail.events({
 
     Meteor.call("updateProductData", this.product._id, title, edited, editedPrices, function(err, res) {
       if(err) {
-        // !!! show error to user!
-        console.log(err);
+        var errorMessage = err.reason || err.message;
+        if(err.details) {
+          errorMessage = errorMessage + "\nDetails:\n" + err.details;
+        }
+        sAlert.error(errorMessage);
+        return;
       }
     });
 

@@ -437,22 +437,22 @@ Meteor.methods({
       return response.result;
     },
 
-  'updateOfficialEmail': function(userId, college, email) {
-    Meteor.users.update({"_id": userId}, {$set: {"emails": [{"address": email, "verified": false}], "profile.college": college}}, function(error) {
+  'updateOfficialEmail': function(college, email) {
+    Meteor.users.update({"_id": this.userId}, {$set: {"emails": [{"address": email, "verified": false}], "profile.college": college}}, function(error) {
       if (!error) {
         Accounts.sendVerificationEmail(userId);
       }
     });
   },
-  'updatePassword': function(userId, password) {
+  'updatePassword': function(password) {
     console.log('chamou updatePassword');
     Meteor.bindEnvironment(function(){
-      Accounts.setPassword(userId, password, { logout: true });
+      Accounts.setPassword(this.userId, password, { logout: true });
       console.log('chamou updatePassword');
     },
     function (err) {
       console.log('failed to bind env: ', err);
-    })
+    });
   },
 
   'submitRating': function(rating, personId, ratedBy) {

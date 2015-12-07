@@ -193,31 +193,37 @@ Template.requestRent.events({
       onOk: function() {
         console.log("proceeding with connection");
         PartioLoad.show();
-        Meteor.call('requestOwner', Meteor.userId(), productId, ownerId, borrowDetails, function(error, result) {
-          if (!error) {
-            PartioLoad.hide();
-            IonPopup.close();
-            setTimeout(function(){
-              IonPopup.show({
-                title: 'Request Sent',
-                template: '<div class="center">Now you just need to wait for owner\'s approval</div>',
-                buttons: [{
-                  text: 'OK',
-                  type: 'button-energized',
-                  onTap: function() {
-                    IonPopup.close();
-                    $('#closeRequest').click();
-                    Router.go('/renting');
-                  }
-                }]
-              });
-            }, 500);
-          } else {
-            PartioLoad.hide();
-            console.log(error);
+        Meteor.call('requestOwner', Meteor.userId(), productId, ownerId, borrowDetails, function(err, res) {
+          PartioLoad.hide();
+          IonPopup.close();
+
+          if(err) {
+            var errorMessage = err.reason || err.message;
+            if(err.details) {
+              errorMessage = errorMessage + "\nDetails:\n" + err.details;
+            }
+            sAlert.error(errorMessage);
+            return;
           }
-        })
+
+          setTimeout(function(){
+            IonPopup.show({
+              title: 'Request Sent',
+              template: '<div class="center">Now you just need to wait for owner\'s approval</div>',
+              buttons: [{
+                text: 'OK',
+                type: 'button-energized',
+                onTap: function() {
+                  IonPopup.close();
+                  $('#closeRequest').click();
+                  Router.go('/renting');
+                }
+              }]
+            });
+          }, 500);
+        });
       },
+
       onCancel: function() {
         console.log('Cancelled');
         return false;

@@ -38,12 +38,16 @@ Template.profile.events({
 
     if (college && email) {
       if (emailCheck(college, email)) {
-        Meteor.call('updateOfficialEmail', Meteor.userId(), college, email, function(error, result){
-          if (!error) {
-            console.log(result);
-            console.log(error);
+        Meteor.call('updateOfficialEmail', college, email, function(err, res) {
+          if(err) {
+            var errorMessage = err.reason || err.message;
+            if(err.details) {
+              errorMessage = errorMessage + "\nDetails:\n" + err.details;
+            }
+            sAlert.error(errorMessage);
+            return;
           }
-        })
+        });
       }
     }
   },
@@ -109,9 +113,14 @@ Template.settingsProfileImage.events({
               {
 
                 Meteor.call("updateUserProfile", { avatar: "data:image/jpeg;base64," + imageData }, function(err, res) {
-                    if(err) {
-                      console.log(err.message);
+                  if(err) {
+                    var errorMessage = err.reason || err.message;
+                    if(err.details) {
+                      errorMessage = errorMessage + "\nDetails:\n" + err.details;
                     }
+                    sAlert.error(errorMessage);
+                    return;
+                  }
                 });
               }
             });
@@ -156,9 +165,14 @@ Template.settingsProfileImage.events({
               onOk: function()
               {
                 Meteor.call("updateUserProfile", { avatar: "data:image/jpeg;base64," + imageData }, function(err, res) {
-                    if(err) {
-                      console.log(err.message);
+                  if(err) {
+                    var errorMessage = err.reason || err.message;
+                    if(err.details) {
+                      errorMessage = errorMessage + "\nDetails:\n" + err.details;
                     }
+                    sAlert.error(errorMessage);
+                    return;
+                  }
                 });
               }
             });
@@ -191,9 +205,14 @@ Template.settingsProfileImage.events({
     FR.onload = function(e) {
      var newImage = e.target.result;
      Meteor.call("updateUserProfile", { avatar: newImage }, function(err, res) {
-        if(err) {
-          console.log(err);          
+      if(err) {
+        var errorMessage = err.reason || err.message;
+        if(err.details) {
+          errorMessage = errorMessage + "\nDetails:\n" + err.details;
         }
+        sAlert.error(errorMessage);
+        return;
+      }
      });
    };
    FR.readAsDataURL( input.target.files[0] );

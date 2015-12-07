@@ -35,10 +35,17 @@ Template.appLayout.events({
     };
 
     Meteor.call("updateUserProfile", updatedProfile, function(err, res) {
-    	if(!err) {
-	        PartioLoad.hide();
-	        Session.set('profileEdit', false);    		
-    	}
+		PartioLoad.hide();
+		if(err) {
+			var errorMessage = err.reason || err.message;
+			if(err.details) {
+				errorMessage = errorMessage + "\nDetails:\n" + err.details;
+			}
+			sAlert.error(errorMessage);
+			return;
+		}
+
+		Session.set('profileEdit', false);    		
     });
   }
 	// 'click #logout': function() {
@@ -165,8 +172,12 @@ Template.appLayout.onRendered(function() {
 					});
 					Meteor.call("markNotificationRead", id, function(err, res) {
 						if(err) {
-							// !!! show error!
-							console.log(err);
+							var errorMessage = err.reason || err.message;
+							if(err.details) {
+								errorMessage = errorMessage + "\nDetails:\n" + err.details;
+							}
+							sAlert.error(errorMessage);
+							return;
 						}
 					});
 				}
@@ -190,8 +201,12 @@ Template.sAlertCustom.events({
 		if(this.notificationId) {
 			Meteor.call("markNotificationRead", this.notificationId, function(err, res) {
 				if(err) {
-					// show error to user!
-					console.log(err);
+					var errorMessage = err.reason || err.message;
+					if(err.details) {
+						errorMessage = errorMessage + "\nDetails:\n" + err.details;
+					}
+					sAlert.error(errorMessage);
+					return;
 				}
 			});
 		}
@@ -225,6 +240,7 @@ Meteor.startup(function() {
     offset: 0, // in px - will be added to first alert (bottom or top - depends of the position in config)
     beep: '/alert.mp3'  // or you can pass an object:
   });
+
 });
 
 

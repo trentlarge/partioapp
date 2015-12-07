@@ -146,8 +146,12 @@ Cards = {
 			console.log('saveDefaultCards > saving default cards')
 
 			if(err) {
-				console.log(err);
-				return false;
+				var errorMessage = err.reason || err.message;
+				if(err.details) {
+					errorMessage = errorMessage + "\nDetails:\n" + err.details;
+				}
+				sAlert.error(errorMessage);
+				return;
 			}
 
 			if(result) {
@@ -168,14 +172,18 @@ Cards = {
 
 		PartioLoad.show();
 
-		Meteor.call('removeCard', cardId, function(error, result) {
-			if(error) {
-				console.log('removeCard > some error');
-			} else {
-				console.log('removeCard > ok');
-				Cards.refresh();
-				PartioLoad.hide();
-			}
+		Meteor.call('removeCard', cardId, function(err, res) {
+			PartioLoad.hide();
+	        if(err) {
+	            var errorMessage = err.reason || err.message;
+	            if(err.details) {
+	              errorMessage = errorMessage + "\nDetails:\n" + err.details;
+	            }
+	            sAlert.error(errorMessage);
+	            return;
+	        }
+			console.log('removeCard > ok');
+			Cards.refresh();
 		});
 	},
 }
@@ -307,17 +315,19 @@ Template.savedCards.onRendered(function() {
 			console.log(token)
 			PartioLoad.show();
 
-			Meteor.call('addCard', token, function(error, result) {
+			Meteor.call('addCard', token, function(err, res) {
 				PartioLoad.hide();
 
-				if(error) {
-					console.log('some error', error)
-					return false;
-
-				} else {
-					Cards.refresh();
+				if(err) {
+					var errorMessage = err.reason || err.message;
+					if(err.details) {
+						errorMessage = errorMessage + "\nDetails:\n" + err.details;
+					}
+					sAlert.error(errorMessage);
+					return;
 				}
-			})
+				Cards.refresh();
+			});
 		}
 	});
 })
