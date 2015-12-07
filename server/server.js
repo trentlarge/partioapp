@@ -1012,7 +1012,7 @@ var amazonAllResultsItemSearchProcessing = function(result) {
                         return Items.Item[i].TinyImage[0].URL[0];
                     }
                   } else {
-                      return 'image-not-available.png';
+                      return '/image-not-available.png';
                   }
                 })(),
                 asin: Items.Item[i].ASIN[0],

@@ -1,17 +1,17 @@
 <template name="manual">
 	<div class="content manual-entry has-header overflow-scroll">
-		<div class="center">
-	<!--		<img class="scanResult-thumbnail2" src=" {{#if photoTaken}} {{photoTaken}} {{else}} bookplaceholder.jpg {{/if}} ">-->
-	        {{#if photoTaken}}
-	            <img class="scanResult-thumbnail2" src="{{photoTaken}}">
-	        {{else}}
-	            <i class="scanResult-thumbnail2 ion-image" style="font-size:100px;color:#DDD;"></i>
-	            <span style="display:block;margin-top:-10px;color:#DDD;">ADD IMAGE</span>
-	        {{/if}}
-		</div>
 
-		<div class="list list-inset overflow-scroll">
+		<div class="card list list-inset overflow-scroll">
 
+            <div class="item center">
+                {{#if photoTaken}}
+                    <img class="scanResult-thumbnail2" src="{{photoTaken}}">
+                {{else}}
+                    <i class="scanResult-thumbnail2 ion-image" style="font-size:100px;color:#DDD;"></i>
+                    <span style="display:block;margin-top:-10px;color:#DDD;">ADD IMAGE</span>
+                {{/if}}
+            </div>
+            
             <label class="item item-input">
                 <input class="manualTitle" type="text" value="{{manualTitle}}" placeholder="Title">
             </label>
@@ -43,19 +43,19 @@
             </div>
             <label class="item item-input">
                 <span class="input-label"><p>Day:</p></span>
-                <input type="number" class="userPrice dayPrice" value="{{dayPrice}}">
+                <input type="number" class="userPrice dayPrice" value="{{dayPrice}}" placeholder="0.00">
             </label>
             <label class="item item-input">
                 <span class="input-label"><p>Week:</p></span>
-                <input type="number" class="userPrice weekPrice" value="{{weekPrice}}">
+                <input type="number" class="userPrice weekPrice" value="{{weekPrice}}" placeholder="0.00">
             </label>
             <label class="item item-input">
                 <span class="input-label"><p>Month:</p></span>
-                <input type="number" class="userPrice monthPrice" value="{{monthPrice}}">
+                <input type="number" class="userPrice monthPrice" value="{{monthPrice}}" placeholder="0.00">
             </label>
             <label class="item item-input">
                 <span class="input-label"><p>Semester (4m):</p></span>
-                <input type="number" class="userPrice semesterPrice" value="{{semesterPrice}}">
+                <input type="number" class="userPrice semesterPrice" value="{{semesterPrice}}" placeholder="0.00">
             </label>            
             
 <!--
