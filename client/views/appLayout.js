@@ -20,46 +20,6 @@ Template.appLayout.events({
 		console.log("toggling!");
 		Session.set('testPay', event.target.checked);
 	},
-
-	'click #cancelProfile': function() {
-    Router.go('/');
-  },
-
-  'click #saveProfile': function() {
-    PartioLoad.show();
-
-    var updatedProfile = {
-//      "name": $('#profilename').val(),
-      "college": $('#profileuniversity').val(),
-      "mobile": $('#profilemobile').val()
-    }
-    console.log(updatedProfile);
-//    Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.name": updatedProfile.name,"profile.mobile": updatedProfile.mobile, "profile.college": updatedProfile.college}}, function(error) {
-      Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.mobile": updatedProfile.mobile, "profile.college": updatedProfile.college}}, function(error) {
-      if (!error) {
-        PartioLoad.hide();
-        console.log("success!");
-        Session.set('profileEdit', false);
-      }
-    });
-  }
-	// 'click #logout': function() {
-	// 	IonPopup.confirm({
-	// 	  okText: 'Logout',
-	// 	  cancelText: 'Cancel',
-	// 	  title: 'Logging out',
-	// 	  template: '<div class="center">Are you sure you want to logout?</div>',
-	// 	  onOk: function() {
-	// 	    Router.go('/login')
-	// 	    Meteor.logout();
-	// 	    IonPopup.close();
-	// 	  },
-	// 	  onCancel: function() {
-	// 	    console.log('Cancelled');
-	// 	    IonPopup.close();
-	// 	  }
-	// 	});
-	// }
 });
 
 Template.appLayout.helpers({

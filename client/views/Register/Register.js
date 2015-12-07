@@ -1,5 +1,5 @@
 Template.register.rendered = function() {
-    $('.input-mobile').inputmask({"mask": "(999) 999-9999"});   
+    $('.input-mobile').inputmask({"mask": "+9 (999) 999-9999"});   
 }
 
 collegeEmails = {
