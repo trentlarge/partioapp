@@ -42,6 +42,7 @@ Template.register.events({
 				mobile: template.find('[name=mobile]').value,
 				mobileValidated: false,
 	    	college: template.find('#college').value,
+        birthDate: template.find('[name=birthDate]').value,
 	    	avatar: "notSet",
 	    	location: Session.get('newLocation')
 	    };

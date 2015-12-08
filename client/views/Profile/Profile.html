@@ -45,6 +45,7 @@
       </div>
 
       <div class="card padding-horizontal padding-vertical">
+        <form id="profileEdit">
 
             <label class="item item-input">
                 <i class="icon ion-ios-telephone"></i>
@@ -54,6 +55,7 @@
                 <i class="icon ion-ios-calendar"></i>
                 <input id="birthDate" type="text" value="{{currentUser.profile.birthDate}}">
             </label>
+          </form>
 
        {{#if emailSet}}
 
@@ -90,7 +92,7 @@
                 <p>Change Password</p>
                 {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
             </a>
-            <a class="item item-icon-right" href="{{pathFor 'savedCards'}}" >
+            <a class="item item-icon-right" data-ion-modal="modalTermOfService" href="{{pathFor 'savedCards'}}" >
                 <p>Payment Cards</p>
                 {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
             </a>
@@ -118,30 +120,29 @@
             {{/if}}
         {{/if}}
     </div>
-    {{> modal}}
+
 <!-- </div> -->
     {{/ionContent}}
   {{/ionView}}
 </template>
 
+<template name="modalTermOfService">
+  {{#ionModal title="Terms of Service"}}
+  <div class="padding">
+    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
 
-<template name="modal">
-  {{#contentFor "headerButtonLeft"}}
-    {{>ionNavBackButton path="index"}}
-  {{/contentFor}}
-  {{#contentFor "headerTitle"}}
-    <h1 class="title">Modal</h1>
-  {{/contentFor}}
-
-  {{#ionView}}
-    {{#ionContent}}
-      <div class="padding">
-        <button class="button button-large button-stable" data-ion-modal="_myModal">Open Modal</button>
-      </div>
-    {{/ionContent}}
-  {{/ionView}}
-
+  </div>
+    <div class="padding-horizontal">
+      <button id="editSave" class="button button-block button-energized active">ACCEPT</button>
+    </div>
+    <div class="padding-horizontal">
+      <button id="editRemove" class="button button-block button-assertive">DECLINE</button>
+    </div>
+  {{/ionModal}}
 </template>
+
+
 <template name="settingsProfileImage">
   <div class="profile-image-container">
     {{#if noProfileYet}}

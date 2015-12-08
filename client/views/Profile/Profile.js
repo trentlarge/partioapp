@@ -10,9 +10,10 @@ Template.appLayout.events({
         var updatedProfile = {
             //"name": $('#profilename').val(),
             "college": $('#profileuniversity').val(),
-            "mobile": $('#profilemobile').val()
+            "mobile": $('#profilemobile').val(),
+            "birthDate": $('#birthDate').val()
         }
-        Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.mobile": updatedProfile.mobile, "profile.college": updatedProfile.college}}, function(error) {
+        Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.mobile": updatedProfile.mobile, "profile.college": updatedProfile.college, "profile.birthDate": updatedProfile.birthDate}}, function(error) {
             if (!error) {
                 PartioLoad.hide();
                 Session.set('profileEdit', false);
@@ -50,6 +51,10 @@ Template.profile.destroyed = function() {
 
 Template.profile.events({
     'keyup #profileEdit': function(e, template) {
+        e.preventDefault();
+        Session.set('profileEdit', true);
+    },
+    'click #birthDate': function(e, template) {
         e.preventDefault();
         Session.set('profileEdit', true);
     },
