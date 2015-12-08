@@ -66,11 +66,12 @@
 }
 
 #iron-router-progress {
-    background-color : #f0970d;
+    background-color : transparent;
+    box-shadow       : 0 0 5px transparent;
 }
 
 #iron-router-progress ~ .view {
-    opacity: .5;
+    opacity: 0;
 }
 
 
@@ -165,22 +166,22 @@ body.keyboard-open .platform-android .content.overflow-scroll {
 
 .main {
     min-height: 100%;
-    
+
     .lend {
         background-color: #f0970d;
     }
-    
+
     .rent {
         background-color: #df5707;
     }
-    
+
     .share-box {
         border: 1px solid #ffffff;
         min-width: 250px;
         padding: 20px;
         font-size: 30px;
     }
-    
+
     .top-part {
         height: 45vh;
         font-size: 1.5em;
