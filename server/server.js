@@ -625,6 +625,7 @@ Meteor.methods({
 
         if(error) {
           done(error, false);
+          console.log(error);
         }
 
         var cards = [];

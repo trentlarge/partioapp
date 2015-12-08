@@ -8,7 +8,7 @@ Template.addnewCard.events({
 var nameOut = template.find('[name=name]').value;
 var numberOut = template.find('[name=number]').value;
 var exp1 = template.find('[name=expiry]').value.substring(0,2);
-var exp2 = template.find('[name=expiry]').value.substring(4);
+var exp2 = template.find('[name=expiry]').value.substring(5,7);
 var cvcOut = template.find('[name=cvc]').value;
 console.log(nameOut + " " + numberOut + " " + exp1 + " " + exp2+ " "+ cvcOut);
 PartioLoad.show('adding a default debit card just to test. We need to new card form. Soon more news...')
