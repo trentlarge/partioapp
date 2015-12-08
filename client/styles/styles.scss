@@ -73,6 +73,19 @@
     opacity: .5;
 }
 
+.title.header-title {
+    display: inline-flex; 
+    display: -webkit-inline-flex;
+    justify-content: center;
+    -webkit-justify-content: center;
+    align-items: flex-end; 
+    -webkit-align-items: flex-end;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden !important;
+    text-overflow: ellipsis;
+    margin: 0;
+}
 
 .modal-backdrop {
     -webkit-animation: bounce 400ms linear;
