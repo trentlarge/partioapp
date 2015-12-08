@@ -648,6 +648,53 @@ Meteor.methods({
     return response.result;
   },
 
+  'saveDefaultCards': function(receiveCard, payCard){
+    if(!receiveCard && !payCard) {
+      return false;
+    }
+
+    var customerId = Meteor.user().profile.stripeAccount.id;
+
+    var response = Async.runSync(function(done) {
+      Stripe.accounts.updateExternalAccount(customerId, payCard.id,
+        { default_for_currency: true },
+        function(err, card) {
+          if(err) {
+            done(err, false);
+          }
+
+          console.log('()()()()()()()()() saveDefaultCards ()()()()()()()()()');
+          console.log(err, card);
+          done(false, true);
+          // asynchronously called
+        }
+      );
+
+    });
+
+    return response.result;
+
+    // try {
+    //   if(payCard) {
+    //
+    //     Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.defaultPay": payCard }})
+    //     //Stripe.customers.update(customerId, { default_source: payCard.id })
+    //     //Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.customer.default_source": payCard.id }})
+    //   }
+    //
+    //   if(receiveCard) {
+    //     Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.defaultReceive": receiveCard }})
+    //   }
+    //
+    //   //console.log(payCard,receiveCard);
+    //
+    //   return true;
+    // } catch(e) {
+    //   console.log(e);
+    //   throw new Meteor.Error('Error while adding card to account');
+    // }
+  },
+
   'removeCard': function(cardId){
     console.log('>>>>> remove card '+cardId);
 
@@ -813,34 +860,6 @@ Meteor.methods({
   //
   //   console.log(Stripe.customers.retrieve(customerId));
   // },
-
-  'saveDefaultCards': function(receiveCard, payCard){
-    if(!receiveCard && !payCard) {
-      return false;
-    }
-
-    var customerId = Meteor.user().profile.stripeAccount.id;
-
-    try {
-      if(payCard) {
-
-        Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.defaultPay": payCard }})
-        //Stripe.customers.update(customerId, { default_source: payCard.id })
-        //Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.customer.default_source": payCard.id }})
-      }
-
-      if(receiveCard) {
-        Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.defaultReceive": receiveCard }})
-      }
-
-      //console.log(payCard,receiveCard);
-
-      return true;
-    } catch(e) {
-      console.log(e);
-      throw new Meteor.Error('Error while adding card to account');
-    }
-  },
 
   // 'setCard': function(cardId){
   //   if(!cardId) {

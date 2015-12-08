@@ -137,6 +137,7 @@ Cards = {
 
 	//setting default cards
 	setDefaultCards: function(receiveCard, payCard){
+		console.log('setDefaultCards', receiveCard, payCard);
 		if(!receiveCard && !payCard) {
 			return false;
 		}
@@ -200,7 +201,7 @@ Template.savedCards.events({
 			console.log('>>>>>> return checkaccount <<<<<');
 			if(result){
 				Stripe.card.createToken({
-			    number: '5200828282828210',
+			    number: '4242424242424242',
 			    cvc: '666',
 			    exp_month: '12',
 			    exp_year: '2021',
