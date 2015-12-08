@@ -22,7 +22,6 @@ Template.emailverification.onRendered(function() {
 					});
 				}
 			} else {
-				console.log('Thank you! Your email address has been confirmed.')
 				IonPopup.show({
 					title: 'Success!',
 					template: '<div class="center">Your email address is successfully verified</div>',
@@ -33,7 +32,7 @@ Template.emailverification.onRendered(function() {
 						onTap: function() {
 							IonPopup.close();
 							// <a href="mycoolapp://">Open my app</a>
-							window.location = "/login"
+							window.location = "/"
 						}
 					}]
 				});

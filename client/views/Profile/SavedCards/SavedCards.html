@@ -23,6 +23,10 @@
           <button id="test-card" class="button button-small push-up button-clear"><h6 class="positive">Test Cards</h6></button>
         </div>
 
+        {{#with listCards}}
+          {{id}}
+        {{/with}}
+
         {{#each cards}}
           <div class="item item-card" data-id="{{id}}" data-funding="{{funding}}">
               <table>

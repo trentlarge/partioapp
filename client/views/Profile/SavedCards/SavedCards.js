@@ -182,18 +182,41 @@ Cards = {
 
 Template.savedCards.events({
 	'click #add-card': function(e) {
-		PartioLoad.show();
-		stripeHandler.open({
-			name: 'partiO',
-			description: 'Add Card',
-			zipCode: false,
-			panelLabel: 'Save Card',
-			email: Meteor.user().profile.email,
-			allowRememberMe: false,
-			opened: function() { PartioLoad.hide() },
-			closed: function() { PartioLoad.hide() }
+		// PartioLoad.show();
+		// stripeHandler.open({
+		// 	name: 'partiO',
+		// 	description: 'Add Card',
+		// 	zipCode: false,
+		// 	currency: 'USD',
+		// 	panelLabel: 'Save Card',
+		// 	email: Meteor.user().profile.email,
+		// 	allowRememberMe: false,
+		// 	opened: function() { PartioLoad.hide() },
+		// 	closed: function() { PartioLoad.hide() }
+		// });
+		PartioLoad.show('adding a default debit card just to test. We need to new card form. Soon more news...')
+
+		Meteor.call('checkAccount', function(error, result) {
+			console.log('>>>>>> return checkaccount <<<<<');
+			if(result){
+				Stripe.card.createToken({
+			    number: '5200828282828210',
+			    cvc: '666',
+			    exp_month: '12',
+			    exp_year: '2021',
+					currency: 'usd',
+				}, function(status, response) {
+					if(response.id) {
+			    	Meteor.call('addCard', response.id, function(error, result){
+							console.log(error, result);
+							PartioLoad.hide();
+						});
+					}
+				});
+			}
 		});
-		e.preventDefault();
+
+		//e.preventDefault();
 	},
 
 	'click #test-card': function() {
@@ -300,24 +323,37 @@ Template.savedCards.onRendered(function() {
 	Cards.refresh();
 
 	stripeHandler = StripeCheckout.configure({
+
 		key: Meteor.settings.public.STRIPE_PUBKEY,
+		currency: 'usd',
 
 		token: function(token) {
-			console.log('------------------------------')
-			console.log(token)
+			console.log('new card token >', token);
 			PartioLoad.show();
 
-			Meteor.call('addCard', token, function(error, result) {
-				PartioLoad.hide();
+			Meteor.call('checkAccount', function(error, result) {
+				console.log(' return checkaccount');
+				console.log(result);
+				console.log(error)
 
 				if(error) {
-					console.log('some error', error)
+					console.log('some error on checkAccount', error)
 					return false;
 
 				} else {
-					Cards.refresh();
+					Meteor.call('addCard', token, function(error, result) {
+						PartioLoad.hide();
+
+						if(error) {
+							console.log('some error on addCard', error)
+							return false;
+
+						} else {
+							Cards.refresh();
+						}
+					})
 				}
-			})
+			});
 		}
 	});
 })

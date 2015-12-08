@@ -13,8 +13,11 @@ autoupdate@1.2.4
 babel-compiler@5.8.24_1
 babel-runtime@0.1.4
 base64@1.0.4
+<<<<<<< HEAD
 benjick:stripe-native@1.1.1
 bigdsk:inputmask@3.1.63
+=======
+>>>>>>> origin/tasks_clayton
 binary-heap@1.0.4
 blaze@2.1.3
 blaze-html-templates@1.0.1
@@ -43,7 +46,7 @@ email@1.0.8
 es5-shim@4.1.14
 facebook@1.2.2
 fastclick@1.0.7
-fortawesome:fontawesome@4.4.0_1
+fortawesome:fontawesome@4.5.0
 fourseven:scss@3.4.0-beta1
 geojson-utils@1.0.4
 hashwin:ionic-sass@0.3.3
@@ -61,7 +64,7 @@ iron:location@1.0.11
 iron:middleware-stack@1.0.11
 iron:router@1.0.12
 iron:url@1.0.11
-jaymc:google-reverse-geocode@0.0.3
+jaymc:google-reverse-geocode@0.0.4
 jeremy:geocomplete@1.6.5_9
 jonmc12:ionic-material@0.4.2_1
 jonmc12:waves@0.6.6
@@ -96,12 +99,17 @@ mobile-experience@1.0.1
 mobile-status-bar@1.0.6
 mongo@1.1.3
 mongo-id@1.0.1
+mrgalaxy:stripe@2.2.1
 mrt:accounts-facebook-cordova@0.0.2
 mrt:moment@2.8.1
 mrt:twilio@1.1.0
 mrt:twilio-meteor@1.1.0
+<<<<<<< HEAD
 msavin:mongol@1.6.1
 multiply:iron-router-progress@1.0.2
+=======
+msavin:mongol@1.6.2
+>>>>>>> origin/tasks_clayton
 npm-bcrypt@0.7.8_2
 npm-container@1.2.0
 npm-mongo@1.4.39_1
