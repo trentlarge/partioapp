@@ -2,14 +2,16 @@ Template.addnewCard.rendered = function() {
 }
 
 Template.addnewCard.events({
-'click #submit': function(e) {
+'click #submit': function(e, template) {
+	e.preventDefault();
+
 var nameOut = template.find('[name=name]').value;
 var numberOut = template.find('[name=number]').value;
 var exp1 = template.find('[name=expiry]').value.substring(0,2);
-var exp2 = template.find('[name=expiry]').value.substring(2,5);
+var exp2 = template.find('[name=expiry]').value.substring(4);
 var cvcOut = template.find('[name=cvc]').value;
-
-	PartioLoad.show('adding a default debit card just to test. We need to new card form. Soon more news...')
+console.log(nameOut + " " + numberOut + " " + exp1 + " " + exp2+ " "+ cvcOut);
+PartioLoad.show('adding a default debit card just to test. We need to new card form. Soon more news...')
 
 	Meteor.call('checkAccount', function(error, result) {
 		console.log('>>>>>> return checkaccount <<<<<');
@@ -219,8 +221,9 @@ Cards = {
 }
 
 Template.savedCards.events({
-
-
+	'click #submit' : function(){
+		console.log("here");
+	},
 	'click #test-card': function() {
 		IonPopup.show({
 			title: 'Test cards',
