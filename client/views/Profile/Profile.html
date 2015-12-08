@@ -44,7 +44,7 @@
           </div>
       </div>
 
-      <div class="card padding-horizontal padding-vertical">
+      <div class="panecard padding-horizontal padding-vertical">
         <form id="profileEdit">
             <label class="item item-input">
                 <i class="icon ion-ios-telephone"></i>
@@ -80,7 +80,7 @@
       </div>
 
       {{#if currentUser.emails.[0].verified}}
-        <div class="card padding-horizontal padding-vertical">
+        <div class="panecard padding-horizontal padding-vertical">
 <!--        <div class="item item-divider top"></div>-->
             <a class="item item-icon-right" href="{{pathFor 'changePassword'}}" >
                 <p>Change Password</p>
@@ -92,8 +92,8 @@
             </a>
         </div>
     {{/if}}
-    
-    <div class="card padding-horizontal padding-vertical">
+
+    <div class="panecard padding-horizontal padding-vertical">
         {{#if currentUser.emails.[0].verified}}
             <a class="item item-icon-right" id="logout"  >
                 <p>Logout</p>

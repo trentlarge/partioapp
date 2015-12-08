@@ -1,3 +1,41 @@
+Template.addnewCard.rendered = function() {
+}
+
+Template.addnewCard.events({
+'click #submit': function(e) {
+var nameOut = template.find('[name=name]').value;
+var numberOut = template.find('[name=number]').value;
+var exp1 = template.find('[name=expiry]').value.substring(0,2);
+var exp2 = template.find('[name=expiry]').value.substring(2,5);
+var cvcOut = template.find('[name=cvc]').value;
+
+	PartioLoad.show('adding a default debit card just to test. We need to new card form. Soon more news...')
+
+	Meteor.call('checkAccount', function(error, result) {
+		console.log('>>>>>> return checkaccount <<<<<');
+		if(result){
+			Stripe.card.createToken({
+				number: numberOut,
+				cvc: cvcOut,
+				exp_month: exp1,
+				exp_year: exp2,
+				currency: 'usd',
+				name: nameOut,
+			}, function(status, response) {
+				if(response.id) {
+					Meteor.call('addCard', response.id, function(error, result){
+						console.log(error, result);
+						PartioLoad.hide();
+					});
+				}
+			});
+		}
+	});
+
+
+}
+});
+
 Template.savedCards.getCreditCards = function(){
 	var result = []
 
@@ -181,43 +219,7 @@ Cards = {
 }
 
 Template.savedCards.events({
-	'click #add-card': function(e) {
-		// PartioLoad.show();
-		// stripeHandler.open({
-		// 	name: 'partiO',
-		// 	description: 'Add Card',
-		// 	zipCode: false,
-		// 	currency: 'USD',
-		// 	panelLabel: 'Save Card',
-		// 	email: Meteor.user().profile.email,
-		// 	allowRememberMe: false,
-		// 	opened: function() { PartioLoad.hide() },
-		// 	closed: function() { PartioLoad.hide() }
-		// });
-		PartioLoad.show('adding a default debit card just to test. We need to new card form. Soon more news...')
 
-		Meteor.call('checkAccount', function(error, result) {
-			console.log('>>>>>> return checkaccount <<<<<');
-			if(result){
-				Stripe.card.createToken({
-			    number: '5200828282828210',
-			    cvc: '666',
-			    exp_month: '12',
-			    exp_year: '2021',
-					currency: 'usd',
-				}, function(status, response) {
-					if(response.id) {
-			    	Meteor.call('addCard', response.id, function(error, result){
-							console.log(error, result);
-							PartioLoad.hide();
-						});
-					}
-				});
-			}
-		});
-
-		//e.preventDefault();
-	},
 
 	'click #test-card': function() {
 		IonPopup.show({
