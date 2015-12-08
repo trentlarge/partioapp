@@ -45,12 +45,16 @@
       </div>
 
       <div class="card padding-horizontal padding-vertical">
-        <form id="profileEdit">
+
             <label class="item item-input">
                 <i class="icon ion-ios-telephone"></i>
                 <input id="profilemobile" type="text" value="{{currentUser.profile.mobile}}">
             </label>
-        </form>
+            <label class="item item-input">
+                <i class="icon ion-ios-calendar"></i>
+                <input id="birthDate" type="text" value="{{currentUser.profile.birthDate}}">
+            </label>
+
        {{#if emailSet}}
 
         <label class="item item-input">
@@ -92,7 +96,7 @@
             </a>
         </div>
     {{/if}}
-    
+
     <div class="card padding-horizontal padding-vertical">
         {{#if currentUser.emails.[0].verified}}
             <a class="item item-icon-right" id="logout"  >
@@ -102,7 +106,7 @@
         {{else}}
             {{#if emailSet}}
                 <div class="item item-icon-left">
-                    <span class="activation-title assertive center">Welcome aboard partiO!</span> 
+                    <span class="activation-title assertive center">Welcome aboard partiO!</span>
                     <span class="activation-message center">Please verify your email address to proceed.</span>
                     {{> ionIcon icon="alert-circled" class="assertive"}}
                 </div>
@@ -114,11 +118,30 @@
             {{/if}}
         {{/if}}
     </div>
+    {{> modal}}
 <!-- </div> -->
     {{/ionContent}}
   {{/ionView}}
 </template>
 
+
+<template name="modal">
+  {{#contentFor "headerButtonLeft"}}
+    {{>ionNavBackButton path="index"}}
+  {{/contentFor}}
+  {{#contentFor "headerTitle"}}
+    <h1 class="title">Modal</h1>
+  {{/contentFor}}
+
+  {{#ionView}}
+    {{#ionContent}}
+      <div class="padding">
+        <button class="button button-large button-stable" data-ion-modal="_myModal">Open Modal</button>
+      </div>
+    {{/ionContent}}
+  {{/ionView}}
+
+</template>
 <template name="settingsProfileImage">
   <div class="profile-image-container">
     {{#if noProfileYet}}

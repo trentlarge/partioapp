@@ -1,5 +1,5 @@
 Template.appLayout.events({
-    
+
     'click #cancelProfile': function() {
         Router.go('/');
     },
@@ -23,7 +23,9 @@ Template.appLayout.events({
 })
 
 Template.profile.rendered = function() {
-    $('#profilemobile').inputmask({"mask": "+9 (999) 999-9999"});   
+    $('#profilemobile').inputmask({"mask": "+9 (999) 999-9999"});
+    $('#birthDate').inputmask({"mask": "99/99/9999"});
+    $('#birthDate').datepicker();
 }
 
 Session.setDefault('profileEdit', false);
