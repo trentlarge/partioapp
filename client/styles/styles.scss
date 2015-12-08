@@ -67,11 +67,7 @@
 
 #iron-router-progress {
     background-color : transparent;
-    box-shadow       : 0 0 5px transparent;
-}
-
-#iron-router-progress ~ .view {
-    opacity: 0;
+    box-shadow : 0 0 5px transparent;
 }
 
 .title.header-title {
@@ -87,6 +83,22 @@
     text-overflow: ellipsis;
     margin: 0;
 }
+
+// -- ITEM ANIMATION --
+
+.item.activated {
+    background-color: #f5f5f5;
+    opacity: .7;
+}
+
+.transparent-list {
+    .item.activated {
+        background-color: rgba(39, 39, 39, 0.7);
+        opacity: .7;
+    }   
+}
+
+// -- END: ITEM ANIMATION --
 
 .modal-backdrop {
     -webkit-animation: bounce 400ms linear;

@@ -5,9 +5,6 @@
 .listing-search {
     .product-header-title{
         background: #F5F5F5;
-//        -webkit-box-shadow: inset 0px -14px 0px 0px #EAEAEA;
-//        -moz-box-shadow: inset 0px -14px 0px 0px #EAEAEA;
-//        box-shadow: inset 0px -14px 0px 0px #EAEAEA;
         h2{
             text-align: center;
             width: 100%;
@@ -16,6 +13,11 @@
     }
     .item {
         display: flex;
+        
+        &.activated {
+            background-color: #ffffff;
+            opacity: 1;
+        }
     }
 
     .profile-image-box {
@@ -27,6 +29,16 @@
         width: 120px;
         min-width: 120px;
         max-width: 120px;
+        
+        a {
+            color: #df5707;
+            text-decoration: none;
+            font-size: 14px;
+            
+            &:hover {
+                color: rgba(223, 87, 7, 0.7);
+            }
+        }
 
         .rating-box {
             display: block;
@@ -34,94 +46,129 @@
 
         .profile-avatar {
             margin: 0;
-//            height: 80px;
-//            border-radius: 100%;
-}
-
-p {
-    white-space: normal;
-    text-transform: uppercase;
-    font-size: 11px !important;
-    color: #525252 !important;
-}
-}
-
-.profile-content {
-    padding-left: 15px;
-    overflow: hidden;
-    width:100%;
-
-    .button {
-        max-width: 300px;
-        margin-bottom: 0;
-        height: 30px;
-        min-height: 30px;
-        font-weight: 1px;
-        line-height: 0;
-        font-size: 12px;
-
-        font-size: 11px;
-        color: #272727;
-        background: #f5f5f5;
-//        -webkit-box-shadow: inset 0px -14px 0px 0px rgb(245, 245, 245);
-//        -moz-box-shadow: inset 0px -14px 0px 0px rgb(245, 245, 245);
-//        box-shadow: inset 0px -14px 0px 0px rgb(245, 245, 245);
-        opacity: .8;
-
-        i{
-            position: absolute;
-            top: 6px;
-            right: 10px;
-            font-size: 14px;
-            color: #5d5d5d;
         }
-        &:active{
-            border-color: #928F8F;
-            background: #ECECEC;
+
+        p {
+            white-space: normal;
+            font-size: 13px !important;
+        }
+        
+    }
+
+    .profile-content {
+        padding-left: 15px;
+        overflow: hidden;
+        width:100%;
+
+        .button {
+            max-width: 230px;
+            margin-bottom: 0;
+            height: 30px;
+            min-height: 30px;
+            font-weight: 1px;
+            line-height: 0;
+            font-size: 12px;
+
             i{
-                color: #928F8F;
+                position: absolute;
+                top: 6px;
+                right: 10px;
+                font-size: 14px;
+            }
+            &:active{
+                border-color: #928F8F;
+                background: #ECECEC;
+                i{
+                    color: #928F8F;
+
+                }
+            }
+
+        }
+
+        .profile-product-container {  
+            display: flex;
+            display: -webkit-flex;
+            -webkit-align-items: center;
+            -webkit-align-items: center;
+            -webkit-justify-content: flex-start;
+            -webkit-justify-content: flex-start;
+
+            .profile-product-image-box {
+                display: inline-flex;  
+                display: -webkit-inline-flex;
+                flex-direction: column;
+                -webkit-flex-direction: column;
+                align-items: center;
+                -webkit-align-items: center;
+                justify-content: center;
+                -webkit-justify-content: center;
+                padding-right: 15px;
+
+                .product-image {
+
+                    img {
+                        max-height: 130px;
+                        max-width: 110px;
+                    }
+                }
+            }
+
+            .profile-product-price-box {
+                display: inline-flex;
+                display: -webkit-inline-flex;
+                flex-direction: column;
+                -webkit-flex-direction: column;
+                width: 120px;
+            }
+
+        }
+
+        table.rent-table {
+            width: 100%;
+            max-width: 300px;
+            
+            &.condition {
+                margin-top: 7px;
+            }
+
+            th, td {
+                padding: 1px;
+                border: 1px solid #ffffff;
+
+                &.one { background-color: #FF9800 }
+                &.two { background-color: #FB8C00 }
+                &.three { background-color: #F57C00 }
+                &.four { background-color: #EF6C00 }
+                &.five { background-color: #E65100 }
+            }
+
+            td {
+                padding-left: 3px;
+            }
+
+            th {
+                text-align: center;
+                width: 25px;
+                color: #ffffff;
+                font-size: 12px;
+                -webkit-box-shadow: inset 0px -10px 0px 0px rgba(255,255,255,0.1);
+                -moz-box-shadow: inset 0px -10px 0px 0px rgba(255,255,255,0.1);
+                box-shadow: inset 0px -10px 0px 0px rgba(255,255,255,0.1);
+                opacity: .8;
+
+                &:first-child {
+                    border-top-left-radius: 5px;
+                }
+
+                &:last-child {
+                    border-top-right-radius: 5px;
+                }
 
             }
+
         }
-
     }
-    
-    table.rent-table {
-    width: 100%;
-    max-width: 300px;
-
-    th, td {
-        text-align: center;
-        width: 25%;
-        padding: 1px;
-        border: 1px solid #ffffff;
-    }
-
-    th {
-        color: #ffffff;
-        font-size: 12px;
-        -webkit-box-shadow: inset 0px -10px 0px 0px rgba(255,255,255,0.1);
-        -moz-box-shadow: inset 0px -10px 0px 0px rgba(255,255,255,0.1);
-        box-shadow: inset 0px -10px 0px 0px rgba(255,255,255,0.1);
-        opacity: .8;
-
-        &.one { background-color: #FF9800 }
-        &.two { background-color: #FB8C00 }
-        &.three { background-color: #F57C00 }
-        &.four { background-color: #EF6C00 }
-
-        &:first-child {
-            border-top-left-radius: 5px;
-        }
-
-        &:last-child {
-            border-top-right-radius: 5px;
-        }
-
-    }
-
-}
-}
 
 }
 
