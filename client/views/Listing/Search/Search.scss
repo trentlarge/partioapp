@@ -16,63 +16,38 @@
     }
     .item {
         display: flex;
-        flex-direction: column;
     }
-    .btns{
-        display: flex;
-        flex-direction: row;
-        margin-top: 10px;
-        justify-content: space-between;
-        .button-md{
-            &#moreInfo{
-                margin-right: 5px
-            }
-            &#requestProduct{
-                margin-left: 5px
-            }
-        }
-    }
+
     .profile-image-box {
         vertical-align: top;
-        display: flex;
-        flex-direction: row;
+        display: inline-block;
         text-align: center;
-        width: 100%;
-        margin-bottom: 10px;
+        padding-right: 15px;
+        border-right: 1px solid #DDD;
+        width: 120px;
+        min-width: 120px;
+        max-width: 120px;
 
         .rating-box {
             display: block;
         }
 
         .profile-avatar {
-            width: 60px;
-            height: 60px;
-            margin: 0 auto;
-
+            margin: 0;
 //            height: 80px;
 //            border-radius: 100%;
-        }
+}
 
-        p {
-            white-space: normal;
-            text-transform: uppercase;
-            font-size: 11px !important;
-            color: #525252 !important;
-        }
-        .half{
-            flex-grow:1;
-            align-self: center;
-            &.product-image{
-                    border-right: 1px solid #eaeaea;
-                    flex-grow:3;
-                    img{
-                        max-width: 120px;
-                    }
-            }
-        }
+p {
+    white-space: normal;
+    text-transform: uppercase;
+    font-size: 11px !important;
+    color: #525252 !important;
+}
 }
 
 .profile-content {
+    padding-left: 15px;
     overflow: hidden;
     width:100%;
 
@@ -110,10 +85,10 @@
         }
 
     }
-
+    
     table.rent-table {
     width: 100%;
-
+    max-width: 300px;
 
     th, td {
         text-align: center;
