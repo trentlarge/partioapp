@@ -4,7 +4,10 @@ Template.barcode.rendered = function(){
     Session.set('scanResult', null);
     Session.set('allResults', null);
 
-    $('.search-share-header-input').val('');
+    $('.darken-element').css({'opacity': '1'});
+    $('.view').css({'background': '#eceff1'});
+    
+//    $('.search-share-header-input').val('');
     $('.search-share-header-input').focus();
 };
 

@@ -19,7 +19,7 @@
 -->
 
             {{#ionContent class="results-details-content"}}
-                <div class="results-details padding-horizontal padding-vertical">
+                <div class="card results-details padding-horizontal padding-vertical">
                     <div class="item no-padding">
                         <div class="center">
                             <img class="scanResult-thumbnail" src="{{image}}">
@@ -46,7 +46,7 @@
                             </div>
                         </div>
 
-                        <div class="row item">
+                        <div class="row item attributes">
                             <div class="col col-33">
                                 {{#each attributes}}
                                     <p>{{key}}</p>
@@ -96,13 +96,15 @@
                         <input type="number" class="userPrice semesterPrice" placeholder="0.00" value="{{calculatedPrice4Months}}">
                     </label>
                     
-                    <button class="submitProduct button button-block button-energized" {{waitingForPrices}}>
-                        {{#if validatePrices}}
-                            Share this item!
-                        {{else}}
-                            Enter your price above
-                        {{/if}}
-                    </button>
+                    <label class="item item-button">
+                        <button class="submitProduct button button-block button-energized" {{waitingForPrices}}>
+                            {{#if validatePrices}}
+                                Share this item!
+                            {{else}}
+                                Enter your price above
+                            {{/if}}
+                        </button>
+                    </label>
                 </div>
             {{/ionContent}}
 

@@ -5,13 +5,6 @@
     .range-end,.datepicker,.table-condensed,div.range{
         width: 100%;
     }
-    button#sendRequest{
-        background-color: #f0970d;
-        -webkit-box-shadow: inset 0px -24px 0px 0px rgba(255, 255, 255, 0.1);
-        -moz-box-shadow: inset 0px -24px 0px 0px rgba(255, 255, 255, 0.1);
-        box-shadow: inset 0px -24px 0px 0px rgba(255, 255, 255, 0.1);
-        opacity: .8;
-    }
 }
 
 .datepicker{
@@ -42,10 +35,10 @@
             text-decoration: underline;
         }
         &.selected.active, &.selected, &.range{
-         color: #000000;
-        background-color: #ffdb99;
-        border-color: #ffb733;
-        border-radius: 0px;
+            color: #000000;
+            background-color: #ffdb99;
+            border-color: #ffb733;
+            border-radius: 0px;
         }
 
 
@@ -66,10 +59,6 @@
 }
 
 .request-tab{
-            background: #F5F5F5;
-        -webkit-box-shadow: inset 0px -14px 0px 0px #EAEAEA;
-        -moz-box-shadow: inset 0px -14px 0px 0px #EAEAEA;
-        box-shadow: inset 0px -14px 0px 0px #EAEAEA;
     h3{
         text-align: center;
         i{

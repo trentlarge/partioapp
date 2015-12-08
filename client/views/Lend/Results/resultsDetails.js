@@ -194,10 +194,10 @@ Template.resultsDetails.events({
                 'searchId': null,
                 "conditionId": $('.fieldConditionLend').val(),
                 "rentPrice": {
-                    "day": Session.get('dayPrice'),
-                    "week": Session.get('weekPrice'),
-                    "month": Session.get('monthPrice'),
-                    "semester": Session.get('semesterPrice')
+                    "day": Number(Session.get('dayPrice')).toFixed(2),
+                    "week": Number(Session.get('weekPrice')).toFixed(2),
+                    "month": Number(Session.get('monthPrice')).toFixed(2),
+                    "semester": Number(Session.get('semesterPrice')).toFixed(2)
                 }
             });
 
