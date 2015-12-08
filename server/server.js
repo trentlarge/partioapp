@@ -660,6 +660,8 @@ Meteor.methods({
         { default_for_currency: true },
         function(err, card) {
           if(err) {
+
+
             done(err, false);
           }
 

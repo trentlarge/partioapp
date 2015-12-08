@@ -16,7 +16,7 @@
     {{#ionContent class="savedCard"}}
 
       <br>
-      <div class="card padding list">
+      <div class="panecard padding list">
 
         <div class="item item-divider item-button-right">
           <h3>Cards</h3>
@@ -44,13 +44,13 @@
           </div>
         {{/each}}
 
-        <div class="item item-icon-left" id="add-card">
+        <div class="item item-icon-left" data-ion-modal="addnewCard">
           <i class="icon ion-ios-plus-outline energized custom-icon"></i>
           <p class="graytext">New card</p>
         </div>
       </div>
 
-      <div class="card padding list">
+      <div class="panecard padding list">
         <div class="item item-icon-left hidden alerts no-cards">
           <i class="icon assertive ion-alert-circled"></i>
           <p class="assertive">Add a card to be able to share or borrow an item.</p>
@@ -78,4 +78,49 @@
 
     {{/ionContent}}
   {{/ionView}}
+</template>
+
+<template name="addnewCard">
+  {{#ionModal title="Add New Card"}}
+    <div>
+      <div class="card-wrapper" style="margin-top:20px; margin-bottom:40px"></div>
+      <div class="form-container active" style="margin-bottom:35px">
+        <form class="newCardForm">
+          <label class="item item-input">
+            <i class="icon ion-compose energized placeholder-icon"></i>
+            &nbsp;<input type="text" name="number" class="border-radius-20" placeholder="**** **** **** ****">
+          </label>
+          <label class="item item-input">
+            <i class="icon ion-card energized placeholder-icon"></i>
+            &nbsp;<input type="text" name="name" class="border-radius-20" placeholder="Full Name">
+          </label>
+
+          <label class="item item-input">
+            <i class="icon ion-calendar energized placeholder-icon"></i>
+            &nbsp;<input type="text" name="expiry" class="border-radius-20" placeholder="MM/YY">
+          </label>
+
+          <label class="item item-input">
+            <i class="icon ion-ios-locked energized placeholder-icon"></i>
+            &nbsp;<input type="text" name="cvc" class="border-radius-20" placeholder="***">
+          </label>
+
+          <button style="width:100%;" class="button button-assertive">
+            Submit
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- <script src="/card.js"></script> -->
+
+    <script>
+      new Card({
+        form: document.querySelector('form'),
+        container: '.card-wrapper'
+      });
+    </script>
+
+
+  {{/ionModal}}
 </template>

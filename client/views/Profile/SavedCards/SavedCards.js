@@ -1,3 +1,75 @@
+// Template.addnewCard.rendered = function() {
+// }
+
+Template.addnewCard.events({
+	'submit .newCardForm': function(e) {
+		e.preventDefault();
+		console.log('> Form submit add new card');
+
+		var nameOut = e.target.name.value;
+		var numberOut = e.target.number.value;
+		var exp = e.target.expiry.value;
+				exp = exp.trim();
+				exp = exp.split('/');
+		var exp1 = parseInt(exp[0]);
+		var exp2 = parseInt(exp[1]);
+		var cvcOut = e.target.cvc.value;
+
+		console.log(nameOut, numberOut, exp1, exp2, cvcOut);
+
+		if(!nameOut || !numberOut || !exp1 || !exp2 || !cvcOut){
+			alert('Please fill all fields');
+			return false;
+		}
+
+		PartioLoad.show('Adding a new card');
+
+		Meteor.call('checkAccount', function(error, result) {
+			console.log('>>>>>> return checkaccount <<<<<');
+
+			if(error) {
+				PartioLoad.hide();
+				console.log(error);
+				return false;
+			}
+
+			if(result){
+				Stripe.card.createToken({
+					number: numberOut,
+					cvc: cvcOut,
+					exp_month: exp1,
+					exp_year: exp2,
+					currency: 'usd',
+					name: nameOut,
+				}, function(status, response) {
+
+					if(response.error) {
+						PartioLoad.hide();
+						alert(response.error.message);
+						return false;
+					}
+
+					console.log(status, 'xxxxxxxxxxxxxxxxxxxxxxxxx', response);
+
+					if(response.id) {
+
+						Meteor.call('addCard', response.id, function(error, result){
+							console.log(error, result);
+							//closemodal
+							$('.modal .bar button').trigger('click');
+							PartioLoad.hide();
+						});
+					} else {
+						PartioLoad.hide();
+						console.log('some error');
+						console.log(response);
+					}
+				});
+			}
+		});
+	}
+});
+
 Template.savedCards.getCreditCards = function(){
 	var result = []
 
@@ -182,43 +254,40 @@ Cards = {
 }
 
 Template.savedCards.events({
-	'click #add-card': function(e) {
-		// PartioLoad.show();
-		// stripeHandler.open({
-		// 	name: 'partiO',
-		// 	description: 'Add Card',
-		// 	zipCode: false,
-		// 	currency: 'USD',
-		// 	panelLabel: 'Save Card',
-		// 	email: Meteor.user().profile.email,
-		// 	allowRememberMe: false,
-		// 	opened: function() { PartioLoad.hide() },
-		// 	closed: function() { PartioLoad.hide() }
-		// });
-		PartioLoad.show('adding a default debit card just to test. We need to new card form. Soon more news...')
-
-		Meteor.call('checkAccount', function(error, result) {
-			console.log('>>>>>> return checkaccount <<<<<');
-			if(result){
-				Stripe.card.createToken({
-			    number: '4242424242424242',
-			    cvc: '666',
-			    exp_month: '12',
-			    exp_year: '2021',
-					currency: 'usd',
-				}, function(status, response) {
-					if(response.id) {
-			    	Meteor.call('addCard', response.id, function(error, result){
-							console.log(error, result);
-							PartioLoad.hide();
-						});
-					}
-				});
-			}
-		});
-
-		//e.preventDefault();
-	},
+	// 'click #add-card': function(e) {
+	// 	// PartioLoad.show();
+	// 	// stripeHandler.open({
+	// 	// 	name: 'partiO',
+	// 	// 	description: 'Add Card',
+	// 	// 	zipCode: false,
+	// 	// 	currency: 'USD',
+	// 	// 	panelLabel: 'Save Card',
+	// 	// 	email: Meteor.user().profile.email,
+	// 	// 	allowRememberMe: false,
+	// 	// 	opened: function() { PartioLoad.hide() },
+	// 	// 	closed: function() { PartioLoad.hide() }
+	// 	// });
+	// 	PartioLoad.show('adding a default debit card just to test. We need to new card form. Soon more news...')
+	//
+	// 	Meteor.call('checkAccount', function(error, result) {
+	// 		console.log('>>>>>> return checkaccount <<<<<');
+	// 		if(result){
+	// 			Stripe.card.createToken({
+	// 		    number: '4242424242424242',
+	// 		    cvc: '666',
+	// 		    exp_month: '12',
+	// 		    exp_year: '2021',
+	// 				currency: 'usd',
+	// 			}, function(status, response) {
+	// 				if(response.id) {
+	// 		    	Meteor.call('addCard', response.id, function(error, result){
+	// 						console.log(error, result);
+	// 						PartioLoad.hide();
+	// 					});
+	// 				}
+	// 			});
+	// 		}
+	// 	});
 
 	'click #test-card': function() {
 		IonPopup.show({
