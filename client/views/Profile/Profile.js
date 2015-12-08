@@ -1,3 +1,37 @@
+Template.appLayout.events({
+    
+    'click #cancelProfile': function() {
+        Router.go('/');
+    },
+
+  'click #saveProfile': function() {
+    PartioLoad.show();
+
+    var updatedProfile = {
+      college: $('#profileuniversity').val(),
+      mobile: $('#profilemobile').val()
+    };
+
+    Meteor.call("updateUserProfile", updatedProfile, function(err, res) {
+      PartioLoad.hide();
+      if(err) {
+        var errorMessage = err.reason || err.message;
+        if(err.details) {
+          errorMessage = errorMessage + "\nDetails:\n" + err.details;
+        }
+        sAlert.error(errorMessage);
+        return;
+      }
+
+      Session.set('profileEdit', false);        
+    });
+  }
+});
+
+Template.profile.rendered = function() {
+    $('#profilemobile').inputmask({"mask": "+9 (999) 999-9999"});   
+}
+
 Session.setDefault('profileEdit', false);
 
 Template.profile.helpers({
@@ -52,7 +86,7 @@ Template.profile.events({
     }
   },
   'click #logout': function() {
-    logout();
+      logout();
   }
 });
 

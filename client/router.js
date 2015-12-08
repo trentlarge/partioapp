@@ -1,7 +1,9 @@
 Router.configure({
 	layoutTemplate: 'appLayout',
 	routeControllerNameConverter: "upperCamelCase",
-	loadingTemplate: 'loadingData',
+//	loadingTemplate: 'loadingData',
+    progressSpinner : false,
+    progressTick : false,
 });
 
 
@@ -32,21 +34,21 @@ Router.waitOn(function () {
 // this is why we have controller name manually set: { ... , controller: "EmailVerificationController" }
 // (which is little bit more readable)
 //
-Router.route('/', { name: 'main', controller: 'MainController' });
-Router.route('/verify-email/:token', {name: 'emailverification', controller: 'EmailVerificationController' });
-Router.route('/reset-password/:token', {name: 'resetpassword', controller: 'ResetPasswordController' });
-Router.route('/login', { name: 'login', controller: 'LoginController' });
-Router.route('/register', {name: 'register', controller: 'RegisterController' });
+Router.route('/', { name: 'main', controller: 'MainController', progress: false });
+Router.route('/verify-email/:token', {name: 'emailverification', controller: 'EmailVerificationController', progress: false });
+Router.route('/reset-password/:token', {name: 'resetpassword', controller: 'ResetPasswordController', progress: false });
+Router.route('/login', { name: 'login', controller: 'LoginController', progress: false });
+Router.route('/register', {name: 'register', controller: 'RegisterController', progress: false });
 Router.route('/lend', { name: 'lend', controller: 'LendController' });
 Router.route('/lend/details', { name: 'resultsDetails', controller: 'resultsDetailsController' });
-Router.route('/inventory', { name: 'inventory', controller: 'InventoryController' });
+Router.route('/inventory', { name: 'inventory', controller: 'InventoryController', fastRender: true });
 Router.route('/inventory/:_id', { name: 'inventoryDetail', controller: 'InventoryDetailController' });
 Router.route('/inventory/connect/:_id', { name: 'connect', controller: 'ConnectController' });
-Router.route('/renting', {name: 'renting', controller: 'RentingController' });
+Router.route('/renting', {name: 'renting', controller: 'RentingController', fastRender: true });
 Router.route('/renting/connect/:_id', { name: 'connectRent', controller: 'ConnectRentController' });
 Router.route('/talk/:_id', { name: 'talk', controller: 'TalkController' });
 Router.route('/categories', { name: 'categories', controller: 'CategoriesController' });
-Router.route('/listing', { name: 'listing', controller: 'ListingController' });
+Router.route('/listing', { name: 'listing', controller: 'ListingController', fastRender: true });
 Router.route('/listing/search/:_id', { name: 'search', controller: 'SearchController' });
 Router.route('/listing/search/request/:_id', { name: 'requestRent', controller: 'RequestRentController' });
 Router.route('/transactions', { name: 'transactions', controller: 'TransactionsController' });
