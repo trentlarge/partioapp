@@ -82,7 +82,7 @@ Template.connectRent.events({
 
 	'click #payAndRent': function() {
 
-		if (Meteor.user().profile.cards) {
+		//if (Meteor.user().profile.cards) {
 			Session.set('payRedirect', false);
 
 			var connectionId = this.connectData._id;
@@ -92,46 +92,46 @@ Template.connectRent.events({
 				cancelText: 'Cancel',
 				okText: 'PAY',
 				title: 'You are about to make a payment of $' + amount,
-				template: '',
 				onCancel: function() {
 					console.log('Cancelled')
 				},
 				onOk: function() {
 					PartioLoad.show();
+          Meteor.call('chargeCard', connectionId, function(error, result) {
+            console.log('>>>>>> [stripe] return chargeCard');
+            console.log(error, result);
+            PartioLoad.hide();
 
-          Meteor.call('chargeCard', Meteor.settings.public.STRIPE_PUBKEY, connectionId, function(error, result) {
-            //console.log(result);
-
-						if (!error) {
-							PartioLoad.hide();
-							IonPopup.show({
-								title: 'Payment Successful!',
-								template: '<div class="center">A record of this payment is stored under Transactions History</div>',
-								buttons:
-								[{
-									text: 'OK',
-									type: 'button-assertive',
-									onTap: function() {
-										IonPopup.close();
-										Router.go('/transactions');
-										Session.set('spendClicked', true);
-									}
-								}]
-							});
-						} else {
+						if(error) {
+              return false;
               console.log('some error with charge card', error);
             }
+
+						IonPopup.show({
+							title: 'Payment Successful!',
+							template: '<div class="center">A record of this payment is stored under Transactions History</div>',
+							buttons:
+							[{
+								text: 'OK',
+								type: 'button-assertive',
+								onTap: function() {
+									IonPopup.close();
+									Router.go('/transactions');
+									Session.set('spendClicked', true);
+								}
+							}]
+						});
 					})
 				}
 			});
-		} else {
-			Session.set('payRedirect', this.connectData._id);
-			Router.go('/profile/savedcards');
-		}
+		// } else {
+		// 	Session.set('payRedirect', this.connectData._id);
+		// 	Router.go('/profile/savedcards');
+		// }
 	},
 	'click #cancelRequest': function() {
 		connectionId = this.connectData._id;
-		console.log('Cancelling Book Request');
+		console.log('Cancelling Request');
 
 		IonPopup.confirm({
 			cancelText: 'No',

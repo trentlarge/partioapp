@@ -2,15 +2,15 @@
 
 .savedCard {
 
-    .card {
-        padding: 0;
-    }
-    
+.panecard{
+  padding : 0;
+}
+
     .item-divider {
         padding-top: 16px;
     }
-    
-    table { 
+
+    table {
         color: $royal;
         margin: 0;
         width: 100%;
@@ -21,7 +21,7 @@
         tr {
             td {
                 vertical-align: middle;
-                
+
                 &.brand {
                     width: 10%;
                     min-width: 10%;
@@ -66,25 +66,25 @@
             }
         }
     }
-    
+
     .delete-card {
         color: $energized;
         cursor: pointer;
     }
-    
+
     .set-default {
         color: $grey;
         cursor: pointer;
-        
+
         &.default {
             color: $assertive;
         }
     }
-    
+
     .no-cards, .only-credit {
         p {
             white-space: normal;
-            
+
             &.assertive {
                 color: $assertive;
             }
