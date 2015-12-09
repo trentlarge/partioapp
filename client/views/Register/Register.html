@@ -59,68 +59,100 @@
       </select>
     </label>
 
-    <div class="checkbox disabled">
-      <input type="checkbox" class="item-checkbox" value="" ><label>&nbsp;By registering,</label><a href="#" data-ion-modal="modalPrivacyPolicy"> you accept PartiO’s terms and agreements.</a>
-    </div>
+    <label class="term" style="display:inline-flex;">
+        By clicking Register, you agree to our 
+    </label>
+    <a href="#" data-ion-modal="modalPrivacyPolicy"> Terms</a>.
 
-
-      <!-- <br>
-
-      <label class="item item-input" data-ion-modal="map">
-        <i class="icon ion-ios-location energized placeholder-icon"></i>
-        <div class="location-box"><p>{{fetchedLocation}}</p></div>
-      </label> -->
-
-<!--           <a class="item item-icon-left" href="#">
-        <i class="icon ion-ios-location energized placeholder-icon"></i>
-        <p>Record album</p>
-        <span class="item-note">
-          Grammy
-        </span>
-      </a> -->
       <label class="item item-button">
         <button id="registerButton" class=" button button-block button-energized">REGISTER</button>
       </label>
     </div>
 
-<!--     <div class="padding-horizontal center">
-      <button id="registerButton" class="border-radius-20 button button-energized">REGISTER</button>
-    </div> -->
   </div>
+    
 <!--    {{/ionContent}}-->
   {{/ionView}}
 </template>
 
 <template name="modalPrivacyPolicy">
   {{#ionModal title="Parti-O Privacy Policy" id="modalPrivacyPolicy"}}
-  <div class="padding">
-    <p>Parti-O Inc. (herein referred to as “Parti-O”) operates a platform and interactive community marketplace (the “Platform”) that allows people to list and find durable goods that meet their unique needs. To this end, Parti-O collects, uses, and shares certain information about you. This policy explains what we collect, with whom we share it, and how you can interact with us in order to ensure the accuracy of the data we collect, use, and share.</p>
-<p><strong><u>What Information Do We Collect?</u></strong><br>
-  You are obligated to provide us with accurate and up-to-date information, and failure to provide such information could void any transaction arranged via the partiO app (. We use the information that you provide for such purpose as responding to customer service inquiries, improving our service, communicating with you, and allowing other app users to enter into rental transactions with you and to fulfill their transactional obligations with you.&nbsp; The following are examples of the types of information we may collect from you.<br><br>
-  <strong>1) Information You Give Us</strong><br>
-  The information Parti-O collects from you helps us better serve and protect our mobile community. Parti-O receives, stores, and processes information that you make available to us when accessing or using our Platform and related services (e.g. information from any form you fill out, information resulting from any access or use of the Platform, and, when you link your account to a third party site, and to the extent allowed by a third party site and authorized by you, any personal information that you have provided such third party site). <br><br>
-
-  <strong>2) Mobile Data</strong><br>
-  When you use certain features of the Platform, we may receive, store and process different types of information about your location, including general information (e.g., IP address, zip code) and more specific information (e.g., GPS-based functionality on mobile devices used to access the Platform or specific features of the platform). If you access the Platform and you do not want your device to provide us with location-tracking information, you can disable the GPS or other location-tracking functions on your device, provided your device allows you to do this. See your device manufacturer's instructions for further details.<br><br>
-  <strong>3) Log Data</strong><br>
-  We may also receive, store and process Log Data, which is information that is automatically recorded by our servers whenever you access or use the Platform, regardless of whether you are registered with Parti-O or logged in to your account on the Platform, such as your IP Address, the date and time you access or use the Platform, the hardware and software you are using, referring and exit pages and URLs, the number of clicks, pages viewed and the order of those pages, and the amount of time spent on particular pages.<br><br>
-  <strong>4) Cookies and Other Tracking Technologies</strong><br>
-  Parti-O uses cookies and other similar technologies, such as mobile application identifiers, on the Platform. We may also allow our business partners to use their cookies and other tracking technologies on the Platform. As a result, when you access or use the Platform, you will provide or make available certain information to us and to our business partners.<br><br>
-  <strong>5) Third-Party Social Plug-ins</strong><br>
-  Our Platform may use social plug-ins which are provided and operated by third-party companies.<br>
-  As a result of this, you may send to the third-party company the information that you are viewing on a certain part of our Platform. If you are not logged into your account with the third-party company, then the third party may not know your identity. If you are logged into your account with the third-party company, then the third party may be able to link information about your visit to our Platform to your account with them. Similarly, your interactions with the social plug-in may be recorded by the third party.<br>
-  Please refer to the third party's privacy policy to find out more about its data practices, such as what data is collected about you and how the third party uses such data.<br><br>
-  <strong><u>Protection of Parti-O and </u></strong><strong><u>T</u></strong><strong><u>hird </u></strong><strong><u>P</u></strong><strong><u>arties</u></strong> <br>
-  Parti-O will release data when we believe the release is appropriate to comply with the law, enforce agreed to transactions arranged via the app, and to protect the contract rights of our clients. When an app user confirms their intent to enter into a rental transaction with you via the app, we will pass the following data to them so they can follow through with their transaction with you (e.g. your name, email address, phone number, and preferred meeting locations all as provided by you within the app).</p>
-<p>We may, at some point, allow advertisers to market their products to you in the app. Should this be the case, we may use all of the information we have about you to show you relevant ads. We do not share information that personally identifies you (personally identifiable information is information like your name or email address that can by itself be used to contact you or identifies who you are) with advertising, measurement or analytics partners unless you give us permission. We may provide these partners with information about the reach and effectiveness of their advertising without providing information that personally identifies you, or if we have aggregated the information so that it does not personally identify you. </p>
-<p><strong><u>Suspended Accounts</u></strong><strong><u> </u></strong><br>
-  To protect the partiO community, we will suspend a user’s account in instances where we believe the user has engaged in fraudulent activity and/or has violated our Terms and Conditions. In such cases, we will share any and all user information with necessary domestic and international law enforcement officials in efforts to seek lawful remedies for losses incurred by other app users. All account information for app users whose accounts have been suspended will be maintained in our database and security systems in perpetuity.<br>
-  Any issue regarding your privacy may be directed to us at:<br><br>
-  Parti-O Inc.<br>
-  108 West 13th Street<br>
-  Wilmington, DE 19801 </p>
-<p>This Agreement was last modified on November [], 2015.</p>
-
+    
+<!--
+        <div class="bar bar-header bar-royal">
+          <h2 class="title header-title"> Parti-O Privacy Policy </h2>
+          <button type="button" id="closeRequest" data-dismiss="modal" style="right: 5px;position: absolute;" title="Close" class="button button-clear">
+                    <i class="icon ion-ios-close-outline"></i>
+          </button>
+        </div>
+-->
+    
+  <div class="list padding">
+      
+    <p>
+        Parti-O Inc. (herein referred to as “Parti-O”) operates a platform and interactive community marketplace (the “Platform”) that allows people to list and find durable goods that meet their unique needs. To this end, Parti-O collects, uses, and shares certain information about you. This policy explains what we collect, with whom we share it, and how you can interact with us in order to ensure the accuracy of the data we collect, use, and share.
+    </p>
+      
+    <p>
+        <strong><u>What Information Do We Collect?</u></strong>
+        <br>
+        You are obligated to provide us with accurate and up-to-date information, and failure to provide such information could void any transaction arranged via the partiO app (. We use the information that you provide for such purpose as responding to customer service inquiries, improving our service, communicating with you, and allowing other app users to enter into rental transactions with you and to fulfill their transactional obligations with you.&nbsp; The following are examples of the types of information we may collect from you.
+        <br>
+        <br>
+        
+        <strong>1) Information You Give Us</strong>
+        <br>
+        The information Parti-O collects from you helps us better serve and protect our mobile community. Parti-O receives, stores, and processes information that you make available to us when accessing or using our Platform and related services (e.g. information from any form you fill out, information resulting from any access or use of the Platform, and, when you link your account to a third party site, and to the extent allowed by a third party site and authorized by you, any personal information that you have provided such third party site). 
+        <br>
+        <br>
+        
+        <strong>2) Mobile Data</strong>
+        <br>
+        When you use certain features of the Platform, we may receive, store and process different types of information about your location, including general information (e.g., IP address, zip code) and more specific information (e.g., GPS-based functionality on mobile devices used to access the Platform or specific features of the platform). If you access the Platform and you do not want your device to provide us with location-tracking information, you can disable the GPS or other location-tracking functions on your device, provided your device allows you to do this. See your device manufacturer's instructions for further details.
+        <br>
+        <br>
+        
+        <strong>3) Log Data</strong>
+        <br>
+        We may also receive, store and process Log Data, which is information that is automatically recorded by our servers whenever you access or use the Platform, regardless of whether you are registered with Parti-O or logged in to your account on the Platform, such as your IP Address, the date and time you access or use the Platform, the hardware and software you are using, referring and exit pages and URLs, the number of clicks, pages viewed and the order of those pages, and the amount of time spent on particular pages.
+        <br>
+        <br>
+        
+        <strong>4) Cookies and Other Tracking Technologies</strong>
+        <br>
+        Parti-O uses cookies and other similar technologies, such as mobile application identifiers, on the Platform. We may also allow our business partners to use their cookies and other tracking technologies on the Platform. As a result, when you access or use the Platform, you will provide or make available certain information to us and to our business partners.
+        <br>
+        <br>
+        
+        <strong>5) Third-Party Social Plug-ins</strong>
+        <br>
+        Our Platform may use social plug-ins which are provided and operated by third-party companies.
+        <br>
+        As a result of this, you may send to the third-party company the information that you are viewing on a certain part of our Platform. If you are not logged into your account with the third-party company, then the third party may not know your identity. If you are logged into your account with the third-party company, then the third party may be able to link information about your visit to our Platform to your account with them. Similarly, your interactions with the social plug-in may be recorded by the third party.
+        <br>
+        Please refer to the third party's privacy policy to find out more about its data practices, such as what data is collected about you and how the third party uses such data.
+        <br>
+        <br>
+        <strong><u>Protection of Parti-O and Third Parties</u></strong> 
+        <br>
+        Parti-O will release data when we believe the release is appropriate to comply with the law, enforce agreed to transactions arranged via the app, and to protect the contract rights of our clients. When an app user confirms their intent to enter into a rental transaction with you via the app, we will pass the following data to them so they can follow through with their transaction with you (e.g. your name, email address, phone number, and preferred meeting locations all as provided by you within the app).
+      </p>
+      <p>
+          We may, at some point, allow advertisers to market their products to you in the app. Should this be the case, we may use all of the information we have about you to show you relevant ads. We do not share information that personally identifies you (personally identifiable information is information like your name or email address that can by itself be used to contact you or identifies who you are) with advertising, measurement or analytics partners unless you give us permission. We may provide these partners with information about the reach and effectiveness of their advertising without providing information that personally identifies you, or if we have aggregated the information so that it does not personally identify you. 
+      </p>
+      <p>
+          <strong><u>Suspended Accounts</u></strong>
+          <br>
+            To protect the partiO community, we will suspend a user’s account in instances where we believe the user has engaged in fraudulent activity and/or has violated our Terms and Conditions. In such cases, we will share any and all user information with necessary domestic and international law enforcement officials in efforts to seek lawful remedies for losses incurred by other app users. All account information for app users whose accounts have been suspended will be maintained in our database and security systems in perpetuity.<br>
+  Any issue regarding your privacy may be directed to us at:
+      </p>
+      <p>
+        Parti-O Inc.<br>
+        108 West 13th Street<br>
+        Wilmington, DE 19801 </p>
+      <p>
+        This Agreement was last modified on November [], 2015.
+      </p>
   </div>
   {{/ionModal}}
 </template>

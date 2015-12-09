@@ -44,6 +44,7 @@
 
         i {
             color: rgba(39, 39, 39, 0.42);
+            width: 18px;
         }
 
         ::-webkit-input-placeholder {
@@ -75,12 +76,20 @@
         #college {
             background-color: transparent;
             font-size: 14px;
-            color: #A7A7A7;
         }
     }
 
     .form-register-block{
         overflow: hidden;
+    }
+    
+    label.term {
+        padding-left: 10px;
+        padding-top: 10px;
+    }
+    
+    a {
+        text-decoration: none;
     }
 
 }

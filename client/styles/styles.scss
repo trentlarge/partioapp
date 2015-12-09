@@ -70,6 +70,14 @@
     box-shadow : 0 0 5px transparent;
 }
 
+.bar.bar-stable {
+    background-color: #272727;
+    color: #ffffff;
+    .title, i {
+        color: #ffffff;
+    }
+}
+
 .bar.bar-header {
     background-size: 0;
 }
