@@ -1,5 +1,7 @@
 Template.register.rendered = function() {
-    $('.input-mobile').inputmask({"mask": "+9 (999) 999-9999"});   
+    $('.input-mobile').inputmask({"mask": "+9 (999) 999-9999"});
+    $('#birthDate').inputmask({"mask": "99/99/9999"});
+    $('#birthDate').datepicker();
 }
 
 collegeEmails = {
@@ -29,19 +31,44 @@ emailCheck = function(college, email) {
 	}
 }
 
+
+Template.modalPrivacyPolicy.events({
+  'click #accept': function(e, template) {
+		e.preventDefault();
+    Router.go('/register');
+
+    //closemodal
+  $('.modal .bar button').trigger('click');
+
+
+
+
+	},
+  'click #decline': function(e, template) {
+		e.preventDefault();
+
+
+	},
+
+
+});
+
 Template.register.events({
 	'click #registerButton': function(e, template) {
 		e.preventDefault();
 	    var email = template.find('[name=email]').value;
 	    var password = template.find('[name=password]').value;
+			var mobile = template.find('[name=mobile]').value;
 	    var profileDetails = {
 	    	name: template.find('[name=name]').value,
 				mobile: template.find('[name=mobile]').value,
 				mobileValidated: false,
 	    	college: template.find('#college').value,
+        birthDate: template.find('[name=birthDate]').value,
 	    	avatar: "notSet",
 	    	location: Session.get('newLocation')
 	    };
+
 
 
 

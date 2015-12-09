@@ -36,6 +36,7 @@ Accounts.onCreateUser(function(options,user) {
 		user.profile.email = user.emails[0].address;
 		user.profile.avatar = options.profileDetails.avatar;
 		user.profile.college = options.profileDetails.college;
+		user.profile.birthDate = options.profileDetails.birthDate;	
 		user.profile.mobile = options.profileDetails.mobile;
 		user.profile.mobileValidated = options.profileDetails.mobileValidated;
 		user.profile.name = options.profileDetails.name;

@@ -5,6 +5,10 @@ aldeed:autoform@4.0.7
 aldeed:autoform-bs-datepicker@1.1.1
 aldeed:simple-schema@1.1.0
 alexsmr:apac@0.0.4
+angular:angular@1.4.8
+angular:angular-animate@1.4.8
+angular:angular-sanitize@1.4.8
+angularui:angular-ui-router@0.2.15
 autoupdate@1.2.4
 babel-compiler@5.8.24_1
 babel-runtime@0.1.4
@@ -58,6 +62,8 @@ iron:router@1.0.12
 iron:url@1.0.11
 jaymc:google-reverse-geocode@0.0.3
 jeremy:geocomplete@1.6.5_9
+jonmc12:ionic-material@0.4.2_1
+jonmc12:waves@0.6.6
 jquery@1.11.4
 juliancwirko:s-alert@3.1.2
 juliancwirko:s-alert-jelly@3.1.2
@@ -133,6 +139,7 @@ tracker@1.0.9
 twbs:bootstrap@3.3.6
 ui@1.0.8
 underscore@1.0.4
+urigo:ionic@1.0.0_1
 url@1.0.5
 webapp@1.2.3
 webapp-hashing@1.0.5

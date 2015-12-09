@@ -13,77 +13,83 @@
     <div class="item item-divider product-header-title"><h2>{{ search.title }}</h2></div>
 
       <div class="list">
-        {{#each products }}
+      {{#each products }}
 
-        <a class="item" href="#">
+        <div class="item">
           <div class="profile-image-box">
-               <div class="half product-image">
-                <img class="product-avatar-inner" src="{{image}}"/>
-             </div>
-              <div class="half">
-                <div style="background: url({{ ../ownerAvatar ownerData.profile.avatar }}) no-repeat; background-size:cover; background-position: 50% 50%;" class="profile-avatar"></div>
-                <p class="main-title-text"> {{ ownerData.profile.name }} </p>
-                <span class="rating-box">{{ > rating}}</span>
-              </div>
-
+            <div style="background: url({{ ../ownerAvatar ownerData.profile.avatar }}) no-repeat; background-size:cover; background-position: 50% 50%;" class="profile-avatar"></div>
+            <p class="main-title-text"> {{ ownerData.profile.name }} </p>
+            <span class="rating-box">{{ > rating}}</span>
+            <a href="/profile/items/{{ ownerId }}"><p class="main-title-text">All items from this user</p></a>
+            <a id="moreInfo">MORE INFO</a>
           </div>
-
           <div class="profile-content">
+
+            <div class="profile-product-container">
+                <div class="profile-product-price-box">
+
+                    <p class="main-sub-text">Rent Price:</p>
+                    <p class="main-sub-text">
+                        <table class="rent-table">
+                            <tbody>
+                                <tr>
+                                    <th class="one"><i class="icon">D</i></th>
+                                    <td>${{rentPrice.day}}</td>
+                                </tr>
+                                <tr>
+                                    <th class="two"><i class="icon">W</i></th>
+                                    <td>${{rentPrice.week}}</td>
+                                </tr>
+                                <tr>
+                                    <th class="three"><i class="icon">M</i></th>
+                                    <td>${{rentPrice.month}}</td>
+                                </tr>
+                                <tr>
+                                    <th class="four"><i class="icon">S</i></th>
+                                    <td>${{rentPrice.semester}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+
+                        <table class="rent-table condition">
+                             <tbody>
+                                <tr>
+                                    <th class="five"><i class="icon ion-clipboard"></i></th>
+                                    <td><b>{{ ../getCondition conditionId }}</b></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </p>
+<!--                    <p class="main-sub-text">Cond: </p>    -->
+
+                </div>
+                <div class="profile-product-image-box">
+                    <div class="product-image">
+                        <img src="{{image}}"/>
+                    </div>
+                </div>
+            </div>
+
           <!-- <img src="{{userThumbnail ownerId}}"> -->
-          <p class="main-sub-text">Condition of the item: <strong>{{ ../getCondition conditionId }}</strong></p>
-              <!-- <p class="main-sub-text">Rent Price:</p> -->
-              <p class="main-sub-text">
-                    <table class="rent-table">
-                        <tbody>
-                            <tr>
-                                <th class="one"><i class="icon">D</i></th>
-                                <th class="two"><i class="icon">W</i></th>
-                                <th class="three"><i class="icon">M</i></th>
-                                <th class="four"><i class="icon">S</i></th>
-                            </tr>
-                            <tr>
-                                <td>${{rentPrice.day}}</td>
-                                <td>${{rentPrice.week}}</td>
-                                <td>${{rentPrice.month}}</td>
-                                <td>${{rentPrice.semester}}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-              </p>
+<!--              <button id="moreInfo" class="button button-block">MORE INFO <i class="fa fa-plus "></i></button>-->
+              {{#if ../requestSent}}
+                <button class="button button-block" disabled>REQUEST SENT <i class="fa fa-check "></i></button>
+              {{else}}
+                {{#if ../isOwner}}
 
-
+                {{else}}
+                    {{#if ../qtynotZero}}
+                      <button id="requestProduct" class="button button-block button-energized">REQUEST <i class="fa fa-shopping-cart "></i></button>
+                    {{else}}
+                      <button class="button button-block" disabled>UNAVAIBLE <i class="fa fa-ban "></i></button>
+                    {{/if}}
+                {{/if}}
+              {{/if}}
 
 
           </div>
-
-          <div class="btns">
-            <!--               <button id="moreInfo" class="button button-block">MORE INFO <i class="fa fa-plus "></i></button> -->
-                         <div class="button-md raised" id="moreInfo">
-                          <div class="center" fit>MORE INFO</div>
-<!--                           <paper-ripple fit></paper-ripple> -->
-                        </div>
-
-                          {{#if ../requestSent}}
-                            <button class="button button-block" disabled>REQUEST SENT <i class="fa fa-check "></i></button>
-                          {{else}}
-                            {{#if ../isOwner}}
-
-                            {{else}}
-                                {{#if ../qtynotZero}}
-                                    <div id="requestProduct" class="button-md raised">
-                                      <div class="center" fit>REQUEST</div>
-                                      <paper-ripple fit></paper-ripple>
-                                    </div>
-            <!--                       <button id="requestProduct" class="button button-block">REQUEST <i class="fa fa-shopping-cart "></i></button>
-             -->                    {{else}}
-                                  <button class="button button-block" disabled>UNAVAIBLE <i class="fa fa-ban "></i></button>
-                                {{/if}}
-                            {{/if}}
-                          {{/if}}
-          </div>
-
-
-        </a>
+        </div>
         {{/each}}
       </div>
     {{/ionContent}}

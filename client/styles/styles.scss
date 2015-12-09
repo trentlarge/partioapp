@@ -66,13 +66,39 @@
 }
 
 #iron-router-progress {
-    background-color : #f0970d;
+    background-color : transparent;
+    box-shadow : 0 0 5px transparent;
 }
 
-#iron-router-progress ~ .view {
-    opacity: .5;
+.title.header-title {
+    display: inline-flex; 
+    display: -webkit-inline-flex;
+    justify-content: center;
+    -webkit-justify-content: center;
+    align-items: flex-end; 
+    -webkit-align-items: flex-end;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden !important;
+    text-overflow: ellipsis;
+    margin: 0;
 }
 
+// -- ITEM ANIMATION --
+
+.item.activated {
+    background-color: #f5f5f5;
+    opacity: .7;
+}
+
+.transparent-list {
+    .item.activated {
+        background-color: rgba(39, 39, 39, 0.7);
+        opacity: .7;
+    }   
+}
+
+// -- END: ITEM ANIMATION --
 
 .modal-backdrop {
     -webkit-animation: bounce 400ms linear;
@@ -165,22 +191,22 @@ body.keyboard-open .platform-android .content.overflow-scroll {
 
 .main {
     min-height: 100%;
-    
+
     .lend {
         background-color: #f0970d;
     }
-    
+
     .rent {
         background-color: #df5707;
     }
-    
+
     .share-box {
         border: 1px solid #ffffff;
         min-width: 250px;
         padding: 20px;
         font-size: 30px;
     }
-    
+
     .top-part {
         height: 45vh;
         font-size: 1.5em;

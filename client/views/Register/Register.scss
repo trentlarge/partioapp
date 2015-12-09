@@ -9,7 +9,7 @@
     -o-background-size: cover;
     background-size: cover;
     min-height: 100%;
-    
+
     .center {
         display: flex;
         align-items: center;
@@ -22,6 +22,18 @@
             color: rgba(39, 39, 39, 0.6);
         }
     }
+
+    .item-checkbox {
+        width: 18px !important;
+        height: 18px !important;
+        margin-left: 0px !important;
+    }
+
+    .item-checkbox input:checked{
+      background: red !important;
+      border-color: red !important;
+    }
+
 
     .item-input {
         background-color: transparent;
@@ -47,7 +59,7 @@
         border: 0;
         padding: 10px;
     }
-    
+
     .item-select {
         background-color: transparent;
         color: #272727;
@@ -72,4 +84,3 @@
     }
 
 }
-
