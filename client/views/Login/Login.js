@@ -1,6 +1,6 @@
 Template.login.events({
 	'click #triggerGPS': function() {
-		//Router.go('/register');
+		Router.go('/register');
 	//if (!Session.get('initialLoc')) {
 
 			//CheckLocatioOn();
