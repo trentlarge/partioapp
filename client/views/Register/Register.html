@@ -10,13 +10,12 @@
 
   {{#contentFor "headerButtonRight"}}
     <a class="button button-clear">
-<!--        <img id="spinner-logo-simple" src="logo/spinner-logo-simple.png" />-->
         <img id="spinner-logo-simple" src="{{ getImage 'spinner-logo' }}" />
     </a>
   {{/contentFor}}
 
   {{#ionView class="register"}}
-<!--    {{#ionContent}}-->
+
   <div class="content ion-content overflow-scroll has-header">
       <div class="center">
           <div class="spinner-logo-caption">Let's <b>Share</b>.</div>
@@ -63,29 +62,18 @@
         By clicking Register, you agree to our 
     </label>
     <a href="#" data-ion-modal="modalPrivacyPolicy"> Terms</a>.
-
       <label class="item item-button">
         <button id="registerButton" class=" button button-block button-energized">REGISTER</button>
       </label>
     </div>
 
   </div>
-    
-<!--    {{/ionContent}}-->
+
   {{/ionView}}
 </template>
 
 <template name="modalPrivacyPolicy">
   {{#ionModal title="Parti-O Privacy Policy" id="modalPrivacyPolicy"}}
-    
-<!--
-        <div class="bar bar-header bar-royal">
-          <h2 class="title header-title"> Parti-O Privacy Policy </h2>
-          <button type="button" id="closeRequest" data-dismiss="modal" style="right: 5px;position: absolute;" title="Close" class="button button-clear">
-                    <i class="icon ion-ios-close-outline"></i>
-          </button>
-        </div>
--->
     
   <div class="list padding">
       

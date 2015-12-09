@@ -66,57 +66,60 @@ Template.register.events({
 
 
 
+
 	  if (email && password && profileDetails.name && profileDetails.college) {
-			if (emailCheck(profileDetails.college, email)) {
-				PartioLoad.show('Please wait, we\'re creating your account....')
 
-    		Accounts.createUser({email: email, password: password, telephone: profileDetails.telephone, profileDetails: profileDetails}, function(error) {
-	    			if (error) {
-	    				PartioLoad.hide();
-	    				IonPopup.show({
-	    					title: 'Error while Signing up. Please try again.',
-	    					template: '<div class="center">'+error.reason+'</div>',
-	    					buttons:
-	    					[{
-	    						text: 'OK',
-	    						type: 'button-assertive',
-	    						onTap: function() {
-	    							IonPopup.close();
-	    						}
-	    					}]
-	    				});
-	    			} else {
-	    				Meteor.call('createCustomer', function(error, result) {
-	    					if (!error) {
-									PartioLoad.setMessage('Success! Your invitation will be send in few seconds, please check your inbox.')
-	    						var userTransId = Transactions.insert({
-	    							earning: [],
-	    							spending: []
-	    						});
-    							Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.transactionsId": userTransId}}, function(){
-										PartioLoad.hide();
-										Router.go('/profile');
-									});
+        if (emailCheck(profileDetails.college, email)) {
+          PartioLoad.show('Please wait, we\'re creating your account....')
 
-	    					} else {
-	    						PartioLoad.hide();
-									IonPopup.show({
-										title: 'Error while Signing up. Please try again.',
-										template: '<div class="center">'+error.reason+'</div>',
-										buttons:
-										[{
-											text: 'OK',
-											type: 'button-assertive',
-											onTap: function() {
-												IonPopup.close();
-											}
-										}]
-									});
-	    					}
-	    				})
-	    			}
-	    		});
-	    	}
+          Accounts.createUser({email: email, password: password, telephone: profileDetails.telephone, profileDetails: profileDetails}, function(error) {
+              if (error) {
+                PartioLoad.hide();
+                IonPopup.show({
+                  title: 'Error while Signing up. Please try again.',
+                  template: '<div class="center">'+error.reason+'</div>',
+                  buttons:
+                  [{
+                    text: 'OK',
+                    type: 'button-assertive',
+                    onTap: function() {
+                      IonPopup.close();
+                    }
+                  }]
+                });
+              } else {
+                Meteor.call('createCustomer', function(error, result) {
+                  if (!error) {
+                    PartioLoad.setMessage('Success! Your invitation will be send in few seconds, please check your inbox.')
+                    var userTransId = Transactions.insert({
+                      earning: [],
+                      spending: []
+                    });
+                    Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.transactionsId": userTransId}}, function(){
+                      PartioLoad.hide();
+                      Router.go('/profile');
+                    });
+
+                  } else {
+                    PartioLoad.hide();
+                    IonPopup.show({
+                      title: 'Error while Signing up. Please try again.',
+                      template: '<div class="center">'+error.reason+'</div>',
+                      buttons:
+                      [{
+                        text: 'OK',
+                        type: 'button-assertive',
+                        onTap: function() {
+                          IonPopup.close();
+                        }
+                      }]
+                    });
+                  }
+                })
+              }
+            });
+          }
+
 	    } else {
 				PartioLoad.hide();
 
