@@ -32,40 +32,27 @@ SearchController = RouteController.extend({
 
 	data: function() {
 		return {
-			search: this.search(),
-			products: this.productsByTitle(),
+            search: this.search(),
+            products: this.productsByTitle(),
 
-			ownerAvatar: function(data) {
-				return userAvatar(data);
-			},
-
-			  isOwner: function(productId) {
-			      return (Products.findOne(this._id).ownerId === Meteor.userId()) ? true : false;
-			  },
-		  getCondition: function(conditionId) {
-		    return Rating.getConditionByIndex(conditionId);
-		  },
-
-		  requestSent: function() {
-		    //return Connections.findOne({"requestor": Meteor.userId(), "productData.ownerId": this.ownerId, "productData._id": this._id, $or: [ { state: 'WAITING' }, { state: 'PAYMENT' }, { state: 'IN USE' } ]}) ? true : false;
-		    return Connections.findOne({"requestor": Meteor.userId(), "productData.ownerId": this.ownerId, "productData._id": this._id}) ? true : false;
-		  },
-		  qtynotZero: function() {
-		    console.log('ID: ' + this._id);
-		    console.log('qtynotZero: ' + Session.get('currentQty'));
-		    if(parseFloat(Session.get('currentQty')) < 1)
-		    {
-		      return false;
-		    }
-		    else
-		    {
-		      return true;
-		    }
-		  },
-
-			rating: function(userId) {
-		    userRating(userId);
-		  }
+            ownerAvatar: function(data) {
+                return userAvatar(data);
+            },
+            isNotOwner: function(productId) {
+                return (Products.findOne(productId).ownerId !== Meteor.userId()) ? true : false;
+            },
+            getCondition: function(conditionId) {
+                return Rating.getConditionByIndex(conditionId);
+            },
+            requestSent: function(ownerId, _id) {
+                return Connections.findOne({"requestor": Meteor.userId(), "owner": ownerId, "productData._id": _id}) ? true : false;
+            },
+            isUnavailable: function(ownerId, _id) {
+                return Connections.findOne({"owner": ownerId, "productData._id": _id}) ? true : false;
+            },
+            rating: function(userId) {
+                userRating(userId);
+            }
 		}
 	},
 

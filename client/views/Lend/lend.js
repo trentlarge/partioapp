@@ -10,8 +10,6 @@ Template.lend.events({
               "title": $('.manualTitle').val(),
               "price": '--',
               'searchId': null,
-              //"authors": template.find('#manualauthor').value,
-              //"publisher": template.find('#manualpublisher').value,
               "conditionId": $('.manualCondition').val(),
               "manualEntry": true,
               "ownerId": Meteor.userId(),
@@ -32,7 +30,6 @@ Template.lend.events({
                       "semester": Number(Session.get('semesterPrice')).toFixed(2)
               }
         }
-        console.log(manualProduct);
 
         if(!validateInputs(manualProduct)){
             PartioLoad.hide();
@@ -111,48 +108,3 @@ function showInvalidPopUp(strTitle, strMessage) {
     });
 }
 
-//function ClearData(){
-//    console.log('ClearData');
-//
-//    if(Session.get('lendTab') == 'results') {
-//    Session.set('lendTab', 'camfind');
-//    }
-//
-//    Session.set('scanResult', null);
-//    Session.set('priceValue', null);
-//    Session.set('priceValue', null);
-//    Session.set('barcodeEntry', null);
-//    Session.set('manualEntry', null);
-//    Session.set('photoTaken', null)
-//    Session.set('lastSearch', null);
-//    Session.set('allResults', null)
-//  
-//    //reset prices;
-//    Session.set('dayPrice', null);
-//    Session.set('weekPrice', null);
-//    Session.set('monthPrice', null);
-//    Session.set('semesterPrice', null);
-//}
-
-// function updateSearchCollection(product) {
-//   console.log('adding to search collection');
-//
-//   //ASIN or EAN (if barcode)
-//   if(product.data.asin) {
-//     var uniqueId = product.data.asin;
-//   } else if(product.data.ean) {
-//     var uniqueId = product.data.ean;
-//   }
-//
-//   var findUnique = Search.findOne({ uniqueCode: uniqueId });
-//
-//   //first product with this title
-//   if(!findUnique) {
-//     Search.insert({ uniqueCode: uniqueId,
-//                     image: product.data.image,
-//                     prodIds: [ product._id ] })
-//   } else {
-//     findUnique.prodIds.push(product._id);
-//     Search.update(findUnique._id, findUnique);
-//   }
-// }

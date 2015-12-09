@@ -13,14 +13,13 @@ Template.login.events({
 
 		var email = template.find('[name=email]').value;
 		var password = template.find('[name=password]').value;
-		console.log(email, password);
 
 		Meteor.loginWithPassword(email, password, function(error) {
 
 			PartioLoad.hide();
 
 			if (error) {
-				console.log(error);
+//				console.log(error);
 				IonPopup.show({
 					title: 'Won\'t you try again?',
 					template: '<div class="center">'+error.reason+'</div>',
@@ -33,7 +32,6 @@ Template.login.events({
 					}]
 				});
 			} else {
-				console.log('user: '+ email +' Logged-In successfully!');
 				Router.go('/');
 			}
 		});
@@ -49,7 +47,6 @@ Template.login.events({
 			inputType: 'email',
 			inputPlaceholder: 'Enter your registered email',
 			onOk: function(event, response) {
-				console.log(response);
 				Accounts.forgotPassword({email: response}, function(error){
 					if (!error) {
 						IonLoading.show({
@@ -65,18 +62,17 @@ Template.login.events({
 				});
 			},
 			onCancel: function() {
-				console.log('Cancelled')
+//				console.log('Cancelled')
 			}
 		})
 
 
 	},
 	'click #fblogin': function() {
-		console.log("calling facebook");
 		// IonLoading.show();
 		Meteor.loginWithFacebook({}, function(err){
 			if (err) {
-				console.log(err);
+//				console.log(err);
 				IonPopup.show({
 					title: 'Error connecting to Facebook',
 					template: '<div class="center">'+err+'</div>',
@@ -95,13 +91,12 @@ Template.login.events({
 				// var UserExists = Meteor.users.find({_id: Meteor.userId()}, {$ne:{"profile.transactionsId": null}});
 				if(Meteor.user().profile.transactionsId)
 				{
-					console.log('User Existed!');
+					//user exist
 				}
 				else
 				{
 					Meteor.call('createCustomer', Meteor.userId(), function(error, result) {
 						if (!error) {
-							console.log("Stripe Customer creation in progress!");
 							var userTransId = Transactions.insert({
 								earning: [],
 								spending: []
@@ -111,7 +106,6 @@ Template.login.events({
 
 						} else {
 							PartioLoad.hide();
-							console.log(error);
 						}
 					})
 				}
@@ -155,12 +149,7 @@ Template.login.rendered = function() {
 	}
 
 	window.addEventListener('native.keyboardhide', function() {
-		console.log('keyboard is closing');
 		$(".content.dont-slice-screen").css("bottom", "0px");
 	});
-
-	// document.addEventListener("resume", function(){
-	// 	console.log("RESUMED!!")
-	// 		//CheckLocatioOn();
-	// 	}, false);
+    
 }

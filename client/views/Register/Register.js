@@ -1,7 +1,7 @@
 Template.register.rendered = function() {
-    $('.input-mobile').inputmask({"mask": "+9 (999) 999-9999"});
-    $('#birthDate').inputmask({"mask": "99/99/9999"});
-    $('#birthDate').datepicker();
+  $('.input-mobile').inputmask({"mask": "+9 (999) 999-9999"});
+  $('#birthDate').inputmask({"mask": "99/99/9999"});
+  $('#birthDate').datepicker();
 }
 
 collegeEmails = {
@@ -11,7 +11,6 @@ collegeEmails = {
 }
 
 emailCheck = function(college, email) {
-	console.log(college, email);
 	if (email.split("@")[1] !== collegeEmails[college]) {
 		IonPopup.show({
 			title: 'Please enter a valid college email ID',
@@ -34,96 +33,103 @@ emailCheck = function(college, email) {
 
 Template.modalPrivacyPolicy.events({
   'click #accept': function(e, template) {
-		e.preventDefault();
+    e.preventDefault();
     Router.go('/register');
 
     //closemodal
-  $('.modal .bar button').trigger('click');
+    $('.modal .bar button').trigger('click');
+  },
 
-
-
-
-	},
   'click #decline': function(e, template) {
-		e.preventDefault();
-
-
-	},
-
+    e.preventDefault();
+  },
 
 });
 
 Template.register.events({
 	'click #registerButton': function(e, template) {
 		e.preventDefault();
-	    var email = template.find('[name=email]').value;
-	    var password = template.find('[name=password]').value;
-			var mobile = template.find('[name=mobile]').value;
-	    var profileDetails = {
-	    	name: template.find('[name=name]').value,
-				mobile: template.find('[name=mobile]').value,
-				mobileValidated: false,
-	    	college: template.find('#college').value,
-        birthDate: template.find('[name=birthDate]').value,
-	    	avatar: "notSet",
-	    	location: Session.get('newLocation')
-	    };
+    var email = template.find('[name=email]').value;
+    var password = template.find('[name=password]').value;
+		var mobile = template.find('[name=mobile]').value;
+    var profileDetails = {
+    	name: template.find('[name=name]').value,
+			mobile: template.find('[name=mobile]').value,
+			mobileValidated: false,
+    	college: template.find('#college').value,
+      birthDate: template.find('[name=birthDate]').value,
+    	avatar: "notSet",
+    	location: Session.get('newLocation')
+    }
 
+    if(email && password && profileDetails.name && profileDetails.college) {
+      if(template.find('[name=term_partio]').checked){
+        if(emailCheck(profileDetails.college, email)) {
+          PartioLoad.show('Please wait, we\'re creating your account....')
+          Accounts.createUser({email: email, password: password, telephone: profileDetails.telephone, profileDetails: profileDetails}, function(error) {
+            if (error) {
+              PartioLoad.hide();
+              IonPopup.show({
+                title: 'Error while Signing up. Please try again.',
+                template: '<div class="center">'+error.reason+'</div>',
+                buttons:
+                [{
+                  text: 'OK',
+                  type: 'button-assertive',
+                  onTap: function() {
+                    IonPopup.close();
+                  }
+                }]
+              });
+            } else {
+              PartioLoad.hide();
+              console.log('meteor user created');
+              Router.go('/profile');
 
-
-
-	  if (email && password && profileDetails.name && profileDetails.college) {
-			if (emailCheck(profileDetails.college, email)) {
-				PartioLoad.show('Please wait, we\'re creating your account....')
-
-    		Accounts.createUser({email: email, password: password, telephone: profileDetails.telephone, profileDetails: profileDetails}, function(error) {
-
-					if (error) {
-    				PartioLoad.hide();
-    				IonPopup.show({
-    					title: 'Error while Signing up. Please try again.',
-    					template: '<div class="center">'+error.reason+'</div>',
-    					buttons:
-    					[{
-    						text: 'OK',
-    						type: 'button-assertive',
-    						onTap: function() {
-									IonPopup.close();
-    						}
-    					}]
-    				});
-    			} else {
-						PartioLoad.hide();
-						console.log('meteor user created');
-						Router.go('/profile');
-					}
-
-						// else {
-	    			// 	Meteor.call('createCustomer', function(error, result) {
-	    			// 		if (!error) {
-						// 			PartioLoad.setMessage('Success! Your invitation will be send in few seconds, please check your inbox.')
-	    			//
-	    			// 		} else {
-	    			// 			PartioLoad.hide();
-						// 			IonPopup.show({
-						// 				title: 'Error while Signing up. Please try again.',
-						// 				template: '<div class="center">'+error.reason+'</div>',
-						// 				buttons:
-						// 				[{
-						// 					text: 'OK',
-						// 					type: 'button-assertive',
-						// 					onTap: function() {
-						// 						IonPopup.close();
-						// 					}
-						// 				}]
-						// 			});
-	    			// 		}
-	    			// 	})
-	    			// }
-
-	    	});
-	    }
-
+                // Meteor.call('createCustomer', function(error, result) {
+                //   if (!error) {
+                //     PartioLoad.setMessage('Success! Your invitation will be send in few seconds, please check your inbox.')
+                //     var userTransId = Transactions.insert({
+                //       earning: [],
+                //       spending: []
+                //     });
+                //     Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.transactionsId": userTransId}}, function(){
+                //       PartioLoad.hide();
+                //       Router.go('/profile');
+                //     });
+                //
+                //   } else {
+                //     PartioLoad.hide();
+                //     IonPopup.show({
+                //       title: 'Error while Signing up. Please try again.',
+                //       template: '<div class="center">'+error.reason+'</div>',
+                //       buttons:
+                //       [{
+                //         text: 'OK',
+                //         type: 'button-assertive',
+                //         onTap: function() {
+                //           IonPopup.close();
+                //         }
+                //       }]
+                //     });
+                //   }
+                // })
+            }
+          });
+        }
+      } else {
+        IonPopup.show({
+          title: 'Parti-O Privacy Policy',
+          template: '<div class="center">You must agree to our term.</div>',
+          buttons: [{
+            text: 'OK',
+            type: 'button-calm',
+            onTap: function() {
+              IonPopup.close();
+            }
+          }]
+        });
+      }
     } else {
 			PartioLoad.hide();
 
@@ -139,5 +145,5 @@ Template.register.events({
     		}]
     	});
     }
-	}
+  }
 });

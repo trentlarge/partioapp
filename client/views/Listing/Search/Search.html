@@ -1,6 +1,6 @@
 <template name="search">
   {{#contentFor "headerButtonLeft"}}
-      {{>ionNavBackButton path="listing"}}
+      {{>ionNavBackButton   }}
   {{/contentFor}}
 
   {{#contentFor "headerTitle"}}
@@ -17,11 +17,12 @@
 
         <div class="item">
           <div class="profile-image-box">
-            <div style="background: url({{ ../ownerAvatar ownerData.profile.avatar }}) no-repeat; background-size:cover; background-position: 50% 50%;" class="profile-avatar"></div>
-            <p class="main-title-text"> {{ ownerData.profile.name }} </p>
-            <span class="rating-box">{{ > rating}}</span>
-            <a href="/profile/items/{{ ownerId }}"><p class="main-title-text">All items from this user</p></a>
-            <a id="moreInfo">MORE INFO</a>
+                <a href="/profile/items/{{ ownerId }}" class="profile-avatar-box"> 
+                    <div style="background: url({{ ../ownerAvatar ownerData.profile.avatar }}) no-repeat; background-size:cover; background-position: 50% 50%;" class="profile-avatar"></div>
+                </a>
+                <p class="main-title-text"> {{ ownerData.profile.name }} </p>
+                <span class="rating-box">{{ > rating}}</span>
+                <a id="moreInfo">MORE INFO</a>
           </div>
           <div class="profile-content">
 
@@ -61,8 +62,6 @@
                             </tbody>
                         </table>
                     </p>
-<!--                    <p class="main-sub-text">Cond: </p>    -->
-
                 </div>
                 <div class="profile-product-image-box">
                     <div class="product-image">
@@ -71,21 +70,19 @@
                 </div>
             </div>
 
-          <!-- <img src="{{userThumbnail ownerId}}"> -->
-<!--              <button id="moreInfo" class="button button-block">MORE INFO <i class="fa fa-plus "></i></button>-->
-              {{#if ../requestSent}}
+            {{#if ../requestSent ownerId _id}}
                 <button class="button button-block" disabled>REQUEST SENT <i class="fa fa-check "></i></button>
-              {{else}}
-                {{#if ../isOwner}}
-
-                {{else}}
-                    {{#if ../qtynotZero}}
-                      <button id="requestProduct" class="button button-block button-energized">REQUEST <i class="fa fa-shopping-cart "></i></button>
+            {{else}}
+                {{#if ../isNotOwner _id}}
+                    {{#if ../isUnavailable ownerId _id}}
+                        <button class="button button-block" disabled>UNAVAILABLE <i class="fa fa-ban "></i></button>
                     {{else}}
-                      <button class="button button-block" disabled>UNAVAIBLE <i class="fa fa-ban "></i></button>
+                        <button id="requestProduct" class="button button-block button-energized">
+                            REQUEST <i class="fa fa-shopping-cart"></i>
+                        </button>
                     {{/if}}
                 {{/if}}
-              {{/if}}
+            {{/if}}
 
 
           </div>

@@ -31,8 +31,7 @@ Template.changePassword.events({
 
               Meteor.call('updatePassword', Meteor.userId(), new_password, function(error, result){
                 if (error) {
-                  console.log(result);
-                  console.log(error);
+                    //error
                 } else {
                   IonPopup.alert({
                     okText: 'Ok',

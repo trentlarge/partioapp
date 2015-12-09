@@ -1,6 +1,5 @@
 Template.resultsDetails.helpers({
     getTitle: function() {
-        console.log(this);
         return this.title;
     },
     scanResult: function() {

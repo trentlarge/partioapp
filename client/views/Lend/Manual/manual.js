@@ -95,7 +95,7 @@ Template.manual.events({
       cancelText: 'Cancel',
 
       cancel: function() {
-        console.log('Cancelled!');
+//        console.log('Cancelled!');
       },
       buttonClicked: function(index) {
         if (index === 0) {
@@ -108,7 +108,6 @@ Template.manual.events({
           });
 
           function onSuccess1(imageData) {
-            console.log('camera working!');
             Session.set("photoTaken", "data:image/jpeg;base64," + imageData);
             return false;
           }
@@ -131,7 +130,6 @@ Template.manual.events({
           });
 
           function onSuccess2(imageData) {
-            console.log('photo library working!');
             Session.set("photoTaken", "data:image/jpeg;base64," + imageData);
             return false;
           }
