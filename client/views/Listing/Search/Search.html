@@ -60,8 +60,6 @@
                             </tbody>
                         </table>
                     </p>
-<!--                    <p class="main-sub-text">Cond: </p>    -->
-                
                 </div>
                 <div class="profile-product-image-box">
                     <div class="product-image">
@@ -70,21 +68,20 @@
                 </div>
             </div>
               
-          <!-- <img src="{{userThumbnail ownerId}}"> -->
-<!--              <button id="moreInfo" class="button button-block">MORE INFO <i class="fa fa-plus "></i></button>-->
-              {{#if ../requestSent}}
-                <button class="button button-block" disabled>REQUEST SENT <i class="fa fa-check "></i></button>
-              {{else}}
-                {{#if ../isOwner}}
 
-                {{else}}
-                    {{#if ../qtynotZero}}
-                      <button id="requestProduct" class="button button-block button-energized">REQUEST <i class="fa fa-shopping-cart "></i></button>
+            {{#if ../requestSent ownerId _id}}
+                <button class="button button-block" disabled>REQUEST SENT <i class="fa fa-check "></i></button>
+            {{else}}
+                {{#if ../isNotOwner _id}}
+                    {{#if ../isUnavailable ownerId _id}}
+                        <button class="button button-block" disabled>UNAVAILABLE <i class="fa fa-ban "></i></button>
                     {{else}}
-                      <button class="button button-block" disabled>UNAVAIBLE <i class="fa fa-ban "></i></button>
+                        <button id="requestProduct" class="button button-block button-energized">
+                            REQUEST <i class="fa fa-shopping-cart"></i>
+                        </button>
                     {{/if}}
                 {{/if}}
-              {{/if}}
+            {{/if}}
 
 
           </div>
