@@ -27,7 +27,7 @@ Template.talk.rendered = function() {
 		if(self.data.connection && self.data.unreadMessages && self.data.unreadMessages.count()) {
 			Meteor.call("markMessagesRead", self.data.connection._id, function(e, r) {
 				if(e) {
-					console.log(e.message);
+//					console.log(e.message);
 				}
 			});
 		}

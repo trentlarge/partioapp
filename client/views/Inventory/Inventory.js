@@ -53,13 +53,12 @@ Template.inventory.events({
   {
     var requestor = this.requestor;
     var connectionId = this._id;
-    var bookId = this.productData._id;
-    //var searchCollectionId = Products.findOne({productUniqueId: bookId})._id;
-    var searchCollectionId = Products.findOne(bookId);
+    var productId = this.productData._id;
+    var searchCollectionId = Products.findOne(productId);
 
+    //if product not found
     if(!searchCollectionId._id) {
-      console.log('error > product not found')
-      return false;
+        return false;
     }
 
     IonPopup.confirm({
@@ -74,34 +73,6 @@ Template.inventory.events({
         Meteor.call('ownerAccept', connectionId, function(error, result) {
           if (!error)
           {
-            // var connectionObj = Connections.findOne({_id: connectionId});
-            // var jsonConnect = JSON.stringify(connectionObj);
-            // console.log('book ID: ' + jsonConnect);
-
-            // var seachResult = Search.findOne({productUniqueId: });
-            // console.log('seachResult: ' + JSON.stringify(seachResult));
-
-            //Once the book request is approved, decrease the count based on Book ID
-            // var result = Search.update({_id: searchCollectionId}, {$inc: {qty: -1}})
-            // console.log('Update result: ' + result);
-
-            //Connections.find({"requestor": Meteor.userId(), "state": "PAYMENT"});
-            // Connections.find(
-            //   {'productData._id': bookId, 'requestor': {$ne: requestor}},
-            //   {$set: {state: "DENIED"}},
-            //   {multi: true}
-            //   );
-
-            // Connections.find({'productData._id': bookId, 'requestor': {$ne: requestor}})
-            // .map(function(item) {
-            //   console.log('connectionforBookID: ' + item);
-            //   Connections.update({_id: item._id}, {$set: {"state": "DENIED"}});
-            // });
-            //console.log('connectionforBookID: ' + connectionforBookID);
-
-            // connectionforBookID.forEach(function(item) {
-            //   console.log('connectionforBookID: ' + item);
-            // });
 
             PartioLoad.hide();
 
@@ -124,14 +95,11 @@ Template.inventory.events({
       },
 
       onCancel: function() {
-        // Connections.remove({"_id": connectionId});
-        // console.log('Request Declined!');
-
         Meteor.call('ownerDecline', connectionId, function(error, result) {
           if(!error){
-            console.log('Request Declined!');
+//            console.log('Request Declined!');
           } else{
-            console.log('Declined Error: ' + error);
+//            console.log('Declined Error: ' + error);
           }
         });
       }
@@ -185,5 +153,3 @@ function showInvalidPopUp(strTitle, strMessage)
           }]
         });
 }
-
-var bookID;

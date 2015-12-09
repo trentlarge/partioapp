@@ -15,7 +15,6 @@ Template.productDetail.events({
 
 Template.productDetail.helpers({
   getCategoryIcon: function(category) {
-    console.log(category);
     return Categories.getCategoryIconByText(category);
   }
 })

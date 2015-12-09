@@ -86,30 +86,6 @@ Template.results.helpers({
 
 Template.results.events({
     
-//    'click #orderByRanking': function(e, template) {
-//        
-//        var results = Session.get('allResults');
-//        Session.set('allResults', 
-//            results.sort(function(a, b) {
-//                return (a.rank < b.rank) ? 1 : -1;
-//            })
-//        );
-//        
-//        Session.set('orderByRanking', true);  
-//    },
-//    'click #orderByCategories': function(e, template) {
-//        
-//        var results = Session.get('allResults');
-//        Lend.currentCategory = '';
-//
-//        Session.set('allResults',  
-//            results.sort(function(a, b) {
-//                return (a.amazonCategory > b.amazonCategory) ? 1 : -1;
-//            })
-//        );
-//        
-//        Session.set('orderByRanking', false);  
-//    },
     'click .notFound': function(e, template) {
       
         var results = Session.get('allResults');

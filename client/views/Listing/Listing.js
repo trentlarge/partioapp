@@ -104,7 +104,7 @@ Template.searchBox.helpers({
 Template.searchBox.events({
   "keyup #search-box": _.throttle(function(e) {
     var text = $(e.target).val().trim();
-    console.log('Search Query: ' + text);
+    
     if(text.length > 1)
     {
       PackageSearch.search(text);

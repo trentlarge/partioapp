@@ -65,7 +65,6 @@ Cards = {
 
 	//check user situation with the cards
 	checkStatus: function(){
-		console.log(this.creditCards.length, this.debitCards.length)
 
 		//if there are cards
 		if(this.debitCards.length > 0 || this.creditCards.length > 0) {
@@ -121,14 +120,11 @@ Cards = {
 		switch (param) {
 			case 'ok':
 				$('.alerts').addClass('hidden');
-				console.log('cards ok')
 			break;
 			case 'no_receive':
-				console.log('only credit');
 				$('.only-credit').removeClass('hidden');
 			break;
 			case 'no_cards':
-				console.log('no cards');
 				$('.no-cards').removeClass('hidden');
 			break;
 			default:
@@ -143,18 +139,15 @@ Cards = {
 		//var cardData = this.getCardById(cardId);
 
 		Meteor.call('saveDefaultCards', receiveCard, payCard, function (err, result){
-			console.log('saveDefaultCards > saving default cards')
 
 			if(err) {
-				console.log(err);
+//				console.log(err);
 				return false;
 			}
 
 			if(result) {
 				this.defaultReceive = receiveCard;
 				this.defaultPay = payCard;
-
-				console.log('saveDefaultCards > setting default cards ok');
 			}
 		});
 	},
@@ -162,7 +155,6 @@ Cards = {
 	//removing a card
 	remove: function(cardId){
 		if(!cardId){
-			console.log('need a cardId')
 			return false;
 		}
 
@@ -170,9 +162,8 @@ Cards = {
 
 		Meteor.call('removeCard', cardId, function(error, result) {
 			if(error) {
-				console.log('removeCard > some error');
+                // error
 			} else {
-				console.log('removeCard > ok');
 				Cards.refresh();
 				PartioLoad.hide();
 			}
@@ -228,7 +219,6 @@ Template.savedCards.events({
 		var funding = cardData.funding;
 
 		if(!cardId || !funding) {
-			console.log('event set-default > missing data')
 			return false;
 		}
 
@@ -236,7 +226,7 @@ Template.savedCards.events({
 			title: 'Set default card',
 			template: '<div class="center">Do you want set this card as pay default?</div>',
 			onCancel: function(){
-				console.log('Cancelled')
+				
 			},
 
 			onOk: function(){
@@ -254,7 +244,6 @@ Template.savedCards.events({
 		var funding = cardData.funding;
 
 		if(!cardId || !funding) {
-			console.log('event set-default > missing data')
 			return false;
 		}
 
@@ -262,7 +251,7 @@ Template.savedCards.events({
 			title: 'Set default card',
 			template: '<div class="center">Do you want set this card as receive default?</div>',
 			onCancel: function(){
-				console.log('Cancelled')
+				
 			},
 
 			onOk: function(){
@@ -279,7 +268,6 @@ Template.savedCards.events({
 		var cardId = this.id;
 
 		if(!cardId){
-			console.log('setCard > need a card ID')
 			return false;
 		}
 
@@ -287,7 +275,7 @@ Template.savedCards.events({
 			title: 'Set default card',
 			template: '<div class="center">Do you want remove this card?</div>',
 			onCancel: function(){
-				console.log('Cancelled')
+				
 			},
 			onOk: function(){
 				Cards.remove(cardId);
@@ -303,15 +291,13 @@ Template.savedCards.onRendered(function() {
 		key: Meteor.settings.public.STRIPE_PUBKEY,
 
 		token: function(token) {
-			console.log('------------------------------')
-			console.log(token)
 			PartioLoad.show();
 
 			Meteor.call('addCard', token, function(error, result) {
 				PartioLoad.hide();
 
 				if(error) {
-					console.log('some error', error)
+//					console.log('some error', error)
 					return false;
 
 				} else {

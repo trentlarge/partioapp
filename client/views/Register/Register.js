@@ -11,7 +11,6 @@ collegeEmails = {
 }
 
 emailCheck = function(college, email) {
-	console.log(college, email);
 	if (email.split("@")[1] !== collegeEmails[college]) {
 		IonPopup.show({
 			title: 'Please enter a valid college email ID',
@@ -35,21 +34,14 @@ emailCheck = function(college, email) {
 Template.modalPrivacyPolicy.events({
   'click #accept': function(e, template) {
 		e.preventDefault();
-    Router.go('/register');
+        Router.go('/register');
 
-    //closemodal
-  $('.modal .bar button').trigger('click');
-
-
-
-
+        //closemodal
+        $('.modal .bar button').trigger('click');
 	},
-  'click #decline': function(e, template) {
+    'click #decline': function(e, template) {
 		e.preventDefault();
-
-
 	},
-
 
 });
 

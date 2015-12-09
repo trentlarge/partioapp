@@ -161,9 +161,6 @@ Template.requestRent.events({
       return false;
     }
 
-
-    console.log('requesting product...');
-
     var ownerId = this.ownerId;
     var productId = this._id;
     var borrowDetails = {
@@ -191,7 +188,6 @@ Template.requestRent.events({
       title: 'Continuing will send a request to the product Owner',
       template: '<div class="center">You\'ll receive a notification once the owner accepts your request</div>',
       onOk: function() {
-        console.log("proceeding with connection");
         PartioLoad.show();
         Meteor.call('requestOwner', Meteor.userId(), productId, ownerId, borrowDetails, function(error, result) {
           if (!error) {
@@ -214,12 +210,11 @@ Template.requestRent.events({
             }, 500);
           } else {
             PartioLoad.hide();
-            console.log(error);
+//            console.log(error);
           }
         })
       },
       onCancel: function() {
-        console.log('Cancelled');
         return false;
       }
     });

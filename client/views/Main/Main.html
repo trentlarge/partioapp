@@ -7,39 +7,14 @@
 
   {{#contentFor "headerTitle"}}
     <h1 class="title" style="text-align:center;">
-<!--        <img id="spinner-logo-simple" src="/logo/spinner-logo-simple.png" />-->
         <img id="spinner-logo-simple" src="{{ getImage 'spinner-logo' }}" />
     </h1>
   {{/contentFor}}
 
   {{#ionView class="main"}}
     <div class="content overflow-hidden has-header">
-<!--
-	    <div id="bottom-triangle">
-	    	<div id="top-triangle"></div>
-	    </div>
-
-	    <div class="top-part flex-aligner" data-ion-modal="lend">
-	    	<div class="top-part-margin center">
-	    		<img src="img/lend_white.png" class="lend-image">
-	    		<br><br>
-	    		{{> ionIcon icon='android-arrow-back' class=""}}
-	    		<span class="center">SHARE &nbsp;&nbsp;&nbsp;&nbsp;</span>
-	    	</div>
-	    </div>
-
-	    <div class="bottom-part flex-aligner">
-	    	<div class="bottom-part-margin center">
-	    		<img src="img/borrow_white.png" class="borrow-image">
-	    		<br><br>
-		    	<span class="">RENT&nbsp;</span>{{> ionIcon icon='android-arrow-forward' class=""}}
-	    	</div>
-	    </div>
--->
-
          <div class="lend top-part flex-aligner">
 	    	<div class="center">
-<!--	    		<img src="/img/lend_white.png" class="lend-image">-->
                 <img src="{{ getImage 'share-hand' }}" class="lend-image">
 	    		<br><br>
                 <div class="share-box">
@@ -50,7 +25,6 @@
 
 	    <div class="rent bottom-part flex-aligner">
 	    	<div class="center">
-<!--	    		<img src="/img/borrow_white.png" class="borrow-image">-->
                 <img src="{{ getImage 'borrow-hand' }}" class="borrow-image">
 	    		<br><br>
                 <div class="share-box">

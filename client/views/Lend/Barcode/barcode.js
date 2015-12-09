@@ -19,8 +19,6 @@ Template.barcode.events({
 
   // BARCODE
   'click #barcode': function() {
-      
-    console.log('the new Amazon call in progress');
 
     // Cordova
     if (Meteor.isCordova) {
@@ -28,10 +26,8 @@ Template.barcode.events({
         function(result) {
 
           if (result.cancelled === 0) {
-            console.log(result.text, result.format);
-
             var barcode = result.text;
-            console.log('barcode: ' + barcode);
+              
             $('.search-share-header-input').val(barcode);
             $('.search-share-header-input').trigger({type: 'keypress', charCode: 13});
           }

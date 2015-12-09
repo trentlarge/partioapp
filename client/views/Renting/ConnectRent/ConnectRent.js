@@ -44,7 +44,7 @@ Template.connectRent.events({
 	},
 
 	'click #btnCallUser': function(err, template) {
-    PartioCall.init(this.connectData);
+        PartioCall.init(this.connectData);
 	},
 
 	'click #returnItem': function() {
@@ -58,28 +58,22 @@ Template.connectRent.events({
 			title: 'Are you sure you want to return this item?',
 			template: '<div class="center"><p>Please make sure the item is passed back to the owner</p></div>',
 			onCancel: function() {
-				console.log('Cancelled')
-        IonPopup.close();
+                IonPopup.close();
 			},
 			onOk: function() {
 				Meteor.call('returnItem', connectionData._id, function(error, result) {
-          IonPopup.close();
-          if(!error){
-            //      Router.go('/renting');
-            IonModal.open("feedback", connectionData);
-          } else {
-            console.log('some error', $error);
-          }
+                IonPopup.close();
+                  if(!error){
+                    //      Router.go('/renting');
+                    IonModal.open("feedback", connectionData);
+                  } else {
+//                    console.log('some error', $error);
+                    }
 				})
 			}
 		});
 	},
-
-	// 'click #startChat': function() {
-	// 	IonModal.open("chat", Connections.findOne(this));
-	// },
-	//
-
+    
 	'click #payAndRent': function() {
 
 		if (Meteor.user().profile.cards) {
@@ -94,14 +88,13 @@ Template.connectRent.events({
 				title: 'You are about to make a payment of $' + amount,
 				template: '',
 				onCancel: function() {
-					console.log('Cancelled')
+					
 				},
 				onOk: function() {
 					PartioLoad.show();
 
-          Meteor.call('chargeCard', Meteor.settings.public.STRIPE_PUBKEY, connectionId, function(error, result) {
-            //console.log(result);
-
+                Meteor.call('chargeCard', Meteor.settings.public.STRIPE_PUBKEY, connectionId, function(error, result) {
+              
 						if (!error) {
 							PartioLoad.hide();
 							IonPopup.show({
@@ -119,8 +112,8 @@ Template.connectRent.events({
 								}]
 							});
 						} else {
-              console.log('some error with charge card', error);
-            }
+                            // some error
+                        }
 					})
 				}
 			});
@@ -131,7 +124,6 @@ Template.connectRent.events({
 	},
 	'click #cancelRequest': function() {
 		connectionId = this.connectData._id;
-		console.log('Cancelling Book Request');
 
 		IonPopup.confirm({
 			cancelText: 'No',
@@ -139,10 +131,10 @@ Template.connectRent.events({
 			title: 'Book Request Cancel',
 			template: '<div class="center"><p> Do you wish to cancel the request? </p></div>',
 			onCancel: function() {
-				console.log('Cancelled')
+				
 			},
 			onOk: function() {
-        //remove data from client is not a good pratice
+                //remove data from client is not a good pratice
 				Connections.remove({"_id": connectionId});
 				//Chat.remove({connectionId: connectionId})
 				IonPopup.close();
@@ -181,7 +173,7 @@ Template.connectRent.events({
 			}, function(error) {
 				PartioLoad.hide();
 				// error
-				console.log('Err: '+ error);
+//				console.log('Err: '+ error);
 			});
 		}
 	}
