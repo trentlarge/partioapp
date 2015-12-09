@@ -1,34 +1,43 @@
 .transactions-view {
-    
+
+
+
     a {
         text-decoration: none;
         cursor: pointer;
-        
+
         &:hover {
             color: rgba(39, 39, 39, 0.75);
         }
+    }
+
+    .bar {
+    z-index: 2;
+    font-size: 1.3em;
+    width: 100%;
+    box-shadow: 0px 2px 5px 0 rgba(0, 0, 0, 0.26);
     }
 
     .tabs.tabs-top {
         background-color: #E0E0E0;
         background-size: 0;
     }
-    
+
     .tab-item {
         -webkit-box-shadow: inset 0px -1px 2px 0px rgba(0,0,0,0.2);
         -moz-box-shadow: inset 0px -1px 2px 0px rgba(0,0,0,0.2);
         box-shadow: inset 0px -1px 2px 0px rgba(0,0,0,0.2);
     }
-    
+
     .tab-bg {
-        -webkit-transition: all 0.3s ease, border 1ms;         
-        -moz-transition: all 0.3s ease, border 1ms;       
+        -webkit-transition: all 0.3s ease, border 1ms;
+        -moz-transition: all 0.3s ease, border 1ms;
         -o-transition: all 0.3s ease, border 1ms;
-        -ms-transition: all 0.3s ease, border 1ms;          
+        -ms-transition: all 0.3s ease, border 1ms;
         transition: all 0.3s ease, border 1ms;
         background-color: #F9F9F9;
         color: #272727 !important;
-//        border-bottom: 2px solid #272727; 
+//        border-bottom: 2px solid #272727;
         opacity: 1;
         -webkit-box-shadow: none;
         -moz-box-shadow: none;
@@ -37,7 +46,7 @@
 }
 
 .transactions {
-    
+
     .card-special {
         .item.item-text-wrap.center {
             padding-bottom: 5px;
@@ -49,7 +58,7 @@
             transform:scale(1.2,1.0);
         }
     }
-    
+
     .dollar-text {
         font-size: 28px;
         color: #95a5a6;
@@ -70,5 +79,5 @@
         padding: 40px 0;
         font-family: Futura-CondensedMedium;
     }
-    
+
 }
