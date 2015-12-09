@@ -656,10 +656,14 @@ Meteor.methods({
 
     var response = Async.runSync(function(done) {
 
+      // generating own card Id to filter on stripeAPI
+      var ownIdCard = Math.random().toString(36).substring(7);
+
       //Creating source to Customer Account
       Stripe.customers.createSource(
         stripeCustomerId,
-        { source: token },
+        { source: token,
+          metadata: { idPartioCard: ownIdCard }},
         Meteor.bindEnvironment(function (error, customerCard) {
           if(error) {
             done(error, false);
@@ -696,9 +700,13 @@ Meteor.methods({
 
     var response = Async.runSync(function(done) {
 
+      // generating own card Id to filter on stripeAPI
+      var ownIdCard = Math.random().toString(36).substring(7);
+
       // Creating external_account to Managed Account
-      Stripe.accounts.createExternalAccount( stripeManagedId, {
-        external_account: firstToken},
+      Stripe.accounts.createExternalAccount( stripeManagedId,
+      { external_account: firstToken,
+        metadata: { idPartioCard: ownIdCard }},
         Meteor.bindEnvironment(function (error, managedCard) {
           console.log('>>>>> [stripe] new card to Managed account ', managedCard.id);
 
@@ -722,7 +730,8 @@ Meteor.methods({
           //Creating source to Customer Account
           Stripe.customers.createSource(
             stripeCustomerId,
-            { source: secondToken },
+            { source: secondToken,
+              metadata: { idPartioCard: ownIdCard }},
             Meteor.bindEnvironment(function (error, customerCard) {
               if(error) {
                 done(error, false);
@@ -744,6 +753,44 @@ Meteor.methods({
         })
       );
     })
+
+    return response.result;
+  },
+
+  'getStripeCustomer': function(){
+    var _userProfile = Meteor.user().profile;
+    console.log('>>>>> [stripe] getting stripe CUSTOMER info from ', _userProfile.email);
+
+    if(!_userProfile.stripeCustomer) {
+      throw new Meteor.Error("getStripeCustomer", "missing stripeCustomer account");
+    }
+
+    var response = Async.runSync(function(done) {
+      Stripe.customers.retrieve(_userProfile.stripeCustomer,
+        Meteor.bindEnvironment(function (err, customer) {
+          done(err, customer);
+        })
+      );
+    });
+
+    return response.result;
+  },
+
+  'getStripeManaged': function() {
+    var _userProfile = Meteor.user().profile;
+    console.log('>>>>> [stripe] getting stripe MANAGED info from ', _userProfile.email);
+
+    if(!_userProfile.stripeManaged) {
+      throw new Meteor.Error("getStripeCustomer", "missing stripeManaged account");
+    }
+
+    var response = Async.runSync(function(done) {
+      Stripe.accounts.retrieve(_userProfile.stripeManaged,
+        Meteor.bindEnvironment(function (err, account) {
+          done(err, account);
+        })
+      );
+    });
 
     return response.result;
   },

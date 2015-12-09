@@ -18,18 +18,34 @@ SavedCardsController = RouteController.extend({
 		];
 	},
 
+	_userData: Meteor.user(),
+
 	data: function() {
 		return {
-			listCards: function(){
-				// Meteor.call('listCards', function(err, result){
-				// 	console.log(err, result)
-				// 	if(result){
-				// 		return result;
-				// 	}
-				// })
-				// if(Meteor.user().profile.stripeAccount) {
-				// 	return Meteor.user().profile.stripeAccount.id;
-				// }
+			getCustomer: function(){
+				if(this._userData.stripeCustomer) {
+					Meteor.call('getStripeCustomer', this._userData.profile.stripeCustomer, function(err, result){
+						console.log(err, result)
+						if(result){
+							return result;
+						}
+					})
+				} else {
+					return false;
+				}
+			},
+
+			getManaged: function(){
+				if(this._userData.stripeManaged) {
+					Meteor.call('getStripeManaged', this._userData.profile.stripeManaged, function(err, result){
+						console.log(err, result)
+						if(result){
+							return result;
+						}
+					})
+				} else {
+					return false;
+				}
 			},
 
 			cards: function() {

@@ -1,184 +1,31 @@
-Template.addnewCard.events({
+Template.savedCards.onRendered(function() {
+	//var stripeCostumer = Template.savedCards.getStripeCustomer();
+	//var stripeManaged = Template.savedCards.getStripeManaged();
+	//console.log(stripeCostumer);
+	Cards.refresh();
+})
 
-	'submit .newCardForm': function(e) {
-		e.preventDefault();
-		console.log('> Form submit add new card');
-
-		var nameOut = e.target.name.value;
-		var numberOut = e.target.number.value;
-		var exp = e.target.expiry.value;
-				exp = exp.trim();
-				exp = exp.split('/');
-		var exp1 = parseInt(exp[0]);
-		var exp2 = parseInt(exp[1]);
-		var cvcOut = e.target.cvc.value;
-
-		console.log(nameOut, numberOut, exp1, exp2, cvcOut);
-
-		if(!nameOut || !numberOut || !exp1 || !exp2 || !cvcOut){
-			alert('Please fill all fields');
-			return false;
+Template.savedCards.getStripeCustomer = function(done){
+	Meteor.call('getStripeCustomer', function(err, result){
+		if(err) {
+			console.log('[stripe] User does not have stripe CUSTOMER account yet');
+			done(false);
 		}
 
-		PartioLoad.show('Adding a new card');
+		done(result);
+	});
+},
 
-		//Creating first token (tokens only can be used once)
-		Stripe.card.createToken({
-			number: numberOut,
-			cvc: cvcOut,
-			exp_month: exp1,
-			exp_year: exp2,
-			currency: 'usd',
-			name: nameOut,
-		}, function(status, firstResponse) {
+Template.savedCards.getStripeManaged = function(done){
+	Meteor.call('getStripeManaged', function(err, result){
+		if(err) {
+			console.log('[stripe] User does not have stripe MANAGED account yet');
+			done(false);
+		}
 
-			if(!firstResponse.id) {
-				PartioLoad.hide();
-				console.log('some error', status);
-				return false;
-			}
-
-			//If card is credit, check if there is stripeCustomer and add card only on it.
-			if(firstResponse.card.funding == 'credit') {
-
-				Meteor.call('checkStripeCustomer', function(error, result) {
-					console.log('>>>>>> [stripe] return checkStripeCustomer');
-
-					//Adding card to customer account
-					Meteor.call('addCustomerCard', firstResponse.id, function(error, result){
-						console.log('>>>>>> [stripe] return addCustomerCard');
-						PartioLoad.hide();
-
-						if(error) {
-							alert(error.message);
-							return false;
-						}
-
-						//closemodal
-						$('.modal .bar button').trigger('click');
-					})
-				});
-
-			//If card is debit, check if there is stripeManaged and stripeCustomer and add card only both accounts.
-			} else if(firstResponse.card.funding == 'debit') {
-
-				//check if there is stripe Managed account
-				Meteor.call('checkStripeManaged', function(error, resultManaged) {
-					console.log('>>>>>> [stripe] return checkStripeManaged');
-
-					if(error) {
-						PartioLoad.hide();
-						alert(error.message);
-						return false;
-					}
-
-					if(resultManaged) {
-						Meteor.call('checkStripeCustomer', function(error, resultCustomer) {
-							console.log('>>>>>> [stripe] return checkStripeCustomer');
-							if(error) {
-								PartioLoad.hide();
-								alert(error.message);
-								return false;
-							}
-
-							if(resultCustomer) {
-
-								//Creating second token (tokens only can be used once)
-								Stripe.card.createToken({
-									number: numberOut,
-									cvc: cvcOut,
-									exp_month: exp1,
-									exp_year: exp2,
-									currency: 'usd',
-									name: nameOut,
-								}, function(status, secondResponse) {
-
-									if(!secondResponse.id) {
-										PartioLoad.hide();
-										console.log('some error', status);
-										return false;
-									}
-
-									//On this method we gonna create the same card to Customer and Manager
-									//That's why because we have 2 tokens (each token could be used once time)
-									Meteor.call('addManagedCard', firstResponse.id, secondResponse.id, function(error, result){
-										console.log('>>>>>> [stripe] return addCustomerCard');
-										PartioLoad.hide();
-
-										if(error) {
-											alert(error.message);
-											return false;
-										}
-
-										//closemodal
-										$('.modal .bar button').trigger('click');
-									})
-								});
-							}
-						})
-					}
-				});
-			}
-		});
-
-		//
-		// Meteor.call('checkAccount', function(error, result) {
-		// 	console.log('>>>>>> return checkaccount <<<<<');
-		//
-		// 	if(error) {
-		// 		PartioLoad.hide();
-		// 		console.log(error);
-		// 		return false;
-		// 	}
-		//
-		// 	if(result){
-		// 		Stripe.card.createToken({
-		// 			number: numberOut,
-		// 			cvc: cvcOut,
-		// 			exp_month: exp1,
-		// 			exp_year: exp2,
-		// 			currency: 'usd',
-		// 			name: nameOut,
-		// 		}, function(status, response) {
-		//
-		// 			if(response.error) {
-		// 				PartioLoad.hide();
-		// 				alert(response.error.message);
-		// 				return false;
-		// 			}
-		//
-		// 			if(response.card.funding == 'credit') {
-		// 				PartioLoad.hide();
-		// 				alert('Sorry, for now only with debit cards.');
-		// 				return false;
-		// 			}
-		//
-		// 			if(response.id) {
-		// 				Meteor.call('addCard', response.id, function(error, result){
-		// 					console.log('>>>>>> return addCard');
-		//
-		// 					if(error) {
-		// 						alert(error.message);
-		// 						return false;
-		// 					}
-		//
-		// 					Cards.refresh();
-		//
-		// 					//closemodal
-		// 					$('.modal .bar button').trigger('click');
-		// 					PartioLoad.hide();
-		//
-		// 				});
-		// 			} else {
-		// 				PartioLoad.hide();
-		// 				console.log('some error');
-		// 				console.log(response);
-		// 			}
-		// 		});
-		// 	}
-		// });
-	}
-});
+		done(result);
+	});
+},
 
 Template.savedCards.getCreditCards = function(){
 	// var result = []
@@ -197,6 +44,10 @@ Template.savedCards.getCreditCards = function(){
 	// }
 	//
 	// return result;
+}
+
+Template.savedCards.getDebitCards = function(){
+
 }
 
 Template.savedCards.getDebitCards = function(){
@@ -231,6 +82,8 @@ Template.savedCards.defaultPay = function(){
 }
 
 Cards = {
+	customer: false,
+	managed: false,
 	// defaultReceive: false,
 	// defaultPay: false,
 	// creditCards: false,
@@ -238,11 +91,67 @@ Cards = {
 
 	//refrshing this object
 	refresh: function(){
+		console.log('>>> refreshing cards on UI...')
+		var promisse = new Promise(
+      function(resolve, reject) {
+				Template.savedCards.getStripeCustomer(function(dataCustomer){
+					Cards.customer = dataCustomer;
+					Template.savedCards.getStripeManaged(function(dataManaged){
+						Cards.managed = dataManaged;
+						resolve();
+					});
+				});
+      }
+		);
+
+    promisse.then(
+      function() {
+        Cards.organizeCards();
+      })
+
+		//this.customer = Template.savedCards.getStripeCustomer();
+		//this.managed = Template.savedCards.getStripeManaged();
 		// this.creditCards = Template.savedCards.getCreditCards();
 		// this.debitCards = Template.savedCards.getDebitCards();
 		// this.defaultPay = Template.savedCards.defaultPay();
 		// this.defaultReceive = Template.savedCards.defaultReceive();
 		// this.checkStatus();
+	},
+
+
+	organizeCards: function(){
+		console.log('>>>> [stripe] organizing cards on UI...')
+
+		var _cards = [];
+
+		//console.log(this.customer, this.managed);
+		if(this.customer) {
+			//check Customer cards (could be Credit or Debit)
+			if(this.customer.sources.data.length){
+				this.customer.sources.data.map(function(card){
+					if(!_cards[card.metadata.idPartioCard]){
+						_cards[card.metadata.idPartioCard] = [];
+					}
+
+					_cards[card.metadata.idPartioCard]['customer'] = card;
+				})
+			}
+		}
+
+		if(this.managed) {
+			//check Customer cards (could be only Debit)
+			if(this.managed.external_accounts.data.length){
+				this.managed.external_accounts.data.map(function(card){
+					if(!_cards[card.metadata.idPartioCard]){
+						_cards[card.metadata.idPartioCard] = [];
+					}
+
+					_cards[card.metadata.idPartioCard]['managed'] = card;
+				})
+			}
+		}
+
+		console.log(_cards);
 	},
 
 	//check user situation with the cards
@@ -499,42 +408,3 @@ Template.savedCards.events({
 		// });
 	}
 });
-
-Template.savedCards.onRendered(function() {
-	//Cards.refresh();
-
-	// stripeHandler = StripeCheckout.configure({
-	//
-	// 	key: Meteor.settings.public.STRIPE_PUBKEY,
-	// 	currency: 'usd',
-	//
-	// 	token: function(token) {
-	// 		console.log('new card token >', token);
-	// 		PartioLoad.show();
-	//
-	// 		Meteor.call('checkAccount', function(error, result) {
-	// 			console.log(' return checkaccount');
-	// 			console.log(result);
-	// 			console.log(error)
-	//
-	// 			if(error) {
-	// 				console.log('some error on checkAccount', error)
-	// 				return false;
-	//
-	// 			} else {
-	// 				Meteor.call('addCard', token, function(error, result) {
-	// 					PartioLoad.hide();
-	//
-	// 					if(error) {
-	// 						console.log('some error on addCard', error)
-	// 						return false;
-	//
-	// 					} else {
-	// 						Cards.refresh();
-	// 					}
-	// 				})
-	// 			}
-	// 		});
-	// 	}
-	// });
-})
