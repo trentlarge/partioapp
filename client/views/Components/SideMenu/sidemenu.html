@@ -5,40 +5,44 @@
     <div class="list transparent-list">
         <div class="item top">
 
-            <input type="text" name="search" id="search" placeholder="Search for an item...">
-            <i class="icon ion-search" id="search-icon"></i>
-            <a href="{{pathFor "notifications"}}" class="notification" data-ion-menu-close>
-              {{> ionIcon icon="android-notifications" class="energized"}}
+            <input class="googleshade" type="text" name="search" id="search" placeholder="Search for an item...">
+            <i class="icon ion-search " id="search-icon"></i>
+            <a href="{{pathFor "notifications"}}" class="notification " data-ion-menu-close>
+              {{> ionIcon icon="android-notifications" class="energized btnshadow"}}
               <span class="badge badge-alert badge-assertive">{{#if alertCount}}{{alertCount}}{{/if}}</span>
             </a>
 
         </div>
 
          <div class="logo-container">
-             <a class="logo" href="/" data-ion-menu-close><img src="{{ getImage 'sidemenu-logo' }}"/></a>&nbsp;
+             <a class="logo btnshadow" href="/" data-ion-menu-close><img src="{{ getImage 'sidemenu-logo' }}"/></a>&nbsp;
           </div>
         <div class="content ion-content text" align="center">
            <h5 style="color:white;"> Welcome back,<b> {{currentUser.profile.name}}</b>.</h5>
         </div>
 
-        <a href="{{pathFor "inventory"}}" class="item" data-ion-menu-close>
-          {{> ionIcon icon="ios-briefcase" class="menu-icon energized"}} &nbsp;&nbsp; Shared Items
+        <a href="{{pathFor "listing"}}" class="item menutext" data-ion-menu-close>
+
+          {{> ionIcon icon="android-compass" class="menu-icon energized btnshadow"}} &nbsp;&nbsp;&nbsp;&nbsp; What's Avaliable?
+        </a>
+        <a href="{{pathFor "inventory"}}" class="item menutext" data-ion-menu-close>
+          <i class="mdi mdi-basket-unfill menu-icon energized btnshadow"></i> &nbsp;&nbsp;&nbsp;&nbsp; Shared Items
           <span class="badge badge-alert badge-assertive">{{#if inventoryCount}}{{inventoryCount}}{{/if}}</span>
         </a>
-        <a href="{{pathFor "renting"}}" class="item" data-ion-menu-close>
-          {{> ionIcon icon="ios-browsers" class="menu-icon energized"}} &nbsp;&nbsp; Borrowed Items
+        <a href="{{pathFor "renting"}}" class="item menutext" data-ion-menu-close>
+      <i class="mdi mdi-cart menu-icon energized btnshadow"></i> &nbsp;&nbsp;&nbsp;&nbsp; Borrowed Items
           <span class="badge badge-alert badge-assertive">{{#if rentedCount}}{{rentedCount}}{{/if}}</span>
         </a>
-        <a href="{{pathFor "transactions"}}" class="item" data-ion-menu-close>
-          {{> ionIcon icon="card" class="menu-icon energized"}} &nbsp;&nbsp; Transactions
+        <a href="{{pathFor "transactions"}}" class="item menutext" data-ion-menu-close>
+          {{> ionIcon icon="card" class="menu-icon energized btnshadow"}} &nbsp;&nbsp;&nbsp;&nbsp; Transactions
           <span class="badge badge-alert badge-assertive">{{#if transactionCount}}{{transactionCount}}{{/if}}</span>
         </a>
-        <a href="{{pathFor "profile"}}" class="item" data-ion-menu-close>
-          {{> ionIcon icon="person" class="menu-icon energized"}} &nbsp;&nbsp; My Profile
+        <a href="{{pathFor "profile"}}" class="item menutext" data-ion-menu-close>
+          {{> ionIcon icon="person" class="menu-icon energized btnshadow"}} &nbsp;&nbsp;&nbsp;&nbsp; My Profile
         </a>
 
-         <button class="btn" id="logout" data-ion-menu-close>LOGOUT</button>
-         <p class="beta">beta v0.1</p>
+         <button class="btn" style="box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);" id="logout" data-ion-menu-close>LOGOUT</button>
+         <p class="beta">beta v0.9</p>
 
       </div>
 
