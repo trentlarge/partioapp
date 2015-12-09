@@ -565,7 +565,7 @@ Meteor.methods({
 
       var response = Async.runSync(function(done) {
 
-        //Creating Stripe Account
+        //Creating Stripe Managed Account
         Stripe.accounts.create({
           managed: true,
           country: 'US',
@@ -609,6 +609,8 @@ Meteor.methods({
 
     if (!_userProfile.stripeCustomer) {
       var response = Async.runSync(function(done) {
+
+        //Creating Stripe Customer Account
         Stripe.customers.create({ description: Meteor.userId() },
          Meteor.bindEnvironment(function (error, result) {
            if(error) {
@@ -858,49 +860,95 @@ Meteor.methods({
   },
 
   //not using but it works (in case of not saving cards on mongo, we can start from this)
-  'listCards': function(){
+  // 'listCards': function(){
+  //
+  //   if(!Meteor.user().profile.stripeAccount) {
+  //     return false;
+  //   }
+  //
+  //   var response = Async.runSync(function(done) {
+  //     Stripe.accounts.listExternalAccounts(Meteor.user().profile.stripeAccount.id, {object: "card"},
+  //     function(err, cards) {
+  //       console.log(err, cards);
+  //       done(err, cards.data);
+  //     });
+  //   });
+  //
+  //   return response.result;
+  // },
 
-    if(!Meteor.user().profile.stripeAccount) {
-      return false;
-    }
 
-    var response = Async.runSync(function(done) {
-      Stripe.accounts.listExternalAccounts(Meteor.user().profile.stripeAccount.id, {object: "card"},
-      function(err, cards) {
-        console.log(err, cards);
-        done(err, cards.data);
-      });
-    });
+  'chargeCard': function(connectionId) {
+    console.log('>>>>> [stripe] charging card');
 
-    return response.result;
-  },
-
-
-  'chargeCard': function(token, connectionId) {
-    this.unblock();
     var connect = Connections.findOne(connectionId);
 
     if(connect) {
         var requestor = Meteor.users.findOne(connect.requestor);
-        var requestorCardId = requestor.profile.defaultPay.id;
-        var requestorStripeId = requestor.profile.stripeAccount.id;
-        var requestorCustomerId = requestor.profile.stripeCustomer.id;
-        var requestorTransactionsId = requestor.profile.transactionsId;
+        //var requestorCardId = requestor.profile.defaultPay.id;
+        var requestorManagedId = requestor.profile.stripeManaged;
+        var requestorCustomerId = requestor.profile.stripeCustomer;
+//        var requestorTransactionsId = requestor.profile.transactionsId;
 
         var owner = Meteor.users.findOne(connect.productData.ownerId);
-        var ownerCardId = owner.profile.defaultReceive.id;
-        var ownerStripeId = owner.profile.stripeAccount.id;
-        var ownerCustomerId = requestor.profile.stripeCustomer.id;
-        var ownerTransactionsId = owner.profile.transactionsId;
+        //var ownerCardId = owner.profile.defaultReceive.id;
+        //var ownerManagedId = owner.profile.stripeManaged;
+        //var ownerCustomerId = requestor.profile.stripeCustomer;
+//        var ownerTransactionsId = owner.profile.transactionsId;
 
         var amount = connect.borrowDetails.price.total;
         var formattedAmount = (amount * 100).toFixed(0);
 
-        console.log('requestor ---------')
-        console.log(requestorCardId, requestorStripeId, requestorTransactionsId);
-        console.log('owner ---------')
-        console.log(ownerCardId, ownerStripeId, ownerTransactionsId);
-        console.log('total > '+formattedAmount)
+        var response = Async.runSync(function(done) {
+
+          //Requestor Customer Default Source to charge (always gonna be from customer)
+          Stripe.customers.retrieve(requestorCustomerId,
+            Meteor.bindEnvironment(function (err, customer) {
+              if(err) {
+                done(err, false);
+              }
+
+              var payCardId = customer.default_source;
+
+              Stripe.charges.create({
+                amount: formattedAmount,
+                currency: "usd",
+                customer: requestorCustomerId,
+                source: payCardId,
+                description: requestor.profile.email+' paid to Partio' },
+                Meteor.bindEnvironment(function (err, charge) {
+                  if(err) {
+                    done(err, false);
+                  }
+
+                  console.log('>>>>> [stripe] new charge to Partio ', charge);
+                  done(false, charge);
+                })
+              );
+            })
+          );
+        });
+
+        return response.result;
+
+        // console.log('requestor ---------')
+        // console.log(requestorCardId, requestorStripeId, requestorTransactionsId);
+        // console.log('owner ---------')
+        // console.log(ownerCardId, ownerStripeId, ownerTransactionsId);
+        // console.log('total > '+formattedAmount)
+
+        // Stripe.charges.create({
+        //   amount: formattedAmount,
+        //   currency: "usd",
+        //   customer: requestorCustomerId,
+        //   source: requestorCardId,
+        //   destination: ownerStripeId,
+        //   description: requestor.profile.email+' paid'
+        // }, function(err, result){
+        //   console.log(err, 'xxxxxxxxxxxxxx', result);
+        // });
+
+
 
         // Stripe.customers.create(
         //  { description: 'creating customer '+requestor.profile.email },
@@ -916,16 +964,16 @@ Meteor.methods({
         //   // asynchronously called
         // });
 
-        Stripe.charges.create({
-          amount: formattedAmount,
-          currency: "usd",
-          customer: requestorCustomerId,
-          source: requestorCardId,
-          destination: ownerStripeId,
-          description: 'Receive money from '+requestor.profile.name
-        }, function(err, result){
-          console.log(err, 'xxxxxxxxxxxxxx', result);
-        });
+        // Stripe.charges.create({
+        //   amount: formattedAmount,
+        //   currency: "usd",
+        //   customer: requestorCustomerId,
+        //   source: requestorCardId,
+        //   destination: ownerStripeId,
+        //   description: 'Receive money from '+requestor.profile.name
+        // }, function(err, result){
+        //   console.log(err, 'xxxxxxxxxxxxxx', result);
+        // });
 
         // Stripe.transfers.create({
         //   amount: formattedAmount,

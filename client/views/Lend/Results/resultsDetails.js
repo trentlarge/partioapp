@@ -167,7 +167,8 @@ Template.resultsDetails.events({
 
     'click .submitProduct': function(e, template) {
 
-        if(!Meteor.user().profile.defaultReceive){
+        //need to improve how knows if user have a debit card
+        if(!Meteor.user().profile.stripeManaged){
           IonPopup.show({
             title: 'Update profile',
             template: '<div class="center">Please, update your debit card to share this item.</div>',
