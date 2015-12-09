@@ -2,22 +2,19 @@
 
 .savedCard {
 
-
-
     .item-checkbox {
         width: 18px !important;
         height: 18px !important;
     }
 
     .item-checkbox input:checked{
-      background: red !important;
-      border-color: red !important;
+        background: red !important;
+        border-color: red !important;
     }
 
-
-.panecard{
-  padding : 0;
-}
+    .panecard{
+        padding : 0;
+    }
 
     .item-divider {
         padding-top: 16px;
@@ -107,4 +104,27 @@
         }
     }
 
+}
+
+.modal.new-card {
+
+    background-color: #f5f5f5;
+    
+    .card {
+        margin: 0;
+    }
+    
+    .card-wrapper {
+        padding: 16px;
+    }
+    
+    .item-button {
+        padding-top: 10px;
+        padding-bottom: 10px; 
+    }
+    
+    i.icon {
+        width: 20px;
+    }
+    
 }
