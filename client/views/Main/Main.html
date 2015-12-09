@@ -1,4 +1,4 @@
-<template name="main">
+<template name="main" style="overflow: hidden">
   {{#contentFor "headerButtonLeft"}}
       <button class="button button-clear pull-left" data-ion-menu-toggle="left">
         {{> ionIcon icon='navicon' class="energized"}}
@@ -13,7 +13,7 @@
   {{/contentFor}}
 
   {{#ionView class="main"}}
-    <div class="content overflow-scroll has-header">
+    <div class="content overflow-hidden has-header">
 <!--
 	    <div id="bottom-triangle">
 	    	<div id="top-triangle"></div>

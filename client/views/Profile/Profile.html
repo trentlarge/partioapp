@@ -1,4 +1,6 @@
+
 <template name="profile">
+<!--  {{#ionContent class="bar" }}-->
 
   {{#if currentUser.emails.[0].verified}}
     {{#contentFor "headerButtonLeft"}}
@@ -32,11 +34,14 @@
     {{/contentFor}}
   {{/if}}
 
+<!--{{/ionContent}}-->
+
   {{#ionView}}
     {{#ionContent class="profile-content"}}
     <!-- <div class="content has-header"> -->
 
-      <div class="item">
+      <div class="item" style="div {
+    box-shadow: 1px 1.1px 2px #AAAAAA;">
           {{> settingsProfileImage}}
           <div class="center">
             <span class="profile-name">{{currentUser.profile.name}}</span>
