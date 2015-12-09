@@ -445,14 +445,14 @@ Meteor.methods({
     });
   },
   'updatePassword': function(userId, password) {
-    console.log('chamou updatePassword');
-    Meteor.bindEnvironment(function(){
-      Accounts.setPassword(userId, password, { logout: true });
-      console.log('chamou updatePassword');
-    },
-    function (err) {
-      console.log('failed to bind env: ', err);
-    })
+
+      Accounts.setPassword(userId, password, { logout: false }, function(error) {
+
+        console.log(error);
+
+      });
+
+
   },
 
   'submitRating': function(rating, personId, ratedBy) {

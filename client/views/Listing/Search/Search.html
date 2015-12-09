@@ -17,16 +17,23 @@
 
         <a class="item" href="#">
           <div class="profile-image-box">
-            <div style="background: url({{ ../ownerAvatar ownerData.profile.avatar }}) no-repeat; background-size:cover; background-position: 50% 50%;" class="profile-avatar"></div>
-            <p class="main-title-text"> {{ ownerData.profile.name }} </p>
-            <span class="rating-box">{{ > rating}}</span>
-            <a id="moreInfo">MORE INFO</a>
+               <div class="half product-image">
+                <img class="product-avatar-inner" src="{{image}}"/>
+             </div>
+              <div class="half">
+                <div style="background: url({{ ../ownerAvatar ownerData.profile.avatar }}) no-repeat; background-size:cover; background-position: 50% 50%;" class="profile-avatar"></div>
+                <p class="main-title-text"> {{ ownerData.profile.name }} </p>
+                <span class="rating-box">{{ > rating}}</span>
+                <a href="/profile/items/{{ ownerId }}"><p class="main-title-text">All items from this user</p></a>
+                <a id="moreInfo">MORE INFO</a>
+              </div>
+
           </div>
           <div class="profile-content">
-              
+
             <div class="profile-product-container">
                 <div class="profile-product-price-box">
-                    
+
                     <p class="main-sub-text">Rent Price:</p>
                     <p class="main-sub-text">
                         <table class="rent-table">
@@ -49,8 +56,8 @@
                                 </tr>
                             </tbody>
                         </table>
-                    
-                    
+
+
                         <table class="rent-table condition">
                              <tbody>
                                 <tr>
@@ -67,7 +74,6 @@
                     </div>
                 </div>
             </div>
-              
 
             {{#if ../requestSent ownerId _id}}
                 <button class="button button-block" disabled>REQUEST SENT <i class="fa fa-check "></i></button>

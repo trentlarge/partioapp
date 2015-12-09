@@ -1,0 +1,90 @@
+<template name="items">
+
+  {{#contentFor "headerButtonLeft"}}
+      {{>ionNavBackButton path="listing"}}
+  {{/contentFor}}
+
+  {{#contentFor "headerTitle"}}
+    <h1 class="title">Select from Owner</h1>
+  {{/contentFor}}
+
+    {{#contentFor "headerTitle"}}
+      <h1 class="title" style="text-align:center;">Profile</h1>
+    {{/contentFor}}
+
+    {{#contentFor "headerButtonRight"}}
+      {{#if profileEdit}}
+        <button id="saveProfile" class="button button-clear button-energized">Save</button>
+        {{else}}
+          <a href="/" class="button button-clear">
+              <img id="spinner-logo-simple" src="{{ getImage 'spinner-logo' }}" />
+          </a>
+      {{/if}}
+    {{/contentFor}}
+
+
+  {{#ionView}}
+
+
+  <div class="item">
+
+      <div class="profile-image-container">
+
+        <div class="profile-avatar" style="background: url('{{connectData.profile.avatar}}') no-repeat; background-size:cover; background-position: 50% 50%;"></div>
+
+      </div>
+
+      <div class="center">
+        <span class="profile-name">{{connectData.profile.name}}</span><br />
+        <span class="rating-box">{{ > rating}}</span>
+      </div>
+  </div>
+
+
+
+
+
+      <div class="content product-list">
+      <div class="item item-divider products"><h3>Items</h3></div>
+      <div class="product-item">
+
+        {{#each items}}
+        <a class="item item-avatar-2" href="/listing/search/{{searchId}}">
+
+            <div class="product-avatar">
+              <img class="product-avatar-inner" src="{{image}}"/>
+            </div>
+            <p class="main-title-text">{{title}}</p>
+            <p class="main-sub-text">Condition of the item: <b>{{../getCondition conditionId}}</b></p>
+            <p class="main-sub-text">Rent Price:</p>
+            <p class="main-sub-text">
+              <table class="rent-table">
+                <tbody>
+                  <tr>
+                    <th class="one"><i class="icon">D</i></th>
+                    <th class="two"><i class="icon">W</i></th>
+                    <th class="three"><i class="icon">M</i></th>
+                    <th class="four"><i class="icon">S</i></th>
+                  </tr>
+                  <tr>
+
+                    <td>${{rentPrice.day}}</td>
+                    <td>${{rentPrice.week}}</td>
+                    <td>${{rentPrice.month}}</td>
+                    <td>${{rentPrice.semester}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </p>
+            <div class="item-icon-right">
+            {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
+            </div>
+          </a>
+        {{/each}}
+      </div>
+    </div>
+
+
+
+  {{/ionView}}
+</template>
