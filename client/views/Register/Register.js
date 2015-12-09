@@ -31,6 +31,28 @@ emailCheck = function(college, email) {
 	}
 }
 
+
+Template.modalPrivacyPolicy.events({
+  'click #accept': function(e, template) {
+		e.preventDefault();
+    Router.go('/register');
+
+    //closemodal
+  $('.modal .bar button').trigger('click');
+
+
+
+
+	},
+  'click #decline': function(e, template) {
+		e.preventDefault();
+
+
+	},
+
+
+});
+
 Template.register.events({
 	'click #registerButton': function(e, template) {
 		e.preventDefault();

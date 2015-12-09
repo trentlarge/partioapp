@@ -15,7 +15,7 @@
       <div class="list">
       {{#each products }}
 
-        <a class="item" href="#">
+        <div class="item">
           <div class="profile-image-box">
                 <a href="/profile/items/{{ ownerId }}" class="profile-avatar-box"> 
                     <div style="background: url({{ ../ownerAvatar ownerData.profile.avatar }}) no-repeat; background-size:cover; background-position: 50% 50%;" class="profile-avatar"></div>
@@ -86,7 +86,7 @@
 
 
           </div>
-        </a>
+        </div>
         {{/each}}
       </div>
     {{/ionContent}}
