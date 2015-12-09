@@ -44,8 +44,20 @@
             display: block;
         }
 
+        .profile-avatar-box {
+            &.activated {
+                .profile-avatar {
+                    opacity: .8;
+                }
+            }
+        }
+        
         .profile-avatar {
             margin: 0;
+            
+            &:hover {
+                opacity: .6;
+            }
         }
 
         p {
@@ -75,15 +87,6 @@
                 right: 10px;
                 font-size: 14px;
             }
-            &:active{
-                border-color: #928F8F;
-                background: #ECECEC;
-                i{
-                    color: #928F8F;
-
-                }
-            }
-
         }
 
         .profile-product-container {  

@@ -1,6 +1,6 @@
 <template name="search">
   {{#contentFor "headerButtonLeft"}}
-      {{>ionNavBackButton path="listing"}}
+      {{>ionNavBackButton   }}
   {{/contentFor}}
 
   {{#contentFor "headerTitle"}}
@@ -17,17 +17,12 @@
 
         <a class="item" href="#">
           <div class="profile-image-box">
-               <div class="half product-image">
-                <img class="product-avatar-inner" src="{{image}}"/>
-             </div>
-              <div class="half">
-                <div style="background: url({{ ../ownerAvatar ownerData.profile.avatar }}) no-repeat; background-size:cover; background-position: 50% 50%;" class="profile-avatar"></div>
+                <a href="/profile/items/{{ ownerId }}" class="profile-avatar-box"> 
+                    <div style="background: url({{ ../ownerAvatar ownerData.profile.avatar }}) no-repeat; background-size:cover; background-position: 50% 50%;" class="profile-avatar"></div>
+                </a>
                 <p class="main-title-text"> {{ ownerData.profile.name }} </p>
                 <span class="rating-box">{{ > rating}}</span>
-                <a href="/profile/items/{{ ownerId }}"><p class="main-title-text">All items from this user</p></a>
                 <a id="moreInfo">MORE INFO</a>
-              </div>
-
           </div>
           <div class="profile-content">
 

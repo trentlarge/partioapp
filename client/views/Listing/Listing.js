@@ -81,13 +81,6 @@ Template.searchResult.helpers({
   }
 });
 
-Template.searchResult.events({
-  'click .qty-check': function() {
-    Session.set('currentQty', Search.findOne(this._id).qty);
-    console.log('CHECK currentQty: ' + Session.get('currentQty'));
-  }
-})
-
 Template.searchBox.helpers({
   getCategory: function(index) {
       return Categories.getCategory(index);

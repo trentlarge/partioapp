@@ -70,6 +70,10 @@
     box-shadow : 0 0 5px transparent;
 }
 
+.bar.bar-header {
+    background-size: 0;
+}
+
 .title.header-title {
     display: inline-flex; 
     display: -webkit-inline-flex;
