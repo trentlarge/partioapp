@@ -2,6 +2,19 @@
 
 .savedCard {
 
+
+
+    .item-checkbox {
+        width: 18px !important;
+        height: 18px !important;
+    }
+
+    .item-checkbox input:checked{
+      background: red !important;
+      border-color: red !important;
+    }
+
+
 .panecard{
   padding : 0;
 }
