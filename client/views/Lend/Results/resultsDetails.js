@@ -168,7 +168,7 @@ Template.resultsDetails.events({
 
         var currentUser = Meteor.user();
 
-        if(!currentUser || !currentUser.profile || !currentUser.profile..canShare) {
+        if(!currentUser || !currentUser.profile || !currentUser.profile.canShare) {
           IonPopup.show({
             title: 'Update profile',
             template: '<div class="center">Please, update your debit card to share this item.</div>',
