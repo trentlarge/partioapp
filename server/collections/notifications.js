@@ -4,7 +4,7 @@ Notifications.allow({
 	},
 
 	update: function (userId, doc, fields, modifier) {
-		return Notifications.userCanUpdate(userId, doc);
+		return Notifications.userCanUpdate(userId, doc, fields, modifier);
 	},
 
 	remove: function (userId, doc) {

@@ -50,7 +50,7 @@ Template.connectRent.events({
 	'click #returnItem': function() {
 		var connectionData = this.connectData;
 		var requestorName = this.connectData.requestorData.profile.name;
-		var ownerId 			= this.connectData.productData.ownerId;
+		var ownerId	= this.connectData.productData.ownerId;
 
 		IonPopup.confirm({
 			cancelText: 'Cancel',
@@ -58,70 +58,74 @@ Template.connectRent.events({
 			title: 'Are you sure you want to return this item?',
 			template: '<div class="center"><p>Please make sure the item is passed back to the owner</p></div>',
 			onCancel: function() {
-                IonPopup.close();
+				console.log('Cancelled')
+        		IonPopup.close();
 			},
 			onOk: function() {
-				Meteor.call('returnItem', connectionData._id, function(error, result) {
-                IonPopup.close();
-                  if(!error){
-                    //      Router.go('/renting');
-                    IonModal.open("feedback", connectionData);
-                  } else {
-//                    console.log('some error', $error);
-                    }
-				})
+				Meteor.call('returnItem', connectionData._id, function(err, result) {
+					IonPopup.close();
+					if(err) {
+						var errorMessage = err.reason || err.message;
+						if(err.details) {
+							errorMessage = errorMessage + "\nDetails:\n" + err.details;
+						}
+						sAlert.error(errorMessage);
+						return;
+					}
+
+		            IonModal.open("feedback", connectionData);
+				});
 			}
 		});
 	},
 
 	'click #payAndRent': function() {
 
-		//if (Meteor.user().profile.cards) {
-			Session.set('payRedirect', false);
+		Session.set('payRedirect', false);
 
-			var connectionId = this.connectData._id;
-			var amount = this.connectData.borrowDetails.price.total;
+		var connectionId = this.connectData._id;
+		var amount = this.connectData.borrowDetails.price.total;
 
-			IonPopup.confirm({
-				cancelText: 'Cancel',
-				okText: 'PAY',
-				title: 'You are about to make a payment of $' + amount,
-				onCancel: function() {
+		IonPopup.confirm({
+			cancelText: 'Cancel',
+			okText: 'PAY',
+			title: 'You are about to make a payment of $' + amount,
+			onCancel: function() {
 
-				},
-				onOk: function() {
-					PartioLoad.show();
-          Meteor.call('chargeCard', connectionId, function(error, result) {
-            console.log('>>>>>> [stripe] return chargeCard');
-            console.log(error, result);
-            PartioLoad.hide();
+			},
+			onOk: function() {
+				PartioLoad.show();
+				Meteor.call('chargeCard', connectionId, function(error, result) {
+					console.log('>>>>>> [stripe] return chargeCard');
+					console.log(error, result);
+					PartioLoad.hide();
 
-						if(error) {
-              return false;
-              console.log('some error with charge card', error);
-            }
+					if(error) {
+						var errorMessage = error.reason || error.message;
+						if(error.details) {
+							errorMessage = errorMessage + "\nDetails:\n" + error.details;
+						}
+						sAlert.error(errorMessage);
+						return;
+					}
 
-						IonPopup.show({
-							title: 'Payment Successful!',
-							template: '<div class="center">A record of this payment is stored under Transactions History</div>',
-							buttons:
-							[{
-								text: 'OK',
-								type: 'button-assertive',
-								onTap: function() {
-									IonPopup.close();
-									Router.go('/transactions');
-									Session.set('spendClicked', true);
-								}
-							}]
-						});
-					})
-				}
-			});
-		// } else {
-		// 	Session.set('payRedirect', this.connectData._id);
-		// 	Router.go('/profile/savedcards');
-		// }
+					IonPopup.show({
+						title: 'Payment Successful!',
+						template: '<div class="center">A record of this payment is stored under Transactions History</div>',
+						buttons:
+						[{
+							text: 'OK',
+							type: 'button-assertive',
+							onTap: function() {
+								IonPopup.close();
+								Router.go('/transactions');
+								Session.set('spendClicked', true);
+							}
+						}]
+					});
+				});
+			}
+		});
 	},
 	'click #cancelRequest': function() {
 		connectionId = this.connectData._id;

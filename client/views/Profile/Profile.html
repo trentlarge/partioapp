@@ -48,7 +48,7 @@
           </div>
       </div>
 
-      <div class="panecard padding-horizontal padding-vertical">
+      <div class="card padding-horizontal padding-vertical">
         <form id="profileEdit">
 
             <label class="item item-input">
@@ -90,7 +90,7 @@
       </div>
 
       {{#if currentUser.emails.[0].verified}}
-        <div class="panecard padding-horizontal padding-vertical">
+        <div class="card padding-horizontal padding-vertical">
 <!--        <div class="item item-divider top"></div>-->
             <a class="item item-icon-right" href="{{pathFor 'changePassword'}}" >
                 <p>Change Password</p>
@@ -103,7 +103,7 @@
         </div>
     {{/if}}
 
-    <div class="panecard padding-horizontal padding-vertical">
+    <div class="card padding-horizontal padding-vertical">
 
         {{#if currentUser.emails.[0].verified}}
             <a class="item item-icon-right" id="logout"  >
@@ -117,7 +117,7 @@
                     <span class="activation-message center">Please verify your email address to proceed.</span>
                     {{> ionIcon icon="alert-circled" class="assertive"}}
                 </div>
-                <p class="text-center email-support">{{> ionIcon icon="ios-email-outline"}} <a href="mailto:support@partio.xyz">support@partio.xyz</a></p>
+<!--                <p class="text-center email-support">{{> ionIcon icon="ios-email-outline"}} <a href="mailto:support@partio.xyz">support@partio.xyz</a></p>-->
                 {{else}}
                     <h3 class="dark center">Your Email should be your official college email address</h3>
                     <br>

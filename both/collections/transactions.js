@@ -4,7 +4,7 @@ Transactions.userCanInsert = function(userId, doc) {
 	return true;
 };
 
-Transactions.userCanUpdate = function(userId, doc) {
+Transactions.userCanUpdate = function(userId, doc, fieldNames, modifier) {
 	return true;
 };
 

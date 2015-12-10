@@ -14,7 +14,7 @@
   {{#ionView}}
     {{#ionContent class="savedCard"}}
       <br>
-      <div class="panecard padding list">
+      <div class="card padding list">
 
         <div class="item item-divider item-button-right">
           <h3>Cards</h3>
@@ -44,19 +44,20 @@
         </div>
       </div>
 
-      <div class="panecard padding list">
+      <div class="card padding list">
         <div class="item item-icon-left hidden alerts no-cards">
           <i class="icon assertive ion-alert-circled"></i>
           <p class="assertive">Add a card to be able to share or borrow an item.</p>
         </div>
         <div class="item item-icon-left energized hidden alerts only-credit">
           <i class="icon energized ion-alert-circled "></i>
-          <p class="energized">Please, add a debit card if you want share an item.</p>
+          <p class="energized">Please, add a debit card if you want share an item. The card will be used for money deposits in your bank account.</p>
         </div>
 
         <div class="checkbox ">
           <p class="submit-note"></p>
-          <label><input type="checkbox" class="item-checkbox" value=""> By registering your account, you agree to our </label><a href="#link-to-your-own-ToS" data-ion-modal="modalTermOfService">Terms of Service</a> and the <a target="_blank" href="https://stripe.com/connect/account-terms">Stripe Connected Account Agreement</a>.
+
+          <label><input type="checkbox" class="item-checkbox" value="">By registering your account, you agree to our</label> <a href="#link-to-your-own-ToS" data-ion-modal="modalTermOfService">Terms of Service</a>.
 
         </div>
       </div>

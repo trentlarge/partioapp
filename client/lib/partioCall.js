@@ -19,8 +19,10 @@ app.model.PartioCall = (function () {
         console.log('Expecting requestor and owner IDS'); return false;
       }
 
+      var currentUser = Meteor.user();
+
       // USER NOT CONFIGURED PHONE NUMBER
-      if(!Meteor.user().profile.mobile){
+      if(!currentUser || !currentUser.profile || !currentUser.profile.mobile) {
         IonPopup.show({
           title: 'Ops...',
           template: '<div class="center dark">Your phone isn\'t configured yet. Plase update your phone number.</div>',
@@ -38,15 +40,15 @@ app.model.PartioCall = (function () {
         return false;
       }
 
-      var _from = Meteor.user().profile.mobile;
+      var _from = currentUser.profile.mobile;
       var _to = false;
 
       //calling connect owner
-      if(Meteor.user()._id == requestor){
+      if(currentUser._id == requestor){
         var _to = connection.productData.ownerData.profile.mobile;
 
       //calling connect requestor
-      } else if(Meteor.user()._id == owner) {
+      } else if(currentUser._id == owner) {
         var _to = connection.requestorData.profile.mobile;
       }
 

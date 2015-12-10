@@ -166,8 +166,9 @@ Template.resultsDetails.events({
 
     'click .submitProduct': function(e, template) {
 
-        //need to improve how knows if user have a debit card
-        if(!Meteor.user().profile.stripeManaged){
+        var currentUser = Meteor.user();
+
+        if(!currentUser || !currentUser.profile || !currentUser.profile.canShare) {
           IonPopup.show({
             title: 'Update profile',
             template: '<div class="center">Please, update your debit card to share this item.</div>',
@@ -213,7 +214,7 @@ Template.resultsDetails.events({
 
     }
 
-})
+});
 
 function validateInputs(details){
   if(!details.title || details.title.length < 1) {

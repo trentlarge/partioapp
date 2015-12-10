@@ -27,14 +27,18 @@ Template.connect.events({
 				
 			},
 			onOk: function() {
-				Meteor.call('confirmReturn', searchCollectionId, connection._id, function(error, result) {	
-                  IonPopup.close();
-                  if(!error) {
-                    IonModal.open("feedbackborrower", connection);
-                  } else {
-//                    console.log('some error', error);
-                  }
-				})
+				Meteor.call('confirmReturn', searchCollectionId, connection._id, function(err, res) {
+					IonPopup.close();
+					if(err) {
+						var errorMessage = err.reason || err.message;
+						if(err.details) {
+							errorMessage = errorMessage + "\nDetails:\n" + err.details;
+						}
+						sAlert.error(errorMessage);
+						return;
+					}
+					IonModal.open("feedbackborrower", connection);
+				});
 			}
 		});
 	},
@@ -64,26 +68,32 @@ Template.connect.events({
 	},
 
 	'click #ownerAccept': function() {
-        PartioLoad.show();
-        var requestor = this.requestorInfo();
-            Meteor.call('ownerAccept', this.connectData._id, requestor._id, function(error, result) {
-                if (!error) {
-                    PartioLoad.hide();
-                    IonPopup.show({
-                    title: 'Great!',
-                    template: '<div class="center">Make sure you setup a meeting location and pass on the item to <strong>'+requestor.profile.name+'</strong> once you receive the payment. </div>',
-                    buttons:
-                    [{
-                        text: 'OK',
-                        type: 'button-assertive',
-                        onTap: function() {
-                            IonPopup.close();
-                        }
-                    }]
-                });
-                } else {
-            PartioLoad.hide();
-          }
+		PartioLoad.show();
+		var requestor = this.requestorInfo();
+		Meteor.call('ownerAccept', this.connectData._id, requestor._id, function(err, res) {
+			PartioLoad.hide();
+
+			if(err) {
+				var errorMessage = err.reason || err.message;
+				if(err.details) {
+					errorMessage = errorMessage + "\nDetails:\n" + err.details;
+				}
+				sAlert.error(errorMessage);
+				return;
+			}
+
+			IonPopup.show({
+				title: 'Great!',
+				template: '<div class="center">Make sure you setup a meeting location and pass on the item to <strong>'+requestor.profile.name+'</strong> once you receive the payment. </div>',
+				buttons:
+					[{
+						text: 'OK',
+						type: 'button-assertive',
+						onTap: function() {
+							IonPopup.close();
+						}
+					}]
+			});
 		});
 	},
 

@@ -2,19 +2,17 @@ Template.savedCards.onRendered(function() {
 	Cards.refresh();
 });
 
-Template.savedCards.helpers({
-  cardsList: function() {
-		return Session.get('cardsList');
-  }
-});
-
 Template.savedCards.getStripeCustomer = function(done){
-	Meteor.call('getStripeCustomer', function(err, result){
+	Meteor.call('getStripeCustomer', function(err, result) {
 		if(err) {
 			console.log('>>> [stripe] User does not have stripe CUSTOMER account yet');
+			var errorMessage = err.reason || err.message;
+			if(err.details) {
+				errorMessage = errorMessage + "\nDetails:\n" + err.details;
+			}
+			console.log(errorMessage);
 			done(false);
 		}
-
 		done(result);
 	});
 };
@@ -23,9 +21,13 @@ Template.savedCards.getStripeManaged = function(done){
 	Meteor.call('getStripeManaged', function(err, result){
 		if(err) {
 			console.log('>>> [stripe] User does not have stripe MANAGED account yet');
+			var errorMessage = err.reason || err.message;
+			if(err.details) {
+				errorMessage = errorMessage + "\nDetails:\n" + err.details;
+			}
+			console.log(errorMessage);
 			done(false);
 		}
-
 		done(result);
 	});
 };
@@ -190,15 +192,19 @@ Cards = {
 			return false;
 		}
 
-		PartioLoad.show('Saving default card to '+action+'...');
+		PartioLoad.show('Saving default card to ' + action + '...');
 
 		Meteor.call('setDefaultCard', action, cardData, function (err, result){
 			PartioLoad.hide();
 
-			if(err) {
-				console.log(err);
-				return false;
-			}
+            if(err) {
+                var errorMessage = err.reason || err.message;
+                if(err.details) {
+                  errorMessage = errorMessage + "\nDetails:\n" + err.details;
+                }
+                sAlert.error(errorMessage);
+                return false;
+            }
 
 			Cards.refresh();
 		});
@@ -216,10 +222,14 @@ Cards = {
 		Meteor.call('removeCard', cardData, function (err, result){
 			PartioLoad.hide();
 
-			if(err) {
-				console.log(err);
-				return false;
-			}
+            if(err) {
+                var errorMessage = err.reason || err.message;
+                if(err.details) {
+                  errorMessage = errorMessage + "\nDetails:\n" + err.details;
+                }
+                sAlert.error(errorMessage);
+                return false;
+            }
 
 			Cards.refresh();
 		});
@@ -303,18 +313,8 @@ Template.savedCards.events({
 		var cardData = this;
 
 		if(cardData.defaultReceive || cardData.defaultPay) {
-			IonPopup.show({
-				title: 'Remove Card',
-				template: '<div class="center">Sorry, you can\'t remove a default card.</div>',
-				buttons: [{
-					text: 'OK',
-					type: 'button-energized',
-					onTap: function() {
-						IonPopup.close();
-						return false;
-					}
-				}]
-			});
+			ShowNotificationMessage('Sorry, you can\'t remove a default card.');
+			return false;
 		} else {
 			IonPopup.confirm({
 				title: 'Remove Card',

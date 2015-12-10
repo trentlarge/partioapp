@@ -65,6 +65,18 @@
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fafafa', endColorstr='#f5f5f5',GradientType=0 ); /* IE6-9 */
 }
 
+.card {
+    width: auto;
+    height: auto;
+}
+
+.card-wrapper {
+    .card {
+        height: 100%;
+        width: 100%;
+    }
+}
+
 #iron-router-progress {
     background-color : transparent;
     box-shadow : 0 0 5px transparent;

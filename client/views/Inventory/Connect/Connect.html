@@ -71,12 +71,13 @@
                   </tr>
                   <tr>
                     <td>
-                        <i class="icon ion-ios-clock-outline"></i> {{../getDaysLeft}}
-<!--
-                      {{#if ../isBorrowed}}
-                         <i class="icon ion-ios-clock-outline"></i> {{../getDaysLeft}}
-                      {{/if}}
--->
+                       {{#if ../isTimeOver}}
+                            <span style="color:red">
+                                <i class="icon ion-ios-clock-outline"></i> {{../getDaysLeft}}
+                            </span>
+                        {{else}}
+                            <i class="icon ion-ios-clock-outline"></i> {{../getDaysLeft}}
+                        {{/if}}
                     </td>
                   </tr>
                   <tr>
@@ -132,9 +133,15 @@
             {{/if}}
 
         {{else}}
-            <div class="item button-divider ">
-                <button id="ownerAccept" class="button button-block button-energized">ALLOW RENTING</button>
-            </div>   
+            {{#if ../isTimeOver}}
+                <div class="item button-divider ">
+                    <button class="button button-block" disabled>TIME IS OVER</button>
+                </div>   
+            {{else}}
+                <div class="item button-divider ">
+                    <button id="ownerAccept" class="button button-block button-energized">ALLOW RENTING</button>
+                </div>   
+            {{/if}}
         {{/if}}
 
       </div>

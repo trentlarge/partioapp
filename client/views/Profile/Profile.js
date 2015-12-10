@@ -1,32 +1,41 @@
 Template.appLayout.events({
 
-    'click #cancelProfile': function() {
-        Router.go('/');
-    },
+  'click #cancelProfile': function() {
+      Router.go('/');
+  },
 
-    'click #saveProfile': function() {
-        PartioLoad.show();
+  'click #saveProfile': function() {
+    PartioLoad.show();
 
-        var updatedProfile = {
-            //"name": $('#profilename').val(),
-            "college": $('#profileuniversity').val(),
-            "mobile": $('#profilemobile').val(),
-            "birthDate": $('#birthDate').val()
+    var updatedProfile = {
+      college: $('#profileuniversity').val(),
+      mobile: $('#profilemobile').val(),
+      birthDate: $('#birthDate').val()
+    };
+
+    Meteor.call("updateUserProfile", updatedProfile, function(err, res) {
+      PartioLoad.hide();
+      if(err) {
+        var errorMessage = err.reason || err.message;
+        if(err.details) {
+          errorMessage = errorMessage + "\nDetails:\n" + err.details;
         }
-        Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.mobile": updatedProfile.mobile, "profile.college": updatedProfile.college, "profile.birthDate": updatedProfile.birthDate}}, function(error) {
-            if (!error) {
-                PartioLoad.hide();
-                Session.set('profileEdit', false);
-            }
-        });
-    }
-
-})
+        sAlert.error(errorMessage);
+        return;
+      }
+      Session.set('profileEdit', false);        
+    });
+  }
+});
 
 Template.profile.rendered = function() {
     $('#profilemobile').inputmask({"mask": "+9 (999) 999-9999"});
     $('#birthDate').inputmask({"mask": "99/99/9999"});
     $('#birthDate').datepicker();
+
+    if(!Meteor.user().profile.transactionsId) {
+      Meteor.call('createTransactions');;
+    }
 }
 
 Session.setDefault('profileEdit', false);
@@ -50,41 +59,45 @@ Template.profile.destroyed = function() {
 }
 
 Template.profile.events({
-    'keyup #profileEdit': function(e, template) {
-        e.preventDefault();
-        Session.set('profileEdit', true);
-    },
-    'click #birthDate': function(e, template) {
-        e.preventDefault();
-        Session.set('profileEdit', true);
-    },
-    'click #changePassword': function() {
-        console.log('changePassword');
-        IonPopup.alert({
-          title: 'Changing Password',
-          template: '<div class="center">Work in progress</div>',
-          okText: 'Got It!'
-        });
-    },
-    'click #save-college-email': function() {
+  'keyup #profileEdit': function(e, template) {
+    e.preventDefault();
+    Session.set('profileEdit', true);
+  },
+  'click #birthDate': function(e, template) {
+      e.preventDefault();
+      Session.set('profileEdit', true);
+  },
+  'click #changePassword': function() {
+    console.log('changePassword');
+    IonPopup.alert({
+      title: 'Changing Password',
+      template: '<div class="center">Work in progress</div>',
+      okText: 'Got It!'
+    });
+  },
+  'click #save-college-email': function() {
 
-        var college = $('#profileuniversity').val();
-        var email = $('#profileemail').val();
+    var college = $('#profileuniversity').val();
+    var email = $('#profileemail').val();
 
-        if (college && email) {
-          if (emailCheck(college, email)) {
-            Meteor.call('updateOfficialEmail', Meteor.userId(), college, email, function(error, result){
-              if (!error) {
-                console.log(result);
-                console.log(error);
-              }
-            })
+    if (college && email) {
+      if (emailCheck(college, email)) {
+        Meteor.call('updateOfficialEmail', college, email, function(err, res) {
+          if(err) {
+            var errorMessage = err.reason || err.message;
+            if(err.details) {
+              errorMessage = errorMessage + "\nDetails:\n" + err.details;
+            }
+            sAlert.error(errorMessage);
+            return;
           }
-        }
-    },
-    'click #logout': function() {
-        logout();
+        });
+      }
     }
+  },
+  'click #logout': function() {
+      logout();
+  }
 });
 
 Template.settingsProfileImage.helpers({
@@ -142,7 +155,17 @@ Template.settingsProfileImage.events({
               },
               onOk: function()
               {
-                Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.avatar": "data:image/jpeg;base64," + imageData}});
+
+                Meteor.call("updateUserProfile", { avatar: "data:image/jpeg;base64," + imageData }, function(err, res) {
+                  if(err) {
+                    var errorMessage = err.reason || err.message;
+                    if(err.details) {
+                      errorMessage = errorMessage + "\nDetails:\n" + err.details;
+                    }
+                    sAlert.error(errorMessage);
+                    return;
+                  }
+                });
               }
             });
 
@@ -185,7 +208,16 @@ Template.settingsProfileImage.events({
               },
               onOk: function()
               {
-                Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.avatar": "data:image/jpeg;base64," + imageData}});
+                Meteor.call("updateUserProfile", { avatar: "data:image/jpeg;base64," + imageData }, function(err, res) {
+                  if(err) {
+                    var errorMessage = err.reason || err.message;
+                    if(err.details) {
+                      errorMessage = errorMessage + "\nDetails:\n" + err.details;
+                    }
+                    sAlert.error(errorMessage);
+                    return;
+                  }
+                });
               }
             });
 
@@ -216,9 +248,17 @@ Template.settingsProfileImage.events({
     var FR = new FileReader();
     FR.onload = function(e) {
      var newImage = e.target.result;
-     Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.avatar": newImage}});
+     Meteor.call("updateUserProfile", { avatar: newImage }, function(err, res) {
+      if(err) {
+        var errorMessage = err.reason || err.message;
+        if(err.details) {
+          errorMessage = errorMessage + "\nDetails:\n" + err.details;
+        }
+        sAlert.error(errorMessage);
+        return;
+      }
+     });
    };
    FR.readAsDataURL( input.target.files[0] );
-
 }
 })

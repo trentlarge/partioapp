@@ -4,7 +4,7 @@ Products.allow({
 	},
 
 	update: function (userId, doc, fields, modifier) {
-		return Products.userCanUpdate(userId, doc);
+		return Products.userCanUpdate(userId, doc, fields, modifier);
 	},
 
 	remove: function (userId, doc) {

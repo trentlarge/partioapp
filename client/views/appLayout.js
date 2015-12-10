@@ -18,7 +18,7 @@ Template.appLayout.events({
 
 	'change #payToggle': function(event) {
 		Session.set('testPay', event.target.checked);
-	},
+	}
 });
 
 Template.appLayout.helpers({
@@ -73,6 +73,7 @@ Template.appLayout.onRendered(function() {
 	var _newNotificatons = getNewNotifications();
 	_newNotificatons.observeChanges({
 		added: function(id, fields) {
+console.log(fields);
 			switch(fields.type) {
 
 				case "request": {
@@ -122,7 +123,16 @@ Template.appLayout.onRendered(function() {
 						duration: 2000,
 						customTemplate: '<div class="center"><h5>'+ fields.message 	+'</h5></div>',
 					});
-					Notifications.update({_id: id}, {$set: {read: true}});
+					Meteor.call("markNotificationRead", id, function(err, res) {
+						if(err) {
+							var errorMessage = err.reason || err.message;
+							if(err.details) {
+								errorMessage = errorMessage + "\nDetails:\n" + err.details;
+							}
+							sAlert.error(errorMessage);
+							return;
+						}
+					});
 				}
 			}
 
@@ -142,7 +152,16 @@ Template.registerHelper('profilePic', function(avatar) {
 Template.sAlertCustom.events({
 	'click .whichalert': function() {
 		if(this.notificationId) {
-			Notifications.update({ _id: this.notificationId }, { $set: { read: true } });
+			Meteor.call("markNotificationRead", this.notificationId, function(err, res) {
+				if(err) {
+					var errorMessage = err.reason || err.message;
+					if(err.details) {
+						errorMessage = errorMessage + "\nDetails:\n" + err.details;
+					}
+					sAlert.error(errorMessage);
+					return;
+				}
+			});
 		}
 		if(this.routeName) {
 			Router.go(this.routeName, this.routeParams);
@@ -172,8 +191,9 @@ Meteor.startup(function() {
         limit: 3 // when fourth alert appears all previous ones are cleared
     },
     offset: 0, // in px - will be added to first alert (bottom or top - depends of the position in config)
-    beep: '/alert.mp3'  // or you can pass an object:
+    beep: '/audio/alert.mp3'  // or you can pass an object:
   });
+
 });
 
 
@@ -200,7 +220,6 @@ function ShowRequestPopUp(strBookName){
 				IonPopup.close();
 				IsPopUpOpen = false;
 				Meteor.setTimeout(function(){
-					//Alerts.update({connectionId: id}, {$set: {unread: false}})
 					var currentPage = Iron.Location.get().path;
 
 					if(currentPage.indexOf("inventory")>=0)
@@ -213,7 +232,7 @@ function ShowRequestPopUp(strBookName){
 					}
 
 
-				},1000)
+				}, 1000)
 			}
 		}]
 	});

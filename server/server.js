@@ -164,25 +164,19 @@ sendNotification = function(toId, fromId, message, type, connectionId) {
 
   if(oldNotification) {
     // the same notification already exist, update it
-    Notifications.update({ _id: oldNotification._id }, {
-      $set: {
-        message: message,
-        timestamp: new Date(),
-        read: false
-      }
-    });
-  } else {
-    // this is new notification
-    Notifications.insert({
-      toId: toId,
-      fromId: fromId,
-      connectionId: connectionId,
-      message: message,
-      read: false,
-      timestamp: new Date(),
-      type: type
-    });
+    Notifications.remove({ _id: oldNotification._id });
   }
+
+  // this is new notification
+  Notifications.insert({
+    toId: toId,
+    fromId: fromId,
+    connectionId: connectionId,
+    message: message,
+    read: false,
+    timestamp: new Date(),
+    type: type
+  });
 }
 
 var sendPush = function(toId, message) {
@@ -439,22 +433,21 @@ Meteor.methods({
       return response.result;
     },
 
-  'updateOfficialEmail': function(userId, college, email) {
-    Meteor.users.update({"_id": userId}, {$set: {"emails": [{"address": email, "verified": false}], "profile.college": college}}, function(error) {
+  'updateOfficialEmail': function(college, email) {
+    Meteor.users.update({"_id": this.userId}, {$set: {"emails": [{"address": email, "verified": false}], "profile.college": college}}, function(error) {
       if (!error) {
         Accounts.sendVerificationEmail(userId);
       }
     });
   },
-  'updatePassword': function(userId, password) {
-
-      Accounts.setPassword(userId, password, { logout: false }, function(error) {
-
-        console.log(error);
-
-      });
-
-
+  'updatePassword': function(password) {
+    console.log('chamou updatePassword');
+    Meteor.bindEnvironment(function() {
+      Accounts.setPassword(this.userId, password, { logout: false });
+    },
+    function (err) {
+      console.log('failed to bind env: ', err);
+    });
   },
 
   'submitRating': function(rating, personId, ratedBy) {
@@ -688,10 +681,9 @@ Meteor.methods({
 
           console.log('>>>>> [stripe] new customer card ', customerCard.id);
 
-          //Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.cards": cards}}, function(){
-          done(false, true);
-          //});
-
+          Meteor.users.update({"_id": Meteor.userId() }, {$set: {"profile.canBorrow": true }} , function() {
+            done(false, true);
+          });
         })
       );
     })
@@ -726,7 +718,6 @@ Meteor.methods({
         metadata: { idPartioCard: ownIdCard }},
         Meteor.bindEnvironment(function (error, managedCard) {
           console.log('>>>>> [stripe] new card to Managed account ', managedCard.id);
-
           if(error) {
             done(error.message, false);
           }
@@ -735,12 +726,14 @@ Meteor.methods({
           Stripe.customers.createSource(
             stripeCustomerId, { source: secondToken, metadata: { idPartioCard: ownIdCard }},
             Meteor.bindEnvironment(function (error, customerCard) {
+              console.log('>>>>> [stripe] new customer card ', customerCard.id);
               if(error) {
                 done(error, false);
               }
 
-              console.log('>>>>> [stripe] new customer card ', customerCard.id);
-              done(false, true);
+              Meteor.users.update({"_id": Meteor.userId() }, {$set: {"profile.canBorrow": true, "profile.canShare": true}} , function() {
+                done(false, true);
+              });
             })
           );
         })
@@ -893,14 +886,15 @@ Meteor.methods({
     }
 
     var requestor = Meteor.users.findOne(connect.requestor);
-    var requestorManagedId = requestor.profile.stripeManaged;
-    var requestorCustomerId = requestor.profile.stripeCustomer;
+    //var requestorManagedId = requestor.profile.stripeManaged;
+
     var owner = Meteor.users.findOne(connect.productData.ownerId);
+
     var amount = connect.borrowDetails.price.total;
     var formattedAmount = (amount * 100).toFixed(0);
 
     var response = Async.runSync(function(done) {
-      Stripe.customers.retrieve(requestorCustomerId,
+      Stripe.customers.retrieve(requestor.profile.stripeCustomer,
         Meteor.bindEnvironment(function (err, customer) {
           if(err) {
             done(err, false);
@@ -911,7 +905,7 @@ Meteor.methods({
           Stripe.charges.create({
             amount: formattedAmount,
             currency: "usd",
-            customer: requestorCustomerId,
+            customer: requestor.profile.stripeCustomer,
             source: payCardId,
             description: requestor.profile.email+' paid to Partio' },
             Meteor.bindEnvironment(function (err, charge) {
@@ -919,10 +913,28 @@ Meteor.methods({
                 done(err, false);
               }
               console.log('>>>>> [stripe] new charge to Partio ', charge);
+
               Connections.update({_id: connect._id}, {$set: {state: "IN USE", payment: charge}});
-              var message = 'You received a payment of $' + amount + ' from ' + requestor.profile.name;
+
+              var payerTrans = {
+                date: charge.created,
+                productName: connect.productData.title,
+                paidAmount: charge.amount/100
+              }
+
+              var recipientTrans = {
+                date: charge.created,
+                productName: connect.productData.title,
+                receivedAmount: charge.amount/100
+              }
+
+              Transactions.update({_id: requestor.profile.transactionsId }, {$push: {spending: payerTrans}});
+              Transactions.update({_id: owner.profile.transactionsId }, {$push: {earning: recipientTrans}});
+
+              var message = 'You received a payment of $' + amount + ' from ' + requestor.profile.name
               sendPush(owner._id, message);
               sendNotification(owner._id, requestor._id, message, "info");
+
               done(false, charge);
             })
           );
@@ -948,6 +960,16 @@ Meteor.methods({
       // });
   },
 
+  'createTransactions': function(){
+    console.log(' >>>>> creating new transactionsId')
+    //Creating Transactions Id
+    var userTransId = Transactions.insert({
+      earning: [],
+      spending: []
+    });
+
+    Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.transactionsId": userTransId}});
+  },
 
   // SEARCH ITEMS FROM AMAZON --------------------------------------------------------
   AllItemsFromAmazon: function(keys) {
