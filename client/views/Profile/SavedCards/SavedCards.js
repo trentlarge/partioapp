@@ -35,7 +35,7 @@ Template.savedCards.getStripeManaged = function(done){
 	});
 },
 
-Template.savedCards.getCreditCards = function(){
+//Template.savedCards.getCreditCards = function(){
 	// var result = []
 	//
 	// if (Meteor.user().profile.cards) {
@@ -52,13 +52,13 @@ Template.savedCards.getCreditCards = function(){
 	// }listCards
 	//
 	// return result;
-}
+//}
 
-Template.savedCards.getDebitCards = function(){
+//Template.savedCards.getDebitCards = function(){
 
-}
+//}
 
-Template.savedCards.getDebitCards = function(){
+//Template.savedCards.getDebitCards = function(){
 	// var result = []
 	//
 	// if (Meteor.user().profile.cards) {
@@ -75,29 +75,24 @@ Template.savedCards.getDebitCards = function(){
 	// }
 	//
 	// return result;
-}
+//}
 
-Template.savedCards.defaultReceive = function(){
+//Template.savedCards.defaultReceive = function(){
 	// if (Meteor.user().profile) {
 	// 	return Meteor.user().profile.defaultReceive;
 	// }
-}
+//}
 
-Template.savedCards.defaultPay = function(){
+//Template.savedCards.defaultPay = function(){
 	// if (Meteor.user().profile) {
 	// 	return Meteor.user().profile.defaultPay;
 	// }
-}
+//}
 
 Cards = {
 	customer: false,
 	managed: false,
-	list: [],
 
-	// defaultReceive: false,
-	// defaultPay: false,
-	// creditCards: false,
-	// debitCards: false,
 
 	//refrshing this object
 	refresh: function(){
@@ -136,32 +131,26 @@ Cards = {
 
 		//console.log(this.customer, this.managed);
 		if(Cards.customer) {
+
 			//check Customer cards (could be Credit or Debit)
 			if(Cards.customer.sources.data.length){
 				Cards.customer.sources.data.map(function(card){
-					var _exists = false;
 					var _thisObj = {};
-					var i = 0;
-					var index = false;
+					var _defaultPay = '';
 
-					_results.map(function(__card){
-						if(__card.id == card.metadata.idPartioCard){
-							_exists = true;
-							index = i;
-						}
-						i++;
-					})
-
-					if(!_exists) {
-						_thisObj.id = card.metadata.idPartioCard;
-						_thisObj.funding = card.funding;
-						_thisObj.brand = card.brand;
-						_thisObj.last4 = card.last4;
-						_thisObj.customerCardId = card.id;
-						_results.push(_thisObj);
-					} else {
-						_results[index].customerCardId = card.id;
+					if(card.id == Cards.customer.default_source) {
+						_defaultPay = 'default';
 					}
+
+					console.log(card.id+' pay: '+_defaultPay);
+
+					_thisObj.id = card.metadata.idPartioCard;
+					_thisObj.funding = card.funding;
+					_thisObj.defaultPay = _defaultPay;
+					_thisObj.brand = card.brand;
+					_thisObj.last4 = card.last4;
+					_thisObj.customerCardId = card.id;
+					_results.push(_thisObj);
 				})
 			}
 		}
@@ -172,49 +161,54 @@ Cards = {
 				Cards.managed.external_accounts.data.map(function(card){
 					var _exists = false;
 					var _thisObj = {};
+					var _defaultReceive = '';
 					var i = 0;
 					var index = false;
 
+					if(card.default_for_currency) {
+						_defaultReceive = 'default';
+					}
+
+					console.log(card.id+' receive: '+_defaultReceive);
+
 					_results.map(function(__card){
-						if(__card.id == card.metadata.idPartioCard){
-							_exists = true;
-							index = i;
+						if(!_exists) {
+							if(__card.id == card.metadata.idPartioCard){
+								_exists = true;
+								index = i;
+							}
+							i++;
 						}
-						i++;
 					})
+
+					console.log('Exists This card (managed) ', index);
 
 					if(!_exists) {
 						_thisObj.id = card.metadata.idPartioCard;
 						_thisObj.funding = card.funding;
 						_thisObj.brand = card.brand;
 						_thisObj.last4 = card.last4;
+						_thisObj.defaultReceive = _defaultReceive;
 						_thisObj.managedCardId.id = card.id;
 						_results.push(_thisObj);
 					} else {
 						_results[index].managedCardId = card.id;
+						_results[index].defaultReceive = _defaultReceive;
 					}
 				})
 			}
 		}
 
 		Session.set('cardsList', _results);
+		Cards.saveDefaultCards();
 	},
 
-	update: function(){
-		console.log('>>>> [stripe] cards save...')
+	saveDefaultCards: function(){
+		console.log('>>>> [stripe] cards save...');
 
-		//var list = Cards.list;
-		//console.log(list);
-
-		Meteor.call('updateCards', Cards.list, function(){
-			console.log('ok')
-		});
-			// if(err) {
-			// 	console.log('[stripe] Some error to save cards on bd');
-			// }
-			//
-			// return true;
-		//})
+		// Meteor.call('saveDefaultCards', Cards.defaultReceiveIdPartio, Cards.defaultPayIdPartio, function(){
+		// 	console.log('ok')
+		// });
 	},
 
 

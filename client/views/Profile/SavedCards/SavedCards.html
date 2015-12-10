@@ -26,18 +26,18 @@
 
         {{#each cardsList}}
           <div class="item item-card" data-id="{{id}}" data-funding="{{funding}}">
-              <table>
-                <tbody>
-                    <tr>
-                        <td class="brand"><i class="{{../getBrandIcon brand}}"></i></td>
-                        <td class="funding"><i>{{funding}}</i></td>
-                        <td class="numbers"><i>XXXX-{{last4}}</i></td>
-                        <td class="pay"><i class="set-default set-pay-default {{../checkPayDefault id}}">PAY</i></td>
-                        <td class="receive"><i class="set-default set-receive-default {{../checkReceiveDefault id}}">{{../isDebit funding}}</i></td>
-                        <td class="trash"><i class="delete-card icon ion-ios-trash"></i></td>
-                    </tr>
-                </tbody>
-              </table>
+            <table>
+              <tbody>
+                <tr>
+                  <td class="brand"><i class="{{../getBrandIcon brand}}"></i></td>
+                  <td class="funding"><i>{{funding}}</i></td>
+                  <td class="numbers"><i>XXXX-{{last4}}</i></td>
+                  <td class="pay"><i class="set-default set-pay-default {{ defaultPay }}">PAY</i></td>
+                  <td class="receive"><i class="set-default set-receive-default {{ defaultReceive }}">{{../isDebit funding}}</i></td>
+                  <td class="trash"><i class="delete-card icon ion-ios-trash"></i></td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         {{/each}}
 

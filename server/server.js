@@ -795,13 +795,10 @@ Meteor.methods({
     return response.result;
   },
 
-  'updateCards': function(data){
-    console.log('>>>>> [stripe] updateCards');
-    console.log(data);
-  },
 
   'saveDefaultCards': function(receiveCard, payCard){
     console.log('>>>>> [stripe] saveDefaultCards');
+    console.log(receiveCard, payCard);
 
     //for now we're using only 'receiveCard' (debitCards)
     if(!receiveCard) {
