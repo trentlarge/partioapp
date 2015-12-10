@@ -10,7 +10,7 @@ Template.savedCards.getStripeCustomer = function(done){
 			if(err.details) {
 				errorMessage = errorMessage + "\nDetails:\n" + err.details;
 			}
-			sAlert.error(errorMessage);
+			console.log(errorMessage);
 			done(false);
 		}
 		done(result);
@@ -25,7 +25,7 @@ Template.savedCards.getStripeManaged = function(done){
 			if(err.details) {
 				errorMessage = errorMessage + "\nDetails:\n" + err.details;
 			}
-			sAlert.error(errorMessage);
+			console.log(errorMessage);
 			done(false);
 		}
 		done(result);

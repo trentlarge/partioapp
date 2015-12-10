@@ -164,25 +164,19 @@ sendNotification = function(toId, fromId, message, type, connectionId) {
 
   if(oldNotification) {
     // the same notification already exist, update it
-    Notifications.update({ _id: oldNotification._id }, {
-      $set: {
-        message: message,
-        timestamp: new Date(),
-        read: false
-      }
-    });
-  } else {
-    // this is new notification
-    Notifications.insert({
-      toId: toId,
-      fromId: fromId,
-      connectionId: connectionId,
-      message: message,
-      read: false,
-      timestamp: new Date(),
-      type: type
-    });
+    Notifications.remove({ _id: oldNotification._id });
   }
+
+  // this is new notification
+  Notifications.insert({
+    toId: toId,
+    fromId: fromId,
+    connectionId: connectionId,
+    message: message,
+    read: false,
+    timestamp: new Date(),
+    type: type
+  });
 }
 
 var sendPush = function(toId, message) {

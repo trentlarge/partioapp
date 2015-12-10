@@ -1,5 +1,6 @@
 Template.feedback.helpers({
 	userInfo: function() {
+		console.log(this);
 		return this.productData.ownerData.profile;
 	},
 	ownerAvatar: function() {
@@ -46,6 +47,12 @@ Template.feedback.events({
 
 
 Template.feedbackborrower.helpers({
+	userInfo: function() {
+		if(!this.requestorData) {
+			return null;
+		}
+		return this.requestorData.profile;
+	},
 	requestorData: function() {
 		if(!this.requestorData) {
 			return null;

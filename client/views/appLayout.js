@@ -73,6 +73,7 @@ Template.appLayout.onRendered(function() {
 	var _newNotificatons = getNewNotifications();
 	_newNotificatons.observeChanges({
 		added: function(id, fields) {
+console.log(fields);
 			switch(fields.type) {
 
 				case "request": {
