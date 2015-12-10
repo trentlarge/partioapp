@@ -394,6 +394,12 @@ Template.savedCards.events({
 		});
 	},
 
+	'click #termStripe': function() {
+
+		Meteor.call('updateTerms');
+
+
+	},
   'click .set-pay-default': function(e) {
     // var cardData = this;
 		// var cardId = cardData.id;

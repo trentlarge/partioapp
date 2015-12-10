@@ -554,7 +554,18 @@ Meteor.methods({
     Connections.update({_id: payer}, {$set: {state: "IN USE"}});
     return "yes, payment done"
   },
+  'updateTerms': function() {
 
+
+    console.log('updateTerms');
+
+    Meteor.users.update({"_id": Meteor.userId() }, {$set: {
+      "profile.stripeTerms": true,
+      //"profile.stripeCustomer": customerResult.id,
+      //"profile.transactionsId": userTransId
+    }})
+
+  },
 
   // Account & STRIPE API (cards) -------------------------------------------------------------------
   'checkStripeManaged': function() {
