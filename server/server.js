@@ -795,15 +795,48 @@ Meteor.methods({
     return response.result;
   },
 
+  'setDefaultCard': function(action, cardData){
+    console.log('>>>>> [stripe] setDefaultCard');
 
-  'saveDefaultCards': function(receiveCard, payCard){
-    console.log('>>>>> [stripe] saveDefaultCards');
-    console.log(receiveCard, payCard);
-
-    //for now we're using only 'receiveCard' (debitCards)
-    if(!receiveCard) {
-      return false;
+    if(!cardData || !action) {
+      throw new Meteor.Error("setDefaultCard", "missing params");
     }
+
+    var _userProfile = Meteor.user().profile;
+
+    // to 'pay', must be Stripe Customer account
+    var response = Async.runSync(function(done) {
+      if(action == 'pay') {
+
+        //cardData.customerCardId;
+        Stripe.customers.update(_userProfile.stripeCustomer,
+          { default_source: cardData.customerCardId }, 
+          Meteor.bindEnvironment(function (error, result) {
+            if(error){
+              done(error, false);
+            } else {
+              done(false, true);
+            }
+          })
+        );
+
+      // to 'receive', must be Stripe Managed account
+      } else if(action == 'receive') {
+        Stripe.accounts.updateExternalAccount(_userProfile.stripeManaged, cardData.managedCardId,
+          { default_for_currency: true },
+          Meteor.bindEnvironment(function (error, result) {
+            if(error){
+              done(error, false);
+            } else {
+              done(false, true);
+            }
+          })
+        );
+      }
+    });
+
+    return response.result;
+
 
     // if(!receiveCard && !payCard) {
     //   return false;
