@@ -1,5 +1,5 @@
 .renting-list {
-    
+
     .item-avatar-2 .product-avatar {
         position: absolute;
         height: 100px;
@@ -21,28 +21,28 @@
         max-width: 100%;
         max-height: 100%;
     }
-    
+
     .item-divider {
         padding-top: 12px;
         padding-bottom: 12px;
-        
+
         h3 {
             height: 17px;
         }
-        
+
         i {
             float: right;
         }
     }
-    
+
     .main-title-text {
         padding-left: 10px;
     }
-    
+
     .main-sub-text {
-        
+
         padding-left: 10px;
-        
+
         .ion-ios-calendar-outline, .ion-cash, .ion-ios-clock-outline {
             font-size: 16px;
             display: inline-flex;
@@ -50,13 +50,13 @@
             padding-right: 5px;
             justify-content: center;
         }
-        
+
         .price {
             font-size: 18px;
             color: #f0970d;
         }
     }
-    
+
     .badge.rent-status {
         top: 0;
         height: 15px;
@@ -71,24 +71,27 @@
     .item .badge.rent-status {
         top: 0;
     }
-    
+
     .not-yet {
         padding-top: 50px;
-        
+
         img {
             padding-bottom: 20px;
         }
-        
+
         .btn {
             background-color: #f0970d;
             padding-top: 10px;
             padding-bottom: 10px;
             
+               box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+
+
             &:hover {
                 color: #ffffff;
             }
         }
-        
+
         a {
             margin-bottom: 20px;
         }
