@@ -41,8 +41,15 @@
                     ({{../getStartDate borrowDetails.date.start}} to {{../getEndDate borrowDetails.date.end}})
                   </p>
                   <p class="main-sub-text">
-                      <i class="icon ion-ios-clock-outline"></i>
-                      {{../getDaysLeft borrowDetails.date.start borrowDetails.date.end}}
+                        {{#if ../isTimeOver borrowDetails.date.start borrowDetails.date.end}}
+                            <span style="color:red">
+                                <i class="icon ion-ios-clock-outline"></i>
+                                {{../getDaysLeft borrowDetails.date.start borrowDetails.date.end}}
+                            </span>
+                        {{else}}
+                            <i class="icon ion-ios-clock-outline"></i>
+                            {{../getDaysLeft borrowDetails.date.start borrowDetails.date.end}}
+                        {{/if}}
                   </p>
                   <p class="main-sub-text">
                       <i class="icon ion-cash"></i>
@@ -79,8 +86,15 @@
                     ({{../getStartDate borrowDetails.date.start}} to {{../getEndDate borrowDetails.date.end}})
                   </p>
                   <p class="main-sub-text">
-                      <i class="icon ion-ios-clock-outline"></i>
-                      {{../getDaysLeft borrowDetails.date.start borrowDetails.date.end}}
+                        {{#if ../isTimeOver borrowDetails.date.start borrowDetails.date.end}}
+                            <span style="color:red">
+                                <i class="icon ion-ios-clock-outline"></i>
+                                {{../getDaysLeft borrowDetails.date.start borrowDetails.date.end}}
+                            </span>
+                        {{else}}
+                            <i class="icon ion-ios-clock-outline"></i>
+                            {{../getDaysLeft borrowDetails.date.start borrowDetails.date.end}}
+                        {{/if}}
                   </p>
                   <p class="main-sub-text">
                       <i class="icon ion-cash"></i>

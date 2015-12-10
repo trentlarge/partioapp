@@ -62,20 +62,39 @@ RentingController = RouteController.extend({
                 }
                 return totalDays + ' day';
             },      
-            getDaysLeft: function(startDate, endDate) {
-                 var diff;
-                 if($.now() > new Date(startDate).getTime()) {
-                         diff = new Date(endDate - $.now());
-                 } else {
-                         diff = new Date(endDate - startDate);
-                 }
-                 var daysLeft = Math.floor((diff/1000/60/60/24) + 1);
-
-                 if(daysLeft <= 1) {
-                         return daysLeft + ' day left'
-                 }
-                 return daysLeft + ' days left';
+            
+            isTimeOver: function(startDate, endDate) {
+                var diff;
+                if($.now() > new Date(startDate).getTime()) {
+                     diff = new Date(endDate - $.now());
+                } else {
+                     diff = new Date(endDate - startDate);
+                }
+                var daysLeft = Math.floor((diff/1000/60/60/24) + 1);
+                
+                if(daysLeft < 0) {
+                    return true;
+                }
+                return false;
             },
+            
+            getDaysLeft: function(startDate, endDate) {
+                var diff;
+                if($.now() > new Date(startDate).getTime()) {
+                     diff = new Date(endDate - $.now());
+                } else {
+                     diff = new Date(endDate - startDate);
+                }
+                var daysLeft = Math.floor((diff/1000/60/60/24) + 1);
+
+                if(daysLeft < 0) {
+                    return 'time is over';
+                }
+                else if(daysLeft <= 1) {
+                    return daysLeft + ' day left'
+                }
+                return daysLeft + ' days left';
+			},
 		};
 	},
 

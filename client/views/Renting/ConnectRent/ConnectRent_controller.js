@@ -129,19 +129,39 @@ ConnectRentController = RouteController.extend({
 			isReturned: function() {
 				return (this.connectData.state === 'RETURNED') ? true : false;
 			},
+            
+            isTimeOver: function() {
+                
+                var diff;
+                if($.now() > new Date(this.connectData.borrowDetails.date.start).getTime()) {
+                 diff = new Date(this.connectData.borrowDetails.date.end - $.now());
+                } else {
+                 diff = new Date(this.connectData.borrowDetails.date.end - this.connectData.borrowDetails.date.start);
+                }
+                var daysLeft = Math.floor((diff/1000/60/60/24) + 1);
+                
+                if(daysLeft < 0) {
+                    return true;
+                }
+                return false;
+            },
 
 			getDaysLeft: function() {
-				 var diff;
-				 if($.now() > new Date(this.connectData.borrowDetails.date.start).getTime()) {
-					 diff = new Date(this.connectData.borrowDetails.date.end - $.now());
-				 } else {
-					 diff = new Date(this.connectData.borrowDetails.date.end - this.connectData.borrowDetails.date.start);
-				 }
-				 var daysLeft = Math.floor((diff/1000/60/60/24) + 1);
-				 if(daysLeft <= 1) {
-						return daysLeft + ' day left'
-				 }
-				 return daysLeft + ' days left';
+                var diff;
+                if($.now() > new Date(this.connectData.borrowDetails.date.start).getTime()) {
+                    diff = new Date(this.connectData.borrowDetails.date.end - $.now());
+                } else {
+                    diff = new Date(this.connectData.borrowDetails.date.end - this.connectData.borrowDetails.date.start);
+                }
+                var daysLeft = Math.floor((diff/1000/60/60/24) + 1);
+                
+                if(daysLeft < 0) {
+                    return 'time is over';
+                }
+                else if(daysLeft <= 1) {
+                    return daysLeft + ' day left'
+                }
+                return daysLeft + ' days left';
 			}
 		}
 	},
