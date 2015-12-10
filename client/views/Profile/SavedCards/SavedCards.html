@@ -23,11 +23,8 @@
           <button id="test-card" class="button button-small push-up button-clear"><h6 class="positive">Test Cards</h6></button>
         </div>
 
-        {{#with listCards}}
-          {{id}}
-        {{/with}}
 
-        {{#each cards}}
+        {{#each cardsList}}
           <div class="item item-card" data-id="{{id}}" data-funding="{{funding}}">
               <table>
                 <tbody>
@@ -74,6 +71,13 @@
 
       <div class="padding">
         <h3>debugging</h3>
+
+
+                {{#each cardsList}}
+                  {{id}}
+                {{/each}}
+
+
         {{#with getReceiveCard }}
           <div>
             <i class="set-default icon ion-checkmark energized"></i> DefaultReceiveCard = {{id}} - {{funding}} - {{last4}}
@@ -93,14 +97,14 @@
 
 <template name="addnewCard">
   {{#ionModal customTemplate=true class="new-card"}}
-    
+
     <div class="bar bar-header bar-royal">
       <h2 class="title header-title"> Add New Card </h2>
       <button type="button" id="closeAddNewCard" data-dismiss="modal" style="right: 5px;position: absolute;" title="Close" class="button button-clear">
             <i class="icon ion-ios-close-outline"></i>
       </button>
     </div>
-    
+
     <div class="list has-header padding-horizontal padding-vertical">
         <div class="card">
           <div class="card-wrapper"></div>
