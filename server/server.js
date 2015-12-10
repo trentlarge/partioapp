@@ -563,6 +563,22 @@ Meteor.methods({
     if (!_userProfile.stripeManaged) {
       var clientIp = this.connection.clientAddress;
 
+
+      var date = _userProfile.birthDate;
+
+      var dateBirth = date.split('/');
+
+      var month = dateBirth[0];
+      var day = dateBirth[1];
+      var year = dateBirth[2];
+
+
+      console.log('########ANIVERSARIO');
+      console.log(_userProfile.birthDate);
+      console.log(dateBirth[0]);
+      console.log(dateBirth[1]);
+      console.log(dateBirth[2]);
+
       var response = Async.runSync(function(done) {
 
         //Creating Stripe Managed Account
@@ -573,9 +589,9 @@ Meteor.methods({
           "legal_entity[type]": "individual",
           "legal_entity[first_name]": _userProfile.name,
           "legal_entity[last_name]": 'Partio',
-          "legal_entity[dob][day]": '11',
-          "legal_entity[dob][month]": '06',
-          "legal_entity[dob][year]": '1985',
+          "legal_entity[dob][day]": day,
+          "legal_entity[dob][month]": month,
+          "legal_entity[dob][year]": year,
           "tos_acceptance[date]": Math.floor(Date.now() / 1000),
           "tos_acceptance[ip]": clientIp,
 
