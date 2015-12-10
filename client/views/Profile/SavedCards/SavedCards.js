@@ -92,7 +92,8 @@ Template.savedCards.getStripeManaged = function(done){
 Cards = {
 	customer: false,
 	managed: false,
-
+	creditCards: 0,
+	debitCards: 0,
 
 	//refrshing this object
 	refresh: function(){
@@ -131,7 +132,6 @@ Cards = {
 
 		//console.log(this.customer, this.managed);
 		if(Cards.customer) {
-
 			//check Customer cards (could be Credit or Debit)
 			if(Cards.customer.sources.data.length){
 				Cards.customer.sources.data.map(function(card){
@@ -200,84 +200,72 @@ Cards = {
 		}
 
 		Session.set('cardsList', _results);
-		Cards.saveDefaultCards();
+		//Cards.saveDefaultCards();
+		Cards.checkStatus();
 	},
 
-	saveDefaultCards: function(){
-		console.log('>>>> [stripe] cards save...');
+	//saveDefaultCards: function(){
+		//console.log('>>>> [stripe] cards save...');
 
 		// Meteor.call('saveDefaultCards', Cards.defaultReceiveIdPartio, Cards.defaultPayIdPartio, function(){
 		// 	console.log('ok')
 		// });
-	},
+	//},
 
 
 	//check user situation with the cards
 	checkStatus: function(){
+		var cardsList = Session.get('cardsList');
 
-		// //if there are cards
-		// if(this.debitCards.length > 0 || this.creditCards.length > 0) {
-		//
-		// 	//there are debit card(s)
-		// 	if(this.debitCards.length > 0) {
-		//
-		// 		//there ins't default receive or pay card
-		// 		if(!this.defaultReceive || !this.defaultPay) {
-		// 			var payCard = false;
-		// 			var receiveCard = false;
-		//
-		// 			if(!this.defaultReceive) {
-		// 				receiveCard = this.debitCards[0];
-		// 			}
-		//
-		// 			if(!this.defaultPay) {
-		// 				payCard = this.debitCards[0];
-		// 			}
-		//
-		// 			//this.defaultReceive = this.debitCards[0];
-		// 			this.setDefaultCards(receiveCard, payCard);
-		// 			//saveDefaultCards = true;
-		// 		}
-		//
-		// 		this.setStatus('ok');
-		//
-		// 	//no debit card(s)
-		// 	} else {
-		//
-		// 		//there are credit card(s)
-		// 		if(this.creditCards.length > 0){
-		// 			if(!this.defaultPay) {
-		// 				var receiveCard = false;
-		// 				var payCard = this.creditCards[0];
-		// 				this.setDefaultCards(receiveCard, payCard);
-		// 			}
-		// 		}
-		//
-		// 		this.setStatus('no_receive');
-		// 	}
-		//
-		// //no cards
-		// } else {
-		// 	this.setStatus('no_cards');
-		// }
+		cardsList.map(function(card){
+			console.log(card);
+
+			if(card.funding == 'debit') {
+				Cards.debitCards++;
+
+			} else if(card.funding == 'credit') {
+				Cards.creditCards++;
+			}
+		})
+
+		//if there are cards
+		if(Cards.debitCards > 0 || Cards.creditCards > 0) {
+
+			//there are debit card(s)
+			if(Cards.debitCards > 0) {
+				Cards.setStatus('ok');
+
+			//no debit card(s)
+			} else {
+
+				//there are credit card(s)
+				if(Cards.creditCards > 0){
+					Cards.setStatus('no_receive');
+				}
+			}
+
+		//no cards
+		} else {
+			Cards.setStatus('no_cards');
+		}
 	},
 
 	//showing user 'alerts'
 	setStatus: function(param){
-		// $('.alerts').addClass('hidden');
-		//
-		// switch (param) {
-		// 	case 'ok':
-		// 		$('.alerts').addClass('hidden');
-		// 	break;
-		// 	case 'no_receive':
-		// 		$('.only-credit').removeClass('hidden');
-		// 	break;
-		// 	case 'no_cards':
-		// 		$('.no-cards').removeClass('hidden');
-		// 	break;
-		// 	default:
-		// }
+		$('.alerts').addClass('hidden');
+
+		switch (param) {
+			case 'ok':
+				$('.alerts').addClass('hidden');
+			break;
+			case 'no_receive':
+				$('.only-credit').removeClass('hidden');
+			break;
+			case 'no_cards':
+				$('.no-cards').removeClass('hidden');
+			break;
+			default:
+		}
 	},
 
 	//setting default cards
