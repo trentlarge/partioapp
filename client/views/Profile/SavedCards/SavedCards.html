@@ -7,14 +7,12 @@
     {{>ionNavBackButton}}
   {{/contentFor}}
 
-
-    {{#contentFor "headerTitle"}}
-      <h1 class="title" style="text-align:center;">Payment Cards</h1>
-    {{/contentFor}}
+  {{#contentFor "headerTitle"}}
+    <h1 class="title" style="text-align:center;">Payment Cards</h1>
+  {{/contentFor}}
 
   {{#ionView}}
     {{#ionContent class="savedCard"}}
-
       <br>
       <div class="panecard padding list">
 
@@ -22,7 +20,6 @@
           <h3>Cards</h3>
           <button id="test-card" class="button button-small push-up button-clear"><h6 class="positive">Test Cards</h6></button>
         </div>
-
 
         {{#each cardsList}}
           <div class="item item-card" data-id="{{id}}" data-funding="{{funding}}">
@@ -57,95 +54,11 @@
           <p class="energized">Please, add a debit card if you want share an item.</p>
         </div>
 
-
         <div class="checkbox ">
-
-          <p class="submit-note">
-
-          </p>
-
-          <label><input type="checkbox" class="item-checkbox" value="" >By registering your account, you agree to our </label><a href="#link-to-your-own-ToS" data-ion-modal="modalTermOfService">Terms of Service</a> and the <a target="_blank" href="https://stripe.com/connect/account-terms">Stripe Connected Account Agreement</a>.
+          <p class="submit-note"></p>
+          <label><input type="checkbox" class="item-checkbox" value=""> By registering your account, you agree to our </label><a href="#link-to-your-own-ToS" data-ion-modal="modalTermOfService">Terms of Service</a> and the <a target="_blank" href="https://stripe.com/connect/account-terms">Stripe Connected Account Agreement</a>.
         </div>
-
       </div>
-
-      <div class="padding">
-        <h3>debugging</h3>
-
-
-                {{#each cardsList}}
-                  {{id}}
-                {{/each}}
-
-
-        {{#with getReceiveCard }}
-          <div>
-            <i class="set-default icon ion-checkmark energized"></i> DefaultReceiveCard = {{id}} - {{funding}} - {{last4}}
-          </div>
-        {{/with}}
-
-        {{#with getPayCard }}
-          <div>
-            <i class="set-default icon ion-checkmark bluegrey"></i> DefaultPayCard = {{id}} - {{funding}} - {{last4}}
-          </div>
-        {{/with}}
-      </div>
-
     {{/ionContent}}
   {{/ionView}}
-</template>
-
-<template name="addnewCard">
-  {{#ionModal customTemplate=true class="new-card"}}
-
-    <div class="bar bar-header bar-royal">
-      <h2 class="title header-title"> Add New Card </h2>
-      <button type="button" id="closeAddNewCard" data-dismiss="modal" style="right: 5px;position: absolute;" title="Close" class="button button-clear">
-            <i class="icon ion-ios-close-outline"></i>
-      </button>
-    </div>
-
-    <div class="list has-header padding-horizontal padding-vertical">
-        <div class="card">
-          <div class="card-wrapper"></div>
-          <div class="form-container active">
-            <form class="newCardForm" method="post">
-              <label class="item item-input" style="border-top: 1px solid #ddd;">
-                <i class="icon ion-compose placeholder-icon"></i>
-                <input type="text" name="number" class="border-radius-20" placeholder="**** **** **** ****">
-              </label>
-              <label class="item item-input">
-                <i class="icon ion-card placeholder-icon"></i>
-                <input type="text" name="name" class="border-radius-20" placeholder="Full Name">
-              </label>
-
-              <label class="item item-input">
-                <i class="icon ion-calendar placeholder-icon"></i>
-                <input type="text" name="expiry" class="border-radius-20" placeholder="MM/YY">
-              </label>
-
-              <label class="item item-input">
-                <i class="icon ion-ios-locked placeholder-icon"></i>
-                <input type="text" name="cvc" class="border-radius-20" placeholder="***">
-              </label>
-
-                <label class="item item-button">
-                    <button class="button button-block button-energized"> SUBMIT </button>
-                </label>
-            </form>
-          </div>
-        </div>
-    </div>
-
-    <!-- <script src="/card.js"></script> -->
-
-    <script>
-      new Card({
-        form: document.querySelector('form'),
-        container: '.card-wrapper'
-      });
-    </script>
-
-
-  {{/ionModal}}
 </template>

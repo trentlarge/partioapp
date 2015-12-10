@@ -1,4 +1,3 @@
-
 Template.addnewCard.events({
 	'submit .newCardForm': function(e) {
 		e.preventDefault();
@@ -123,62 +122,5 @@ Template.addnewCard.events({
 				});
 			}
 		});
-
-		//
-		// Meteor.call('checkAccount', function(error, result) {
-		// 	console.log('>>>>>> return checkaccount <<<<<');
-		//
-		// 	if(error) {
-		// 		PartioLoad.hide();
-		// 		console.log(error);
-		// 		return false;
-		// 	}
-		//
-		// 	if(result){
-		// 		Stripe.card.createToken({
-		// 			number: numberOut,
-		// 			cvc: cvcOut,
-		// 			exp_month: exp1,
-		// 			exp_year: exp2,
-		// 			currency: 'usd',
-		// 			name: nameOut,
-		// 		}, function(status, response) {
-		//
-		// 			if(response.error) {
-		// 				PartioLoad.hide();
-		// 				alert(response.error.message);
-		// 				return false;
-		// 			}
-		//
-		// 			if(response.card.funding == 'credit') {
-		// 				PartioLoad.hide();
-		// 				alert('Sorry, for now only with debit cards.');
-		// 				return false;
-		// 			}
-		//
-		// 			if(response.id) {
-		// 				Meteor.call('addCard', response.id, function(error, result){
-		// 					console.log('>>>>>> return addCard');
-		//
-		// 					if(error) {
-		// 						alert(error.message);
-		// 						return false;
-		// 					}
-		//
-		// 					Cards.refresh();
-		//
-		// 					//closemodal
-		// 					$('.modal .bar button').trigger('click');
-		// 					PartioLoad.hide();
-		//
-		// 				});
-		// 			} else {
-		// 				PartioLoad.hide();
-		// 				console.log('some error');
-		// 				console.log(response);
-		// 			}
-		// 		});
-		// 	}
-		// });
 	}
 });

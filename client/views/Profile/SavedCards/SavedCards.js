@@ -1,35 +1,34 @@
 Template.savedCards.onRendered(function() {
 	Cards.refresh();
-})
+});
 
 Template.savedCards.helpers({
   cardsList: function() {
 		return Session.get('cardsList');
-  },
+  }
 });
 
 Template.savedCards.getStripeCustomer = function(done){
 	Meteor.call('getStripeCustomer', function(err, result){
 		if(err) {
-			console.log('[stripe] User does not have stripe CUSTOMER account yet');
+			console.log('>>> [stripe] User does not have stripe CUSTOMER account yet');
 			done(false);
 		}
 
 		done(result);
 	});
-},
+};
 
 Template.savedCards.getStripeManaged = function(done){
 	Meteor.call('getStripeManaged', function(err, result){
 		if(err) {
-			console.log('[stripe] User does not have stripe MANAGED account yet');
+			console.log('>>> [stripe] User does not have stripe MANAGED account yet');
 			done(false);
 		}
 
 		done(result);
 	});
-},
-
+};
 
 Cards = {
 	customer: false,
@@ -60,7 +59,6 @@ Cards = {
       })
 	},
 
-
 	organize: function(){
 		console.log('>>> [stripe] organizing cards on UI...')
 
@@ -76,8 +74,6 @@ Cards = {
 					if(card.id == Cards.customer.default_source) {
 						_defaultPay = 'default';
 					}
-
-					console.log(card.id+' pay: '+_defaultPay);
 
 					_thisObj.id = card.metadata.idPartioCard;
 					_thisObj.funding = card.funding;
@@ -104,8 +100,6 @@ Cards = {
 						_defaultReceive = 'default';
 					}
 
-					console.log(card.id+' receive: '+_defaultReceive);
-
 					_results.map(function(__card){
 						if(!_exists) {
 							if(__card.id == card.metadata.idPartioCard){
@@ -115,8 +109,6 @@ Cards = {
 							i++;
 						}
 					})
-
-					console.log('Exists This card (managed) ', index);
 
 					if(!_exists) {
 						_thisObj.id = card.metadata.idPartioCard;
@@ -143,8 +135,6 @@ Cards = {
 		var cardsList = Session.get('cardsList');
 
 		cardsList.map(function(card){
-			console.log(card);
-
 			if(card.funding == 'debit') {
 				Cards.debitCards++;
 
@@ -195,71 +185,44 @@ Cards = {
 
 	//setting default cards
 	setDefaultCard: function(action, cardData){
-
 		if(!action || !cardData) {
-			console.log(' >>>[stripe] setDefaultCards missing params')
+			console.log('>>> [stripe] setDefaultCards missing params')
 			return false;
 		}
 
-		PartioLoad.show('Saving default card to '+action);
+		PartioLoad.show('Saving default card to '+action+'...');
 
 		Meteor.call('setDefaultCard', action, cardData, function (err, result){
 			PartioLoad.hide();
 
 			if(err) {
+				console.log(err);
 				return false;
 			}
 
 			Cards.refresh();
 		});
-
-		// console.log('setDefaultCards', receiveCard, payCard);
-		// if(!receiveCard && !payCard) {
-		// 	return false;
-		// }
-		// //var cardData = this.getCardById(cardId);
-		// PartioLoad.show('Setting your default card...');
-		//
-		// Meteor.call('saveDefaultCards', receiveCard, payCard, function (err, result){
-		// 	if(err) {
-		// 		//console.log(err);
-		// 		return false;
-		// 	}
-		//
-		// 	if(result) {
-		// 		this.defaultReceive = receiveCard;
-		// 		this.defaultPay = payCard;
-		// 	}
-		// });
 	},
 
 	//removing a card
-	remove: function(cardId){
-		// if(!cardId){
-		// 	return false;
-		// }
-		//
-		// if(this.defaultReceive.id == cardId) {
-		// 	alert('Sorry, you can\'t remove you default card.')
-		// 	return false;
-		// }
-		//
-		// PartioLoad.show();
-		//
-		// Meteor.call('removeCard', cardId, function(error, result) {
-		// 	PartioLoad.hide();
-		//
-		// 	if(error) {
-		// 		console.log('removeCard > some error');
-		// 		return false;
-		// 	}
-		//
-		// 	if(result) {
-		// 		console.log('removeCard > ok');
-		// 	} else {
-		// 		Cards.refresh();
-		// 	}
-		// });
+	remove: function(cardData){
+		if(!cardData) {
+			console.log('>>> [stripe] remove missing params')
+			return false;
+		}
+
+		PartioLoad.show('Removing card...');
+
+		Meteor.call('removeCard', cardData, function (err, result){
+			PartioLoad.hide();
+
+			if(err) {
+				console.log(err);
+				return false;
+			}
+
+			Cards.refresh();
+		});
 	},
 }
 
@@ -331,21 +294,32 @@ Template.savedCards.events({
   },
 
 	'click .delete-card': function(e){
-		// var cardId = this.id;
-		//
-		// if(!cardId){
-		// 	return false;
-		// }
-		//
-		// IonPopup.confirm({
-		// 	title: 'Set default card',
-		// 	template: '<div class="center">Do you want remove this card?</div>',
-		// 	onCancel: function(){
-		//
-		// 	},
-		// 	onOk: function(){
-		// 		Cards.remove(cardId);
-		// 	}
-		// });
+		var cardData = this;
+
+		if(cardData.defaultReceive || cardData.defaultPay) {
+			IonPopup.show({
+				title: 'Remove Card',
+				template: '<div class="center">Sorry, you can\'t remove a default card.</div>',
+				buttons: [{
+					text: 'OK',
+					type: 'button-energized',
+					onTap: function() {
+						IonPopup.close();
+						return false;
+					}
+				}]
+			});
+		} else {
+			IonPopup.confirm({
+				title: 'Remove Card',
+				template: '<div class="center">Do you want remove this card?</div>',
+				onCancel: function(){
+					return false;
+				},
+				onOk: function(){
+					Cards.remove(cardData);
+				}
+			});
+		}
 	}
 });
