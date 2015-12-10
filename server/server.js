@@ -921,6 +921,15 @@ Meteor.methods({
       // });
   },
 
+  'createTransactions': function(){
+    //Creating Transactions Id
+    var userTransId = Transactions.insert({
+      earning: [],
+      spending: []
+    });
+
+    Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.transactionsId": userTransId}});
+  },
 
   // SEARCH ITEMS FROM AMAZON --------------------------------------------------------
   AllItemsFromAmazon: function(keys) {

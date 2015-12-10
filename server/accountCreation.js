@@ -3,8 +3,6 @@ Accounts.onCreateUser(function(options,user) {
 	console.log("USER-->>" + JSON.stringify(user))
 	var meteorUserId = user._id;
 
-
-
 	if (user.services.facebook) {
 		var fbLink = user.services.facebook.link;
 		var linkId = fbLink.split("https://www.facebook.com/app_scoped_user_id/")[1].split("/")[0];
@@ -29,7 +27,11 @@ Accounts.onCreateUser(function(options,user) {
 		}
 
 		console.log('finished FACEBOOK user creation...');
-		return user;
+
+		Meteor.call('createTransactions', function(){
+			return user;
+		});
+
 
 	} else {
 		user.profile = options.profile || {};
@@ -57,7 +59,9 @@ Accounts.onCreateUser(function(options,user) {
 			Accounts.sendVerificationEmail(user._id);
 		}, 4 * 1000);
 
-		return user;
+		Meteor.call('createTransactions', function(){
+			return user;
+		});
 	}
 
 });

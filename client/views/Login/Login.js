@@ -84,31 +84,29 @@ Template.login.events({
 						}
 					}]
 				});
-			}
-			else
-			{
+			} else {
 				//If Meteor.userId() exists
 				// var UserExists = Meteor.users.find({_id: Meteor.userId()}, {$ne:{"profile.transactionsId": null}});
-				if(Meteor.user().profile.transactionsId)
-				{
+				//if(Meteor.user().profile.transactionsId)
+				//{
 					//user exist
-				}
-				else
-				{
-					Meteor.call('createCustomer', Meteor.userId(), function(error, result) {
-						if (!error) {
-							var userTransId = Transactions.insert({
-								earning: [],
-								spending: []
-							});
-							Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.transactionsId": userTransId}});
-							PartioLoad.hide();
-
-						} else {
-							PartioLoad.hide();
-						}
-					})
-				}
+				//}
+				// else
+				// {
+				// 	Meteor.call('createCustomer', Meteor.userId(), function(error, result) {
+				// 		if (!error) {
+				// 			var userTransId = Transactions.insert({
+				// 				earning: [],
+				// 				spending: []
+				// 			});
+				// 			Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.transactionsId": userTransId}});
+				// 			PartioLoad.hide();
+				//
+				// 		} else {
+				// 			PartioLoad.hide();
+				// 		}
+				// 	})
+				// }
 			}
 		});
 	}
@@ -151,5 +149,5 @@ Template.login.rendered = function() {
 	window.addEventListener('native.keyboardhide', function() {
 		$(".content.dont-slice-screen").css("bottom", "0px");
 	});
-    
+
 }
