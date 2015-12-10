@@ -44,6 +44,12 @@
 
     a.item {
         margin-right: 2px;
+        
+        &.item-icon-right {
+            p {
+                height: 15px;
+            }
+        }
     }
 
     .profile-name {

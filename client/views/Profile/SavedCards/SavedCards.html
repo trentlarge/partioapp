@@ -7,14 +7,12 @@
     {{>ionNavBackButton}}
   {{/contentFor}}
 
-
-    {{#contentFor "headerTitle"}}
-      <h1 class="title" style="text-align:center;">Payment Cards</h1>
-    {{/contentFor}}
+  {{#contentFor "headerTitle"}}
+    <h1 class="title" style="text-align:center;">Payment Cards</h1>
+  {{/contentFor}}
 
   {{#ionView}}
     {{#ionContent class="savedCard"}}
-
       <br>
       <div class="card padding list">
 
@@ -23,24 +21,24 @@
           <button id="test-card" class="button button-small push-up button-clear"><h6 class="positive">Test Cards</h6></button>
         </div>
 
-        {{#each cards}}
+        {{#each cardsList}}
           <div class="item item-card" data-id="{{id}}" data-funding="{{funding}}">
-              <table>
-                <tbody>
-                    <tr>
-                        <td class="brand"><i class="{{../getBrandIcon brand}}"></i></td>
-                        <td class="funding"><i>{{funding}}</i></td>
-                        <td class="numbers"><i>XXXX-{{last4}}</i></td>
-                        <td class="pay"><i class="set-default set-pay-default {{../checkPayDefault id}}">PAY</i></td>
-                        <td class="receive"><i class="set-default set-receive-default {{../checkReceiveDefault id}}">{{../isDebit funding}}</i></td>
-                        <td class="trash"><i class="delete-card icon ion-ios-trash"></i></td>
-                    </tr>
-                </tbody>
-              </table>
+            <table>
+              <tbody>
+                <tr>
+                  <td class="brand"><i class="{{../getBrandIcon brand}}"></i></td>
+                  <td class="funding"><i>{{funding}}</i></td>
+                  <td class="numbers"><i>XXXX-{{last4}}</i></td>
+                  <td class="pay"><i class="set-default set-pay-default {{ defaultPay }}">PAY</i></td>
+                  <td class="receive"><i class="set-default set-receive-default {{ defaultReceive }}">{{../isDebit funding}}</i></td>
+                  <td class="trash"><i class="delete-card icon ion-ios-trash"></i></td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         {{/each}}
 
-        <div class="item item-icon-left" id="add-card">
+        <div class="item item-icon-left" data-ion-modal="addnewCard">
           <i class="icon ion-ios-plus-outline energized custom-icon"></i>
           <p class="graytext">New card</p>
         </div>
@@ -55,23 +53,12 @@
           <i class="icon energized ion-alert-circled "></i>
           <p class="energized">Please, add a debit card if you want share an item.</p>
         </div>
+
+        <div class="checkbox ">
+          <p class="submit-note"></p>
+          <label><input type="checkbox" class="item-checkbox" value=""> By registering your account, you agree to our </label><a href="#link-to-your-own-ToS" data-ion-modal="modalTermOfService">Terms of Service</a> and the <a target="_blank" href="https://stripe.com/connect/account-terms">Stripe Connected Account Agreement</a>.
+        </div>
       </div>
-
-      <div class="padding">
-        <h3>debugging</h3>
-        {{#with getReceiveCard }}
-          <div>
-            <i class="set-default icon ion-checkmark energized"></i> DefaultReceiveCard = {{id}} - {{funding}} - {{last4}}
-          </div>
-        {{/with}}
-
-        {{#with getPayCard }}
-          <div>
-            <i class="set-default icon ion-checkmark bluegrey"></i> DefaultPayCard = {{id}} - {{funding}} - {{last4}}
-          </div>
-        {{/with}}
-      </div>
-
     {{/ionContent}}
   {{/ionView}}
 </template>

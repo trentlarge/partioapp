@@ -1,9 +1,9 @@
 Template.register.rendered = function() {
-    $('.input-mobile').inputmask({"mask": "+9 (999) 999-9999"});
-    $('#birthDate').inputmask({"mask": "99/99/9999"});
-    $('#birthDate').datepicker({
-        startView: 'decade'
-    });
+  $('.input-mobile').inputmask({"mask": "+9 (999) 999-9999"});
+  $('#birthDate').inputmask({"mask": "99/99/9999"});
+  $('#birthDate').datepicker({
+      startView: 'decade'
+  });
 }
 
 collegeEmails = {
@@ -35,15 +35,16 @@ emailCheck = function(college, email) {
 
 Template.modalPrivacyPolicy.events({
   'click #accept': function(e, template) {
-		e.preventDefault();
-        Router.go('/register');
+    e.preventDefault();
+    Router.go('/register');
 
-        //closemodal
-        $('.modal .bar button').trigger('click');
-	},
-    'click #decline': function(e, template) {
-		e.preventDefault();
-	},
+    //closemodal
+    $('.modal .bar button').trigger('click');
+  },
+
+  'click #decline': function(e, template) {
+    e.preventDefault();
+  },
 
 });
 
@@ -63,64 +64,30 @@ Template.register.events({
 	    	location: Session.get('newLocation')
 	    };
 
-
-
-
-
-	  if (email && password && profileDetails.name && profileDetails.college) {
-
-        if (emailCheck(profileDetails.college, email)) {
-          PartioLoad.show('Please wait, we\'re creating your account....')
-
-          Accounts.createUser({email: email, password: password, telephone: profileDetails.telephone, profileDetails: profileDetails}, function(error) {
-              if (error) {
-                PartioLoad.hide();
-                IonPopup.show({
-                  title: 'Error while Signing up. Please try again.',
-                  template: '<div class="center">'+error.reason+'</div>',
-                  buttons:
-                  [{
-                    text: 'OK',
-                    type: 'button-assertive',
-                    onTap: function() {
-                      IonPopup.close();
-                    }
-                  }]
-                });
-              } else {
-                Meteor.call('createCustomer', function(error, result) {
-                  if (!error) {
-                    PartioLoad.setMessage('Success! Your invitation will be send in few seconds, please check your inbox.')
-                    var userTransId = Transactions.insert({
-                      earning: [],
-                      spending: []
-                    });
-                    Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.transactionsId": userTransId}}, function(){
-                      PartioLoad.hide();
-                      Router.go('/profile');
-                    });
-
-                  } else {
-                    PartioLoad.hide();
-                    IonPopup.show({
-                      title: 'Error while Signing up. Please try again.',
-                      template: '<div class="center">'+error.reason+'</div>',
-                      buttons:
-                      [{
-                        text: 'OK',
-                        type: 'button-assertive',
-                        onTap: function() {
-                          IonPopup.close();
-                        }
-                      }]
-                    });
-                  }
-                })
-              }
+    if(email && password && profileDetails.name && profileDetails.college) {
+      if (emailCheck(profileDetails.college, email)) {
+        PartioLoad.show('Please wait, we\'re creating your account....')
+        Accounts.createUser({email: email, password: password, telephone: profileDetails.telephone, profileDetails: profileDetails}, function(error) {
+          if (error) {
+            PartioLoad.hide();
+            IonPopup.show({
+              title: 'Error while Signing up. Please try again.',
+              template: '<div class="center">'+error.reason+'</div>',
+              buttons: [{
+                text: 'OK',
+                type: 'button-assertive',
+                onTap: function() {
+                  IonPopup.close();
+                }
+              }]
             });
+          } else {
+            PartioLoad.hide();
+            console.log('meteor user created');
+            Router.go('/profile');
           }
-
-	    } else {
+        })
+      } else {
 				PartioLoad.hide();
 
 	    	IonPopup.show({
@@ -134,6 +101,7 @@ Template.register.events({
 	    			}
 	    		}]
 	    	});
-	    }
-	}
+      }
+    }
+  }
 });

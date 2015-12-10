@@ -4,7 +4,7 @@ Talk.allow({
 	},
 
 	update: function (userId, doc, fields, modifier) {
-		return Talk.userCanUpdate(userId, doc);
+		return Talk.userCanUpdate(userId, doc, fields, modifier);
 	},
 
 	remove: function (userId, doc) {

@@ -1,14 +1,18 @@
 userRating = function(userId) {
-  if (Meteor.users.findOne(userId).profile.rating) {
-    if (Meteor.users.findOne(userId).profile.rating.length > 1) {
-      var ratingArray = Meteor.users.findOne(userId).profile.rating;
+  var rating = "1.0";
+
+  var user = Meteor.users.findOne(userId);
+
+  if (user && user.profile && user.profile.rating) {
+    if (user.profile.rating.length > 1) {
+      var ratingArray = user.profile.rating;
       var totalCount = ratingArray.length;
       var sum = _.reduce(ratingArray, function(memo, num) {
-        return (Number(memo) + Number(num))/totalCount;
+        return (Number(memo) + Number(num)) / totalCount;
       });
-      return parseFloat(sum).toFixed(1);
+      rating = parseFloat(sum).toFixed(1);
     }
-  } else {
-    return "1.0";
   }
+
+  return rating;
 }

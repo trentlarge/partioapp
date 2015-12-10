@@ -94,7 +94,7 @@ Template.searchShareHeader.events({
 
                         IonPopup.show({
                             title: 'Ops...',
-                            template: '<div class="center">'+ error.message + '</div>',
+                            template: '<div class="center">' + error.message + '</div>',
                             buttons:
                             [{
                                 text: 'OK',
@@ -116,8 +116,7 @@ Template.searchShareHeader.events({
                         PartioLoad.hide();
                         $(".modal").css("background-image", "");
                         
-                         $('.search-share-header-input').blur();
-
+                        $('.search-share-header-input').blur();
                     }
                 });
             }

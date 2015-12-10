@@ -96,7 +96,7 @@
                 <p>Change Password</p>
                 {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
             </a>
-            <a class="item item-icon-right" data-ion-modal="modalTermOfService" href="{{pathFor 'savedCards'}}" >
+            <a class="item item-icon-right" href="{{pathFor 'savedCards'}}" >
                 <p>Payment Cards</p>
                 {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
             </a>
@@ -104,6 +104,7 @@
     {{/if}}
 
     <div class="card padding-horizontal padding-vertical">
+
         {{#if currentUser.emails.[0].verified}}
             <a class="item item-icon-right" id="logout"  >
                 <p>Logout</p>
@@ -139,16 +140,8 @@
 <template name="modalTermOfService">
   {{#ionModal title="Terms of Service"}}
   <div class="padding">
-    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
-    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-
+    <p>Payment processing services for [account holder term, e.g. drivers or sellers] on [platform name] are provided by Stripe and are subject to the <a href="https://stripe.com/connect/account-terms">Stripe Connected Account Agreement</a>, which includes the <a href="https://stripe.com/terms">Stripe Terms of Service</a> (collectively, the “Stripe Services Agreement”). By agreeing to [this agreement / these terms / etc.] or continuing to operate as a [account holder term] on [platform name], you agree to be bound by the Stripe Services Agreement, as the same may be modified by Stripe from time to time. As a condition of [platform name] enabling payment processing services through Stripe, you agree to provide [platform name] accurate and complete information about you and your business, and you authorize [platform name] to share it and transaction information related to your use of the payment processing services provided by Stripe.</p>
   </div>
-    <div class="padding-horizontal">
-      <button id="editSave" class="button button-block button-energized active">ACCEPT</button>
-    </div>
-    <div class="padding-horizontal">
-      <button id="editRemove" class="button button-block button-assertive">DECLINE</button>
-    </div>
   {{/ionModal}}
 </template>
 

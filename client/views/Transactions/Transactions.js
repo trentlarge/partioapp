@@ -22,51 +22,88 @@ Session.setDefault('spendClicked', false);
 
 Template.earningList.helpers({
 	earning: function() {
-		if (Meteor.user() && Transactions.findOne(Meteor.user().profile.transactionsId)) {
-			return Transactions.findOne(Meteor.user().profile.transactionsId).earning;
+		if(!Meteor.user()) {
+			return 0;
 		}
+
+		var transaction = Transactions.findOne(Meteor.user().profile.transactionsId);
+		if(!transaction) {
+			return 0;
+		}
+
+		return transaction.earning;
 	},
 	totalEarning: function() {
-		if (Meteor.user() && Transactions.findOne(Meteor.user().profile.transactionsId)) {
-			var total = 0;
-			var earningArray = Transactions.findOne(Meteor.user().profile.transactionsId).earning;
-			earningArray.forEach(function(item) {
-				total += item.receivedAmount
-			});
-			return Number(total).toFixed(2);
-		} else {
+		if(!Meteor.user()) {
 			return Number(0).toFixed(2);
 		}
+
+		var transaction = Transactions.findOne(Meteor.user().profile.transactionsId);
+
+		if(transaction) {
+			var total = 0;
+			var earningArray = transaction.earning;
+			earningArray.forEach(function(item) {
+				total += (item.receivedAmount || 0);
+			});
+			return Number(total).toFixed(2);
+		}
+		return Number(0).toFixed(2);
 	},
 	earningAvailable: function() {
-		if (Meteor.user() && Transactions.findOne(Meteor.user().profile.transactionsId)) {
-			return Transactions.findOne(Meteor.user().profile.transactionsId).earning.length;
+		if(!Meteor.user()) {
+			return 0;
 		}
+
+		var transaction = Transactions.findOne(Meteor.user().profile.transactionsId);
+		if(transaction) {
+			return transaction.earning.length;
+		}
+		return 0;
 	}
 });
 
 Template.spendingList.helpers({
 	spending: function() {
-		if (Meteor.user() && Transactions.findOne(Meteor.user().profile.transactionsId)) {
-			return Transactions.findOne(Meteor.user().profile.transactionsId).spending;
+		if(!Meteor.user()) {
+			return 0;
 		}
+
+		var transaction = Transactions.findOne(Meteor.user().profile.transactionsId);
+		if(!transaction) {
+			return 0;
+		}
+
+		transaction.spending;
 	},
+
 	totalSpending: function() {
-		if (Meteor.user() && Transactions.findOne(Meteor.user().profile.transactionsId)) {
-			var total = 0;
-			var earningArray = Transactions.findOne(Meteor.user().profile.transactionsId).spending;
-			earningArray.forEach(function(item) {
-				total += item.paidAmount
-			});
-			return Number(total).toFixed(2);
-		} else {
+		if(!Meteor.user()) {
 			return Number(0).toFixed(2);
 		}
 
-	},
-	spendingAvailable: function() {
-		if (Meteor.user() && Transactions.findOne(Meteor.user().profile.transactionsId)) {
-			return Transactions.findOne(Meteor.user().profile.transactionsId).spending.length;
+		var transaction = Transactions.findOne(Meteor.user().profile.transactionsId);
+
+		if(transaction) {
+			var total = 0;
+			var spendingArray = transaction.spending;
+			spendingArray.forEach(function(item) {
+				total += (item.paidAmount || 0);
+			});
+			return Number(total).toFixed(2);
 		}
+		return Number(0).toFixed(2);
+	},
+
+	spendingAvailable: function() {
+		if(!Meteor.user()) {
+			return 0;
+		}
+
+		var transaction = Transactions.findOne(Meteor.user().profile.transactionsId);
+		if(transaction) {
+			return transaction.spending.length;
+		}
+		return 0;
 	}
-})
+});

@@ -4,7 +4,7 @@ Transactions.allow({
 	},
 
 	update: function (userId, doc, fields, modifier) {
-		return Transactions.userCanUpdate(userId, doc);
+		return Transactions.userCanUpdate(userId, doc, fields, modifier);
 	},
 
 	remove: function (userId, doc) {

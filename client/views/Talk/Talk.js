@@ -25,9 +25,14 @@ Template.talk.rendered = function() {
 	// mark message as read imediatelly as message arrives
 	this.autorun(function() {
 		if(self.data.connection && self.data.unreadMessages && self.data.unreadMessages.count()) {
-			Meteor.call("markMessagesRead", self.data.connection._id, function(e, r) {
-				if(e) {
-//					console.log(e.message);
+			Meteor.call("markMessagesRead", self.data.connection._id, function(err, res) {
+				if(err) {
+					var errorMessage = err.reason || err.message;
+					if(err.details) {
+						errorMessage = errorMessage + "\nDetails:\n" + err.details;
+					}
+					sAlert.error(errorMessage);
+					return;
 				}
 			});
 		}
