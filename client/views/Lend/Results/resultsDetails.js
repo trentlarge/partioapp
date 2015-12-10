@@ -1,6 +1,5 @@
 Template.resultsDetails.helpers({
     getTitle: function() {
-        console.log(this);
         return this.title;
     },
     scanResult: function() {
@@ -169,7 +168,7 @@ Template.resultsDetails.events({
 
         var currentUser = Meteor.user();
 
-        if(!currentUser || !currentUser.profile || !currentUser.profile.defaultReceive) {
+        if(!currentUser || !currentUser.profile || !currentUser.profile..canShare) {
           IonPopup.show({
             title: 'Update profile',
             template: '<div class="center">Please, update your debit card to share this item.</div>',

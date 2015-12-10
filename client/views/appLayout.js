@@ -17,17 +17,14 @@ Template.appLayout.events({
 	},
 
 	'change #payToggle': function(event) {
-		console.log("toggling!");
 		Session.set('testPay', event.target.checked);
 	}
 });
 
 Template.appLayout.helpers({
 	showSideMenu: function(){
-		//var mainTemplateName = Router.current().route.getName();
 		var mainTemplateName = Router.current()._layout._regions.main._template;
-//		console.log(mainTemplateName);
-
+        
 		switch (mainTemplateName) {
 			case 'profile':
 				if(!Meteor.user().emails[0].verified){
@@ -175,7 +172,7 @@ Template.sAlertCustom.events({
 })
 
 Meteor.startup(function() {
-  Stripe.setPublishableKey(Meteor.settings.STRIPE_PUBKEY);
+  Stripe.setPublishableKey(Meteor.settings.public.STRIPE_PUBKEY);
 
   GoogleMaps.load({
   	key: 'AIzaSyDMyxBlvIc4b4hoWqTw4lGr5OviU8FlQc8',
@@ -204,7 +201,6 @@ Meteor.startup(function() {
 var IsPopUpOpen;
 
 function ShowRequestPopUp(strBookName){
-	console.log('IsPopUpOpen: ' + IsPopUpOpen);
 
 	if(IsPopUpOpen){
 		//PopUp is open already, no need for a new one.

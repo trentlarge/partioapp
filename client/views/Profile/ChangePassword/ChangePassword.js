@@ -64,6 +64,5 @@ Template.changePassword.events({
         }
       });
     }
-  },
-
+  }
 });

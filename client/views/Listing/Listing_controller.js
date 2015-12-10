@@ -35,8 +35,6 @@ ListingController = RouteController.extend({
 
             getMinDayRangePrice: function(title) {
 
-								console.log(title);
-
                 var products = Products.find({"title": title}).fetch();
                 var minPrice = products[0].rentPrice.day;
 

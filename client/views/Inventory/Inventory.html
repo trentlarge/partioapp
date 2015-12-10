@@ -22,7 +22,9 @@
 
       {{#if myProducts.count}}
         {{#if finalizedRequests.count}}
-          <div class="item item-divider final-requests"><h3>Finalized requests <i class="chevron-icon icon ion-chevron-down"></i></h3></div>
+          <div class="item item-divider final-requests">
+              <h3>Finalized requests <i class="chevron-icon icon ion-chevron-down"></i></h3>
+          </div>
           <div class="final-request-item">
               {{#each finalizedRequests}}
                 {{#ionItem path="connect" _id=productData._id class="item-avatar-2"}}
@@ -58,7 +60,9 @@
         <!-- NEW REQUESTS -->
 
         {{#if newRequests.count}}
-          <div class="item item-divider requests"><h3>Requests from others <i class="chevron-icon icon ion-chevron-down"></i></h3></div>
+          <div class="item item-divider requests">
+              <h3>Requests from others <i class="chevron-icon icon ion-chevron-down"></i></h3>
+          </div>
           <div class="request-item">
               {{#each newRequests}}
                 {{#ionItem path="connect" _id=productData._id class="item-avatar-2"}}
@@ -92,7 +96,9 @@
         {{/if}}
 
         <!-- LISTING ALL USER PRODUCTS -->
-        <div class="item item-divider products"><h3>My products <i class="chevron-icon icon ion-chevron-down"></i></h3></div>
+        <div class="item item-divider products">
+            <h3>My products <i class="chevron-icon icon ion-chevron-down"></i></h3>
+        </div>
         <div class="product-item">
             {{#each myProducts}}
               {{#ionItem path='inventoryDetail' _id=_id class="item-avatar-2"}}
@@ -130,8 +136,8 @@
       {{else}}
         <div class="center padding-horizontal not-yet">
           <div style="width:100%">
-            <img src="{{ getImage 'spinner-logo' }}" style="height:150px" /> <br/>
-            <a class="btn start-share">START SHARING!</a>    
+            <img src="{{ getImage 'spinner-logo' }}" class="partiologo" style="height:150px" /> <br/>
+            <a class="btn start-share">START SHARING!</a>
             <p class="dark">Start sharing your items on partiO!</p>
           </div>
         </div>

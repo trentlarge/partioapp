@@ -1,15 +1,16 @@
 Template.appLayout.events({
-    
-    'click #cancelProfile': function() {
-        Router.go('/');
-    },
+
+  'click #cancelProfile': function() {
+      Router.go('/');
+  },
 
   'click #saveProfile': function() {
     PartioLoad.show();
 
     var updatedProfile = {
       college: $('#profileuniversity').val(),
-      mobile: $('#profilemobile').val()
+      mobile: $('#profilemobile').val(),
+      birthDate: $('#birthDate').val()
     };
 
     Meteor.call("updateUserProfile", updatedProfile, function(err, res) {
@@ -22,14 +23,19 @@ Template.appLayout.events({
         sAlert.error(errorMessage);
         return;
       }
-
       Session.set('profileEdit', false);        
     });
   }
 });
 
 Template.profile.rendered = function() {
-    $('#profilemobile').inputmask({"mask": "+9 (999) 999-9999"});   
+    $('#profilemobile').inputmask({"mask": "+9 (999) 999-9999"});
+    $('#birthDate').inputmask({"mask": "99/99/9999"});
+    $('#birthDate').datepicker();
+
+    if(!Meteor.user().profile.transactionsId) {
+      Meteor.call('createTransactions');;
+    }
 }
 
 Session.setDefault('profileEdit', false);
@@ -56,6 +62,10 @@ Template.profile.events({
   'keyup #profileEdit': function(e, template) {
     e.preventDefault();
     Session.set('profileEdit', true);
+  },
+  'click #birthDate': function(e, template) {
+      e.preventDefault();
+      Session.set('profileEdit', true);
   },
   'click #changePassword': function() {
     console.log('changePassword');

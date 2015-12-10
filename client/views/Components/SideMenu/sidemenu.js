@@ -7,9 +7,7 @@ Template.sidemenu.events({
             var searchText = $('#search').val();
 
             if(searchText != '') {
-
                 Session.set('searchText', searchText);
-                console.log(Session.get('listing'));
 
                 if(Session.get('listing')){
                     PackageSearch.search(searchText);
@@ -24,7 +22,7 @@ Template.sidemenu.events({
     },
 
     'click #logout': function(e, template){
-      logout();
+        logout();
     }
 })
 
@@ -35,7 +33,7 @@ Template.sidemenu.helpers({
         return Notifications.find({toId: Meteor.userId(), read: false}).count();
 	},
     'inventoryCount': function() {
-        return Connections.find({"productData.ownerId": Meteor.userId()}).count(); //Products.find({"ownerId": Meteor.userId()}).count();
+        return Connections.find({"productData.ownerId": Meteor.userId()}).count(); 
     },
     'rentedCount': function() {
         return Connections.find({"requestor": Meteor.userId()}).count();

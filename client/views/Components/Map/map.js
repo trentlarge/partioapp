@@ -9,7 +9,7 @@ var codeAddress = function(address, successCallback) {
 				successCallback(results[0].geometry.location);
 			}
 		} else {
-			console.log("Geocode was not successful for the following reason: " + status);
+//			console.log("Geocode was not successful for the following reason: " + status);
 		}
 	});
 };
@@ -27,10 +27,10 @@ var codeLocation = function(location, successCallback) {
 					successCallback(results[1].formatted_address);
 				}
 			} else {
-				console.log('Reverse geocoding: No results found');
+//				console.log('Reverse geocoding: No results found');
 			}
 		} else {
-			console.log('Reverse geocoding: Geocoder failed due to: ' + status);
+//			console.log('Reverse geocoding: Geocoder failed due to: ' + status);
 		}
 	});
 };
@@ -169,7 +169,7 @@ Template.onlyMap.created = function() {
 			if(status == google.maps.DirectionsStatus.OK) {
 				directionsDisplay.setDirections(result);
 			} else {
-				console.log('Directions service: failed due to: ' + status);
+//				console.log('Directions service: failed due to: ' + status);
 			}
 		});
 	});

@@ -81,13 +81,6 @@ Template.searchResult.helpers({
   }
 });
 
-Template.searchResult.events({
-  'click .qty-check': function() {
-    Session.set('currentQty', Search.findOne(this._id).qty);
-    console.log('CHECK currentQty: ' + Session.get('currentQty'));
-  }
-})
-
 Template.searchBox.helpers({
   getCategory: function(index) {
       return Categories.getCategory(index);
@@ -111,7 +104,7 @@ Template.searchBox.helpers({
 Template.searchBox.events({
   "keyup #search-box": _.throttle(function(e) {
     var text = $(e.target).val().trim();
-    console.log('Search Query: ' + text);
+    
     if(text.length > 1)
     {
       PackageSearch.search(text);

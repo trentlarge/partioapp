@@ -91,18 +91,9 @@
       {{#each getPackages}}
         <div class="package {{isCategorySelected}}">
             {{#ionItem path='search' _id=this._id class="item-avatar-2 qty-check"}}
-          <!-- {{#ionItem path='bookDetail' _id=this._id iconRight=true class="item-avatar-2"}} -->
                 <div class="product-avatar">
                   <img class="product-avatar-inner" src="{{image}}"/>
                 </div>
-
-<!--                 <p class="main-title-text">{{{title}}}</p>
-                <p class="main-sub-text">{{{authors}}}</p> -->
-                <!--  -->
-                <!-- <p class="main-sub-text">Description: {{{description}}}</p> -->
-                <!-- <span class="badge badge-mid {{qtyClass qty}}">{{qtyFormat qty}}</span> -->
-<!--                 {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
- -->
                 <div class="ellipsis">
                     <p class="main-title-text">{{title}}</p>
                 </div>
@@ -120,28 +111,6 @@
                             <td>{{../getMinMonthRangePrice title}}</td>
                             <td>{{../getMinSemesterRangePrice title}}</td>
                         </tr>
-<!--
-                        <tr>
-                            <td class="one">{{../getMinDayRangePrice title}}</td>
-                            <td class="two">{{../getMinWeekRangePrice title}}</td>
-                            <td class="three">{{../getMinMonthRangePrice title}}</td>
-                            <td class="four">{{../getMinSemesterRangePrice title}}</td>
-                        </tr>
--->
-<!--
-                        <tr>
-                            <th class="one"><i class="icon">D</i></th>
-                            <th class="two"><i class="icon">W</i></th>
-                            <th class="three"><i class="icon">M</i></th>
-                            <th class="four"><i class="icon">S</i></th>
-                        </tr>
-                        <tr>
-                            <td>{{../getMinDayRangePrice title}}</td>
-                            <td>{{../getMinWeekRangePrice title}}</td>
-                            <td>{{../getMinMonthRangePrice title}}</td>
-                            <td>{{../getMinSemesterRangePrice title}}</td>
-                        </tr>
--->
                     </tbody>
                 </table>
                 <span class="badge-qty-users">{{../getQtyUsers qty}}</span>

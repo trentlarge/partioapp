@@ -11,7 +11,7 @@ $energized: #f0970d;
 $assertive: #df5707;
 // $stable: #bdc3c7;
 // $royal: #263238;
-$base-background-color: #eceff1;
+$base-background-color: #fafafa;
 
 
 $grey: #BDC3C7;
@@ -25,10 +25,10 @@ $ios-statusbar-height: 20px !default;
 $cordovaStatusBar: style(1); //Light
 
 
-@import url('http://fonts.googleapis.com/css?family=Open+Sans');
+@import url('https://fonts.googleapis.com/css?family=Ubuntu:400,500,700');
 
-$font-family-sans-serif:          "Open Sans", sans-serif !default;
-$font-family-light-sans-serif:    "Open Sans", sans-serif-light !default;
+$font-family-sans-serif:          "Ubuntu", sans-serif !default;
+$font-family-light-sans-serif:    "Ubuntu", sans-serif-light !default;
 //$font-family-sans-serif:          "Futura", "Roboto", "Segoe UI", sans-serif !default;
 //$font-family-light-sans-serif:    "Futura", "Roboto-Light", "Segoe UI-Light", sans-serif-light !default;
 $font-family-serif:               serif !default;

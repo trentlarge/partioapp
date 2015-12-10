@@ -9,7 +9,7 @@
     -o-background-size: cover;
     background-size: cover;
     min-height: 100%;
-    
+
     .center {
         display: flex;
         align-items: center;
@@ -23,6 +23,21 @@
         }
     }
 
+    .item-checkbox {
+        width: 18px !important;
+        height: 18px !important;
+        margin-left: 0px !important;
+    }
+
+    .item-checkbox input:checked{
+      background: red !important;
+      border-color: red !important;
+    }
+
+    input:-webkit-autofill {
+        -webkit-box-shadow: 0 0 0px 1000px white inset;
+    }
+
     .item-input {
         background-color: transparent;
         border: 0;
@@ -32,6 +47,7 @@
 
         i {
             color: rgba(39, 39, 39, 0.42);
+            width: 18px;
         }
 
         ::-webkit-input-placeholder {
@@ -47,7 +63,7 @@
         border: 0;
         padding: 10px;
     }
-    
+
     .item-select {
         background-color: transparent;
         color: #272727;
@@ -63,13 +79,20 @@
         #college {
             background-color: transparent;
             font-size: 14px;
-            color: #A7A7A7;
         }
     }
 
     .form-register-block{
         overflow: hidden;
     }
+    
+    label.term {
+        padding-left: 10px;
+        padding-top: 10px;
+    }
+    
+    a {
+        text-decoration: none;
+    }
 
 }
-

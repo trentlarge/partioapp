@@ -1,7 +1,5 @@
 <template name="lend">
     {{#ionView class="lend-view"}}
-<!--    {{#ionModal title="Share Product" customTemplate=true}}-->
-
         {{#contentFor "headerButtonLeft"}}
             <button class="button button-clear pull-left" data-ion-menu-toggle="left">
               {{> ionIcon icon='navicon' class="energized"}}
@@ -17,11 +15,6 @@
             <a href="/" class="button button-clear">
                 <img id="spinner-logo-simple" src="{{ getImage 'spinner-logo' }}"  />
             </a>
-<!--
-            <button type="button" id="closeLend" style="right: 5px;position: absolute;" title="Close" class="button button-clear">
-                <i class="icon ion-ios-close-outline"></i>
-            </button>
--->
         {{/contentFor}}
 
         <!-- DYNAMIC TEMPLATE -->
@@ -29,8 +22,6 @@
 
         <!-- TAB -->
         {{>lendTabs}}
-
-<!--    {{/ionModal}}-->
     {{/ionView}}
 </template>
 

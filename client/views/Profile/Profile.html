@@ -1,4 +1,6 @@
+
 <template name="profile">
+<!--  {{#ionContent class="bar" }}-->
 
   {{#if currentUser.emails.[0].verified}}
     {{#contentFor "headerButtonLeft"}}
@@ -32,25 +34,33 @@
     {{/contentFor}}
   {{/if}}
 
+<!--{{/ionContent}}-->
+
   {{#ionView}}
     {{#ionContent class="profile-content"}}
     <!-- <div class="content has-header"> -->
 
-      <div class="item">
+      <div class="profilehead item" >
           {{> settingsProfileImage}}
           <div class="center">
             <span class="profile-name">{{currentUser.profile.name}}</span>
-            <span class="rating-box">{{ > rating}}</span>
+            <span  class="rating-box">{{ > rating}}</span>
           </div>
       </div>
 
-      <div class="card padding-horizontal padding-vertical">
+      <div class="panecard padding-horizontal padding-vertical">
         <form id="profileEdit">
+
             <label class="item item-input">
                 <i class="icon ion-ios-telephone"></i>
                 <input id="profilemobile" type="text" value="{{currentUser.profile.mobile}}">
             </label>
-        </form>
+            <label class="item item-input">
+                <i class="icon ion-ios-calendar"></i>
+                <input id="birthDate" type="text" value="{{currentUser.profile.birthDate}}">
+            </label>
+          </form>
+
        {{#if emailSet}}
 
         <label class="item item-input">
@@ -80,7 +90,7 @@
       </div>
 
       {{#if currentUser.emails.[0].verified}}
-        <div class="card padding-horizontal padding-vertical">
+        <div class="panecard padding-horizontal padding-vertical">
 <!--        <div class="item item-divider top"></div>-->
             <a class="item item-icon-right" href="{{pathFor 'changePassword'}}" >
                 <p>Change Password</p>
@@ -92,8 +102,9 @@
             </a>
         </div>
     {{/if}}
-    
-    <div class="card padding-horizontal padding-vertical">
+
+    <div class="panecard padding-horizontal padding-vertical">
+
         {{#if currentUser.emails.[0].verified}}
             <a class="item item-icon-right" id="logout"  >
                 <p>Logout</p>
@@ -102,7 +113,7 @@
         {{else}}
             {{#if emailSet}}
                 <div class="item item-icon-left">
-                    <span class="activation-title assertive center">Welcome aboard partiO!</span> 
+                    <span class="activation-title assertive center">Welcome aboard partiO!</span>
                     <span class="activation-message center">Please verify your email address to proceed.</span>
                     {{> ionIcon icon="alert-circled" class="assertive"}}
                 </div>
@@ -114,10 +125,26 @@
             {{/if}}
         {{/if}}
     </div>
+    
+    <div class="padding-horizontal">
+        <a class="button button-block button-email-support" href="mailto:support@partioapp.com" data-rel='external'>
+            CONTACT US
+        </a>
+    </div>
+
 <!-- </div> -->
     {{/ionContent}}
   {{/ionView}}
 </template>
+
+<template name="modalTermOfService">
+  {{#ionModal title="Terms of Service"}}
+  <div class="padding">
+    <p>Payment processing services for [account holder term, e.g. drivers or sellers] on [platform name] are provided by Stripe and are subject to the <a href="https://stripe.com/connect/account-terms">Stripe Connected Account Agreement</a>, which includes the <a href="https://stripe.com/terms">Stripe Terms of Service</a> (collectively, the “Stripe Services Agreement”). By agreeing to [this agreement / these terms / etc.] or continuing to operate as a [account holder term] on [platform name], you agree to be bound by the Stripe Services Agreement, as the same may be modified by Stripe from time to time. As a condition of [platform name] enabling payment processing services through Stripe, you agree to provide [platform name] accurate and complete information about you and your business, and you authorize [platform name] to share it and transaction information related to your use of the payment processing services provided by Stripe.</p>
+  </div>
+  {{/ionModal}}
+</template>
+
 
 <template name="settingsProfileImage">
   <div class="profile-image-container">

@@ -32,7 +32,6 @@ ConnectController = RouteController.extend({
 			connectData: Connections.findOne(_connectId),
 
 			getCategoryIcon: function() {
-				//console.log(this.connectData);
 				return Categories.getCategoryIconByText(this.connectData.productData.category);
 			},
 
@@ -41,12 +40,10 @@ ConnectController = RouteController.extend({
 			},
 
 			requestorInfo : function(){
-				//console.log(Meteor.users.findOne(this.connectData.requestor))
 				return Meteor.users.findOne(this.connectData.requestor);
 			},
 
 			preferredLocation: function() {
-				console.log('Meet Up Location CONNECT JS: ' +this.connectData.meetupLocation);
 				return this.connectData.meetupLocation;
 			},
 

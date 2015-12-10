@@ -1,25 +1,38 @@
+.bar {
+    z-index: 2;
+    font-size: 1.3em;
+    width: 100%;
+    box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.26);
+}
+
+.profilehead {
+    z-index: 2;
+    width: 100%;
+    box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.26);
+}
+
 .profile-content {
-    
+
     .activation-title {
         white-space: normal;
         display: block;
         font-size: 20px;
     }
-    
+
     .activation-message {
         white-space: normal;
         display: block;
         padding-top: 5px;
     }
-    
+
     .email-support {
         padding-top: 10px;
     }
-    
+
     .profile-image-container {
         margin-top: -20px;
     }
-    
+
     .item-divider {
         border: 0;
         margin-bottom: -15px;
@@ -33,57 +46,57 @@
 //        padding: 0;
 //        margin-right: 2px;
 //        background-color: #DDDDDD;
-        
+
 //        &.top {
 //            border-top-left-radius: 1pc;
 //            border-top-right-radius: 1pc;
 //        }
-//        
+//
 //        &.bottom {
 //            border-bottom-left-radius: 1pc;
 //            border-bottom-right-radius: 1pc;
 //        }
     }
-    
+
     a.item {
         margin-right: 2px;
     }
-    
+
     .profile-name {
         display: block;
     }
-    
+
     .item-input {
-        
+
         color: #272727;
-        
+
         i {
             padding-right: 10px;
         }
-        
+
         input {
-            
+
             color: #272727;
-            
+
             &:disabled {
                 background-color: #ffffff;
                 opacity: .6;
             }
         }
     }
-    
+
 }
 
 #changePassword {
-    
+
     .item-input {
         background-color: #ffffff;
         padding-top: 10px;
         padding-bottom: 10px;
-        
+
         input {
             background-color: #ffffff;
         }
     }
-    
+
 }

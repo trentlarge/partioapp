@@ -1,10 +1,5 @@
 Template.feedback.helpers({
 	userInfo: function() {
-
-		console.log('--------------------------')
-		console.log(this);
-		console.log('--------------------------')
-
 		return this.productData.ownerData.profile;
 	},
 	ownerAvatar: function() {
@@ -87,7 +82,6 @@ Template.feedbackborrower.helpers({
 		{
 			return '/profile_image_placeholder.jpg'
 		}
-
 		return this.productData.ownerData.profile.avatar;
 	}
 });
