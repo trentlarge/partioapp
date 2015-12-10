@@ -12,10 +12,10 @@ Template.addnewCard.events({
 		var exp2 = parseInt(exp[1]);
 		var cvcOut = e.target.cvc.value;
 
-		console.log(nameOut, numberOut, exp1, exp2, cvcOut);
+		//console.log(nameOut, numberOut, exp1, exp2, cvcOut);
 
 		if(!nameOut || !numberOut || !exp1 || !exp2 || !cvcOut){
-			alert('Please fill all fields');
+			ShowNotificationMessage('Please fill all fields');
 			return false;
 		}
 
@@ -34,6 +34,7 @@ Template.addnewCard.events({
 			if(!firstResponse.id) {
 				PartioLoad.hide();
 				console.log('some error', status);
+				ShowNotificationMessage('Invalid Card! Please check your card information');
 				return false;
 			}
 
@@ -49,7 +50,8 @@ Template.addnewCard.events({
 						PartioLoad.hide();
 
 						if(error) {
-							alert(error.message);
+							ShowNotificationMessage(error.message);
+							console.log(error);
 							return false;
 						}
 
@@ -68,7 +70,8 @@ Template.addnewCard.events({
 
 					if(error) {
 						PartioLoad.hide();
-						alert(error.message);
+						console.log(error);
+						ShowNotificationMessage(error.message);
 						return false;
 					}
 
@@ -77,7 +80,8 @@ Template.addnewCard.events({
 							console.log('>>>>>> [stripe] return checkStripeCustomer');
 							if(error) {
 								PartioLoad.hide();
-								alert(error.message);
+								console.log(error);
+								ShowNotificationMessage(error.message);
 								return false;
 							}
 
@@ -95,6 +99,7 @@ Template.addnewCard.events({
 
 									if(!secondResponse.id) {
 										PartioLoad.hide();
+										ShowNotificationMessage('Invalid Card! Please check your card information');
 										console.log('some error', status);
 										return false;
 									}
@@ -106,7 +111,8 @@ Template.addnewCard.events({
 										PartioLoad.hide();
 
 										if(error) {
-											alert(error.message);
+											console.log(error);
+											ShowNotificationMessage(error.message);
 											return false;
 										}
 

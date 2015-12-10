@@ -141,7 +141,7 @@ Template.requestRent.events({
   'click #sendRequest': function() {
 
     //need to improve how know if there is a card to pay
-    if(!Meteor.user().profile.stripeManaged){
+    if(!Meteor.user().profile.canBorrow){
       IonPopup.show({
         title: 'Update profile',
         template: '<div class="center">Please, update your cards to borrow this item.</div>',

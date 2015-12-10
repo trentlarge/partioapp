@@ -2,12 +2,6 @@ Template.savedCards.onRendered(function() {
 	Cards.refresh();
 });
 
-Template.savedCards.helpers({
-  cardsList: function() {
-		return Session.get('cardsList');
-  }
-});
-
 Template.savedCards.getStripeCustomer = function(done){
 	Meteor.call('getStripeCustomer', function(err, result){
 		if(err) {
@@ -297,18 +291,8 @@ Template.savedCards.events({
 		var cardData = this;
 
 		if(cardData.defaultReceive || cardData.defaultPay) {
-			IonPopup.show({
-				title: 'Remove Card',
-				template: '<div class="center">Sorry, you can\'t remove a default card.</div>',
-				buttons: [{
-					text: 'OK',
-					type: 'button-energized',
-					onTap: function() {
-						IonPopup.close();
-						return false;
-					}
-				}]
-			});
+			ShowNotificationMessage('Sorry, you can\'t remove a default card.');
+			return false;
 		} else {
 			IonPopup.confirm({
 				title: 'Remove Card',

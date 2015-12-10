@@ -661,10 +661,9 @@ Meteor.methods({
 
           console.log('>>>>> [stripe] new customer card ', customerCard.id);
 
-          //Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.cards": cards}}, function(){
-          done(false, true);
-          //});
-
+          Meteor.users.update({"_id": Meteor.userId() }, {$set: {"profile.canBorrow": true }} , function() {
+            done(false, true);
+          });
         })
       );
     })
@@ -699,7 +698,6 @@ Meteor.methods({
         metadata: { idPartioCard: ownIdCard }},
         Meteor.bindEnvironment(function (error, managedCard) {
           console.log('>>>>> [stripe] new card to Managed account ', managedCard.id);
-
           if(error) {
             done(error.message, false);
           }
@@ -708,12 +706,14 @@ Meteor.methods({
           Stripe.customers.createSource(
             stripeCustomerId, { source: secondToken, metadata: { idPartioCard: ownIdCard }},
             Meteor.bindEnvironment(function (error, customerCard) {
+              console.log('>>>>> [stripe] new customer card ', customerCard.id);
               if(error) {
                 done(error, false);
               }
 
-              console.log('>>>>> [stripe] new customer card ', customerCard.id);
-              done(false, true);
+              Meteor.users.update({"_id": Meteor.userId() }, {$set: {"profile.canBorrow": true, "profile.canShare": true}} , function() {
+                done(false, true);
+              });
             })
           );
         })
