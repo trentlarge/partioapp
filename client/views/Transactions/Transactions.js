@@ -60,7 +60,15 @@ Template.earningList.helpers({
 			return transaction.earning.length;
 		}
 		return 0;
-	}
+	},
+    
+    getDate: function() {
+        return formatDate(this.date);
+    },
+    
+    getAmount: function() {
+        return Number(this.receivedAmount).toFixed(2);  
+    },
 });
 
 Template.spendingList.helpers({
@@ -74,7 +82,7 @@ Template.spendingList.helpers({
 			return 0;
 		}
 
-		transaction.spending;
+		return transaction.spending;
 	},
 
 	totalSpending: function() {
@@ -105,5 +113,13 @@ Template.spendingList.helpers({
 			return transaction.spending.length;
 		}
 		return 0;
-	}
+	},
+    
+    getDate: function() {
+        return formatDate(this.date);
+    },
+    
+    getAmount: function() {
+        return Number(this.paidAmount).toFixed(2);  
+    },
 });

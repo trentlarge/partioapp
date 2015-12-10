@@ -55,15 +55,12 @@
         {{#if earningAvailable}}
 
                 {{#each earning}}
-                <div class="item narrow-item">
-                    <div class="row">
-                        <div class="col col-75">
-                            <p>{{productName}}</p>
-                        </div>
-                        <div class="col right-align">
-                            <p>${{receivedAmount}}</p>
-                        </div>
-                    </div>
+                <div class="item icon-left">
+                    <p>
+                        <i class="icon ion-cash"></i> <span class="amount">${{getAmount}}</span>
+                        <span class="transaction-date">{{getDate}}</span>
+                    </p>
+                    <p class="product-title">{{productName}}</p>
                 </div>
             {{/each}}
 
@@ -94,15 +91,12 @@
         {{#if spendingAvailable}}
 
             {{#each spending}}
-                <div class="item narrow-item">
-                    <div class="row">
-                        <div class="col col-75">
-                            <p>{{productName}}</p>
-                        </div>
-                        <div class="col right-align">
-                            <p>${{paidAmount}}</p>
-                        </div>
-                    </div>
+                <div class="item icon-left">
+                    <p>
+                        <i class="icon ion-cash"></i> <span class="amount">${{getAmount}}</span>
+                        <span class="transaction-date">{{getDate}}</span>
+                    </p>
+                    <p class="product-title">{{productName}}</p>
                 </div>
             {{/each}}
 
