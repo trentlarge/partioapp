@@ -866,14 +866,15 @@ Meteor.methods({
     }
 
     var requestor = Meteor.users.findOne(connect.requestor);
-    var requestorManagedId = requestor.profile.stripeManaged;
-    var requestorCustomerId = requestor.profile.stripeCustomer;
+    //var requestorManagedId = requestor.profile.stripeManaged;
+
     var owner = Meteor.users.findOne(connect.productData.ownerId);
+
     var amount = connect.borrowDetails.price.total;
     var formattedAmount = (amount * 100).toFixed(0);
 
     var response = Async.runSync(function(done) {
-      Stripe.customers.retrieve(requestorCustomerId,
+      Stripe.customers.retrieve(requestor.profile.stripeCustomer,
         Meteor.bindEnvironment(function (err, customer) {
           if(err) {
             done(err, false);
@@ -884,7 +885,7 @@ Meteor.methods({
           Stripe.charges.create({
             amount: formattedAmount,
             currency: "usd",
-            customer: requestorCustomerId,
+            customer: requestor.profile.stripeCustomer,
             source: payCardId,
             description: requestor.profile.email+' paid to Partio' },
             Meteor.bindEnvironment(function (err, charge) {
@@ -892,10 +893,28 @@ Meteor.methods({
                 done(err, false);
               }
               console.log('>>>>> [stripe] new charge to Partio ', charge);
+
               Connections.update({_id: connect._id}, {$set: {state: "IN USE", payment: charge}});
-              var message = 'You received a payment of $' + amount + ' from ' + requestor.profile.name;
+
+              var payerTrans = {
+                date: charge.created,
+                productName: connect.productData.title,
+                paidAmount: charge.amount/100
+              }
+
+              var recipientTrans = {
+                date: charge.created,
+                productName: connect.productData.title,
+                receivedAmount: charge.amount/100
+              }
+
+              Transactions.update({_id: requestor.profile.transactionsId }, {$push: {spending: payerTrans}});
+              Transactions.update({_id: owner.profile.transactionsId }, {$push: {earning: recipientTrans}});
+
+              var message = 'You received a payment of $' + amount + ' from ' + requestor.profile.name
               sendPush(owner._id, message);
               sendNotification(owner._id, requestor._id, message, "info");
+
               done(false, charge);
             })
           );
@@ -922,6 +941,7 @@ Meteor.methods({
   },
 
   'createTransactions': function(){
+    console.log(' >>>>> creating new transactionsId')
     //Creating Transactions Id
     var userTransId = Transactions.insert({
       earning: [],

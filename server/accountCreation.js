@@ -28,10 +28,9 @@ Accounts.onCreateUser(function(options,user) {
 
 		console.log('finished FACEBOOK user creation...');
 
-		Meteor.call('createTransactions', function(){
-			return user;
-		});
+		Meteor.call('createTransactions');
 
+		return user;
 
 	} else {
 		user.profile = options.profile || {};
@@ -59,9 +58,9 @@ Accounts.onCreateUser(function(options,user) {
 			Accounts.sendVerificationEmail(user._id);
 		}, 4 * 1000);
 
-		Meteor.call('createTransactions', function(){
-			return user;
-		});
+		Meteor.call('createTransactions');
+
+		return user;
 	}
 
 });

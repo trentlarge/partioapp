@@ -27,6 +27,10 @@ Template.profile.rendered = function() {
     $('#profilemobile').inputmask({"mask": "+9 (999) 999-9999"});
     $('#birthDate').inputmask({"mask": "99/99/9999"});
     $('#birthDate').datepicker();
+
+    if(!Meteor.user().profile.transactionsId) {
+      Meteor.call('createTransactions');;
+    }
 }
 
 Session.setDefault('profileEdit', false);
