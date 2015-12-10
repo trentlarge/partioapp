@@ -1,15 +1,13 @@
-Template.savedCards.getCreditCards = function(){
+Template.savedCards.getCreditCards = function() {
 	var result = []
 
-	if (Meteor.user().profile.cards) {
-		var cards = Meteor.user().profile.cards;
+	var cards = Meteor.user().profile.cards;
 
-		if(cards.length > 0) {
-			for (var i = 0; i < cards.length; i++) {
-				var _card = cards[i];
-				if(_card.funding == 'credit') {
-					result.push(_card);
-				}
+	if (cards && cards.length > 0) {
+		for (var i = 0; i < cards.length; i++) {
+			var _card = cards[i];
+			if(_card.funding == 'credit') {
+				result.push(_card);
 			}
 		}
 	}
@@ -17,18 +15,16 @@ Template.savedCards.getCreditCards = function(){
 	return result;
 }
 
-Template.savedCards.getDebitCards = function(){
+Template.savedCards.getDebitCards = function() {
 	var result = []
 
-	if (Meteor.user().profile.cards) {
-		var cards = Meteor.user().profile.cards;
+	var cards = Meteor.user().profile.cards;
 
-		if(cards.length > 0) {
-			for (var i = 0; i < cards.length; i++) {
-				var _card = cards[i];
-				if(_card.funding == 'debit') {
-					result.push(_card);
-				}
+	if (cards && cards.length > 0) {
+		for (var i = 0; i < cards.length; i++) {
+			var _card = cards[i];
+			if(_card.funding == 'debit') {
+				result.push(_card);
 			}
 		}
 	}

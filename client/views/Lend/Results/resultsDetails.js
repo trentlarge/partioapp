@@ -167,7 +167,9 @@ Template.resultsDetails.events({
 
     'click .submitProduct': function(e, template) {
 
-        if(!Meteor.user().profile.defaultReceive){
+        var currentUser = Meteor.user();
+
+        if(!currentUser || !currentUser.profile || !currentUser.profile.defaultReceive) {
           IonPopup.show({
             title: 'Update profile',
             template: '<div class="center">Please, update your debit card to share this item.</div>',
@@ -213,7 +215,7 @@ Template.resultsDetails.events({
 
     }
 
-})
+});
 
 function validateInputs(details){
   if(!details.title || details.title.length < 1) {

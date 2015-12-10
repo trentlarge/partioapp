@@ -143,7 +143,9 @@ Template.requestRent.events({
 
   'click #sendRequest': function() {
 
-    if(!Meteor.user().profile.defaultPay){
+    var currentUser = Meteor.user();
+
+    if(!currentUser || !currentUser.profile || !currentUser.profile.defaultPay) {
       IonPopup.show({
         title: 'Update profile',
         template: '<div class="center">Please, update your cards to borrow this item.</div>',

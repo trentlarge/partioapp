@@ -8,14 +8,17 @@ Template.feedback.helpers({
 		return this.productData.ownerData.profile;
 	},
 	ownerAvatar: function() {
-		if(this.productData.ownerData.profile.avatar == 'notSet' ||
-			 this.productData.ownerData.profile.avatar == ''
-		 ){
+		if( !this.productData || 
+			!this.productData.ownerData || 
+			!this.productData.ownerData.profile ||
+			!this.productData.ownerData.profile.avatar ||
+			 this.productData.ownerData.profile.avatar == 'notSet') 
+		{
 			return '/profile_image_placeholder.jpg'
-		} else {
-			return this.productData.ownerData.profile.avatar;
 		}
-	},
+
+		return this.productData.ownerData.profile.avatar;
+	}
 });
 
 Template.feedback.events({
@@ -49,30 +52,43 @@ Template.feedback.events({
 
 Template.feedbackborrower.helpers({
 	requestorData: function() {
-		//console.log(this.requestorData);
+		if(!this.requestorData) {
+			return null;
+		}
 		return this.requestorData.profile;
 	},
-	requestorAvatar: function() {
-		if(this.requestorData.profile.avatar == 'notSet' ||
-			 this.requestorData.profile.avatar == ''
-		 ){
-			return '/profile_image_placeholder.jpg'
-		} else {
-			return this.requestorData.profile.avatar;
-		}
-	},
-	ownerAvatar: function() {
-		if(this.productData.ownerData.profile.avatar == 'notSet' ||
-			 this.productData.ownerData.profile.avatar == ''
-		 ){
-			return '/profile_image_placeholder.jpg'
-		} else {
-			return this.productData.ownerData.profile.avatar;
-		}
-	},
+
 	ownerData: function(){
-		console.log(this.productData.ownerData);
+		if(!this.productData || !this.productData.ownerData) {
+			return null;
+		}
 		return this.productData.ownerData.profile;
+	},
+
+	requestorAvatar: function() {
+		if( !this.requestorData ||
+			!this.requestorData.profile ||
+			!this.requestorData.profile.avatar ||
+			 this.requestorData.profile.avatar == 'notSet')
+
+		{
+			return '/profile_image_placeholder.jpg'
+		}
+
+		return this.requestorData.profile.avatar;
+	},
+
+	ownerAvatar: function() {
+		if( !this.productData || 
+			!this.productData.ownerData || 
+			!this.productData.ownerData.profile ||
+			!this.productData.ownerData.profile.avatar ||
+			 this.productData.ownerData.profile.avatar == 'notSet') 
+		{
+			return '/profile_image_placeholder.jpg'
+		}
+
+		return this.productData.ownerData.profile.avatar;
 	}
 });
 

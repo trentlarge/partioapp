@@ -110,10 +110,10 @@ Template.inventory.events({
           // connectionforBookID.forEach(function(item) {
           //   console.log('connectionforBookID: ' + item);
           // });
-
+          var requestorUser = Meteor.users.findOne(requestor);
           IonPopup.show({
             title: 'Great!',
-            template: '<div class="center">Make sure you setup a meeting location and pass on the item to <strong>'+ Meteor.users.findOne(requestor).profile.name+'</strong> once you receive the payment. </div>',
+            template: '<div class="center">Make sure you setup a meeting location and pass on the item to <strong>'+ requestorUser.profile.name+'</strong> once you receive the payment. </div>',
             buttons:
               [{
                 text: 'OK',
@@ -150,28 +150,26 @@ Template.inventory.events({
 })
 
 function CheckStripeAccount () {
-    if (Meteor.user().profile.cards) {
-        if(Meteor.user().profile.cards.length > 0) {
-            return true;
-        }
-    }
-    else {
+    var currentUser = Meteor.user();
+    if (currentUser && currentUser.profile && currentUser.profile.cards && currentUser.profile.cards.length > 0) {
+      return true;
+    } else {
       PartioLoad.hide();
       IonPopup.show({
           title: 'ATTENTION!',
           template: '<div class="center">First, you need update you card information!</div>',
           buttons:
-          [{
-          text: 'Add Card',
-          type: 'button-energized',
-          onTap: function()
-          {
-              IonPopup.close();
-              $('#closeLend').click();
-              Router.go('/profile/savedcards');
-              IonModal.close();
-          }
-          }]
+            [{
+              text: 'Add Card',
+              type: 'button-energized',
+              onTap: function()
+              {
+                  IonPopup.close();
+                  $('#closeLend').click();
+                  Router.go('/profile/savedcards');
+                  IonModal.close();
+              }
+            }]
       });
 
       return false;

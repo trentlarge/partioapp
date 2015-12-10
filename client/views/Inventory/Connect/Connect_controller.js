@@ -51,13 +51,17 @@ ConnectController = RouteController.extend({
 			},
 
 			requestorAvatar: function() {
-				if(this.requestorInfo().profile.avatar == 'notSet' ||
-					 this.requestorInfo().profile.avatar == ''
-				 ){
+				var requestor = this.requestorInfo();
+				if( !requestor ||
+					!requestor.profile ||
+					!requestor.profile.avatar ||
+					 requestor.profile.avatar == 'notSet')
+
+				{
 					return '/profile_image_placeholder.jpg'
-				} else {
-					return this.requestorInfo().profile.avatar;
 				}
+
+				return requestor.profile.avatar;
 			},
 
 			phoneNumber: function() {
