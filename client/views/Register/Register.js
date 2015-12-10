@@ -1,7 +1,9 @@
 Template.register.rendered = function() {
   $('.input-mobile').inputmask({"mask": "+9 (999) 999-9999"});
   $('#birthDate').inputmask({"mask": "99/99/9999"});
-  $('#birthDate').datepicker();
+  $('#birthDate').datepicker({
+      startView: 'decade'
+  });
 }
 
 collegeEmails = {
@@ -49,6 +51,7 @@ Template.modalPrivacyPolicy.events({
 Template.register.events({
 	'click #registerButton': function(e, template) {
 		e.preventDefault();
+<<<<<<< HEAD
     var email = template.find('[name=email]').value;
     var password = template.find('[name=password]').value;
 		var mobile = template.find('[name=mobile]').value;
@@ -65,6 +68,28 @@ Template.register.events({
     if(email && password && profileDetails.name && profileDetails.college) {
       if(template.find('[name=term_partio]').checked){
         if(emailCheck(profileDetails.college, email)) {
+=======
+	    var email = template.find('[name=email]').value;
+	    var password = template.find('[name=password]').value;
+			var mobile = template.find('[name=mobile]').value;
+	    var profileDetails = {
+	    	name: template.find('[name=name]').value,
+				mobile: template.find('[name=mobile]').value,
+				mobileValidated: false,
+	    	college: template.find('#college').value,
+        birthDate: template.find('[name=birthDate]').value,
+	    	avatar: "notSet",
+	    	location: Session.get('newLocation')
+	    };
+
+
+
+
+
+	  if (email && password && profileDetails.name && profileDetails.college) {
+
+        if (emailCheck(profileDetails.college, email)) {
+>>>>>>> unstable
           PartioLoad.show('Please wait, we\'re creating your account....')
           Accounts.createUser({email: email, password: password, telephone: profileDetails.telephone, profileDetails: profileDetails}, function(error) {
             if (error) {
@@ -79,6 +104,7 @@ Template.register.events({
                   onTap: function() {
                     IonPopup.close();
                   }
+<<<<<<< HEAD
                 }]
               });
             } else {
@@ -146,4 +172,27 @@ Template.register.events({
     	});
     }
   }
+=======
+                })
+              }
+            });
+          }
+
+	    } else {
+				PartioLoad.hide();
+
+	    	IonPopup.show({
+	    		title: 'Missing fields',
+	    		template: '<div class="center">Please make sure all mandatory fields are entered to proceed further</div>',
+	    		buttons: [{
+	    			text: 'OK',
+	    			type: 'button-calm',
+	    			onTap: function() {
+	    				IonPopup.close();
+	    			}
+	    		}]
+	    	});
+	    }
+	}
+>>>>>>> unstable
 });
