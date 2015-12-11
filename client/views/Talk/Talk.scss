@@ -1,3 +1,10 @@
+.talk-content {
+    
+    .list.talk-list {
+        margin-bottom: 60px;
+    }
+}
+
 div.profile-pic {
   width: 40px;
   height: 40px;
@@ -21,18 +28,6 @@ img.profile-pic {
   white-space: nowrap;
   font-size: 14px;
   margin-bottom: -6px;
-}
-
-.message-wrapper {
-  // position: absolute;
-  padding: 5px 5px 60px 5px;
-//  display: table;
-//  vertical-align: bottom;
-//  width: 100vw;
-}
-
-.message-wrapper:last-child {
-  margin-bottom: 20px;
 }
 
 .chat-bubble.right a.autolinker {
@@ -67,28 +62,6 @@ img.profile-pic {
   background-color: #fff;
   overflow: auto;
 }
-.each-chatblock {
-  // display: table-row;
-  // min-height: 90px;
-  // background-color: pink;
-  // border: 2px solid white;
-}
-
-//.each-chatblock.right {
-//  text-align: right;
-//  display: table-row;
-//}
-//
-//.each-chatblock.left {
-//  text-align: left;
-//  display: table-row;
-//}
-
-//.chat-bubble,
-//.profile-pic {
-//  display: inline-block;
-//  vertical-align: bottom;
-//}
 
 .chat-footer {
   height: auto !important;

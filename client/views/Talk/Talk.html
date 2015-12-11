@@ -8,8 +8,8 @@
   {{/contentFor}}
 
   {{#ionView}}
-    {{#ionContent}}
-      <div class="message-wrapper" data-keyboard-attach>
+    {{#ionContent class="talk-content"}}
+      <div class="list talk-list padding-horizontal" data-keyboard-attach>
       {{#each messages}}
         {{> message}}
       {{/each}}
