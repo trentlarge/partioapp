@@ -68,9 +68,31 @@ Template.addnewCard.events({
 				Meteor.call('checkStripeManaged', function(error, resultManaged) {
 					console.log('>>>>>> [stripe] return checkStripeManaged');
 
+					console.log(error, resultManaged);
+
 					if(error) {
 						PartioLoad.hide();
 						console.log(error);
+
+						if(error.reason == 'birthDate') {
+							IonPopup.show({
+								title: 'Missing information',
+								template: '<div class="center">Please, update you birth date before to add a debit card.</div>',
+								buttons:
+								[{
+									text: 'OK',
+									type: 'button-energized',
+									onTap: function() {
+										IonPopup.close();
+										//closemodal
+										$('.modal .bar button').trigger('click');
+										Router.go('/profile');
+									}
+								}]
+							});
+							return false;
+						}
+
 						ShowNotificationMessage(error.message);
 						return false;
 					}

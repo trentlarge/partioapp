@@ -567,15 +567,16 @@ Meteor.methods({
     if (!_userProfile.stripeManaged) {
       var clientIp = this.connection.clientAddress;
 
+      if(!_userProfile.birthDate) {
+        throw new Meteor.Error("checkStripeManaged", "birthDate");
+      }
 
       var date = _userProfile.birthDate;
-
       var dateBirth = date.split('/');
 
       var month = dateBirth[0];
       var day = dateBirth[1];
       var year = dateBirth[2];
-
 
       console.log('########ANIVERSARIO');
       console.log(_userProfile.birthDate);
