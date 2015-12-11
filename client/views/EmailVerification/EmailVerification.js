@@ -22,6 +22,10 @@ Template.emailverification.onRendered(function() {
 					});
 				}
 			} else {
+
+				//Creating transactionsId for new user;
+				Meteor.call('createTransactions');
+
 				IonPopup.show({
 					title: 'Success!',
 					template: '<div class="center">Your email address is successfully verified</div>',
