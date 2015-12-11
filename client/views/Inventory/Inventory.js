@@ -1,56 +1,49 @@
 Template.inventory.events({
-    'click .start-share': function() {
-        if(CheckStripeAccount()) {
-            Router.go('/lend');
-        }
-    },
-    'click .final-requests': function() {
+  'click .start-share': function() {
+    Router.go('/lend');
+  },
 
-        var requests = $('.final-requests');
-        var requestsItem = $('.final-request-item');
+  'click .final-requests': function() {
+    var requests = $('.final-requests');
+    var requestsItem = $('.final-request-item');
 
-        if(!requestsItem.is(':visible')){
-            requestsItem.slideDown('fast');
-            requests.find('.chevron-icon').removeClass('ion-chevron-up').addClass('ion-chevron-down');
-        }
-        else {
-            requestsItem.slideUp('fast');
-            requests.find('.chevron-icon').removeClass('ion-chevron-down').addClass('ion-chevron-up');
-        }
+    if(!requestsItem.is(':visible')){
+      requestsItem.slideDown('fast');
+      requests.find('.chevron-icon').removeClass('ion-chevron-up').addClass('ion-chevron-down');
+    } else {
+      requestsItem.slideUp('fast');
+      requests.find('.chevron-icon').removeClass('ion-chevron-down').addClass('ion-chevron-up');
+    }
+  },
 
-    },
-    'click .requests': function() {
+  'click .requests': function() {
+    var requests = $('.requests');
+    var requestsItem = $('.request-item');
 
-        var requests = $('.requests');
-        var requestsItem = $('.request-item');
+    if(!requestsItem.is(':visible')){
+        requestsItem.slideDown('fast');
+        requests.find('.chevron-icon').removeClass('ion-chevron-up').addClass('ion-chevron-down');
+    } else {
+        requestsItem.slideUp('fast');
+        requests.find('.chevron-icon').removeClass('ion-chevron-down').addClass('ion-chevron-up');
+    }
+  },
 
-        if(!requestsItem.is(':visible')){
-            requestsItem.slideDown('fast');
-            requests.find('.chevron-icon').removeClass('ion-chevron-up').addClass('ion-chevron-down');
-        }
-        else {
-            requestsItem.slideUp('fast');
-            requests.find('.chevron-icon').removeClass('ion-chevron-down').addClass('ion-chevron-up');
-        }
+  'click .products': function() {
+      var products = $('.products');
+      var productsItem = $('.product-item');
 
-    },
-    'click .products': function() {
+      if(!productsItem.is(':visible')){
+          productsItem.slideDown('fast');
+          products.find('.chevron-icon').removeClass('ion-chevron-up').addClass('ion-chevron-down');
+      }
+      else {
+          productsItem.slideUp('fast');
+          products.find('.chevron-icon').removeClass('ion-chevron-down').addClass('ion-chevron-up');
+      }
+  },
 
-        var products = $('.products');
-        var productsItem = $('.product-item');
-
-        if(!productsItem.is(':visible')){
-            productsItem.slideDown('fast');
-            products.find('.chevron-icon').removeClass('ion-chevron-up').addClass('ion-chevron-down');
-        }
-        else {
-            productsItem.slideUp('fast');
-            products.find('.chevron-icon').removeClass('ion-chevron-down').addClass('ion-chevron-up');
-        }
-
-    },
-  'click #respondToReq': function()
-  {
+  'click #respondToReq': function(){
     var requestor = this.requestor;
     var connectionId = this._id;
     var productId = this.productData._id;
@@ -70,6 +63,7 @@ Template.inventory.events({
         IonPopup.close();
         console.log("proceeding with connection");
         PartioLoad.show();
+
         Meteor.call('ownerAccept', connectionId, function(err, res) {
           PartioLoad.hide();
           if(err) {
@@ -89,8 +83,7 @@ Template.inventory.events({
               [{
                 text: 'OK',
                 type: 'button-assertive',
-                onTap: function()
-                {
+                onTap: function(){
                   Router.go('/inventory/connect/'+connectionId);
                   IonPopup.close();
                 }
@@ -113,49 +106,4 @@ Template.inventory.events({
       }
     });
   }
-
 })
-
-function CheckStripeAccount () {
-    var currentUser = Meteor.user();
-    if (currentUser && currentUser.profile && currentUser.profile.cards && currentUser.profile.cards.length > 0) {
-      return true;
-    } else {
-      PartioLoad.hide();
-      IonPopup.show({
-          title: 'ATTENTION!',
-          template: '<div class="center">First, you need update you card information!</div>',
-          buttons:
-            [{
-              text: 'Add Card',
-              type: 'button-energized',
-              onTap: function()
-              {
-                  IonPopup.close();
-                  $('#closeLend').click();
-                  Router.go('/profile/savedcards');
-                  IonModal.close();
-              }
-            }]
-      });
-
-      return false;
-    }
-}
-
-function showInvalidPopUp(strTitle, strMessage)
-{
-  IonPopup.show({
-          title: strTitle,
-          template: '<div class="center">'+strMessage+'</div>',
-          buttons:
-          [{
-            text: 'OK',
-            type: 'button-assertive',
-            onTap: function()
-            {
-              IonPopup.close();
-            }
-          }]
-        });
-}
