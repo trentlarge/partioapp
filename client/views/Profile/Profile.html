@@ -57,7 +57,7 @@
             </label>
             <label class="item item-input">
                 <i class="icon ion-ios-calendar"></i>
-                <input id="birthDate" type="text" value="{{currentUser.profile.birthDate}}">
+                <input id="birthDate" data-date-format="mm/dd/yyyy" readonly type="text" value="{{currentUser.profile.birthDate}}">
             </label>
           </form>
 
@@ -125,7 +125,7 @@
             {{/if}}
         {{/if}}
     </div>
-    
+
     <div class="padding-horizontal">
         <a class="button button-block button-email-support" href="mailto:support@partioapp.com" data-rel='external'>
             CONTACT US
