@@ -1,6 +1,7 @@
 Template.rating.rendered = function () {
   $('.rateit').rateit();
 }
+
 Template.rating.helpers({
   avgRating: function(userId) {
       
@@ -14,23 +15,19 @@ Template.rating.helpers({
             return parseFloat(sum/totalCount).toFixed(1);
         }
     }
-      
-    if(Meteor.users.findOne(userId)){
-        if (Meteor.users.findOne(userId).profile.rating) {
-          if (Meteor.users.findOne(userId).profile.rating.length >= 1) {
-            var ratingArray = Meteor.users.findOne(userId).profile.rating;
-            var totalCount = ratingArray.length;
-            var sum = _.reduce(ratingArray, function(memo, num) {
-              return Number(memo) + Number(num);
-            });
-            return parseFloat(sum/totalCount).toFixed(1);
-          }
-        } else {
-          return "5.0";
-        }
+
+    var user = Meteor.users.findOne(userId);
+    if(user && user.profile && user.profile.rating) {
+      if (user.profile.rating.length >= 1) {
+        var ratingArray = user.profile.rating;
+        var totalCount = ratingArray.length;
+        var sum = _.reduce(ratingArray, function(memo, num) {
+          return Number(memo) + Number(num);
+        });
+        return parseFloat(sum/totalCount).toFixed(1);
+      }
     }
-    else {
-        return "5.0";
-    }
-  },
+
+    return "5.0";
+  }
 });

@@ -4,7 +4,7 @@ Search.allow({
 	},
 
 	update: function (userId, doc, fields, modifier) {
-		return Search.userCanUpdate(userId, doc);
+		return Search.userCanUpdate(userId, doc, fields, modifier);
 	},
 
 	remove: function (userId, doc) {

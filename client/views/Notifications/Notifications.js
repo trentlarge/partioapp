@@ -29,5 +29,15 @@ Template.notifications.events({
 });
 
 Template.notifications.onRendered(function() {
-    Meteor.call("markAllNotificationsRead");
+    Meteor.call("markAllNotificationsRead", function(err, res) {
+console.log("markAllNotificationsRead");
+        if(err) {
+            var errorMessage = err.reason || err.message;
+            if(err.details) {
+              errorMessage = errorMessage + "\nDetails:\n" + err.details;
+            }
+            sAlert.error(errorMessage);
+            return;
+        }
+    });
 });

@@ -140,8 +140,9 @@ Template.requestRent.helpers({
 Template.requestRent.events({
   'click #sendRequest': function() {
 
-    //need to improve how know if there is a card to pay
-    if(!Meteor.user().profile.canBorrow){
+    var currentUser = Meteor.user();
+
+    if(!currentUser || !currentUser.profile || !currentUser.profile.canBorrow) {
       IonPopup.show({
         title: 'Update profile',
         template: '<div class="center">Please, update your cards to borrow this item.</div>',
@@ -188,31 +189,37 @@ Template.requestRent.events({
       template: '<div class="center">You\'ll receive a notification once the owner accepts your request</div>',
       onOk: function() {
         PartioLoad.show();
-        Meteor.call('requestOwner', Meteor.userId(), productId, ownerId, borrowDetails, function(error, result) {
-          if (!error) {
-            PartioLoad.hide();
-            IonPopup.close();
-            setTimeout(function(){
-              IonPopup.show({
-                title: 'Request Sent',
-                template: '<div class="center">Now you just need to wait for owner\'s approval</div>',
-                buttons: [{
-                  text: 'OK',
-                  type: 'button-energized',
-                  onTap: function() {
-                    IonPopup.close();
-                    $('#closeRequest').click();
-                    Router.go('/renting');
-                  }
-                }]
-              });
-            }, 500);
-          } else {
-            PartioLoad.hide();
-//            console.log(error);
+        Meteor.call('requestOwner', Meteor.userId(), productId, ownerId, borrowDetails, function(err, res) {
+          PartioLoad.hide();
+          IonPopup.close();
+
+          if(err) {
+            var errorMessage = err.reason || err.message;
+            if(err.details) {
+              errorMessage = errorMessage + "\nDetails:\n" + err.details;
+            }
+            sAlert.error(errorMessage);
+            return;
           }
-        })
+
+          setTimeout(function(){
+            IonPopup.show({
+              title: 'Request Sent',
+              template: '<div class="center">Now you just need to wait for owner\'s approval</div>',
+              buttons: [{
+                text: 'OK',
+                type: 'button-energized',
+                onTap: function() {
+                  IonPopup.close();
+                  $('#closeRequest').click();
+                  Router.go('/renting');
+                }
+              }]
+            });
+          }, 500);
+        });
       },
+
       onCancel: function() {
         return false;
       }

@@ -122,50 +122,72 @@ app.model.Lend = (function () {
         },
 
         addProductToInventoryManually : function(manualProduct) {
+            var self = this;
 
-            Products.insert(manualProduct);
-            this.clearPrices();
+            Meteor.call("insertProduct", manualProduct, function(err, res) {
+                PartioLoad.hide();
+                if(err) {
+                    var errorMessage = err.reason || err.message;
+                    if(err.details) {
+                        errorMessage = errorMessage + "\nDetails:\n" + err.details;
+                    }
+                    sAlert.error(errorMessage);
+                    return;
+                }
 
-            PartioLoad.hide();
-            IonPopup.show({
-            title: 'Your product is successfully submitted',
-            template: '<div class="center">You can find this shared item in your Repository</div>',
-            buttons:
-            [{
-              text: 'OK',
-              type: 'button-energized',
-              onTap: function() {
-                $('#closeLend').click();
-                IonPopup.close();
-                //IonModal.close();
-                Router.go('/inventory');
-                
-              }
-            }]
+                self.clearPrices();
+
+                IonPopup.show({
+                    title: 'Your product is successfully submitted',
+                    template: '<div class="center">You can find this shared item in your Repository</div>',
+                    buttons:
+                        [{
+                          text: 'OK',
+                          type: 'button-energized',
+                          onTap: function() {
+                            $('#closeLend').click();
+                            IonPopup.close();
+                            //IonModal.close();
+                            Router.go('/inventory');
+                            
+                          }
+                        }]
+                });
             });
         },
 
         addProductToInventory : function(product) {
+            var self = this;
 
-            Products.insert(product);
-            this.clearPrices();
+            Meteor.call("insertProduct", product, function(err, res) {
+                PartioLoad.hide();
+                if(err) {
+                    var errorMessage = err.reason || err.message;
+                    if(err.details) {
+                        errorMessage = errorMessage + "\nDetails:\n" + err.details;
+                    }
+                    sAlert.error(errorMessage);
+                    return;
+                }
 
-            PartioLoad.hide();
+                self.clearPrices();
 
-            IonPopup.show({
-            title: 'Your product is successfully submitted',
-            template: '<div class="center">And saved to your Inventory</div>',
-            buttons:
-            [{
-              text: 'OK',
-              type: 'button-energized',
-              onTap: function() {
-                $('#closeLend').click();
-                IonPopup.close();
-                //IonModal.close();
-                Router.go('/inventory');
-              }
-            }]
+
+                IonPopup.show({
+                    title: 'Your product is successfully submitted',
+                    template: '<div class="center">And saved to your Inventory</div>',
+                    buttons:
+                        [{
+                          text: 'OK',
+                          type: 'button-energized',
+                          onTap: function() {
+                            $('#closeLend').click();
+                            IonPopup.close();
+                            //IonModal.close();
+                            Router.go('/inventory');
+                          }
+                        }]
+                });
             });
         },
 

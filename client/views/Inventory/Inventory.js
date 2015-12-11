@@ -63,14 +63,23 @@ Template.inventory.events({
         IonPopup.close();
         console.log("proceeding with connection");
         PartioLoad.show();
-        Meteor.call('ownerAccept', connectionId, function(error, result) {
-          if (!error){
-            PartioLoad.hide();
 
-            IonPopup.show({
-              title: 'Great!',
-              template: '<div class="center">Make sure you setup a meeting location and pass on the item to <strong>'+ Meteor.users.findOne(requestor).profile.name+'</strong> once you receive the payment. </div>',
-              buttons:
+        Meteor.call('ownerAccept', connectionId, function(err, res) {
+          PartioLoad.hide();
+          if(err) {
+            var errorMessage = err.reason || err.message;
+            if(err.details) {
+              errorMessage = errorMessage + "\nDetails:\n" + err.details;
+            }
+            sAlert.error(errorMessage);
+            return;
+          }
+
+          var requestorUser = Meteor.users.findOne(requestor);
+          IonPopup.show({
+            title: 'Great!',
+            template: '<div class="center">Make sure you setup a meeting location and pass on the item to <strong>'+ requestorUser.profile.name+'</strong> once you receive the payment. </div>',
+            buttons:
               [{
                 text: 'OK',
                 type: 'button-assertive',
@@ -79,21 +88,22 @@ Template.inventory.events({
                   IonPopup.close();
                 }
               }]
-            });
-          }
+          });
         });
       },
 
       onCancel: function() {
-        Meteor.call('ownerDecline', connectionId, function(error, result) {
-          if(!error){
-           console.log('Request Declined!');
-          } else{
-           console.log('Declined Error: ' + error);
+        Meteor.call('ownerDecline', connectionId, function(err, res) {
+          if(err) {
+            var errorMessage = err.reason || err.message;
+            if(err.details) {
+              errorMessage = errorMessage + "\nDetails:\n" + err.details;
+            }
+            sAlert.error(errorMessage);
+            return;
           }
         });
       }
     });
   }
-
 })

@@ -49,13 +49,23 @@ RequestRentController = RouteController.extend({
 				}
 			},
 			userInfo: function() {
-				return Meteor.users.findOne(this.productData.ownerId).profile;
+				var owner = Meteor.users.findOne(this.productData.ownerId);
+				if(!owner || !owner.profile) {
+					return {};
+				}
+
+				return owner.profile;
 			},
 			approvedStatus: function() {
-				return Connections.findOne(this._id).state !== 'WAITING' ? true : false;
+				var connection = Connections.findOne(this._id);
+				return connection.state !== 'WAITING' ? true : false;
 			},
 			phoneNumber: function() {
-				return Meteor.users.findOne(this.productData.ownerId).profile.mobile;
+				var owner = Meteor.users.findOne(this.productData.ownerId);
+				if(!owner || !owner.profile || !owner.profile.mobile) {
+					return "";
+				}
+				return owner.profile.mobile;
 			},
 			preferredLocation: function() {
 				return Connections.findOne(this._id).meetupLocation;

@@ -40,7 +40,17 @@ Template.inventoryDetail.events({
     var edited = template.find('.semesterPrice').value;
     var title = template.find('.title').value;
 
-    Products.update({_id: this.product._id}, {$set: {title: title, customPrice: edited, rentPrice: editedPrices}});
+    Meteor.call("updateProductData", this.product._id, title, edited, editedPrices, function(err, res) {
+      if(err) {
+        var errorMessage = err.reason || err.message;
+        if(err.details) {
+          errorMessage = errorMessage + "\nDetails:\n" + err.details;
+        }
+        sAlert.error(errorMessage);
+        return;
+      }
+    });
+
     Session.set('editMode', false);
   },
     

@@ -4,7 +4,7 @@ Connections.allow({
 	},
 
 	update: function (userId, doc, fields, modifier) {
-		return Connections.userCanUpdate(userId, doc);
+		return Connections.userCanUpdate(userId, doc, fields, modifier);
 	},
 
 	remove: function (userId, doc) {

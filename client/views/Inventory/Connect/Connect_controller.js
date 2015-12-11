@@ -16,8 +16,6 @@ ConnectController = RouteController.extend({
 		if(this.connection())
 			_subs.push( Meteor.subscribe("singleUser", this.connection().requestor) );
 
-			// console.log(_subs);
-
 		return _subs;
 	},
 
@@ -48,13 +46,17 @@ ConnectController = RouteController.extend({
 			},
 
 			requestorAvatar: function() {
-				if(this.requestorInfo().profile.avatar == 'notSet' ||
-					 this.requestorInfo().profile.avatar == ''
-				 ){
+				var requestor = this.requestorInfo();
+				if( !requestor ||
+					!requestor.profile ||
+					!requestor.profile.avatar ||
+					 requestor.profile.avatar == 'notSet')
+
+				{
 					return '/profile_image_placeholder.jpg'
-				} else {
-					return this.requestorInfo().profile.avatar;
 				}
+
+				return requestor.profile.avatar;
 			},
 
 			phoneNumber: function() {
@@ -100,19 +102,37 @@ ConnectController = RouteController.extend({
 				return this.connectData.state === "RETURNED" ? true : false;
 			},
 
+            isTimeOver: function() {
+                var diff;
+                if($.now() > new Date(this.connectData.borrowDetails.date.start).getTime()) {
+                 diff = new Date(this.connectData.borrowDetails.date.end - $.now());
+                } else {
+                 diff = new Date(this.connectData.borrowDetails.date.end - this.connectData.borrowDetails.date.start);
+                }
+                var daysLeft = Math.floor((diff/1000/60/60/24) + 1);
+                
+                if(daysLeft < 0) {
+                    return true;
+                }
+                return false;
+            },
+            
 			getDaysLeft: function() {
-				 var diff;
-				 if($.now() > new Date(this.connectData.borrowDetails.date.start).getTime()) {
-						 diff = new Date(this.connectData.borrowDetails.date.end - $.now());
-				 } else {
-						 diff = new Date(this.connectData.borrowDetails.date.end - this.connectData.borrowDetails.date.start);
-				 }
-				 var daysLeft = Math.floor((diff/1000/60/60/24) + 1);
-
-				 if(daysLeft <= 1) {
-						 return daysLeft + ' day left'
-				 }
-				 return daysLeft + ' days left';
+                var diff;
+                if($.now() > new Date(this.connectData.borrowDetails.date.start).getTime()) {
+                    diff = new Date(this.connectData.borrowDetails.date.end - $.now());
+                } else {
+                    diff = new Date(this.connectData.borrowDetails.date.end - this.connectData.borrowDetails.date.start);
+                }
+                var daysLeft = Math.floor((diff/1000/60/60/24) + 1);
+                
+                if(daysLeft < 0) {
+                    return 'time is over';
+                }
+                else if(daysLeft <= 1) {
+                    return daysLeft + ' day left'
+                }
+                return daysLeft + ' days left';
 			},
 
 			paymentPending: function() {

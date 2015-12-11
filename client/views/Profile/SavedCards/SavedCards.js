@@ -3,12 +3,16 @@ Template.savedCards.onRendered(function() {
 });
 
 Template.savedCards.getStripeCustomer = function(done){
-	Meteor.call('getStripeCustomer', function(err, result){
+	Meteor.call('getStripeCustomer', function(err, result) {
 		if(err) {
 			console.log('>>> [stripe] User does not have stripe CUSTOMER account yet');
+			var errorMessage = err.reason || err.message;
+			if(err.details) {
+				errorMessage = errorMessage + "\nDetails:\n" + err.details;
+			}
+			console.log(errorMessage);
 			done(false);
 		}
-
 		done(result);
 	});
 };
@@ -17,9 +21,13 @@ Template.savedCards.getStripeManaged = function(done){
 	Meteor.call('getStripeManaged', function(err, result){
 		if(err) {
 			console.log('>>> [stripe] User does not have stripe MANAGED account yet');
+			var errorMessage = err.reason || err.message;
+			if(err.details) {
+				errorMessage = errorMessage + "\nDetails:\n" + err.details;
+			}
+			console.log(errorMessage);
 			done(false);
 		}
-
 		done(result);
 	});
 };
@@ -184,15 +192,19 @@ Cards = {
 			return false;
 		}
 
-		PartioLoad.show('Saving default card to '+action+'...');
+		PartioLoad.show('Saving default card to ' + action + '...');
 
 		Meteor.call('setDefaultCard', action, cardData, function (err, result){
 			PartioLoad.hide();
 
-			if(err) {
-				console.log(err);
-				return false;
-			}
+            if(err) {
+                var errorMessage = err.reason || err.message;
+                if(err.details) {
+                  errorMessage = errorMessage + "\nDetails:\n" + err.details;
+                }
+                sAlert.error(errorMessage);
+                return false;
+            }
 
 			Cards.refresh();
 		});
@@ -210,10 +222,14 @@ Cards = {
 		Meteor.call('removeCard', cardData, function (err, result){
 			PartioLoad.hide();
 
-			if(err) {
-				console.log(err);
-				return false;
-			}
+            if(err) {
+                var errorMessage = err.reason || err.message;
+                if(err.details) {
+                  errorMessage = errorMessage + "\nDetails:\n" + err.details;
+                }
+                sAlert.error(errorMessage);
+                return false;
+            }
 
 			Cards.refresh();
 		});
@@ -247,6 +263,12 @@ Template.savedCards.events({
 		});
 	},
 
+	'click #termStripe': function() {
+
+		Meteor.call('updateTerms');
+
+
+	},
   'click .set-pay-default': function(e) {
     var cardData = this;
 

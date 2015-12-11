@@ -164,25 +164,19 @@ sendNotification = function(toId, fromId, message, type, connectionId) {
 
   if(oldNotification) {
     // the same notification already exist, update it
-    Notifications.update({ _id: oldNotification._id }, {
-      $set: {
-        message: message,
-        timestamp: new Date(),
-        read: false
-      }
-    });
-  } else {
-    // this is new notification
-    Notifications.insert({
-      toId: toId,
-      fromId: fromId,
-      connectionId: connectionId,
-      message: message,
-      read: false,
-      timestamp: new Date(),
-      type: type
-    });
+    Notifications.remove({ _id: oldNotification._id });
   }
+
+  // this is new notification
+  Notifications.insert({
+    toId: toId,
+    fromId: fromId,
+    connectionId: connectionId,
+    message: message,
+    read: false,
+    timestamp: new Date(),
+    type: type
+  });
 }
 
 var sendPush = function(toId, message) {
@@ -439,22 +433,21 @@ Meteor.methods({
       return response.result;
     },
 
-  'updateOfficialEmail': function(userId, college, email) {
-    Meteor.users.update({"_id": userId}, {$set: {"emails": [{"address": email, "verified": false}], "profile.college": college}}, function(error) {
+  'updateOfficialEmail': function(college, email) {
+    Meteor.users.update({"_id": this.userId}, {$set: {"emails": [{"address": email, "verified": false}], "profile.college": college}}, function(error) {
       if (!error) {
         Accounts.sendVerificationEmail(userId);
       }
     });
   },
-  'updatePassword': function(userId, password) {
-
-      Accounts.setPassword(userId, password, { logout: false }, function(error) {
-
-        console.log(error);
-
-      });
-
-
+  'updatePassword': function(password) {
+    console.log('chamou updatePassword');
+    Meteor.bindEnvironment(function() {
+      Accounts.setPassword(this.userId, password, { logout: false });
+    },
+    function (err) {
+      console.log('failed to bind env: ', err);
+    });
   },
 
   'submitRating': function(rating, personId, ratedBy) {
@@ -554,7 +547,18 @@ Meteor.methods({
     Connections.update({_id: payer}, {$set: {state: "IN USE"}});
     return "yes, payment done"
   },
+  'updateTerms': function() {
 
+
+    console.log('updateTerms');
+
+    Meteor.users.update({"_id": Meteor.userId() }, {$set: {
+      "profile.stripeTerms": true,
+      //"profile.stripeCustomer": customerResult.id,
+      //"profile.transactionsId": userTransId
+    }})
+
+  },
 
   // Account & STRIPE API (cards) -------------------------------------------------------------------
   'checkStripeManaged': function() {
@@ -567,7 +571,18 @@ Meteor.methods({
         throw new Meteor.Error("checkStripeManaged", "birthDate");
       }
 
-      var birdDate = _userProfile.birthDate.split('/');
+      var date = _userProfile.birthDate;
+      var dateBirth = date.split('/');
+
+      var month = dateBirth[0];
+      var day = dateBirth[1];
+      var year = dateBirth[2];
+
+      console.log('########ANIVERSARIO');
+      console.log(_userProfile.birthDate);
+      console.log(dateBirth[0]);
+      console.log(dateBirth[1]);
+      console.log(dateBirth[2]);
 
       var response = Async.runSync(function(done) {
 
@@ -579,9 +594,9 @@ Meteor.methods({
           "legal_entity[type]": "individual",
           "legal_entity[first_name]": _userProfile.name,
           "legal_entity[last_name]": 'Partio',
-          "legal_entity[dob][day]": '11',
-          "legal_entity[dob][month]": '06',
-          "legal_entity[dob][year]": '1985',
+          "legal_entity[dob][day]": day,
+          "legal_entity[dob][month]": month,
+          "legal_entity[dob][year]": year,
           "tos_acceptance[date]": Math.floor(Date.now() / 1000),
           "tos_acceptance[ip]": clientIp,
 

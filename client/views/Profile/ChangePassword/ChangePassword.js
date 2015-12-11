@@ -29,25 +29,27 @@ Template.changePassword.events({
               });
             } else {
 
-              Meteor.call('updatePassword', Meteor.userId(), new_password, function(error, result){
-                if (error) {
-                    //error
-                } else {
-                  IonPopup.alert({
-                    okText: 'Ok',
-                    title: 'Change Password',
-                    template: '<div class="center">Succesfully changed!</div>',
-                    onOk: function() {
-                      IonPopup.close();
-                      $('#new_password').val('');
-                      $('#new_repeat_password').val('');
-                      Router.go('/profile')
-
+              Meteor.call('updatePassword', new_password, function(err, res) {
+                if(err) {
+                    var errorMessage = err.reason || err.message;
+                    if(err.details) {
+                      errorMessage = errorMessage + "\nDetails:\n" + err.details;
                     }
-                  });
+                    sAlert.error(errorMessage);
+                    return;
                 }
-              })
-
+                IonPopup.alert({
+                  okText: 'Ok',
+                  title: 'Change Password',
+                  template: '<div class="center">Succesfully changed!</div>',
+                  onOk: function() {
+                    IonPopup.close();
+                    $('#new_password').val('');
+                    $('#new_repeat_password').val('');
+                    Router.go('/profile');
+                  }
+                });
+              });
             }
 
     } else {
@@ -62,6 +64,5 @@ Template.changePassword.events({
         }
       });
     }
-  },
-
+  }
 });
