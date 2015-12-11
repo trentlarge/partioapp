@@ -563,6 +563,12 @@ Meteor.methods({
     if (!_userProfile.stripeManaged) {
       var clientIp = this.connection.clientAddress;
 
+      if(!_userProfile.birthDate) {
+        throw new Meteor.Error("checkStripeManaged", "birthDate");
+      }
+
+      var birdDate = _userProfile.birthDate.split('/');
+
       var response = Async.runSync(function(done) {
 
         //Creating Stripe Managed Account
