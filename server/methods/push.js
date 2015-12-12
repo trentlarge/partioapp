@@ -29,7 +29,7 @@ Meteor.methods({
 	// }
 });
 
-var sendPush = function(toId, message) {
+sendPush = function(toId, message) {
   Push.send({
     from: 'partiO chat message',
     title: 'partiO chat notification',
@@ -41,3 +41,17 @@ var sendPush = function(toId, message) {
     }
   });
 }
+
+
+// var sendPush = function(toId, message) {
+//   Push.send({
+//     from: 'partiO',
+//     title: 'New activity on partiO',
+//     text: message,
+//     badge: 1,
+//     sound: 'check',
+//     query: {
+//       userId: toId
+//     }
+//   });
+// }
