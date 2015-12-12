@@ -23,15 +23,19 @@ Template.appLayout.events({
         sAlert.error(errorMessage);
         return;
       }
-      Session.set('profileEdit', false);        
+      Session.set('profileEdit', false);
     });
   }
 });
 
 Template.profile.rendered = function() {
   $('#profilemobile').inputmask({"mask": "+9 (999) 999-9999"});
-  $('#birthDate').inputmask({"mask": "99/99/9999"});
-  $('#birthDate').datepicker();
+  //$('#birthDate').inputmask({"mask": "99/99/9999"});
+  $('#birthDate').datepicker({
+      startView: 'decade',
+      endDate: '-15y'
+  });
+
 }
 
 Session.setDefault('profileEdit', false);

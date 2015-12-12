@@ -77,10 +77,10 @@
     }
 }
 
-#iron-router-progress {
-    background-color : transparent;
-    box-shadow : 0 0 5px transparent;
-}
+//#iron-router-progress {
+//    background-color : transparent;
+//    box-shadow : 0 0 5px transparent;
+//}
 
 .button.button-email-support {
     margin: 0;
@@ -642,9 +642,8 @@ body.keyboard-open .platform-android .content.overflow-scroll {
   // -webkit-overflow-scrolling: touch;
 }
 .btnshadow{
--webkit-filter: drop-shadow(1px 1px 1.5px rgba(0,0,0,0.9));
-  filter: drop-shadow(1px 1px 1.5px rgba(0,0,0,0.9));
-
+    -webkit-filter: drop-shadow(1px 1px 1.5px rgba(120, 83, 0, 0.9));
+    filter: drop-shadow(1px 1px 1.5px rgba(120, 83, 0, 0.9));
 }
 
 .graytext {
