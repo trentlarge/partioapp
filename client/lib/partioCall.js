@@ -8,8 +8,6 @@ app.model.PartioCall = (function () {
 
   var PartioCall = {
     init: function(connection) {
-
-      console.log('chegou aqui')
       console.log(connection);
 
       var requestor = connection.requestor;
@@ -25,7 +23,7 @@ app.model.PartioCall = (function () {
       if(!currentUser || !currentUser.profile || !currentUser.profile.mobile) {
         IonPopup.show({
           title: 'Ops...',
-          template: '<div class="center dark">Your phone isn\'t configured yet. Plase update your phone number.</div>',
+          template: '<div class="center dark">Your phone isn\'t configured yet. Please update your phone number.</div>',
           buttons:
           [{
             text: 'OK',
@@ -52,7 +50,6 @@ app.model.PartioCall = (function () {
         var _to = connection.requestorData.profile.mobile;
       }
 
-      console.log('()()()()()()()()()()()()()()()( )')
       console.log(_from, _to)
 
       // DESTINATION NOT CONFIGURED HIM PHONE NUMMBER
