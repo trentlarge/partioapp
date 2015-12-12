@@ -103,8 +103,3 @@ Meteor.startup(function() {
     return body;
   };
 });
-
-function buildRegExp(searchText) {
-  var parts = searchText.trim().split(/[ \-\:]+/);
-  return new RegExp("(" + parts.join('|') + ")", "ig");
-}

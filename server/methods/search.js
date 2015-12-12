@@ -31,3 +31,8 @@ SearchSource.defineSource('packages', function(searchText, options) {
     return Search.find(selector, options).fetch();
   }
 });
+
+function buildRegExp(searchText) {
+  var parts = searchText.trim().split(/[ \-\:]+/);
+  return new RegExp("(" + parts.join('|') + ")", "ig");
+}
