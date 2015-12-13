@@ -13,7 +13,7 @@ Template.listing.rendered = function() {
         'color': '#272727'
     });
 
-    inputBox.focus();
+//    inputBox.focus();
 
 }
 
