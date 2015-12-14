@@ -1,7 +1,7 @@
 Router.configure({
 	layoutTemplate: 'appLayout',
 	routeControllerNameConverter: "upperCamelCase",
-//	loadingTemplate: 'loadingData',
+	loadingTemplate: 'loadingData',
     // progressSpinner : false,
     // progressTick : false,
 });
