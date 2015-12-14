@@ -64,8 +64,13 @@ img.profile-pic {
 }
 
 .chat-footer {
-  height: auto !important;
-  padding: 4px !important;
+    height: auto !important;
+    padding: 4px !important;
+    -webkit-transition: all 100ms ease;                  
+    -moz-transition: all 100ms ease;                 
+    -o-transition: all 100ms ease;   
+    -ms-transition: all 100ms ease;          
+    transition: all 100ms ease;
 }
 
 
