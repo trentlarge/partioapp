@@ -34,7 +34,6 @@ matb33:collection-hooks
 mdg:geolocation
 meteorhacks:async
 meteorhacks:search-source
-meteoric:ionic-sass
 meteoric:ionic
 mdg:reload-on-resume
 mrt:accounts-facebook-cordova
@@ -48,14 +47,9 @@ mrt:twilio-meteor
 mrt:moment
 mrt:twilio
 dandv:jquery-rateit
-twbs:bootstrap
-aldeed:autoform-bs-datepicker
-rajit:bootstrap3-datepicker
-perak:user-roles
 perak:joins
 fortawesome:fontawesome
 fourseven:scss@=3.4.0-beta1
-meteoric:ionicons-sass
 hashwin:ionic-sass
 hashwin:ionicons-sass
 bigdsk:inputmask
@@ -65,3 +59,4 @@ dapearce:material-icons
 meteorhacks:kadira
 meteorhacks:kadira-profiler
 kadira:debug
+perak:user-roles

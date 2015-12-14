@@ -13,9 +13,7 @@ Router.configure({
 // Temporary solution: subscribe to all data before we setup controllers
 //
 Router.waitOn(function () {
-	Meteor.subscribe("myConnectionsOwner", this.userId);
-	Meteor.subscribe("myConnectionsRequestor", this.userId);
-	Meteor.subscribe("myNotificationsReceived");
+console.log("###### waitOn start");
 	//Meteor.subscribe("products");
 	//Meteor.subscribe("search");
 	//Meteor.subscribe("transactions");
@@ -88,7 +86,9 @@ Router.route('/notifications', { name: 'notifications', controller: 'Notificatio
 //
 // !!!
 Router.onBeforeAction(function(pause){
+console.log("###### OnBeforeAction");
 	if(!Meteor.user()) {
+console.log("###### Render login");
 		this.render('login')
 	} else {
 		if(Meteor.user().emails[0]){

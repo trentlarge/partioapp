@@ -7,6 +7,12 @@ UI.registerHelper('getImage', function(image){
   return base64imgs(image);
 });
 
+Template.appLayout.rendered = function() {
+	Meteor.subscribe("myConnectionsOwner");
+	Meteor.subscribe("myConnectionsRequestor");
+	Meteor.subscribe("myNotificationsReceived");
+}
+
 Template.appLayout.events({
 	'click #editCurrent': function() {
 		Session.set('editMode', true);
@@ -73,7 +79,6 @@ Template.appLayout.onRendered(function() {
 	var _newNotificatons = getNewNotifications();
 	_newNotificatons.observeChanges({
 		added: function(id, fields) {
-console.log(fields);
 			switch(fields.type) {
 
 				case "request": {

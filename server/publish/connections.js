@@ -3,11 +3,11 @@ Meteor.publish("connections", function() {
 });
 
 Meteor.publish("myConnectionsOwner", function() {
-	return Connections.find({ "productData.ownerId": this.userId });
+	return this.userId ? Connections.find({ "productData.ownerId": this.userId }) : this.ready();
 });
 
 Meteor.publish("myConnectionsRequestor", function() {
-	return Connections.find({ "requestor": this.userId });
+	return this.userId ? Connections.find({ "requestor": this.userId }) : this.ready();
 });
 
 Meteor.publish("singleConnect", function(idConnect) {
