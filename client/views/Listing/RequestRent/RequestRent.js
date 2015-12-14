@@ -151,7 +151,7 @@ Template.requestRent.events({
           type: 'button-energized',
           onTap: function() {
             IonPopup.close();
-            $('#closeRequest').click();
+            $('.ion-ios-close-empty').click()
             Router.go('/profile/savedcards/');
           }
         }]
@@ -211,7 +211,7 @@ Template.requestRent.events({
                 type: 'button-energized',
                 onTap: function() {
                   IonPopup.close();
-                  $('#closeRequest').click();
+                  $('.ion-ios-close-empty').click()
                   Router.go('/renting');
                 }
               }]
