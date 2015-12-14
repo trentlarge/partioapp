@@ -2,7 +2,7 @@
 //     service: "facebook"
 // });
 
-//Kadira.connect('qhAvzzmgKeHaZ9rd9', '338e5eb7-842c-47f5-bfe7-7a4d3b9c0607');
+Kadira.connect('T8vDhvWs9tGdLrd7L', '540cb7e0-b701-4538-a043-444fd8065065');
 
 Meteor.startup(function() {
   // process.env.MAIL_URL="smtp://partio@cloudservice.io:partio1234@smtp.zoho.com:465";
