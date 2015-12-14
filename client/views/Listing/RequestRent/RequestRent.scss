@@ -87,6 +87,13 @@
 
     color: #272727;
 
+    .item {
+        p.datepicker-message {
+            white-space: normal;
+            padding: 5px;
+        }
+    }
+    
     .item-divider {
         i {
             position: absolute;
