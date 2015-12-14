@@ -24,6 +24,7 @@ caching-html-compiler@1.0.2
 callback-hook@1.0.4
 check@1.1.0
 coffeescript@1.0.11
+cosmos:browserify@0.4.0
 dandv:jquery-rateit@1.0.22_2
 dapearce:material-icons@0.1.4
 dburles:google-maps@1.1.5
@@ -67,6 +68,7 @@ jonmc12:waves@0.6.6
 jquery@1.11.4
 juliancwirko:s-alert@3.1.2
 juliancwirko:s-alert-jelly@3.1.2
+kadira:debug@2.2.4
 lai:collection-extensions@0.1.4
 launch-screen@1.0.4
 less@2.5.1
