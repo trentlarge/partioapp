@@ -81,6 +81,8 @@ meteor@1.1.10
 meteor-base@1.0.1
 meteorhacks:async@1.0.0
 meteorhacks:kadira@2.26.3
+meteorhacks:kadira-binary-deps@1.4.0
+meteorhacks:kadira-profiler@1.2.1
 meteorhacks:meteorx@1.4.1
 meteorhacks:npm@1.5.0
 meteorhacks:picker@1.0.3
