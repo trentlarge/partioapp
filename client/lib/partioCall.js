@@ -138,7 +138,6 @@ app.model.PartioCall = (function () {
         PartioLoad.hide();
 
         if(!error) {
-
           // NOT REGISTERED YET
           if(result.data.code == '21210') {
             IonPopup.show({
@@ -153,6 +152,11 @@ app.model.PartioCall = (function () {
                 }
               }]
             });
+
+          // INVALID NUMBER
+          } else if(result.data.code == '21211') {
+              ShowNotificationMessage(result.data.message);
+              return false;
 
           // EVERYTHING NORMAL
           } else {
