@@ -2,7 +2,7 @@
 //     service: "facebook"
 // });
 
-Kadira.connect('T8vDhvWs9tGdLrd7L', '540cb7e0-b701-4538-a043-444fd8065065',{hostname: "localhost"});
+Kadira.connect('T8vDhvWs9tGdLrd7L', '540cb7e0-b701-4538-a043-444fd8065065');
 
 Meteor.startup(function() {
   // process.env.MAIL_URL="smtp://partio@cloudservice.io:partio1234@smtp.zoho.com:465";
