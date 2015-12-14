@@ -6,7 +6,7 @@ Template.searchShareHeader.rendered = function(){
     inputBox.css({
         'width': '100%'
     });
-    inputBox.focus();
+//    inputBox.focus();
     
     //if back button is clicked, trigger enter button on search bar with latest product
     if(Lend.latestProduct) {
