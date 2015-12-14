@@ -1,74 +1,65 @@
 <template name="requestRent">
 
-   {{#ionModal class="requestRent" customTemplate=true}}
-        <div class="bar bar-header bar-royal">
+   {{#ionModal title="Rent Request" class="requestRent"}}
 
-          <h2 class="title header-title"> Rent Request </h2>
+    <div class="list card">
 
-          <button type="button" id="closeRequest" data-dismiss="modal" style="right: 5px;position: absolute;" title="Close" class="button button-clear">
-                    <i class="icon ion-ios-close-outline"></i>
-          </button>
+        <div class="item item-divider request-tab"><h3>Rent Period <i class="fa fa-calendar"></i></h3></div>
+
+        <div class="item center">
+            <div class="range">
+                <div class="range-start" style="display:none;"></div>
+                <div class="range-end"></div>
+            </div>
         </div>
 
-    <div class="list has-header">
+        <div class="item item-divider request-tab"><h3>Rent Price<i class="fa fa-money"></i></h3></div>
 
-        <div class="padding-horizontal padding-vertical">
+        <div class="item">
+            <div class="center">
+                <p class="date-periods">
+                    <span class="rent-days"></span> 
+                    <span class="rent-period"></span>
+                </p>
 
-            <div class="list">
-
-                <div class="item item-divider request-tab"><h3>Rent Period <i class="fa fa-calendar"></i></h3></div>
-
-                <div class="item center">
-                    <div class="range">
-                        <div class="range-start" style="display:none;"></div>
-                        <div class="range-end"></div>
-                    </div>
-                </div>
-
-                <div class="item item-divider request-tab"><h3>Rent Price<i class="fa fa-money"></i></h3></div>
-
-                <div class="item">
-                    <div class="center">
-                    <p class="date-periods"><span class="rent-days"></span> <span class="rent-period"></span></p>
-
-                        <table class="rent-table">
-                            <tbody class="details">
-                                <tr>
-                                    <th class="{{activeDays}} one"><i>D</i></th>
-                                    <th class="{{activeWeeks}} two"><i>W</i></th>
-                                    <th class="{{activeMonths}} three"><i>M</i></th>
-                                    <th class="{{activeSemesters}} four"><i>S</i></th>
-                                </tr>
-                                <tr>
-                                    <td class="price_header {{activeDays}}">${{rentPrice.day}}</td>
-                                    <td class="price_header {{activeWeeks}}">${{rentPrice.week}}</td>
-                                    <td class="price_header {{activeMonths}}">${{rentPrice.month}}</td>
-                                    <td class="price_header {{activeSemesters}}">${{rentPrice.semester}}</td>
-                                </tr>
-                                <tr>
-                                    <td class="{{activeDays}}">x{{numberDays}}</td>
-                                    <td class="{{activeWeeks}}">x{{numberWeeks}}</td>
-                                    <td class="{{activeMonths}}">x{{numberMonths}}</td>
-                                    <td class="{{activeSemesters}}">x{{numberSemesters}}</td>
-                                </tr>
-                                <tr>
-                                    <td class="{{activeDays}}">${{totalPriceDays}}</td>
-                                    <td class="{{activeWeeks}}">${{totalPriceWeeks}}</td>
-                                    <td class="{{activeMonths}}">${{totalPriceMonths}}</td>
-                                    <td class="{{activeSemesters}}">${{totalPriceSemesters}}</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="4" class="active total_price">Total: ${{calculatedPrice}}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
+                <table class="rent-table">
+                    <tbody class="details">
+                        <tr>
+                            <th class="{{activeDays}} one"><i>D</i></th>
+                            <th class="{{activeWeeks}} two"><i>W</i></th>
+                            <th class="{{activeMonths}} three"><i>M</i></th>
+                            <th class="{{activeSemesters}} four"><i>S</i></th>
+                        </tr>
+                        <tr>
+                            <td class="price_header {{activeDays}}">${{rentPrice.day}}</td>
+                            <td class="price_header {{activeWeeks}}">${{rentPrice.week}}</td>
+                            <td class="price_header {{activeMonths}}">${{rentPrice.month}}</td>
+                            <td class="price_header {{activeSemesters}}">${{rentPrice.semester}}</td>
+                        </tr>
+                        <tr>
+                            <td class="{{activeDays}}">x{{numberDays}}</td>
+                            <td class="{{activeWeeks}}">x{{numberWeeks}}</td>
+                            <td class="{{activeMonths}}">x{{numberMonths}}</td>
+                            <td class="{{activeSemesters}}">x{{numberSemesters}}</td>
+                        </tr>
+                        <tr>
+                            <td class="{{activeDays}}">${{totalPriceDays}}</td>
+                            <td class="{{activeWeeks}}">${{totalPriceWeeks}}</td>
+                            <td class="{{activeMonths}}">${{totalPriceMonths}}</td>
+                            <td class="{{activeSemesters}}">${{totalPriceSemesters}}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="4" class="active total_price">Total: ${{calculatedPrice}}</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
+        </div>
 
+        <div class="item item-button">
             <button id="sendRequest" class="button button-block button-energized" {{enableRequest}}>SEND REQUEST</button>
         </div>
+
     </div>
 
   {{/ionModal}}

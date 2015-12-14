@@ -9,18 +9,18 @@ Template.talk.rendered = function() {
 	autosize($('textarea'));
 
 	// Scroll to bottom of the screen
-	$('.content').scrollTop( $('.message-wrapper')[0].scrollHeight );
+	$('.content').scrollTop( $('.talk-content')[0].scrollHeight );
 
 	// Adjust scroll when keyboard is fired up
 	if(window.cordova && window.cordova.plugins.Keyboard) {
 		cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
 
 		window.addEventListener('native.keyboardshow', function() {
-			$('.content').scrollTop( $('.message-wrapper')[0].scrollHeight );
+			$('.content').scrollTop( $('.talk-content')[0].scrollHeight );
 		});
 	}
 
-	$("textarea").focus();
+//	$("textarea").focus();
 
 	// mark message as read imediatelly as message arrives
 	this.autorun(function() {
@@ -87,7 +87,7 @@ Template.talk.events({
 				$("#chatSubmit").removeClass("disabled");
 				autosize.update($('textarea'));
 			} else {
-				$('.content').scrollTop($('.message-wrapper')[0].scrollHeight);
+				$('.content').scrollTop($('.talk-content')[0].scrollHeight);
 			}
 		});
 
