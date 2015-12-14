@@ -22,7 +22,15 @@ ConnectRentController = RouteController.extend({
 	data: function() {
 		return {
 			connectData: this.connection(),
-
+            
+            ownerInfo : function(){
+                
+                console.log(this.connectData.owner);
+                console.log(Meteor.users.findOne(this.connectData.owner));
+                
+				return Meteor.users.findOne(this.connectData.owner);
+			},
+            
 			getCategoryIcon: function() {
 				return Categories.getCategoryIconByText(this.connectData.productData.category);
 			},

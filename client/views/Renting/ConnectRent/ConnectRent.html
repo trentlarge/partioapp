@@ -48,10 +48,11 @@
 
         <div class="item">
           <div class="profile-image-box">
-            <div style="background: url('{{ownerAvatar}}') no-repeat; background-size:cover; background-position: 50% 50%;" class="profile-avatar"></div>
+            <a href="/profile/items/{{ connectData.owner }}"> 
+                <div style="background: url('{{connectData.ownerData.profile.avatar}}') no-repeat; background-size:cover; background-position: 50% 50%;" class="profile-avatar"></div>
+            </a>
             <p class="main-title-text">{{connectData.productData.ownerData.profile.name}} </p>
-            <p class="college">{{connectData.productData.ownerData.profile.college}}</p>
-            <span class="rating-box"> {{> rating}}</span>
+<!--            <p class="college">{{connectData.productData.ownerData.profile.college}}</p>-->
           </div>
 
           <div class="profile-content">

@@ -30,6 +30,10 @@
         min-width: 120px;
         max-width: 120px;
         
+        .main-title-text {
+            padding-top: 10px;
+        }
+        
         a {
             color: #df5707;
             text-decoration: none;
@@ -110,6 +114,18 @@
 
                 .product-image {
 
+                    a {
+                        cursor: pointer;
+                        
+                        &:hover {
+                            opacity: .7;
+                        }
+                        
+                        &.activated {
+                            opacity: .8;
+                        }
+                    }
+                    
                     img {
                         max-height: 130px;
                         max-width: 100px;
@@ -159,6 +175,7 @@
                 -moz-box-shadow: inset 0px -10px 0px 0px rgba(255,255,255,0.1);
                 box-shadow: inset 0px -10px 0px 0px rgba(255,255,255,0.1);
                 opacity: .8;
+                min-width: 25px;
 
                 &:first-child {
                     border-top-left-radius: 5px;

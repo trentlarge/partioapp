@@ -50,11 +50,12 @@
         <div class="item">
           {{#with requestorInfo }}
             <div class="profile-image-box">
-              <div style="background: url('{{../requestorAvatar}}') no-repeat; background-size:cover; background-position: 50% 50%;" class="profile-avatar"></div>
-
+              <a href="/profile/items/{{ _id }}"> 
+                <div style="background: url('{{profile.avatar}}') no-repeat; background-size:cover; background-position: 50% 50%;" class="profile-avatar"></div>
+              </a>
               <p class="main-title-text">{{profile.name}} </p>
-              <p class="college">{{profile.college}}</p>
-              <span class="rating-box"> {{> rating}}</span>
+<!--              <p class="college">{{profile.college}}</p>-->
+<!--              <span class="rating-box"> {{> rating}}</span>-->
             </div>
           {{/with}}
 
