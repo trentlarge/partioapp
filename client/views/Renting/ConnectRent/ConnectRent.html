@@ -14,14 +14,14 @@
         <div class="item item-divider product-details"><h2>Product Details <i class="chevron-icon icon ion-chevron-up"></i></h2></div>
 
         <div class="item product-details-item">
-          <div class="product-image-box">
-              <img class="connect-thumbnail" src="{{connectData.productData.image}}">
-          </div>
           <div class="product-content">
               <p class="product-title">{{connectData.productData.title}}</p>
               <p><i class="icon {{../getCategoryIcon}}"></i> {{connectData.productData.amazonCategory}}</p>
               <p><i class="icon ion-cash"></i> {{connectData.productData.price}}</p>
               <p><i class="icon ion-clipboard"></i> {{../getCondition}}</p>
+          </div>
+          <div class="product-image-box">
+              <img class="connect-thumbnail" src="{{connectData.productData.image}}">
           </div>
         </div>
 

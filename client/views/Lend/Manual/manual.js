@@ -75,7 +75,7 @@ Template.manual.events({
 
   'focus input': function() {
     $('.manual-entry').css({
-        'padding-bottom': '200px'
+        'padding-bottom': '250px'
     });
   },
     

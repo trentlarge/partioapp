@@ -1,4 +1,17 @@
 Template.inventoryDetail.events({
+    
+    'focus input': function() {
+        $('.inventory-details').css({
+            'padding-bottom': '250px'
+        });
+    },
+
+    'focusout input': function() {
+        $('.inventory-details').css({
+            'padding-bottom': '0'
+        });
+    },  
+    
   'click .features': function(e, template) {
     var features = $('.features');
     var featureDetails = $('.features-details');
