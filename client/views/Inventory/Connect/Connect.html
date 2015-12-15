@@ -47,6 +47,10 @@
 
         <div class="item item-divider profile-details"><h2>Renting Details </h2></div>
 
+        <div class="item request-date">
+            <span>{{../getRequestDate}}</span>
+        </div>  
+          
         <div class="item">
           {{#with requestorInfo }}
             <div class="profile-image-box">
@@ -54,8 +58,64 @@
                 <div style="background: url('{{profile.avatar}}') no-repeat; background-size:cover; background-position: 50% 50%;" class="profile-avatar"></div>
               </a>
               <p class="main-title-text">{{profile.name}} </p>
-<!--              <p class="college">{{profile.college}}</p>-->
-<!--              <span class="rating-box"> {{> rating}}</span>-->
+            </div>
+          {{/with}}
+          <div class="profile-content">
+                <a class="item" href="{{pathFor 'talk' _id=connectData._id}}">
+                    <i class="icon ion-chatbubbles assertive"></i>
+                    CHAT
+                </a>
+                <a class="item" id="btnCallUser">
+                    <i class="icon ion-ios-telephone assertive"></i>
+                    CALL
+                </a>
+
+                {{#if ../paymentPending}}
+                    <a class="item" id="cancelRequest">
+                        <i class="icon ion-ios-close royal"></i>
+                        CANCEL
+                    </a>
+                {{/if}}
+            </div>
+          </div>
+          <div class="item details">
+                <i class="icon ion-ios-calendar-outline"></i> 
+                {{../getTotalDays}} ({{../getStartDate}} to {{../getEndDate}})
+          </div>
+          <div class="item details">
+                <i class="icon ion-ios-clock-outline"></i> 
+                {{../getDaysLeft}}
+                <input type="range" id="myRange" min="0" max="{{connectData.borrowDetails.date.totalDays}}" value="{{../getDaysLeftValue}}" class="range range-assertive" disabled>
+          </div>
+          <div class="item details">
+                <i class="icon ion-cash"></i>
+                <span class="price">${{connectData.borrowDetails.price.total}}</span>
+          </div>
+          {{#if isReturned}}
+          {{else}}
+              <div class="item details">
+                  <i class="icon ion-location"></i>
+                  <a id="changeMeetupLocation" href="#">
+                    {{#if ../locationSetted}}
+                        <p>{{preferredLocation}}</p>
+                    {{else}}
+                        <p class="set-location">SET LOCATION</p>
+                    {{/if}}
+                  </a>
+              </div>
+          {{/if}}
+          
+          <div style="padding-bottom:16px;"></div>  
+        
+<!--
+          
+        <div class="item">
+          {{#with requestorInfo }}
+            <div class="profile-image-box">
+              <a href="/profile/items/{{ _id }}"> 
+                <div style="background: url('{{profile.avatar}}') no-repeat; background-size:cover; background-position: 50% 50%;" class="profile-avatar"></div>
+              </a>
+              <p class="main-title-text">{{profile.name}} </p>
             </div>
           {{/with}}
 
@@ -82,7 +142,7 @@
                     </td>
                   </tr>
                   <tr>
-                    <td> {{getStartDate}} to {{getEndDate}} </td>
+                    <td class="date-range"> {{getStartDate}} to {{getEndDate}} </td>
                   </tr>
                    <tr>
                     <td class="divider"> <i class="icon ion-cash"></i> <b>Price:</b> </td>
@@ -113,9 +173,11 @@
             </a>
             {{/if}}
         </div>
+-->
 
         {{#if alreadyApproved}}
 
+<!--
             {{#if isReturned}}
             {{else}}
                 <div class="item item-divider meetup">
@@ -126,6 +188,7 @@
                     <button class="button button-outline button-energized"><i class="icon ion-ios-location"></i></button>
                 </a>
             {{/if}}
+-->
 
             {{#if returnItem}}
                 <div class="item button-divider ">

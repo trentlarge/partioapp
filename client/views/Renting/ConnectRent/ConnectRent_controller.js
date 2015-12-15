@@ -154,6 +154,22 @@ ConnectRentController = RouteController.extend({
                 return false;
             },
 
+            getDaysLeftValue: function() {
+                var diff;
+                if($.now() > new Date(this.connectData.borrowDetails.date.start).getTime()) {
+                    diff = new Date(this.connectData.borrowDetails.date.end - $.now());
+                } else {
+                    diff = new Date(this.connectData.borrowDetails.date.end - this.connectData.borrowDetails.date.start);
+                }
+                var daysLeft = Math.floor((diff/1000/60/60/24) + 1);
+                
+                if(daysLeft < 0) {
+                    return 0;
+                }
+                
+                return daysLeft;
+			},
+            
 			getDaysLeft: function() {
                 var diff;
                 if($.now() > new Date(this.connectData.borrowDetails.date.start).getTime()) {
