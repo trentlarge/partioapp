@@ -2,6 +2,6 @@ Meteor.publish("transactions", function() {
 	return Transactions.find({}, {});
 });
 
-Meteor.publish("myTransactions", function() {
-	return Transactions.find({ "_id": Meteor.user().profile.transactionsId });
+Meteor.publish("myTransaction", function() {
+	return Transactions.find({ "_id": Users.findOne({ _id: this.userId }).profile.transactionsId });
 });
