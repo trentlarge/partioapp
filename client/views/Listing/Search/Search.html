@@ -71,7 +71,11 @@
             </div>
 
             {{#if ../requestSent ownerId _id}}
-                <button class="button button-block" disabled>REQUEST SENT <i class="fa fa-check "></i></button>
+                {{#if ../isBorrowed ownerId _id}}
+                    <button class="button button-block" disabled>BORROWED <i class="fa fa-check "></i></button>
+                {{else}}
+                    <button class="button button-block" disabled>REQUEST SENT <i class="fa fa-check "></i></button>
+                {{/if}}
             {{else}}
                 {{#if ../isNotOwner _id}}
                     {{#if ../isUnavailable ownerId _id}}
