@@ -22,14 +22,14 @@
       {{/if}}
     {{/contentFor}}
   {{#ionView}}
-    {{#ionContent class="product-list"}}
+    {{#ionContent class="product-list profile-items-content"}}
           <div class="item">
               <div class="profile-image-container">
                 <div class="profile-avatar" style="background: url('{{connectData.profile.avatar}}') no-repeat; background-size:cover; background-position: 50% 50%;"></div>
               </div>
 
               <div class="center">
-                <span class="profile-name">{{connectData.profile.name}}</span><br />
+                <span class="profile-name">{{connectData.profile.name}}</span>
                 <span class="rating-box">{{ > rating}}</span>
               </div>
           </div>

@@ -29,7 +29,7 @@
               {{#each finalizedRequests}}
                 {{#ionItem path="connect" _id=productData._id class="item-avatar-2"}}
                   <div class="product-avatar">
-                    <img class="product-avatar-inner" src="{{productData.image}}" >
+                    <img class="product-avatar-inner" src="{{ getImage 'spinner-logo' }}" onLoad="this.src='{{productData.image}}';this.style.animation='none'"/>
                   </div>
                   <p class="main-title-text">{{productData.title}}</p>
                   <p class="main-sub-text">

@@ -1,7 +1,7 @@
 Template.connectRent.rendered = function() {
   var nowTemp = new Date();
-  var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
-
+  var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0); 
+    
   $('.range').datepicker({
       format: 'mm-dd-yyyy',
       startDate: 'd',

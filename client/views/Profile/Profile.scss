@@ -33,15 +33,6 @@
         margin-top: -20px;
     }
 
-    .item-divider {
-        border: 0;
-        margin-bottom: -15px;
-        margin-right: 2px;
-        background: linear-gradient(135deg, transparent 10px, #DDD 0) top left, linear-gradient(225deg, transparent 10px, #DDD 0) top right, linear-gradient(315deg, transparent 10px, #DDD 0) bottom right, linear-gradient(45deg, transparent 10px, #DDD 0) bottom left;
-        background-size: 50% 50%;
-        background-repeat: no-repeat;
-    }
-
     a.item {
         margin-right: 2px;
         
@@ -54,6 +45,7 @@
 
     .profile-name {
         display: block;
+        padding-bottom: 5px;
     }
 
     .item-input {

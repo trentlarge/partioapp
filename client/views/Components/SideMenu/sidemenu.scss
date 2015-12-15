@@ -11,38 +11,58 @@ ion-side-menu.menu-left.menu {
 
 .transparent-list {
 
-    .top {
+    .badge.badge-notification {
+        right: 8px;
+        top: -8px;
+        max-width: 20px;
+        max-height: 20px;
+        display: flex;
+        display: -webkit-flex;
+        justify-content: center;
+        -webkit-justify-content: center;
+        align-items: center;
+        -webkit-align-items: center;
+    }
+    
+    .item.top {
         border: 0;
         margin-top: 10px;
-
-        input {
-            display: inline;
-            background-color: #cccccc;
-            border-top: 1px solid #999999;
-            color: #272727;
-            border-radius: 20px;
-            padding-left: 15px;
-            width: 200px;
-            margin-bottom: 10px;
-            margin-right: 10px;
-            
-            &::-webkit-input-placeholder {
-                padding-top: 2px;
-                color: rgba(39, 39, 39, 0.6);
-            }
-            &::-moz-placeholder {
-                color: rgba(39, 39, 39, 0.6);
-            }
+        padding-bottom: 0;
+        background-color: transparent;
+        
+        h5 {
+            font-size: 13px;
         }
 
-        .ion-search {
-            margin-top: -5px;
-            margin-left: -40px;
-            color: #272727;
-        }
+//        input {
+//            display: inline;
+//            background-color: #cccccc;
+//            border-top: 1px solid #999999;
+//            color: #272727;
+//            border-radius: 20px;
+//            padding-left: 15px;
+//            width: 200px;
+//            margin-bottom: 10px;
+//            margin-right: 10px;
+//            
+//            &::-webkit-input-placeholder {
+//                padding-top: 2px;
+//                color: rgba(39, 39, 39, 0.6);
+//            }
+//            &::-moz-placeholder {
+//                color: rgba(39, 39, 39, 0.6);
+//            }
+//        }
+//
+//        .ion-search {
+//            margin-top: -5px;
+//            margin-left: -40px;
+//            color: #272727;
+//        }
 
         .notification {
-            margin-left: 18px;
+            position: absolute;
+            left: 235px;    
         }
 
         i {
@@ -70,12 +90,12 @@ ion-side-menu.menu-left.menu {
         -webkit-justify-content: center;
         justify-content: center;
         height: 28vh;
-        margin-top: -2vh;
+        margin-top: 1vh;
     }
     
     .text {
         margin-top: -5vh;
-        margin-bottom: 4vh;
+        margin-bottom: 3vh;
     }
 
     .logo-container img {
@@ -91,7 +111,7 @@ ion-side-menu.menu-left.menu {
         margin-bottom: -5px;
     }
 
-    .item {
+    .item.menutext {
         background-color: transparent;
         border-color: rgba(0, 0, 0, 0.3);
         color: #F0F1F1;

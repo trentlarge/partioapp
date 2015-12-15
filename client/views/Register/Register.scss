@@ -34,6 +34,14 @@
       border-color: red !important;
     }
 
+    input:read-only#birthDate {
+        background-color: #ffffff;
+    }
+    
+    input:-moz-read-only#birthDate { 
+        background-color: #ffffff;
+    }
+    
     input:-webkit-autofill {
         -webkit-box-shadow: 0 0 0px 1000px white inset;
     }
