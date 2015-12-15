@@ -12,7 +12,7 @@ TransactionsController = RouteController.extend({
 	waitOn: function() {
 		return [
 			// subscribe to data here
-			Meteor.subscribe("transactions")
+			Meteor.subscribe("myTransaction")
 			// Meteor.subscribe("otherSubscription"),
 			// ...
 		];
