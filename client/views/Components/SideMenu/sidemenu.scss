@@ -11,6 +11,19 @@ ion-side-menu.menu-left.menu {
 
 .transparent-list {
 
+    .badge.badge-notification {
+        right: 8px;
+        top: -8px;
+        max-width: 20px;
+        max-height: 20px;
+        display: flex;
+        display: -webkit-flex;
+        justify-content: center;
+        -webkit-justify-content: center;
+        align-items: center;
+        -webkit-align-items: center;
+    }
+    
     .item.top {
         border: 0;
         margin-top: 10px;

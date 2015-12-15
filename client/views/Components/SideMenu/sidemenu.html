@@ -10,7 +10,9 @@
 -->
              <a href="{{pathFor "notifications"}}" class="notification " data-ion-menu-close>
                   {{> ionIcon icon="android-notifications" class="energized btnshadow"}}
-                  <span class="badge badge-alert badge-assertive">{{#if alertCount}}{{alertCount}}{{/if}}</span>
+                  {{#if alertCount}}
+                    <span class="badge badge-alert badge-assertive badge-notification">{{alertCount}}</span>
+                  {{/if}}
             </a>
 
              <div class="logo-container">
