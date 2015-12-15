@@ -47,6 +47,9 @@ SearchController = RouteController.extend({
             requestSent: function(ownerId, _id) {
                 return Connections.findOne({"requestor": Meteor.userId(), "owner": ownerId, "productData._id": _id}) ? true : false;
             },
+            isBorrowed: function(ownerId, _id) {
+                return Connections.findOne({"requestor": Meteor.userId(), "owner": ownerId, "productData._id": _id, "state":"WAITING"}) ? false : true;
+            },
             isUnavailable: function(ownerId, _id) {
                 return Connections.findOne({"owner": ownerId, "productData._id": _id}) ? true : false;
             },

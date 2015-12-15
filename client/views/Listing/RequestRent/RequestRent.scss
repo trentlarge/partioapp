@@ -7,26 +7,29 @@
     }
 }
 
+.modal.requestRent {
+    background-color: #f5f5f5;
+}
+
 .datepicker{
-        border: 1px solid #E8E8E8;
+    border: 1px solid #E8E8E8;
     table{
         thead{
-          tr{
-            &:first-child{
-                border-bottom: 1px solid #E57838;
-            }
-            &:last-child{
+            tr{
+                &:first-child{
+                    border-bottom: 1px solid #E57838;
+                }
+                &:last-child{
 
-                th{
-                    border-radius: 0px;
-                    background: #F4B350;
-                    border-radius: 0px;
-                    color: #fff;
+                    th{
+                        border-radius: 0px;
+                        background: #F4B350;
+                        border-radius: 0px;
+                        color: #fff;
+                    }
                 }
             }
         }
-        }
-
     }
     table tr td{
          &.today{
@@ -40,8 +43,6 @@
             border-color: #ffb733;
             border-radius: 0px;
         }
-
-
     }
 }
 .date-periods{
@@ -53,9 +54,13 @@
             font-size: 15px;
         }
         td{
-            font-size: 13px;
+            font-size: 14px;
         }
     }
+}
+
+.table-condensed > thead > tr > th, .table-condensed > tbody > tr > th, .table-condensed > tfoot > tr > th, .table-condensed > thead > tr > td, .table-condensed > tbody > tr > td, .table-condensed > tfoot > tr > td {
+    padding-top: 8px;
 }
 
 .request-tab{
@@ -82,6 +87,13 @@
 
     color: #272727;
 
+    .item {
+        p.datepicker-message {
+            white-space: normal;
+            padding: 5px;
+        }
+    }
+    
     .item-divider {
         i {
             position: absolute;
@@ -130,14 +142,6 @@
                 &.two { background-color: #FB8C00 }
                 &.three { background-color: #F57C00 }
                 &.four { background-color: #EF6C00 }
-
-//                &:nth-child(odd) {
-//                    background-color: #f0970d;
-//                }
-//
-//                &:nth-child(even) {
-//                    background-color: #df5707;
-//                }
             }
 
         }
@@ -149,19 +153,10 @@
             }
 
             th.active {
-
                 &.one { background-color: #FF9800 }
                 &.two { background-color: #FB8C00 }
                 &.three { background-color: #F57C00 }
                 &.four { background-color: #EF6C00 }
-
-//                &:nth-child(odd) {
-//                    background-color: #f0970d;
-//                }
-//
-//                &:nth-child(even) {
-//                    background-color: #df5707;
-//                }
             }
 
             td {
@@ -182,7 +177,10 @@
             color: #000000;
             font-size: 15px;
         }
-
-
+    }
+    
+    .item.item-button {
+        padding-top: 10px;
+        padding-bottom: 10px;
     }
 }

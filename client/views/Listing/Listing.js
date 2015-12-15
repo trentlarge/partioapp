@@ -41,7 +41,7 @@ var fields = ['title', 'category', 'authors'];
 PackageSearch = new SearchSource('packages', fields, options);
 
 Template.searchResult.rendered = function() {
-    PackageSearch.cleanHistory();
+    //PackageSearch.cleanHistory();
     PackageSearch.search(Session.get('searchText'));
 };
 
@@ -104,7 +104,7 @@ Template.searchBox.helpers({
 Template.searchBox.events({
   "keyup #search-box": _.throttle(function(e) {
     var text = $(e.target).val().trim();
-    
+
     if(text.length > 1)
     {
       PackageSearch.search(text);

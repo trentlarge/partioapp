@@ -1,43 +1,34 @@
 <template name="addnewCard">
-  {{#ionModal customTemplate=true class="new-card"}}
+  {{#ionModal title="Add New Card" class="new-card"}}
 
-    <div class="bar bar-header bar-royal">
-      <h2 class="title header-title"> Add New Card </h2>
-      <button type="button" id="closeAddNewCard" data-dismiss="modal" style="right: 5px;position: absolute;" title="Close" class="button button-clear">
-            <i class="icon ion-ios-close-outline"></i>
-      </button>
-    </div>
+    <div class="list card">
+      <div class="card-wrapper"></div>
+      <div class="form-container active">
+        <form class="newCardForm" method="post">
+          <label class="item item-input" style="border-top: 1px solid #ddd;">
+            <i class="icon ion-compose placeholder-icon"></i>
+            <input type="text" name="number" class="border-radius-20" placeholder="**** **** **** ****">
+          </label>
+          <label class="item item-input">
+            <i class="icon ion-card placeholder-icon"></i>
+            <input type="text" name="name" class="border-radius-20" placeholder="Full Name">
+          </label>
 
-    <div class="list has-header padding-horizontal padding-vertical">
-        <div class="card">
-          <div class="card-wrapper"></div>
-          <div class="form-container active">
-            <form class="newCardForm" method="post">
-              <label class="item item-input" style="border-top: 1px solid #ddd;">
-                <i class="icon ion-compose placeholder-icon"></i>
-                <input type="text" name="number" class="border-radius-20" placeholder="**** **** **** ****">
-              </label>
-              <label class="item item-input">
-                <i class="icon ion-card placeholder-icon"></i>
-                <input type="text" name="name" class="border-radius-20" placeholder="Full Name">
-              </label>
+          <label class="item item-input">
+            <i class="icon ion-calendar placeholder-icon"></i>
+            <input type="text" name="expiry" class="border-radius-20" placeholder="MM/YY">
+          </label>
 
-              <label class="item item-input">
-                <i class="icon ion-calendar placeholder-icon"></i>
-                <input type="text" name="expiry" class="border-radius-20" placeholder="MM/YY">
-              </label>
+          <label class="item item-input">
+            <i class="icon ion-ios-locked placeholder-icon"></i>
+            <input type="text" name="cvc" class="border-radius-20" placeholder="***">
+          </label>
 
-              <label class="item item-input">
-                <i class="icon ion-ios-locked placeholder-icon"></i>
-                <input type="text" name="cvc" class="border-radius-20" placeholder="***">
-              </label>
-
-                <label class="item item-button">
-                    <button class="button button-block button-energized"> SUBMIT </button>
-                </label>
-            </form>
-          </div>
-        </div>
+            <label class="item item-button">
+                <button class="button button-block button-energized"> SUBMIT </button>
+            </label>
+        </form>
+      </div>
     </div>
 
     <script>
