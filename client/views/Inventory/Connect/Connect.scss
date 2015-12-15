@@ -71,12 +71,31 @@
         min-width: 120px;
         max-width: 120px;
         
+        a {
+            .profile-avatar {
+                &:hover {
+                    opacity: .7;
+                }
+            }
+            
+            &.activated {
+                .profile-avatar {
+                    opacity: .8;
+                }
+            }
+        }
+        
         .main-title-text {
-            padding-top: 5px;
+            padding-top: 10px;
+            padding-bottom: 5px;
         }
 
         .rating-box {
             display: block;
+        }
+        
+        .rating-number {
+            display: none;
         }
 
         .profile-avatar {
@@ -153,6 +172,10 @@
                     padding-left: 15px;
                     padding-bottom: 5px;
                     padding-top: 5px;
+                    
+                    &.date-range {
+                        font-size: 12px;
+                    }
                 }
                 
                 .divider {

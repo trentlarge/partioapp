@@ -10,13 +10,16 @@ ConnectController = RouteController.extend({
 	},
 
 	waitOn: function() {
-
-		let _subs = [ Meteor.subscribe("singleConnect", this.params._id) ];
-
-		if(this.connection())
-			_subs.push( Meteor.subscribe("singleUser", this.connection().requestor) );
-
-		return _subs;
+        return [
+			Meteor.subscribe("singleConnect", this.params._id),
+		];
+        
+//		let _subs = [ Meteor.subscribe("singleConnect", this.params._id) ];
+//
+//		if(this.connection())
+//			_subs.push( Meteor.subscribe("singleUser", this.connection().requestor) );
+//
+//		return _subs;
 	},
 
 	connection : function(){
@@ -24,10 +27,10 @@ ConnectController = RouteController.extend({
 	},
 
 	data: function() {
-		let _connectId = this.params._id;
+//		let _connectId = this.params._id;
 
 		return {
-			connectData: Connections.findOne(_connectId),
+			connectData: this.connection(),
 
 			getCategoryIcon: function() {
 				return Categories.getCategoryIconByText(this.connectData.productData.category);

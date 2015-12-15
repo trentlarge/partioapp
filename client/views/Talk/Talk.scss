@@ -1,7 +1,9 @@
 .talk-content {
     
+    height: calc(100% - 90px);
+    
     .list.talk-list {
-        margin-bottom: 60px;
+        padding-bottom: 30px;
     }
 }
 
@@ -64,8 +66,13 @@ img.profile-pic {
 }
 
 .chat-footer {
-  height: auto !important;
-  padding: 4px !important;
+    height: auto !important;
+    padding: 4px !important;
+    -webkit-transition: all 50ms ease;                  
+    -moz-transition: all 50ms ease;                 
+    -o-transition: all 50ms ease;   
+    -ms-transition: all 50ms ease;          
+    transition: all 50ms ease;
 }
 
 

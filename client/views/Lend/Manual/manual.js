@@ -72,6 +72,19 @@ Template.manual.helpers({
 })
 
 Template.manual.events({
+
+  'focus input': function() {
+    $('.manual-entry').css({
+        'padding-bottom': '200px'
+    });
+  },
+    
+  'focusout input': function() {
+    $('.manual-entry').css({
+        'padding-bottom': '50px'
+    });
+  },
+                       
   'change .userPrice': function(e, template) {
   
       var rentPrice = {   

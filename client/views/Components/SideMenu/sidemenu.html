@@ -4,21 +4,21 @@
 
     <div class="list transparent-list">
         <div class="item top">
-
+<!--
             <input class="googleshade" type="text" name="search" id="search" placeholder="Search for an item...">
             <i class="icon ion-search " id="search-icon"></i>
-            <a href="{{pathFor "notifications"}}" class="notification " data-ion-menu-close>
-              {{> ionIcon icon="android-notifications" class="energized btnshadow"}}
-              <span class="badge badge-alert badge-assertive">{{#if alertCount}}{{alertCount}}{{/if}}</span>
+-->
+             <a href="{{pathFor "notifications"}}" class="notification " data-ion-menu-close>
+                  {{> ionIcon icon="android-notifications" class="energized btnshadow"}}
+                  <span class="badge badge-alert badge-assertive">{{#if alertCount}}{{alertCount}}{{/if}}</span>
             </a>
 
-        </div>
-
-         <div class="logo-container">
-             <a class="logo btnshadow" href="/" data-ion-menu-close><img src="{{ getImage 'sidemenu-logo' }}"/></a>&nbsp;
-          </div>
-        <div class="content ion-content text" align="center">
-           <h5 style="color:white;"> Welcome back,<b> {{currentUser.profile.name}}</b>.</h5>
+             <div class="logo-container">
+                 <a class="logo" href="/" data-ion-menu-close><img src="{{ getImage 'sidemenu-logo' }}"/></a>&nbsp;
+              </div>
+            <div class="content ion-content text" align="center">
+               <h5 style="color:white;"> Welcome back,<b> {{currentUser.profile.name}}</b>.</h5>
+            </div>
         </div>
 
         <a href="{{pathFor "listing"}}" class="item menutext" data-ion-menu-close>
