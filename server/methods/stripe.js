@@ -3,6 +3,7 @@ Meteor.methods({
 // Account & STRIPE API (cards) -------------------------------------------------------------------
 'checkStripeManaged': function() {
   var _userProfile = Meteor.user().profile;
+  var _userEmail = Meteor.user().emails[0].address;
 
   if (!_userProfile.stripeManaged) {
     var clientIp = this.connection.clientAddress;
@@ -30,7 +31,7 @@ Meteor.methods({
       Stripe.accounts.create({
         managed: true,
         country: 'US',
-        email: _userProfile.email,
+        email: _userEmail,
         "legal_entity[type]": "individual",
         "legal_entity[first_name]": _userProfile.name,
         "legal_entity[last_name]": 'Partio',
@@ -99,6 +100,7 @@ Meteor.methods({
   console.log('>>>>> [stripe] adding Customer card');
 
   var _userProfile = Meteor.user().profile;
+
   var stripeCustomerId = _userProfile.stripeCustomer;
 
   if(!_userProfile.stripeCustomer){
@@ -186,7 +188,9 @@ Meteor.methods({
 
 'getStripeCustomer': function(){
   var _userProfile = Meteor.user().profile;
-  console.log('>>>>> [stripe] getting stripe CUSTOMER info from ', _userProfile.email);
+  var _userEmail = Meteor.user().emails[0].address;
+
+  console.log('>>>>> [stripe] getting stripe CUSTOMER info from ', _userEmail);
 
   if(!_userProfile.stripeCustomer) {
     throw new Meteor.Error("getStripeCustomer", "missing stripeCustomer account");
@@ -205,7 +209,8 @@ Meteor.methods({
 
 'getStripeManaged': function() {
   var _userProfile = Meteor.user().profile;
-  console.log('>>>>> [stripe] getting stripe MANAGED info from ', _userProfile.email);
+  var _userEmail = Meteor.user().emails[0].address;
+  console.log('>>>>> [stripe] getting stripe MANAGED info from ', _userEmail);
 
   if(!_userProfile.stripeManaged) {
     throw new Meteor.Error("getStripeCustomer", "missing stripeManaged account");
@@ -348,7 +353,7 @@ Meteor.methods({
           currency: "usd",
           customer: requestor.profile.stripeCustomer,
           source: payCardId,
-          description: requestor.profile.email+' paid to Partio' },
+          description: requestor.profile.name+' paid to Partio' },
           Meteor.bindEnvironment(function (err, charge) {
             if(err) {
               done(err, false);
