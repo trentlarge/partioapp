@@ -20,7 +20,7 @@ ecmascript              # Enable ECMAScript2015+ syntax in app code
 accounts-base
 accounts-password
 alexsmr:apac
-mrgalaxy:stripe
+#mrgalaxy:stripe
 check
 ejson
 email
@@ -56,7 +56,4 @@ bigdsk:inputmask
 jonmc12:ionic-material
 mirrorcell:card
 dapearce:material-icons
-meteorhacks:kadira
-meteorhacks:kadira-profiler
-kadira:debug
 perak:user-roles

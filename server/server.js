@@ -2,7 +2,7 @@
 //     service: "facebook"
 // });
 
-Kadira.connect('T8vDhvWs9tGdLrd7L', '540cb7e0-b701-4538-a043-444fd8065065');
+//Kadira.connect('T8vDhvWs9tGdLrd7L', '540cb7e0-b701-4538-a043-444fd8065065');
 
 Meteor.startup(function() {
   // process.env.MAIL_URL="smtp://partio@cloudservice.io:partio1234@smtp.zoho.com:465";
@@ -10,7 +10,7 @@ Meteor.startup(function() {
   //Stripe = StripeSync(Meteor.settings.env.STRIPE_SECRET);
   //Stripe.secretKey = Meteor.settings.env.STRIPE_SECRET+':null';
 
-  Stripe = StripeAPI(Meteor.settings.env.STRIPE_SECRET);
+//  Stripe = StripeAPI(Meteor.settings.env.STRIPE_SECRET);
 
   process.env.MAIL_URL="smtp://support%40partio.xyz:partio123!@smtp.zoho.com:465/";
   Accounts.emailTemplates.from = 'support@partio.xyz';
