@@ -13,6 +13,9 @@ app.model.PartioCall = (function () {
       var requestor = connection.requestor;
       var owner = connection.owner;
 
+      console.log('-aquiiiii-----')
+      console.log(requestor, owner);
+
       if(!requestor || !owner) {
         console.log('Expecting requestor and owner IDS'); return false;
       }
@@ -20,7 +23,7 @@ app.model.PartioCall = (function () {
       var currentUser = Meteor.user();
 
       // USER NOT CONFIGURED PHONE NUMBER
-      if(!currentUser || !currentUser.profile || !currentUser.profile.mobile) {
+      if(!currentUser || !currentUser.private.mobile) {
         IonPopup.show({
           title: 'Ops...',
           template: '<div class="center dark">Your phone isn\'t configured yet. Please update your phone number.</div>',

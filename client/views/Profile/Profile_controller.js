@@ -12,7 +12,7 @@ ProfileController = RouteController.extend({
 	waitOn: function() {
 		return [
 			// subscribe to data here
-			//Meteor.subscribe("current_user_data"),
+			Meteor.subscribe("userData"),
 			// Meteor.subscribe("otherSubscription"),
 			// ...
 		];
@@ -20,6 +20,15 @@ ProfileController = RouteController.extend({
 
 	data: function() {
 		return {
+			_user: Meteor.user(),
+
+			profileEdit: function() {
+				return Session.get('profileEdit');
+			},
+
+			emailSet: function() {
+				return this._user.emails[0].address;
+			}
 			//
 			// read data from database here like this:
 			//   someData: SomeCollection.find(),

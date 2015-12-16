@@ -11,7 +11,7 @@ SavedCardsController = RouteController.extend({
 
 	waitOn: function() {
 		return [
-			Meteor.subscribe("current_user_data"),
+			Meteor.subscribe("userData"),
 		];
 	},
 

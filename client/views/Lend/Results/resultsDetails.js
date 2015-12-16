@@ -165,10 +165,7 @@ Template.resultsDetails.events({
     },
 
     'click .submitProduct': function(e, template) {
-
-        var currentUser = Meteor.user();
-
-        if(!currentUser || !currentUser.profile || !currentUser.profile.canShare) {
+        if(!Meteor.call('userCanShare')) {
           IonPopup.show({
             title: 'Update profile',
             template: '<div class="center">Please, update your debit card to share this item.</div>',
@@ -181,7 +178,6 @@ Template.resultsDetails.events({
               }
             }]
           });
-
           return false;
         }
 

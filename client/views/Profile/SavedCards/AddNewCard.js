@@ -68,8 +68,6 @@ Template.addnewCard.events({
 				Meteor.call('checkStripeManaged', function(error, resultManaged) {
 					console.log('>>>>>> [stripe] return checkStripeManaged');
 
-					console.log(error, resultManaged);
-
 					if(error) {
 						PartioLoad.hide();
 						console.log(error);
@@ -93,7 +91,7 @@ Template.addnewCard.events({
 							return false;
 						}
 
-						ShowNotificationMessage(error.message);
+						ShowNotificationMessage(error.reason);
 						return false;
 					}
 
