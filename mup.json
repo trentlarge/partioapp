@@ -16,7 +16,7 @@
  ],
 
  // Install MongoDB on the server. Does not destroy the local MongoDB on future setups
-  "setupMongo": true,
+ //"setupMongo": true,
 
  // Application name (no spaces).
  "appName": "PartiO",
