@@ -61,24 +61,6 @@ Template.searchResult.onRendered(function () {
 
 
 Template.searchResult.helpers({
-      
-  isCategorySelected: function() {
-
-      var selectedCategories = Session.get('selectedCategories');
-      var product = Products.findOne({ 'searchId':this._id });
-
-      if(selectedCategories) {
-         if(selectedCategories.indexOf(product.category) >= 0) {
-             return '';
-         }
-         else {
-             return 'disabled';
-         }
-      }
-      else {
-        return '';
-      }
-  },
     
   // show/hide "SHOW MORE" button.    
   isFinished: function(size) {

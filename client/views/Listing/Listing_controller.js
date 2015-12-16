@@ -29,6 +29,23 @@ ListingController = RouteController.extend({
         
 		return {
             searchProducts: this.searchProducts(),
+            
+            isCategorySelected: function(category) {
+
+                var selectedCategories = Session.get('selectedCategories');
+
+                if(selectedCategories) {
+                    if(selectedCategories.indexOf(category) >= 0) {
+                        return '';
+                    }
+                    else {
+                        return 'disabled';
+                    }
+                }
+                else {
+                    return '';
+                }
+            },
 		};
 	},
 

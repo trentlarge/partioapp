@@ -91,7 +91,7 @@
 <!--  {{#if searchProducts.count}}-->
     <div id='search-result' class="list">
       {{#each searchProducts}}
-            <div class="package {{isCategorySelected}}">
+            <div class="package {{../isCategorySelected category}}">
                 {{#ionItem path='search' _id=this._id class="item-avatar-2 qty-check"}}
                     <div class="product-avatar">
                       <img class="product-avatar-inner" src="{{image}}"/>
