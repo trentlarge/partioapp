@@ -1,4 +1,5 @@
 refreshSearch = function(userId, product){
+console.log("refreshSearch executed!");
 		var ownerData = Meteor.users.findOne(userId);
 		var existingSearch = Search.findOne({title: product.title })
 		var qty_products = Search.findOne({_id: product.searchId })
