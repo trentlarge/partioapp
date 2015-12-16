@@ -12,7 +12,7 @@ ProfileController = RouteController.extend({
 	waitOn: function() {
 		return [
 			// subscribe to data here
-			Meteor.subscribe("userData"),
+			//Meteor.subscribe("userData"),
 			// Meteor.subscribe("otherSubscription"),
 			// ...
 		];

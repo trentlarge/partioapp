@@ -14,7 +14,7 @@ MainController = RouteController.extend({
 			// subscribe to data here
 			// Meteor.subscribe("someSubscription"),
 			// Meteor.subscribe("otherSubscription"),
-			Meteor.subscribe("userData"),
+			//Meteor.subscribe("userData"),
 		];
 	},
 

@@ -24,11 +24,11 @@ TalkController = RouteController.extend({
 			connection:
 				Connections.findOne({ _id: this.params._id }),
 
-			messages: 
+			messages:
 				Talk.find({ connectionId: this.params._id }),
 
 			unreadMessages:
-				Talk.find({ 
+				Talk.find({
 					connectionId: this.params._id,
 					toId: Meteor.userId(),
 					state: "new"
