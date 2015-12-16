@@ -10,17 +10,16 @@
   {{#ionView}}
     {{#ionContent class="listing-search overflow-scroll"}}
 
-    <div class="item item-divider product-header-title"><h2>{{ search.title }}</h2></div>
+    <div class="item item-divider product-header-title"><h2>{{ product.title }}</h2></div>
 
       <div class="list">
-      {{#each products }}
 
         <div class="item">
           <div class="profile-image-box">
-                <a href="/profile/items/{{ ownerId }}" class="profile-avatar-box"> 
-                    <div style="background: url({{ ../ownerAvatar ownerData.profile.avatar }}) no-repeat; background-size:cover; background-position: 50% 50%;" class="profile-avatar"></div>
+                <a href="/profile/items/{{ owner._id }}" class="profile-avatar-box"> 
+                    <div style="background: url({{ owner.profile.avatar }}) no-repeat; background-size:cover; background-position: 50% 50%;" class="profile-avatar"></div>
                 </a>
-                <p class="main-title-text"> {{ ownerData.profile.name }} </p>
+                <p class="main-title-text"> {{ owner.profile.name }} </p>
                 <span class="rating-box">{{ > rating}}</span>
 <!--                <a id="moreInfo">MORE INFO</a>-->
           </div>
@@ -35,19 +34,19 @@
                             <tbody>
                                 <tr>
                                     <th class="one"><i class="icon">D</i></th>
-                                    <td>${{rentPrice.day}}</td>
+                                    <td>${{product.rentPrice.day}}</td>
                                 </tr>
                                 <tr>
                                     <th class="two"><i class="icon">W</i></th>
-                                    <td>${{rentPrice.week}}</td>
+                                    <td>${{product.rentPrice.week}}</td>
                                 </tr>
                                 <tr>
                                     <th class="three"><i class="icon">M</i></th>
-                                    <td>${{rentPrice.month}}</td>
+                                    <td>${{product.rentPrice.month}}</td>
                                 </tr>
                                 <tr>
                                     <th class="four"><i class="icon">S</i></th>
-                                    <td>${{rentPrice.semester}}</td>
+                                    <td>${{product.rentPrice.semester}}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -57,7 +56,7 @@
                              <tbody>
                                 <tr>
                                     <th class="five"><i class="icon ion-clipboard"></i></th>
-                                    <td><b>{{ ../getCondition conditionId }}</b></td>
+                                    <td><b>{{ ../getCondition }}</b></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -65,7 +64,7 @@
                 </div>
                 <div class="profile-product-image-box">
                     <div class="product-image">
-                        <a id="moreInfo"><img src="{{image}}"/></a>
+                        <a id="moreInfo"><img src="{{product.image}}"/></a>
                     </div>
                 </div>
             </div>
@@ -91,7 +90,7 @@
 
           </div>
         </div>
-        {{/each}}
+
       </div>
     {{/ionContent}}
   {{/ionView}}

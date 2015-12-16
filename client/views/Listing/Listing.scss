@@ -150,5 +150,20 @@
         }
         
     }
+    
+    a#showMore {
+        
+        color: #df5707;
+        text-decoration: none;
+        
+        &:hover {
+            opacity: .7;
+        }
+        
+        &.activated {
+            opacity: .8;
+        }
+        
+    }
 }
 

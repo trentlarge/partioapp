@@ -5,6 +5,10 @@ Meteor.publish("all_users", function() {
 	return Users.find({}, { fields: { profile: 1, emails: 1, roles: 1 } });
 });
 
+//Meteor.publish("productOwner", function(productId) {
+//    return Users.findOne(Products.findOne(productId).ownerId);
+//});
+
 Meteor.publish("singleUser", function(idUser) {
 	return Users.find({ _id: idUser }, { fields: { profile: 1, emails: 1, roles: 1 }}, { limit: 1 });
 });
