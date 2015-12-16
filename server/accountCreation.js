@@ -9,7 +9,6 @@ Accounts.onCreateUser(function(options,user) {
 
 	user.secret.canBorrow = false;
 	user.secret.canShare = false;
-	user.secret.mobileValidated = false;
 
 	if (user.services.facebook) {
 		var fbLink = user.services.facebook.link;

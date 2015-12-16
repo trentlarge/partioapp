@@ -13,7 +13,7 @@ ConnectController = RouteController.extend({
         return [
 			Meteor.subscribe("singleConnect", this.params._id),
 		];
-        
+
 //		let _subs = [ Meteor.subscribe("singleConnect", this.params._id) ];
 //
 //		if(this.connection())
@@ -78,7 +78,7 @@ ConnectController = RouteController.extend({
                 console.log(this.connectData.meetupLocation);
                 return (this.connectData.meetupLocation !== 'Location not set') ? true : false;
             },
-            
+
 			getRequestDate: function() {
 					return formatDate(this.connectData.requestDate);
 			},
@@ -98,10 +98,6 @@ ConnectController = RouteController.extend({
 				return this.connectData.borrowDetails.date.totalDays + ' day';
 			},
 
-			validNumber: function() {
-				return Meteor.user().profile.mobileValidated;
-			},
-
 			alreadyApproved: function() {
 				return (this.connectData.state !== "WAITING") ? true : false;
 			},
@@ -118,13 +114,13 @@ ConnectController = RouteController.extend({
                  diff = new Date(this.connectData.borrowDetails.date.end - this.connectData.borrowDetails.date.start);
                 }
                 var daysLeft = Math.floor((diff/1000/60/60/24) + 1);
-                
+
                 if(daysLeft < 0) {
                     return true;
                 }
                 return false;
             },
-            
+
             getDaysLeftValue: function() {
                 var diff;
                 if($.now() > new Date(this.connectData.borrowDetails.date.start).getTime()) {
@@ -133,14 +129,14 @@ ConnectController = RouteController.extend({
                     diff = new Date(this.connectData.borrowDetails.date.end - this.connectData.borrowDetails.date.start);
                 }
                 var daysLeft = Math.floor((diff/1000/60/60/24) + 1);
-                
+
                 if(daysLeft < 0) {
                     return 0;
                 }
-                
+
                 return daysLeft;
 			},
-            
+
 			getDaysLeft: function() {
                 var diff;
                 if($.now() > new Date(this.connectData.borrowDetails.date.start).getTime()) {
@@ -149,7 +145,7 @@ ConnectController = RouteController.extend({
                     diff = new Date(this.connectData.borrowDetails.date.end - this.connectData.borrowDetails.date.start);
                 }
                 var daysLeft = Math.floor((diff/1000/60/60/24) + 1);
-                
+
                 if(daysLeft < 0) {
                     return 'time is over';
                 }

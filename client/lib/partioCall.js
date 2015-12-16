@@ -73,6 +73,7 @@ app.model.PartioCall = (function () {
 
   				//ALREADY REGISTRED
   				} else if(result.statusCode == 400) {
+            console.log('Twilio >>>>>>> phone already registered')
 
             var currentUser = Meteor.user();
 
@@ -86,7 +87,10 @@ app.model.PartioCall = (function () {
               var _to = requestor;
             }
 
-  					console.log('Twilio >>>>>>> phone already registered')
+            if(!_to) {
+              return false;
+            }
+
             PartioLoad.show();
             PartioCall.makeCall(_from, _to);
   				}

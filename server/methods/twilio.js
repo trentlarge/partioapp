@@ -17,12 +17,6 @@ Meteor.methods({
     var twilioUrl = "https://api.twilio.com/2010-04-01/Accounts/"+twilioAccount+'/';
 
     var _user = Meteor.user();
-    //
-    // if(_user.secret.mobileValidated) {
-    //   console.log('Twilio -> mobile validated');
-    //   return true;
-    // }
-
     var _number = _user.private.mobile;
 
     if(!_number) {
