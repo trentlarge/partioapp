@@ -47,11 +47,11 @@ Meteor.methods({
 		});
 	},
 
-	userCanShare: function(){
-		return Meteor.user().secret.canShare;
+	'userCanShare': function(){
+		return Meteor.user().secret.canShare
 	},
-	
-	userCanBorrow: function(){
+
+	'userCanBorrow': function(){
 		return Meteor.user().secret.canBorrow;
 	}
 });
