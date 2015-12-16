@@ -3,5 +3,5 @@ Meteor.publish("transactions", function() {
 });
 
 Meteor.publish("myTransaction", function() {
-	return Transactions.find({ "_id": Users.findOne({ _id: this.userId }).profile.transactionsId });
+	return this.userId ? Transactions.find({ "_id": Users.findOne({ _id: this.userId }).profile.transactionsId }) : this.ready();
 });

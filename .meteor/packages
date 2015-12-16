@@ -34,7 +34,6 @@ matb33:collection-hooks
 mdg:geolocation
 meteorhacks:async
 meteorhacks:search-source
-meteoric:ionic-sass
 meteoric:ionic
 mdg:reload-on-resume
 mrt:accounts-facebook-cordova
@@ -55,7 +54,6 @@ perak:user-roles
 perak:joins
 fortawesome:fontawesome
 fourseven:scss@=3.4.0-beta1
-meteoric:ionicons-sass
 hashwin:ionic-sass
 hashwin:ionicons-sass
 bigdsk:inputmask
