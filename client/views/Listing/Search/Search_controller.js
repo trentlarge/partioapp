@@ -13,8 +13,6 @@ SearchController = RouteController.extend({
         
         return [
             Meteor.subscribe("singleProduct", this.params._id),
-            Meteor.subscribe("all_users")
-//            Meteor.subscribe("productOwner", this.params._id)
         ];
         
 //		let _subs = [ Meteor.subscribe("search", this.params._id) ];

@@ -28,10 +28,10 @@ Template.inventoryDetail.events({
 
   'click #editSave': function(e, template) {
 
-    var dayPrice = parseInt(template.find('.dayPrice').value, 10),
-      weekPrice = parseInt(template.find('.weekPrice').value, 10),
-      monthPrice = parseInt(template.find('.monthPrice').value, 10),
-      semesterPrice = parseInt(template.find('.semesterPrice').value, 10);
+    var dayPrice = parseFloat(template.find('.dayPrice').value, 10),
+      weekPrice = parseFloat(template.find('.weekPrice').value, 10),
+      monthPrice = parseFloat(template.find('.monthPrice').value, 10),
+      semesterPrice = parseFloat(template.find('.semesterPrice').value, 10);
 
     if(dayPrice < 0.5 || weekPrice < 0.5 || monthPrice < 0.5 || semesterPrice < 0.5){
       showInvalidPopUp('Invalid Inputs', 'Please enter a valid price.');
@@ -44,11 +44,16 @@ Template.inventoryDetail.events({
     }
 
     var editedPrices = {
-      "day": template.find('.dayPrice').value,
-      "week": template.find('.weekPrice').value,
-      "month": template.find('.monthPrice').value,
-      "semester": template.find('.semesterPrice').value,
+      "day": Number(dayPrice).toFixed(2),
+      "week": Number(weekPrice).toFixed(2),
+      "month": Number(monthPrice).toFixed(2),
+      "semester": Number(semesterPrice).toFixed(2),
     }
+    
+    template.find('.dayPrice').value = editedPrices.day;
+    template.find('.weekPrice').value = editedPrices.week;
+    template.find('.monthPrice').value = editedPrices.month;
+    template.find('.semesterPrice').value = editedPrices.semester;
 
     var edited = template.find('.semesterPrice').value;
     var title = template.find('.title').value;

@@ -14,32 +14,22 @@
   {{#ionView}}
      {{#ionContent class="inventory-details overflow-scroll"}}
        <div class="card">
-         <div class="item item-image-box center">
-            <img class="product-image" src="{{product.image}}"/>
-            {{#if editMode product._id }}
-              <div class="details-box">
-                <input name="title" class="detail title" style="text-align:center;border:0" value="{{product.title}}">
-                <input type="hidden" class="last_title" value="{{product.title}}">
-              </div>
-            {{else}}
-              <span class="product-title">{{product.title}}</span>
-            {{/if}}
-          </div>
-
-          <div class="row-details">
-            <div class="col col-50">
-                <div class="details-box">
+         <div class="item image">
+             <div class="item-image-box">
+                <img class="product-image" src="{{product.image}}"/>
+             </div>
+             <div class="details-box">
                 <i class="icon {{getCategoryIcon product.category}} bk-energized"></i>
-                <span class="detail">{{product.amazonCategory}}</span>
-              </div>
-            </div>
-            <div class="col col-50">
-              <div class="details-box">
+                <span>{{product.amazonCategory}}</span>
+               
                 <i class="icon ion-cash bk-energized"></i>
-                <span class="detail">{{product.price}}</span>
-              </div>
-            </div>
+                <span>{{product.price}}</span>
+             </div>
           </div>
+         
+          <label class="item item-input">
+             <input type="text" value="{{product.title}}" class="title" style="text-align:center;border:0" {{../isEditMode}}>
+          </label>
 
           <div class="item item-divider features">
             <h2>Features <i class="chevron-icon icon ion-chevron-up"></i></h2>
@@ -62,31 +52,36 @@
             <h2>Rent Price</h2>
           </div>
 
-          <div class="item-table">
-            <table class="rent-table">
-              <tbody>
-                <tr>
-                    <th class="one"><i class="icon">D</i></th>
-                    <th class="two"><i class="icon">W</i></th>
-                    <th class="three"><i class="icon">M</i></th>
-                    <th class="four"><i class="icon">S</i></th>
-                </tr>
-                <tr>
-                  {{#if editMode product._id }}
-                    <td><input class="detail dayPrice" type="number" id="editPrice" value="{{product.rentPrice.day}}"></td>
-                    <td><input class="detail weekPrice" type="number" id="editPrice" value="{{product.rentPrice.week}}"></td>
-                    <td><input class="detail monthPrice" type="number" id="editPrice" value="{{product.rentPrice.month}}"></td>
-                    <td><input class="detail semesterPrice" type="number" id="editPrice" value="{{product.rentPrice.semester}}"></td>
-                  {{else}}
-                    <td>${{product.rentPrice.day}}</td>
-                    <td>${{product.rentPrice.week}}</td>
-                    <td>${{product.rentPrice.month}}</td>
-                    <td>${{product.rentPrice.semester}}</td>
-                  {{/if}}
-                </tr>
-              </tbody>
-            </table>
-          </div>
+<!--
+          <label class="item item-input item-select">
+                <div class="input-label">
+                  <p>Condition:</p>
+                </div>
+                <select class="manualCondition">
+                    {{#each getConditions}}
+                        <option value="{{index}}">{{value}}</option>
+                    {{/each}}
+                </select>
+            </label>
+-->
+            
+        <label class="item item-input">
+            <span class="input-label"><p>Day:</p></span>
+            <input type="number" class="price dayPrice" value="{{product.rentPrice.day}}" {{../isEditMode}}>
+        </label>
+        <label class="item item-input">
+            <span class="input-label"><p>Week:</p></span>
+            <input type="number" class="price weekPrice" value="{{product.rentPrice.week}}" {{../isEditMode}}>
+        </label>
+        <label class="item item-input">
+            <span class="input-label"><p>Month:</p></span>
+            <input type="number" class="price monthPrice" value="{{product.rentPrice.month}}" {{../isEditMode}}>
+        </label>
+        <label class="item item-input">
+            <span class="input-label"><p>Semester (4m):</p></span>
+            <input type="number" class="price semesterPrice" value="{{product.rentPrice.semester}}" {{../isEditMode}}>
+        </label>       
+           
           {{#if editMode product._id}}
             <div class="padding-horizontal">
                 <button id="editSave" class="button button-block button-energized">SAVE</button>

@@ -16,10 +16,10 @@
 
         <div class="item">
           <div class="profile-image-box">
-                <a href="/profile/items/{{ owner._id }}" class="profile-avatar-box"> 
-                    <div style="background: url({{ owner.profile.avatar }}) no-repeat; background-size:cover; background-position: 50% 50%;" class="profile-avatar"></div>
+                <a href="/profile/items/{{ product.ownerData._id }}" class="profile-avatar-box"> 
+                    <div style="background: url({{ product.ownerData.profile.avatar }}) no-repeat; background-size:cover; background-position: 50% 50%;" class="profile-avatar"></div>
                 </a>
-                <p class="main-title-text"> {{ owner.profile.name }} </p>
+                <p class="main-title-text"> {{ product.ownerData.profile.name }} </p>
                 <span class="rating-box">{{ > rating}}</span>
 <!--                <a id="moreInfo">MORE INFO</a>-->
           </div>

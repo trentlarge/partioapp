@@ -20,20 +20,24 @@ InventoryDetailController = RouteController.extend({
 		return {
 			product: Products.findOne(this.params._id),
 
-			getCategoryIcon: function(_productCategory) {
-		    return Categories.getCategoryIconByText(_productCategory);
-		  },
+            getCategoryIcon: function(_productCategory) {
+                return Categories.getCategoryIconByText(_productCategory);
+            },
 
-          editMode: function(_productId) {
-		    var ConnectionObj = Connections.findOne({'productData._id': _productId});
-		    if(ConnectionObj){
-		      var ConnectionStatus = ConnectionObj.state;
-		      if(ConnectionStatus != "RETURNED"){
-		        return false;
-		      }
-		    }
-		    return Session.get('editMode') ? true : false;
-		  }
+            isEditMode: function() {
+                return Session.get('editMode') ? '' : 'disabled';
+            },
+
+            editMode: function(_productId) {
+                var ConnectionObj = Connections.findOne({'productData._id': _productId});
+                if(ConnectionObj){
+                    var ConnectionStatus = ConnectionObj.state;
+                    if(ConnectionStatus != "RETURNED"){
+                        return false;
+                    }
+                }
+                return Session.get('editMode') ? true : false;
+            }
 		}
 	},
 
