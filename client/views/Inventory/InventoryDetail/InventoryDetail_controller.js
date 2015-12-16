@@ -32,7 +32,7 @@ InventoryDetailController = RouteController.extend({
                 var ConnectionObj = Connections.findOne({'productData._id': _productId});
                 if(ConnectionObj){
                     var ConnectionStatus = ConnectionObj.state;
-                    if(ConnectionStatus != "RETURNED"){
+                    if(ConnectionStatus != "RETURNED"){                        
                         return false;
                     }
                 }

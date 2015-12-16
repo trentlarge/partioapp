@@ -1,3 +1,31 @@
+Template.appLayout.events({
+	'click #editCurrent': function() {
+        var ConnectionObj = Connections.findOne({'productData._id': this.product._id});
+        if(ConnectionObj){
+            var ConnectionStatus = ConnectionObj.state;
+            if(ConnectionStatus != "RETURNED"){   
+                
+                IonPopup.show({
+                    title: 'Item Borrowed',
+                    template: '<div class="center"> It is not possible edit a borrowed item. </div>',
+                    buttons:
+                    [{
+                      text: 'OK',
+                      type: 'button-assertive',
+                      onTap: function()
+                      {
+                        IonPopup.close();
+                      }
+                    }]
+                });
+                
+                return false;
+            }
+        }
+		Session.set('editMode', true);
+	},
+});
+
 Template.inventoryDetail.events({
     
     'focus input': function() {
