@@ -21,7 +21,7 @@ Template.listing.rendered = function() {
     inputIcon.css({
         'color': '#272727'
     });
-
+    
 }
 
 Template.listing.destroyed = function() {
