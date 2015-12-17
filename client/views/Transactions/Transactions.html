@@ -31,84 +31,73 @@
 
     {{#ionContent class="transactions has-tabs-top"}}
       {{#if spendingClicked}}
-        {{> spendingList}}
+
+        <div class="card card-special padding-vertical">
+            <div class="item item-text-wrap center">
+                <span class="dollar-text">$</span>{{totalSpending}}
+            </div>
+        </div>
+
+        <div class="card list list-inset">
+
+            {{#if spendingAvailable}}
+
+                {{#each spending}}
+                    <div class="item icon-left">
+                        <p>
+                            <i class="icon ion-cash"></i> <span class="amount">${{ ../formatValue paidAmount }}</span>
+                            <span class="transaction-date">{{ ../formatDate date }}</span>
+                        </p>
+                        <p class="product-title">{{productName}}</p>
+                    </div>
+                {{/each}}
+
+            {{else}}
+                <div class="Aligner">
+                    <h6 class="dark">No transactions yet!</h6>
+                </div>
+            {{/if}}
+
+        </div>
+
       {{else}}
-        {{> earningList}}
+
+          <div class="card card-special padding-vertical">
+              <div class="item item-text-wrap center">
+                  <span class="dollar-text">$</span>{{totalEarning}}
+              </div>
+          </div>
+
+          <div class="card list list-inset">
+
+              {{#if earningAvailable}}
+
+                      {{#each earning}}
+                      <div class="item icon-left">
+                          <p>
+                              <i class="icon ion-cash"></i> <span class="amount">${{ ../formatValue receivedAmount }}</span>
+                              <span class="transaction-date">{{ ../formatDate date }}</span>
+                          </p>
+                          <p class="product-title">{{productName}}</p>
+                      </div>
+                  {{/each}}
+
+              {{else}}
+                  <div class="Aligner">
+                      <h6 class="dark">No transactions yet!</h6>
+                  </div>
+              {{/if}}
+
+          </div>
+
+
       {{/if}}
+      <div class="center">
+          <a class="email-support" href="mailto:support@partioapp.com" data-rel='external'>CONTACT US</a>
+      </div>
     {{/ionContent}}
 
 
   {{/ionView}}
 
-</template>
-
-<template name="earningList">
-    
-    <div class="card card-special padding-vertical">
-        <div class="item item-text-wrap center">
-            <span class="dollar-text">$</span>{{totalEarning}}
-        </div>
-    </div>
-
-    <div class="card list list-inset">
-
-        {{#if earningAvailable}}
-
-                {{#each earning}}
-                <div class="item icon-left">
-                    <p>
-                        <i class="icon ion-cash"></i> <span class="amount">${{getAmount}}</span>
-                        <span class="transaction-date">{{getDate}}</span>
-                    </p>
-                    <p class="product-title">{{productName}}</p>
-                </div>
-            {{/each}}
-
-        {{else}}
-            <div class="Aligner">
-                <h6 class="dark">No transactions yet!</h6>
-            </div>
-        {{/if}}
-
-    </div>
-    
-    <div class="center">
-        <a class="email-support" href="mailto:support@partioapp.com" data-rel='external'>CONTACT US</a>
-    </div>
-    
-</template>
-
-<template name="spendingList">
-    
-    <div class="card card-special padding-vertical">
-        <div class="item item-text-wrap center">
-            <span class="dollar-text">$</span>{{totalSpending}}
-        </div>
-    </div>
-
-    <div class="card list list-inset">
-
-        {{#if spendingAvailable}}
-
-            {{#each spending}}
-                <div class="item icon-left">
-                    <p>
-                        <i class="icon ion-cash"></i> <span class="amount">${{getAmount}}</span>
-                        <span class="transaction-date">{{getDate}}</span>
-                    </p>
-                    <p class="product-title">{{productName}}</p>
-                </div>
-            {{/each}}
-
-        {{else}}
-            <div class="Aligner">
-                <h6 class="dark">No transactions yet!</h6>
-            </div>
-        {{/if}}
-
-    </div>
-    
-    <div class="center">
-        <a class="email-support" href="mailto:support@partioapp.com" data-rel='external'>CONTACT US</a>
-    </div>
 </template>

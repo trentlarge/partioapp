@@ -15,7 +15,7 @@ ChangePasswordController = RouteController.extend({
 			// Meteor.subscribe("someSubscription"),
 			// Meteor.subscribe("otherSubscription"),
 			// ...
-			Meteor.subscribe("current_user_data"),
+			//Meteor.subscribe("userData"),
 		];
 	},
 

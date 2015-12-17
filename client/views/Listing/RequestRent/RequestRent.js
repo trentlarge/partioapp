@@ -140,26 +140,26 @@ Template.requestRent.helpers({
 Template.requestRent.events({
   'click #sendRequest': function() {
 
-    var currentUser = Meteor.user();
-
-    if(!currentUser || !currentUser.profile || !currentUser.profile.canBorrow) {
-      IonPopup.show({
-        title: 'Update profile',
-        template: '<div class="center">Please, update your cards to borrow this item.</div>',
-        buttons: [{
-          text: 'OK',
-          type: 'button-energized',
-          onTap: function() {
-            IonPopup.close();
-            $('.ion-ios-close-empty').click()
-            Router.go('/profile/savedcards/');
-          }
-        }]
-      });
-      return false;
-    }
-
-    console.log('requesting product...');
+    // var currentUser = Meteor.user();
+    //
+    // if(!currentUser || !currentUser.profile || !currentUser.profile.canBorrow) {
+    //   IonPopup.show({
+    //     title: 'Update profile',
+    //     template: '<div class="center">Please, update your cards to borrow this item.</div>',
+    //     buttons: [{
+    //       text: 'OK',
+    //       type: 'button-energized',
+    //       onTap: function() {
+    //         IonPopup.close();
+    //         $('.ion-ios-close-empty').click()
+    //         Router.go('/profile/savedcards/');
+    //       }
+    //     }]
+    //   });
+    //   return false;
+    // }
+    //
+    // console.log('requesting product...');
 
     var ownerId = this.ownerId;
     var productId = this._id;

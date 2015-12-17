@@ -1,26 +1,34 @@
 Accounts.onCreateUser(function(options,user) {
-	console.log("OPTIONS-->>" + JSON.stringify(options));
-	console.log("USER-->>" + JSON.stringify(user))
+	console.log("OPTIONS -->>", options);
+	console.log("USER-->>", user);
 	var meteorUserId = user._id;
+
+	user.profile = {};
+	user.private = {};
+	user.secret = {};
+
+	user.secret.canBorrow = false;
+	user.secret.canShare = false;
 
 	if (user.services.facebook) {
 		var fbLink = user.services.facebook.link;
 		var linkId = fbLink.split("https://www.facebook.com/app_scoped_user_id/")[1].split("/")[0];
 
 		user.profile = options.profile || {};
-		user.profile.email = user.services.facebook.email;
+		//user.profile.email = user.services.facebook.email;
 		user.profile.avatar = 'http://graph.facebook.com/'+linkId+'/picture?type=large';
 		user.profile.name = user.services.facebook.name
 		//FOR NO APPARENT REASON FACEBOOK REFUSED TO SEND AVATAR AFTER LOGIN
 		// user.profile.avatar = options.profile.avatar;
 		user.profile.college = '';
-		user.profile.mobile = '';
-		user.profile.canBorrow = false;
-		user.profile.canShare = false;
+
+		user.private.mobile = '';
 
 		var currentEmail = user.services.facebook.email;
 		if (currentEmail.split("@")[1] === "duke.edu" || currentEmail.split("@")[1] === "rollins.edu") {
 			user.emails = [{"address": currentEmail, "verified": false}]
+
+
 			Meteor.setTimeout(function() {
 				Accounts.sendVerificationEmail(user._id);
 			}, 4 * 1000);
@@ -31,16 +39,15 @@ Accounts.onCreateUser(function(options,user) {
 		return user;
 
 	} else {
-		user.profile = options.profile || {};
-		user.profile.email = user.emails[0].address;
+		//user.profile = options.profile || {};
+		//user.profile.email = user.emails[0].address;
+
+		user.profile.name = options.profileDetails.name;
 		user.profile.avatar = options.profileDetails.avatar;
 		user.profile.college = options.profileDetails.college;
 		user.profile.birthDate = options.profileDetails.birthDate;
-		user.profile.mobile = options.profileDetails.mobile;
-		user.profile.mobileValidated = options.profileDetails.mobileValidated;
-		user.profile.name = options.profileDetails.name;
-		user.profile.canBorrow = false;
-		user.profile.canShare = false;
+
+		user.private.mobile = options.profileDetails.mobile;
 
 		//NOT TAKING LOCATION DETAILS ON REGISTRATION ANYMORE
 		// user.profile.address = options.profileDetails.location ? options.profileDetails.location.address : "-" ;

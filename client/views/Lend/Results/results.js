@@ -2,7 +2,7 @@
 // RENDERED
 
 Template.results.rendered = function() {
-//    Session.set('orderByRanking', true);  
+//    Session.set('orderByRanking', true);
     Lend.currentCategory = '';
 }
 
@@ -10,17 +10,17 @@ Template.results.rendered = function() {
 
 Template.results.helpers({
   'orderByRanking': function() {
-    return Session.get('orderByRanking');  
+    return Session.get('orderByRanking');
   },
   'isTabRankingActive': function() {
       if(Session.get('orderByRanking')) {
-         return 'active'; 
+         return 'active';
       }
       return '';
   },
   'isTabCategoriesActive': function() {
       if(!Session.get('orderByRanking')) {
-         return 'active'; 
+         return 'active';
       }
       return '';
   },
@@ -85,13 +85,13 @@ Template.results.helpers({
 // EVENTS
 
 Template.results.events({
-    
+
     'click .notFound': function(e, template) {
-      
+
         var results = Session.get('allResults');
         var resultsLenght = 0;
         var averagePrice = 0.0;
-        
+
         var categories = [
             {
                text: 'Textbooks',
@@ -118,31 +118,31 @@ Template.results.events({
                occurrences: 0,
             }
         ]
-        
+
         $.each(results, function(index, result) {
-            
+
             $.each(categories, function(key, category) {
                 if(result.category === category.text) {
                     category.occurrences++;
                 }
             });
-            
-            if(result.price !== '--') { 
+
+            if(result.price !== '--') {
                 var price = Number(result.price.replace(/[^0-9\.-]+/g,""));
 
                 if(price > 0) {
                     averagePrice += price;
                     resultsLenght++;
                 }
-            }         
+            }
         })
-        
+
         categories.sort(function(a, b) {
             return (a.occurrences < b.occurrences) ? 1 : -1;
         });
 
         var averageFinalPrice = (averagePrice/resultsLenght).toFixed(2);
-        
+
         var itemNotFound = {
             'image' : Session.get('camfindImage'),
             'title' : $('.search-share-header-input').val(),
@@ -155,10 +155,10 @@ Template.results.events({
                 'semester' : Lend.calculatePrice('FOUR_MONTHS', averageFinalPrice)
             }
         }
-        
+
         Session.set('itemNotFound', itemNotFound);
         Session.set('lendTab', 'manual');
-        
+
     },
 
     // hide/show products by category
@@ -178,10 +178,33 @@ Template.results.events({
     },
 
     'click .product': function(e, template) {
+
+      var _this = this;
+
         //Session.set('allResults', );
-        Session.set('scanResult', this);
-        Router.go('/lend/details');
-        //Session.set('lendTab', 'resultDetails');
+        Meteor.call('userCanShare', function(error, result){
+          if(!result) {
+            IonPopup.show({
+              title: 'Update profile',
+              template: '<div class="center">Please, update your debit card to share this item.</div>',
+              buttons: [{
+                text: 'OK',
+                type: 'button-energized',
+                onTap: function() {
+                  IonPopup.close();
+                  Router.go('/profile/savedcards/');
+                }
+              }]
+            });
+            return false;
+
+          } else {
+
+            Session.set('scanResult', _this);
+            Router.go('/lend/details');
+            //Session.set('lendTab', 'resultDetails');
+          }
+      });
     },
 });
 
