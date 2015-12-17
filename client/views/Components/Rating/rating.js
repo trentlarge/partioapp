@@ -5,9 +5,6 @@ Template.rating.rendered = function () {
 Template.rating.helpers({
     
   getRatingNumber: function(ownerId, ownerProfileId) {
-
-      console.log('ownerId: ' + ownerId);
-      console.log('ownerProfileId: ' + ownerProfileId);
       
       var _id = Meteor.userId();
 
@@ -15,8 +12,6 @@ Template.rating.helpers({
       if(ownerProfileId) { _id = ownerProfileId }
       
       var user = Meteor.users.findOne(_id);
-      
-      console.log(user.profile.name);
       
       if(user && user.profile && user.profile.rating) {
           
@@ -40,8 +35,6 @@ Template.rating.helpers({
     if(ownerProfileId) { _id = ownerProfileId }
 
     var user = Meteor.users.findOne(_id);
-      
-    console.log(user.profile.name);
 
     if(user && user.profile && user.profile.rating) {
       if (user.profile.rating.length >= 1) {
