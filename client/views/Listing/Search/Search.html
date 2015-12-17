@@ -13,38 +13,33 @@
 <!--    <div class="item item-divider product-header-title"><h2>{{ product.title }}</h2></div>-->
 
     <div class="list">
-        <div class="card">
 
-            <div class="item item-divider">Product Details</div>
-
-            <div class="item item-avatar-2 qty-check">
-                <div class="product-avatar">
-                  <a id="moreInfo">
-                    <img class="product-avatar-inner" src="{{product.image}}"/>
-                  </a>
-                </div>
-                <div class="ellipsis">
-                    <p class="product-title-text">{{product.title}}</p>
-                </div>
-                <table class="rent-table">
-                    <tbody>
-                        <tr>
-                            <th class="one"><i class="icon">DAY</i></th>
-                            <th class="two"><i class="icon">WEEK</i></th>
-                            <th class="three"><i class="icon">MONTH</i></th>
-                            <th class="four"><i class="icon">SEMESTER</i></th>
-                        </tr>
-                        <tr>
-                            <td>{{product.rentPrice.day}}</td>
-                            <td>{{product.rentPrice.week}}</td>
-                            <td>{{product.rentPrice.month}}</td>
-                            <td>{{product.rentPrice.semester}}</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <p class="condition">Condition: <b>{{ ../getCondition }}</b></p>
+        <div class="item item-avatar-2 qty-check">
+            <div class="product-avatar">
+              <a id="moreInfo">
+                <img class="product-avatar-inner" src="{{product.image}}"/>
+              </a>
             </div>
-
+            <div class="ellipsis">
+                <p class="product-title-text">{{product.title}}</p>
+            </div>
+            <table class="rent-table">
+                <tbody>
+                    <tr>
+                        <th class="one"><i class="icon">DAY</i></th>
+                        <th class="two"><i class="icon">WEEK</i></th>
+                        <th class="three"><i class="icon">MONTH</i></th>
+                        <th class="four"><i class="icon">SEMESTER</i></th>
+                    </tr>
+                    <tr>
+                        <td>{{product.rentPrice.day}}</td>
+                        <td>{{product.rentPrice.week}}</td>
+                        <td>{{product.rentPrice.month}}</td>
+                        <td>{{product.rentPrice.semester}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p class="condition">Condition: <b>{{ ../getCondition }}</b></p>
         </div>
         
         <div class="card">
