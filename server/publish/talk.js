@@ -7,8 +7,14 @@ Meteor.publish("talk", function(connectionId) {
 	var requestorId = connection.requestor;
 	var ownerId = connection.productData.ownerId;
 
+	if(this.userId == requestorId) {
+		var _idGuest = ownerId;
+	} else {
+		var _idGuest = requestorId;
+	}
+
 	return [
 		Talk.find({ connectionId: connectionId }, {}),
-		Users.find({ _id: { $in: [ requestorId, ownerId ] }}, {})
+		Users.find({ _id: _idGuest }, { fields: { profile: 1 }})
 	];
 });
