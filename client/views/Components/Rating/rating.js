@@ -4,15 +4,19 @@ Template.rating.rendered = function () {
 
 Template.rating.helpers({
     
-  getRatingNumber: function(requestorId, requestorProfileId, profileId) {
+  getRatingNumber: function(ownerId, ownerProfileId) {
+
+      console.log('ownerId: ' + ownerId);
+      console.log('ownerProfileId: ' + ownerProfileId);
       
-      var _id = undefined;
-      
-      if(profileId) { _id = profileId }
-      if(requestorId) { _id = requestorId }
-      if(requestorProfileId) { _id = requestorProfileId }
+      var _id = Meteor.userId();
+
+      if(ownerId) { _id = ownerId }
+      if(ownerProfileId) { _id = ownerProfileId }
       
       var user = Meteor.users.findOne(_id);
+      
+      console.log(user.profile.name);
       
       if(user && user.profile && user.profile.rating) {
           
@@ -28,15 +32,16 @@ Template.rating.helpers({
       return 'Not rated yet';
   },
     
-  avgRating: function(requestorId, requestorProfileId, profileId) {
+  avgRating: function(ownerId, ownerProfileId) {
       
-    var _id = undefined;
+    var _id = Meteor.userId();
 
-    if(profileId) { _id = profileId }
-    if(requestorId) { _id = requestorId }
-    if(requestorProfileId) { _id = requestorProfileId }
+    if(ownerId) { _id = ownerId }
+    if(ownerProfileId) { _id = ownerProfileId }
 
     var user = Meteor.users.findOne(_id);
+      
+    console.log(user.profile.name);
 
     if(user && user.profile && user.profile.rating) {
       if (user.profile.rating.length >= 1) {

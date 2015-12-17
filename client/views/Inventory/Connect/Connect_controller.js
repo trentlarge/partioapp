@@ -40,6 +40,10 @@ ConnectController = RouteController.extend({
 				return Rating.getConditionByIndex(this.connectData.productData.conditionId);
 			},
 
+			requestorInfo : function(){
+				return Meteor.users.findOne(this.connectData.requestor);
+			},
+
 			preferredLocation: function() {
 				return this.connectData.meetupLocation;
 			},
