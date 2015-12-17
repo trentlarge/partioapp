@@ -10,7 +10,23 @@ Meteor.publish("myConnectionsRequestor", function() {
 	return Connections.find({ "requestor": this.userId });
 });
 
-Meteor.publish("singleConnect", function(idConnect) {
-	var cursor = Connections.find({ _id: idConnect}, {limit: 1});
-  return Connections.publishJoinedCursors(cursor);
+Meteor.publish("singleConnect", function(connectionId) {
+	var connection = Connections.findOne({ _id: connectionId });
+	if(!connection) {
+		return this.ready();
+	}
+
+	var requestorId = connection.requestor;
+	var ownerId = connection.productData.ownerId;
+
+	if(this.userId == requestorId) {
+		var _idGuest = ownerId;
+	} else {
+		var _idGuest = requestorId;
+	}
+
+	return [
+		Connections.find({ connectionId: connectionId }, {}),
+		Users.find({ _id: _idGuest }, { fields: { profile: 1 }})
+	];
 });

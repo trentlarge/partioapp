@@ -16,10 +16,11 @@ Router.waitOn(function () {
 	Meteor.subscribe("myConnectionsOwner", this.userId);
 	Meteor.subscribe("myConnectionsRequestor", this.userId);
 	Meteor.subscribe("myNotificationsReceived");
+	Meteor.subscribe("userData");
 	//Meteor.subscribe("products");
 	//Meteor.subscribe("search");
 	//Meteor.subscribe("transactions");
-	Meteor.subscribe("current_user_data");
+	//Meteor.subscribe("current_user_data");
 	//Meteor.subscribe("all_users");
 });
 

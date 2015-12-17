@@ -1,21 +1,33 @@
 Meteor.methods({
 	updateUserProfile: function(profile) {
-		var updateProfile = {};
+//		var updateProfile = {};
+		//
+		// console.log(profile);
+		// return false;
 
-		for(var key in profile) {
-			updateProfile["profile." + key] = profile[key];
-		}
+		// for(var key in profile) {
+		// 	updateProfile["profile." + key] = profile[key];
+		// }
 
-		if(!updateProfile) {
-			return;
-		}
+		// if(!updateProfile) {
+		// 	return;
+		// }
 
-		Meteor.users.update({
-			_id: this.userId
-		},
-		{
-			$set: updateProfile
+		Meteor.users.update({_id: this.userId },{
+			$set: { 'private.mobile': profile.mobile,
+			 				'profile.birthDate': profile.birthDate }
 		});
+	},
+
+	'createTransactions': function(){
+	  console.log(' >>>>> creating new transactionsId')
+	  //Creating Transactions Id
+	  var userTransId = Transactions.insert({
+	    earning: [],
+	    spending: []
+	  });
+
+	  Meteor.users.update({"_id": Meteor.userId()}, {$set: {"secret.transactionsId": userTransId}});
 	},
 
 	'updateOfficialEmail': function(college, email) {
@@ -34,4 +46,12 @@ Meteor.methods({
 			console.log('failed to bind env: ', err);
 		});
 	},
+
+	'userCanShare': function(){
+		return Meteor.user().secret.canShare
+	},
+
+	'userCanBorrow': function(){
+		return Meteor.user().secret.canBorrow;
+	}
 });

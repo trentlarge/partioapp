@@ -1,5 +1,23 @@
 Template.savedCards.onRendered(function() {
-	Cards.refresh();
+	if(!Meteor.user().profile.birthDate) {
+		IonPopup.show({
+			title: 'Missing information',
+			template: '<div class="center">Please, update you birth date before to add a debit card.</div>',
+			buttons:
+			[{
+				text: 'OK',
+				type: 'button-energized',
+				onTap: function() {
+					IonPopup.close();
+					Router.go('/profile');
+					return false;
+				}
+			}]
+		});
+		return false;
+	} else {
+		Cards.refresh();
+	}
 });
 
 Template.savedCards.getStripeCustomer = function(done){

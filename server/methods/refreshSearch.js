@@ -1,17 +1,15 @@
 refreshSearch = function(userId, product){
-		var ownerData = Meteor.users.findOne(userId);
-		var existingSearch = Search.findOne({title: product.title })
-		var qty_products = Search.findOne({_id: product.searchId })
+	var ownerData = Meteor.users.findOne(userId);
+	var existingSearch = Search.findOne({title: product.title })
 
+	var currentSearchId = null;
 
-		var currentSearchId = null;
+	if(product.searchId){
+		currentSearchId = product.searchId;
+	}
 
-		if(product.searchId){
-			currentSearchId = product.searchId;
-		}
-
-		//there is some search with this title
-		if (existingSearch) {
+	//there is some search with this title
+	if (existingSearch) {
 
 			console.log('existe search');
 			updateAuthors(product.searchId);
@@ -39,28 +37,22 @@ refreshSearch = function(userId, product){
 			}
 
 			console.log('##############');
-			console.log(qty_products);
+			console.log(existingSearch);
 			//updateAuthors(product.searchId);
-			var products = Products.find({ searchId: qty_products._id }).fetch();
+			var products = Products.find({ searchId: existingSearch._id }).fetch();
 
 			console.log('##############'+products.length);
-
 			console.log('QUANTIDADE DE PRODUTOS: '+products.length);
 
 			if(products.length === 0){
-
-				Search.remove({_id:qty_products._id});
-				updateAuthors(qty_products._id);
+				Search.remove({_id:existingSearch._id});
+				updateAuthors(existingSearch._id);
 				console.log('############## APAGOU 2');
-
 			}
 
-
-
-	} else if(product.searchId && qty_products.qty === 1) {
+	} else if(product.searchId && existingSearch.qty === 1) {
 
 			console.log('update search');
-
 			var newSearch = {
 				image: product.image,
 				title: product.title,
@@ -68,7 +60,6 @@ refreshSearch = function(userId, product){
 				qty: 0,
 			}
 
-			//
 			// var search_id =  existingSearch._id;
 			// Products.update({ _id: product._id },
 			// 								{ $set:{ searchId: search_id  }})
@@ -84,13 +75,10 @@ refreshSearch = function(userId, product){
 			});
 
 
-			//creating a new search
-		} else {
-
+	//creating a new search
+	} else {
 
 			console.log('INSERTE NOVO SEARCH');
-
-
 
 				var newSearch = {
 					image: product.image,
@@ -103,29 +91,22 @@ refreshSearch = function(userId, product){
 				Search.insert(newSearch, function(err, docInserted){
 					var search_id =  docInserted;
 					Products.update({ _id: product._id }, { $set:{ searchId: search_id  }}, function(err, docInserted){
-
 						console.log('ATUALIZA AUTHOR '+product.searchId);
 						console.log('ATUALIZA AUTHOR '+search_id);
 
-						if(qty_products){
-							updateAuthors(qty_products._id);
+						if(existingSearch){
+							updateAuthors(existingSearch._id);
 						}
-
-
 					});
 
 					//Update Authors from this new Search.
 					updateAuthors(search_id, function(){
-
 						//If product had another searchId before, update this another searchId
 						if(currentSearchId){
 							updateAuthors(currentSearchId);
 						}
 					});
 				});
-
-
-
 			}
 
 		return true;

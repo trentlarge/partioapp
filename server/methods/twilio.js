@@ -1,16 +1,8 @@
 Meteor.methods({
 
   // TWILIO  -------------------------------------------------------------------
-  twilioVerification: function(numberFrom) {
+  twilioVerification: function() {
     console.log('Twilio >>>>> twilioVerification called -x-x-x-x-x-x-x-x-x-');
-
-    if(!numberFrom) {
-      throw new Meteor.Error("twilioVerification", "missing number");
-    }
-
-    numberFrom = numberFrom.replace(/\D/g,'');
-
-    console.log(numberFrom);
 
     var twilioAccount = (Meteor.settings.env.twilioAccount) ? Meteor.settings.env.twilioAccount : false;
     var twilioKey = (Meteor.settings.env.twilioKey) ? Meteor.settings.env.twilioKey : false;
@@ -24,15 +16,26 @@ Meteor.methods({
     var twilioAuth = twilioAccount+":"+twilioKey;
     var twilioUrl = "https://api.twilio.com/2010-04-01/Accounts/"+twilioAccount+'/';
 
+    var _user = Meteor.user();
+    var _number = _user.private.mobile;
+
+    if(!_number) {
+      throw new Meteor.Error("no_number", "Please update you phone number");
+      return false;
+    }
+
+    _number = _number.replace(/\D/g,'');
+
+    console.log(_number);
+
     var response = Async.runSync(function(done) {
       var result = HTTP.call("POST", twilioUrl+'OutgoingCallerIds.json', {
         "params": {
-          "PhoneNumber" : numberFrom
+          "PhoneNumber" : "+"+_number
         },
         "auth" : twilioAuth
       },function(error, result){
-        console.log(error);
-        console.log(result);
+        //phone already verified
         done(error, result);
       });
     });
@@ -41,19 +44,21 @@ Meteor.methods({
   },
 
 
-  callTwilio: function(numbers) {
+  callTwilio: function(from, to) {
     console.log('Twilio >>>>> callTwilio called -x-x-x-x-x-x-x-x-x-');
     console.log('###################################');
 
-    if(!numbers.to || !numbers.from) {
+    if(!from || !to) {
       throw new Meteor.Error("callTwilio", "missing numbers");
     }
 
-    var _to = numbers.to.replace(/\D/g,'');
-    var _from = numbers.from.replace(/\D/g,'');
+    var userFrom = Users.findOne(from);
+    var userTo = Users.findOne(to);
+
+    var _to = userTo.private.mobile.replace(/\D/g,'');
+    var _from = userFrom.private.mobile.replace(/\D/g,'');
 
     console.log(_to, _from);
-
     console.log('###################################');
 
     var twilioAccount = (Meteor.settings.env.twilioAccount) ? Meteor.settings.env.twilioAccount : false;
@@ -69,6 +74,8 @@ Meteor.methods({
     var twilioAuth = twilioAccount+":"+twilioKey;
     var twilioUrl = "https://api.twilio.com/2010-04-01/Accounts/"+twilioAccount+'/';
 
+    console.log(twilioXml+_to);
+
     var response = Async.runSync(function(done) {
       var result = HTTP.post(twilioUrl+'Calls.json', {
         "params": {
@@ -78,11 +85,11 @@ Meteor.methods({
         },
         "auth" : twilioAuth
       },function(error, result){
-        console.log(error);
-        console.log(result);
         done(error, result);
       });
     });
+
+    console.log('>>>>> response call twitio', response);
 
     return response.result;
   },

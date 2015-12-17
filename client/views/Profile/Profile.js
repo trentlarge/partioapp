@@ -1,8 +1,7 @@
 Template.appLayout.events({
-
-  'click #cancelProfile': function() {
-      Router.go('/');
-  },
+'click #cancelProfile': function() {
+    Router.go('/');
+},
 
   'click #saveProfile': function() {
     PartioLoad.show();
@@ -39,20 +38,6 @@ Template.profile.rendered = function() {
 }
 
 Session.setDefault('profileEdit', false);
-
-Template.profile.helpers({
-  profileEdit: function() {
-    return Session.get('profileEdit');
-  },
-  alreadyStriped: function() {
-    if (!! Meteor.user().profile.stripeAccount) {
-      return true;
-    }
-  },
-  emailSet: function() {
-    return Meteor.user().emails[0].address;
-  }
-})
 
 Template.profile.destroyed = function() {
   Session.set('profileEdit', false);
@@ -242,8 +227,8 @@ Template.settingsProfileImage.events({
     $('#browser-file-upload').click();
   }
 },
-'change #browser-file-upload': function(input) {
 
+'change #browser-file-upload': function(input) {
     console.log(input.target.files[0]);
     var FR = new FileReader();
     FR.onload = function(e) {
@@ -260,5 +245,5 @@ Template.settingsProfileImage.events({
      });
    };
    FR.readAsDataURL( input.target.files[0] );
-}
+ }
 })
