@@ -29,7 +29,7 @@
               {{#each finalizedRequests}}
                 {{#ionItem path="connect" _id=productData._id class="item-avatar-2"}}
                   <div class="product-avatar">
-                    <img class="product-avatar-inner" src="{{ getImage 'spinner-logo' }}" onLoad="this.src='{{productData.image}}';this.style.animation='none'"/>
+                    <img class="product-avatar-inner" src="{{image}}"/>
                   </div>
                   <p class="main-title-text">{{productData.title}}</p>
                   <p class="main-sub-text">
@@ -74,7 +74,7 @@
               {{#each newRequests}}
                 {{#ionItem path="connect" _id=productData._id class="item-avatar-2"}}
                   <div class="product-avatar">
-                    <img class="product-avatar-inner" src="{{ getImage 'spinner-logo' }}" onLoad="this.src='{{productData.image}}';this.style.animation='none'"/>
+                    <img class="product-avatar-inner" src="{{image}}"/>
                   </div>
                   <p class="main-title-text">{{productData.title}}</p>
                   <p class="main-sub-text">
@@ -117,7 +117,7 @@
             {{#each myProducts}}
               {{#ionItem path='inventoryDetail' _id=_id class="item-avatar-2"}}
                 <div class="product-avatar my-products">
-                  <img class="product-avatar-inner" src="{{ getImage 'spinner-logo' }}" onLoad="this.src='{{image}}';this.style.animation='none'"/>
+                  <img class="product-avatar-inner" src="{{image}}"/>
                 </div>
                 <p class="main-title-text">{{title}}</p>
                 <p class="main-sub-text">Condition: <b>{{../getCondition conditionId}}</b></p>

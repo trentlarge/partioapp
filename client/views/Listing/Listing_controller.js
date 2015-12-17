@@ -21,7 +21,17 @@ ListingController = RouteController.extend({
 	},
     
     searchProducts: function() {
-        Meteor.subscribe("productsData", Meteor.userId(), Session.get('pageNumber'), Session.get('searchText'));
+        
+        var categories = Session.get('selectedCategories');
+        if(!categories) {
+            categories = Categories.getAllCategoriesText();   
+        }
+        
+        Meteor.subscribe("productsData", 
+                         Meteor.userId(), 
+                         Session.get('pageNumber'), 
+                         Session.get('searchText'),
+                         categories );
         return Products.find();
     },
     
@@ -29,23 +39,6 @@ ListingController = RouteController.extend({
         
 		return {
             searchProducts: this.searchProducts(),
-            
-            isCategorySelected: function(category) {
-
-                var selectedCategories = Session.get('selectedCategories');
-
-                if(selectedCategories) {
-                    if(selectedCategories.indexOf(category) >= 0) {
-                        return '';
-                    }
-                    else {
-                        return 'disabled';
-                    }
-                }
-                else {
-                    return '';
-                }
-            },
 		};
 	},
 

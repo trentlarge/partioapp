@@ -7,7 +7,9 @@ Template.lend.events({
       //MANUAL INSERT BOOK ---------------------------------------------
       if (Session.get('lendTab') === 'manual') {
         var manualProduct = {
-              "title": $('.manualTitle').val(),
+              "title": $('.manualTitle').val().toLowerCase().replace(/\b[a-z]/g, function(letter) {
+                    return letter.toUpperCase();
+              }),
               "price": '--',
               'searchId': null,
               "conditionId": $('.manualCondition').val(),

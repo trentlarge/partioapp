@@ -51,15 +51,13 @@
         </div>  
           
         <div class="item">
-          {{#with requestorInfo }}
             <div class="profile-image-box">
-              <a href="/profile/items/{{ _id }}"> 
-                <div style="background: url('{{profile.avatar}}') no-repeat; background-size:cover; background-position: 50% 50%;" class="profile-avatar"></div>
-              </a>
-              <p class="main-title-text">{{profile.name}} </p>
+                <a href="/profile/items/{{ connectData.requestor }}"> 
+                    <div style="background: url('{{connectData.requestorData.profile.avatar}}') no-repeat; background-size:cover; background-position: 50% 50%;" class="profile-avatar"></div>
+                </a>
+                <p class="main-title-text">{{connectData.requestorData.profile.name}} </p>
             </div>
-          {{/with}}
-          <div class="profile-content">
+            <div class="profile-content">
                 <a class="item" href="{{pathFor 'talk' _id=connectData._id}}">
                     <i class="icon ion-chatbubbles assertive"></i>
                     CHAT

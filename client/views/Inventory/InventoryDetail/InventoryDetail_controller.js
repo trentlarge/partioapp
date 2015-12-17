@@ -33,17 +33,32 @@ InventoryDetailController = RouteController.extend({
             },
 
             isEditMode: function() {
+                
+                if(this.product) {
+                    var ConnectionObj = Connections.findOne({'productData._id': this.product._id});
+                    if(ConnectionObj){
+                        var ConnectionStatus = ConnectionObj.state;
+                        if(ConnectionStatus != "RETURNED"){                        
+                            return 'disabled';
+                        }
+                    }   
+                }
+                
                 return Session.get('editMode') ? '' : 'disabled';
             },
 
             editMode: function() {
-                var ConnectionObj = Connections.findOne({'productData._id': this.product._id});
-                if(ConnectionObj){
-                    var ConnectionStatus = ConnectionObj.state;
-                    if(ConnectionStatus != "RETURNED"){                        
-                        return false;
+                
+                if(this.product) {
+                    var ConnectionObj = Connections.findOne({'productData._id': this.product._id});
+                    if(ConnectionObj){
+                        var ConnectionStatus = ConnectionObj.state;
+                        if(ConnectionStatus != "RETURNED"){                        
+                            return false;
+                        }
                     }
                 }
+                
                 return Session.get('editMode') ? true : false;
             }
 		}

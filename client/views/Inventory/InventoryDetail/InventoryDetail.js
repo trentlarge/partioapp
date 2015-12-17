@@ -134,6 +134,7 @@ Template.inventoryDetail.events({
                   {
                     Products.remove({_id: productId});
                     IonPopup.close();
+                    Session.set('editMode', false);
                     Router.go('/inventory');
                   }
                 },

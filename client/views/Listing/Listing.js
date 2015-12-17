@@ -1,7 +1,5 @@
 Template.listing.rendered = function() {
     
-    Session.set('latestNumberItems', -1);
-    
     if(!Session.get('searchText')) {
         Session.set('searchText', '');
     }
@@ -33,33 +31,6 @@ Template.listing.destroyed = function() {
     Session.set('selectedCategories', null);
 }
 
-//Template.loadingTemplate.rendered = function() {
-//  PartioLoad.show();
-//}
-//
-//Template.loadingTemplate.destroyed = function() {
-//  PartioLoad.hide();
-//}
-//
-//var options = {
-//  keepHistory: 1000 * 60 * 5,
-//  localSearch: false
-//};
-//
-//var fields = ['title', 'category', 'authors'];
-//
-//PackageSearch = new SearchSource('packages', fields, options);
-
-Template.searchResult.rendered = function() {
-    //PackageSearch.cleanHistory();
-//    PackageSearch.search(Session.get('searchText'));
-};
-
-Template.searchResult.onRendered(function () {
-    
-});
-
-
 Template.searchResult.helpers({
     
   // show/hide "SHOW MORE" button.    
@@ -78,8 +49,6 @@ Template.searchResult.helpers({
 Template.searchResult.events({
    
     'click #showMore': function(e, template){
-        //set latest number of items.
-        Session.set('latestNumberItems', $('.package').length);
         Session.set('pageNumber', Session.get('pageNumber') + 1);
     },
     

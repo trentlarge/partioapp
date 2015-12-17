@@ -80,19 +80,12 @@
 </template>
 
 <template name="searchResult">
-<!--
-  <div id="search-meta">
-    {{#if isLoading}}
-      {{>loadingTemplate}}
-    {{/if}}
-  </div>
--->
 
-<!--  {{#if searchProducts.count}}-->
     <div id='search-result' class="list">
       {{#each searchProducts}}
-            <div class="package {{../isCategorySelected category}}">
-                {{#ionItem path='search' _id=this._id class="item-avatar-2 qty-check"}}
+            <div class="package">
+                <a href="/listing/search/{{_id}}?ownerId={{ownerId}}" class="item item-avatar-2 qty-check">
+<!--                {{#ionItem path='search' _id=this._id class="item-avatar-2 qty-check"}}-->
                     <div class="product-avatar">
                       <img class="product-avatar-inner" src="{{image}}"/>
                     </div>
@@ -117,12 +110,11 @@
                         </tbody>
                     </table>
                 
-<!--                    <span class="badge-qty-users">{{../getQtyUsers qty}}</span>-->
                     <div class="item-icon-right">
                         {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
                     </div>
-
-                {{/ionItem}}
+                </a>
+<!--                {{/ionItem}}-->
             </div>
       {{/each}}
         {{#if isFinished searchProducts.count}}
@@ -143,4 +135,3 @@
 -->
 </template>
 
-<template name="loadingTemplate"></template>

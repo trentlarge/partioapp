@@ -51,13 +51,12 @@
         </div>  
           
         <div class="item">
-          <div class="profile-image-box">
-            <a href="/profile/items/{{ connectData.owner }}"> 
-                <div style="background: url('{{connectData.productData.ownerData.profile.avatar}}') no-repeat; background-size:cover; background-position: 50% 50%;" class="profile-avatar"></div>
-            </a>
-            <p class="main-title-text">{{connectData.productData.ownerData.profile.name}} </p>
-<!--            <p class="college">{{connectData.productData.ownerData.profile.college}}</p>-->
-          </div>
+            <div class="profile-image-box">
+                <a href="/profile/items/{{ connectData.owner }}"> 
+                    <div style="background: url('{{connectData.productData.ownerData.profile.avatar}}') no-repeat; background-size:cover; background-position: 50% 50%;" class="profile-avatar"></div>
+                </a>
+                <p class="main-title-text">{{connectData.productData.ownerData.profile.name}} </p>
+            </div>
             <div class="profile-content">
                 <a class="item" href="{{pathFor 'talk' _id=connectData._id}}">
                     <i class="icon ion-chatbubbles assertive"></i>
