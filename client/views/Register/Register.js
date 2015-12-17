@@ -5,6 +5,7 @@ Template.register.rendered = function() {
       startView: 'decade',
       endDate: '-15y'
   });
+    
 }
 
 collegeEmails = {
@@ -50,6 +51,11 @@ Template.modalPrivacyPolicy.events({
 });
 
 Template.register.events({
+    
+    'change #birthDate': function(e, template) {
+        $('.datepicker').hide();
+    },
+    
 	'click #registerButton': function(e, template) {
 		e.preventDefault();
 	    var email = template.find('[name=email]').value;
