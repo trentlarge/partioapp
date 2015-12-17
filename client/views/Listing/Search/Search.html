@@ -10,9 +10,90 @@
   {{#ionView}}
     {{#ionContent class="listing-search overflow-scroll"}}
 
-    <div class="item item-divider product-header-title"><h2>{{ product.title }}</h2></div>
+<!--    <div class="item item-divider product-header-title"><h2>{{ product.title }}</h2></div>-->
 
-      <div class="list">
+    <div class="list">
+        <div class="card">
+
+            <div class="item item-divider">Product Details</div>
+
+            <div class="item item-avatar-2 qty-check">
+                <div class="product-avatar">
+                  <a id="moreInfo">
+                    <img class="product-avatar-inner" src="{{product.image}}"/>
+                  </a>
+                </div>
+                <div class="ellipsis">
+                    <p class="product-title-text">{{product.title}}</p>
+                </div>
+                <table class="rent-table">
+                    <tbody>
+                        <tr>
+                            <th class="one"><i class="icon">DAY</i></th>
+                            <th class="two"><i class="icon">WEEK</i></th>
+                            <th class="three"><i class="icon">MONTH</i></th>
+                            <th class="four"><i class="icon">SEMESTER</i></th>
+                        </tr>
+                        <tr>
+                            <td>{{product.rentPrice.day}}</td>
+                            <td>{{product.rentPrice.week}}</td>
+                            <td>{{product.rentPrice.month}}</td>
+                            <td>{{product.rentPrice.semester}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p class="condition">Condition: <b>{{ ../getCondition }}</b></p>
+            </div>
+
+        </div>
+        
+        <div class="card">
+            
+            <div class="item item-divider">Owner Details</div>
+
+            <div class="item">
+                <div class="profile-image-box">
+                    <a href="/profile/items/{{ product.ownerData._id }}" class="profile-avatar-box"> 
+                        <div style="background: url({{ product.ownerData.profile.avatar }}) no-repeat; background-size:cover; background-position: 50% 50%;" class="profile-avatar"></div>
+                    </a>
+                    <p class="main-title-text"> {{ product.ownerData.profile.name }} </p>
+                    <span class="rating-box">{{ > rating}}</span>
+               </div> 
+               <div class="profile-content">
+                   {{#if ../requestSent ownerId _id}}
+                        {{#if ../isBorrowed ownerId _id}}
+                            <button class="button button-block" disabled>
+                                <i class="fa fa-check "></i> 
+                                BORROWED 
+                            </button>
+                        {{else}}
+                            <button class="button button-block" disabled> 
+                                <i class="fa fa-check "></i> 
+                                REQUEST SENT 
+                            </button>
+                        {{/if}}
+                    {{else}}
+                        {{#if ../isNotOwner _id}}
+                            {{#if ../isUnavailable ownerId _id}}
+                                <button class="button button-block" disabled>
+                                    <i class="fa fa-ban "></i> 
+                                    UNAVAILABLE 
+                                </button>
+                            {{else}}
+                                <button id="requestProduct" class="button button-block button-energized">
+                                    <i class="fa fa-shopping-cart"></i> REQUEST 
+                                </button>
+                            {{/if}}
+                        {{/if}}
+                    {{/if}}
+               </div>      
+            </div>
+
+        </div>
+    </div>
+    
+<!--
+      <div class="list">        
 
         <div class="item">
           <div class="profile-image-box">
@@ -21,7 +102,7 @@
                 </a>
                 <p class="main-title-text"> {{ product.ownerData.profile.name }} </p>
                 <span class="rating-box">{{ > rating}}</span>
-<!--                <a id="moreInfo">MORE INFO</a>-->
+                <a id="moreInfo">MORE INFO</a>
           </div>
           <div class="profile-content">
 
@@ -92,6 +173,7 @@
         </div>
 
       </div>
+-->
     {{/ionContent}}
   {{/ionView}}
 
