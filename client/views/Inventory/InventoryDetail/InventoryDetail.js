@@ -57,9 +57,9 @@ Template.inventoryDetail.events({
   'click #editSave': function(e, template) {
 
     var dayPrice = parseFloat(template.find('.dayPrice').value, 10),
-      weekPrice = parseFloat(template.find('.weekPrice').value, 10),
-      monthPrice = parseFloat(template.find('.monthPrice').value, 10),
-      semesterPrice = parseFloat(template.find('.semesterPrice').value, 10);
+        weekPrice = parseFloat(template.find('.weekPrice').value, 10),
+        monthPrice = parseFloat(template.find('.monthPrice').value, 10),
+        semesterPrice = parseFloat(template.find('.semesterPrice').value, 10);
 
     if(dayPrice < 0.5 || weekPrice < 0.5 || monthPrice < 0.5 || semesterPrice < 0.5){
       showInvalidPopUp('Invalid Inputs', 'Please enter a valid price.');
@@ -69,6 +69,19 @@ Template.inventoryDetail.events({
     if(dayPrice > 100000 || weekPrice > 100000 || monthPrice > 100000|| semesterPrice > 100000){
       showInvalidPopUp('Invalid Inputs', 'Please enter a Price less than 100000.');
       return false;
+    }
+      
+    var conditionId = template.find('.condition').value;
+    var title = template.find('.title').value;
+    
+    if(title.length == 0) {
+        showInvalidPopUp('Invalid Inputs', 'Please enter a Title');
+        return false;
+    }
+      
+    if(conditionId == 0) {
+        showInvalidPopUp('Invalid Inputs', 'Please enter a Condition');
+        return false;
     }
 
     var editedPrices = {
@@ -83,10 +96,7 @@ Template.inventoryDetail.events({
     template.find('.monthPrice').value = editedPrices.month;
     template.find('.semesterPrice').value = editedPrices.semester;
 
-    var edited = template.find('.semesterPrice').value;
-    var title = template.find('.title').value;
-
-    Meteor.call("updateProductData", this.product._id, title, edited, editedPrices, function(err, res) {
+    Meteor.call("updateProductData", this.product._id, title, conditionId, editedPrices, function(err, res) {
       if(err) {
         var errorMessage = err.reason || err.message;
         if(err.details) {

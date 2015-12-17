@@ -53,8 +53,6 @@
     .features-details {
         border-top: 0;
         border-bottom: 0;
-        -webkit-animation: fadeIn 0.5s;
-        animation: fadeIn 0.5s;
     }
     
     .attributes {
@@ -73,6 +71,9 @@
         
         padding: 5px;
         display: flex;
+        display: -webkit-flex;
+        align-items: center;
+        -webkit-align-items: center;
              
         i {
             color: #fff;

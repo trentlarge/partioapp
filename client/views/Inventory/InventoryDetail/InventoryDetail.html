@@ -18,52 +18,62 @@
              <div class="item-image-box">
                 <img class="product-image" src="{{product.image}}"/>
              </div>
-             <div class="details-box">
-                <i class="icon {{getCategoryIcon product.category}} bk-energized"></i>
-                <span>{{product.amazonCategory}}</span>
-               
-                <i class="icon ion-cash bk-energized"></i>
-                <span>{{product.price}}</span>
-             </div>
           </div>
          
           <label class="item item-input">
              <input type="text" value="{{product.title}}" class="title" style="text-align:center;border:0" {{../isEditMode}}>
           </label>
 
-          <div class="item item-divider features">
-            <h2>Features <i class="chevron-icon icon ion-chevron-up"></i></h2>
-          </div>
-
-          <div class="row features-details" style="display: none;">
-            <div class="col col-25">
-              {{#each product.attributes}}
-                <p>{{key}}</p>
-              {{/each}}
-            </div>
-            <div class="col col-75 scan-result">
-              {{#each product.attributes}}
-                <p>{{value}}</p>
-              {{/each}}
-            </div>
-          </div>
-
-          <div class="item item-divider">
-            <h2>Rent Price</h2>
-          </div>
-
-<!--
+          
           <label class="item item-input item-select">
                 <div class="input-label">
                   <p>Condition:</p>
                 </div>
-                <select class="manualCondition">
-                    {{#each getConditions}}
-                        <option value="{{index}}">{{value}}</option>
+                <select class="condition" {{../isEditMode}}>
+                    {{#each ../getConditions}}
+                        <option value="{{index}}" {{../selectCondition index}}>{{value}}</option>
                     {{/each}}
                 </select>
-            </label>
--->
+         </label>
+
+           
+          <div class="item item-divider features">
+            <h2>Features <i class="chevron-icon icon ion-chevron-up"></i></h2>
+          </div>
+
+          <div class="features-details" style="display: none">
+                <div class="item no-padding row-details">
+                    <div class="col col-50">
+                        <div class="details-box">
+                            <i class="icon {{getCategoryIcon}} bk-energized"></i>
+                            <span class="detail">{{product.amazonCategory}}</span>
+                        </div>
+                    </div>
+                    <div class="col col-50">
+                        <div class="details-box">
+                            <i class="icon ion-cash bk-energized"></i>
+                            <span class="detail">{{product.price}}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row item attributes">
+                    <div class="col col-33">
+                        {{#each product.attributes}}
+                            <p>{{key}}</p>
+                        {{/each}}
+                    </div>
+                    <div class="col col-67 scan-result">
+                        {{#each product.attributes}}
+                            <p>{{value}}</p>
+                        {{/each}}
+                    </div>
+                </div>
+            </div>
+           
+          <div class="item item-divider">
+            <h2>Rent Price</h2>
+          </div>
             
         <label class="item item-input">
             <span class="input-label"><p>Day:</p></span>
