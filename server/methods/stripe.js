@@ -361,13 +361,13 @@ Meteor.methods({
               Connections.update({_id: connect._id}, {$set: {state: "IN USE", payment: charge}});
 
               var payerTrans = {
-                date: charge.created,
+                date: charge.created * 1000,
                 productName: connect.productData.title,
                 paidAmount: charge.amount/100
               }
 
               var recipientTrans = {
-                date: charge.created,
+                date: charge.created * 1000,
                 productName: connect.productData.title,
                 receivedAmount: charge.amount/100
               }
