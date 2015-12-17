@@ -1,11 +1,11 @@
 .manual-entry {
-     -webkit-transition: all 0s ease;                  
-    -moz-transition: all 0s ease;                 
-    -o-transition: all 0s ease;   
-    -ms-transition: all 0s ease;          
-    transition: all 0s ease;
+    
     padding-bottom: 50px;
-//    background-color: #ffffff;
+
+    .manualTitle {
+        text-transform: capitalize;
+    }
+    
     .input-label{
         font-size: 13px;
         color: #AAA;

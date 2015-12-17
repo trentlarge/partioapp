@@ -58,6 +58,17 @@ app.model.Categories = (function () {
              return this.category[index].icon;
         },
        
+        //get all categories text
+        getAllCategoriesText : function() {
+            
+            var categories = [];
+            $.each(this.category, function(index, category) {
+               categories.push(category.text); 
+            });
+            
+            return categories;
+        },
+       
         //get category icon by text
         getCategoryIconByText : function(categoryText) {
             

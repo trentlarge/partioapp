@@ -14,7 +14,9 @@ Template.productDetail.events({
 });
 
 Template.productDetail.helpers({
-  getCategoryIcon: function(category) {
-    return Categories.getCategoryIconByText(category);
-  }
+    
+    getCategoryIcon: function() {
+        return Categories.getCategoryIconByText(this.category);
+    },
+    
 })

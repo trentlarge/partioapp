@@ -44,7 +44,7 @@
             {{#each toBeApproved}}
               {{#ionItem path='connectRent' _id=this._id class="item-avatar-2"}}
                 <div class="product-avatar">
-                    <img class="product-avatar-inner" src="{{ getImage 'spinner-logo' }}" onLoad="this.src='{{productData.image}}';this.style.animation='none'"/>
+                    <img class="product-avatar-inner" src="{{productData.image}}"/>
                 </div>
                 <p class="main-title-text">{{productData.title}}</p>
                 <p class="main-sub-text">
@@ -85,7 +85,7 @@
             {{#each toBePaid}}
               {{#ionItem path='connectRent' _id=this._id class="item-avatar-2"}}
                 <div class="product-avatar">
-                    <img class="product-avatar-inner" src="{{ getImage 'spinner-logo' }}" onLoad="this.src='{{productData.image}}';this.style.animation='none'"/>
+                    <img class="product-avatar-inner" src="{{productData.image}}"/>
                 </div>
                 <p class="main-title-text">{{productData.title}}</p>
                 <p class="main-sub-text">
@@ -127,7 +127,7 @@
             <!-- <div class="borrowedBookDetail"> -->
               {{#ionItem path="connectRent" class="item-avatar-2"}}
                 <div class="product-avatar">
-                    <img class="product-avatar-inner" src="{{ getImage 'spinner-logo' }}" onLoad="this.src='{{productData.image}}';this.style.animation='none'"/>
+                    <img class="product-avatar-inner" src="{{productData.image}}"/>
                 </div>
                 <p class="main-title-text">{{productData.title}}</p>
                 <p class="main-sub-text">
@@ -169,7 +169,7 @@
             {{#each isReturned}}
               {{#ionItem path="connectRent" class="item-avatar-2"}}
                 <div class="product-avatar">
-                    <img class="product-avatar-inner" src="{{ getImage 'spinner-logo' }}" onLoad="this.src='{{productData.image}}';this.style.animation='none'"/>
+                    <img class="product-avatar-inner" src="{{productData.image}}"/>
                 </div>
                 <p class="main-title-text">{{productData.title}}</p>
                 <p class="main-sub-text">

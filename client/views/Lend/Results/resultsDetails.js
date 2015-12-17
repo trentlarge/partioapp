@@ -133,6 +133,18 @@ Template.resultsDetails.helpers({
 
 Template.resultsDetails.events({
 
+    'focus input': function() {
+        $('.results-details-content').css({
+            'padding-bottom': '200px'
+        });
+    },
+
+    'focusout input': function() {
+        $('.results-details-content').css({
+            'padding-bottom': '0'
+        });
+    },    
+    
     'click .features': function(e, template) {
 
       var features = $('.features');

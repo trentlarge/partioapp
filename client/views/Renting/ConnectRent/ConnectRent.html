@@ -14,14 +14,14 @@
         <div class="item item-divider product-details"><h2>Product Details <i class="chevron-icon icon ion-chevron-up"></i></h2></div>
 
         <div class="item product-details-item">
-          <div class="product-image-box">
-              <img class="connect-thumbnail" src="{{connectData.productData.image}}">
-          </div>
           <div class="product-content">
               <p class="product-title">{{connectData.productData.title}}</p>
               <p><i class="icon {{../getCategoryIcon}}"></i> {{connectData.productData.amazonCategory}}</p>
               <p><i class="icon ion-cash"></i> {{connectData.productData.price}}</p>
               <p><i class="icon ion-clipboard"></i> {{../getCondition}}</p>
+          </div>
+          <div class="product-image-box">
+              <img class="connect-thumbnail" src="{{connectData.productData.image}}">
           </div>
         </div>
 
@@ -51,13 +51,12 @@
         </div>  
           
         <div class="item">
-          <div class="profile-image-box">
-            <a href="/profile/items/{{ connectData.owner }}"> 
-                <div style="background: url('{{connectData.productData.ownerData.profile.avatar}}') no-repeat; background-size:cover; background-position: 50% 50%;" class="profile-avatar"></div>
-            </a>
-            <p class="main-title-text">{{connectData.productData.ownerData.profile.name}} </p>
-<!--            <p class="college">{{connectData.productData.ownerData.profile.college}}</p>-->
-          </div>
+            <div class="profile-image-box">
+                <a href="/profile/items/{{ connectData.owner }}"> 
+                    <div style="background: url('{{connectData.productData.ownerData.profile.avatar}}') no-repeat; background-size:cover; background-position: 50% 50%;" class="profile-avatar"></div>
+                </a>
+                <p class="main-title-text">{{connectData.productData.ownerData.profile.name}} </p>
+            </div>
             <div class="profile-content">
                 <a class="item" href="{{pathFor 'talk' _id=connectData._id}}">
                     <i class="icon ion-chatbubbles assertive"></i>

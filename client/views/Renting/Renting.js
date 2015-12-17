@@ -1,15 +1,7 @@
-Template.renting.rendered = function() {
-    Session.set('isTapping', false);
-}
-
-Template.renting.helpers({
-
-});
 
 Template.renting.events({
-	'click .borrowedBookDetail': function() {
-		Router.go('/listing/'+this.data.product._id);
-	},
+
+    
   'click .waiting': function() {
       var waiting = $('.waiting');
       var waitingItem = $('.waiting-item');

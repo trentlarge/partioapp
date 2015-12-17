@@ -105,7 +105,7 @@
     }
 
     table.rent-table {     
-        width: 70%;
+        width: 90%;
         max-width: 300px;
         font-size: 10px;
         margin-left: 5px;
@@ -147,6 +147,21 @@
 //            &.four { 
 //                border-bottom: 3px solid #EF6C00; 
 //            }
+        }
+        
+    }
+    
+    a#showMore {
+        
+        color: #df5707;
+        text-decoration: none;
+        
+        &:hover {
+            opacity: .7;
+        }
+        
+        &.activated {
+            opacity: .8;
         }
         
     }
