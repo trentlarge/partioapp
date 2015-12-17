@@ -29,11 +29,11 @@
               {{#each finalizedRequests}}
                 {{#ionItem path="connect" _id=productData._id class="item-avatar-2"}}
                   <div class="product-avatar">
-                    <img class="product-avatar-inner" src="{{ getImage 'spinner-logo' }}" onLoad="this.src='{{productData.image}}';this.style.animation='none'"/>
+                    <img class="product-avatar-inner" src="{{image}}"/>
                   </div>
                   <p class="main-title-text">{{productData.title}}</p>
                   <p class="main-sub-text">
-                      Condition of the item: <b>{{../getCondition productData.conditionId}}</b>
+                      Condition <b>{{../getCondition productData.conditionId}}</b>
                   </p>
                   <p class="main-sub-text">
                     <i class="icon ion-ios-calendar-outline"></i>
@@ -74,11 +74,11 @@
               {{#each newRequests}}
                 {{#ionItem path="connect" _id=productData._id class="item-avatar-2"}}
                   <div class="product-avatar">
-                    <img class="product-avatar-inner" src="{{ getImage 'spinner-logo' }}" onLoad="this.src='{{productData.image}}';this.style.animation='none'"/>
+                    <img class="product-avatar-inner" src="{{image}}"/>
                   </div>
                   <p class="main-title-text">{{productData.title}}</p>
                   <p class="main-sub-text">
-                      Condition of the item: <b>{{../getCondition productData.conditionId}}</b>
+                      Condition: <b>{{../getCondition productData.conditionId}}</b>
                   </p>
                   <p class="main-sub-text">
                     <i class="icon ion-ios-calendar-outline"></i>
@@ -116,30 +116,28 @@
         <div class="product-item">
             {{#each myProducts}}
               {{#ionItem path='inventoryDetail' _id=_id class="item-avatar-2"}}
-                <div class="product-avatar">
-                  <img class="product-avatar-inner" src="{{ getImage 'spinner-logo' }}" onLoad="this.src='{{image}}';this.style.animation='none'"/>
+                <div class="product-avatar my-products">
+                  <img class="product-avatar-inner" src="{{image}}"/>
                 </div>
                 <p class="main-title-text">{{title}}</p>
-                <p class="main-sub-text">Condition of the item: <b>{{../getCondition conditionId}}</b></p>
-                <p class="main-sub-text">Rent Price:</p>
+                <p class="main-sub-text">Condition: <b>{{../getCondition conditionId}}</b></p>
                 <p class="main-sub-text">
                   <table class="rent-table">
                     <tbody>
-                      <tr>
-                        <th class="one"><i class="icon">D</i></th>
-                        <th class="two"><i class="icon">W</i></th>
-                        <th class="three"><i class="icon">M</i></th>
-                        <th class="four"><i class="icon">S</i></th>
-                      </tr>
-                      <tr>
-
-                        <td>${{rentPrice.day}}</td>
-                        <td>${{rentPrice.week}}</td>
-                        <td>${{rentPrice.month}}</td>
-                        <td>${{rentPrice.semester}}</td>
-                      </tr>
+                        <tr>
+                            <th class="one"><i class="icon">DAY</i></th>
+                            <th class="two"><i class="icon">WEEK</i></th>
+                            <th class="three"><i class="icon">MONTH</i></th>
+                            <th class="four"><i class="icon">SEMESTER</i></th>
+                        </tr>
+                        <tr>
+                            <td>{{rentPrice.day}}</td>
+                            <td>{{rentPrice.week}}</td>
+                            <td>{{rentPrice.month}}</td>
+                            <td>{{rentPrice.semester}}</td>
+                        </tr>
                     </tbody>
-                  </table>
+                </table>
                 </p>
                 <div class="item-icon-right">
                 {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}

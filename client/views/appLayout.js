@@ -8,10 +8,6 @@ UI.registerHelper('getImage', function(image){
 });
 
 Template.appLayout.events({
-	'click #editCurrent': function() {
-		Session.set('editMode', true);
-	},
-
 	'click .backFromEdit': function() {
 		Session.set('editMode', false);
 	},

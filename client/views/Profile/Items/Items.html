@@ -37,30 +37,28 @@
           <div class="product-item">
 
             {{#each items}}
-            <a class="item item-avatar-2" href="/listing/search/{{searchId}}">
+            <a class="item item-avatar-2" href="/listing/search/{{_id}}?ownerId={{ownerId}}">
 
-                <div class="product-avatar">
-                  <img class="product-avatar-inner" src="{{ getImage 'spinner-logo' }}" onLoad="this.src='{{image}}';this.style.animation='none'"/>
+                <div class="product-avatar my-products">
+                  <img class="product-avatar-inner" src="{{image}}"/>
                 </div>
                 <p class="main-title-text">{{title}}</p>
-                <p class="main-sub-text">Condition of the item: <b>{{../getCondition conditionId}}</b></p>
-                <p class="main-sub-text">Rent Price:</p>
+                <p class="main-sub-text">Condition: <b>{{../getCondition conditionId}}</b></p>
                 <p class="main-sub-text">
                   <table class="rent-table">
                     <tbody>
-                      <tr>
-                        <th class="one"><i class="icon">D</i></th>
-                        <th class="two"><i class="icon">W</i></th>
-                        <th class="three"><i class="icon">M</i></th>
-                        <th class="four"><i class="icon">S</i></th>
-                      </tr>
-                      <tr>
-
-                        <td>${{rentPrice.day}}</td>
-                        <td>${{rentPrice.week}}</td>
-                        <td>${{rentPrice.month}}</td>
-                        <td>${{rentPrice.semester}}</td>
-                      </tr>
+                        <tr>
+                            <th class="one"><i class="icon">DAY</i></th>
+                            <th class="two"><i class="icon">WEEK</i></th>
+                            <th class="three"><i class="icon">MONTH</i></th>
+                            <th class="four"><i class="icon">SEMESTER</i></th>
+                        </tr>
+                        <tr>
+                            <td>{{rentPrice.day}}</td>
+                            <td>{{rentPrice.week}}</td>
+                            <td>{{rentPrice.month}}</td>
+                            <td>{{rentPrice.semester}}</td>
+                        </tr>
                     </tbody>
                   </table>
                 </p>

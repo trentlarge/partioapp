@@ -3,95 +3,62 @@
     padding-bottom: 100px;
     color: #272727;
     
-    .item-image-box {
-        padding: 0;
-    }
-    
-    .item-divider {
-        padding-top: 10px;
-        padding-bottom: 10px;
-    }
-    
-    .item-table {
-        padding: 5px;
-    }
-    
-    table.rent-table {
-        width: 100%;
+    .item.image {
         
-        input {
-            width: 100%;
-        }
+        display: flex;
+        display: -webkit-flex;
+        justify-content: center;
+        -webkit-justify-content: center;
+        align-items: center;
+        -webkit-align-items: center;
         
-        th, td {
-            text-align: center;
-            width: 25%;
-            padding: 4px;
-            border: 1px solid #ffffff;
-        }
-        
-        td {
-            font-size: 14px;
-        }
-        
-        th {
-            color: #ffffff;
-            font-size: 14px;
-            -webkit-box-shadow: inset 0px -10px 0px 0px rgba(255,255,255,0.1);
-            -moz-box-shadow: inset 0px -10px 0px 0px rgba(255,255,255,0.1);
-            box-shadow: inset 0px -10px 0px 0px rgba(255,255,255,0.1);
-            opacity: .8;
+        .item-image-box {
+            padding: 0;
+            display: inline-flex;
+            display: -webkit-inline-flex;
+            flex-direction: column;
+            -webkit-flex-direction: column;
+            justify-content: center;
+            -webkit-justify-content: center;
             
-            &.one { background-color: #FF9800 }
-            &.two { background-color: #FB8C00 }
-            &.three { background-color: #F57C00 }
-            &.four { background-color: #EF6C00 }
-            
-//            &:nth-child(odd) {
-//                background-color: #f0970d; 
-//            }
-//
-//            &:nth-child(even) {
-//                background-color: #df5707; 
-//            }
-            
-            &:first-child {
-                border-top-left-radius: 5px;
-            }
-            
-            &:last-child {
-                border-top-right-radius: 5px;
-            }
+                .product-image {
+                    max-width: 120px;
+                    max-height: 200px;
+                }
         
         }
+    
+    }
+    
+    .row-details {
+        display: flex;
+
+        .col {
+            padding: 0;
+        }   
+    }
+
+    .features-details {
+        border-top: 0;
+        border-bottom: 0;
+    }
+    
+    .attributes {
+        border: 0;
         
-    }
-    
-    .product-image {
-        margin-top: 10px;
-        max-height: 200px;
-    }
-    
-    .product-title {
-        display: block;
-        white-space: normal;
-        font-size: 15px;
-        margin-top: 10px;
-        padding: 10px;
-        background-color: #EEEEEE;
-        border-top: 1px solid #E0E0E0;
+        p {
+            height: 18px;
+        }
     }
     
     .details-box {
-        
+
         padding: 5px;
         display: flex;
         display: -webkit-flex;
         align-items: center;
         -webkit-align-items: center;
-        background-color: #FAFAFA;
-        border-bottom: 1px solid #E0E0E0;
-             
+
         i {
             color: #fff;
             border-radius: 2px;
@@ -105,20 +72,61 @@
             -moz-box-shadow: inset 0px -20px 0px 0px rgba(255,255,255,0.1);
             box-shadow: inset 0px -20px 0px 0px rgba(255,255,255,0.1);
         }
-        
+
         .bk-energized { background-color: #f0970d; }
         .bk-assertive { background-color: #df5707; }
-        
+
         .detail {
+            font-size: 14px;
             padding: 10px;
             width: 100%;
             height: 100%;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
-//            border-bottom: 1px solid #eeeeee;
+        }
+
+    }
+    
+    .item-divider {
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+    
+    .item-table {
+        padding: 5px;
+    }
+    
+    .item.item-input {
+        
+        .input-label {
+            min-width: 120px;
         }
         
+        input.price {
+            padding-right: 16px;
+        }
+    }
+    
+    input, select {
+        
+        color: #272727;
+        
+        &:disabled {
+            background-color: #ffffff;
+            opacity: .6;
+        }
+        
+    }
+    
+    .product-title {
+        display: block;
+        white-space: normal;
+        font-size: 15px;
+        margin-top: 10px;
+        padding: 10px;
+        background-color: #EEEEEE;
+        border-top: 1px solid #E0E0E0;
     }
     
     .subtitle-box {
@@ -133,11 +141,6 @@
         i {
             float: right;
         }
-    }
-    
-    .features-details {
-        padding: 16px;
-        margin-left: 0;
     }
     
     textarea {
@@ -155,12 +158,5 @@
         }
     }
     
-    .row-details {
-        display: flex;
-        
-        .col {
-            padding: 0;
-        }   
-    }
     
 }

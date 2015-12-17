@@ -33,24 +33,47 @@ Template.searchHeader.events({
         
     },
     
-    'keyup .search-header-input': function(e, template) {
+    'keypress .search-header-input': function(e, template) {
+
+        var text = $(e.target).val();
         
-        var words = $(e.target).val().trim().split(' ');
-        $.each(words, function(index, word) {
+        if (e.charCode == 13 || e.keyCode == 13) {
             
-            PackageSearch.search(word);    
+            PartioLoad.show();
             
-            if(word.length >= 1) {
-                Session.set('isTapping', true);
-            } 
-            else {
-                if(words.length === 1) {
-                    Session.set('isTapping', false);
-                } 
+            //reset sessions
+            Session.set("pageNumber", 1);
+            
+            if(!Session.get('listing')) {
+                Router.go('/listing');
             }
             
-        });           
-    }
+            //set text
+            Session.set('searchText', text);
+            
+            PartioLoad.hide();
+            
+        }
+    },
+    
+//    'keyup .search-header-input': function(e, template) {
+//        
+//        var words = $(e.target).val().trim().split(' ');
+//        $.each(words, function(index, word) {
+//            
+//            PackageSearch.search(word);    
+//            
+//            if(word.length >= 1) {
+//                Session.set('isTapping', true);
+//            } 
+//            else {
+//                if(words.length === 1) {
+//                    Session.set('isTapping', false);
+//                } 
+//            }
+//            
+//        });           
+//    }
     
 });
 
