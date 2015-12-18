@@ -1,7 +1,9 @@
 Router.configure({
+	trackPageView: true,
 	layoutTemplate: 'appLayout',
 	routeControllerNameConverter: "upperCamelCase",
 	loadingTemplate: 'loadingData',
+
     // progressSpinner : false,
     // progressTick : false,
 });
@@ -13,8 +15,7 @@ Router.configure({
 // Temporary solution: subscribe to all data before we setup controllers
 //
 Router.waitOn(function () {
-	Meteor.subscribe("myConnectionsOwner", this.userId);
-	Meteor.subscribe("myConnectionsRequestor", this.userId);
+	Meteor.subscribe("myConnections");
 	Meteor.subscribe("myNotificationsReceived");
 	Meteor.subscribe("userData");
 	//Meteor.subscribe("products");
@@ -39,7 +40,7 @@ Router.route('/', { name: 'main', controller: 'MainController'});
 Router.route('/verify-email/:token', {name: 'emailverification', controller: 'EmailVerificationController'});
 Router.route('/reset-password/:token', {name: 'resetpassword', controller: 'ResetPasswordController'});
 Router.route('/login', { name: 'login', controller: 'LoginController'});
-Router.route('/register', {name: 'register', controller: 'RegisterController'});
+Router.route('/register', {name: 'register', trackPageView: true, controller: 'RegisterController'});
 Router.route('/lend', { name: 'lend', controller: 'LendController' });
 Router.route('/lend/details', { name: 'resultsDetails', controller: 'resultsDetailsController' });
 Router.route('/inventory', { name: 'inventory', controller: 'InventoryController'});
@@ -49,7 +50,7 @@ Router.route('/renting', {name: 'renting', controller: 'RentingController'});
 Router.route('/renting/connect/:_id', { name: 'connectRent', controller: 'ConnectRentController' });
 Router.route('/talk/:_id', { name: 'talk', controller: 'TalkController' });
 Router.route('/categories', { name: 'categories', controller: 'CategoriesController' });
-Router.route('/listing', { name: 'listing', controller: 'ListingController'});
+Router.route('/listing', { name: 'listing', trackPageView: true, controller: 'ListingController'});
 Router.route('/listing/search/:_id', { name: 'search', controller: 'SearchController' });
 Router.route('/listing/search/request/:_id', { name: 'requestRent', controller: 'RequestRentController' });
 Router.route('/transactions', { name: 'transactions', controller: 'TransactionsController' });

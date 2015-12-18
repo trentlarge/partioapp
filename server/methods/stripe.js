@@ -372,8 +372,8 @@ Meteor.methods({
                 receivedAmount: charge.amount/100
               }
 
-              Transactions.update({_id: requestor.secret.transactionsId }, {$push: {spending: payerTrans}});
-              Transactions.update({_id: owner.secret.transactionsId }, {$push: {earning: recipientTrans}});
+              Transactions.update({'userId': connect.requestor }, {$push: {spending: payerTrans}});
+              Transactions.update({'userId': connect.owner }, {$push: {earning: recipientTrans}});
 
               var message = 'You received a payment of $' + amount + ' from ' + requestor.profile.name
               sendPush(owner._id, message);
