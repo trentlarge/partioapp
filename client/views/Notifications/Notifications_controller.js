@@ -12,7 +12,7 @@ NotificationsController = RouteController.extend({
 	waitOn: function() {
 		return [
 			// subscribe to data here
-			//Meteor.subscribe("myNotifications", Meteor.userId()),
+			//Meteor.subscribe("myNotificationsReceived", Meteor.userId()),
 			// ...
 		];
 	},

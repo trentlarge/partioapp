@@ -13,8 +13,7 @@ Router.configure({
 // Temporary solution: subscribe to all data before we setup controllers
 //
 Router.waitOn(function () {
-	Meteor.subscribe("myConnectionsOwner", this.userId);
-	Meteor.subscribe("myConnectionsRequestor", this.userId);
+	Meteor.subscribe("myConnections");
 	Meteor.subscribe("myNotificationsReceived");
 	Meteor.subscribe("userData");
 	//Meteor.subscribe("products");
