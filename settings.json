@@ -22,6 +22,20 @@
         "email",
         "user_friends"
       ]
-    }
+    },
+    "ga": {
+                "id": "UA-71560916-1",
+                "create": {
+                    "cookieDomain": "partioapp.com",
+                    "cookieName": "partioCookie",
+                    "cookieExpires": 3600
+                },
+                "set": {
+                    "forceSSL": true,
+                    "anonymizeIp": true
+                },
+                "trackUserId": true
+            }
+
   }
 }
