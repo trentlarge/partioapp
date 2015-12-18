@@ -19,17 +19,6 @@ Meteor.methods({
 		});
 	},
 
-	'createTransactions': function(){
-	  console.log(' >>>>> creating new transactionsId')
-	  //Creating Transactions Id
-	  var userTransId = Transactions.insert({
-	    earning: [],
-	    spending: []
-	  });
-
-	  Meteor.users.update({"_id": Meteor.userId()}, {$set: {"secret.transactionsId": userTransId}});
-	},
-
 	'updateOfficialEmail': function(college, email) {
 		Meteor.users.update({"_id": this.userId}, {$set: {"emails": [{"address": email, "verified": false}], "profile.college": college}}, function(error) {
 			if (!error) {

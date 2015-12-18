@@ -20,28 +20,25 @@ TransactionsController = RouteController.extend({
 
 	data: function() {
 		return {
-			transaction: function(){
-				var transaction = Transactions.find().fetch();
-				return transaction[0];
-			},
+			transaction: Transactions.findOne({"userId": Meteor.userId()}),
 
 			spendingClicked: function() {
 				return Session.get('spendClicked');
 			},
 
 			earning: function() {
-				console.log(this.transaction());
-				if(!this.transaction()) {
+				console.log(this.transaction);
+				if(!this.transaction) {
 					return 0;
 				}
 
-				return this.transaction().earning;
+				return this.transaction.earning;
 			},
 
 			totalEarning: function() {
-				if(this.transaction()) {
+				if(this.transaction) {
 					var total = 0;
-					var earningArray = this.transaction().earning;
+					var earningArray = this.transaction.earning;
 					earningArray.forEach(function(item) {
 						total += (item.receivedAmount || 0);
 					});
@@ -51,24 +48,24 @@ TransactionsController = RouteController.extend({
 			},
 
 			earningAvailable: function() {
-				if(this.transaction()) {
-					return this.transaction().earning.length;
+				if(this.transaction) {
+					return this.transaction.earning.length;
 				}
 				return 0;
 			},
 
 			spending: function() {
-				if(!this.transaction()) {
+				if(!this.transaction) {
 					return 0;
 				}
 
-				return this.transaction().spending;
+				return this.transaction.spending;
 			},
 
 			totalSpending: function() {
-				if(this.transaction()) {
+				if(this.transaction) {
 					var total = 0;
-					var spendingArray = this.transaction().spending;
+					var spendingArray = this.transaction.spending;
 					spendingArray.forEach(function(item) {
 						total += (item.paidAmount || 0);
 					});
@@ -78,8 +75,8 @@ TransactionsController = RouteController.extend({
 			},
 
 			spendingAvailable: function() {
-				if(this.transaction()) {
-					return this.transaction().spending.length;
+				if(this.transaction) {
+					return this.transaction.spending.length;
 				}
 				return 0;
 			},
