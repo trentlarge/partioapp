@@ -29,7 +29,7 @@
               {{#each finalizedRequests}}
                 {{#ionItem path="connect" _id=productData._id class="item-avatar-2"}}
                   <div class="product-avatar">
-                    <img class="product-avatar-inner" src="{{image}}"/>
+                    <img class="product-avatar-inner" src="{{productData.image}}"/>
                   </div>
                   <p class="main-title-text">{{productData.title}}</p>
                   <p class="main-sub-text">
@@ -74,7 +74,7 @@
               {{#each newRequests}}
                 {{#ionItem path="connect" _id=productData._id class="item-avatar-2"}}
                   <div class="product-avatar">
-                    <img class="product-avatar-inner" src="{{image}}"/>
+                    <img class="product-avatar-inner" src="{{productData.image}}"/>
                   </div>
                   <p class="main-title-text">{{productData.title}}</p>
                   <p class="main-sub-text">
