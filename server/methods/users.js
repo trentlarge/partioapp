@@ -36,6 +36,31 @@ Meteor.methods({
 		});
 	},
 
+	'sendEmail': function (subject, text) {
+	    check([subject, text], [String]);
+
+
+			var _user = Meteor.user();
+
+	    // Let other method calls from the same client start running,
+	    // without waiting for the email sending to complete.
+	    this.unblock();
+
+			console.log('SEND FORM CONTACT');
+
+
+			text+= '\n\n';
+			text+= 'Name: '+_user.profile.name;
+			text+= '\n';
+			text+= 'From: '+_user.emails[0].address;
+
+	    Email.send({
+	      to: 'support@partioapp.com',
+	      from: 'support@partioapp.com',
+	      subject: subject,
+	      text: text
+	    });
+	},
 	'userCanShare': function(){
 		return Meteor.user().secret.canShare
 	},
