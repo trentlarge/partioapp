@@ -1,5 +1,5 @@
 Template.manual.rendered = function() {
-    
+
     var itemNotFound = Session.get('itemNotFound');
     if(itemNotFound) {
         Session.set('photoTaken', itemNotFound.image);
@@ -8,22 +8,23 @@ Template.manual.rendered = function() {
         Session.set('dayPrice', itemNotFound.price.day);
         Session.set('weekPrice', itemNotFound.price.week);
         Session.set('monthPrice', itemNotFound.price.month);
-        Session.set('semesterPrice', itemNotFound.price.semester); 
+        Session.set('semesterPrice', itemNotFound.price.semester);
     }
     else {
         Session.set('manualTitle', null);
         Session.set('dayPrice', null);
         Session.set('weekPrice', null);
         Session.set('monthPrice', null);
-        Session.set('semesterPrice', null); 
-    }  
-    
+        Session.set('semesterPrice', null);
+        Session.set('photoTaken', null);
+    }
+
     Session.set('scanResult', null);
     Session.set('allResults', null);
 
     $('.darken-element').css({'opacity': '1'});
     $('.view').css({'background': '#eceff1'});
-    
+
     $('.search-share-header-input').removeClass('has-text');
 //    $('.search-share-header-input').focus();
 }
@@ -40,13 +41,13 @@ Template.manual.helpers({
     return Session.get('photoTaken');
   },
   getCategories: function() {
-    return Categories.getCategories();  
+    return Categories.getCategories();
   },
   selectedCategory: function(category) {
       return (category === Session.get('selectedCategory')) ? 'selected' : '';
   },
   getConditions: function() {
-    return Rating.getConditions();  
+    return Rating.getConditions();
   },
   waitingForPrices: function() {
       return Lend.validatePrices() ? "": "disabled";
@@ -55,7 +56,7 @@ Template.manual.helpers({
       return Lend.validatePrices();
   },
   manualTitle: function() {
-      return Session.get('manualTitle');  
+      return Session.get('manualTitle');
   },
   dayPrice: function(){
       return Session.get('dayPrice');
@@ -78,16 +79,16 @@ Template.manual.events({
         'padding-bottom': '250px'
     });
   },
-    
+
   'focusout input': function() {
     $('.manual-entry').css({
         'padding-bottom': '50px'
     });
   },
-                       
+
   'change .userPrice': function(e, template) {
-  
-      var rentPrice = {   
+
+      var rentPrice = {
         "day": template.find('.dayPrice').value,
         "week": template.find('.weekPrice').value,
         "month": template.find('.monthPrice').value,
@@ -109,55 +110,67 @@ Template.manual.events({
       cancelText: 'Cancel',
 
       cancel: function() {
-//        console.log('Cancelled!');
+        IonActionSheet.close();
       },
       buttonClicked: function(index) {
-        if (index === 0) {
-          navigator.camera.getPicture(onSuccess1, onFail1, {
-            targetWidth: 200,
-            targetHeight: 200,
-            quality: 50,
-            destinationType: Camera.DestinationType.DATA_URL,
-            sourceType: Camera.PictureSourceType.CAMERA
-          });
-
-          function onSuccess1(imageData) {
-            Session.set("photoTaken", "data:image/jpeg;base64," + imageData);
-            return false;
-          }
-
-          function onFail1(message) {
-            IonPopup.alert({
-              title: 'Camera Operation',
-              template: message,
-              okText: 'Got It.'
-            });
-          }
+        switch (index) {
+          // library
+          case 1:
+            var options = {
+              width: 577,
+              height: 1024,
+              quality: 75,
+              sourceType: Camera.PictureSourceType.PHOTOLIBRARY
+            }
+            break;
+          //
+          default:
+            var options = {
+              width: 577,
+              height: 1024,
+              quality: 75
+            }
         }
-        if (index === 1) {
-          navigator.camera.getPicture(onSuccess2, onFail2, {
-            targetWidth: 200,
-            targetHeight: 200,
-            quality: 50,
-            destinationType: Camera.DestinationType.DATA_URL,
-            sourceType: Camera.PictureSourceType.PHOTOLIBRARY
-          });
 
-          function onSuccess2(imageData) {
-            Session.set("photoTaken", "data:image/jpeg;base64," + imageData);
+        MeteorCamera.getPicture(options, function(err, data) {
+          IonActionSheet.close();
+
+          if(err) {
+            ShowNotificationMessage(err.reason);
             return false;
-          }
 
-          function onFail2(message) {
-            IonPopup.alert({
-              title: 'Camera Operation',
-              template: message,
-              okText: 'Got It.'
-            });
+          } else {
+            Session.set("photoTaken", data);
+            return true;
           }
-        }
-        return true;
-      }
+        })
+      },
+
+
+        // if (index === 1) {
+        //   navigator.camera.getPicture(onSuccess2, onFail2, {
+        //     targetWidth: 200,
+        //     targetHeight: 200,
+        //     quality: 50,
+        //     destinationType: Camera.DestinationType.DATA_URL,
+        //     sourceType: Camera.PictureSourceType.PHOTOLIBRARY
+        //   });
+        //
+        //   function onSuccess2(imageData) {
+        //     Session.set("photoTaken", "data:image/jpeg;base64," + imageData);
+        //     return false;
+        //   }
+        //
+        //   function onFail2(message) {
+        //     IonPopup.alert({
+        //       title: 'Camera Operation',
+        //       template: message,
+        //       okText: 'Got It.'
+        //     });
+        //   }
+        // }
+        // return true;
+      //}
     });
   }
 });

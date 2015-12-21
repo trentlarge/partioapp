@@ -182,29 +182,29 @@ Template.results.events({
       var _this = this;
 
         //Session.set('allResults', );
-        Meteor.call('userCanShare', function(error, result){
-          if(!result) {
-            IonPopup.show({
-              title: 'Update profile',
-              template: '<div class="center">Please, update your debit card to share this item.</div>',
-              buttons: [{
-                text: 'OK',
-                type: 'button-energized',
-                onTap: function() {
-                  IonPopup.close();
-                  Router.go('/profile/savedcards/');
-                }
-              }]
-            });
-            return false;
+        //Meteor.call('userCanShare', function(error, result){
+          //if(!result) {
+            // IonPopup.show({
+            //   title: 'Update profile',
+            //   template: '<div class="center">Please, update your debit card to share this item.</div>',
+            //   buttons: [{
+            //     text: 'OK',
+            //     type: 'button-energized',
+            //     onTap: function() {
+            //       IonPopup.close();
+            //       Router.go('/profile/savedcards/');
+            //     }
+            //   }]
+            // });
+            // return false;
 
-          } else {
-
-            Session.set('scanResult', _this);
-            Router.go('/lend/details');
-            //Session.set('lendTab', 'resultDetails');
-          }
-      });
+          // } else {
+          //
+          Session.set('scanResult', _this);
+          Router.go('/lend/details');
+          Session.set('lendTab', 'resultDetails');
+          //}
+      //});
     },
 });
 
