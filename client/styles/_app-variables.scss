@@ -25,7 +25,49 @@ $ios-statusbar-height: 20px !default;
 $cordovaStatusBar: style(1); //Light
 
 
-@import url('https://fonts.googleapis.com/css?family=Ubuntu:400,500,700');
+@font-face {
+  font-family: 'Ubuntu';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Ubuntu Light'), local('Ubuntu-Light'), url(/fonts/Ubuntu/Ubuntu-Light.ttf) format('truetype'), url(/fonts/Ubuntu/Ubuntu-Light.woff2) format('woff2'), url(/fonts/Ubuntu/Ubuntu-Light.woff) format('woff');
+}
+
+@font-face {
+  font-family: 'Ubuntu';
+  font-style: normal;
+  font-weight: 400;
+  src: url(/fonts/Ubuntu/Ubuntu.eot);
+  src: local('Ubuntu'), url(/fonts/Ubuntu/Ubuntu.ttf) format('truetype'), url(/fonts/Ubuntu/Ubuntu.eot?#iefix) format('embedded-opentype'), url(/fonts/Ubuntu/Ubuntu.svg#Ubuntu) format('svg'), url(/fonts/Ubuntu/Ubuntu.woff2) format('woff2'), url(/fonts/Ubuntu/Ubuntu.woff) format('woff');
+}
+
+@font-face {
+  font-family: 'Ubuntu';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Ubuntu Bold'), local('Ubuntu-Bold'), url(/fonts/Ubuntu/Ubuntu-Bold.ttf) format('truetype'), url(/fonts/Ubuntu/Ubuntu-Bold.woff2) format('woff2'), url(/fonts/Ubuntu/Ubuntu-Bold.woff) format('woff');
+}
+
+@font-face {
+  font-family: 'Ubuntu';
+  font-style: italic;
+  font-weight: 300;
+  src: local('Ubuntu Light Italic'), local('Ubuntu-LightItalic'), url(/fonts/Ubuntu/Ubuntu-Light-Italic.ttf) format('truetype'), url(/fonts/Ubuntu/Ubuntu-Light-Italic.woff2) format('woff2'), url(/fonts/Ubuntu/Ubuntu-Light-Italic.woff) format('woff');
+}
+
+@font-face {
+  font-family: 'Ubuntu';
+  font-style: italic;
+  font-weight: 400;
+  src: local('Ubuntu Italic'), local('Ubuntu-Italic'), url(/fonts/Ubuntu/Ubuntu-Italic.ttf) format('truetype'), url(/fonts/Ubuntu/Ubuntu-Italic.woff2) format('woff2'), url(/fonts/Ubuntu/Ubuntu-Italic.woff) format('woff');
+}
+
+@font-face {
+  font-family: 'Ubuntu';
+  font-style: italic;
+  font-weight: 700;
+  src: local('Ubuntu Bold Italic'), local('Ubuntu-BoldItalic'), url(/fonts/Ubuntu/Ubuntu-Bold-Italic.ttf) format('truetype'), url(/fonts/Ubuntu/Ubuntu-Bold-Italic.woff2) format('woff2'), url(/fonts/Ubuntu/Ubuntu-Bold-Italic.woff) format('woff');
+}
+
 
 $font-family-sans-serif:          "Ubuntu", sans-serif !default;
 $font-family-light-sans-serif:    "Ubuntu", sans-serif-light !default;

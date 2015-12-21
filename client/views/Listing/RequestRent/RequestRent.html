@@ -1,6 +1,6 @@
 <template name="requestRent">
 
-   {{#ionModal title="Rent Request" class="requestRent"}}
+   {{#ionModal title="Rent Request" class="requestRent" style="text-align:center;"}}
 
     <div class="list card">
 
@@ -26,16 +26,16 @@
                 <table class="rent-table">
                     <tbody class="details">
                         <tr>
-                            <th class="{{activeDays}} one"><i>D</i></th>
-                            <th class="{{activeWeeks}} two"><i>W</i></th>
-                            <th class="{{activeMonths}} three"><i>M</i></th>
-                            <th class="{{activeSemesters}} four"><i>S</i></th>
+                            <th class="{{activeDays}} one"><i>DAY</i></th>
+                            <th class="{{activeWeeks}} two"><i>WEEK</i></th>
+                            <th class="{{activeMonths}} three"><i>MONTH</i></th>
+                            <th class="{{activeSemesters}} four"><i>SEMESTER</i></th>
                         </tr>
                         <tr>
-                            <td class="price_header {{activeDays}}">${{rentPrice.day}}</td>
-                            <td class="price_header {{activeWeeks}}">${{rentPrice.week}}</td>
-                            <td class="price_header {{activeMonths}}">${{rentPrice.month}}</td>
-                            <td class="price_header {{activeSemesters}}">${{rentPrice.semester}}</td>
+                            <td class="price_header {{activeDays}}">{{rentPrice.day}}</td>
+                            <td class="price_header {{activeWeeks}}">{{rentPrice.week}}</td>
+                            <td class="price_header {{activeMonths}}">{{rentPrice.month}}</td>
+                            <td class="price_header {{activeSemesters}}">{{rentPrice.semester}}</td>
                         </tr>
                         <tr>
                             <td class="{{activeDays}}">x{{numberDays}}</td>
@@ -44,10 +44,10 @@
                             <td class="{{activeSemesters}}">x{{numberSemesters}}</td>
                         </tr>
                         <tr>
-                            <td class="{{activeDays}}">${{totalPriceDays}}</td>
-                            <td class="{{activeWeeks}}">${{totalPriceWeeks}}</td>
-                            <td class="{{activeMonths}}">${{totalPriceMonths}}</td>
-                            <td class="{{activeSemesters}}">${{totalPriceSemesters}}</td>
+                            <td class="{{activeDays}}">{{totalPriceDays}}</td>
+                            <td class="{{activeWeeks}}">{{totalPriceWeeks}}</td>
+                            <td class="{{activeMonths}}">{{totalPriceMonths}}</td>
+                            <td class="{{activeSemesters}}">{{totalPriceSemesters}}</td>
                         </tr>
                         <tr>
                             <td colspan="4" class="active total_price">Total: ${{calculatedPrice}}</td>
