@@ -26,13 +26,13 @@ Products.before.remove(function(userId, doc) {
 });
 
 Products.after.insert(function(userId, doc) {
-	refreshSearch(userId, doc);
+	//refreshSearch(userId, doc);
 });
 
 Products.after.update(function(userId, doc, fieldNames, modifier, options) {
-	refreshSearch(userId, doc);
+	//refreshSearch(userId, doc);
 });
 
 Products.after.remove(function(userId, doc) {
-    refreshSearch(userId, doc);
+    //refreshSearch(userId, doc);
 });
