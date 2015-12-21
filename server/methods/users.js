@@ -1,21 +1,16 @@
 Meteor.methods({
 	updateUserProfile: function(profile) {
-//		var updateProfile = {};
-		//
-		// console.log(profile);
-		// return false;
+		var updateProfile = {};
+		for(var key in profile) {
+		 	updateProfile["profile." + key] = profile[key];
+		}
 
-		// for(var key in profile) {
-		// 	updateProfile["profile." + key] = profile[key];
-		// }
-
-		// if(!updateProfile) {
-		// 	return;
-		// }
+		if(!updateProfile) {
+		 	return;
+		}
 
 		Meteor.users.update({_id: this.userId },{
-			$set: { 'private.mobile': profile.mobile,
-			 				'profile.birthDate': profile.birthDate }
+			$set: updateProfile
 		});
 	},
 
