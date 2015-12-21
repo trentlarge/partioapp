@@ -143,8 +143,8 @@ Template.resultsDetails.events({
         $('.results-details-content').css({
             'padding-bottom': '0'
         });
-    },    
-    
+    },
+
     'click .features': function(e, template) {
 
       var features = $('.features');
