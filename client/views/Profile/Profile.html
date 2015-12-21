@@ -48,6 +48,17 @@
           </div>
       </div>
 
+      {{#if currentUser.emails.[0].verified}}
+      {{else}}
+        <div class="card padding-horizontal padding-vertical">
+            <div class="item item-icon-left">
+                <span class="activation-title assertive center">Welcome aboard partiO!</span>
+                <span class="activation-message center">Please verify your email address to proceed.</span>
+                {{> ionIcon icon="alert-circled" class="assertive"}}
+            </div>
+        </div>
+      {{/if}}
+
       <div class="card padding-horizontal padding-vertical">
         <form id="profileEdit">
 
@@ -61,8 +72,6 @@
             </label>
           </form>
 
-       {{#if emailSet}}
-
         <label class="item item-input">
             <i class="icon ion-university"></i>
             <input id="profileuniversity" type="text" value="{{currentUser.profile.college}}" disabled>
@@ -71,21 +80,6 @@
             <i class="icon ion-at"></i>
             <input type="email" value="{{currentUser.emails.[0].address}}" disabled>
         </label>
-       {{else}}
-         <label class="item item-input item-select college-select">
-          <div class="input-label"><p>College</p></div>
-          <select id="profileuniversity">
-            <option selected style="color:green;">Select</option>
-            <option>Duke University</option>
-            <option>Rollins College</option>
-            <option>Test Gmail IDs</option>
-          </select>
-        </label>
-        <label class="item item-input">
-          <span class="input-label"><p>Email</p></span>
-          <input type="email" value="{{currentUser.email.[0].address}}" placeholder="Enter Email" id="profileemail">
-        </label>
-        {{/if}}
 
       </div>
 
@@ -103,30 +97,15 @@
         </div>
     {{/if}}
 
-    <div class="card padding-horizontal padding-vertical">
-
-        {{#if currentUser.emails.[0].verified}}
-            <a class="item item-icon-right" id="logout"  >
-                <p>Logout</p>
-                {{> ionIcon icon="android-exit" class="energized right-arrow"}}
-            </a>
-        {{else}}
-            {{#if emailSet}}
-                <div class="item item-icon-left">
-                    <span class="activation-title assertive center">Welcome aboard partiO!</span>
-                    <span class="activation-message center">Please verify your email address to proceed.</span>
-                    {{> ionIcon icon="alert-circled" class="assertive"}}
-                </div>
-                {{else}}
-                    <h3 class="dark center">Your Email should be your official college email address</h3>
-                    <br>
-                    <button id="save-college-email" class="button button-block button-energized">SAVE</button>
-            {{/if}}
-        {{/if}}
+    <div class="card padding-vertical">
+        <a class="item item-icon-right" id="logout"  >
+            <p>Logout</p>
+            {{> ionIcon icon="android-exit" class="energized right-arrow"}}
+        </a>
     </div>
 
     <div class="padding-horizontal">
-        <a class="button button-block button-email-support" href="/contact" data-rel='external'>
+        <a class="button button-block button-email-support" href="mailto:support@partioapp.com" data-rel='external'>
             CONTACT US
         </a>
     </div>
@@ -135,15 +114,6 @@
     {{/ionContent}}
   {{/ionView}}
 </template>
-
-<template name="modalTermOfService">
-  {{#ionModal title="Terms of Service"}}
-  <div class="padding">
-    <p>Payment processing services for [account holder term, e.g. drivers or sellers] on [platform name] are provided by Stripe and are subject to the <a href="https://stripe.com/connect/account-terms">Stripe Connected Account Agreement</a>, which includes the <a href="https://stripe.com/terms">Stripe Terms of Service</a> (collectively, the “Stripe Services Agreement”). By agreeing to [this agreement / these terms / etc.] or continuing to operate as a [account holder term] on [platform name], you agree to be bound by the Stripe Services Agreement, as the same may be modified by Stripe from time to time. As a condition of [platform name] enabling payment processing services through Stripe, you agree to provide [platform name] accurate and complete information about you and your business, and you authorize [platform name] to share it and transaction information related to your use of the payment processing services provided by Stripe.</p>
-  </div>
-  {{/ionModal}}
-</template>
-
 
 <template name="settingsProfileImage">
   <div class="profile-image-container">
