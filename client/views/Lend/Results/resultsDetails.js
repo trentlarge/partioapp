@@ -178,30 +178,51 @@ Template.resultsDetails.events({
 
     'click .submitProduct': function(e, template) {
 
-      if(Lend.validatePrices()) {
-        var submitProduct = Session.get('scanResult');
-        var product = _.extend(submitProduct,
-        {
-            "title": $('.productTitle').val(),
-            "ownerId": Meteor.userId(),
-            'searchId': null,
-            "conditionId": $('.fieldConditionLend').val(),
-            "rentPrice": {
-                "day": Number(Session.get('dayPrice')).toFixed(2),
-                "week": Number(Session.get('weekPrice')).toFixed(2),
-                "month": Number(Session.get('monthPrice')).toFixed(2),
-                "semester": Number(Session.get('semesterPrice')).toFixed(2)
+      Meteor.call('userCanShare', function(error, result){
+        if(!result) {
+          PartioLoad.hide();
+
+          IonPopup.show({
+            title: 'Update profile',
+            template: '<div class="center">Please, update your debit card to share this item.</div>',
+            buttons: [{
+              text: 'OK',
+              type: 'button-energized',
+              onTap: function() {
+                IonPopup.close();
+                Router.go('/profile/savedcards/');
+              }
+            }]
+          });
+          return false;
+
+        } else {
+
+          if(Lend.validatePrices()) {
+            var submitProduct = Session.get('scanResult');
+            var product = _.extend(submitProduct,
+            {
+                "title": $('.productTitle').val(),
+                "ownerId": Meteor.userId(),
+                "conditionId": $('.fieldConditionLend').val(),
+                "rentPrice": {
+                    "day": Number(Session.get('dayPrice')).toFixed(2),
+                    "week": Number(Session.get('weekPrice')).toFixed(2),
+                    "month": Number(Session.get('monthPrice')).toFixed(2),
+                    "semester": Number(Session.get('semesterPrice')).toFixed(2)
+                }
+            });
+
+            if(!validateInputs(product)){
+                PartioLoad.hide();
+                return;
             }
-        });
 
-        if(!validateInputs(product)){
-            PartioLoad.hide();
-            return;
+            Lend.addProductToInventory(product);
+            Lend.latestProduct = undefined;
+          }
         }
-
-        Lend.addProductToInventory(product);
-        Lend.latestProduct = undefined;
-      }
+      });
     }
 });
 
