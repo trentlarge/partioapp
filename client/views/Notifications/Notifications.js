@@ -1,3 +1,16 @@
+var redirectAndPassConnectionId = function(routeName, connectionId) {
+    if(!connectionId) {
+        return;
+    }
+
+    var connection = Connections.findOne({ _id: connectionId });
+    if(!connection) {
+        return;
+    }
+
+    Router.go(routeName, { _id: connectionId });
+};
+
 Template.notifications.events({
     'click .show-message': function(e, t) {
     	e.preventDefault();
@@ -7,21 +20,21 @@ Template.notifications.events({
                 switch(this.state) {
                     case "RETURNED": {
                         // !!!
-                        Router.go("connect", { _id: this.connectionId });
+                        redirectAndPassConnectionId("connect", this.connectionId);
                     }; break;
                 }
             }; break;
             case "request": {
-                Router.go("connect", { _id: this.connectionId });
+                redirectAndPassConnectionId("connect", this.connectionId);
             }; break;
             case "approved": {
-                Router.go("connectRent", { _id: this.connectionId });
+                redirectAndPassConnectionId("connectRent", this.connectionId);
             }; break;
             case "declined": {
-                Router.go("connectRent", { _id: this.connectionId });
+                redirectAndPassConnectionId("connectRent", this.connectionId);
             }; break;
     		case "chat": {
-    			Router.go("talk", { _id: this.connectionId });
+                redirectAndPassConnectionId("talk", this.connectionId);
     		}; break;
     	}
 		return false;
@@ -30,7 +43,6 @@ Template.notifications.events({
 
 Template.notifications.onRendered(function() {
     Meteor.call("markAllNotificationsRead", function(err, res) {
-console.log("markAllNotificationsRead");
         if(err) {
             var errorMessage = err.reason || err.message;
             if(err.details) {
