@@ -20,7 +20,7 @@ Template.appLayout.events({
 Template.appLayout.helpers({
 	showSideMenu: function(){
 		var mainTemplateName = Router.current()._layout._regions.main._template;
-        
+
 		switch (mainTemplateName) {
 			case 'profile':
 				if(!Meteor.user().emails[0].verified){
@@ -69,7 +69,6 @@ Template.appLayout.onRendered(function() {
 	var _newNotificatons = getNewNotifications();
 	_newNotificatons.observeChanges({
 		added: function(id, fields) {
-console.log(fields);
 			switch(fields.type) {
 
 				case "request": {
