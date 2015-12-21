@@ -87,14 +87,21 @@ Template.profile.events({
 
 Template.settingsProfileImage.helpers({
   'noProfileYet': function() {
-    if (Meteor.user().profile.avatar === "notSet") {
-      return true;
-    } else {
-      return false;
-    }
+        if(Meteor.user()) {  
+            if (Meteor.user().profile.avatar === "notSet") {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        else {
+            return false;
+        }
   },
   'profileImage': function() {
-    return Meteor.user().profile.avatar;
+      if(Meteor.user()) { 
+            return Meteor.user().profile.avatar;
+      }
   }
 });
 
