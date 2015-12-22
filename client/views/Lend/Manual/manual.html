@@ -33,7 +33,7 @@
                 </div>
                 <select class="manualCondition">
                     {{#each getConditions}}
-                        <option value="{{index}}">{{value}}</option>
+                        <option value="{{index}}" {{selectedCondition index}}>{{value}}</option>
                     {{/each}}
                 </select>
             </label>

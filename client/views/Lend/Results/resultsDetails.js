@@ -1,3 +1,14 @@
+Template.resultsDetails.rendered = function() {
+    if(Session.get('conditionCamFind')) {
+        Session.set('selectedCondition', Session.get('conditionCamFind'));
+        Session.set('conditionCamFind', null);
+    }
+}
+
+Template.resultsDetails.destroyed = function() {
+    Session.set('selectedCondition', null);
+}
+
 Template.resultsDetails.helpers({
     getTitle: function() {
         return this.title;
@@ -23,6 +34,9 @@ Template.resultsDetails.helpers({
     },
     getConditions: function() {
         return Rating.getConditions();
+    },
+    selectedCondition: function(index) {
+        return (index == Session.get('selectedCondition')) ? 'selected' : '';
     },
     isOnlyOneCategory: function() {
 
@@ -181,6 +195,8 @@ Template.resultsDetails.events({
       Meteor.call('userCanShare', function(error, result){
         if(!result) {
           PartioLoad.hide();
+            
+          Session.set('conditionCamFind', $('.fieldConditionLend').val());
 
           IonPopup.show({
             title: 'Update profile',

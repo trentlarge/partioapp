@@ -61,7 +61,7 @@
                         </div>
                         <select name="condition" class="fieldConditionLend">
                             {{#each getConditions}}
-                                <option value="{{index}}">{{value}}</option>
+                                <option value="{{index}}" {{selectedCondition index}}>{{value}}</option>
                             {{/each}}
                         </select>
                     </label>

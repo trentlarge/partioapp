@@ -1,4 +1,17 @@
 Template.addnewCard.events({
+    
+    'focus input': function() {
+        $('.content').css({
+            'padding-bottom': '250px'
+        });
+      },
+
+      'focusout input': function() {
+        $('.content').css({
+            'padding-bottom': '0'
+        });
+      },
+    
 	'submit .newCardForm': function(e) {
 		e.preventDefault();
 		console.log('> Form submit add new card');
