@@ -1,13 +1,13 @@
 Meteor.publish("connections", function() {
-	return Connections.find({}, {});
+	return Connections.find({finished: { $ne: true }}, {});
 });
 
 Meteor.publish("myConnections", function() {
-	return Connections.find({ $or: [ { "owner": this.userId }, { "requestor": this.userId } ] })
+	return Connections.find({ $or: [ { "owner": this.userId, finished: { $ne: true } }, { "requestor": this.userId } ] })
 });
 
 Meteor.publish("singleConnect", function(connectionId) {
-	var connection = Connections.findOne({ _id: connectionId });
+	var connection = Connections.findOne({ _id: connectionId, finished: { $ne: true } });
 	if(!connection) {
 		return this.ready();
 	}
@@ -22,7 +22,7 @@ Meteor.publish("singleConnect", function(connectionId) {
 	}
 
 	return [
-		Connections.find({ connectionId: connectionId }, {}),
+		Connections.find({ connectionId: connectionId, finished: { $ne: true } }, {}),
 		Users.find({ _id: _idGuest }, { fields: { profile: 1 }})
 	];
 });

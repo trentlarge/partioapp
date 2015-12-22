@@ -3,7 +3,7 @@ var redirectAndPassConnectionId = function(routeName, connectionId) {
         return;
     }
 
-    var connection = Connections.findOne({ _id: connectionId });
+    var connection = Connections.findOne({ _id: connectionId, finished: { $ne: true } });
     if(!connection) {
         return;
     }

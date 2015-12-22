@@ -16,7 +16,7 @@ ConnectRentController = RouteController.extend({
 	},
 
 	connection : function(){
-		return Connections.findOne(this.params._id);
+		return Connections.findOne({ _id: this.params._id, finished: { $ne: true } });
 	},
 
 	data: function() {

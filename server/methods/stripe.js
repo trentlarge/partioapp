@@ -324,7 +324,7 @@ Meteor.methods({
       throw new Meteor.Error("chargeCard", "missing params");
     }
 
-    var connect = Connections.findOne(connectionId);
+    var connect = Connections.findOne({ _id: connectionId, finished: { $ne: true } });
 
     if(!connect) {
       throw new Meteor.Error("chargeCard", "connect not found");

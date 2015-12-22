@@ -1,5 +1,5 @@
 Meteor.publish("talk", function(connectionId) {
-	var connection = Connections.findOne({ _id: connectionId });
+	var connection = Connections.findOne({ _id: connectionId, finished: { $ne: true } });
 	if(!connection) {
 		return this.ready();
 	}

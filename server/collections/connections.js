@@ -13,7 +13,7 @@ Connections.allow({
 });
 
 Connections.before.insert(function(userId, doc) {
-
+    doc.finished = false;
 });
 
 Connections.before.update(function(userId, doc, fieldNames, modifier, options) {
