@@ -10,7 +10,7 @@
   {{#ionView class="connectRent-view"}}
     {{#ionContent class="connectRent prevent-keyboardglitch"}}
       <div class="card padding-horizontal padding-vertical list">
-          
+
         <div class="item item-divider product-details"><h2>Product Details <i class="chevron-icon icon ion-chevron-up"></i></h2></div>
 
         <div class="item product-details-item">
@@ -48,11 +48,11 @@
 
         <div class="item request-date">
             <span>{{../getRequestDate}}</span>
-        </div>  
-          
+        </div>
+
         <div class="item">
             <div class="profile-image-box">
-                <a href="/profile/items/{{ connectData.owner }}"> 
+                <a href="/profile/items/{{ connectData.owner }}">
                     <div style="background: url('{{connectData.productData.ownerData.profile.avatar}}') no-repeat; background-size:cover; background-position: 50% 50%;" class="profile-avatar"></div>
                 </a>
                 <p class="main-title-text">{{connectData.productData.ownerData.profile.name}} </p>
@@ -76,11 +76,11 @@
             </div>
           </div>
           <div class="item details">
-                <i class="icon ion-ios-calendar-outline"></i> 
+                <i class="icon ion-ios-calendar-outline"></i>
                 {{../getTotalDays}} ({{../getStartDate}} to {{../getEndDate}})
           </div>
           <div class="item details">
-                <i class="icon ion-ios-clock-outline"></i> 
+                <i class="icon ion-ios-clock-outline"></i>
                 {{../getDaysLeft}}
                 <input type="range" id="myRange" min="0" max="{{connectData.borrowDetails.date.totalDays}}" value="{{../getDaysLeftValue}}" class="range range-assertive" disabled>
           </div>
@@ -97,7 +97,7 @@
                   </a>
               </div>
           {{/if}}
-          
+
           <div style="padding-bottom:16px;"></div>
 <!--
           <div class="profile-content">
@@ -107,8 +107,8 @@
                   <td> {{../getRequestDate}} </td>
                 </tr>
                 <tr>
-                  <td class="divider"> <i class="icon ion-ios-calendar-outline"></i> 
-                      <b>Period:</b> {{../getTotalDays}} 
+                  <td class="divider"> <i class="icon ion-ios-calendar-outline"></i>
+                      <b>Period:</b> {{../getTotalDays}}
                   </td>
                 </tr>
                 <tr>
@@ -186,11 +186,11 @@
           </div>
         {{/if}}
       </div>
-        
+
       <div class="center">
-        <a class="email-support" href="mailto:support@partioapp.com" data-rel='external'>CONTACT US</a>
+        <a class="email-support" href="/contact" data-rel='external'>CONTACT US</a>
       </div>
-    
+
     {{/ionContent}}
   {{/ionView}}
 </template>

@@ -11,8 +11,8 @@
   "AWSAccessKeyId": "AKIAIQK2APPMYYIAKOJQ",
   "AWSSecretAccessKey": "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",
   "facebook": {
-    "appId": "453646108150424",
-    "secret": "668cabf44fb9f88b7a3d213f1bb0000b"
+    "appId": "902012053186141",
+    "secret": "f33c288d4c667f925e46944787de26e8"
   },
   "public": {
     "STRIPE_PUBKEY": "pk_test_GiLnb5tXpZoGOwYgcTT6rbeo",
@@ -24,18 +24,8 @@
       ]
     },
     "ga": {
-                "id": "UA-71560916-1",
-                "create": {
-                    "cookieDomain": "partioapp.com",
-                    "cookieName": "partioCookie",
-                    "cookieExpires": 3600
-                },
-                "set": {
-                    "forceSSL": true,
-                    "anonymizeIp": true
-                },
-                "trackUserId": true
-            }
-
+        "id": "UA-71560916-1",
+        "trackUserId": true
+    }
   }
 }
