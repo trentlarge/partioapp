@@ -1,8 +1,13 @@
 Meteor.methods({
 	updateUserProfile: function(profile) {
 		var updateProfile = {};
+
 		for(var key in profile) {
-		 	updateProfile["profile." + key] = profile[key];
+			if(key == 'mobile'){
+				updateProfile["private." + key] = profile[key];
+			} else {
+				updateProfile["profile." + key] = profile[key];
+			}
 		}
 
 		if(!updateProfile) {
