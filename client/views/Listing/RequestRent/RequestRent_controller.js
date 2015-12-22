@@ -57,7 +57,7 @@ RequestRentController = RouteController.extend({
 				return owner.profile;
 			},
 			approvedStatus: function() {
-				var connection = Connections.findOne(this._id);
+				var connection = Connections.findOne({ _id: this._id, finished: { $ne: true } });
 				return connection.state !== 'WAITING' ? true : false;
 			},
 			phoneNumber: function() {
@@ -68,16 +68,16 @@ RequestRentController = RouteController.extend({
 				return owner.profile.mobile;
 			},
 			preferredLocation: function() {
-				return Connections.findOne(this._id).meetupLocation;
+				return Connections.findOne({ _id: this._id, finished: { $ne: true } }).meetupLocation;
 			},
 			paymentDone: function() {
-				return Connections.findOne(this._id).payment ? true : false;
+				return Connections.findOne({ _id: this._id, finished: { $ne: true } }).payment ? true : false;
 			},
 			itemReturnDone: function() {
-				return (Connections.findOne(this._id).state === "RETURNED" || Connections.findOne(this._id).state === "DONE" ) ? true : false;
+				return (Connections.findOne({ _id: this._id, finished: { $ne: true } }).state === "RETURNED" || Connections.findOne({ _id: this._id, finished: { $ne: true } }).state === "DONE" ) ? true : false;
 			},
 			paymentPending: function() {
-				return (Connections.findOne(this._id).state === "PAYMENT" || Connections.findOne(this._id).state === "WAITING") ? true : false;
+				return (Connections.findOne({ _id: this._id, finished: { $ne: true } }).state === "PAYMENT" || Connections.findOne({ _id: this._id, finished: { $ne: true } }).state === "WAITING") ? true : false;
 			},
 			calculatedPrice: function() {
 				if(!Session.get('rentPrice')) {

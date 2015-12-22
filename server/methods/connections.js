@@ -11,7 +11,8 @@ Meteor.methods({
 	},
 
 	removeConnection: function(idConnection) {
-		Connections.remove({_id: idConnection});
+        Connections.update({ _id: idConnection }, { $set: { finished: true }})
+		//Connections.remove({_id: idConnection});
 	},
 
 	'submitRating': function(rating, personId, ratedBy) {
@@ -24,7 +25,7 @@ Meteor.methods({
 	},
 
 	returnItem: function(connectionId) {
-		var connect = Connections.findOne(connectionId);
+		var connect = Connections.findOne({ _id: connectionId, finished: { $ne: true }});
 		var borrowerName = Meteor.users.findOne(connect.requestor).profile.name;
 
 		Connections.update({_id: connectionId}, {$set: {"state": "RETURNED"}});
@@ -35,10 +36,8 @@ Meteor.methods({
 	},
 
 	confirmReturn: function(searchId, connectionId) {
-		var connect = Connections.findOne(connectionId);
+		var connect = Connections.findOne({ _id: connectionId, finished: { $ne: true }});
 		var ownerName = Meteor.users.findOne(connect.productData.ownerId).profile.name;
-
-		Search.update({_id: searchId}, {$inc: {qty: 1}});
 
 		var message = ownerName + " confirmed your return of " + connect.productData.title;
 		sendPush(connect.requestor, message);
@@ -80,7 +79,7 @@ Meteor.methods({
 		Meteor._sleepForMs(1000);
 		console.log("changing status from Waiting to Payment");
 
-		var connect = Connections.findOne(connectionId);
+		var connect = Connections.findOne({ _id: connectionId, finished: { $ne: true }});
 		var ownerName = Meteor.users.findOne(connect.productData.ownerId).profile.name;
 
 		Connections.remove({"productData._id": connect.productData._id, "requestor": {$ne: connect.requestor}});
@@ -95,7 +94,7 @@ Meteor.methods({
 
 	'ownerDecline': function(connectionId) {
 		Meteor._sleepForMs(1000);
-		var connect = Connections.findOne(connectionId);
+		var connect = Connections.findOne({ _id: connectionId, finished: { $ne: true }});
 		var ownerName = Meteor.users.findOne(connect.productData.ownerId).profile.name;
 		var message =  "Your request for " + connect.productData.title + " has been declined.";
 		sendPush(connect.requestor, message);

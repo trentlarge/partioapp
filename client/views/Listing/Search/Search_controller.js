@@ -63,13 +63,13 @@ SearchController = RouteController.extend({
                 return Rating.getConditionByIndex(this.product.conditionId);
             },
             requestSent: function() {
-                return Connections.findOne({"requestor": Meteor.userId(), "owner": this.product.ownerId, "productData._id": this.product._id}) ? true : false;
+                return Connections.findOne({"requestor": Meteor.userId(), finished: { $ne: true }, "owner": this.product.ownerId, "productData._id": this.product._id}) ? true : false;
             },
             isBorrowed: function() {
-                return Connections.findOne({"requestor": Meteor.userId(), "owner": this.product.ownerId, "productData._id": this.product._id, "state":"WAITING"}) ? false : true;
+                return Connections.findOne({"requestor": Meteor.userId(), finished: { $ne: true }, "owner": this.product.ownerId, "productData._id": this.product._id, "state":"WAITING"}) ? false : true;
             },
             isUnavailable: function() {
-                return Connections.findOne({"owner": this.product.ownerId, "productData._id": this.product._id}) ? true : false;
+                return Connections.findOne({"owner": this.product.ownerId, finished: { $ne: true }, "productData._id": this.product._id}) ? true : false;
             },
             rating: function() {
                 userRating(this.product.userId);

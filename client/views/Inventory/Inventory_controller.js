@@ -32,10 +32,10 @@ InventoryController = RouteController.extend({
 				}
 			},
 			newRequests: function() {
-                return Connections.find({"productData.ownerId": Meteor.userId(), $or: [ {"state": "WAITING"}, {"state": "PAYMENT"}, {"state": "IN USE"} ]});
+                return Connections.find({"productData.ownerId": Meteor.userId(), finished: { $ne: true }, $or: [ {"state": "WAITING"}, {"state": "PAYMENT"}, {"state": "IN USE"} ]});
             },
             finalizedRequests: function() {
-                return Connections.find({"productData.ownerId": Meteor.userId(), "state": "RETURNED"});
+                return Connections.find({"productData.ownerId": Meteor.userId(), finished: { $ne: true }, "state": "RETURNED"});
             },
             getCondition: function(conditionId) {
                 return Rating.getConditionByIndex(conditionId);

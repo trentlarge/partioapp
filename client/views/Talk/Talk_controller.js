@@ -22,7 +22,7 @@ TalkController = RouteController.extend({
 		return {
 
 			connection:
-				Connections.findOne({ _id: this.params._id }),
+				Connections.findOne({ _id: this.params._id, finished: { $ne: true } }),
 
 			messages:
 				Talk.find({ connectionId: this.params._id }),

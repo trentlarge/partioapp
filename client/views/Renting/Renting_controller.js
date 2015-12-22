@@ -23,23 +23,23 @@ RentingController = RouteController.extend({
 	data: function() {
 		return {
             toBeApproved: function() {
-                return Connections.find({"requestor": Meteor.userId(), "state": "WAITING"}); //{$ne: "IN USE", $ne: "DONE"}})
+                return Connections.find({"requestor": Meteor.userId(), finished: { $ne: true }, "state": "WAITING"}); //{$ne: "IN USE", $ne: "DONE"}})
             },
             toBePaid: function() {
-                return Connections.find({"requestor": Meteor.userId(), "state": "PAYMENT"}); //{$ne: "IN USE", $ne: "DONE"}})
+                return Connections.find({"requestor": Meteor.userId(), finished: { $ne: true }, "state": "PAYMENT"}); //{$ne: "IN USE", $ne: "DONE"}})
             },
             currentlyBorrowed: function() {
-                return Connections.find({"requestor": Meteor.userId(), "state": "IN USE"}); //{$ne: "IN USE", $ne: "DONE"}})
+                return Connections.find({"requestor": Meteor.userId(), finished: { $ne: true }, "state": "IN USE"}); //{$ne: "IN USE", $ne: "DONE"}})
             //return Connections.find({"requestor": Meteor.userId(), "state": "DONE"});
             },
             dataExists: function() {
-                return (Connections.find({"requestor": Meteor.userId(), "state": {$ne: "IN USE"}}).count() || Connections.find({"requestor": Meteor.userId(), "state": "IN USE"}).count()) ? true : false;
+                return (Connections.find({"requestor": Meteor.userId(), finished: { $ne: true }, "state": {$ne: "IN USE"}}).count() || Connections.find({"requestor": Meteor.userId(), "state": "IN USE"}).count()) ? true : false;
             },
             isReturned: function() {
-                return (Connections.find({"requestor": Meteor.userId(), "state": "RETURNED"}));
+                return (Connections.find({"requestor": Meteor.userId(), finished: { $ne: true }, "state": "RETURNED"}));
             },
             itemReturned: function() {
-                return (Connections.find({"requestor": Meteor.userId(), "state": "RETURNED"})).count();
+                return (Connections.find({"requestor": Meteor.userId(), finished: { $ne: true }, "state": "RETURNED"})).count();
             },
             isTapping: function() {
                 return Session.get('isTapping');
