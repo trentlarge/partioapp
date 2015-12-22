@@ -2,7 +2,7 @@ Template.appLayout.onRendered(function() {
 
     if(!Meteor.user()){
 
-      Router.go('/register')
+      //Router.go('/register')
 
     }
 
