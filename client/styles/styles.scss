@@ -92,17 +92,17 @@
     border: 1px solid rgba(0, 0, 0, 0.1);
     box-shadow: 0 4px 3px rgba(0, 0, 0, 0.3);
     margin-bottom: 20px;
-    
+
     &:hover {
         color: rgba(39, 39, 39, 0.6);
         box-shadow: 0 3px 3px rgba(0, 0, 0, 0.3);
     }
-    
+
     &.activated {
         color: rgba(39, 39, 39, 0.8);
         box-shadow: 0 0px 1px rgba(0, 0, 0, 0.3);
     }
-    
+
     &:focus {
         color: rgba(39, 39, 39, 0.8);
         background-color: #f8f8f8;
@@ -113,11 +113,11 @@ a.email-support {
     color: #df5707;
     text-decoration: none;
     padding-bottom: 20px;
-    
+
     &:hover {
         color: rgba(223, 87, 7, 0.6);
     }
-    
+
     &.activated {
         color: rgba(223, 87, 7, 0.8);
     }
@@ -195,6 +195,12 @@ body.keyboard-open .platform-android .content.overflow-scroll {
 }
 
 .popup-buttons .button-positive.active {
+    border-color: #D8880C;
+    background-color: #D8880C;
+    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1) inset;
+}
+
+.popup-buttons .button-positive.activated {
     border-color: #D8880C;
     background-color: #D8880C;
     box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1) inset;

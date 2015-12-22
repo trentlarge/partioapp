@@ -15,7 +15,7 @@
         <div class="results">
 
             {{#each allResults}}
-            
+
 <!--
                 {{#if orderByRanking}}
                     <div class="item product">
@@ -37,7 +37,7 @@
                             {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
                         </div>
                     </div>
-                {{else}}         
+                {{else}}
 -->
                     {{#if isDifferentCategory}}
                         <div class="center menu-category {{splitCategory}}-menu">
@@ -47,7 +47,7 @@
                             </a>
                         </div>
 
-                        <div class="{{splitCategory}}" style="{{#if isOnlyOneCategory}} {{else}} display:none; {{/if}}">
+                        <div class="{{splitCategory}}" style="display: block;">
                             {{#each allResultsByCategory}}
                                 <div class="item product">
                                     <div class="row">
@@ -82,6 +82,6 @@
         </div>
         {{else}}
             <div class="content"><p>Not found. Please try again.</p></div>
-        {{/if}} 
+        {{/if}}
     {{/ionContent}}
 </template>

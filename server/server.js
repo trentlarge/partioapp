@@ -10,6 +10,16 @@ Meteor.startup(function() {
   //Stripe = StripeSync(Meteor.settings.env.STRIPE_SECRET);
   //Stripe.secretKey = Meteor.settings.env.STRIPE_SECRET+':null';
 
+  // Accounts.loginServiceConfiguration.remove({
+  //   service: "facebook"
+  // });
+
+  // var settingsObject = Meteor.settings.oauth.facebook;
+  //     settingsObject.service = "facebook";
+  // add new configuration
+  //Accounts.loginServiceConfiguration.insert(settingsObject);
+
+
   Stripe = StripeAPI(Meteor.settings.env.STRIPE_SECRET);
 
   process.env.MAIL_URL="smtp://support%40partioapp.com:partio123@smtp.zoho.com:465/";

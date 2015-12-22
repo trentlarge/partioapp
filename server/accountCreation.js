@@ -11,6 +11,9 @@ Accounts.onCreateUser(function(options,user) {
 	user.secret.canShare = false;
 
 	if (user.services.facebook) {
+
+		console.log(user.services.facebook);
+
 		var fbLink = user.services.facebook.link;
 		var linkId = fbLink.split("https://www.facebook.com/app_scoped_user_id/")[1].split("/")[0];
 
@@ -21,17 +24,21 @@ Accounts.onCreateUser(function(options,user) {
 		//FOR NO APPARENT REASON FACEBOOK REFUSED TO SEND AVATAR AFTER LOGIN
 		// user.profile.avatar = options.profile.avatar;
 		user.profile.college = '';
-
 		user.private.mobile = '';
 
 		var currentEmail = user.services.facebook.email;
+
 		if (currentEmail.split("@")[1] === "duke.edu" || currentEmail.split("@")[1] === "rollins.edu") {
 			user.emails = [{"address": currentEmail, "verified": false}]
-
 
 			Meteor.setTimeout(function() {
 				Accounts.sendVerificationEmail(user._id);
 			}, 4 * 1000);
+
+		} else {
+
+			//Creating transactionsId for new user;
+			Meteor.call('createTransactions');
 		}
 
 		console.log('finished FACEBOOK user creation...');
@@ -62,6 +69,8 @@ Accounts.onCreateUser(function(options,user) {
 		Meteor.setTimeout(function() {
 			Accounts.sendVerificationEmail(user._id);
 		}, 4 * 1000);
+
+
 
 		return user;
 	}

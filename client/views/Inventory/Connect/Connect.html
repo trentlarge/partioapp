@@ -48,11 +48,11 @@
 
         <div class="item request-date">
             <span>{{../getRequestDate}}</span>
-        </div>  
-          
+        </div>
+
         <div class="item">
             <div class="profile-image-box">
-                <a href="/profile/items/{{ connectData.requestor }}"> 
+                <a href="/profile/items/{{ connectData.requestor }}">
                     <div style="background: url('{{connectData.requestorData.profile.avatar}}') no-repeat; background-size:cover; background-position: 50% 50%;" class="profile-avatar"></div>
                 </a>
                 <p class="main-title-text">{{connectData.requestorData.profile.name}} </p>
@@ -76,11 +76,11 @@
             </div>
           </div>
           <div class="item details">
-                <i class="icon ion-ios-calendar-outline"></i> 
+                <i class="icon ion-ios-calendar-outline"></i>
                 {{../getTotalDays}} ({{../getStartDate}} to {{../getEndDate}})
           </div>
           <div class="item details">
-                <i class="icon ion-ios-clock-outline"></i> 
+                <i class="icon ion-ios-clock-outline"></i>
                 {{../getDaysLeft}}
                 <input type="range" id="myRange" min="0" max="{{connectData.borrowDetails.date.totalDays}}" value="{{../getDaysLeftValue}}" class="range range-assertive" disabled>
           </div>
@@ -101,15 +101,15 @@
                   </a>
               </div>
           {{/if}}
-          
-          <div style="padding-bottom:16px;"></div>  
-        
+
+          <div style="padding-bottom:16px;"></div>
+
 <!--
-          
+
         <div class="item">
           {{#with requestorInfo }}
             <div class="profile-image-box">
-              <a href="/profile/items/{{ _id }}"> 
+              <a href="/profile/items/{{ _id }}">
                 <div style="background: url('{{profile.avatar}}') no-repeat; background-size:cover; background-position: 50% 50%;" class="profile-avatar"></div>
               </a>
               <p class="main-title-text">{{profile.name}} </p>
@@ -123,8 +123,8 @@
                     <td> {{getRequestDate}} </td>
                   </tr>
                   <tr>
-                    <td class="divider"> <i class="icon ion-ios-calendar-outline"></i> 
-                        <b>Period:</b> {{../getTotalDays}} 
+                    <td class="divider"> <i class="icon ion-ios-calendar-outline"></i>
+                        <b>Period:</b> {{../getTotalDays}}
                     </td>
                   </tr>
                   <tr>
@@ -201,20 +201,20 @@
             {{#if ../isTimeOver}}
                 <div class="item button-divider ">
                     <button class="button button-block" disabled>TIME IS OVER</button>
-                </div>   
+                </div>
             {{else}}
                 <div class="item button-divider ">
                     <button id="ownerAccept" class="button button-block button-energized">ALLOW RENTING</button>
-                </div>   
+                </div>
             {{/if}}
         {{/if}}
 
       </div>
-    
+
       <div class="center">
-        <a class="email-support" href="mailto:support@partioapp.com" data-rel='external'>CONTACT US</a>
+        <a class="email-support" href="/contact" data-rel='external'>CONTACT US</a>
       </div>
-    
+
     {{/ionContent}}
   {{/ionView}}
 </template>

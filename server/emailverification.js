@@ -6,6 +6,8 @@
     };
 
     Accounts.urls.verifyEmail = function (token) {
+
+        //return 'http://partioapp.com/verify-email/' + token;
         return Meteor.absoluteUrl('verify-email/' + token);
     };
 
