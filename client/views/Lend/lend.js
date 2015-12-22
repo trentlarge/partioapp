@@ -1,26 +1,7 @@
 Template.lend.events({
   'click .submitProduct': function(e, template) {
-    PartioLoad.show();
 
-    Meteor.call('userCanShare', function(error, result){
-      PartioLoad.hide();
-
-      if(!result) {
-        IonPopup.show({
-          title: 'Update profile',
-          template: '<div class="center">Please, update your debit card to share this item.</div>',
-          buttons: [{
-            text: 'OK',
-            type: 'button-energized',
-            onTap: function() {
-              IonPopup.close();
-              Router.go('/profile/savedcards/');
-            }
-          }]
-        });
-        return false;
-
-      } else {
+        PartioLoad.show();
 
         Meteor.setTimeout(function(){
 
@@ -50,14 +31,40 @@ Template.lend.events({
                 "semester": Number(Session.get('semesterPrice')).toFixed(2)
               }
             }
-
-            if(!validateInputs(manualProduct)){
+            
+            Meteor.call('userCanShare', function(error, result){
                 PartioLoad.hide();
-                return;
-            }
+                if(!result) {
+                    
+                    Session.set('cardManualEntry', manualProduct);
+                    console.log(Session.get('cardManualEntry'));
+                    
+                    IonPopup.show({
+                      title: 'Update profile',
+                      template: '<div class="center">Please, update your debit card to share this item.</div>',
+                      buttons: [{
+                        text: 'OK',
+                        type: 'button-energized',
+                        onTap: function() {
+                          IonPopup.close();
+                          Router.go('/profile/savedcards/');
+                        }
+                      }]
+                    });
+                    return false;
+                }
+                else {
 
-            Lend.addProductToInventoryManually(manualProduct);
-            Lend.latestProduct = undefined;
+                    if(!validateInputs(manualProduct)){
+                        PartioLoad.hide();
+                        return;
+                    }
+
+                    Lend.addProductToInventoryManually(manualProduct);
+                    Lend.latestProduct = undefined;
+
+                }
+            });
 
           //BAR CODE & CAMFIND ---------------------------------------------
           } else {
@@ -76,8 +83,7 @@ Template.lend.events({
               });
             }
           }, 500)
-      }
-    });
+      
   },
 
 })
@@ -92,8 +98,16 @@ Template.lend.rendered = function() {
 
     //Session.set('scanResult', null);
     //Session.set('allResults', null);
-
-    Session.set('lendTab', 'camfind');
+    
+    console.log(Session.get('cardManualEntry'));
+    
+    if(Session.get('cardManualEntry')) {
+        Session.set('lendTab', 'manual');
+        Session.set('cardManualEntry', null)
+    }
+    else {
+        Session.set('lendTab', 'camfind');
+    }
 }
 
 
