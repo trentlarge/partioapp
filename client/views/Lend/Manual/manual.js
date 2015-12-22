@@ -1,5 +1,5 @@
 Template.manual.rendered = function() {
-
+    
     var itemNotFound = Session.get('itemNotFound');
     if(itemNotFound) {
         Session.set('photoTaken', itemNotFound.image);
@@ -18,6 +18,20 @@ Template.manual.rendered = function() {
         Session.set('semesterPrice', null);
         Session.set('photoTaken', null);
     }
+    
+    //check card back
+    var manualProduct = Session.get('cardManualEntry');
+    if(manualProduct) {
+        Session.set('photoTaken', manualProduct.image);
+        Session.set('manualTitle', manualProduct.title);
+        Session.set('selectedCategory', manualProduct.category);
+        Session.set('selectedCondition', manualProduct.conditionId);
+        Session.set('dayPrice', manualProduct.rentPrice.day);
+        Session.set('weekPrice', manualProduct.rentPrice.week);
+        Session.set('monthPrice', manualProduct.rentPrice.month);
+        Session.set('semesterPrice', manualProduct.rentPrice.semester);
+    }
+    
 
     Session.set('scanResult', null);
     Session.set('allResults', null);
@@ -34,6 +48,7 @@ Template.manual.destroyed = function() {
     Session.set('photoTaken', null);
     Session.set('camfindImage', null);
     Session.set('selectedCategory', null);
+    Session.set('selectedCondition', null);
 }
 
 Template.manual.helpers({
@@ -45,6 +60,9 @@ Template.manual.helpers({
   },
   selectedCategory: function(category) {
       return (category === Session.get('selectedCategory')) ? 'selected' : '';
+  },
+  selectedCondition: function(index) {
+      return (index == Session.get('selectedCondition')) ? 'selected' : '';
   },
   getConditions: function() {
     return Rating.getConditions();
