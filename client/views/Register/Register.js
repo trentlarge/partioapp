@@ -70,8 +70,8 @@ Template.register.events({
   							 throw new Meteor.Error("Facebook login failed");
   					 } else {
   						 //console.log('logado');
-  						 //Router.go('/');
-               console.log(Meteor.user());
+  						 Router.go('/');
+               //console.log(Meteor.user());
                $('#name').val(Meteor.user().profile.name);
                $('#email').val(Meteor.user().emails[0].address);
   					 }
