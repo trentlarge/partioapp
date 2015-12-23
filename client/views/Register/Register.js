@@ -5,7 +5,7 @@ Template.register.rendered = function() {
       startView: 'decade',
       endDate: '-15y'
   });
-    
+
 }
 
 collegeEmails = {
@@ -51,11 +51,74 @@ Template.modalPrivacyPolicy.events({
 });
 
 Template.register.events({
-    
+
     'change #birthDate': function(e, template) {
         $('.datepicker').hide();
     },
-    
+
+    'click #fblogin': function(e, template) {
+  		// IonLoading.show();
+  		// var authOptions = {};
+  		//
+  		// if(Meteor.isCordova) {
+  		// 	authOptions.loginStyle = "redirect";
+  		// 	//authOptions.redirectUrl = "/profile"
+  		// }
+
+  		Meteor.loginWithFacebook({}, function(err){
+  					 if (err) {
+  							 throw new Meteor.Error("Facebook login failed");
+  					 } else {
+  						 //console.log('logado');
+  						 //Router.go('/');
+               console.log(Meteor.user());
+               $('#name').val(Meteor.user().profile.name);
+               $('#email').val(Meteor.user().emails[0].address);
+  					 }
+  			 });
+
+
+  			// Meteor.loginWithFacebook(authOptions, function(err) {
+  			// if (err) {
+  //				console.log(err);
+  			// 	IonPopup.show({
+  			// 		title: 'Error connecting to Facebook',
+  			// 		template: '<div class="center">'+err+'</div>',
+  			// 		buttons: [{
+  			// 			text: 'OK',
+  			// 			type: 'button-calm',
+  			// 			onTap: function() {
+  			// 				IonPopup.close();
+  			// 			}
+  			// 		}]
+  			// 	});
+  			// } else {
+  				//If Meteor.userId() exists
+  				// var UserExists = Meteor.users.find({_id: Meteor.userId()}, {$ne:{"profile.transactionsId": null}});
+  				//if(Meteor.user().profile.transactionsId)
+  				//{
+  					//user exist
+  				//}
+  				// else
+  				// {
+  				// 	Meteor.call('createCustomer', Meteor.userId(), function(error, result) {
+  				// 		if (!error) {
+  				// 			var userTransId = Transactions.insert({
+  				// 				earning: [],
+  				// 				spending: []
+  				// 			});
+  				// 			Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.transactionsId": userTransId}});
+  				// 			PartioLoad.hide();
+  				//
+  				// 		} else {
+  				// 			PartioLoad.hide();
+  				// 		}
+  				// 	})
+  				// }
+  			//}
+  		//});
+  	},
+
 	'click #registerButton': function(e, template) {
 		e.preventDefault();
 	    var email = template.find('[name=email]').value;

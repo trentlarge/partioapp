@@ -22,7 +22,8 @@
       ],
       "profileFields": [
         "name",
-        "email"
+        "email",
+        "birthday"
       ]
     },
     "STRIPE_PUBKEY": "pk_test_GiLnb5tXpZoGOwYgcTT6rbeo",
