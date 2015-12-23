@@ -3,9 +3,8 @@ Template.register.rendered = function() {
   $('#birthDate').inputmask({"mask": "99/99/9999"});
   $('#birthDate').datepicker({
       startView: 'decade',
-      endDate: '-15y'
+      endDate: '-16y',
   });
-    
 }
 
 collegeEmails = {
