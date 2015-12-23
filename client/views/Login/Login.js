@@ -70,21 +70,38 @@ Template.login.events({
 	},
 	'click #fblogin': function() {
 		// IonLoading.show();
+		// var authOptions = {};
+		//
+		// if(Meteor.isCordova) {
+		// 	authOptions.loginStyle = "redirect";
+		// 	//authOptions.redirectUrl = "/profile"
+		// }
+
 		Meteor.loginWithFacebook({}, function(err){
-			if (err) {
+					 if (err) {
+							 throw new Meteor.Error("Facebook login failed");
+					 } else {
+						 //console.log('logado');
+						 Router.go('/');
+					 }
+			 });
+
+
+			// Meteor.loginWithFacebook(authOptions, function(err) {
+			// if (err) {
 //				console.log(err);
-				IonPopup.show({
-					title: 'Error connecting to Facebook',
-					template: '<div class="center">'+err+'</div>',
-					buttons: [{
-						text: 'OK',
-						type: 'button-calm',
-						onTap: function() {
-							IonPopup.close();
-						}
-					}]
-				});
-			} else {
+			// 	IonPopup.show({
+			// 		title: 'Error connecting to Facebook',
+			// 		template: '<div class="center">'+err+'</div>',
+			// 		buttons: [{
+			// 			text: 'OK',
+			// 			type: 'button-calm',
+			// 			onTap: function() {
+			// 				IonPopup.close();
+			// 			}
+			// 		}]
+			// 	});
+			// } else {
 				//If Meteor.userId() exists
 				// var UserExists = Meteor.users.find({_id: Meteor.userId()}, {$ne:{"profile.transactionsId": null}});
 				//if(Meteor.user().profile.transactionsId)
@@ -107,8 +124,8 @@ Template.login.events({
 				// 		}
 				// 	})
 				// }
-			}
-		});
+			//}
+		//});
 	}
 })
 
