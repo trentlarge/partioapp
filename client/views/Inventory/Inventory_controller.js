@@ -12,7 +12,7 @@ InventoryController = RouteController.extend({
 	waitOn: function() {
 		return [
 			Meteor.subscribe("myProducts"),
-			//Meteor.subscribe("myConnectionsOwner")
+			Meteor.subscribe("myConnections")
 		];
 	},
 	data: function() {

@@ -31,10 +31,14 @@ Accounts.onCreateUser(function(options,user) {
 		if (currentEmail.split("@")[1] === "duke.edu" || currentEmail.split("@")[1] === "rollins.edu") {
 			user.emails = [{"address": currentEmail, "verified": false}]
 
-
 			Meteor.setTimeout(function() {
 				Accounts.sendVerificationEmail(user._id);
 			}, 4 * 1000);
+
+		} else {
+
+			//Creating transactionsId for new user;
+			Meteor.call('createTransactions');
 		}
 
 		console.log('finished FACEBOOK user creation...');
@@ -65,6 +69,8 @@ Accounts.onCreateUser(function(options,user) {
 		Meteor.setTimeout(function() {
 			Accounts.sendVerificationEmail(user._id);
 		}, 4 * 1000);
+
+
 
 		return user;
 	}
