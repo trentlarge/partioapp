@@ -1,14 +1,3 @@
-Template.appLayout.onRendered(function() {
-
-    if(!Meteor.user()){
-
-      Router.go('/register')
-
-    }
-
- });
-
-
 Template.contact.events({
   'click #send-message': function() {
     var subject = $('#subject').val();
