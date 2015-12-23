@@ -8,7 +8,6 @@ Template.appLayout.onRendered(function() {
 
  });
 
-
 Template.contact.events({
   'click #send-message': function() {
     var subject = $('#subject').val();

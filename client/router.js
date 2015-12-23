@@ -100,6 +100,7 @@ Router.onBeforeAction(function(pause){
 
 			if(Meteor.user().emails[0].verified) {
 				this.next();
+				Router.go('/profile')
 				console.log('next');
 			} else {
 				this.render('profile')

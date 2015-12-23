@@ -12,7 +12,7 @@ InventoryController = RouteController.extend({
 	waitOn: function() {
 		return [
 			Meteor.subscribe("myProducts"),
-			Meteor.subscribe("myConnections")
+			//Meteor.subscribe("myConnections")
 		];
 	},
 	data: function() {
@@ -54,8 +54,8 @@ InventoryController = RouteController.extend({
 					return totalDays + ' days';
 				}
 				return totalDays + ' day';
-			},     
-            
+			},
+
             isTimeOver: function(startDate, endDate) {
                 var diff;
                 if($.now() > new Date(startDate).getTime()) {
@@ -64,13 +64,13 @@ InventoryController = RouteController.extend({
                      diff = new Date(endDate - startDate);
                 }
                 var daysLeft = Math.floor((diff/1000/60/60/24) + 1);
-                
+
                 if(daysLeft < 0) {
                     return true;
                 }
                 return false;
             },
-            
+
             getDaysLeft: function(startDate, endDate) {
                 var diff;
                 if($.now() > new Date(startDate).getTime()) {
