@@ -87,7 +87,7 @@ Template.profile.events({
 
 Template.settingsProfileImage.helpers({
   'noProfileYet': function() {
-        if(Meteor.user()) {  
+        if(Meteor.user()) {
             if (Meteor.user().profile.avatar === "notSet") {
                 return true;
             } else {
@@ -99,7 +99,7 @@ Template.settingsProfileImage.helpers({
         }
   },
   'profileImage': function() {
-      if(Meteor.user()) { 
+      if(Meteor.user()) {
             return Meteor.user().profile.avatar;
       }
   }
@@ -253,4 +253,5 @@ Template.settingsProfileImage.events({
    };
    FR.readAsDataURL( input.target.files[0] );
  }
-})
+
+});
