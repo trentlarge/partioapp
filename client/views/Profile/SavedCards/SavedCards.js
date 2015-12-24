@@ -2,7 +2,7 @@ Template.savedCards.onRendered(function() {
 	if(!Meteor.user().profile.birthDate) {
 		IonPopup.show({
 			title: 'Missing information',
-			template: '<div class="center">Please, update you birth date before to add a debit card.</div>',
+			template: '<div class="center">Please update your birth date before to add a debit card.</div>',
 			buttons:
 			[{
 				text: 'OK',
