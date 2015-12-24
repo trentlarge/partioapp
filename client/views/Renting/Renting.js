@@ -1,57 +1,26 @@
-
 Template.renting.events({
-
-    
   'click .waiting': function() {
-      var waiting = $('.waiting');
-      var waitingItem = $('.waiting-item');
-
-      if(!waitingItem.is(':visible')){
-          waitingItem.slideDown('fast');
-          waiting.find('.chevron-icon').removeClass('ion-chevron-up').addClass('ion-chevron-down');
-      }
-      else {
-          waitingItem.slideUp('fast');
-          waiting.find('.chevron-icon').removeClass('ion-chevron-down').addClass('ion-chevron-up');
-      }
+      Animations.accordion($('.waiting'), $('.waiting-item'));
   },
   'click .payment': function() {
-      var payment = $('.payment');
-      var paymentItem = $('.payment-item');
-
-      if(!paymentItem.is(':visible')){
-          paymentItem.slideDown('fast');
-          payment.find('.chevron-icon').removeClass('ion-chevron-up').addClass('ion-chevron-down');
-      }
-      else {
-          paymentItem.slideUp('fast');
-          payment.find('.chevron-icon').removeClass('ion-chevron-down').addClass('ion-chevron-up');
-      }
+      Animations.accordion($('.payment'), $('.payment-item'));
   },
   'click .borrowed': function() {
-      var borrowed = $('.borrowed');
-      var borrowedItem = $('.borrowed-item');
-
-      if(!borrowedItem.is(':visible')){
-          borrowedItem.slideDown('fast');
-          borrowed.find('.chevron-icon').removeClass('ion-chevron-up').addClass('ion-chevron-down');
-      }
-      else {
-          borrowedItem.slideUp('fast');
-          borrowed.find('.chevron-icon').removeClass('ion-chevron-down').addClass('ion-chevron-up');
-      }
+      Animations.accordion($('.borrowed'), $('.borrowed-item'));
   },
   'click .returned': function() {
-      var returned = $('.returned');
-      var returnedItem = $('.returned-item');
-
-      if(!returnedItem.is(':visible')){
-          returnedItem.slideDown('fast');
-          returned.find('.chevron-icon').removeClass('ion-chevron-up').addClass('ion-chevron-down');
-      }
-      else {
-          returnedItem.slideUp('fast');
-          returned.find('.chevron-icon').removeClass('ion-chevron-down').addClass('ion-chevron-up');
-      }
+      Animations.accordion($('.returned'), $('.returned-item'));
   },
+  'click #start-borrowing': function() {
+        Router.go('/listing')
+    },
+
+});
+
+Template.renting.helpers({
+  'iconRandom': function() {
+      //return 'breno';
+        return Random.choice(['projector', 'bike', 'gamepad-variant','football-helmet','camera','football']);
+  }
+
 });

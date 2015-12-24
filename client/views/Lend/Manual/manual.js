@@ -91,18 +91,15 @@ Template.manual.helpers({
 })
 
 Template.manual.events({
-
-  'focus input': function() {
-    $('.manual-entry').css({
-        'padding-bottom': '250px'
-    });
-  },
-
-  'focusout input': function() {
-    $('.manual-entry').css({
-        'padding-bottom': '50px'
-    });
-  },
+    
+//  'focus input': function(e, template) {  
+//    $('.manual-entry').css({ 'padding-bottom': '250px' });
+//  },
+//
+//  'focusout input': function(e, template) {
+//    //$('.content').scrollTop( $(e.target)[0].scrollHeight );    
+//    $('.manual-entry').css({ 'padding-bottom': '50px' });
+//  },
 
   'change .userPrice': function(e, template) {
 

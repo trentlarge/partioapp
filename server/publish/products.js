@@ -21,17 +21,17 @@ Meteor.publish("productsByTitle", function(_title) {
 });
 
 Meteor.publish("productsData", function(_id, pageNumber, text, categories) {
-    pageSize = 5;
+    pageSize = 15;
     pageNumber = pageNumber || 1;
-    
+
     //return Search.find({}, { skip: pageNumber * pageSize, limit: pageSize });
     return Products.find(
-        { 
-            ownerId: { $not: { $eq: _id } }, 
+        {
+            ownerId: { $not: { $eq: _id } },
             title: { $regex: ".*"+text+".*", $options: 'i' },
             category: { $in: categories }
-        }, 
-        { 
-            limit: pageNumber * pageSize 
+        },
+        {
+            limit: pageNumber * pageSize
         });
 });

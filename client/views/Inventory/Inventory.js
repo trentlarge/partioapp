@@ -1,46 +1,28 @@
+
+Template.inventory.helpers({
+  'iconRandom': function() {
+      //return 'breno';
+        return Random.choice(['projector', 'bike', 'gamepad-variant','football-helmet','camera','football']);
+  }
+
+});
+
+
 Template.inventory.events({
   'click .start-share': function() {
     Router.go('/lend');
   },
 
   'click .final-requests': function() {
-    var requests = $('.final-requests');
-    var requestsItem = $('.final-request-item');
-
-    if(!requestsItem.is(':visible')){
-      requestsItem.slideDown('fast');
-      requests.find('.chevron-icon').removeClass('ion-chevron-up').addClass('ion-chevron-down');
-    } else {
-      requestsItem.slideUp('fast');
-      requests.find('.chevron-icon').removeClass('ion-chevron-down').addClass('ion-chevron-up');
-    }
+      Animations.accordion($('.final-requests'), $('.final-request-item'));
   },
 
   'click .requests': function() {
-    var requests = $('.requests');
-    var requestsItem = $('.request-item');
-
-    if(!requestsItem.is(':visible')){
-        requestsItem.slideDown('fast');
-        requests.find('.chevron-icon').removeClass('ion-chevron-up').addClass('ion-chevron-down');
-    } else {
-        requestsItem.slideUp('fast');
-        requests.find('.chevron-icon').removeClass('ion-chevron-down').addClass('ion-chevron-up');
-    }
+      Animations.accordion($('.requests'), $('.request-item'));
   },
 
   'click .products': function() {
-      var products = $('.products');
-      var productsItem = $('.product-item');
-
-      if(!productsItem.is(':visible')){
-          productsItem.slideDown('fast');
-          products.find('.chevron-icon').removeClass('ion-chevron-up').addClass('ion-chevron-down');
-      }
-      else {
-          productsItem.slideUp('fast');
-          products.find('.chevron-icon').removeClass('ion-chevron-down').addClass('ion-chevron-up');
-      }
+      Animations.accordion($('.products'), $('.product-item'));
   },
 
   'click #respondToReq': function(){

@@ -16,9 +16,13 @@ Template.contact.events({
 
     if (subject != '' & message != '') {
 
+
+      PartioLoad.show();
+
+
       Meteor.call('sendEmail',subject,message, function(err, res) {
 
-        console.log(err);
+        //console.log(err);
 
         if(err) {
             var errorMessage = err.reason || err.message;
@@ -29,6 +33,7 @@ Template.contact.events({
             return;
         } else {
 
+          PartioLoad.hide();
           IonPopup.alert({
             okText: 'Enter',
             title: 'Succesfully',

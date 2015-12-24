@@ -17,10 +17,13 @@ Meteor.methods({
       var day = dateBirth[1];
       var year = dateBirth[2];
 
-      console.log('########ANIVERSARIO');
-      console.log(dateBirth[0]);
-      console.log(dateBirth[1]);
-      console.log(dateBirth[2]);
+      var _name = _user.profile.name.trim();
+          _name = _name.split(" ");
+
+      var _last_name = _name[_name.length-1];
+
+      _name.splice(_name.length-1, 1)
+      _name = _name.join(" ");
 
       var response = Async.runSync(function(done) {
 
@@ -30,26 +33,31 @@ Meteor.methods({
           country: 'US',
           email: _user.emails[0].address,
           "legal_entity[type]": "individual",
-          "legal_entity[first_name]": _user.profile.name,
-          "legal_entity[last_name]": 'Partio',
+          "legal_entity[first_name]": _name,
+          "legal_entity[last_name]": _last_name,
           "legal_entity[dob][day]": day,
           "legal_entity[dob][month]": month,
           "legal_entity[dob][year]": year,
           "tos_acceptance[date]": Math.floor(Date.now() / 1000),
           "tos_acceptance[ip]": clientIp,
+          "metadata": {
+            userId: _user._id,
+            phone: _user.profile.mobile,
+          }
 
         }, Meteor.bindEnvironment(function (error, result) {
-          if(result) {
-            Meteor.users.update({"_id":_user._id }, {$set: {
-               "secret.stripeManaged": result.id,
-             }}, function(){
-                done(false, true);
-             })
-          } else {
+          if(error) {
+            done(error.message, false);
+          }
 
-            if(error) {
-              done(error.message, false);
-            }
+          if(result) {
+            Meteor.users.update({"_id":_user._id },
+              {$set: { "secret.stripeManaged": result.id,
+                       "secret.stripeAccountKeys": result.keys }},
+              function(){
+                done(false, true);
+              }
+            );
           }
         }));
       })
@@ -74,7 +82,14 @@ Meteor.methods({
       var response = Async.runSync(function(done) {
 
         //Creating Stripe Customer Account
-        Stripe.customers.create({ description: _user._id },
+        Stripe.customers.create({ email: _user.emails[0].address,
+                                  description: 'created by PartioApp',
+                                  metadata: {
+                                    userId: _user._id,
+                                    name: _user.profile.name,
+                                    phone: _user.profile.mobile,
+                                  }
+                                },
          Meteor.bindEnvironment(function (error, result) {
            if(error) {
              done(error, false);
@@ -91,7 +106,12 @@ Meteor.methods({
         );
       });
 
-      return response.result;
+      if(response.error) {
+        throw new Meteor.Error("checkStripeCustomer", response.error);
+
+      } else {
+        return response.result;
+      }
 
     } else {
       console.log(">>>> [stripe] stripeCustomer already exists");
@@ -132,7 +152,11 @@ Meteor.methods({
       );
     })
 
-    return response.result;
+    if(response.error) {
+      throw new Meteor.Error("addCustomerCard", response.error);
+    } else {
+      return response.result;
+    }
   },
 
   'addManagedCard': function(firstToken, secondToken) {
@@ -184,7 +208,11 @@ Meteor.methods({
       );
     })
 
-    return response.result;
+    if(response.error) {
+      throw new Meteor.Error("addManagedCard", response.error);
+    } else {
+      return response.result;
+    }
   },
 
   'getStripeCustomer': function(){
@@ -204,7 +232,11 @@ Meteor.methods({
       );
     });
 
-    return response.result;
+    if(response.error) {
+      throw new Meteor.Error("getStripeCustomer", response.error);
+    } else {
+      return response.result;
+    }
   },
 
   'getStripeManaged': function() {
@@ -223,7 +255,11 @@ Meteor.methods({
       );
     });
 
-    return response.result;
+    if(response.error) {
+      throw new Meteor.Error("getStripeManaged", response.error);
+    } else {
+      return response.result;
+    }
   },
 
   'setDefaultCard': function(action, cardData){
@@ -266,7 +302,12 @@ Meteor.methods({
       }
     });
 
-    return response.result;
+    if(response.error) {
+      throw new Meteor.Error("setDefaultCard", response.error);
+    } else {
+      return response.result;
+    }
+
   },
 
   'removeCard': function(cardData){
@@ -314,7 +355,11 @@ Meteor.methods({
       }
     });
 
-    return response.result;
+    if(response.error) {
+      throw new Meteor.Error("removeCard", response.error);
+    } else {
+      return response.result;
+    }
   },
 
   'chargeCard': function(connectionId) {
@@ -327,81 +372,101 @@ Meteor.methods({
     var connect = Connections.findOne({ _id: connectionId, finished: { $ne: true } });
 
     if(!connect) {
-      throw new Meteor.Error("chargeCard", "connect not found");
+      throw new Meteor.Error("chargeCard", "connect not finished or not found");
     }
 
     var requestor = Meteor.users.findOne(connect.requestor);
-    //var requestorManagedId = requestor.profile.stripeManaged;
     var owner = Meteor.users.findOne(connect.productData.ownerId);
 
     var amount = connect.borrowDetails.price.total;
     var formattedAmount = (amount * 100).toFixed(0);
 
     var response = Async.runSync(function(done) {
+
       Stripe.customers.retrieve(requestor.secret.stripeCustomer,
-        Meteor.bindEnvironment(function (err, customer) {
-          if(err) {
-            done(err, false);
-          }
+      Meteor.bindEnvironment(function (err, customer) {
+        if(err) {
+          done(err, false);
+        }
 
-          var payCardId = customer.default_source;
+        var payCardId = customer.default_source;
 
-          Stripe.charges.create({
-            amount: formattedAmount,
-            currency: "usd",
-            customer: requestor.secret.stripeCustomer,
-            source: payCardId,
-            description: requestor.emails[0].address+' paid to Partio' },
-            Meteor.bindEnvironment(function (err, charge) {
-              if(err) {
-                done(err, false);
-              }
-              console.log('>>>>> [stripe] new charge to Partio ', charge);
+        // Creating a charge
+        Stripe.charges.create({
+          amount: formattedAmount,
+          currency: "usd",
+          customer: requestor.secret.stripeCustomer,
+          source: payCardId,
+          metadata: {
+            connectId: connect._id,
+            productId: connect.productData._id,
+            productName: connect.productData.title,
+            ownerId: connect.owner,
+            requestorId: connect.requestor
+          },
+          description: requestor.emails[0].address+' renting from '+owner.emails[0].address },
 
-              Connections.update({_id: connect._id}, {$set: {state: "IN USE", payment: charge}});
+          Meteor.bindEnvironment(function (err, charge) {
+            if(err) {
+              done(err, false);
+            }
 
-              var payerTrans = {
-                date: charge.created * 1000,
+            console.log('>>>>> [stripe] new charge ', charge);
+
+            // Creating a transfer
+            Stripe.transfers.create({
+              amount: formattedAmount,
+              currency: "usd",
+              destination: owner.secret.stripeManaged,
+              description: owner.emails[0].address+' receiving from '+requestor.emails[0].address,
+              metadata: {
+                connectId: connect._id,
+                productId: connect.productData._id,
                 productName: connect.productData.title,
-                paidAmount: charge.amount/100
-              }
+                ownerId: connect.owner,
+                requestorId: connect.requestor
+              },
+              source_transaction: charge.id },
+              Meteor.bindEnvironment(function (err, transfer) {
+                if(err) {
+                  done(err, false);
+                }
 
-              var recipientTrans = {
-                date: charge.created * 1000,
-                productName: connect.productData.title,
-                receivedAmount: charge.amount/100
-              }
+                console.log('>>>>> [stripe] new transfer ', transfer);
 
-              Transactions.update({'userId': connect.requestor }, {$push: {spending: payerTrans}});
-              Transactions.update({'userId': connect.owner }, {$push: {earning: recipientTrans}});
+                Connections.update({_id: connect._id}, {$set: {state: "IN USE", payment: charge}});
 
-              var message = 'You received a payment of $' + amount + ' from ' + requestor.profile.name
-              sendPush(owner._id, message);
-              sendNotification(owner._id, requestor._id, message, "info");
+                var payerTrans = {
+                  date: charge.created * 1000,
+                  productName: connect.productData.title,
+                  paidAmount: charge.amount/100
+                }
 
-              done(false, charge);
-            })
-          );
-        })
-      );
-    });
+                var recipientTrans = {
+                  date: charge.created * 1000,
+                  productName: connect.productData.title,
+                  receivedAmount: charge.amount/100
+                }
 
-    return response.result;
-  },
+                Transactions.update({'userId': connect.requestor }, {$push: {spending: payerTrans}});
+                Transactions.update({'userId': connect.owner }, {$push: {earning: recipientTrans}});
 
-  //not using yet
-  'transferMoney': function(connectionId) {
-      // Stripe.transfers.create({
-      //   amount: formattedAmount,
-      //   currency: "usd",
-      //   source: requestorCardId,
-      //   destination: ownerStripeId,
-      //   destination_payment: ownerStripeId,
-      //   description: "Send Money to "+owner.profile.name
-      // }, function(err, transfer) {
-      //   console.log(err, 'xxxxxxxxx', transfer);
-      //   // asynchronously called
-      // });
+                var message = 'You received a payment of $' + amount + ' from ' + requestor.profile.name
+                sendPush(owner._id, message);
+                sendNotification(owner._id, requestor._id, message, "info");
+
+                done(false, charge);
+              })
+            )
+          })
+        ) // charges.create
+     })); // customer.retrieve
+    }); //async
+
+    if(response.error) {
+      throw new Meteor.Error("chargeCard", response.error);
+    } else {
+      return response.result;
+    }
   }
-
 });

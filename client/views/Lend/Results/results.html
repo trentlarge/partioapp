@@ -47,7 +47,7 @@
                             </a>
                         </div>
 
-                        <div class="{{splitCategory}}" style="display: block;">
+                        <div class="{{splitCategory}}" style="display: {{#if isOnlyOneCategory}} block {{else}} none {{/if}};">
                             {{#each allResultsByCategory}}
                                 <div class="item product">
                                     <div class="row">
