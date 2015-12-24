@@ -99,8 +99,6 @@ Template.lend.rendered = function() {
     //Session.set('scanResult', null);
     //Session.set('allResults', null);
     
-    console.log(Session.get('cardManualEntry'));
-    
     if(Session.get('cardManualEntry')) {
         Session.set('lendTab', 'manual');
         Session.set('cardManualEntry', null)
