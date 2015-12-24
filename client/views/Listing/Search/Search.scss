@@ -4,21 +4,25 @@
 
 .listing-search {
     
-    .item {
-        border: 0;
-        
-        &.product {
-            border-top: 1px solid #ddd;
-        }
-    }
+//    .item {
+//        border: 0;
+//        
+//        &.product {
+//            border-top: 1px solid #ddd;
+//        }
+//    }
     
     .item-divider {
+        padding-top: 12px;
         padding-bottom: 12px;
-    }
-    
-    hr {
-        margin-bottom: 0;
-        border-top: 1px solid #ddd;
+
+        h3 {
+            height: 17px;
+        }
+
+        i {
+            float: right;
+        }
     }
     
 //  PRODUCT DETAILS
@@ -76,8 +80,13 @@
         }
         
         button {
+            width: 90%;
             margin-top: 25px;
             border-radius: 100px;
+            height: 40px;
+            min-height: 40px;
+            line-height: 10px;
+            font-size: 15px;
         }
     }
         
@@ -127,6 +136,65 @@
             opacity: .8;
         }
     }
+    
+    .row-details {
+        display: flex;
+
+        .col {
+            padding: 0;
+        }   
+    }
+
+    .features-details {
+        border-top: 0;
+        border-bottom: 0;
+    }
+    
+    .attributes {
+        border: 0;
+        
+        p {
+            height: 18px;
+        }
+    }
+    
+    .details-box {
+
+        padding: 5px;
+        display: flex;
+        display: -webkit-flex;
+        align-items: center;
+        -webkit-align-items: center;
+
+        i {
+            color: #fff;
+            border-radius: 2px;
+            padding: 10px;            
+            text-align: center;
+            width: 42px;
+            min-width: 42px;
+            font-size: 19px;
+            opacity: .8;
+            -webkit-box-shadow: inset 0px -20px 0px 0px rgba(255,255,255,0.1);
+            -moz-box-shadow: inset 0px -20px 0px 0px rgba(255,255,255,0.1);
+            box-shadow: inset 0px -20px 0px 0px rgba(255,255,255,0.1);
+        }
+
+        .bk-energized { background-color: #f0970d; }
+        .bk-assertive { background-color: #df5707; }
+
+        .detail {
+            font-size: 14px;
+            padding: 10px;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+    }
+    
     
 //  -END- PRODUCT DETAILS
     
