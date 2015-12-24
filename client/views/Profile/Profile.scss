@@ -13,6 +13,11 @@
 
 .profile-content {
 
+    input[readonly]#birthDate{
+        background-color: #ffffff;
+        opacity: .6;
+    }
+    
     .activation-title {
         white-space: normal;
         display: block;

@@ -30,10 +30,10 @@ Template.appLayout.events({
 Template.profile.rendered = function() {
   $('#profilemobile').inputmask({"mask": "+9 (999) 999-9999"});
   $('#birthDate').inputmask({"mask": "99/99/9999"});
-//  $('#birthDate').datepicker({
-//      startView: 'decade',
-//      endDate: '-15y'
-//  });
+  $('#birthDate').datepicker({
+      startView: 'decade',
+      endDate: '-16y',
+  });
 
 }
 
@@ -44,6 +44,10 @@ Template.profile.destroyed = function() {
 }
 
 Template.profile.events({
+    
+  'change #birthDate': function(e, template) {
+        $('.datepicker').hide();
+   },
   'keyup #profileEdit': function(e, template) {
     e.preventDefault();
     Session.set('profileEdit', true);
