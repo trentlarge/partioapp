@@ -1,3 +1,13 @@
+
+Template.inventory.helpers({
+  'iconRandom': function() {
+      //return 'breno';
+        return Random.choice(['projector', 'bike', 'gamepad-variant','football-helmet','camera','football']);
+  }
+
+});
+
+
 Template.inventory.events({
   'click .start-share': function() {
     Router.go('/lend');
