@@ -26,6 +26,9 @@ Meteor.methods({
 			}
 		});
 	},
+	'resendValidation': function(email) {
+				Accounts.sendVerificationEmail(email);
+	},
 	'updatePassword': function(password) {
 		console.log('chamou updatePassword');
 		Meteor.bindEnvironment(function() {
