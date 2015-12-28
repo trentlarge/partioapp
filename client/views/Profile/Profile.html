@@ -117,11 +117,7 @@
 
 <template name="settingsProfileImage">
   <div class="profile-image-container">
-    {{#if noProfileYet}}
-    <div class="profile-avatar" style="background: url('profile_image_placeholder.jpg') no-repeat; background-size:cover; background-position: 50% 50%;"></div>
-    {{else}}
     <div class="profile-avatar" style="background: url('{{profileImage}}') no-repeat; background-size:cover; background-position: 50% 50%;"></div>
-    {{/if}}
   </div>
   <input type="file" id="browser-file-upload">
 </template>

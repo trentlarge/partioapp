@@ -10,9 +10,12 @@ Meteor.methods({
 		});
 	},
 
-	removeConnection: function(idConnection) {
+    removeConnection: function(idConnection) {
+        Connections.remove(idConnection);
+    },
+    
+	updateConnection: function(idConnection) {
         Connections.update({ _id: idConnection }, { $set: { finished: true }})
-		//Connections.remove({_id: idConnection});
 	},
 
 	'submitRating': function(rating, personId, ratedBy) {
