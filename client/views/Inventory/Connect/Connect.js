@@ -1,4 +1,5 @@
 Template.connect.events({
+    
   'click .product-details': function(e, template) {
     var productDetails = $('.product-details');
     var productDetailsItem = $('.product-details-item');
@@ -59,7 +60,16 @@ Template.connect.events({
 				
 			},
 			onOk: function() {
-				Connections.remove({"_id": connectionId});
+				Meteor.call('updateConnection', connectionId, function(err, res) {
+					if(err) {
+						var errorMessage = err.reason || err.message;
+						if(err.details) {
+							errorMessage = errorMessage + "\nDetails:\n" + err.details;
+						}
+						sAlert.error(errorMessage);
+						return;
+					}
+				});
 				//Chat.remove({connectionId: connectionId})
 				IonPopup.close();
 				Router.go('/inventory');

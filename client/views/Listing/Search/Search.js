@@ -11,6 +11,20 @@ Template.search.rendered = function() {
 }
 
 Template.search.events({
+    
+    'click .features': function(e, template) {
+        var features = $('.features');
+        var featureDetails = $('.features-details');
+
+        if(!featureDetails.is(':visible')){
+            featureDetails.slideDown('fast');
+            features.find('.chevron-icon').removeClass('ion-chevron-up').addClass('ion-chevron-down');
+        } else {
+            featureDetails.slideUp('fast');
+            features.find('.chevron-icon').removeClass('ion-chevron-down').addClass('ion-chevron-up');
+        }
+    },
+    
     'click #requestProduct': function() {
       Meteor.call('userCanBorrow', function(error, result){
         if(!result) {
@@ -36,7 +50,7 @@ Template.search.events({
       });
     },
 
-    'click #moreInfo': function() {
-        IonModal.open("productDetail", Products.findOne(this._id));
-    }
+//    'click #moreInfo': function() {
+//        IonModal.open("productDetail", Products.findOne(this._id));
+//    }
 })

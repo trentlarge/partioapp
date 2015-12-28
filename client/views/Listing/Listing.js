@@ -1,13 +1,13 @@
 Template.listing.rendered = function() {
-    
+
     if(!Session.get('searchText')) {
         Session.set('searchText', '');
     }
-    
+
     //start with 10 items per page with 2 pages (1 page hidden)
-    Session.set("pageSize", 5);
+    Session.set("pageSize", 15);
     Session.set("pageNumber", 1);
-    
+
     Session.set('listing', true);
 
     var inputBox = $('.search-header-input');
@@ -21,7 +21,7 @@ Template.listing.rendered = function() {
     inputIcon.css({
         'color': '#272727'
     });
-    
+
 }
 
 Template.listing.destroyed = function() {
@@ -32,34 +32,34 @@ Template.listing.destroyed = function() {
 }
 
 Template.searchResult.helpers({
-    
-  // show/hide "SHOW MORE" button.    
+
+  // show/hide "SHOW MORE" button.
   isFinished: function(size) {
-      
+
       var maxSize = Session.get("pageSize") * Session.get("pageNumber");
-      
+
       if(size < maxSize) {
           return false;
       }
       return true;
   },
-    
+
 });
 
 Template.searchResult.events({
-   
+
     'click #showMore': function(e, template){
         Session.set('pageNumber', Session.get('pageNumber') + 1);
     },
-    
+
 });
 
 Template.searchBox.helpers({
-    
+
     getCategory: function(index) {
         return Categories.getCategory(index);
     },
-    
+
     isActivated: function(index) {
         if (Session.get('categoryIndex') === index) {
             var selectedCategories = [];
@@ -71,14 +71,14 @@ Template.searchBox.helpers({
             return "";
         }
     },
-    
+
     getCategoryIcon: function(index) {
       return Categories.getCategoryIcon(index);
     }
 });
 
 Template.searchBox.events({
-    
+
     "click .categoryFilter": function(e, template) {
 
         var categoryFilterBox = $(e.currentTarget);

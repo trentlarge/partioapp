@@ -6,6 +6,10 @@ Meteor.publish("myConnections", function() {
 	return Connections.find({ $or: [ { "owner": this.userId, finished: { $ne: true } }, { "requestor": this.userId } ] })
 });
 
+Meteor.publish("ownerConnections", function(ownerId) {
+	return Connections.find( { "owner": ownerId, finished: { $ne: true } } )
+});
+
 Meteor.publish("singleConnect", function(connectionId) {
 	var connection = Connections.findOne({ _id: connectionId, finished: { $ne: true } });
 	if(!connection) {

@@ -30,10 +30,10 @@ Template.appLayout.events({
 Template.profile.rendered = function() {
   $('#profilemobile').inputmask({"mask": "+9 (999) 999-9999"});
   $('#birthDate').inputmask({"mask": "99/99/9999"});
-//  $('#birthDate').datepicker({
-//      startView: 'decade',
-//      endDate: '-15y'
-//  });
+  $('#birthDate').datepicker({
+      startView: 'decade',
+      endDate: '-16y',
+  });
 
 }
 
@@ -44,6 +44,10 @@ Template.profile.destroyed = function() {
 }
 
 Template.profile.events({
+
+  'change #birthDate': function(e, template) {
+        $('.datepicker').hide();
+   },
   'keyup #profileEdit': function(e, template) {
     e.preventDefault();
     Session.set('profileEdit', true);
@@ -60,6 +64,37 @@ Template.profile.events({
       okText: 'Got It!'
     });
   },
+  'click #resend-validation': function() {
+
+
+				Meteor.call('resendValidation',Meteor.userId(), function(err, res) {
+
+						console.log(err);
+
+							if(err) {
+									var errorMessage = err.reason || err.message;
+									if(err.details) {
+										errorMessage = errorMessage + "\nDetails:\n" + err.details;
+									}
+									sAlert.error(errorMessage);
+									return;
+							} else {
+
+								PartioLoad.hide();
+								IonPopup.alert({
+									okText: 'Enter',
+									title: 'Succesfully',
+									template: '<div class="center">Send the link again, please check your email.</div>',
+									onOk: function() {
+
+									}
+								});
+
+							}
+
+				});
+
+	},
   'click #save-college-email': function() {
 
     var college = $('#profileuniversity').val();

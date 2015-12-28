@@ -28,7 +28,7 @@ App.launchScreens({
   'iphone': 'public/launchScreens/320x480.png',
   'iphone_2x': 'public/launchScreens/320x480@2x.png',
   'iphone5': 'public/launchScreens/320x568@2x.png',
-  'iphone6': 'public/launchScreens/375x667@2x-yellow.png',
+  'iphone6': 'public/launchScreens/375x667@2x.png',
   'iphone6p_portrait': 'public/launchScreens/414x736@3x.png',
   'iphone6p_landscape': 'public/launchScreens/736x414@3x.png',
 
@@ -66,6 +66,6 @@ App.accessRule('*');
 // });
 
 App.configurePlugin('com.phonegap.plugins.facebookconnect', {
-    APP_ID: '453646108150424',
+    APP_ID: '902012053186141',
     APP_NAME: 'partiO'
 });

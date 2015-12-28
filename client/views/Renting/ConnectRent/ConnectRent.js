@@ -1,7 +1,7 @@
 Template.connectRent.rendered = function() {
   var nowTemp = new Date();
-  var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0); 
-    
+  var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
+
   $('.range').datepicker({
       format: 'mm-dd-yyyy',
       startDate: 'd',
@@ -20,6 +20,23 @@ Template.connectRent.rendered = function() {
       "weeks": 0,
       "days": 0,
   }
+
+
+var initializing = true;
+
+  //var handle = this.connectData.find().observe({
+  var handle = Connections.find().observeChanges({
+      changed: function(id, fields) {
+
+        if(fields.finished){
+          Router.go('/renting');
+        }
+
+      }
+    });
+
+  initializing = false;
+
 
   Session.set('rentPrice', rentPrice);
   Session.set('numberDays', 0);
@@ -130,7 +147,7 @@ Template.connectRent.events({
 	'click #cancelRequest': function() {
 		connectionId = this.connectData._id;
 
-		console.log('Cancelling Request');
+		console.log('Cancelling Request ' + connectionId);
 
 		IonPopup.confirm({
 			cancelText: 'No',
@@ -142,10 +159,22 @@ Template.connectRent.events({
 			},
 			onOk: function() {
                 //remove data from client is not a good pratice
-				Connections.remove({"_id": connectionId});
-				//Chat.remove({connectionId: connectionId})
-				IonPopup.close();
+                Meteor.call('updateConnection', connectionId, function(err, res) {
+					if(err) {
+						var errorMessage = err.reason || err.message;
+						if(err.details) {
+							errorMessage = errorMessage + "\nDetails:\n" + err.details;
+						}
+						sAlert.error(errorMessage);
+						return;
+					}
+				});
+
+                IonPopup.close();
 				Router.go('/listing');
+				//Connections.remove({"_id": connectionId});
+				//Chat.remove({connectionId: connectionId})
+
 			}
 
 		});

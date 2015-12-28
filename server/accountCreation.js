@@ -21,6 +21,7 @@ Accounts.onCreateUser(function(options,user) {
 		//user.profile.email = user.services.facebook.email;
 		user.profile.avatar = 'http://graph.facebook.com/'+linkId+'/picture?type=large';
 		user.profile.name = user.services.facebook.name
+		user.profile.birthDate = user.services.facebook.birthday
 		//FOR NO APPARENT REASON FACEBOOK REFUSED TO SEND AVATAR AFTER LOGIN
 		// user.profile.avatar = options.profile.avatar;
 		user.profile.college = '';
@@ -31,9 +32,9 @@ Accounts.onCreateUser(function(options,user) {
 		if (currentEmail.split("@")[1] === "duke.edu" || currentEmail.split("@")[1] === "rollins.edu") {
 			user.emails = [{"address": currentEmail, "verified": false}]
 
-			Meteor.setTimeout(function() {
-				Accounts.sendVerificationEmail(user._id);
-			}, 4 * 1000);
+			// Meteor.setTimeout(function() {
+			// 	Accounts.sendVerificationEmail(user._id);
+			// }, 4 * 1000);
 
 		} else {
 

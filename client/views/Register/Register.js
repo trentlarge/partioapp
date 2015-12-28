@@ -3,9 +3,9 @@ Template.register.rendered = function() {
   $('#birthDate').inputmask({"mask": "99/99/9999"});
   $('#birthDate').datepicker({
       startView: 'decade',
-      endDate: '-15y'
+      endDate: '-16y',
   });
-    
+
 }
 
 collegeEmails = {
@@ -51,11 +51,11 @@ Template.modalPrivacyPolicy.events({
 });
 
 Template.register.events({
-    
+
     'change #birthDate': function(e, template) {
         $('.datepicker').hide();
     },
-    
+
 	'click #registerButton': function(e, template) {
 		e.preventDefault();
 	    var email = template.find('[name=email]').value;
@@ -66,7 +66,7 @@ Template.register.events({
 				mobile: template.find('[name=mobile]').value,
 	    	college: template.find('#college').value,
         birthDate: template.find('[name=birthDate]').value,
-	    	avatar: "notSet",
+	    	avatar: base64imgs('profile-image-placeholder'),
 	    	location: Session.get('newLocation')
 	    };
 

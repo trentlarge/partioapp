@@ -22,38 +22,46 @@ ConnectRentController = RouteController.extend({
 	data: function() {
 		return {
 			connectData: this.connection(),
-            
+
 			getCategoryIcon: function() {
+                if(!this.connectData) { return; }
 				return Categories.getCategoryIconByText(this.connectData.productData.category);
 			},
 
 			getCondition: function() {
+                if(!this.connectData) { return; }
 				return Rating.getConditionByIndex(this.connectData.productData.conditionId);
 			},
 
 			getRequestDate: function() {
+                if(!this.connectData) { return; }
 				return formatDate(this.connectData.requestDate);
 			},
 
 			getStartDate: function() {
+                if(!this.connectData) { return; }
 				return formatDate(this.connectData.borrowDetails.date.start);
 			},
 
 			getEndDate: function() {
+                if(!this.connectData) { return; }
 				return formatDate(this.connectData.borrowDetails.date.end);
 			},
 
 			getTotalDays: function() {
+                if(!this.connectData) { return; }
 				if( this.connectData.borrowDetails.date.totalDays > 1 ) {
 						return this.connectData.borrowDetails.date.totalDays + ' days';
 				}
 				return this.connectData.borrowDetails.date.totalDays + ' day';
 			},
 			userInfo: function() {
+                if(!this.connectData) { return; }
 				return this.connectData.productData.ownerData.profile;
 			},
 
 			ownerAvatar: function() {
+                if(!this.connectData) { return; }
 				if(this.connectData.productData.ownerData.profile.avatar == 'notSet' ||
 					 this.connectData.productData.ownerData.profile.avatar == ''
 				 ){
@@ -64,30 +72,37 @@ ConnectRentController = RouteController.extend({
 			},
 
 			approvedStatus: function() {
+                if(!this.connectData) { return; }
 				return this.connectData.state !== 'WAITING' ? true : false;
 			},
 
 			phoneNumber: function() {
+                if(!this.connectData) { return; }
 				return this.connectData.productData.ownerData.profile.mobile;
 			},
 
 			preferredLocation: function() {
+                if(!this.connectData) { return; }
 				return this.connectData.meetupLocation;
 			},
 
 			paymentDone: function() {
+                if(!this.connectData) { return; }
 				return this.connectData.payment ? true : false;
 			},
 
 			itemReturnDone: function() {
+                if(!this.connectData) { return; }
 				return (this.connectData.state === "RETURNED" || this.connectData.state === "DONE" ) ? true : false;
 			},
 
 			paymentPending: function() {
+                if(!this.connectData) { return; }
 				return (this.connectData.state === "PAYMENT" || this.connectData.state === "WAITING") ? true : false;
 			},
 
 			calculatedPrice: function() {
+                if(!this.connectData) { return; }
 				if(!Session.get('rentPrice')) {
 						return 0;
 				}
@@ -104,6 +119,7 @@ ConnectRentController = RouteController.extend({
 			},
 
 			validatePrice: function() {
+                if(!this.connectData) { return; }
 				if(!Session.get('rentPrice')) {
 					return 'disabled';
 				}
@@ -123,15 +139,17 @@ ConnectRentController = RouteController.extend({
 			},
 
 			isBorrowed: function() {
+                if(!this.connectData) { return; }
 				return (this.connectData.state === 'IN USE') ? true : false;
 			},
 
 			isReturned: function() {
+                if(!this.connectData) { return; }
 				return (this.connectData.state === 'RETURNED') ? true : false;
 			},
-            
+
             isTimeOver: function() {
-                
+                if(!this.connectData) { return; }
                 var diff;
                 if($.now() > new Date(this.connectData.borrowDetails.date.start).getTime()) {
                  diff = new Date(this.connectData.borrowDetails.date.end - $.now());
@@ -139,7 +157,7 @@ ConnectRentController = RouteController.extend({
                  diff = new Date(this.connectData.borrowDetails.date.end - this.connectData.borrowDetails.date.start);
                 }
                 var daysLeft = Math.floor((diff/1000/60/60/24) + 1);
-                
+
                 if(daysLeft < 0) {
                     return true;
                 }
@@ -147,6 +165,7 @@ ConnectRentController = RouteController.extend({
             },
 
             getDaysLeftValue: function() {
+                if(!this.connectData) { return; }
                 var diff;
                 if($.now() > new Date(this.connectData.borrowDetails.date.start).getTime()) {
                     diff = new Date(this.connectData.borrowDetails.date.end - $.now());
@@ -154,15 +173,16 @@ ConnectRentController = RouteController.extend({
                     diff = new Date(this.connectData.borrowDetails.date.end - this.connectData.borrowDetails.date.start);
                 }
                 var daysLeft = Math.floor((diff/1000/60/60/24) + 1);
-                
+
                 if(daysLeft < 0) {
                     return 0;
                 }
-                
+
                 return daysLeft;
 			},
-            
+
 			getDaysLeft: function() {
+                if(!this.connectData) { return; }
                 var diff;
                 if($.now() > new Date(this.connectData.borrowDetails.date.start).getTime()) {
                     diff = new Date(this.connectData.borrowDetails.date.end - $.now());
@@ -170,7 +190,7 @@ ConnectRentController = RouteController.extend({
                     diff = new Date(this.connectData.borrowDetails.date.end - this.connectData.borrowDetails.date.start);
                 }
                 var daysLeft = Math.floor((diff/1000/60/60/24) + 1);
-                
+
                 if(daysLeft < 0) {
                     return 'time is over';
                 }

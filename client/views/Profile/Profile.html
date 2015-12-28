@@ -50,16 +50,23 @@
 
       {{#if currentUser.emails.[0].verified}}
       {{else}}
-        <div class="card padding-horizontal padding-vertical">
+        <div class="card padding">
             <div class="item item-icon-left">
                 <span class="activation-title assertive center">Welcome aboard partiO!</span>
                 <span class="activation-message center">Please verify your email address to proceed.</span>
                 {{> ionIcon icon="alert-circled" class="assertive"}}
             </div>
         </div>
+
+        <div class="card padding-vertical">
+            <a class="item item-icon-right" id="resend-validation"  >
+                <p>Resend validation email</p>
+                {{> ionIcon icon="refresh" class="energized right-arrow"}}
+            </a>
+        </div>
       {{/if}}
 
-      <div class="card padding-horizontal padding-vertical">
+      <div class="card padding-horizontal">
         <form id="profileEdit">
 
             <label class="item item-input">
@@ -68,7 +75,7 @@
             </label>
             <label class="item item-input">
                 <i class="icon ion-ios-calendar"></i>
-                <input id="birthDate" data-date-format="mm/dd/yyyy" type="text" value="{{currentUser.profile.birthDate}}">
+                <input id="birthDate" data-date-format="mm/dd/yyyy" type="text" value="{{currentUser.profile.birthDate}}" readonly>
             </label>
           </form>
 
@@ -84,31 +91,43 @@
       </div>
 
       {{#if currentUser.emails.[0].verified}}
-        <div class="card padding-horizontal padding-vertical">
-<!--        <div class="item item-divider top"></div>-->
+        <div class="card padding-horizontal">
+            <a class="item item-icon-right" href="{{pathFor 'savedCards'}}" >
+                <p>Payment Cards</p>
+                {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
+            </a>
+            <a class="item item-icon-right" href="{{pathFor 'contact'}}" >
+                <p>Contact Us</p>
+                {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
+            </a>
             <a class="item item-icon-right" href="{{pathFor 'changePassword'}}" >
                 <p>Change Password</p>
                 {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
             </a>
-            <a class="item item-icon-right" href="{{pathFor 'savedCards'}}" >
-                <p>Payment Cards</p>
+        </div>
+    {{else}}
+        <div class="card padding-horizontal">
+            <a class="item item-icon-right" href="{{pathFor 'contact'}}" >
+                <p>Contact Us</p>
                 {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
             </a>
         </div>
     {{/if}}
 
-    <div class="card padding-vertical">
+    <div class="card padding-horizontal">
         <a class="item item-icon-right" id="logout"  >
             <p>Logout</p>
             {{> ionIcon icon="android-exit" class="energized right-arrow"}}
         </a>
     </div>
 
+<!--
     <div class="padding-horizontal">
         <a class="button button-block button-email-support" href="/contact" data-rel='external'>
             CONTACT US
         </a>
     </div>
+-->
 
 <!-- </div> -->
     {{/ionContent}}
@@ -117,11 +136,7 @@
 
 <template name="settingsProfileImage">
   <div class="profile-image-container">
-    {{#if noProfileYet}}
-    <div class="profile-avatar" style="background: url('profile_image_placeholder.jpg') no-repeat; background-size:cover; background-position: 50% 50%;"></div>
-    {{else}}
     <div class="profile-avatar" style="background: url('{{profileImage}}') no-repeat; background-size:cover; background-position: 50% 50%;"></div>
-    {{/if}}
   </div>
   <input type="file" id="browser-file-upload">
 </template>

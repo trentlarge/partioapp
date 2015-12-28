@@ -18,11 +18,13 @@
   "public": {
     "facebook": {
       "permissions": [
-        "basic_info"
+        "basic_info",
+        "user_birthday"
       ],
       "profileFields": [
         "name",
-        "email"
+        "email",
+        "birthday"
       ]
     },
     "STRIPE_PUBKEY": "pk_test_GiLnb5tXpZoGOwYgcTT6rbeo",

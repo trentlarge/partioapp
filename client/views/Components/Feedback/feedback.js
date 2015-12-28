@@ -110,7 +110,7 @@ Template.feedbackborrower.events({
 					sAlert.error(errorMessage);
 					return;
 				}
-				Meteor.call('removeConnection', connectionId, function(err, res) {
+				Meteor.call('updateConnection', connectionId, function(err, res) {
 					if(err) {
 						var errorMessage = err.reason || err.message;
 						if(err.details) {

@@ -14,6 +14,7 @@ SearchController = RouteController.extend({
         return [
             Meteor.subscribe("singleProduct", this.params._id),
             Meteor.subscribe("singleUser", this.params.query.ownerId),
+            Meteor.subscribe("ownerConnections", this.params.query.ownerId)
         ];
         
 //		let _subs = [ Meteor.subscribe("search", this.params._id) ];
@@ -61,6 +62,9 @@ SearchController = RouteController.extend({
             },
             getCondition: function() {
                 return Rating.getConditionByIndex(this.product.conditionId);
+            },
+            getCategoryIcon: function() {
+                return Categories.getCategoryIconByText(this.product.category);
             },
             requestSent: function() {
                 return Connections.findOne({"requestor": Meteor.userId(), finished: { $ne: true }, "owner": this.product.ownerId, "productData._id": this.product._id}) ? true : false;
