@@ -1,8 +1,12 @@
 
 Template.inventory.helpers({
   'iconRandom': function() {
-      //return 'breno';
-        return Random.choice(['projector', 'bike', 'gamepad-variant','football-helmet','camera','football']);
+      return Random.choice(['ion-ios-book', 
+                              'ion-ios-game-controller-b', 
+                              'ion-headphone',
+                              'ion-android-restaurant',
+                              'ion-ios-americanfootball',
+                              'ion-cube']);
   }
 
 });

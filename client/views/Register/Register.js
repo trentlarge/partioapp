@@ -66,7 +66,7 @@ Template.register.events({
 				mobile: template.find('[name=mobile]').value,
 	    	college: template.find('#college').value,
         birthDate: template.find('[name=birthDate]').value,
-	    	avatar: "notSet",
+	    	avatar: base64imgs('profile-image-placeholder'),
 	    	location: Session.get('newLocation')
 	    };
 
