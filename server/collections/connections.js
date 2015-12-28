@@ -30,6 +30,8 @@ Connections.after.insert(function(userId, doc) {
 
 Connections.after.update(function(userId, doc, fieldNames, modifier, options) {
 
+	//console.log('depois do update');
+
 });
 
 Connections.after.remove(function(userId, doc) {

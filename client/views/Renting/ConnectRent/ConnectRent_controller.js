@@ -22,9 +22,9 @@ ConnectRentController = RouteController.extend({
 	data: function() {
 		return {
 			connectData: this.connection(),
-            
+
 			getCategoryIcon: function() {
-                if(!this.connectData) { return; } 
+                if(!this.connectData) { return; }
 				return Categories.getCategoryIconByText(this.connectData.productData.category);
 			},
 
@@ -147,7 +147,7 @@ ConnectRentController = RouteController.extend({
                 if(!this.connectData) { return; }
 				return (this.connectData.state === 'RETURNED') ? true : false;
 			},
-            
+
             isTimeOver: function() {
                 if(!this.connectData) { return; }
                 var diff;
@@ -157,7 +157,7 @@ ConnectRentController = RouteController.extend({
                  diff = new Date(this.connectData.borrowDetails.date.end - this.connectData.borrowDetails.date.start);
                 }
                 var daysLeft = Math.floor((diff/1000/60/60/24) + 1);
-                
+
                 if(daysLeft < 0) {
                     return true;
                 }
@@ -173,14 +173,14 @@ ConnectRentController = RouteController.extend({
                     diff = new Date(this.connectData.borrowDetails.date.end - this.connectData.borrowDetails.date.start);
                 }
                 var daysLeft = Math.floor((diff/1000/60/60/24) + 1);
-                
+
                 if(daysLeft < 0) {
                     return 0;
                 }
-                
+
                 return daysLeft;
 			},
-            
+
 			getDaysLeft: function() {
                 if(!this.connectData) { return; }
                 var diff;
@@ -190,7 +190,7 @@ ConnectRentController = RouteController.extend({
                     diff = new Date(this.connectData.borrowDetails.date.end - this.connectData.borrowDetails.date.start);
                 }
                 var daysLeft = Math.floor((diff/1000/60/60/24) + 1);
-                
+
                 if(daysLeft < 0) {
                     return 'time is over';
                 }

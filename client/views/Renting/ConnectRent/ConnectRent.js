@@ -1,7 +1,7 @@
 Template.connectRent.rendered = function() {
   var nowTemp = new Date();
-  var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0); 
-    
+  var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
+
   $('.range').datepicker({
       format: 'mm-dd-yyyy',
       startDate: 'd',
@@ -20,6 +20,23 @@ Template.connectRent.rendered = function() {
       "weeks": 0,
       "days": 0,
   }
+
+
+var initializing = true;
+
+  //var handle = this.connectData.find().observe({
+  var handle = Connections.find().observeChanges({
+      changed: function(id, fields) {
+
+        if(fields.finished){
+          Router.go('/renting');
+        }
+
+      }
+    });
+
+  initializing = false;
+
 
   Session.set('rentPrice', rentPrice);
   Session.set('numberDays', 0);
@@ -152,12 +169,12 @@ Template.connectRent.events({
 						return;
 					}
 				});
-                
+
                 IonPopup.close();
 				Router.go('/listing');
 				//Connections.remove({"_id": connectionId});
 				//Chat.remove({connectionId: connectionId})
-				
+
 			}
 
 		});
