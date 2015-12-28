@@ -1,4 +1,3 @@
-
 Template.renting.events({
   'click .waiting': function() {
       Animations.accordion($('.waiting'), $('.waiting-item'));
@@ -12,4 +11,16 @@ Template.renting.events({
   'click .returned': function() {
       Animations.accordion($('.returned'), $('.returned-item'));
   },
+  'click #start-borrowing': function() {
+        Router.go('/listing')
+    },
+
+});
+
+Template.renting.helpers({
+  'iconRandom': function() {
+      //return 'breno';
+        return Random.choice(['projector', 'bike', 'gamepad-variant','football-helmet','camera','football']);
+  }
+
 });
