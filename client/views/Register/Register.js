@@ -6,6 +6,8 @@ Template.register.rendered = function() {
       endDate: '-16y',
   });
 
+}
+
 collegeEmails = {
 	"Duke University": "duke.edu",
 	"Rollins College": "rollins.edu",
@@ -53,8 +55,6 @@ Template.register.events({
     'change #birthDate': function(e, template) {
         $('.datepicker').hide();
     },
-
-  
 
 	'click #registerButton': function(e, template) {
 		e.preventDefault();

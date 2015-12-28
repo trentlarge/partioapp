@@ -66,6 +66,6 @@ App.accessRule('*');
 // });
 
 App.configurePlugin('com.phonegap.plugins.facebookconnect', {
-    APP_ID: '453646108150424',
+    APP_ID: '902012053186141',
     APP_NAME: 'partiO'
 });
