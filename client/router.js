@@ -93,22 +93,22 @@ Router.route('/contact', { name: 'contact', controller: 'ContactController'});
 Router.onBeforeAction(function(pause){
 	if(!Meteor.user()) {
 		this.render('login')
-		console.log('login');
+		//console.log('login');
 	} else {
 		if(Meteor.user().emails[0].address){
-			console.log('entrou aqui');
+			//console.log('entrou aqui');
 
 			if(Meteor.user().emails[0].verified) {
 				this.next();
-				Router.go('/profile')
-				console.log('next');
+				//Router.go('/profile')
+				//console.log('next');
 			} else {
 				this.render('profile')
-				console.log('profile1');
+				//console.log('profile1');
 			}
 		} else {
 			this.render('profile')
-			console.log('profile2');
+			//console.log('profile2');
 		}
 	}
 }, {except: ['emailverification', 'register', 'login', 'contact']} );
