@@ -94,7 +94,7 @@ Template.connect.events({
 
 			IonPopup.show({
 				title: 'Great!',
-				template: '<div class="center">Make sure you setup a meeting location and pass on the item to <strong>'+requestor.profile.name+'</strong> once you receive the payment. </div>',
+				template: 'Make sure you setup a meeting location and pass on the item to <strong>'+requestor.profile.name+'</strong> once you receive the payment.',
 				buttons:
 					[{
 						text: 'OK',
@@ -148,7 +148,7 @@ var onError = function(error) {
 
 	IonPopup.show({
 		title: "Location Services Unavailable.",
-		template: '<div class="center">Please enable Location services for this app from Settings > Privacy > Location Services</div>',
+		template: 'Please enable Location services for this app from Settings > Privacy > Location Services',
 		buttons: [{
 			text: 'OK',
 			type: 'button-calm',

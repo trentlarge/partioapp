@@ -205,7 +205,7 @@ Template.requestRent.events({
           setTimeout(function(){
             IonPopup.show({
               title: 'Request Sent',
-              template: '<div class="center">Now you just need to wait for owner\'s approval</div>',
+              template: 'Now you just need to wait for owner\'s approval',
               buttons: [{
                 text: 'OK',
                 type: 'button-energized',

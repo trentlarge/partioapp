@@ -30,7 +30,7 @@ Template.search.events({
         if(!result) {
           IonPopup.show({
             title: 'Update profile',
-            template: '<div class="center">Please, update your cards to borrow this item.</div>',
+            template: 'Please, update your cards to borrow this item.',
             buttons: [{
               text: 'OK',
               type: 'button-energized',

@@ -159,7 +159,7 @@ function CheckLocatioOn()
 			// alert(error.code +", "+ error.message);
 			IonPopup.show({
 				title: "Location Services Unavailable.",
-				template: '<div class="center">Please enable Location services for this app from Settings > Privacy > Location Services</div>',
+				template: 'Please enable Location services for this app from Settings > Privacy > Location Services',
 				buttons: [{
 					text: 'OK',
 					type: 'button-calm',

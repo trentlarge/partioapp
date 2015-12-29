@@ -18,7 +18,7 @@ emailCheck = function(college, email) {
 	if (email.split("@")[1] !== collegeEmails[college]) {
 		IonPopup.show({
 			title: 'Please enter a valid college email ID',
-			template: '<div class="center">Your email address has to match the official College email ID</div>',
+			template: 'Your email address has to match the official College email ID',
 			buttons:
 			[{
 				text: 'OK',

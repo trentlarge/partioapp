@@ -88,7 +88,7 @@ Template.addnewCard.events({
 						if(error.reason == 'birthDate') {
 							IonPopup.show({
 								title: 'Missing information',
-								template: '<div class="center">Please, update you birth date before to add a debit card.</div>',
+								template: 'Please, update you birth date before to add a debit card.',
 								buttons:
 								[{
 									text: 'OK',

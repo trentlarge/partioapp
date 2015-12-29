@@ -22,7 +22,7 @@ function processPicture(data) {
               console.log(error);
               IonPopup.show({
                     title: 'Image Search',
-                    template: '<div class="center dark">Sorry, this service isn\'t available at this moment.</div>',
+                    template: '<div class="dark">Sorry, this service isn\'t available at this moment.</div>',
                     buttons:
                     [{
                         text: 'OK',
@@ -40,7 +40,7 @@ function processPicture(data) {
             if(result.data.status == 'skipped') {
               IonPopup.show({
                             title: 'Ops...',
-                            template: '<div class="center dark">It\'s looks like anything. Please try another one. ;)</div>',
+                            template: '<div class="dark">It\'s looks like anything. Please try another one. ;)</div>',
                             buttons:
                             [{
                                 text: 'OK',
@@ -71,7 +71,7 @@ function processPicture(data) {
           console.log(error);
           IonPopup.show({
             title: 'Image Search',
-            template: '<div class="center dark">Sorry, this service isn\'t available at this moment.</div>',
+            template: '<div class="dark">Sorry, this service isn\'t available at this moment.</div>',
             buttons:
             [{
               text: 'OK',
@@ -141,7 +141,7 @@ Template.camfind.events({
                   console.log(err);
                   IonPopup.show({
                         title: 'Get picture',
-                        template: '<div class="center dark">Sorry, canot get picture.</div>',
+                        template: '<div class="dark">Sorry, canot get picture.</div>',
                         buttons:
                         [{
                             text: 'OK',

@@ -139,7 +139,7 @@ app.model.Lend = (function () {
 
                 IonPopup.show({
                     title: 'Your product is successfully submitted',
-                    template: '<div class="center">You can find this shared item in your Repository</div>',
+                    template: 'You can find this shared item in your Repository',
                     buttons:
                         [{
                           text: 'OK',
@@ -175,7 +175,7 @@ app.model.Lend = (function () {
 
                 IonPopup.show({
                     title: 'Your product is successfully submitted',
-                    template: '<div class="center">And saved to your Inventory</div>',
+                    template: 'And saved to your Inventory.',
                     buttons:
                         [{
                           text: 'OK',
