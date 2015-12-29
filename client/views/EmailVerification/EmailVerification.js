@@ -9,7 +9,7 @@ Template.emailverification.onRendered(function() {
 					console.log('Sorry this verification link has expired.');
 					IonPopup.show({
 						title: 'Error!',
-						template: '<div class="center">Sorry this verification link has expired.</div>',
+						template: 'Sorry this verification link has expired.',
 						buttons:
 						[{
 							text: 'OK',
@@ -28,7 +28,7 @@ Template.emailverification.onRendered(function() {
 
 				IonPopup.show({
 					title: 'Success!',
-					template: '<div class="center">Your email address is successfully verified</div>',
+					template: 'Your email address is successfully verified.',
 					buttons:
 					[{
 						text: 'OK',

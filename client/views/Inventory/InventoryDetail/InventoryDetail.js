@@ -7,7 +7,7 @@ Template.appLayout.events({
                 
                 IonPopup.show({
                     title: 'Item Borrowed',
-                    template: '<div class="center"> It is not possible edit a borrowed item. </div>',
+                    template: 'It is not possible edit a borrowed item.',
                     buttons:
                     [{
                       text: 'OK',
@@ -27,18 +27,6 @@ Template.appLayout.events({
 });
 
 Template.inventoryDetail.events({
-    
-    'focus input': function() {
-        $('.inventory-details').css({
-            'padding-bottom': '250px'
-        });
-    },
-
-    'focusout input': function() {
-        $('.inventory-details').css({
-            'padding-bottom': '0'
-        });
-    },  
     
   'click .features': function(e, template) {
     var features = $('.features');
@@ -116,12 +104,12 @@ Template.inventoryDetail.events({
       
       IonPopup.show({
 			title: 'Remove product?',
-			template: '<div class="center">Remove product from your invetory?</div>',
+			template: 'Remove product from your invetory?',
             buttons:
             [
                 {
                   text: 'Cancel',
-                  type: 'button-energized',
+                  type: 'button-default',
                   onTap: function()
                   {
                     IonPopup.close();
@@ -148,7 +136,7 @@ Template.inventoryDetail.events({
 function showInvalidPopUp(strTitle, strMessage){
   IonPopup.show({
     title: strTitle,
-    template: '<div class="center">'+strMessage+'</div>',
+    template: strMessage,
     buttons:
     [{
       text: 'OK',

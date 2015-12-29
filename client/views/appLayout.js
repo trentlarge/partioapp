@@ -196,7 +196,7 @@ Meteor.startup(function() {
 
 var IsPopUpOpen;
 
-function ShowRequestPopUp(strBookName){
+function ShowRequestPopUp(strProductName){
 
 	if(IsPopUpOpen){
 		//PopUp is open already, no need for a new one.
@@ -206,7 +206,7 @@ function ShowRequestPopUp(strBookName){
 	IsPopUpOpen = true;
 	IonPopup.show({
 		title: 'Alert',
-		template: '<div class="center">You got a new book request for '+strBookName+'</div>',
+		template: 'You got a new book request for ' + strProductName,
 		buttons:
 		[{
 			text: 'OK',
@@ -262,7 +262,7 @@ function ShowApprovalPopUp(strBookName){
 
 	IonPopup.show({
 		title: 'Alert',
-		template: '<div class="center">Your request for ' + strBookName + ' has been approved.</div>',
+		template: 'Your request for ' + strProductName + ' has been approved.',
 		buttons:
 		[{
 			text: 'OK',
@@ -283,7 +283,7 @@ function ShowApprovalPopUp(strBookName){
 	});
 }
 
-function ShowPaymentPopUp(bookNameString, paymentAmountInt) {
+function ShowPaymentPopUp(productNameString, paymentAmountInt) {
 	if(IsPopUpOpen){
 		//PopUp is open already, no need for a new one.
 		return;
@@ -293,7 +293,7 @@ function ShowPaymentPopUp(bookNameString, paymentAmountInt) {
 
 	IonPopup.show({
 		title: 'Alert',
-		template: '<div class="center">You have received a payment of $'+ paymentAmountInt +' for '+ bookNameString +'</div>',
+		template: 'You have received a payment of $'+ paymentAmountInt +' for '+ productNameString,
 		buttons:
 		[{
 			text: 'OK',
@@ -308,7 +308,7 @@ function ShowPaymentPopUp(bookNameString, paymentAmountInt) {
 	});
 }
 
-function ShowRequestDeniedPopUp(bookName){
+function ShowRequestDeniedPopUp(productName){
 	if(IsPopUpOpen){
 		//PopUp is open already, no need for a new one.
 		return;
@@ -318,7 +318,7 @@ function ShowRequestDeniedPopUp(bookName){
 
 	IonPopup.show({
 		title: 'Alert',
-		template: '<div class="center">Your request for - '+bookName+' - has been denied! :( Shall we throw the owner to the lions?!</div>',
+		template: 'Your request for - '+productName+' - has been denied! :( Shall we throw the owner to the lions?!',
 		buttons:
 		[{
 			text: 'OK',

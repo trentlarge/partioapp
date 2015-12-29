@@ -21,8 +21,8 @@ Template.login.events({
 			if (error) {
 //				console.log(error);
 				IonPopup.show({
-					title: 'Won\'t you try again?',
-					template: '<div class="center">'+error.reason+'</div>',
+					title: 'Login failed!',
+					template: error.reason + '. Please try again.',
 					buttons: [{
 						text: 'OK',
 						type: 'button-calm',
@@ -42,7 +42,7 @@ Template.login.events({
 		IonPopup.prompt({
 			cancelText: 'Cancel',
 			title: 'Reset Password',
-			template: '<div class="center">Reset link will be sent to this Email<br><br></div>',
+			template: 'Reset link will be sent to this Email.',
 			okText: 'Submit',
 			inputType: 'email',
 			inputPlaceholder: 'Enter your registered email',
@@ -159,7 +159,7 @@ function CheckLocatioOn()
 			// alert(error.code +", "+ error.message);
 			IonPopup.show({
 				title: "Location Services Unavailable.",
-				template: '<div class="center">Please enable Location services for this app from Settings > Privacy > Location Services</div>',
+				template: 'Please enable Location services for this app from Settings > Privacy > Location Services',
 				buttons: [{
 					text: 'OK',
 					type: 'button-calm',

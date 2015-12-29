@@ -128,7 +128,7 @@ Template.connectRent.events({
 
 					IonPopup.show({
 						title: 'Payment Successful!',
-						template: '<div class="center">A record of this payment is stored under Transactions History</div>',
+						template: 'A record of this payment is stored under Transactions History.',
 						buttons:
 						[{
 							text: 'OK',

@@ -18,7 +18,7 @@ emailCheck = function(college, email) {
 	if (email.split("@")[1] !== collegeEmails[college]) {
 		IonPopup.show({
 			title: 'Please enter a valid college email ID',
-			template: '<div class="center">Your email address has to match the official College email ID</div>',
+			template: 'Your email address has to match the official College email ID',
 			buttons:
 			[{
 				text: 'OK',
@@ -77,8 +77,8 @@ Template.register.events({
           if (error) {
             PartioLoad.hide();
             IonPopup.show({
-              title: 'Error while Signing up. Please try again.',
-              template: '<div class="center">'+error.reason+'</div>',
+              title: 'Signing up failed.',
+              template: error.reason + '. Please try again.',
               buttons: [{
                 text: 'OK',
                 type: 'button-assertive',
@@ -94,11 +94,11 @@ Template.register.events({
           }
         })
       } else {
-				PartioLoad.hide();
+            PartioLoad.hide();
 
 	    	IonPopup.show({
 	    		title: 'Missing fields',
-	    		template: '<div class="center">Please make sure all mandatory fields are entered to proceed further</div>',
+	    		template: 'Please make sure all mandatory fields are entered to proceed further.',
 	    		buttons: [{
 	    			text: 'OK',
 	    			type: 'button-calm',
@@ -108,6 +108,19 @@ Template.register.events({
 	    		}]
 	    	});
       }
+    }
+    else {
+        IonPopup.show({
+            title: 'Missing fields',
+            template: 'Please make sure all mandatory fields are entered to proceed further',
+            buttons: [{
+                text: 'OK',
+                type: 'button-calm',
+                onTap: function() {
+                    IonPopup.close();
+                }
+            }]
+        });
     }
   }
 });

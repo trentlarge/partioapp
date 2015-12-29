@@ -44,7 +44,7 @@ Template.inventory.events({
       okText: 'Yes, Share!',
       cancelText: 'Decline',
       title: 'Respond To Request',
-      template: '<div class="center">Do you want to share the item with the user?</div>',
+      template: 'Do you want to share the item with the user?',
       onOk: function() {
         IonPopup.close();
         console.log("proceeding with connection");
@@ -64,7 +64,7 @@ Template.inventory.events({
           var requestorUser = Meteor.users.findOne(requestor);
           IonPopup.show({
             title: 'Great!',
-            template: '<div class="center">Make sure you setup a meeting location and pass on the item to <strong>'+ requestorUser.profile.name+'</strong> once you receive the payment. </div>',
+            template: 'Make sure you setup a meeting location and pass on the item to <strong>'+ requestorUser.profile.name+'</strong> once you receive the payment.',
             buttons:
               [{
                 text: 'OK',
