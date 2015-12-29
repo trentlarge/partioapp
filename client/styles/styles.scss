@@ -177,8 +177,14 @@ input {
     bottom: 0px !important;
 }
 
+body.keyboard-open .content.overflow-scroll {
+    padding-bottom: 250px !important;
+    bottom: 0px !important;
+}
+
 body.keyboard-open .platform-android .content.overflow-scroll {
     bottom: 0px !important;
+    padding-bottom: 300px !important;
 }
 
 .fieldDescriptionLend {
@@ -403,10 +409,6 @@ body.keyboard-open .platform-android .content.overflow-scroll {
 
 .snap-drawer {
   width: 270px !important;
-}
-
-body.keyboard-open .platform-android .content.overflow-scroll {
-  bottom: 0px !important;
 }
 
 #bottom-triangle {
