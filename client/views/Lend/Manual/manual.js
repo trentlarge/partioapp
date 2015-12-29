@@ -92,17 +92,16 @@ Template.manual.helpers({
 
 Template.manual.events({
     
-//  'focus input': function(e, template) {  
-//    $('.manual-entry').css({ 'padding-bottom': '250px' });
-//  },
-//
-//  'focusout input': function(e, template) {
-//    //$('.content').scrollTop( $(e.target)[0].scrollHeight );    
-//    $('.manual-entry').css({ 'padding-bottom': '50px' });
-//  },
+  'change #browser-file-upload': function(input) {
+      var FR = new FileReader();
+      FR.onload = function(e) {
+          var newImage = e.target.result;
+          Session.set("photoTaken", newImage);
+      };
+      FR.readAsDataURL(input.target.files[0]);
+  },
 
   'change .userPrice': function(e, template) {
-
       var rentPrice = {
         "day": template.find('.dayPrice').value,
         "week": template.find('.weekPrice').value,
@@ -116,6 +115,7 @@ Template.manual.events({
       Session.set('semesterPrice', rentPrice.semester);
 
   },
+
   'click .scanResult-thumbnail2': function(event, template) {
     IonActionSheet.show({
       buttons: [
@@ -125,67 +125,50 @@ Template.manual.events({
       cancelText: 'Cancel',
 
       cancel: function() {
-        IonActionSheet.close();
+//        IonActionSheet.close();
       },
       buttonClicked: function(index) {
-        switch (index) {
-          // library
-          case 1:
-            var options = {
-              width: 577,
-              height: 1024,
-              quality: 75,
-              sourceType: Camera.PictureSourceType.PHOTOLIBRARY
+        var options = {
+          width: 577,
+          height: 1024,
+          quality: 75,
+          sourceType: 1
+        };
+
+        if(Meteor.isCordova || index == 0) {
+            if(Meteor.isCordova) {
+                if(index == 1) {
+                    options.sourceType = Camera.PictureSourceType.PHOTOLIBRARY;
+                } else {
+                    options.sourceType = Camera.PictureSourceType.CAMERA;
+                }
             }
-            break;
-          //
-          default:
-            var options = {
-              width: 577,
-              height: 1024,
-              quality: 75
-            }
+
+            MeteorCamera.getPicture(options, function(err, data) {
+                if(err) {
+                  console.log(err);
+                  IonPopup.show({
+                        title: 'Get picture',
+                        template: '<div class="center dark">Sorry, canot get picture.</div>',
+                        buttons:
+                        [{
+                            text: 'OK',
+                            type: 'button-energized',
+                            onTap: function() {
+                                IonPopup.close();
+                            }
+                        }]
+                  });
+                  return false;
+                }
+                Session.set("photoTaken", data);
+            });
+        } else {
+            $('#browser-file-upload').click();
         }
 
-        MeteorCamera.getPicture(options, function(err, data) {
-          IonActionSheet.close();
-
-          if(err) {
-            ShowNotificationMessage(err.reason);
-            return false;
-
-          } else {
-            Session.set("photoTaken", data);
-            return true;
-          }
-        })
-      },
-
-
-        // if (index === 1) {
-        //   navigator.camera.getPicture(onSuccess2, onFail2, {
-        //     targetWidth: 200,
-        //     targetHeight: 200,
-        //     quality: 50,
-        //     destinationType: Camera.DestinationType.DATA_URL,
-        //     sourceType: Camera.PictureSourceType.PHOTOLIBRARY
-        //   });
-        //
-        //   function onSuccess2(imageData) {
-        //     Session.set("photoTaken", "data:image/jpeg;base64," + imageData);
-        //     return false;
-        //   }
-        //
-        //   function onFail2(message) {
-        //     IonPopup.alert({
-        //       title: 'Camera Operation',
-        //       template: message,
-        //       okText: 'Got It.'
-        //     });
-        //   }
-        // }
-        // return true;
-      //}
+        return true;
+      }
     });
   }
 });
