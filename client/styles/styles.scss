@@ -192,7 +192,7 @@ body.keyboard-open .platform-android .content.overflow-scroll {
     padding: 16px;
     width: auto !important;
     max-width: 80% !important;
-    
+
     .popup-title {
         text-align: left;
         font-size: 20px;
@@ -200,42 +200,42 @@ body.keyboard-open .platform-android .content.overflow-scroll {
         font-weight: bold;
         color: #272727;
     }
-    
+
     .popup-body {
         color: #272727;
-        
+
         input {
             margin-top: 10px;
             padding: 10px;
             border: 1px solid #eee;
         }
     }
-    
+
     .popup-buttons {
         margin-top: 50px;
-        
+
         .button {
             font-size: 16px;
             font-weight: bold;
             text-transform: uppercase;
             padding: 0;
-            
+
             &:hover {
                 opacity: .7;
             }
-            
+
             &.activated {
                 opacity: .8;
             }
         }
-        
+
         .button-default {
             text-align: right;
             border: 0;
             background-color: transparent;
             color: #272727;
             box-shadow: none;
-            
+
             &.activated, &.active {
                 border: 0;
                 background-color: transparent;
@@ -243,14 +243,14 @@ body.keyboard-open .platform-android .content.overflow-scroll {
                 box-shadow: none;
             }
         }
-        
+
         .button-assertive {
             text-align: right;
             border: 0;
             background-color: transparent;
             color: #df5707;
             box-shadow: none;
-            
+
             &.activated, &.active {
                 border: 0;
                 background-color: transparent;
@@ -258,14 +258,14 @@ body.keyboard-open .platform-android .content.overflow-scroll {
                 box-shadow: none;
             }
         }
-        
+
         .button-calm, .button-positive, .button-energized {
             text-align: right;
             border: 0;
             background-color: transparent;
             color: #F0970D;
             box-shadow: none;
-            
+
             &.activated, &.active {
                 border: 0;
                 background-color: transparent;
@@ -273,7 +273,7 @@ body.keyboard-open .platform-android .content.overflow-scroll {
                 box-shadow: none;
             }
         }
-        
+
     }
 }
 
@@ -1113,7 +1113,8 @@ a.autolinker {
 
 
 .loading-container {
-  background: rgba(0,0,0,0.6);
+  //background: rgba(0,0,0,0.6);
+  background: #fff;
 
   .loading {
     background: none;
