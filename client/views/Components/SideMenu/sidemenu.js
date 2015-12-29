@@ -33,10 +33,10 @@ Template.sidemenu.helpers({
         return Notifications.find({toId: Meteor.userId(), read: false}).count();
 	},
     'inventoryCount': function() {
-        return Connections.find({"productData.ownerId": Meteor.userId()}).count(); 
+        return Connections.find({"productData.ownerId": Meteor.userId()}).count();
     },
     'rentedCount': function() {
-        return Connections.find({"requestor": Meteor.userId()}).count();
+        return Connections.find({"requestor": Meteor.userId(),"finished":false}).count();
     },
     'transactionCount': function() {
         return 0;
