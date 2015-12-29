@@ -64,9 +64,9 @@ Template.map.helpers({
 		var meetingCoordinates = null;
 		var savedLocation = Connections.findOne(this.connectionId);
 		if(
-			savedLocation && 
-			savedLocation.meetupLatLong && 
-			savedLocation.meetupLatLong.lat && 
+			savedLocation &&
+			savedLocation.meetupLatLong &&
+			savedLocation.meetupLatLong.lat &&
 			savedLocation.meetupLatLong.lng
 		) {
 			meetingCoordinates = savedLocation.meetupLatLong;
@@ -126,10 +126,7 @@ Template.map.events({
 	}
 });
 
-
 // ---
-// ---
-
 
 Template.onlyMap.created = function() {
 	var self = this;
@@ -174,7 +171,6 @@ Template.onlyMap.created = function() {
 		});
 	});
 };
-
 
 Template.onlyMap.helpers({
 	"onlyMapOptions": function() {

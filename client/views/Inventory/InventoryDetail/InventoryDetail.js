@@ -1,45 +1,43 @@
 Template.appLayout.events({
 	'click #editCurrent': function() {
-        var ConnectionObj = Connections.findOne({'productData._id': this.product._id});
-        if(ConnectionObj){
-            var ConnectionStatus = ConnectionObj.state;
-            if(ConnectionStatus != "RETURNED"){   
-                
-                IonPopup.show({
-                    title: 'Item Borrowed',
-                    template: '<div class="center"> It is not possible edit a borrowed item. </div>',
-                    buttons:
-                    [{
-                      text: 'OK',
-                      type: 'button-assertive',
-                      onTap: function()
-                      {
-                        IonPopup.close();
-                      }
-                    }]
-                });
-                
-                return false;
-            }
-        }
+    var ConnectionObj = Connections.findOne({'productData._id': this.product._id});
+    if(ConnectionObj){
+      var ConnectionStatus = ConnectionObj.state;
+      if(ConnectionStatus != "RETURNED"){
+        IonPopup.show({
+            title: 'Item Borrowed',
+            template: '<div class="center"> It is not possible edit a borrowed item. </div>',
+            buttons:
+            [{
+              text: 'OK',
+              type: 'button-assertive',
+              onTap: function()
+              {
+                IonPopup.close();
+              }
+            }]
+        });
+
+        return false;
+      }
+    }
 		Session.set('editMode', true);
 	},
 });
 
 Template.inventoryDetail.events({
-    
-    'focus input': function() {
-        $('.inventory-details').css({
-            'padding-bottom': '250px'
-        });
-    },
+  'focus input': function() {
+    $('.inventory-details').css({
+        'padding-bottom': '250px'
+    });
+  },
 
-    'focusout input': function() {
-        $('.inventory-details').css({
-            'padding-bottom': '0'
-        });
-    },  
-    
+  'focusout input': function() {
+    $('.inventory-details').css({
+        'padding-bottom': '0'
+    });
+  },
+
   'click .features': function(e, template) {
     var features = $('.features');
     var featureDetails = $('.features-details');
@@ -51,11 +49,9 @@ Template.inventoryDetail.events({
         featureDetails.slideUp('fast');
         features.find('.chevron-icon').removeClass('ion-chevron-down').addClass('ion-chevron-up');
     }
-    
   },
 
   'click #editSave': function(e, template) {
-
     var dayPrice = parseFloat(template.find('.dayPrice').value, 10),
         weekPrice = parseFloat(template.find('.weekPrice').value, 10),
         monthPrice = parseFloat(template.find('.monthPrice').value, 10),
@@ -70,18 +66,18 @@ Template.inventoryDetail.events({
       showInvalidPopUp('Invalid Inputs', 'Please enter a Price less than 100000.');
       return false;
     }
-      
+
     var conditionId = template.find('.condition').value;
     var title = template.find('.title').value;
-    
+
     if(title.length == 0) {
-        showInvalidPopUp('Invalid Inputs', 'Please enter a Title');
-        return false;
+      showInvalidPopUp('Invalid Inputs', 'Please enter a Title');
+      return false;
     }
-      
+
     if(conditionId == 0) {
-        showInvalidPopUp('Invalid Inputs', 'Please enter a Condition');
-        return false;
+    	showInvalidPopUp('Invalid Inputs', 'Please enter a Condition');
+      return false;
     }
 
     var editedPrices = {
@@ -90,7 +86,7 @@ Template.inventoryDetail.events({
       "month": Number(monthPrice).toFixed(2),
       "semester": Number(semesterPrice).toFixed(2),
     }
-    
+
     template.find('.dayPrice').value = editedPrices.day;
     template.find('.weekPrice').value = editedPrices.week;
     template.find('.monthPrice').value = editedPrices.month;
@@ -109,40 +105,36 @@ Template.inventoryDetail.events({
 
     Session.set('editMode', false);
   },
-    
+
   'click #editRemove': function(e, template) {
-      
-      var productId = this.product._id;
-      
-      IonPopup.show({
-			title: 'Remove product?',
-			template: '<div class="center">Remove product from your invetory?</div>',
-            buttons:
-            [
-                {
-                  text: 'Cancel',
-                  type: 'button-energized',
-                  onTap: function()
-                  {
-                    IonPopup.close();
-                  }
-                },
-                {
-                  text: 'Remove',
-                  type: 'button-assertive',
-                  onTap: function()
-                  {
-                    Products.remove({_id: productId});
-                    IonPopup.close();
-                    Session.set('editMode', false);
-                    Router.go('/inventory');
-                  }
-                },
-           ]
+    var productId = this.product._id;
+    IonPopup.show({
+		title: 'Remove product?',
+		template: '<div class="center">Remove product from your invetory?</div>',
+      buttons:
+      [
+        {
+          text: 'Cancel',
+          type: 'button-energized',
+          onTap: function()
+          {
+            IonPopup.close();
+          }
+        },
+        {
+          text: 'Remove',
+          type: 'button-assertive',
+          onTap: function()
+          {
+            Products.remove({_id: productId});
+            IonPopup.close();
+            Session.set('editMode', false);
+            Router.go('/inventory');
+          }
+        },
+      ]
 		});
-      
   }
-    
 });
 
 function showInvalidPopUp(strTitle, strMessage){

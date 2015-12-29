@@ -11,10 +11,6 @@ RequestRentController = RouteController.extend({
 
 	waitOn: function() {
 		return [
-			// subscribe to data here
-			// Meteor.subscribe("someSubscription"),
-			// Meteor.subscribe("otherSubscription"),
-			// ...
 		];
 	},
 

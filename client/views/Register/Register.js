@@ -89,7 +89,6 @@ Template.register.events({
             });
           } else {
             PartioLoad.hide();
-            console.log('meteor user created');
             Router.go('/profile');
           }
         })

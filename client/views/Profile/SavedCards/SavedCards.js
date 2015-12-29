@@ -23,12 +23,10 @@ Template.savedCards.onRendered(function() {
 Template.savedCards.getStripeCustomer = function(done){
 	Meteor.call('getStripeCustomer', function(err, result) {
 		if(err) {
-			console.log('>>> [stripe] User does not have stripe CUSTOMER account yet');
 			var errorMessage = err.reason || err.message;
 			if(err.details) {
 				errorMessage = errorMessage + "\nDetails:\n" + err.details;
 			}
-			console.log(errorMessage);
 			done(false);
 		}
 		done(result);
@@ -38,12 +36,10 @@ Template.savedCards.getStripeCustomer = function(done){
 Template.savedCards.getStripeManaged = function(done){
 	Meteor.call('getStripeManaged', function(err, result){
 		if(err) {
-			console.log('>>> [stripe] User does not have stripe MANAGED account yet');
 			var errorMessage = err.reason || err.message;
 			if(err.details) {
 				errorMessage = errorMessage + "\nDetails:\n" + err.details;
 			}
-			console.log(errorMessage);
 			done(false);
 		}
 		done(result);
@@ -59,7 +55,6 @@ Cards = {
 	//refrshing this object
 	refresh: function(){
 		PartioLoad.show('Getting cards data...')
-		console.log('>>> [stripe] refreshing cards on UI...')
 		var promisse = new Promise(
       function(resolve, reject) {
 				Template.savedCards.getStripeCustomer(function(dataCustomer){
@@ -80,8 +75,6 @@ Cards = {
 	},
 
 	organize: function(){
-		console.log('>>> [stripe] organizing cards on UI...')
-
 		var _results = [];
 
 		if(Cards.customer) {
@@ -206,7 +199,6 @@ Cards = {
 	//setting default cards
 	setDefaultCard: function(action, cardData){
 		if(!action || !cardData) {
-			console.log('>>> [stripe] setDefaultCards missing params')
 			return false;
 		}
 
@@ -231,7 +223,6 @@ Cards = {
 	//removing a card
 	remove: function(cardData){
 		if(!cardData) {
-			console.log('>>> [stripe] remove missing params')
 			return false;
 		}
 
@@ -291,7 +282,6 @@ Template.savedCards.events({
     var cardData = this;
 
 		if(cardData.defaultPay) {
-			console.log('>>> [stripe] this card is already default to pay');
 			return false;
 		}
 
@@ -311,7 +301,6 @@ Template.savedCards.events({
     var cardData = this;
 
 		if(cardData.defaultReceive) {
-			console.log('>>> [stripe] this card is already default to receive');
 			return false;
 		}
 

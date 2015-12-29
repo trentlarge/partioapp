@@ -1,10 +1,5 @@
 Template.requestRent.rendered = function() {
 
-//	var dataContext = this.data;
-//	//Chat input textarea auto-resize when more than 1 line is entered
-//	Session.set("_requestor", dataContext.requestor);
-//	Session.set("_owner", dataContext.productData.ownerId);
-
   var nowTemp = new Date();
   var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
 
@@ -139,28 +134,6 @@ Template.requestRent.helpers({
 
 Template.requestRent.events({
   'click #sendRequest': function() {
-
-    // var currentUser = Meteor.user();
-    //
-    // if(!currentUser || !currentUser.profile || !currentUser.profile.canBorrow) {
-    //   IonPopup.show({
-    //     title: 'Update profile',
-    //     template: '<div class="center">Please, update your cards to borrow this item.</div>',
-    //     buttons: [{
-    //       text: 'OK',
-    //       type: 'button-energized',
-    //       onTap: function() {
-    //         IonPopup.close();
-    //         $('.ion-ios-close-empty').click()
-    //         Router.go('/profile/savedcards/');
-    //       }
-    //     }]
-    //   });
-    //   return false;
-    // }
-    //
-    // console.log('requesting product...');
-
     var ownerId = this.ownerId;
     var productId = this._id;
     var borrowDetails = {
@@ -307,18 +280,3 @@ Template.requestRent.events({
     if(semesters > 0){ $('.thSemester').addClass('active') } else { $('.thSemester').removeClass('active') }
   },
 });
-// function formatDate(dateObject) {
-//     var d = new Date(dateObject);
-//     var day = d.getDate();
-//     var month = d.getMonth() + 1;
-//     var year = d.getFullYear();
-//     if (day < 10) {
-//         day = "0" + day;
-//     }
-//     if (month < 10) {
-//         month = "0" + month;
-//     }
-//     var date = month + "-" + day + "-" + year;
-//
-//     return date;
-// }

@@ -20,47 +20,44 @@ InventoryDetailController = RouteController.extend({
 		return {
 			product: Products.findOne(this.params._id),
 
-            getCategoryIcon: function() {
-                return Categories.getCategoryIconByText(this.product.category);
-            },
-            
-            getConditions: function() {
-                return Rating.getConditions();  
-            },
-            
-            selectCondition: function(index) {
-                return (index == this.product.conditionId) ? 'selected' : '';  
-            },
+      getCategoryIcon: function() {
+        return Categories.getCategoryIconByText(this.product.category);
+      },
 
-            isEditMode: function() {
-                
-                if(this.product) {
-                    var ConnectionObj = Connections.findOne({'productData._id': this.product._id});
-                    if(ConnectionObj){
-                        var ConnectionStatus = ConnectionObj.state;
-                        if(ConnectionStatus != "RETURNED"){                        
-                            return 'disabled';
-                        }
-                    }   
-                }
-                
-                return Session.get('editMode') ? '' : 'disabled';
-            },
+      getConditions: function() {
+        return Rating.getConditions();
+      },
 
-            editMode: function() {
-                
-                if(this.product) {
-                    var ConnectionObj = Connections.findOne({'productData._id': this.product._id});
-                    if(ConnectionObj){
-                        var ConnectionStatus = ConnectionObj.state;
-                        if(ConnectionStatus != "RETURNED"){                        
-                            return false;
-                        }
-                    }
-                }
-                
-                return Session.get('editMode') ? true : false;
+      selectCondition: function(index) {
+        return (index == this.product.conditionId) ? 'selected' : '';
+      },
+
+      isEditMode: function() {
+        if(this.product) {
+          var ConnectionObj = Connections.findOne({'productData._id': this.product._id});
+          if(ConnectionObj){
+            var ConnectionStatus = ConnectionObj.state;
+            if(ConnectionStatus != "RETURNED"){
+                return 'disabled';
             }
+          }
+        }
+        return Session.get('editMode') ? '' : 'disabled';
+      },
+
+      editMode: function() {
+        if(this.product) {
+            var ConnectionObj = Connections.findOne({'productData._id': this.product._id});
+            if(ConnectionObj){
+                var ConnectionStatus = ConnectionObj.state;
+                if(ConnectionStatus != "RETURNED"){
+                    return false;
+                }
+            }
+        }
+
+        return Session.get('editMode') ? true : false;
+      }
 		}
 	},
 

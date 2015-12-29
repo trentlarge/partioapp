@@ -31,13 +31,12 @@ Template.lend.events({
                 "semester": Number(Session.get('semesterPrice')).toFixed(2)
               }
             }
-            
+
             Meteor.call('userCanShare', function(error, result){
                 PartioLoad.hide();
                 if(!result) {
-                    
+
                     Session.set('cardManualEntry', manualProduct);
-                    console.log(Session.get('cardManualEntry'));
                     
                     IonPopup.show({
                       title: 'Update profile',
@@ -83,7 +82,7 @@ Template.lend.events({
               });
             }
           }, 500)
-      
+
   },
 
 })
@@ -98,7 +97,7 @@ Template.lend.rendered = function() {
 
     //Session.set('scanResult', null);
     //Session.set('allResults', null);
-    
+
     if(Session.get('cardManualEntry')) {
         Session.set('lendTab', 'manual');
         Session.set('cardManualEntry', null)

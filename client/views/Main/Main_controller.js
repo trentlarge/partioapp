@@ -11,20 +11,11 @@ MainController = RouteController.extend({
 
 	waitOn: function() {
 		return [
-			// subscribe to data here
-			// Meteor.subscribe("someSubscription"),
-			// Meteor.subscribe("otherSubscription"),
-			//Meteor.subscribe("userData"),
 		];
 	},
 
 	data: function() {
 		return {
-			//
-			// read data from database here like this:
-			//   someData: SomeCollection.find(),
-			//   moreData: OtherCollection.find()
-			// ...
 		};
 	},
 

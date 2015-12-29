@@ -1,19 +1,17 @@
 Template.barcode.rendered = function(){
-    Session.set('placeholder', "Enter barcode number...");   
-    
-    Session.set('scanResult', null);
-    Session.set('allResults', null);
+  Session.set('placeholder', "Enter barcode number...");
 
-    $('.darken-element').css({'opacity': '1'});
-    $('.view').css({'background': '#eceff1'});
-    
-    $('.search-share-header-input').removeClass('has-text');
-//    $('.search-share-header-input').val('');
-//    $('.search-share-header-input').focus();
+  Session.set('scanResult', null);
+  Session.set('allResults', null);
+
+  $('.darken-element').css({'opacity': '1'});
+  $('.view').css({'background': '#eceff1'});
+
+  $('.search-share-header-input').removeClass('has-text');
 };
 
 Template.barcode.destroyed = function(){
-    Session.set('placeholder', "Search product...");   
+  Session.set('placeholder', "Search product...");
 };
 
 Template.barcode.events({
@@ -28,7 +26,7 @@ Template.barcode.events({
 
           if (result.cancelled === 0) {
             var barcode = result.text;
-              
+
             $('.search-share-header-input').val(barcode);
             $('.search-share-header-input').trigger({type: 'keypress', charCode: 13});
           }
@@ -38,10 +36,8 @@ Template.barcode.events({
         });
     // not cordova
     } else {
-
-        $('.search-share-header-input').val(9780439708180);
-        $('.search-share-header-input').trigger({type: 'keypress', charCode: 13});
-
+      $('.search-share-header-input').val(9780439708180);
+      $('.search-share-header-input').trigger({type: 'keypress', charCode: 13});
     }
   }
 })

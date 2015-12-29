@@ -1,105 +1,105 @@
 <template name="feedback">
   {{#ionModal customTemplate=true}}
-      <div class="bar bar-header bar-royal">
-        <h2 class="title">Feedback</h2>
+    <div class="bar bar-header bar-royal">
+      <h2 class="title">Feedback</h2>
+    </div>
+
+    <div class="content has-header feedback">
+
+      <div class="card">
+      {{#with userInfo}}
+      <div class="item">
+        <div class="profile-image-container">
+          {{#if noProfileYet}}
+          <div class="profile-avatar" style="background: url('/profile_image_placeholder.jpg') no-repeat; background-size:cover; background-position: 50% 50%;"></div>
+          {{else}}
+          <div class="profile-avatar" style="background: url('{{avatar}}') no-repeat; background-size:cover; background-position: 50% 50%;"></div>
+          {{/if}}
+        </div>
+
+        <div class="center">
+          <p class="dark">{{name}}</p>
+          <p class="line-height-one">{{college}}</p>
+        </div>
       </div>
-      
-      <div class="content has-header feedback"> 
 
-        <div class="card">
-        {{#with userInfo}}
-        <div class="item">
-          <div class="profile-image-container">
-            {{#if noProfileYet}}
-            <div class="profile-avatar" style="background: url('/profile_image_placeholder.jpg') no-repeat; background-size:cover; background-position: 50% 50%;"></div>
-            {{else}}
-            <div class="profile-avatar" style="background: url('{{avatar}}') no-repeat; background-size:cover; background-position: 50% 50%;"></div>
-            {{/if}}
-          </div>
-
-          <div class="center">
-            <p class="dark">{{name}}</p>
-            <p class="line-height-one">{{college}}</p>
-          </div>
-        </div>
-
-        <div class="item item-text-wrap center">
-          Please rate your experience with <strong>{{name}}</strong>
-          <br>
-          <div class="flex-aligner">
-            <fieldset class="rating">
-            <input type="radio" id="star5" name="rating" value="5" /><label for="star5"></label>
-            <input type="radio" id="star4" name="rating" value="4" /><label for="star4"></label>
-            <input type="radio" id="star3" name="rating" value="3" /><label for="star3"></label>
-            <input type="radio" id="star2" name="rating" value="2" /><label for="star2"></label>
-            <input type="radio" id="star1" name="rating" value="1" /><label for="star1"></label>
-          </fieldset>
-          </div>
-
-        </div>
-        {{/with}}
-
-            <div class="item">
-                <button id="submitFeedback" class="button button-block">SUBMIT</button>  
-            </div>
-            
+      <div class="item item-text-wrap center">
+        Please rate your experience with <strong>{{name}}</strong>
+        <br>
+        <div class="flex-aligner">
+          <fieldset class="rating">
+          <input type="radio" id="star5" name="rating" value="5" /><label for="star5"></label>
+          <input type="radio" id="star4" name="rating" value="4" /><label for="star4"></label>
+          <input type="radio" id="star3" name="rating" value="3" /><label for="star3"></label>
+          <input type="radio" id="star2" name="rating" value="2" /><label for="star2"></label>
+          <input type="radio" id="star1" name="rating" value="1" /><label for="star1"></label>
+        </fieldset>
         </div>
 
       </div>
-  {{/ionModal}}
+      {{/with}}
+
+          <div class="item">
+              <button id="submitFeedback" class="button button-block">SUBMIT</button>
+          </div>
+
+      </div>
+
+    </div>
+{{/ionModal}}
 </template>
 
 
 
 <template name="feedbackborrower">
-  {{#ionModal customTemplate=true}}
-      <div class="bar bar-header bar-royal">
-        <h2 class="title">Feedback</h2>
+{{#ionModal customTemplate=true}}
+    <div class="bar bar-header bar-royal">
+      <h2 class="title">Feedback</h2>
+    </div>
+
+    <div class="content has-header feedback">
+
+      <div class="card">
+
+      {{#with userInfo}}
+      <div class="item">
+        <div class="profile-image-container">
+          {{#if noProfileYet}}
+          <div class="profile-avatar" style="background: url('/profile_image_placeholder.jpg') no-repeat; background-size:cover; background-position: 50% 50%;"></div>
+          {{else}}
+          <div class="profile-avatar" style="background: url('{{avatar}}') no-repeat; background-size:cover; background-position: 50% 50%;"></div>
+          {{/if}}
+        </div>
+
+        <div class="center">
+          <p class="dark">{{name}}</p>
+          <p class="line-height-one">{{college}}</p>
+        </div>
       </div>
-      
-      <div class="content has-header feedback"> 
 
-        <div class="card">
+      <div class="item item-text-wrap center">
+        Please rate your experience with <strong>{{name}}</strong>
+        <br>
 
-        {{#with userInfo}}
-        <div class="item">
-          <div class="profile-image-container">
-            {{#if noProfileYet}}
-            <div class="profile-avatar" style="background: url('/profile_image_placeholder.jpg') no-repeat; background-size:cover; background-position: 50% 50%;"></div>
-            {{else}}
-            <div class="profile-avatar" style="background: url('{{avatar}}') no-repeat; background-size:cover; background-position: 50% 50%;"></div>
-            {{/if}}
-          </div>
-
-          <div class="center">
-            <p class="dark">{{name}}</p>
-            <p class="line-height-one">{{college}}</p>
-          </div>
-        </div>
-
-        <div class="item item-text-wrap center">
-          Please rate your experience with <strong>{{name}}</strong>
-          <br>
-
-          <div class="flex-aligner">
-            <fieldset class="rating">
-            <input type="radio" id="star5" name="rating" value="5" /><label for="star5"></label>
-            <input type="radio" id="star4" name="rating" value="4" /><label for="star4"></label>
-            <input type="radio" id="star3" name="rating" value="3" /><label for="star3"></label>
-            <input type="radio" id="star2" name="rating" value="2" /><label for="star2"></label>
-            <input type="radio" id="star1" name="rating" value="1" /><label for="star1"></label>
-          </fieldset>
-          </div>
-
-        </div>
-        {{/with}}
-
-            <div class="item">
-                <button id="submitFeedback" class="button button-block">SUBMIT</button>  
-            </div>
-            
+        <div class="flex-aligner">
+          <fieldset class="rating">
+          <input type="radio" id="star5" name="rating" value="5" /><label for="star5"></label>
+          <input type="radio" id="star4" name="rating" value="4" /><label for="star4"></label>
+          <input type="radio" id="star3" name="rating" value="3" /><label for="star3"></label>
+          <input type="radio" id="star2" name="rating" value="2" /><label for="star2"></label>
+          <input type="radio" id="star1" name="rating" value="1" /><label for="star1"></label>
+        </fieldset>
         </div>
 
       </div>
+      {{/with}}
+
+          <div class="item">
+              <button id="submitFeedback" class="button button-block">SUBMIT</button>
+          </div>
+
+      </div>
+
+    </div>
   {{/ionModal}}
 </template>

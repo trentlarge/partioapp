@@ -16,16 +16,6 @@
       <img id="spinner-logo-simple" src="{{ getImage 'spinner-logo' }}" />
     </a>
   {{/contentFor}}
-<!--
- {{#contentFor "headerButtonRight"}}
-    <button class="button button-clear pull-right">
-    </button>
- {{/contentFor}}
--->
-
-<!--   {{#contentFor "headerButtonRight"}}
-    <button data-ion-modal="filter" class="button button-clear custom-icon ion-ios-keypad button-energized"></button>
-  {{/contentFor}} -->
 
   {{> searchBox}}
 
@@ -38,16 +28,6 @@
 
 
 <template name="searchBox">
-
-<!--
-    <div class="list list-inset" style="margin:0">
-      <label class="item item-input">
-        <i class="icon ion-search placeholder-icon"></i>
-        <input type="text" id="search-box" placeholder="type keywords to search..." value="{{searchText}}">
-      </label>
-    </div>
--->
-
     <div class="bar bar-subheader categoriesFilter center" style="padding:0;">
         <div class="row">
             <div class="categoryFilter col col-15 {{isActivated 0}}">
@@ -85,14 +65,13 @@
       {{#each searchProducts}}
             <div class="package">
                 <a href="/listing/search/{{_id}}?ownerId={{ownerId}}" class="item item-avatar-2 qty-check">
-<!--                {{#ionItem path='search' _id=this._id class="item-avatar-2 qty-check"}}-->
                     <div class="product-avatar">
                       <img class="product-avatar-inner" src="{{image}}"/>
                     </div>
                     <div class="ellipsis">
                         <p class="main-title-text">{{title}}</p>
                     </div>
-                
+
                     <table class="rent-table">
                         <tbody>
                             <tr>
@@ -109,12 +88,11 @@
                             </tr>
                         </tbody>
                     </table>
-                
+
                     <div class="item-icon-right">
                         {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
                     </div>
                 </a>
-<!--                {{/ionItem}}-->
             </div>
       {{/each}}
         {{#if isFinished searchProducts.count}}
@@ -123,15 +101,4 @@
             </div>
         {{/if}}
     </div>
-<!--
-  {{else}}
-    {{#if isLoading}}
-    {{else}}
-      <div class="Aligner">
-        <h6 class="dark">Nothing found!</h6>
-      </div>
-    {{/if}}
-  {{/if}}
--->
 </template>
-

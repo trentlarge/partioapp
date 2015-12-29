@@ -1,8 +1,8 @@
 
 Template.inventory.helpers({
   'iconRandom': function() {
-      return Random.choice(['ion-ios-book', 
-                              'ion-ios-game-controller-b', 
+      return Random.choice(['ion-ios-book',
+                              'ion-ios-game-controller-b',
                               'ion-headphone',
                               'ion-android-restaurant',
                               'ion-ios-americanfootball',
@@ -18,15 +18,15 @@ Template.inventory.events({
   },
 
   'click .final-requests': function() {
-      Animations.accordion($('.final-requests'), $('.final-request-item'));
+    Animations.accordion($('.final-requests'), $('.final-request-item'));
   },
 
   'click .requests': function() {
-      Animations.accordion($('.requests'), $('.request-item'));
+    Animations.accordion($('.requests'), $('.request-item'));
   },
 
   'click .products': function() {
-      Animations.accordion($('.products'), $('.product-item'));
+    Animations.accordion($('.products'), $('.product-item'));
   },
 
   'click #respondToReq': function(){
@@ -47,7 +47,7 @@ Template.inventory.events({
       template: '<div class="center">Do you want to share the item with the user?</div>',
       onOk: function() {
         IonPopup.close();
-        console.log("proceeding with connection");
+  
         PartioLoad.show();
 
         Meteor.call('ownerAccept', connectionId, function(err, res) {

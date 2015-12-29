@@ -11,10 +11,7 @@ TransactionsController = RouteController.extend({
 
 	waitOn: function() {
 		return [
-			// subscribe to data here
 			Meteor.subscribe("myTransaction")
-			// Meteor.subscribe("otherSubscription"),
-			// ...
 		];
 	},
 
@@ -27,7 +24,6 @@ TransactionsController = RouteController.extend({
 			},
 
 			earning: function() {
-				console.log(this.transaction);
 				if(!this.transaction) {
 					return 0;
 				}

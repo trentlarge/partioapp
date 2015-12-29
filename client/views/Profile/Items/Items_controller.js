@@ -39,22 +39,22 @@ ItemsController = RouteController.extend({
 				}
 			},
 			newRequests: function() {
-                return Connections.find({"productData.ownerId": Meteor.userId(), finished: { $ne: true }, $or: [ {"state": "WAITING"}, {"state": "PAYMENT"}, {"state": "IN USE"} ]});
-            },
-            finalizedRequests: function() {
-                return Connections.find({"productData.ownerId": Meteor.userId(), finished: { $ne: true }, "state": "RETURNED"});
-            },
-            getCondition: function(conditionId) {
-                return Rating.getConditionByIndex(conditionId);
-            },
-            getRequestDate: function(requestDate) {
-					return formatDate(requestDate);
+      	return Connections.find({"productData.ownerId": Meteor.userId(), finished: { $ne: true }, $or: [ {"state": "WAITING"}, {"state": "PAYMENT"}, {"state": "IN USE"} ]});
+      },
+      finalizedRequests: function() {
+        return Connections.find({"productData.ownerId": Meteor.userId(), finished: { $ne: true }, "state": "RETURNED"});
+      },
+      getCondition: function(conditionId) {
+        return Rating.getConditionByIndex(conditionId);
+      },
+      getRequestDate: function(requestDate) {
+				return formatDate(requestDate);
 			},
 			getStartDate: function(startDate) {
-					return formatDate(startDate);
+				return formatDate(startDate);
 			},
 			getEndDate: function(endDate) {
-					return formatDate(endDate);
+				return formatDate(endDate);
 			},
 			getTotalDays: function(totalDays) {
 				if( totalDays > 1 ) {

@@ -10,74 +10,54 @@ SearchController = RouteController.extend({
 	},
 
 	waitOn: function() {
-        
-        return [
-            Meteor.subscribe("singleProduct", this.params._id),
-            Meteor.subscribe("singleUser", this.params.query.ownerId),
-            Meteor.subscribe("ownerConnections", this.params.query.ownerId)
-        ];
-        
-//		let _subs = [ Meteor.subscribe("search", this.params._id) ];
-//
-//		if(this.search()) {
-//			_subs.push(Meteor.subscribe("productsByTitle", this.search().title) );
-//		}
-//
-//		return _subs;
+    return [
+      Meteor.subscribe("singleProduct", this.params._id),
+      Meteor.subscribe("singleUser", this.params.query.ownerId),
+      Meteor.subscribe("ownerConnections", this.params.query.ownerId)
+    ];
 	},
-    
-    product: function() {
-        return Products.findOne(this.params._id);
-    },
-        
-    owner: function() {
-        if(this.product()) {
-            return Users.findOne(this.product().ownerId);
-        }
-        return false;
-    },
-    
-//	search: function() {
-//		return Search.findOne(this.params._id);
-//	},
-//
-//	productsByTitle: function() {
-//		if(this.search()) {
-//			return Products.find({"title": this.search().title});
-//		}
-//		return false;
-//	},
+
+  product: function() {
+    return Products.findOne(this.params._id);
+  },
+
+  owner: function() {
+    if(this.product()) {
+      return Users.findOne(this.product().ownerId);
+    }
+    return false;
+  },
 
 	data: function() {
 		return {
-            //search: this.search(),
-            owner: this.owner(),
-            product: this.product(),
+      //search: this.search(),
+      owner: this.owner(),
+      product: this.product(),
 
-            ownerAvatar: function(data) {
-                return userAvatar(data);
-            },
-            isNotOwner: function() {
-                return (this.product.ownerId !== Meteor.userId()) ? true : false;
-            },
-            getCondition: function() {
-                return Rating.getConditionByIndex(this.product.conditionId);
-            },
-            getCategoryIcon: function() {
-                return Categories.getCategoryIconByText(this.product.category);
-            },
-            requestSent: function() {
-                return Connections.findOne({"requestor": Meteor.userId(), finished: { $ne: true }, "owner": this.product.ownerId, "productData._id": this.product._id}) ? true : false;
-            },
-            isBorrowed: function() {
-                return Connections.findOne({"requestor": Meteor.userId(), finished: { $ne: true }, "owner": this.product.ownerId, "productData._id": this.product._id, "state":"WAITING"}) ? false : true;
-            },
-            isUnavailable: function() {
-                return Connections.findOne({"owner": this.product.ownerId, finished: { $ne: true }, "productData._id": this.product._id}) ? true : false;
-            },
-            rating: function() {
-                userRating(this.product.userId);
-            }
+      ownerAvatar: function(data) {
+        return userAvatar(data);
+      },
+      isNotOwner: function() {
+        return (this.product.ownerId !== Meteor.userId()) ? true : false;
+      },
+      getCondition: function() {
+        return Rating.getConditionByIndex(this.product.conditionId);
+      },
+      getCategoryIcon: function() {
+        return Categories.getCategoryIconByText(this.product.category);
+      },
+      requestSent: function() {
+        return Connections.findOne({"requestor": Meteor.userId(), finished: { $ne: true }, "owner": this.product.ownerId, "productData._id": this.product._id}) ? true : false;
+      },
+      isBorrowed: function() {
+        return Connections.findOne({"requestor": Meteor.userId(), finished: { $ne: true }, "owner": this.product.ownerId, "productData._id": this.product._id, "state":"WAITING"}) ? false : true;
+      },
+      isUnavailable: function() {
+        return Connections.findOne({"owner": this.product.ownerId, finished: { $ne: true }, "productData._id": this.product._id}) ? true : false;
+      },
+      rating: function() {
+        userRating(this.product.userId);
+      }
 		}
 	},
 

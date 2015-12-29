@@ -1,54 +1,53 @@
 Template.manual.rendered = function() {
-    
-    var itemNotFound = Session.get('itemNotFound');
-    if(itemNotFound) {
-        Session.set('photoTaken', itemNotFound.image);
-        Session.set('manualTitle', itemNotFound.title);
-        Session.set('selectedCategory', itemNotFound.category);
-        Session.set('dayPrice', itemNotFound.price.day);
-        Session.set('weekPrice', itemNotFound.price.week);
-        Session.set('monthPrice', itemNotFound.price.month);
-        Session.set('semesterPrice', itemNotFound.price.semester);
-    }
-    else {
-        Session.set('manualTitle', null);
-        Session.set('dayPrice', null);
-        Session.set('weekPrice', null);
-        Session.set('monthPrice', null);
-        Session.set('semesterPrice', null);
-        Session.set('photoTaken', null);
-    }
-    
-    //check card back
-    var manualProduct = Session.get('cardManualEntry');
-    if(manualProduct) {
-        Session.set('photoTaken', manualProduct.image);
-        Session.set('manualTitle', manualProduct.title);
-        Session.set('selectedCategory', manualProduct.category);
-        Session.set('selectedCondition', manualProduct.conditionId);
-        Session.set('dayPrice', manualProduct.rentPrice.day);
-        Session.set('weekPrice', manualProduct.rentPrice.week);
-        Session.set('monthPrice', manualProduct.rentPrice.month);
-        Session.set('semesterPrice', manualProduct.rentPrice.semester);
-    }
-    
+  var itemNotFound = Session.get('itemNotFound');
 
-    Session.set('scanResult', null);
-    Session.set('allResults', null);
+  if(itemNotFound) {
+      Session.set('photoTaken', itemNotFound.image);
+      Session.set('manualTitle', itemNotFound.title);
+      Session.set('selectedCategory', itemNotFound.category);
+      Session.set('dayPrice', itemNotFound.price.day);
+      Session.set('weekPrice', itemNotFound.price.week);
+      Session.set('monthPrice', itemNotFound.price.month);
+      Session.set('semesterPrice', itemNotFound.price.semester);
+  } else {
+      Session.set('manualTitle', null);
+      Session.set('dayPrice', null);
+      Session.set('weekPrice', null);
+      Session.set('monthPrice', null);
+      Session.set('semesterPrice', null);
+      Session.set('photoTaken', null);
+  }
 
-    $('.darken-element').css({'opacity': '1'});
-    $('.view').css({'background': '#eceff1'});
+  //check card back
+  var manualProduct = Session.get('cardManualEntry');
 
-    $('.search-share-header-input').removeClass('has-text');
+  if(manualProduct) {
+      Session.set('photoTaken', manualProduct.image);
+      Session.set('manualTitle', manualProduct.title);
+      Session.set('selectedCategory', manualProduct.category);
+      Session.set('selectedCondition', manualProduct.conditionId);
+      Session.set('dayPrice', manualProduct.rentPrice.day);
+      Session.set('weekPrice', manualProduct.rentPrice.week);
+      Session.set('monthPrice', manualProduct.rentPrice.month);
+      Session.set('semesterPrice', manualProduct.rentPrice.semester);
+  }
+
+  Session.set('scanResult', null);
+  Session.set('allResults', null);
+
+  $('.darken-element').css({'opacity': '1'});
+  $('.view').css({'background': '#eceff1'});
+
+  $('.search-share-header-input').removeClass('has-text');
 //    $('.search-share-header-input').focus();
 }
 
 Template.manual.destroyed = function() {
-    Session.set('itemNotFound', null);
-    Session.set('photoTaken', null);
-    Session.set('camfindImage', null);
-    Session.set('selectedCategory', null);
-    Session.set('selectedCondition', null);
+  Session.set('itemNotFound', null);
+  Session.set('photoTaken', null);
+  Session.set('camfindImage', null);
+  Session.set('selectedCategory', null);
+  Session.set('selectedCondition', null);
 }
 
 Template.manual.helpers({
@@ -59,61 +58,59 @@ Template.manual.helpers({
     return Categories.getCategories();
   },
   selectedCategory: function(category) {
-      return (category === Session.get('selectedCategory')) ? 'selected' : '';
+    return (category === Session.get('selectedCategory')) ? 'selected' : '';
   },
   selectedCondition: function(index) {
-      return (index == Session.get('selectedCondition')) ? 'selected' : '';
+    return (index == Session.get('selectedCondition')) ? 'selected' : '';
   },
   getConditions: function() {
     return Rating.getConditions();
   },
   waitingForPrices: function() {
-      return Lend.validatePrices() ? "": "disabled";
+    return Lend.validatePrices() ? "": "disabled";
   },
   validatePrices: function(){
-      return Lend.validatePrices();
+    return Lend.validatePrices();
   },
   manualTitle: function() {
-      return Session.get('manualTitle');
+    return Session.get('manualTitle');
   },
   dayPrice: function(){
-      return Session.get('dayPrice');
+    return Session.get('dayPrice');
   },
   weekPrice: function(){
-      return Session.get('weekPrice');
+    return Session.get('weekPrice');
   },
   monthPrice: function(){
-      return Session.get('monthPrice');
+    return Session.get('monthPrice');
   },
   semesterPrice: function(){
-      return Session.get('semesterPrice');
+    return Session.get('semesterPrice');
   }
 })
 
 Template.manual.events({
-    
   'change #browser-file-upload': function(input) {
-      var FR = new FileReader();
-      FR.onload = function(e) {
-          var newImage = e.target.result;
-          Session.set("photoTaken", newImage);
-      };
-      FR.readAsDataURL(input.target.files[0]);
+    var FR = new FileReader();
+    FR.onload = function(e) {
+        var newImage = e.target.result;
+        Session.set("photoTaken", newImage);
+    };
+    FR.readAsDataURL(input.target.files[0]);
   },
 
   'change .userPrice': function(e, template) {
-      var rentPrice = {
-        "day": template.find('.dayPrice').value,
-        "week": template.find('.weekPrice').value,
-        "month": template.find('.monthPrice').value,
-        "semester": template.find('.semesterPrice').value,
-     }
+    var rentPrice = {
+      "day": template.find('.dayPrice').value,
+      "week": template.find('.weekPrice').value,
+      "month": template.find('.monthPrice').value,
+      "semester": template.find('.semesterPrice').value,
+    }
 
-      Session.set('dayPrice', rentPrice.day);
-      Session.set('weekPrice', rentPrice.week);
-      Session.set('monthPrice', rentPrice.month);
-      Session.set('semesterPrice', rentPrice.semester);
-
+    Session.set('dayPrice', rentPrice.day);
+    Session.set('weekPrice', rentPrice.week);
+    Session.set('monthPrice', rentPrice.month);
+    Session.set('semesterPrice', rentPrice.semester);
   },
 
   'click .scanResult-thumbnail2': function(event, template) {
@@ -145,26 +142,25 @@ Template.manual.events({
             }
 
             MeteorCamera.getPicture(options, function(err, data) {
-                if(err) {
-                  console.log(err);
-                  IonPopup.show({
-                        title: 'Get picture',
-                        template: '<div class="center dark">Sorry, canot get picture.</div>',
-                        buttons:
-                        [{
-                            text: 'OK',
-                            type: 'button-energized',
-                            onTap: function() {
-                                IonPopup.close();
-                            }
-                        }]
-                  });
-                  return false;
-                }
-                Session.set("photoTaken", data);
+              if(err) {
+                IonPopup.show({
+                      title: 'Get picture',
+                      template: '<div class="center dark">Sorry, canot get picture.</div>',
+                      buttons:
+                      [{
+                          text: 'OK',
+                          type: 'button-energized',
+                          onTap: function() {
+                              IonPopup.close();
+                          }
+                      }]
+                });
+                return false;
+              }
+              Session.set("photoTaken", data);
             });
         } else {
-            $('#browser-file-upload').click();
+          $('#browser-file-upload').click();
         }
 
         return true;

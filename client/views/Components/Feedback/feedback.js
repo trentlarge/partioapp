@@ -1,14 +1,13 @@
 Template.feedback.helpers({
 	userInfo: function() {
-		console.log(this);
 		return this.productData.ownerData.profile;
 	},
 	ownerAvatar: function() {
-		if( !this.productData || 
-			!this.productData.ownerData || 
+		if( !this.productData ||
+			!this.productData.ownerData ||
 			!this.productData.ownerData.profile ||
 			!this.productData.ownerData.profile.avatar ||
-			 this.productData.ownerData.profile.avatar == 'notSet') 
+			 this.productData.ownerData.profile.avatar == 'notSet')
 		{
 			return '/profile_image_placeholder.jpg'
 		}
@@ -81,11 +80,11 @@ Template.feedbackborrower.helpers({
 	},
 
 	ownerAvatar: function() {
-		if( !this.productData || 
-			!this.productData.ownerData || 
+		if( !this.productData ||
+			!this.productData.ownerData ||
 			!this.productData.ownerData.profile ||
 			!this.productData.ownerData.profile.avatar ||
-			 this.productData.ownerData.profile.avatar == 'notSet') 
+			 this.productData.ownerData.profile.avatar == 'notSet')
 		{
 			return '/profile_image_placeholder.jpg'
 		}

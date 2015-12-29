@@ -3,13 +3,7 @@ Router.configure({
 	layoutTemplate: 'appLayout',
 	routeControllerNameConverter: "upperCamelCase",
 	loadingTemplate: 'loadingData',
-
-    // progressSpinner : false,
-    // progressTick : false,
 });
-
-
-
 
 // !!!
 // Temporary solution: subscribe to all data before we setup controllers
@@ -18,14 +12,7 @@ Router.waitOn(function () {
 	Meteor.subscribe("myConnections");
 	Meteor.subscribe("myNotificationsReceived");
 	Meteor.subscribe("userData");
-	//Meteor.subscribe("products");
-	//Meteor.subscribe("search");
-	//Meteor.subscribe("transactions");
-	//Meteor.subscribe("current_user_data");
-	//Meteor.subscribe("all_users");
 });
-
-
 
 //
 // !!!
@@ -60,55 +47,22 @@ Router.route('/profile/savedcards', { name: 'savedCards', controller: 'SavedCard
 Router.route('/profile/changepassword', { name: 'changePassword', controller: 'ChangePasswordController' });
 Router.route('/notifications', { name: 'notifications', controller: 'NotificationsController' }); //  Controlle OK
 Router.route('/contact', { name: 'contact', controller: 'ContactController'});
-// Router.route('/logout', {name: 'logout',
-// 	onBeforeAction: function(){
-// 		IonPopup.confirm({
-// 			okText: 'Logout',
-// 		  cancelText: 'Cancel',
-// 		  title: 'Logging out',
-// 		  template: '<div class="center">Are you sure you want to logout?</div>',
-// 		  onOk: function() {
-// 		    Meteor.logout(function(){
-// 						Router.go('/')
-// 				});
-//
-// 		    IonPopup.close();
-// 		  },
-// 		  onCancel: function() {
-// 		    console.log('Cancelled');
-// 		    IonPopup.close();
-// 		  }
-// 		});
-// 	}
-// });
 
-// !!!
-// non-existing routes (?)
-//
-//Router.route('/stripeAccount', { name: 'stripeAccount', controller: 'StripeAccountController' });
-//Router.route('/profile/bankaccount', { name: 'bankAccount', controller: 'BankAccountsController' });
-//Router.route('/listing/:_id', { name: 'productDetail', controller: "ProductDetailController" });
-//
 // !!!
 Router.onBeforeAction(function(pause){
 	if(!Meteor.user()) {
 		this.render('login')
-		//console.log('login');
 	} else {
 		if(Meteor.user().emails[0].address){
-			//console.log('entrou aqui');
 
 			if(Meteor.user().emails[0].verified) {
 				this.next();
-				//Router.go('/profile')
-				//console.log('next');
+
 			} else {
 				this.render('profile')
-				//console.log('profile1');
 			}
 		} else {
 			this.render('profile')
-			//console.log('profile2');
 		}
 	}
 }, {except: ['emailverification', 'register', 'login', 'contact']} );

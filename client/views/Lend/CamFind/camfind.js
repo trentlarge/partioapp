@@ -7,19 +7,15 @@ function processPicture(data) {
     attachImageAndWaitCamFind(data);
 
     Meteor.call('camfindGetTokenBase64', data, function(error, result) {
-        console.log(error, result);
-        if (!error && result.statusCode == 200) {
-          console.log("----camfindGetToken----");
 
+        if (!error && result.statusCode == 200) {
           // get image response
           Meteor.call('camfindGetResponse', result.data.token, function(error, result) {
-            console.log("----camfindGetResponse----");
-
             PartioLoad.hide();
 
             //some error -------
             if(error){
-              console.log(error);
+
               IonPopup.show({
                     title: 'Image Search',
                     template: '<div class="center dark">Sorry, this service isn\'t available at this moment.</div>',
@@ -62,13 +58,10 @@ function processPicture(data) {
               inputSearch.trigger({type: 'keypress', charCode: 13});
 
             } else {
-              console.log(result.data.status);
-              console.log('miss to handle');
               return false;
             }
           })
         } else {
-          console.log(error);
           IonPopup.show({
             title: 'Image Search',
             template: '<div class="center dark">Sorry, this service isn\'t available at this moment.</div>',
@@ -116,7 +109,7 @@ Template.camfind.events({
       cancelText: 'Cancel',
 
       cancel: function() {
-        console.log('Cancelled!');
+        //console.log('Cancelled!');
       },
 
       buttonClicked: function(index) {
@@ -138,7 +131,7 @@ Template.camfind.events({
 
             MeteorCamera.getPicture(options, function(err, data) {
                 if(err) {
-                  console.log(err);
+                
                   IonPopup.show({
                         title: 'Get picture',
                         template: '<div class="center dark">Sorry, canot get picture.</div>',

@@ -1,5 +1,5 @@
 Template.search.rendered = function() {
- 
+
     $('.range').datepicker({
         format: 'mm-dd-yyyy',
         startDate: 'd',
@@ -7,11 +7,11 @@ Template.search.rendered = function() {
         toggleActive: true,
         inputs: $('.range-start, .range-end'),
     });
-    
+
 }
 
 Template.search.events({
-    
+
     'click .features': function(e, template) {
         var features = $('.features');
         var featureDetails = $('.features-details');
@@ -24,7 +24,7 @@ Template.search.events({
             features.find('.chevron-icon').removeClass('ion-chevron-down').addClass('ion-chevron-up');
         }
     },
-    
+
     'click #requestProduct': function() {
       Meteor.call('userCanBorrow', function(error, result){
         if(!result) {
@@ -49,8 +49,4 @@ Template.search.events({
         }
       });
     },
-
-//    'click #moreInfo': function() {
-//        IonModal.open("productDetail", Products.findOne(this._id));
-//    }
 })

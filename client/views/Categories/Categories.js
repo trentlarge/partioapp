@@ -1,12 +1,9 @@
 Template.categoriesBox.events({
 	'click .category': function(e, template) {
-        
-        var categoryText = $(e.currentTarget).find('span').text();
-        var categoryIndex = Categories.getCategoryIndexByText(categoryText);
-        
-        Session.set('categoryIndex', categoryIndex);
-        Session.set('searchText', '');
-        
+    var categoryText = $(e.currentTarget).find('span').text();
+    var categoryIndex = Categories.getCategoryIndexByText(categoryText);
+    Session.set('categoryIndex', categoryIndex);
+    Session.set('searchText', '');
 		Router.go('/listing');
 	},
 });
@@ -17,5 +14,5 @@ Template.categoriesBox.helpers({
     },
     getCategoryIcon: function(index) {
         return Categories.getCategoryIcon(index);
-    }    
+    }
 });

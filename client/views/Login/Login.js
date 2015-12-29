@@ -1,10 +1,6 @@
 Template.login.events({
 	'click #triggerGPS': function() {
 		Router.go('/register');
-	//if (!Session.get('initialLoc')) {
-
-			//CheckLocatioOn();
-	//	}
 	},
 	'click #loginButton': function(e, template) {
 		e.preventDefault();
@@ -19,7 +15,6 @@ Template.login.events({
 			PartioLoad.hide();
 
 			if (error) {
-//				console.log(error);
 				IonPopup.show({
 					title: 'Won\'t you try again?',
 					template: '<div class="center">'+error.reason+'</div>',
@@ -65,118 +60,49 @@ Template.login.events({
 //				console.log('Cancelled')
 			}
 		})
-
-
 	},
+
 	'click #fblogin': function(e, template) {
-		// IonLoading.show();
-		// var authOptions = {};
-		//
-		// if(Meteor.isCordova) {
-		// 	authOptions.loginStyle = "redirect";
-		// 	//authOptions.redirectUrl = "/profile"
-		// }
-
 		Meteor.loginWithFacebook({ requestPermissions: ['email', 'public_profile', 'user_birthday']}, function(err){
-					 if (err) {
-							 throw new Meteor.Error("Facebook login failed");
-					 } else {
+		 if (err) {
+				 throw new Meteor.Error("Facebook login failed");
+		 } else {
 
-						 if (user.hasOwnProperty('services') && user.services.hasOwnProperty('facebook')  ) {
-        var result = Meteor.http.get('https://graph.facebook.com/v2.4/' + user.services.facebook.id + '?access_token=' + user.services.facebook.accessToken + '&fields=first_name, last_name, birthday, email, gender, location, link, friends');
+			if (user.hasOwnProperty('services') && user.services.hasOwnProperty('facebook')  ) {
+				var result = Meteor.http.get('https://graph.facebook.com/v2.4/' + user.services.facebook.id + '?access_token=' + user.services.facebook.accessToken + '&fields=first_name, last_name, birthday, email, gender, location, link, friends');
+			}
 
-        console.log(result.data.first_name);
-        console.log(result.data.last_name);
-        console.log(result.data.birthday);
-        console.log(result.data.email);
-        console.log(result.data.gender);
-        console.log(result.data.location);
-        console.log(result.data.link);
-        console.log(result.data.friends);
-}
-
-
-						 console.log(Meteor.user().services.facebook.email);
-						 //console.log('logado');
-						 Router.go('/profile');
-						 //console.log(Meteor.user());
-						 $('#name').val(Meteor.user().profile.name);
-						 $('#email').val(Meteor.user().emails[0].address);
-					 }
-			 });
-
-
-			// Meteor.loginWithFacebook(authOptions, function(err) {
-			// if (err) {
-//				console.log(err);
-			// 	IonPopup.show({
-			// 		title: 'Error connecting to Facebook',
-			// 		template: '<div class="center">'+err+'</div>',
-			// 		buttons: [{
-			// 			text: 'OK',
-			// 			type: 'button-calm',
-			// 			onTap: function() {
-			// 				IonPopup.close();
-			// 			}
-			// 		}]
-			// 	});
-			// } else {
-				//If Meteor.userId() exists
-				// var UserExists = Meteor.users.find({_id: Meteor.userId()}, {$ne:{"profile.transactionsId": null}});
-				//if(Meteor.user().profile.transactionsId)
-				//{
-					//user exist
-				//}
-				// else
-				// {
-				// 	Meteor.call('createCustomer', Meteor.userId(), function(error, result) {
-				// 		if (!error) {
-				// 			var userTransId = Transactions.insert({
-				// 				earning: [],
-				// 				spending: []
-				// 			});
-				// 			Meteor.users.update({"_id": Meteor.userId()}, {$set: {"profile.transactionsId": userTransId}});
-				// 			PartioLoad.hide();
-				//
-				// 		} else {
-				// 			PartioLoad.hide();
-				// 		}
-				// 	})
-				// }
-			//}
-		//});
+			 Router.go('/profile');
+			 $('#name').val(Meteor.user().profile.name);
+			 $('#email').val(Meteor.user().emails[0].address);
+		 }
+		});
 	},
-
 })
 
-function CheckLocatioOn()
-{
+function CheckLocatioOn(){
 	var onSuccess = function(position) {
 		Session.set('initialLoc', {lat: position.coords.latitude, lng: position.coords.longitude});
 	};
 
 	function onError(error) {
-			// alert(error.code +", "+ error.message);
-			IonPopup.show({
-				title: "Location Services Unavailable.",
-				template: '<div class="center">Please enable Location services for this app from Settings > Privacy > Location Services</div>',
-				buttons: [{
-					text: 'OK',
-					type: 'button-calm',
-					onTap: function() {
-						IonPopup.close();
-						IonModal.close();
-					}
-				}]
-			});
-		}
-
-	// navigator.geolocation.getCurrentPosition(onSuccess, onError);
+		IonPopup.show({
+			title: "Location Services Unavailable.",
+			template: '<div class="center">Please enable Location services for this app from Settings > Privacy > Location Services</div>',
+			buttons: [{
+				text: 'OK',
+				type: 'button-calm',
+				onTap: function() {
+					IonPopup.close();
+					IonModal.close();
+				}
+			}]
+		});
+	}
 }
 
 Template.login.rendered = function() {
-
-    $(".bar-header").hide();
+  $(".bar-header").hide();
 
 	if(window.cordova && window.cordova.plugins.Keyboard) {
 		// cordova.plugins.Keyboard.disableScroll(true);
@@ -186,5 +112,4 @@ Template.login.rendered = function() {
 	window.addEventListener('native.keyboardhide', function() {
 		$(".content.dont-slice-screen").css("bottom", "0px");
 	});
-
 }

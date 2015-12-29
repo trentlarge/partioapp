@@ -17,12 +17,12 @@ Template.notifications.events({
 
     	switch(this.type) {
             case "info": {
-                switch(this.state) {
-                    case "RETURNED": {
-                        // !!!
-                        redirectAndPassConnectionId("connect", this.connectionId);
-                    }; break;
-                }
+              switch(this.state) {
+                  case "RETURNED": {
+                      // !!!
+                      redirectAndPassConnectionId("connect", this.connectionId);
+                  }; break;
+              }
             }; break;
             case "request": {
                 redirectAndPassConnectionId("connect", this.connectionId);

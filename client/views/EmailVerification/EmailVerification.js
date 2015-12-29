@@ -1,12 +1,10 @@
 Template.emailverification.onRendered(function() {
 	var token = (Iron.Location.get().path).split("/verify-email/")[1];
-	console.log(token);
 
 	if (token) {
 		Accounts.verifyEmail(token, function(err) {
 			if (err != null) {
 				if (err.message == 'Verify email link expired [403]') {
-					console.log('Sorry this verification link has expired.');
 					IonPopup.show({
 						title: 'Error!',
 						template: '<div class="center">Sorry this verification link has expired.</div>',

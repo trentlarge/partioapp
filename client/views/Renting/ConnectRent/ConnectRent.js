@@ -61,7 +61,7 @@ Template.connectRent.events({
 	},
 
 	'click #btnCallUser': function(err, template) {
-        PartioCall.init(this.connectData);
+      PartioCall.init(this.connectData);
 	},
 
 	'click #returnItem': function() {
@@ -75,8 +75,7 @@ Template.connectRent.events({
 			title: 'Are you sure you want to return this item?',
 			template: '<div class="center"><p>Please make sure the item is passed back to the owner</p></div>',
 			onCancel: function() {
-				console.log('Cancelled')
-        		IonPopup.close();
+        	IonPopup.close();
 			},
 			onOk: function() {
 				Meteor.call('returnItem', connectionData._id, function(err, result) {
@@ -113,8 +112,6 @@ Template.connectRent.events({
 			onOk: function() {
 				PartioLoad.show();
 				Meteor.call('chargeCard', connectionId, function(error, result) {
-					console.log('>>>>>> [stripe] return chargeCard');
-					console.log(error, result);
 					PartioLoad.hide();
 
 					if(error) {
@@ -170,10 +167,8 @@ Template.connectRent.events({
 					}
 				});
 
-                IonPopup.close();
+        IonPopup.close();
 				Router.go('/listing');
-				//Connections.remove({"_id": connectionId});
-				//Chat.remove({connectionId: connectionId})
 
 			}
 

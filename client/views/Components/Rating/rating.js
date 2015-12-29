@@ -3,18 +3,16 @@ Template.rating.rendered = function () {
 }
 
 Template.rating.helpers({
-    
   getRatingNumber: function(ownerId, ownerProfileId) {
-      
       var _id = Meteor.userId();
 
       if(ownerId) { _id = ownerId }
       if(ownerProfileId) { _id = ownerProfileId }
-      
+
       var user = Meteor.users.findOne(_id);
-      
+
       if(user && user.profile && user.profile.rating) {
-          
+
           if(user.profile.rating.length === 1) {
               return user.profile.rating.length + ' rating';
           }
@@ -23,12 +21,11 @@ Template.rating.helpers({
           }
           return 'Not rated yet';
       }
-      
+
       return 'Not rated yet';
   },
-    
+
   avgRating: function(ownerId, ownerProfileId) {
-      
     var _id = Meteor.userId();
 
     if(ownerId) { _id = ownerId }

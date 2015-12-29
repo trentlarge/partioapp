@@ -11,12 +11,6 @@ ListingController = RouteController.extend({
 
 	waitOn: function() {
 		return [
-			// subscribe to data here
-			// Meteor.subscribe("someSubscription"),
-			// Meteor.subscribe("search"),
-            // Meteor.subscribe("products"),
-            // Meteor.subscribe("searchData", parseInt(this.params.query.page))
-			// ...
 		];
 	},
 

@@ -1,23 +1,23 @@
 Template.connect.events({
-    
+
   'click .product-details': function(e, template) {
     var productDetails = $('.product-details');
     var productDetailsItem = $('.product-details-item');
 
-      if(!productDetailsItem.is(':visible')){
-          productDetailsItem.slideDown('fast');
-          productDetails.find('.chevron-icon').removeClass('ion-chevron-up').addClass('ion-chevron-down');
-      }
-      else {
-          productDetailsItem.slideUp('fast');
-          productDetails.find('.chevron-icon').removeClass('ion-chevron-down').addClass('ion-chevron-up');
-      }
+    if(!productDetailsItem.is(':visible')){
+      productDetailsItem.slideDown('fast');
+      productDetails.find('.chevron-icon').removeClass('ion-chevron-up').addClass('ion-chevron-down');
+    }
+    else {
+      productDetailsItem.slideUp('fast');
+      productDetails.find('.chevron-icon').removeClass('ion-chevron-down').addClass('ion-chevron-up');
+    }
   },
 
 	'click #confirmReturn': function() {
 		var connection = this.connectData;
-        var productTitle = connection.productData.title;
-        var searchCollectionId = Search.findOne({title: productTitle});
+    var productTitle = connection.productData.title;
+    var searchCollectionId = Search.findOne({title: productTitle});
 
 		IonPopup.confirm({
 			cancelText: 'No',
@@ -25,7 +25,7 @@ Template.connect.events({
 			title: 'Is your product returned?',
 			template: '<div class="center"><p> The product will now be available for others to borrow </p></div>',
 			onCancel: function() {
-				
+
 			},
 			onOk: function() {
 				Meteor.call('confirmReturn', searchCollectionId, connection._id, function(err, res) {
@@ -44,11 +44,11 @@ Template.connect.events({
 		});
 	},
 
-    'click #btnCallUser': function(err, template) {
-        PartioCall.init(this.connectData);
-    },
+  'click #btnCallUser': function(err, template) {
+      PartioCall.init(this.connectData);
+  },
 
-    'click #cancelRequest': function() {
+  'click #cancelRequest': function() {
 		connectionId = this.connectData._id;
 
 		IonPopup.confirm({
@@ -57,7 +57,7 @@ Template.connect.events({
 			title: 'Book Request Cancel',
 			template: '<div class="center"><p> Do you wish to cancel the request? </p></div>',
 			onCancel: function() {
-				
+
 			},
 			onOk: function() {
 				Meteor.call('updateConnection', connectionId, function(err, res) {
@@ -110,7 +110,7 @@ Template.connect.events({
 	'click #changeMeetupLocation': function() {
         PartioLoad.show();
 		connectionId = this.connectData._id;
-		
+
 		meetingCoordinates = this.connectData.meetupLatLong;
 		CheckLocationOn();
 	}

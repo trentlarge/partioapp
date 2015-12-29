@@ -59,43 +59,43 @@ ConnectController = RouteController.extend({
 			},
 
 			phoneNumber: function() {
-                if(!this.connectData) { return; }
+        if(!this.connectData) { return; }
 				return this.requestorInfo().profile.mobile;
 			},
 
 			isBorrowed: function() {
-                if(!this.connectData) { return; }
+        if(!this.connectData) { return; }
 				return (this.connectData.state === 'IN USE') ? true : false;
 			},
 
 			isReturned: function() {
-                if(!this.connectData) { return; }
+        if(!this.connectData) { return; }
 				return (this.connectData.state === 'RETURNED') ? true : false;
 			},
 
-            locationSetted: function() {
-                if(!this.connectData) { return; }
-                //console.log(this.connectData.meetupLocation);
-                return (this.connectData.meetupLocation !== 'Location not set') ? true : false;
-            },
+      locationSetted: function() {
+          if(!this.connectData) { return; }
+          //console.log(this.connectData.meetupLocation);
+          return (this.connectData.meetupLocation !== 'Location not set') ? true : false;
+      },
 
 			getRequestDate: function() {
-                if(!this.connectData) { return; }
+        if(!this.connectData) { return; }
 				return formatDate(this.connectData.requestDate);
 			},
 
 			getStartDate: function() {
-                if(!this.connectData) { return; }
+        if(!this.connectData) { return; }
 				return formatDate(this.connectData.borrowDetails.date.start);
 			},
 
 			getEndDate: function() {
-                if(!this.connectData) { return; }
+        if(!this.connectData) { return; }
 				return formatDate(this.connectData.borrowDetails.date.end);
 			},
 
 			getTotalDays: function() {
-                if(!this.connectData) { return; }
+        if(!this.connectData) { return; }
 				if( this.connectData.borrowDetails.date.totalDays > 1 ) {
 					return this.connectData.borrowDetails.date.totalDays + ' days';
 				}
@@ -103,76 +103,77 @@ ConnectController = RouteController.extend({
 			},
 
 			alreadyApproved: function() {
-                if(!this.connectData) { return; }
+        if(!this.connectData) { return; }
 				return (this.connectData.state !== "WAITING") ? true : false;
 			},
 
 			returnItem: function() {
-                if(!this.connectData) { return; }
+        if(!this.connectData) { return; }
 				return this.connectData.state === "RETURNED" ? true : false;
 			},
 
-            isTimeOver: function() {
-                if(!this.connectData) { return; }
-                var diff;
-                if($.now() > new Date(this.connectData.borrowDetails.date.start).getTime()) {
-                    diff = new Date(this.connectData.borrowDetails.date.end - $.now());
-                } else {
-                    diff = new Date(this.connectData.borrowDetails.date.end - this.connectData.borrowDetails.date.start);
-                }
-                var daysLeft = Math.floor((diff/1000/60/60/24) + 1);
+      isTimeOver: function() {
+        if(!this.connectData) { return; }
+        var diff;
+        if($.now() > new Date(this.connectData.borrowDetails.date.start).getTime()) {
+            diff = new Date(this.connectData.borrowDetails.date.end - $.now());
+        } else {
+            diff = new Date(this.connectData.borrowDetails.date.end - this.connectData.borrowDetails.date.start);
+        }
+        var daysLeft = Math.floor((diff/1000/60/60/24) + 1);
 
-                if(daysLeft < 0) {
-                    return true;
-                }
-                return false;
-            },
+        if(daysLeft < 0) {
+            return true;
+        }
+        return false;
+      },
 
-	       getDaysLeftValue: function() {
-               if(!this.connectData) { return; }
-                var diff;
-                if($.now() > new Date(this.connectData.borrowDetails.date.start).getTime()) {
-                    diff = new Date(this.connectData.borrowDetails.date.end - $.now());
-                } else {
-                    diff = new Date(this.connectData.borrowDetails.date.end - this.connectData.borrowDetails.date.start);
-                }
-                var daysLeft = Math.floor((diff/1000/60/60/24) + 1);
+			getDaysLeftValue: function() {
+				if(!this.connectData) { return; }
+				var diff;
 
-                if(daysLeft < 0) {
-                    return 0;
-                }
+				if($.now() > new Date(this.connectData.borrowDetails.date.start).getTime()) {
+				  diff = new Date(this.connectData.borrowDetails.date.end - $.now());
+				} else {
+				  diff = new Date(this.connectData.borrowDetails.date.end - this.connectData.borrowDetails.date.start);
+				}
+				var daysLeft = Math.floor((diff/1000/60/60/24) + 1);
 
-                return daysLeft;
-           },
+				if(daysLeft < 0) {
+				  return 0;
+				}
+
+				return daysLeft;
+			},
 
 			getDaysLeft: function() {
-                if(!this.connectData) { return; }
-                var diff;
-                if($.now() > new Date(this.connectData.borrowDetails.date.start).getTime()) {
-                    diff = new Date(this.connectData.borrowDetails.date.end - $.now());
-                } else {
-                    diff = new Date(this.connectData.borrowDetails.date.end - this.connectData.borrowDetails.date.start);
-                }
-                var daysLeft = Math.floor((diff/1000/60/60/24) + 1);
+			  if(!this.connectData) { return; }
+			  var diff;
+				if($.now() > new Date(this.connectData.borrowDetails.date.start).getTime()) {
+				  diff = new Date(this.connectData.borrowDetails.date.end - $.now());
+				} else {
+				  diff = new Date(this.connectData.borrowDetails.date.end - this.connectData.borrowDetails.date.start);
+				}
+				var daysLeft = Math.floor((diff/1000/60/60/24) + 1);
 
-                if(daysLeft < 0) {
-                    return 'time is over';
-                }
-                else if(daysLeft <= 1) {
-                    return daysLeft + ' day left'
-                }
-                return daysLeft + ' days left';
-            },
+				if(daysLeft < 0) {
+				  return 'time is over';
+				}
+				else if(daysLeft <= 1) {
+				  return daysLeft + ' day left'
+				}
+			  return daysLeft + ' days left';
+			},
 
-            paymentPending: function() {
-                if(!this.connectData) { return; }
-                if(this.connectData.state === 'PAYMENT' || this.connectData.state === 'WAITING') {
-                        return true;
-                }
-                return false;
-            }
-        }
-    },
+      paymentPending: function() {
+          if(!this.connectData) { return; }
+          if(this.connectData.state === 'PAYMENT' || this.connectData.state === 'WAITING') {
+                  return true;
+          }
+          return false;
+      }
+    }
+  },
 
 	onAfterAction: function() {
 
