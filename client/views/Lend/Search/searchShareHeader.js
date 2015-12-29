@@ -94,7 +94,7 @@ Template.searchShareHeader.events({
 
                         IonPopup.show({
                             title: 'Ops...',
-                            template: '<div class="center">' + error.message + '</div>',
+                            template: error.message,
                             buttons:
                             [{
                                 text: 'OK',

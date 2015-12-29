@@ -16,7 +16,7 @@ formatDate = function(dateObject) {
 ShowNotificationMessage = function(strMessage){
 	IonPopup.show({
 		title: 'Alert',
-		template: '<div class="center">'+strMessage+'</div>',
+		template: strMessage,
 		buttons:
 		[{
 			text: 'OK',

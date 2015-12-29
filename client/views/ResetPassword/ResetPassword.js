@@ -9,13 +9,13 @@ Template.resetpassword.events({
 				if (!error) {
 					IonLoading.show({
 						duration: 2000,
-						customTemplate: '<div class="center"><h5>Successfully set!</h5></div>',
+						customTemplate: '<h5>Successfully set!</h5>',
 					});
 					window.location = "/"
 				} else {
 					IonPopup.show({
 						title: 'Error!',
-						template: '<div class="center">'+ error.message +'</div>',
+						template: error.message,
 						buttons:
 						[{
 							text: 'OK',
@@ -29,8 +29,8 @@ Template.resetpassword.events({
 			})
 		} else {
 			IonPopup.show({
-				title: 'Passwords do not match!',
-				template: '',
+				title: 'Error!',
+				template: 'Passwords do not match!',
 				buttons:
 				[{
 					text: 'OK',

@@ -40,7 +40,7 @@ Template.lend.events({
                     
                     IonPopup.show({
                       title: 'Update profile',
-                      template: '<div class="center">Please, update your debit card to share this item.</div>',
+                      template: 'Please, update your debit card to share this item.',
                       buttons: [{
                         text: 'OK',
                         type: 'button-energized',
@@ -70,7 +70,7 @@ Template.lend.events({
               PartioLoad.hide();
               IonPopup.show({
                 title: 'Nothing to add!',
-                template: '<div class="center">Scan or add a product to make it available on partiO for others to find</div>',
+                template: 'Scan or add a product to make it available on partiO for others to find.',
                 buttons:
                 [{
                   text: 'OK',
@@ -128,7 +128,7 @@ function showInvalidPopUp(strTitle, strMessage) {
 
     IonPopup.show({
           title: strTitle,
-          template: '<div class="center">'+strMessage+'</div>',
+          template: strMessage,
           buttons:
           [{
             text: 'OK',

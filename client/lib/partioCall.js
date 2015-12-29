@@ -27,7 +27,7 @@ app.model.PartioCall = (function () {
 
     				IonPopup.show({
     					title: 'Ops...',
-    					template: '<div class="center dark">'+error.reason+'</div>',
+    					template: error.reason,
     					buttons:
     					[{
     						text: 'OK',
@@ -58,7 +58,7 @@ app.model.PartioCall = (function () {
 
   					IonPopup.show({
   						title: 'Phone activation',
-  						template: '<div class="center dark">Please, answer call and digit your activation number: "'+result.data.validation_code+'". Press OK when done and try to call again. Thank you.</div>',
+  						template: '<div class="dark">Please, answer call and digit your activation number: "'+result.data.validation_code+'". Press OK when done and try to call again. Thank you.</div>',
   						buttons:
   						[{
   							text: 'OK',
@@ -135,7 +135,7 @@ app.model.PartioCall = (function () {
           } else {
             IonPopup.show({
               title: 'Calling...',
-              template: '<div class="center dark">Please, wait just few seconds and answer the phone call.</div>',
+              template: '<div class="dark">Please, wait just few seconds and answer the phone call.</div>',
               buttons:
               [{
                 text: 'OK',

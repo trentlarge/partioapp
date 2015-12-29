@@ -1,16 +1,15 @@
 Template.addnewCard.events({
+  'focus input': function() {
+    $('.content').css({
+        'padding-bottom': '250px'
+    });
+  },
 
-    'focus input': function() {
-        $('.content').css({
-            'padding-bottom': '250px'
-        });
-      },
-
-      'focusout input': function() {
-        $('.content').css({
-            'padding-bottom': '0'
-        });
-      },
+  'focusout input': function() {
+    $('.content').css({
+        'padding-bottom': '0'
+    });
+  },
 
 	'submit .newCardForm': function(e) {
 		e.preventDefault();
@@ -78,7 +77,7 @@ Template.addnewCard.events({
 						if(error.reason == 'birthDate') {
 							IonPopup.show({
 								title: 'Missing information',
-								template: '<div class="center">Please, update you birth date before to add a debit card.</div>',
+								template: 'Please, update you birth date before to add a debit card.',
 								buttons:
 								[{
 									text: 'OK',

@@ -177,8 +177,14 @@ input {
     bottom: 0px !important;
 }
 
+body.keyboard-open .content.overflow-scroll {
+    padding-bottom: 250px !important;
+    bottom: 0px !important;
+}
+
 body.keyboard-open .platform-android .content.overflow-scroll {
     bottom: 0px !important;
+    padding-bottom: 300px !important;
 }
 
 .fieldDescriptionLend {
@@ -188,23 +194,112 @@ body.keyboard-open .platform-android .content.overflow-scroll {
   padding: 5px;
 }
 
-.popup-buttons .button-positive {
-    border-color: #D8880C;
-    background-color: #F0970D;
-    color: #FFF;
+.popup {
+    padding: 16px;
+    width: auto !important;
+    max-width: 80% !important;
+    
+    .popup-title {
+        text-align: left;
+        font-size: 20px;
+        text-transform: capitalize;
+        font-weight: bold;
+        color: #272727;
+    }
+    
+    .popup-body {
+        color: #272727;
+        
+        input {
+            margin-top: 10px;
+            padding: 10px;
+            border: 1px solid #eee;
+        }
+    }
+    
+    .popup-buttons {
+        margin-top: 50px;
+        
+        .button {
+            font-size: 16px;
+            font-weight: bold;
+            text-transform: uppercase;
+            padding: 0;
+            
+            &:hover {
+                opacity: .7;
+            }
+            
+            &.activated {
+                opacity: .8;
+            }
+        }
+        
+        .button-default {
+            text-align: right;
+            border: 0;
+            background-color: transparent;
+            color: #272727;
+            box-shadow: none;
+            
+            &.activated, &.active {
+                border: 0;
+                background-color: transparent;
+                color: #272727;
+                box-shadow: none;
+            }
+        }
+        
+        .button-assertive {
+            text-align: right;
+            border: 0;
+            background-color: transparent;
+            color: #df5707;
+            box-shadow: none;
+            
+            &.activated, &.active {
+                border: 0;
+                background-color: transparent;
+                color: #df5707;
+                box-shadow: none;
+            }
+        }
+        
+        .button-calm, .button-positive, .button-energized {
+            text-align: right;
+            border: 0;
+            background-color: transparent;
+            color: #F0970D;
+            box-shadow: none;
+            
+            &.activated, &.active {
+                border: 0;
+                background-color: transparent;
+                color: #F0970D;
+                box-shadow: none;
+            }
+        }
+        
+    }
 }
 
-.popup-buttons .button-positive.active {
-    border-color: #D8880C;
-    background-color: #D8880C;
-    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1) inset;
-}
-
-.popup-buttons .button-positive.activated {
-    border-color: #D8880C;
-    background-color: #D8880C;
-    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1) inset;
-}
+//.popup-buttons .button-positive {
+//    border-color: #D8880C;
+//    background-color: #F0970D;
+//    color: #FFF;
+//}
+//
+//.popup-buttons .button-positive.active {
+//    border-color: #D8880C;
+//    background-color: #D8880C;
+//    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1) inset;
+//}
+//
+//.popup-buttons .button-positive.activated {
+//    border-color: #D8880C;
+//    background-color: #D8880C;
+//    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1) inset;
+//}
 .menutext{
   font-weight:500;
 }
@@ -314,10 +409,6 @@ body.keyboard-open .platform-android .content.overflow-scroll {
 
 .snap-drawer {
   width: 270px !important;
-}
-
-body.keyboard-open .platform-android .content.overflow-scroll {
-  bottom: 0px !important;
 }
 
 #bottom-triangle {

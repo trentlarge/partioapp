@@ -1,42 +1,44 @@
 Template.appLayout.events({
 	'click #editCurrent': function() {
+
     var ConnectionObj = Connections.findOne({'productData._id': this.product._id});
     if(ConnectionObj){
-      var ConnectionStatus = ConnectionObj.state;
-      if(ConnectionStatus != "RETURNED"){
-        IonPopup.show({
-            title: 'Item Borrowed',
-            template: '<div class="center"> It is not possible edit a borrowed item. </div>',
-            buttons:
-            [{
-              text: 'OK',
-              type: 'button-assertive',
-              onTap: function()
-              {
-                IonPopup.close();
-              }
-            }]
-        });
+        var ConnectionStatus = ConnectionObj.state;
+        if(ConnectionStatus != "RETURNED"){
+          IonPopup.show({
+              title: 'Item Borrowed',
+              template: 'It is not possible edit a borrowed item.',
+              buttons:
+              [{
+                text: 'OK',
+                type: 'button-assertive',
+                onTap: function()
+                {
+                  IonPopup.close();
+                }
+              }]
+          });
 
-        return false;
-      }
+          return false;
+        }
     }
+
 		Session.set('editMode', true);
 	},
 });
 
 Template.inventoryDetail.events({
-  'focus input': function() {
-    $('.inventory-details').css({
-        'padding-bottom': '250px'
-    });
-  },
+	'focus input': function() {
+		$('.inventory-details').css({
+				'padding-bottom': '250px'
+		});
+	},
 
-  'focusout input': function() {
-    $('.inventory-details').css({
-        'padding-bottom': '0'
-    });
-  },
+	'focusout input': function() {
+			$('.inventory-details').css({
+					'padding-bottom': '0'
+			});
+	},
 
   'click .features': function(e, template) {
     var features = $('.features');
@@ -107,32 +109,33 @@ Template.inventoryDetail.events({
   },
 
   'click #editRemove': function(e, template) {
-    var productId = this.product._id;
-    IonPopup.show({
-		title: 'Remove product?',
-		template: '<div class="center">Remove product from your invetory?</div>',
-      buttons:
-      [
-        {
-          text: 'Cancel',
-          type: 'button-energized',
-          onTap: function()
-          {
-            IonPopup.close();
-          }
-        },
-        {
-          text: 'Remove',
-          type: 'button-assertive',
-          onTap: function()
-          {
-            Products.remove({_id: productId});
-            IonPopup.close();
-            Session.set('editMode', false);
-            Router.go('/inventory');
-          }
-        },
-      ]
+			var productId = this.product._id;
+
+      IonPopup.show({
+			title: 'Remove product?',
+			template: 'Remove product from your invetory?',
+        buttons:
+        [
+            {
+              text: 'Cancel',
+              type: 'button-default',
+              onTap: function()
+              {
+                IonPopup.close();
+              }
+            },
+            {
+              text: 'Remove',
+              type: 'button-assertive',
+              onTap: function()
+              {
+                Products.remove({_id: productId});
+                IonPopup.close();
+                Session.set('editMode', false);
+                Router.go('/inventory');
+              }
+            },
+       ]
 		});
   }
 });
@@ -140,7 +143,7 @@ Template.inventoryDetail.events({
 function showInvalidPopUp(strTitle, strMessage){
   IonPopup.show({
     title: strTitle,
-    template: '<div class="center">'+strMessage+'</div>',
+    template: strMessage,
     buttons:
     [{
       text: 'OK',

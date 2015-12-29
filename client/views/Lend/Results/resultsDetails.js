@@ -200,7 +200,7 @@ Template.resultsDetails.events({
 
           IonPopup.show({
             title: 'Update profile',
-            template: '<div class="center">Please, update your debit card to share this item.</div>',
+            template: 'Please, update your debit card to share this item.',
             buttons: [{
               text: 'OK',
               type: 'button-energized',
@@ -259,7 +259,7 @@ function validateInputs(details){
 function showInvalidPopUp(strTitle, strMessage){
   IonPopup.show({
     title: strTitle,
-    template: '<div class="center">'+strMessage+'</div>',
+    template: strMessage,
     buttons:
     [{
       text: 'OK',
