@@ -8,7 +8,7 @@ ListingController = RouteController.extend({
 				this.render();
 			}
 	},
-    
+
 	waitOn: function() {
 		return [
 			// subscribe to data here
@@ -19,24 +19,24 @@ ListingController = RouteController.extend({
 			// ...
 		];
 	},
-    
+
     searchProducts: function() {
-        
+
         var categories = Session.get('selectedCategories');
         if(!categories) {
-            categories = Categories.getAllCategoriesText();   
+            categories = Categories.getAllCategoriesText();
         }
-        
-        Meteor.subscribe("productsData", 
-                         Meteor.userId(), 
-                         Session.get('pageNumber'), 
+
+        Meteor.subscribe("productsData",
+                         Meteor.userId(),
+                         Session.get('pageNumber'),
                          Session.get('searchText'),
                          categories );
         return Products.find();
     },
-    
+
 	data: function() {
-        
+
 		return {
             searchProducts: this.searchProducts(),
 		};

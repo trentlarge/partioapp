@@ -38,7 +38,6 @@ meteoric:ionic
 mdg:reload-on-resume
 mrt:accounts-facebook-cordova
 raix:push@=2.6.12
-mdg:camera
 peerlibrary:aws-sdk
 meteorhacks:npm
 npm-container
@@ -65,3 +64,4 @@ meteorhacks:kadira-profiler
 kadira:debug
 reywood:iron-router-ga
 random
+perak:camera
