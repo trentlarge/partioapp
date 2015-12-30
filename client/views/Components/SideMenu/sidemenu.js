@@ -33,7 +33,7 @@ Template.sidemenu.helpers({
     return Connections.find({"productData.ownerId": Meteor.userId()}).count();
   },
   'rentedCount': function() {
-    return Connections.find({"requestor": Meteor.userId()}).count();
+    return Connections.find({"requestor": Meteor.userId(),"finished":false}).count();
   },
   'transactionCount': function() {
     return 0;
