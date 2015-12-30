@@ -20,23 +20,21 @@ Template.barcode.events({
   'click #barcode': function() {
     // Cordova
     if (Meteor.isCordova) {
-      cordova.plugins.barcodeScanner.scan(
+      cloudSky.zBar.scan({},
         function(result) {
-          if (!result.cancelled) {
-            var barcode = result.text;
+            var barcode = result;
 
             $('.search-share-header-input').val(barcode);
             $('.search-share-header-input').trigger({type: 'keypress', charCode: 13});
-          }
         },
         function(error) {
-          console.log("Scanning failed: " + error);
           alert("Scanning failed: " + error);
         });
     // not cordova
     } else {
-      $('.search-share-header-input').val("9780439708180");
-      $('.search-share-header-input').trigger({type: 'keypress', charCode: 13});
+      $('.search-share-header-input').val(9780439708180);
+      console.log('else');
+      //$('.search-share-header-input').trigger({type: 'keypress', charCode: 13});
     }
   }
 })
