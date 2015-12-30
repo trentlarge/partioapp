@@ -65,4 +65,4 @@ Router.onBeforeAction(function(pause){
 			this.render('profile')
 		}
 	}
-}, {except: ['emailverification', 'register', 'login', 'contact']} );
+}, {except: ['resetpassword', 'emailverification', 'register', 'login', 'contact']} );
