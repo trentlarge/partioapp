@@ -75,7 +75,6 @@ ConnectController = RouteController.extend({
 
       locationSetted: function() {
           if(!this.connectData) { return; }
-          //console.log(this.connectData.meetupLocation);
           return (this.connectData.meetupLocation !== 'Location not set') ? true : false;
       },
 

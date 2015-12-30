@@ -12,7 +12,7 @@ logout = function(){
 	    IonPopup.close();
 	  },
 	  onCancel: function() {
-	    console.log('Cancelled');
+	    //console.log('Cancelled');
 	    IonPopup.close();
 	  }
 	});

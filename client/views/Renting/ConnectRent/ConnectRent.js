@@ -144,8 +144,6 @@ Template.connectRent.events({
 	'click #cancelRequest': function() {
 		connectionId = this.connectData._id;
 
-		console.log('Cancelling Request ' + connectionId);
-
 		IonPopup.confirm({
 			cancelText: 'No',
 			okText: 'Yes',
@@ -203,8 +201,7 @@ Template.connectRent.events({
 				});
 			}, function(error) {
 				PartioLoad.hide();
-				// error
-//				console.log('Err: '+ error);
+
 			});
 		}
 	}

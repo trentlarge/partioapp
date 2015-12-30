@@ -8,13 +8,14 @@ app.model.PartioCall = (function () {
 
   var PartioCall = {
     init: function(connection) {
-      console.log(connection);
+      //console.log(connection);
 
       var requestor = connection.requestor;
       var owner = connection.owner;
 
       if(!requestor || !owner) {
-        console.log('Expecting requestor and owner IDS'); return false;
+        //console.log('Expecting requestor and owner IDS');
+        return false;
       }
 
       PartioLoad.show();
@@ -54,8 +55,6 @@ app.model.PartioCall = (function () {
   				if(result.statusCode == 200) {
             PartioLoad.hide();
 
-  					console.log('Twilio >>>>>>> registering phone')
-
   					IonPopup.show({
   						title: 'Phone activation',
   						template: '<div class="dark">Please, answer call and digit your activation number: "'+result.data.validation_code+'". Press OK when done and try to call again. Thank you.</div>',
@@ -73,8 +72,6 @@ app.model.PartioCall = (function () {
 
   				//ALREADY REGISTRED
   				} else if(result.statusCode == 400) {
-            console.log('Twilio >>>>>>> phone already registered')
-
             var currentUser = Meteor.user();
 
             var _from = currentUser._id;
@@ -100,13 +97,10 @@ app.model.PartioCall = (function () {
 
     makeCall: function(_from, _to) {
       Meteor.call('callTwilio', _from, _to, function(error, result){
-        console.log('Twilio >>>> call callTwilio method >>>');
-
         PartioLoad.hide();
 
         if(error){
           ShowNotificationMessage(error.reason)
-          console.log(error);
           return false;
         }
 
