@@ -18,13 +18,11 @@ Template.barcode.events({
 
   // BARCODE
   'click #barcode': function() {
-
     // Cordova
     if (Meteor.isCordova) {
       cordova.plugins.barcodeScanner.scan(
         function(result) {
-
-          if (result.cancelled === 0) {
+          if (!result.cancelled) {
             var barcode = result.text;
 
             $('.search-share-header-input').val(barcode);
@@ -32,11 +30,12 @@ Template.barcode.events({
           }
         },
         function(error) {
+          console.log("Scanning failed: " + error);
           alert("Scanning failed: " + error);
         });
     // not cordova
     } else {
-      $('.search-share-header-input').val(9780439708180);
+      $('.search-share-header-input').val("9780439708180");
       $('.search-share-header-input').trigger({type: 'keypress', charCode: 13});
     }
   }
