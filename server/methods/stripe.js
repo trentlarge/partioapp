@@ -7,7 +7,7 @@ Meteor.methods({
       var clientIp = this.connection.clientAddress;
 
       if(!_user.profile.birthDate) {
-        throw new Meteor.Error("checkStripeManaged", "birthDate");
+        throw new Meteor.Error("checkStripeManaged", "Please update your birth date before to add a debit card.");
       }
 
       var date = _user.profile.birthDate;

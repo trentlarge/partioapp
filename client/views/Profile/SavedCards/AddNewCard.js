@@ -62,7 +62,7 @@ Template.addnewCard.events({
 						PartioLoad.hide();
 
 						if(error) {
-							ShowNotificationMessage(error.message);
+							ShowNotificationMessage(error.reason);
 							return false;
 						}
 
@@ -80,7 +80,7 @@ Template.addnewCard.events({
 					if(error) {
 						PartioLoad.hide();
 
-						ShowNotificationMessage(error);
+						ShowNotificationMessage(error.reason);
 						return false;
 					}
 
