@@ -18,25 +18,42 @@ Template.barcode.events({
 
   // BARCODE
   'click #barcode': function() {
+
+    console.log('aciona barcode');
+
     // Cordova
     if (Meteor.isCordova) {
-      cordova.plugins.barcodeScanner.scan(
-        function(result) {
-          if (!result.cancelled) {
-            var barcode = result.text;
 
-            $('.search-share-header-input').val(barcode);
-            $('.search-share-header-input').trigger({type: 'keypress', charCode: 13});
-          }
-        },
-        function(error) {
-          console.log("Scanning failed: " + error);
-          alert("Scanning failed: " + error);
-        });
-    // not cordova
+      var params = {
+        text_title: "Scan barcode",
+        text_instructions: "Barcode wordt automatisch gescand",
+        camera: "back",
+        flash: "auto",
+        drawSight: false
+      }
+      cloudSky.zBar.scan(params, function (result) {
+        console.log("We got a barcode");
+        console.log(result);
+        //alert(result);
+        Session.set("text", result);
+        $('.search-share-header-input').val(result);
+        $('.search-share-header-input').trigger({type: 'keypress', charCode: 13});
+      }, function (error) {
+        console.log("We got an error");
+        console.log(error);
+        //alert("Scanning failed: " + error);
+        Session.set("error", error)
+      });
+
+
+
     } else {
-      $('.search-share-header-input').val("9780439708180");
-      $('.search-share-header-input').trigger({type: 'keypress', charCode: 13});
+      $('.search-share-header-input').val(9780439708180);
+      console.log('else');
+      //$('.search-share-header-input').trigger({type: 'keypress', charCode: 13});
     }
+
+
+
   }
 })
