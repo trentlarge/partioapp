@@ -1,15 +1,15 @@
 Template.addnewCard.events({
-  'focus input': function() {
-    $('.content').css({
-        'padding-bottom': '250px'
-    });
-  },
+	'focus input': function() {
+		$('.content').css({
+		    'padding-bottom': '250px'
+		});
+	},
 
-  'focusout input': function() {
-    $('.content').css({
-        'padding-bottom': '0'
-    });
-  },
+	'focusout input': function() {
+		$('.content').css({
+		    'padding-bottom': '0'
+		});
+	},
 
 	'submit .newCardForm': function(e) {
 		e.preventDefault();
