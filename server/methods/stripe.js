@@ -486,30 +486,32 @@ Meteor.methods({
 
               //    console.log('>>>>> [stripe] new transfer ', transfer);
 
-                  Connections.update({_id: connect._id}, {$set: {state: "IN USE", payment: charge}});
+              if(charge) {
+                Connections.update({_id: connect._id}, {$set: {state: "IN USE", payment: charge}});
 
-                  var payerTrans = {
-                    date: charge.created * 1000,
-                    productName: connect.productData.title,
-                    paidAmount: charge.amount/100
-                  }
+                var payerTrans = {
+                  date: charge.created * 1000,
+                  productName: connect.productData.title,
+                  paidAmount: charge.amount/100
+                }
 
-                  var recipientTrans = {
-                    date: charge.created * 1000,
-                    productName: connect.productData.title,
-                    receivedAmount: charge.amount/100
-                  }
+                var recipientTrans = {
+                  date: charge.created * 1000,
+                  productName: connect.productData.title,
+                  receivedAmount: charge.amount/100
+                }
 
-                  Transactions.update({'userId': connect.requestor }, {$push: {spending: payerTrans}});
-                  Transactions.update({'userId': connect.owner }, {$push: {earning: recipientTrans}});
+                Transactions.update({'userId': connect.requestor }, {$push: {spending: payerTrans}});
+                Transactions.update({'userId': connect.owner }, {$push: {earning: recipientTrans}});
 
-                  var message = 'You received a payment of $' + amount + ' from ' + requestor.profile.name
-                  sendPush(owner._id, message);
-                  sendNotification(owner._id, requestor._id, message, "info");
+                var message = 'You received a payment of $' + amount + ' from ' + requestor.profile.name
+                sendPush(owner._id, message);
+                sendNotification(owner._id, requestor._id, message, "info");
 
-                  done(false, charge);
+                done(false, charge);
+              }
               //   })
-              // )
+              //}
             })
           ) // charges.create
         } //if customer
