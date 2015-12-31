@@ -4,7 +4,6 @@ Template.listing.rendered = function() {
         Session.set('searchText', '');
     }
 
-    //start with 10 items per page with 2 pages (1 page hidden)
     Session.set("pageSize", 15);
     Session.set("pageNumber", 1);
 
