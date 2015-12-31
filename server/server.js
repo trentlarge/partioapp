@@ -57,7 +57,7 @@ Meteor.startup(function() {
                                     The things you own end up making money for you! Sounds familiar? Er..nevermind! To make this happen, it all starts with one link.<br />\
                                     The one below. Click to verify and get sharing<br />\
                                      '+url+'\
-                                     <br />For any queries or support, feel free to contact partio.missioncontrol@gmail.com\
+                                     <br />For any queries or support, feel free to contact <a href="mailto:support@partioapp.com">support@partioapp.com</a>\
                                     Best<br />\
                                     partiO team\
                                     </p>\
