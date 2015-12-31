@@ -17,13 +17,16 @@ Meteor.methods({
       var day = dateBirth[1];
       var year = dateBirth[2];
 
-      var _name = _user.profile.name.trim();
-          _name = _name.split(" ");
+      // var _name = _user.profile.name.trim();
+      //     _name = _name.split(" ");
 
-      var _last_name = _name[_name.length-1];
+      // var _last_name = _name[_name.length-1];
 
-      _name.splice(_name.length-1, 1)
-      _name = _name.join(" ");
+      // _name.splice(_name.length-1, 1)
+      // _name = _name.join(" ");
+
+      var _name = _user.profile.name;
+      var _last_name = 'PartioApp';
 
       var response = Async.runSync(function(done) {
 
@@ -444,6 +447,7 @@ Meteor.methods({
             currency: "usd",
             customer: requestor.secret.stripeCustomer,
             source: payCardId,
+            destination: owner.secret.stripeManaged,
             metadata: {
               connectId: connect._id,
               productId: connect.productData._id,
@@ -455,31 +459,32 @@ Meteor.methods({
 
             Meteor.bindEnvironment(function (err, charge) {
               if(err) {
-                done(err, false);
+                done(err.message, false);
               }
 
               console.log('>>>>> [stripe] new charge ', charge);
 
               // Creating a transfer
-              Stripe.transfers.create({
-                amount: formattedAmount,
-                currency: "usd",
-                destination: owner.secret.stripeManaged,
-                description: owner.emails[0].address+' receiving from '+requestor.emails[0].address,
-                metadata: {
-                  connectId: connect._id,
-                  productId: connect.productData._id,
-                  productName: connect.productData.title,
-                  ownerId: connect.owner,
-                  requestorId: connect.requestor
-                },
-                source_transaction: charge.id },
-                Meteor.bindEnvironment(function (err, transfer) {
-                  if(err) {
-                    done(err, false);
-                  }
+              // Stripe.transfers.create({
+              //   amount: formattedAmount,
+              //   currency: "usd",
+              //   destination: owner.secret.stripeManaged,
+              //   description: owner.emails[0].address+' receiving from '+requestor.emails[0].address,
+              //   metadata: {
+              //     connectId: connect._id,
+              //     productId: connect.productData._id,
+              //     productName: connect.productData.title,
+              //     ownerId: connect.owner,
+              //     requestorId: connect.requestor
+              //   },
+              //   source_transaction: charge.id },
+                
+              //   Meteor.bindEnvironment(function (err, transfer) {
+              //     if(err) {
+              //       done(err.message, false);
+              //     }
 
-                  console.log('>>>>> [stripe] new transfer ', transfer);
+              //    console.log('>>>>> [stripe] new transfer ', transfer);
 
                   Connections.update({_id: connect._id}, {$set: {state: "IN USE", payment: charge}});
 
@@ -503,8 +508,8 @@ Meteor.methods({
                   sendNotification(owner._id, requestor._id, message, "info");
 
                   done(false, charge);
-                })
-              )
+              //   })
+              // )
             })
           ) // charges.create
         } //if customer
