@@ -1,7 +1,12 @@
 .barcode {
-    
+
     min-height: 100%;
     height: 100%;
+
+    .caption {
+      letter-spacing: 0px;
+      font-family: "Ubuntu", sans-serif;
+    }
 
     .content {
         height: 100%;
@@ -31,18 +36,18 @@
 
         &:before {
             /* this element will hide the fake border on the top and bottom */
-            content:'';			
+            content:'';
             display: block;
             position: absolute;
             border-top:10px solid #ECEFF1;
             border-bottom:10px solid #ECEFF1;
             /* height = border-width x2 */
-            height:calc(100% - 0px); 
+            height:calc(100% - 0px);
             top:0;
             /* width = size of fake-border x2 */
             width: calc(100% - 50px);
             /* left = size of fake-border */
-            left:25px; 
+            left:25px;
         }
 
         &:after {
@@ -59,22 +64,22 @@
             left: 0;
         }
 
-        .icon-box {   
+        .icon-box {
             color: #BDBDBD;
             text-align: center;
             padding-top: 10px;
-            
+
             i {
                 font-size: 120px;
             }
-            
+
             .caption {
                 font-size: 15px;
             }
         }
 
     }
-    
+
   .item-input-inset {
       border: 0;
       border-bottom: 1px solid #dddddd;
@@ -108,4 +113,3 @@
   }
 
 }
-

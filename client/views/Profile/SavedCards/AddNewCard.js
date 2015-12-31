@@ -40,6 +40,12 @@ Template.addnewCard.events({
 			name: nameOut,
 		}, function(status, firstResponse) {
 
+			if(firstResponse.error) {
+				PartioLoad.hide();
+				ShowNotificationMessage(firstResponse.error.message);
+				return false;
+			}
+
 			if(!firstResponse.id) {
 				PartioLoad.hide();
 				ShowNotificationMessage('Invalid Card! Please check your card information');
@@ -56,7 +62,7 @@ Template.addnewCard.events({
 						PartioLoad.hide();
 
 						if(error) {
-							ShowNotificationMessage(error.message);
+							ShowNotificationMessage(error.reason);
 							return false;
 						}
 
@@ -73,25 +79,6 @@ Template.addnewCard.events({
 				Meteor.call('checkStripeManaged', function(error, resultManaged) {
 					if(error) {
 						PartioLoad.hide();
-
-						if(error.reason == 'birthDate') {
-							IonPopup.show({
-								title: 'Missing information',
-								template: 'Please, update you birth date before to add a debit card.',
-								buttons:
-								[{
-									text: 'OK',
-									type: 'button-energized',
-									onTap: function() {
-										IonPopup.close();
-										//closemodal
-										$('.modal .bar button').trigger('click');
-										Router.go('/profile');
-									}
-								}]
-							});
-							return false;
-						}
 
 						ShowNotificationMessage(error.reason);
 						return false;
@@ -116,6 +103,12 @@ Template.addnewCard.events({
 									currency: 'usd',
 									name: nameOut,
 								}, function(status, secondResponse) {
+
+									if(secondResponse.error) {
+										PartioLoad.hide();
+										ShowNotificationMessage(firstResponse.error.message);
+										return false;
+									}
 
 									if(!secondResponse.id) {
 										PartioLoad.hide();

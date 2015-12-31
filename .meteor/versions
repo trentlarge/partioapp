@@ -23,6 +23,7 @@ caching-compiler@1.0.0
 caching-html-compiler@1.0.2
 callback-hook@1.0.4
 check@1.1.0
+clinical:barcode@3.1.0
 coffeescript@1.0.11
 cosmos:browserify@0.4.0
 dandv:jquery-rateit@1.0.22_2
