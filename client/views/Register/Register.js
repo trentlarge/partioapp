@@ -55,8 +55,8 @@ Template.register.events({
     'change #birthDate': function(e, template) {
         $('.datepicker').hide();
     },
-    'keypress .input-mobile': function(e, template) {
-        $('.input-mobile').inputmask("+9 (999) 999-9999", {placeholder:" " });
+    'keypress #input-mobile': function(e, template) {
+        $('#input-mobile').inputmask("+9 (999) 999-9999", {placeholder:" " });
     },
 
 
