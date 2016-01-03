@@ -56,7 +56,7 @@ Template.register.events({
         $('.datepicker').hide();
     },
     'keypress #input-mobile': function(e, template) {
-        $('#input-mobile').inputmask("+9 (999) 999-9999", {placeholder:" " });
+        $('#input-mobile').inputmask("+1 (999) 999-9999", {placeholder:" " });
     },
 
 

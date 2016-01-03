@@ -28,7 +28,7 @@ Template.appLayout.events({
 });
 
 Template.profile.rendered = function() {
-  $('#profilemobile').inputmask({"mask": "+9 (999) 999-9999"});
+  $('#profilemobile').inputmask({"mask": "+1 (999) 999-9999"});
   $('#birthDate').inputmask({"mask": "99/99/9999"});
   $('#birthDate').datepicker({
       startView: 'decade',
