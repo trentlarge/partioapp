@@ -12,8 +12,9 @@ ion-side-menu.menu-left.menu {
 .transparent-list {
 
     .badge.badge-notification {
-        right: 8px;
-        top: -8px;
+//        right: 8px;
+//        top: -8px;
+        margin-right: -8px;
         max-width: 20px;
         max-height: 20px;
         display: flex;
