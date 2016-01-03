@@ -35,7 +35,7 @@ ion-side-menu.menu-left.menu {
             border-top: 1px solid #999999;
             color: #263238;
             border-radius: 20px;
-            padding-left: 15px;
+            padding-left: 35px;
             width: 200px;
             margin-bottom: 10px;
             margin-right: 10px;
@@ -43,13 +43,13 @@ ion-side-menu.menu-left.menu {
         }
 
         .ion-search {
-            margin-top: -5px;
-            margin-left: -40px;
-            color: #263238;
+            position: absolute;
+            margin-top: 5px;
+            margin-left: 10px;
         }
 
         .notification {
-            margin-left: 18px;
+//            margin-left: 18px;
         }
 
         i {
