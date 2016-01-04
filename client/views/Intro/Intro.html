@@ -1,0 +1,25 @@
+<template name="intro">
+
+  {{#ionView}}
+
+      {{#ionSlideBox}}
+        {{#ionSlide class="slide-1"}}
+          <div class="logos">
+            <img class="dmais" src="/img/logo-2015.jpg" />
+          </div>
+        {{/ionSlide}}
+        {{#ionSlide class="slide-2"}}
+          <div class="logos">
+            <img class="cloudservice" src="/img/cloud2.png" />
+          </div>
+        {{/ionSlide}}
+        {{#ionSlide class="slide-3" active-slide="finalSlide"}}
+          <div class="logos patr_area">
+            <span>Apoio</span>
+            <img class="patrocinadores" src="/img/patrocinadores.jpg" />
+          </div>
+        {{/ionSlide}}
+      {{/ionSlideBox}}
+
+  {{/ionView}}
+</template>
