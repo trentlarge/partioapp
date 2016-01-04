@@ -32,7 +32,7 @@ ListingController = RouteController.extend({
 	data: function() {
 
 		return {
-            searchProducts: this.searchProducts(),
+            searchProducts: this.searchProducts()
 		};
 	},
 

@@ -20,8 +20,21 @@ Template.listing.rendered = function() {
     inputIcon.css({
         'color': '#272727'
     });
+};
 
-}
+Template.listing.events({
+    "scroll .overflow-scroll": function(e, t) {
+        var parent = t.$(e.currentTarget);
+        var scrollingElement = parent.find(".list");
+
+        if(parent.scrollTop() + parent.height() == scrollingElement.innerHeight()) {
+// !!! not ok: should check if current page is already loaded before increasing page number
+            var currentPage = Session.get("pageNumber") || 0;
+            Session.set("pageNumber", currentPage + 1);
+        }
+    }
+});
+
 
 Template.listing.destroyed = function() {
     Session.set('searchText', '');
