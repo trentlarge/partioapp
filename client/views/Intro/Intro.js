@@ -1,15 +1,15 @@
 Template.intro.events({
   'onSlideChanged': function(event, template) {
-    if(event.index === 2) {
+    //if(event.index === 2) {
       $('.ion-slide-box').slick('slickSetOption', 'swipe', false, false);
-      $('.slider-pager').fadeOut();
+      //$('.slider-pager').fadeOut();
 
-      setTimeout(function(){
-        $('.slide-3').fadeOut(function(){
-          Router.go('home');
-        });
-      }, 1500);
-    };
+      // setTimeout(function(){
+      //   $('.slide-11').fadeOut(function(){
+      //     Router.go('/register');
+      //   });
+      // }, 1500);
+    //};
   }
 });
 
