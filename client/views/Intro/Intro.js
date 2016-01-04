@@ -12,3 +12,8 @@ Template.intro.events({
     };
   }
 });
+
+
+Template.intro.rendered = function() {
+  $(".bar-header").hide();
+}
