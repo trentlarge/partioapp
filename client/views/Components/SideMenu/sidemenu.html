@@ -18,10 +18,8 @@
              <h5 style="color:white;"> Welcome back,<b> {{currentUser.profile.name}}</b>.</h5>
           </div>
         </div>
-        <a href="{{pathFor "main"}}" class="item menutext home-item" data-ion-menu-close>
-          {{> ionIcon icon="home" class="menu-icon energized btnshadow"}} &nbsp;&nbsp;&nbsp;&nbsp; Home
-        </a>
-        <a href="{{pathFor "listing"}}" class="item menutext" data-ion-menu-close>
+
+        <a href="{{pathFor "listing"}}" class="item menutext whats-available" data-ion-menu-close>
           {{> ionIcon icon="android-compass" class="menu-icon energized btnshadow"}} &nbsp;&nbsp;&nbsp;&nbsp; What's Avaliable?
         </a>
         <a href="{{pathFor "inventory"}}" class="item menutext" data-ion-menu-close>

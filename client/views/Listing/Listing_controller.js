@@ -33,6 +33,10 @@ ListingController = RouteController.extend({
 
 		return {
             searchProducts: this.searchProducts(),
+            
+            testIsReady: function() {
+                return false;
+            }
 		};
 	},
 

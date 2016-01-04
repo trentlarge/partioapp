@@ -27,27 +27,7 @@ ion-side-menu.menu-left.menu {
     
     @media (max-height: 550px) {
         
-        .item.top {
-            
-            .logo-container {
-                display: none;
-            }
-            
-            .text {
-                display: none;
-            }
-            
-        }
-        
-        .home-item {
-            display: block;
-        }
-        
-    }
-    
-    @media (min-height: 551px) {
-        
-        .home-item {
+        .whats-available {
             display: none;
         }
         
