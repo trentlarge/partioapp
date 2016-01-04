@@ -24,6 +24,34 @@ ion-side-menu.menu-left.menu {
         align-items: center;
         -webkit-align-items: center;
     }
+    
+    @media (max-height: 550px) {
+        
+        .item.top {
+            
+            .logo-container {
+                display: none;
+            }
+            
+            .text {
+                display: none;
+            }
+            
+        }
+        
+        .home-item {
+            display: block;
+        }
+        
+    }
+    
+    @media (min-height: 551px) {
+        
+        .home-item {
+            display: none;
+        }
+        
+    }
 
     .item.top {
         border: 0;
