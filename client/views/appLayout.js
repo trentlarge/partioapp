@@ -41,6 +41,9 @@ Template.appLayout.helpers({
 			case 'loadingData':
 				return false;
 				break;
+			case 'Intro':
+				return false;
+				break;
 			default:
 				return true;
 		}
