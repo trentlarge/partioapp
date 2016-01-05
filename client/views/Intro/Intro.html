@@ -1,8 +1,16 @@
 <template name="intro">
 
+
   {{#ionView}}
 
+
+      <a href="/login"  style="position: fixed;bottom: 0;width: 100%;text-align: center;margin-bottom: 10px;z-index: 999999;" >JUMP TUTORIAL</a>
+
+
+        <!-- <a href="#" style="position: fixed">JUMP TUTORIAL</button> -->
+
       {{#ionSlideBox}}
+
         {{#ionSlide class="slide-1"}}
           <div class="logos">
             <img class="homescreen" src="{{ getImage 'homeScreen' }}" /><br />
@@ -78,7 +86,11 @@
             <div>Additionally, the menu makes everything easy access. Go ahead, get started!</div>
           </div>
         {{/ionSlide}}
+
       {{/ionSlideBox}}
+
+
+      
 
   {{/ionView}}
 </template>

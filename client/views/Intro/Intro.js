@@ -1,6 +1,9 @@
 Template.intro.events({
   'onSlideChanged': function(event, template) {
     //if(event.index === 2) {
+
+      console.log(event.index);
+
       $('.ion-slide-box').slick('slickSetOption', 'swipe', false, false);
       //$('.slider-pager').fadeOut();
 
@@ -10,7 +13,17 @@ Template.intro.events({
       //   });
       // }, 1500);
     //};
+  },
+  'click #jump-tutorial': function() {
+      Router.go('/home');
+
+
+      console.log('go home')
   }
+
+
+
+
 });
 
 
