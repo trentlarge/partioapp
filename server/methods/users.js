@@ -29,16 +29,6 @@ Meteor.methods({
 	'resendValidation': function(email) {
 				Accounts.sendVerificationEmail(email);
 	},
-	'updatePassword': function(password) {
-		console.log('chamou updatePassword');
-		Meteor.bindEnvironment(function() {
-			Accounts.setPassword(this.userId, password, { logout: false });
-		},
-		function (err) {
-			console.log('failed to bind env: ', err);
-		});
-	},
-
 	'sendEmail': function (subject, text) {
 	    check([subject, text], [String]);
 
