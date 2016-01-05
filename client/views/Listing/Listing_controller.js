@@ -15,7 +15,9 @@ ListingController = RouteController.extend({
 	},
 
     searchProducts: function() {
-
+	    var pageSize = 15;
+        var pageNumber = Session.get('pageNumber') || 1;
+        var text = Session.get('searchText');
         var categories = Session.get('selectedCategories');
         if(!categories) {
             categories = Categories.getAllCategoriesText();
@@ -23,16 +25,27 @@ ListingController = RouteController.extend({
 
         Meteor.subscribe("productsData",
                          Meteor.userId(),
-                         Session.get('pageNumber'),
-                         Session.get('searchText'),
-                         categories );
-        return Products.find();
+                         pageNumber,
+                         text,
+                         categories);
+
+	    var products = Products.find({
+            ownerId: { $ne: Meteor.userId() },
+            title: { $regex: ".*"+text+".*", $options: 'i' },
+            category: { $in: categories }
+        }, {
+            limit: pageNumber * pageSize
+        });
+
+        Session.set("pageNumberLoaded", Math.ceil(products.count() / pageSize));
+
+        return products;
     },
 
 	data: function() {
 
 		return {
-            searchProducts: this.searchProducts(),
+            searchProducts: this.searchProducts()
 		};
 	},
 

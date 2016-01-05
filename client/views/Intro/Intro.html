@@ -1,0 +1,94 @@
+<template name="intro">
+
+
+  {{#ionView}}
+
+
+      <a href="/home"  style="position: fixed;bottom: 0;width: 100%;text-align: center;margin-bottom: 10px;z-index: 999999;" >JUMP TUTORIAL</a>
+
+
+        <!-- <a href="#" style="position: fixed">JUMP TUTORIAL</button> -->
+
+      {{#ionSlideBox}}
+
+        {{#ionSlide class="slide-1"}}
+          <div class="logos">
+            <img class="homescreen" src="{{ getImage 'homeScreen' }}" /><br />
+            <div>Choose whether you want to share an item you own or borrow an item from a peer.</div>
+          </div>
+        {{/ionSlide}}
+        {{#ionSlide class="slide-2"}}
+          <div class="logos">
+            <img class="homescreen" src="{{ getImage 'Take-Photo' }}" /><br />
+            <div>To share an item, simply take a picture of the object, scan the barcode, or enter it manually.</div>
+          </div>
+        {{/ionSlide}}
+        {{#ionSlide class="slide-3"}}
+          <div class="logos">
+            <img class="homescreen" src="{{ getImage 'Result' }}" /><br />
+            <div>Select the item that most closely matches your product.</div>
+          </div>
+        {{/ionSlide}}
+
+        {{#ionSlide class="slide-4"}}
+          <div class="logos">
+            <img class="homescreen" src="{{ getImage 'Setting-Rental-Prices' }}" /><br />
+            <div>Confirm the details of your item, and set rental prices.</div>
+          </div>
+        {{/ionSlide}}
+
+        {{#ionSlide class="slide-5"}}
+          <div class="logos">
+            <img class="homescreen" src="{{ getImage 'Reuqest-received' }}" /><br />
+            <div>Then just wait for someone to request your product!</div>
+          </div>
+        {{/ionSlide}}
+
+        {{#ionSlide class="slide-6"}}
+          <div class="logos">
+            <img class="homescreen" src="{{ getImage 'Inventory' }}" /><br />
+            <div>To borrow an item, choose the categories you want to search in. Then scroll or enter a description of the product.</div>
+          </div>
+        {{/ionSlide}}
+
+        {{#ionSlide class="slide-7"}}
+          <div class="logos">
+            <img class="homescreen" src="{{ getImage 'Requesting-product' }}" /><br />
+            <div>Select the product you want to rent and request the item.</div>
+          </div>
+        {{/ionSlide}}
+
+        {{#ionSlide class="slide-8"}}
+          <div class="logos">
+            <img class="homescreen" src="{{ getImage 'Contact-Menu' }}" /><br />
+            <div>Once your request is approved, you can begin to communicate with the owner.</div>
+          </div>
+        {{/ionSlide}}
+
+        {{#ionSlide class="slide-9"}}
+          <div class="logos">
+            <img class="homescreen" src="{{ getImage 'Chat' }}" /><br />
+            <div>Lenders and borrowers can communicate with other users over chat and over a phone call.</div>
+          </div>
+        {{/ionSlide}}
+
+        {{#ionSlide class="slide-10"}}
+          <div class="logos">
+            <img class="homescreen" src="{{ getImage 'Contact-Menu' }}" /><br />
+            <div>Then, you can set a location to exchange the product, and you’re ready to partiO! </div>
+          </div>
+        {{/ionSlide}}
+
+
+        {{#ionSlide class="slide-11" active-slide="finalSlide"}}
+          <div class="logos">
+            <img class="homescreen" src="{{ getImage 'menu' }}" /><br />
+            <div>Additionally, the menu makes everything easy access. Go ahead, get started!</div>
+          </div>
+        {{/ionSlide}}
+
+      {{/ionSlideBox}}
+      
+
+  {{/ionView}}
+</template>

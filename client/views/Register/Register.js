@@ -1,5 +1,5 @@
 Template.register.rendered = function() {
-  $('.input-mobile').inputmask({"mask": "+9 (999) 999-9999"});
+
   $('#birthDate').inputmask({"mask": "99/99/9999"});
   $('#birthDate').datepicker({
       startView: 'decade',
@@ -55,6 +55,11 @@ Template.register.events({
     'change #birthDate': function(e, template) {
         $('.datepicker').hide();
     },
+    'keypress #input-mobile': function(e, template) {
+        $('#input-mobile').inputmask("+9 (999) 999-9999", {placeholder:" " });
+    },
+
+
 
 	'click #registerButton': function(e, template) {
 		e.preventDefault();

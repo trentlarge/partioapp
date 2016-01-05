@@ -20,18 +20,15 @@ Meteor.publish("productsByTitle", function(_title) {
   return Products.publishJoinedCursors(cursor);
 });
 
-Meteor.publish("productsData", function(_id, pageNumber, text, categories) {
-    pageSize = 15;
+Meteor.publish("productsData", function(ownerId, pageNumber, text, categories) {
+    var pageSize = 15;
     pageNumber = pageNumber || 1;
 
-    //return Search.find({}, { skip: pageNumber * pageSize, limit: pageSize });
-    return Products.find(
-        {
-            ownerId: { $not: { $eq: _id } },
-            title: { $regex: ".*"+text+".*", $options: 'i' },
-            category: { $in: categories }
-        },
-        {
-            limit: pageNumber * pageSize
-        });
+    return Products.find({
+        ownerId: { $ne: ownerId },
+        title: { $regex: ".*"+text+".*", $options: 'i' },
+        category: { $in: categories }
+    }, {
+        limit: pageNumber * pageSize
+    });
 });
