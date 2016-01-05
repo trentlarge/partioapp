@@ -6,6 +6,7 @@ Template.listing.rendered = function() {
 
     Session.set("pageSize", 15);
     Session.set("pageNumber", 1);
+    Session.set("pageNumberLoaded", 0);
 
     Session.set('listing', true);
 
@@ -20,36 +21,36 @@ Template.listing.rendered = function() {
     inputIcon.css({
         'color': '#272727'
     });
+};
 
-}
+Template.listing.events({
+    "scroll .overflow-scroll": function(e, t) {
+        var parent = t.$(e.currentTarget);
+        var scrollingElement = parent.find(".list");
+
+        if(parent.scrollTop() + parent.height() >= scrollingElement.innerHeight() - 30) {
+            var currentPage = Session.get("pageNumber") || 1;
+            var loadedPage = Session.get("pageNumberLoaded") || 0;
+            if(currentPage == loadedPage) {
+                Session.set("pageNumber", currentPage + 1);
+            }
+        }
+    }
+});
+
 
 Template.listing.destroyed = function() {
     Session.set('searchText', '');
     Session.set('listing', false);
     Session.set('categoryIndex', -1);
     Session.set('selectedCategories', null);
-}
+};
 
 Template.searchResult.helpers({
-
-  // show/hide "SHOW MORE" button.
-  isFinished: function(size) {
-
-      var maxSize = Session.get("pageSize") * Session.get("pageNumber");
-
-      if(size < maxSize) {
-          return false;
-      }
-      return true;
-  },
 
 });
 
 Template.searchResult.events({
-
-    'click #showMore': function(e, template){
-        Session.set('pageNumber', Session.get('pageNumber') + 1);
-    },
 
 });
 
@@ -91,11 +92,11 @@ Template.searchBox.events({
                 var categoryText = $(categoryFilter).find('span').text();
                 selectedCategories.push(categoryText);
             });
-
-            Session.set('selectedCategories', selectedCategories);
+            Session.set("selectedCategories", selectedCategories);
+            Session.set("pageNumber", 1);
+        } else {
+            Session.set("selectedCategories", null);
+            Session.set("pageNumber", 1);
         }
-        else {
-            Session.set('selectedCategories', null);
-        }
-    },
+    }
 });
