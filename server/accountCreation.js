@@ -5,8 +5,9 @@ Accounts.onCreateUser(function(options,user) {
 
 	user.profile = {};
 	user.private = {};
-	user.secret = {};
+	user.private.viewTutorial = false;
 
+	user.secret = {};
 	user.secret.canBorrow = false;
 	user.secret.canShare = false;
 
