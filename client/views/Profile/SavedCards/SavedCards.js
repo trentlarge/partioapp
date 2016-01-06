@@ -49,7 +49,7 @@ Cards = {
     promisse.then(
       function() {
         Cards.organize();
-			PartioLoad.hide();
+		PartioLoad.hide();
       })
 	},
 
@@ -311,3 +311,8 @@ Template.savedCards.events({
 		}
 	}
 });
+
+
+Template.savedCards.rendered = function(){
+	Cards.refresh();
+}
