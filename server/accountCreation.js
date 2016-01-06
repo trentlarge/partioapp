@@ -65,6 +65,10 @@ Accounts.onCreateUser(function(options,user) {
 		// 	userId: meteorUserId,
 		// 	alerts: []
 		// })
+		
+		//Creating transactionsId for new user;
+		Meteor.call('createTransactions');
+
 		console.log('finished MANUAL user creation...');
 
 		Meteor.setTimeout(function() {
