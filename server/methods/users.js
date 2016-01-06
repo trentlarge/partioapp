@@ -70,5 +70,11 @@ Meteor.methods({
 
 	'userCanBorrow': function(){
 		return Meteor.user().secret.canBorrow;
+	},
+
+	checkTutorial: function(){
+		Meteor.users.update({"_id": this.userId }, {$set: { "private.viewTutorial": true }}, function(error) {
+			return true;
+		});
 	}
 });

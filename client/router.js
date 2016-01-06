@@ -23,9 +23,9 @@ Router.waitOn(function () {
 // this is why we have controller name manually set: { ... , controller: "EmailVerificationController" }
 // (which is little bit more readable)
 //
-//Router.route('/', { name: 'main', controller: 'MainController'});
-Router.route('/', { name: 'intro'});
-Router.route('/home', { name: 'main', controller: 'MainController'});
+Router.route('/', { name: 'main', controller: 'MainController'});
+Router.route('/tutorial', { name: 'tutorial'});
+//Router.route('/home', { name: 'main', controller: 'MainController'});
 Router.route('/verify-email/:token', {name: 'emailverification', controller: 'EmailVerificationController'});
 Router.route('/reset-password/:token', {name: 'resetpassword', controller: 'ResetPasswordController'});
 Router.route('/login', { name: 'login', controller: 'LoginController'});
@@ -67,4 +67,4 @@ Router.onBeforeAction(function(pause){
 			this.render('profile')
 		}
 	}
-}, {except: ['resetpassword', 'emailverification', 'register', 'login', 'contact', 'intro']} );
+}, {except: ['resetpassword', 'emailverification', 'register', 'login', 'contact']} );

@@ -1,0 +1,22 @@
+.slide-item {
+	img {
+	    width: 60%;
+	    margin: auto;
+	    margin-top: 15px;
+	    max-width:310px;
+	}
+
+	span {
+    	font-size: 14px;
+	}
+
+	div {
+	    width: 90%;
+	    margin: auto;
+	    text-align: center;
+	}
+} 
+
+.slider-pager {
+	bottom: 50px !important;
+}
