@@ -6,9 +6,11 @@
     };
 
     Accounts.urls.verifyEmail = function (token) {
-
-        //return 'http://partioapp.com/verify-email/' + token;
-        return Meteor.absoluteUrl('verify-email/' + token);
+        // if(Meteor.settings.env.partioSite) {
+        //     return Meteor.settings.env.partioSite+'verify-email/'+ token; 
+        // } else {
+            return Meteor.absoluteUrl('verify-email/' + token); 
+        //}   
     };
 
     Accounts.urls.enrollAccount = function (token) {

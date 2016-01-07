@@ -41,7 +41,7 @@ Template.appLayout.helpers({
 			case 'loadingData':
 				return false;
 				break;
-			case 'Intro':
+			case 'Tutorial':
 				return false;
 				break;
 			default:
@@ -53,6 +53,9 @@ Template.appLayout.helpers({
 		var mainTemplateName = Router.current()._layout._regions.main._template;
 		switch (mainTemplateName) {
 			case 'login':
+				return true;
+				break;
+			case 'Tutorial':
 				return true;
 				break;
 			default:

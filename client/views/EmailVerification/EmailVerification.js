@@ -22,7 +22,7 @@ Template.emailverification.onRendered(function() {
 			} else {
 
 				//Creating transactionsId for new user;
-				Meteor.call('createTransactions');
+				//Meteor.call('createTransactions');
 
 				IonPopup.show({
 					title: 'Success!',
