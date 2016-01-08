@@ -10,8 +10,8 @@ Template.register.rendered = function() {
 
 collegeEmails = {
 	"Duke University": "duke.edu",
-	"Rollins College": "rollins.edu",
-	"Test Gmail IDs": "gmail.com"
+	"Yale University": "yale.edu",
+	//"Test Gmail IDs": "gmail.com"
 }
 
 emailCheck = function(college, email) {
