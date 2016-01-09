@@ -2,7 +2,7 @@
 
 {
   "env": {
-    "STRIPE_SECRET": "sk_live_gfuQf5EcXsF0rvyfEDy3nAa1",
+    "STRIPE_SECRET": "sk_test_mBhGGg6jRC4iJhWzq5bZu1Lh",
     "cloudSightKey" : "_ALbqMxPQlSXWt77oFVAdA",
     "twilioAccount" : "ACa259379ccf43ebe0af6e2eb7f3bffc93",
     "twilioKey" : "50582e08bc2d140b8e940fe1a54d9623",
@@ -28,7 +28,7 @@
         "birthday"
       ]
     },
-    "STRIPE_PUBKEY": "pk_live_lhTlkgQpYaPR6WBWItgugqHJ",
+    "STRIPE_PUBKEY": "pk_test_GiLnb5tXpZoGOwYgcTT6rbeo",
     "ga": {
         "id": "UA-71560916-1",
         "trackUserId": true
