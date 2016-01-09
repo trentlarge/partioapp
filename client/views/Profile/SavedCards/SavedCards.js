@@ -1,25 +1,3 @@
-Template.savedCards.onRendered(function() {
-	if(!Meteor.user().profile.birthDate) {
-		IonPopup.show({
-			title: 'Missing information',
-			template: 'Please update your birth date before to add a debit card.',
-			buttons:
-			[{
-				text: 'OK',
-				type: 'button-energized',
-				onTap: function() {
-					IonPopup.close();
-					Router.go('/profile');
-					return false;
-				}
-			}]
-		});
-		return false;
-	} else {
-		Cards.refresh();
-	}
-});
-
 Template.savedCards.getStripeCustomer = function(done){
 	Meteor.call('getStripeCustomer', function(err, result) {
 		if(err) {
@@ -55,8 +33,9 @@ Cards = {
 	//refrshing this object
 	refresh: function(){
 		PartioLoad.show('Getting cards data...')
+		
 		var promisse = new Promise(
-      function(resolve, reject) {
+	      	function(resolve, reject) {
 				Template.savedCards.getStripeCustomer(function(dataCustomer){
 					Cards.customer = dataCustomer;
 					Template.savedCards.getStripeManaged(function(dataManaged){
@@ -64,13 +43,13 @@ Cards = {
 						resolve();
 					});
 				});
-      }
+	      	}
 		);
 
     promisse.then(
       function() {
         Cards.organize();
-				PartioLoad.hide();
+		PartioLoad.hide();
       })
 	},
 
@@ -246,40 +225,36 @@ Cards = {
 }
 
 Template.savedCards.events({
-	'click #test-card': function() {
-		IonPopup.show({
-			title: 'Test cards',
-			template: '<div class="dark">\
-									CREDIT CARDS<br>\
-									4242 4242 4242 4242<br>\
-									5555 5555 5555 4444<br>\
-									6011 1111 1111 1117<br>\
-									<br>\
-									DEBIT CARDS<br>\
-									5200 8282 8282 8210<br>\
-									4000 0566 5566 5556<br>\
-									<br>\
-									Expiry: Future Date<br>\
-									CVV: Any 3 digits<br>\
-								</div>',
-			buttons: [{
-				text: 'OK',
-				type: 'button-energized',
-				onTap: function() {
-					IonPopup.close();
-				}
-			}]
-		});
+	// 'click #termStripe': function() {
+	// 	Meteor.call('updateTerms');
+	// },
+
+	'click #addNewCard' : function(e){
+		e.preventDefault();
+
+		if(!Meteor.user().profile.birthDate) {
+			IonPopup.show({
+				title: 'Missing information',
+				template: 'Please update your birth date before to add a debit card.',
+				buttons:
+				[{
+					text: 'OK',
+					type: 'button-energized',
+					onTap: function() {
+						IonPopup.close();
+						Router.go('/profile');
+						return false;
+					}
+				}]
+			});
+			return false;
+		}
+
+		return true;
 	},
 
-	'click #termStripe': function() {
-
-		Meteor.call('updateTerms');
-
-
-	},
-  'click .set-pay-default': function(e) {
-    var cardData = this;
+	'click .set-pay-default': function(e) {
+		var cardData = this;
 
 		if(cardData.defaultPay) {
 			return false;
@@ -295,10 +270,10 @@ Template.savedCards.events({
 				Cards.setDefaultCard('pay', cardData);
 			}
 		});
-  },
+	},
 
-  'click .set-receive-default': function(e) {
-    var cardData = this;
+	'click .set-receive-default': function(e) {
+		var cardData = this;
 
 		if(cardData.defaultReceive) {
 			return false;
@@ -314,7 +289,7 @@ Template.savedCards.events({
 				Cards.setDefaultCard('receive', cardData);
 			}
 		});
-  },
+	},
 
 	'click .delete-card': function(e){
 		var cardData = this;
@@ -336,3 +311,8 @@ Template.savedCards.events({
 		}
 	}
 });
+
+
+Template.savedCards.rendered = function(){
+	Cards.refresh();
+}

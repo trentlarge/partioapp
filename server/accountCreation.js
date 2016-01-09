@@ -5,8 +5,9 @@ Accounts.onCreateUser(function(options,user) {
 
 	user.profile = {};
 	user.private = {};
-	user.secret = {};
+	user.private.viewTutorial = false;
 
+	user.secret = {};
 	user.secret.canBorrow = false;
 	user.secret.canShare = false;
 
@@ -65,6 +66,10 @@ Accounts.onCreateUser(function(options,user) {
 		// 	userId: meteorUserId,
 		// 	alerts: []
 		// })
+		
+		//Creating transactionsId for new user;
+		Meteor.call('createTransactions');
+
 		console.log('finished MANUAL user creation...');
 
 		Meteor.setTimeout(function() {
