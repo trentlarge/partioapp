@@ -1,11 +1,9 @@
 Template.register.rendered = function() {
-
   $('#birthDate').inputmask({"mask": "99/99/9999"});
   $('#birthDate').datepicker({
       startView: 'decade',
       endDate: '-16y',
   });
-
 }
 
 collegeEmails = {
@@ -14,52 +12,34 @@ collegeEmails = {
 	//"Test Gmail IDs": "gmail.com"
 }
 
-emailCheck = function(college, email) {
-	if (email.split("@")[1] !== collegeEmails[college]) {
-		IonPopup.show({
-			title: 'Please enter a valid college email ID',
-			template: 'Your email address has to match the official College email ID',
-			buttons:
-			[{
-				text: 'OK',
-				type: 'button-assertive',
-				onTap: function() {
-					IonPopup.close();
-				}
-			}]
-		});
-		return false;
-	} else {
-		return true;
-	}
-}
+// emailCheck = function(college, email) {
+// 	if (email.split("@")[1] !== collegeEmails[college]) {
+// 		IonPopup.show({
+// 			title: 'Please enter a valid college email ID',
+// 			template: 'Your email address has to match the official College email ID',
+// 			buttons:
+// 			[{
+// 				text: 'OK',
+// 				type: 'button-assertive',
+// 				onTap: function() {
+// 					IonPopup.close();
+// 				}
+// 			}]
+// 		});
+// 		return false;
+// 	} else {
+// 		return true;
+// 	}
+// }
 
-
-Template.modalPrivacyPolicy.events({
-  'click #accept': function(e, template) {
-    e.preventDefault();
-    Router.go('/register');
-
-    //closemodal
-    $('.modal .bar button').trigger('click');
-  },
-
-  'click #decline': function(e, template) {
-    e.preventDefault();
-  },
-
-});
 
 Template.register.events({
-
-    'change #birthDate': function(e, template) {
-        $('.datepicker').hide();
-    },
-    'keypress #input-mobile': function(e, template) {
-        $('#input-mobile').inputmask("+9 (999) 999-9999", {placeholder:" " });
-    },
-
-
+  'change #birthDate': function(e, template) {
+      $('.datepicker').hide();
+  },
+  'keypress #input-mobile': function(e, template) {
+      $('#input-mobile').inputmask("+9 (999) 999-9999", {placeholder:" " });
+  },
 
 	'click #registerButton': function(e, template) {
 		e.preventDefault();
@@ -76,55 +56,71 @@ Template.register.events({
 	    };
 
     if(email && password && profileDetails.name && profileDetails.college) {
-      if (emailCheck(profileDetails.college, email)) {
-        PartioLoad.show('Please wait, we\'re creating your account....')
-        Accounts.createUser({email: email, password: password, telephone: profileDetails.telephone, profileDetails: profileDetails}, function(error) {
-          if (error) {
-            PartioLoad.hide();
-            IonPopup.show({
-              title: 'Signing up failed.',
-              template: error.reason + '. Please try again.',
-              buttons: [{
-                text: 'OK',
-                type: 'button-assertive',
-                onTap: function() {
-                  IonPopup.close();
-                }
-              }]
-            });
-          } else {
-            PartioLoad.hide();
-            Router.go('/profile');
-          }
-        })
-      } else {
-            PartioLoad.hide();
+      //if (emailCheck(profileDetails.college, email)) {
 
-	    	IonPopup.show({
-	    		title: 'Missing fields',
-	    		template: 'Please make sure all mandatory fields are entered to proceed further.',
-	    		buttons: [{
-	    			text: 'OK',
-	    			type: 'button-calm',
-	    			onTap: function() {
-	    				IonPopup.close();
-	    			}
-	    		}]
-	    	});
-      }
-    }
-    else {
-        IonPopup.show({
-            title: 'Missing fields',
-            template: 'Please make sure all mandatory fields are entered to proceed further',
+      PartioLoad.show('Please wait, we\'re creating your account....');
+      
+      Accounts.createUser({email: email, password: password, telephone: profileDetails.telephone, profileDetails: profileDetails}, function(error) {
+        if (error) {
+          PartioLoad.hide();
+          IonPopup.show({
+            title: 'Signing up failed.',
+            template: error.reason + '. Please try again.',
             buttons: [{
-                text: 'OK',
-                type: 'button-calm',
-                onTap: function() {
-                    IonPopup.close();
-                }
+              text: 'OK',
+              type: 'button-assertive',
+              onTap: function() {
+                IonPopup.close();
+              }
             }]
-        });
+          });
+        } else {
+          PartioLoad.hide();
+          Router.go('/profile');
+        }
+      })
+
+      // } else {
+      //       PartioLoad.hide();
+
+	    	// IonPopup.show({
+	    	// 	title: 'Missing fields',
+	    	// 	template: 'Please make sure all mandatory fields are entered to proceed further.',
+	    	// 	buttons: [{
+	    	// 		text: 'OK',
+	    	// 		type: 'button-calm',
+	    	// 		onTap: function() {
+	    	// 			IonPopup.close();
+	    	// 		}
+	    	// 	}]
+	    	// });
+      // }
+    } else {
+      IonPopup.show({
+        title: 'Missing fields',
+        template: 'Please make sure all mandatory fields are entered to proceed further',
+        buttons: [{
+            text: 'OK',
+            type: 'button-calm',
+            onTap: function() {
+                IonPopup.close();
+            }
+        }]
+      });
     }
   }
+});
+
+Template.modalPrivacyPolicy.events({
+  'click #accept': function(e, template) {
+    e.preventDefault();
+    Router.go('/register');
+
+    //closemodal
+    $('.modal .bar button').trigger('click');
+  },
+
+  'click #decline': function(e, template) {
+    e.preventDefault();
+  },
 });

@@ -30,16 +30,12 @@
     <div class="card padding-horizontal padding-vertical form-register-block">
       <label class="item item-input">
         <i class="icon ion-ios-person energized placeholder-icon"></i>
-
         &nbsp;<input type="text" name="name" class="border-radius-20" id="name" placeholder="Name">
-
       </label>
 
       <label class="item item-input">
         <i class="icon ion-at energized placeholder-icon"></i>
-
         &nbsp;<input type="email" name="email" class="border-radius-20" id="email" placeholder="College E-mail">
-
       </label>
 
       <label class="item item-input">
@@ -56,22 +52,22 @@
         &nbsp;<input type="password" name="password" class="border-radius-20" placeholder="Password">
       </label>
 
+      <label class="item item-input item-select">
+        <i class="icon ion-university energized placeholder-icon"></i>
+        <div class="input-label border-radius-20"><p>Location</p></div>
+        <select id="college" class="border-radius-20">
+          <option selected>Select</option>
+          <option>Duke University</option>
+          <option>Yale University</option>
+          <!-- <option>Test Gmail IDs</option> -->
+        </select>
+      </label>
 
-    <label class="item item-input item-select">
-      <i class="icon ion-university energized placeholder-icon"></i>
-      <div class="input-label border-radius-20"><p>College</p></div>
-      <select id="college" class="border-radius-20">
-        <option selected>Select</option>
-        <option>Duke University</option>
-        <option>Yale University</option>
-        <!-- <option>Test Gmail IDs</option> -->
-      </select>
-    </label>
-
-    <label class="term" style="display:inline-flex;">
+      <label class="term" style="display:inline-flex;">
         By clicking Register, you agree to our
-    </label>
-    <a href="#" data-ion-modal="modalPrivacyPolicy"> Terms</a>.
+      </label>
+
+      <a href="#" data-ion-modal="modalPrivacyPolicy"> Terms</a>.
 
       <label class="item item-button">
         <button id="registerButton" class=" button button-block button-energized">REGISTER</button>
