@@ -1,13 +1,17 @@
+UI.registerHelper('getUserArea', function(){
+  return areaName(Meteor.user().profile.area);
+});
+
 Template.appLayout.events({
-'click #cancelProfile': function() {
-    Router.go('/');
-},
+  'click #cancelProfile': function() {
+      Router.go('/');
+  },
 
   'click #saveProfile': function() {
     PartioLoad.show();
 
     var updatedProfile = {
-      college: $('#profileuniversity').val(),
+      //college: $('#profileuniversity').val(),
       mobile: $('#profilemobile').val(),
       birthDate: $('#birthDate').val()
     };
@@ -49,7 +53,7 @@ Template.profile.events({
   },
 
   'keyup #profileEdit': function(e, template) {
-  e.preventDefault();
+    e.preventDefault();
     Session.set('profileEdit', true);
   },
 
@@ -88,27 +92,27 @@ Template.profile.events({
     });
   },
 
-  'click #save-college-email': function() {
-    var college = $('#profileuniversity').val();
-    var email = $('#profileemail').val();
+  // 'click #save-college-email': function() {
+  //   var college = $('#profileuniversity').val();
+  //   var email = $('#profileemail').val();
 
-    if (college && email) {
-      if (emailCheck(college, email)) {
-        Meteor.call('updateOfficialEmail', college, email, function(err, res) {
-          if(err) {
-            var errorMessage = err.reason || err.message;
-            if(err.details) {
-              errorMessage = errorMessage + "\nDetails:\n" + err.details;
-            }
-            sAlert.error(errorMessage);
-            return;
-          }
-        });
-      }
-    }
-  },
+  //   if (college && email) {
+  //     if (emailCheck(college, email)) {
+  //       Meteor.call('updateOfficialEmail', college, email, function(err, res) {
+  //         if(err) {
+  //           var errorMessage = err.reason || err.message;
+  //           if(err.details) {
+  //             errorMessage = errorMessage + "\nDetails:\n" + err.details;
+  //           }
+  //           sAlert.error(errorMessage);
+  //           return;
+  //         }
+  //       });
+  //     }
+  //   }
+  // },
   'click #logout': function() {
-      logout();
+    logout();
   }
 });
 

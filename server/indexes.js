@@ -12,4 +12,5 @@ Meteor.startup(function() {
   Talk._ensureIndex({ "toId": 1 });
 
   Products._ensureIndex({ "ownerId": 1 });
+  Products._ensureIndex({ "ownerArea": 1 });
 });

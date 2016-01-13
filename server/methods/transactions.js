@@ -1,11 +1,11 @@
 Meteor.methods({
-	'createTransactions': function(){
+	'createTransactions': function(userId){
 
 	  //Creating Transactions Id
 	  var userTransId = Transactions.insert({
 	    earning: [],
 	    spending: [],
-      userId: this.userId
+      	userId: userId
 	  });
 
     console.log(' >>>>> creating new transactionsId ', userTransId);

@@ -201,28 +201,28 @@ body.keyboard-open .platform-android .content.overflow-scroll {
 .popup {
     padding: 16px;
     width: auto !important;
-    max-width: 80% !important;
+    max-width: 70% !important;
     
     .popup-title {
-        text-align: left;
-        font-size: 20px;
-        text-transform: capitalize;
-        font-weight: bold;
-        color: #272727;
+      text-align: left;
+      font-size: 16px;
+      text-transform: capitalize;
+      font-weight: bold;
+      color: #272727;
     }
     
     .popup-body {
         color: #272727;
         
         input {
-            margin-top: 10px;
-            padding: 10px;
-            border: 1px solid #eee;
+          margin-top: 10px;
+          padding: 10px;
+          border: 1px solid #eee;
         }
     }
     
     .popup-buttons {
-        margin-top: 50px;
+        /*margin-top: 50px;*/
         
         .button {
             font-size: 16px;

@@ -4,8 +4,8 @@ App.info({
   description: 'Share. Borrow. Party-o',
   author: 'partiO',
   website: 'http://www.partioapp.com',
-  version: '1.3',
-  buildNumber: '100' 
+  version: '1.4',
+  buildNumber: '101' 
 });
 
 App.icons({
@@ -66,7 +66,7 @@ App.accessRule('*');
 //     URL_SCHEME: 'partioapp'
 // });
 
-App.configurePlugin('com.phonegap.plugins.facebookconnect', {
-    APP_ID: '902012053186141',
-    APP_NAME: 'partiO'
-});
+// App.configurePlugin('com.phonegap.plugins.facebookconnect', {
+//     APP_ID: '902012053186141',
+//     APP_NAME: 'partiO'
+// });

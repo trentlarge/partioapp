@@ -50,7 +50,12 @@ Meteor.methods({
 	requestOwner: function(requestorId, productId, ownerId, borrowDetails) {
 		console.log(requestorId, productId, ownerId);
 
-		var requestorName = Meteor.users.findOne(requestorId).profile.name;
+		var requestor = Meteor.users.findOne({ _id: requestorId });
+		var requestorName = requestor.profile.name;
+
+		var owner = Meteor.users.findOne({ _id: ownerId });
+		var ownerEmail = owner && owner.emails && owner.emails.length ? owner.emails[0].address : "";
+
 		var product = Products.findOne(productId);
 
 		var connection = {
@@ -65,13 +70,19 @@ Meteor.methods({
 			meetupLatLong: "Location not set"
 		};
 
+		var httpHeaders = this.connection.httpHeaders;
+
 		Connections.insert(connection, function(e, r) {
 			if(e) {
 				throw new Meteor.Error("requestOwner", e.message);
 			} else {
-				var message = requestorName + " sent you a request for " + product.title
+				var message = requestorName + " sent you a request for \"" + product.title + "\".";
 				sendPush(ownerId, message);
 				sendNotification(ownerId, requestorId, message, "request", r);
+				if(ownerEmail) {
+					var emailBody = message;
+					sendEmail("", ownerEmail, "PartiO request", emailBody);
+				}
 			}
 		});
 

@@ -33,7 +33,7 @@ Template.barcode.events({
     // not cordova
     } else {
       $('.search-share-header-input').val(9780439708180);
-      console.log('else');
+//      console.log('else');
       //$('.search-share-header-input').trigger({type: 'keypress', charCode: 13});
     }
   }

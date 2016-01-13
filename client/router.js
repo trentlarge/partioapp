@@ -24,7 +24,8 @@ Router.waitOn(function () {
 // (which is little bit more readable)
 //
 Router.route('/', { name: 'main', controller: 'MainController'});
-Router.route('/intro', { name: 'intro'});
+Router.route('/tutorial', { name: 'tutorial'});
+//Router.route('/home', { name: 'main', controller: 'MainController'});
 Router.route('/verify-email/:token', {name: 'emailverification', controller: 'EmailVerificationController'});
 Router.route('/reset-password/:token', {name: 'resetpassword', controller: 'ResetPasswordController'});
 Router.route('/login', { name: 'login', controller: 'LoginController'});
@@ -51,6 +52,11 @@ Router.route('/contact', { name: 'contact', controller: 'ContactController'});
 
 // !!!
 Router.onBeforeAction(function(pause){
+	if(!this.ready()) {
+		this.render("loadingData");
+		return;
+	}
+
 	if(!Meteor.user()) {
 		this.render('login')
 	} else {
@@ -66,4 +72,4 @@ Router.onBeforeAction(function(pause){
 			this.render('profile')
 		}
 	}
-}, {except: ['resetpassword', 'emailverification', 'register', 'login', 'contact', 'intro']} );
+}, {except: ['resetpassword', 'emailverification', 'register', 'login', 'contact']} );

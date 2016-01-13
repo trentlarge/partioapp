@@ -7,7 +7,6 @@ Meteor.publish("myProducts", function() {
 });
 
 Meteor.publish("productsListOwner", function(_ownerId) {
-	console.log(_ownerId);
 	return Products.find({ ownerId: _ownerId });
 });
 
@@ -16,22 +15,20 @@ Meteor.publish("singleProduct", function(idProduct) {
 });
 
 Meteor.publish("productsByTitle", function(_title) {
-  var cursor = Products.find({ title: _title});
+  var cursor = Products.find({ title: _title });
   return Products.publishJoinedCursors(cursor);
 });
 
-Meteor.publish("productsData", function(_id, pageNumber, text, categories) {
-    pageSize = 15;
+Meteor.publish("productsData", function(ownerId, ownerArea, pageNumber, text, categories) {
+    var pageSize = 15;
     pageNumber = pageNumber || 1;
 
-    //return Search.find({}, { skip: pageNumber * pageSize, limit: pageSize });
-    return Products.find(
-        {
-            ownerId: { $not: { $eq: _id } },
-            title: { $regex: ".*"+text+".*", $options: 'i' },
-            category: { $in: categories }
-        },
-        {
-            limit: pageNumber * pageSize
-        });
+    return Products.find({
+        ownerId: { $ne: ownerId },
+        ownerArea: ownerArea,
+        title: { $regex: ".*"+text+".*", $options: 'i' },
+        category: { $in: categories }
+    }, {
+        limit: pageNumber * pageSize
+    });
 });

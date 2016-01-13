@@ -55,12 +55,9 @@ Meteor.startup(function() {
                                     <h1 style="color:#263238;font-size:40px">Hello there!</h1>\
                                     <p style="font-size:20px;line-height:38px;">Welcome aboard partiO!<br />\
                                     The things you own end up making money for you! Sounds familiar? Er..nevermind! To make this happen, it all starts with one link.<br />\
-                                    The one below. Click to verify and get sharing<br />\
-                                     '+url+'\
-                                     <br />For any queries or support, feel free to contact <a href="mailto:support@partioapp.com">support@partioapp.com</a>\
-                                    Best<br />\
-                                    partiO team\
-                                    </p>\
+                                    The one below. <a href="'+url+'">Click here</a> to verify and get sharing.</p>\
+                                    <p style="font-size:20px;line-height:38px;">For any queries or support, feel free to contact <a href="mailto:support@partioapp.com">support@partioapp.com</a></p>\
+                                    <p style="font-size:20px;line-height:38px;">partiO team</p>\
                                 </div>\
                             </td>\
                         </tr>\
@@ -96,8 +93,7 @@ Meteor.startup(function() {
                                 <div style="width:640px;font-family:arial; tex-align:left; margin-left:50px;color:#999">\
                                     <h1 style="color:#263238;font-size:40px">Hello!</h1>\
                                     <p style="font-size:20px;line-height:38px;">\
-                                    To reset your password, simply click the link below.\
-                                     '+url+'\
+                                    To reset your password, simply <a href="'+url+'">Click here</a>.\
                                      <br />Thanks.<br />\
                                     partiO team\
                                     </p>\
