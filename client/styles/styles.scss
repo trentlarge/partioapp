@@ -187,8 +187,8 @@ body.keyboard-open .content.overflow-scroll {
 }
 
 body.keyboard-open .platform-android .content.overflow-scroll {
+    padding-bottom: 250px !important;
     bottom: 0px !important;
-    padding-bottom: 300px !important;
 }
 
 .fieldDescriptionLend {
