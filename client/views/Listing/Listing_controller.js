@@ -1,3 +1,5 @@
+var pageSize = 15;
+
 ListingController = RouteController.extend({
 	onBeforeAction: function() {
 		this.next();
@@ -10,12 +12,25 @@ ListingController = RouteController.extend({
 	},
 
 	waitOn: function() {
-		return [
-		];
+    // wait for subscription only if page number is 1 
+    // (to avoid flickering on each subsequent page but still show loading wheel for the first page)
+    if(typeof this.firstLoad == "undefined" || this.firstLoad) {
+      this.firstLoad = false;
+
+      var pageNumber = Session.get('pageNumber') || 1;
+      var text = Session.get('searchText') || "";
+      var categories = Session.get('selectedCategories') || Categories.getAllCategoriesText();
+      var userArea = Meteor.user().profile.area;
+
+      return [
+        Meteor.subscribe("productsData", Meteor.userId(), userArea, pageNumber, text, categories)
+      ];
+    } else {
+      return [];
+    }
 	},
 
   searchProducts: function() {
-    var pageSize = 15;
     var pageNumber = Session.get('pageNumber') || 1;
     var text = Session.get('searchText');
     var categories = Session.get('selectedCategories');
