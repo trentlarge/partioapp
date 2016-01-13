@@ -30,18 +30,18 @@ Accounts.onCreateUser(function(options,user) {
 
 		var currentEmail = user.services.facebook.email;
 
-		if (currentEmail.split("@")[1] === "duke.edu" || currentEmail.split("@")[1] === "rollins.edu") {
-			user.emails = [{"address": currentEmail, "verified": false}]
+		// if (currentEmail.split("@")[1] === "duke.edu" || currentEmail.split("@")[1] === "rollins.edu") {
+		// 	user.emails = [{"address": currentEmail, "verified": false}]
 
 			// Meteor.setTimeout(function() {
 			// 	Accounts.sendVerificationEmail(user._id);
 			// }, 4 * 1000);
 
-		} else {
+//		} else {
 
 			//Creating transactionsId for new user;
-			Meteor.call('createTransactions');
-		}
+			Meteor.call('createTransactions', user._id);
+//		}
 
 		console.log('finished FACEBOOK user creation...');
 
@@ -68,15 +68,13 @@ Accounts.onCreateUser(function(options,user) {
 		// })
 		
 		//Creating transactionsId for new user;
-		Meteor.call('createTransactions');
+		Meteor.call('createTransactions', user._id);
 
 		console.log('finished MANUAL user creation...');
 
 		Meteor.setTimeout(function() {
 			Accounts.sendVerificationEmail(user._id);
 		}, 4 * 1000);
-
-
 
 		return user;
 	}
