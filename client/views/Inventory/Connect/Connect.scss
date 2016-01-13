@@ -276,3 +276,21 @@
         margin-top: 10px;
     }
 }
+
+.centerMarker{
+  position:absolute;
+  /*url of the marker*/
+  background:url(/icons/icon-marker-destination.png) no-repeat;
+  /*center the marker*/
+  top:50%;left:50%;
+
+  z-index:1;
+  /*fix offset when needed*/
+  margin-left:-20px;
+  margin-top:-42px;
+  /*size of the image*/
+  height:60px;
+  width:42px;
+
+  cursor:pointer;
+}

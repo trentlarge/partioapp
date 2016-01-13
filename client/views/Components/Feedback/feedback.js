@@ -13,6 +13,10 @@ Template.feedback.helpers({
 		}
 
 		return this.productData.ownerData.profile.avatar;
+	},
+
+	getAreaName: function() {
+		return areaName(this.productData.ownerArea);
 	}
 });
 
@@ -89,6 +93,10 @@ Template.feedbackborrower.helpers({
 			return '/profile_image_placeholder.jpg'
 		}
 		return this.productData.ownerData.profile.avatar;
+	},
+
+	getAreaName: function() {
+		return areaName(this.requestorData.profile.area);
 	}
 });
 

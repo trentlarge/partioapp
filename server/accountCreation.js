@@ -25,23 +25,23 @@ Accounts.onCreateUser(function(options,user) {
 		user.profile.birthDate = user.services.facebook.birthday
 		//FOR NO APPARENT REASON FACEBOOK REFUSED TO SEND AVATAR AFTER LOGIN
 		// user.profile.avatar = options.profile.avatar;
-		user.profile.college = '';
+		user.profile.area = '';
 		user.private.mobile = '';
 
 		var currentEmail = user.services.facebook.email;
 
-		if (currentEmail.split("@")[1] === "duke.edu" || currentEmail.split("@")[1] === "rollins.edu") {
-			user.emails = [{"address": currentEmail, "verified": false}]
+		// if (currentEmail.split("@")[1] === "duke.edu" || currentEmail.split("@")[1] === "rollins.edu") {
+		// 	user.emails = [{"address": currentEmail, "verified": false}]
 
 			// Meteor.setTimeout(function() {
 			// 	Accounts.sendVerificationEmail(user._id);
 			// }, 4 * 1000);
 
-		} else {
+//		} else {
 
 			//Creating transactionsId for new user;
-			Meteor.call('createTransactions');
-		}
+			Meteor.call('createTransactions', user._id);
+//		}
 
 		console.log('finished FACEBOOK user creation...');
 
@@ -53,7 +53,7 @@ Accounts.onCreateUser(function(options,user) {
 
 		user.profile.name = options.profileDetails.name;
 		user.profile.avatar = options.profileDetails.avatar;
-		user.profile.college = options.profileDetails.college;
+		user.profile.area = options.profileDetails.area;
 		user.profile.birthDate = options.profileDetails.birthDate;
 
 		user.private.mobile = options.profileDetails.mobile;
@@ -68,15 +68,13 @@ Accounts.onCreateUser(function(options,user) {
 		// })
 		
 		//Creating transactionsId for new user;
-		Meteor.call('createTransactions');
+		Meteor.call('createTransactions', user._id);
 
 		console.log('finished MANUAL user creation...');
 
 		Meteor.setTimeout(function() {
 			Accounts.sendVerificationEmail(user._id);
 		}, 4 * 1000);
-
-
 
 		return user;
 	}

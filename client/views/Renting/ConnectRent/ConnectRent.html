@@ -90,35 +90,32 @@
           </div>
           {{#if ../isReturned}}
           {{else}}
-              <div class="item details">
-                  <i class="icon ion-location"></i>
-                  <a id="showMap" href="#">
-                    <p>{{preferredLocation}}</p>
-                  </a>
-              </div>
+            <div class="item details">
+                <i class="icon ion-location"></i>{{{ ../getLocation preferredLocation }}}
+            </div>
           {{/if}}
 
           <div style="padding-bottom:16px;"></div>
 
-        {{#if ../paymentDone}}
-          {{#unless ../itemReturnDone}}
+          {{#if ../paymentDone}}
+            {{#unless ../itemReturnDone}}
+              <div class="item">
+                  <button id="returnItem" class="button button-block">RETURN ITEM</button>
+              </div>
+            {{/unless}}
+          {{else}}
             <div class="item">
-                <button id="returnItem" class="button button-block">RETURN ITEM</button>
-            </div>
-          {{/unless}}
-        {{else}}
-          <div class="item">
-              {{#if ../approvedStatus}}
-                <button id="payAndRent" class="button button-block button-energized">PAY TOTAL &nbsp; ${{connectData.borrowDetails.price.total}}</button>
-              {{else}}
-                {{#if ../isTimeOver}}
-                    <button class="button button-block" disabled>TIME IS OVER</button>
+                {{#if ../approvedStatus}}
+                  <button id="payAndRent" class="button button-block button-energized">PAY TOTAL &nbsp; ${{connectData.borrowDetails.price.total}}</button>
                 {{else}}
-                    <button id="payAndRent" class="button button-block button-energized disabled">AWAITING APPROVAL</button>
+                  {{#if ../isTimeOver}}
+                      <button class="button button-block" disabled>TIME IS OVER</button>
+                  {{else}}
+                      <button id="payAndRent" class="button button-block button-energized disabled">AWAITING APPROVAL</button>
+                  {{/if}}
                 {{/if}}
-              {{/if}}
-          </div>
-        {{/if}}
+            </div>
+          {{/if}}
       </div>
 
       <div class="center">

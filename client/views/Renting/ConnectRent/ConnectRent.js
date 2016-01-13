@@ -165,11 +165,9 @@ Template.connectRent.events({
 					}
 				});
 
-        IonPopup.close();
+        		IonPopup.close();
 				Router.go('/listing');
-
 			}
-
 		});
 	},
 

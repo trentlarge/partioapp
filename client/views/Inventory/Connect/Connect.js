@@ -146,6 +146,8 @@ var onSuccess = function(position){
 var onError = function(error) {
   PartioLoad.hide();
 
+  console.log(error);
+
 	IonPopup.show({
 		title: "Location Services Unavailable.",
 		template: 'Please enable Location services for this app from Settings > Privacy > Location Services',
