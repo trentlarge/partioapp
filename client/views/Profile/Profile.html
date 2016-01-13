@@ -20,16 +20,16 @@
     {{#contentFor "headerButtonRight"}}
       {{#if profileEdit}}
         <button id="saveProfile" class="button button-clear button-energized">Save</button>
-        {{else}}
-          <a href="/" class="button button-clear">
-              <img id="spinner-logo-simple" src="{{ getImage 'spinner-logo' }}" />
-          </a>
+      {{else}}
+        <a href="/" class="button button-clear">
+          <img id="spinner-logo-simple" src="{{ getImage 'spinner-logo' }}" />
+        </a>
       {{/if}}
     {{/contentFor}}
   {{else}}
     {{#contentFor "headerTitle"}}
       <h1 class="title">
-          <img id="spinner-logo-simple" src="{{ getImage 'spinner-logo' }}" />
+        <img id="spinner-logo-simple" src="{{ getImage 'spinner-logo' }}" />
       </h1>
     {{/contentFor}}
   {{/if}}
@@ -59,75 +59,74 @@
         </div>
 
         <div class="card padding-vertical">
-            <a class="item item-icon-right" id="resend-validation"  >
-                <p>Resend validation email</p>
-                {{> ionIcon icon="refresh" class="energized right-arrow"}}
-            </a>
+          <a class="item item-icon-right" id="resend-validation"  >
+            <p>Resend validation email</p>
+            {{> ionIcon icon="refresh" class="energized right-arrow"}}
+          </a>
         </div>
       {{/if}}
 
       <div class="card padding-horizontal">
         <form id="profileEdit">
-
-            <label class="item item-input">
-                <i class="icon ion-ios-telephone"></i>
-                <input id="profilemobile" type="text" value="{{currentUser.private.mobile}}">
-            </label>
-            <label class="item item-input">
-                <i class="icon ion-ios-calendar"></i>
-                <input id="birthDate" data-date-format="mm/dd/yyyy" type="text" value="{{currentUser.profile.birthDate}}" readonly>
-            </label>
-          </form>
+          <label class="item item-input">
+            <i class="icon ion-ios-telephone"></i>
+            <input id="profilemobile" type="text" value="{{ currentUser.private.mobile }}">
+          </label>
+          <label class="item item-input">
+            <i class="icon ion-ios-calendar"></i>
+            <input id="birthDate" data-date-format="mm/dd/yyyy" type="text" value="{{ currentUser.profile.birthDate }}" readonly>
+          </label>
+        </form>
 
         <label class="item item-input">
-            <i class="icon ion-university"></i>
-            <input id="profileuniversity" type="text" value="{{currentUser.profile.college}}" disabled>
+          <i class="icon ion-android-locate"></i>
+          <!-- <input type="hidden" value="{{ currentUser.profile.area }}" > -->
+          {{ getUserArea }}
         </label>
         <label class="item item-input">
-            <i class="icon ion-at"></i>
-            <input type="email" value="{{currentUser.emails.[0].address}}" disabled>
+          <i class="icon ion-at"></i>
+          <!-- <input type="hidden" value="{{ currentUser.emails.[0].address }}"> -->
+          {{ currentUser.emails.[0].address }}
         </label>
 
       </div>
 
       {{#if currentUser.emails.[0].verified}}
         <div class="card padding-horizontal">
-            <a class="item item-icon-right" href="{{pathFor 'savedCards'}}" >
-                <p>Payment Cards</p>
-                {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
-            </a>
-            <a class="item item-icon-right" href="{{pathFor 'contact'}}" >
-                <p>Contact Us</p>
-                {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
-            </a>
-        
-            <a class="item item-icon-right" href="{{pathFor 'tutorial'}}" >
-                <p>Tutorial</p>
-                {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
-            </a>
+          <a class="item item-icon-right" href="{{pathFor 'savedCards'}}" >
+            <p>Payment Cards</p>
+            {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
+          </a>
+          <a class="item item-icon-right" href="{{pathFor 'contact'}}" >
+            <p>Contact Us</p>
+            {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
+          </a>
+      
+          <a class="item item-icon-right" href="{{pathFor 'tutorial'}}" >
+            <p>Tutorial</p>
+            {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
+          </a>
 
-            <a class="item item-icon-right" href="{{pathFor 'changePassword'}}" >
-                <p>Change Password</p>
-                {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
-            </a>
+          <a class="item item-icon-right" href="{{pathFor 'changePassword'}}" >
+            <p>Change Password</p>
+            {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
+          </a>
         </div>
-    {{else}}
+      {{else}}
         <div class="card padding-horizontal">
-            <a class="item item-icon-right" href="{{pathFor 'contact'}}" >
-                <p>Contact Us</p>
-                {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
-            </a>
+          <a class="item item-icon-right" href="{{pathFor 'contact'}}" >
+            <p>Contact Us</p>
+            {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
+          </a>
         </div>
+      {{/if}}
 
-    {{/if}}
-
-    <div class="card padding-horizontal">
+      <div class="card padding-horizontal">
         <a class="item item-icon-right" id="logout"  >
-            <p>Logout</p>
-            {{> ionIcon icon="android-exit" class="energized right-arrow"}}
+          <p>Logout</p>
+          {{> ionIcon icon="android-exit" class="energized right-arrow"}}
         </a>
-    </div>
-
+      </div>
     {{/ionContent}}
   {{/ionView}}
 </template>

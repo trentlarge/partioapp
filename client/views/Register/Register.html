@@ -17,15 +17,9 @@
   {{#ionView class="register"}}
 
   <div class="content ion-content overflow-scroll has-header">
-      <div class="center">
-          <div class="spinner-logo-caption">Let's <b>Share</b>.</div>
-
-      </div>
-
-      <div class="center">
-
-      </div>
-
+    <div class="center">
+      <div class="spinner-logo-caption">Let's <b>Share</b>.</div>
+    </div>
 
     <div class="card padding-horizontal padding-vertical form-register-block">
       <label class="item item-input">
@@ -35,13 +29,14 @@
 
       <label class="item item-input">
         <i class="icon ion-at energized placeholder-icon"></i>
-        &nbsp;<input type="email" name="email" class="border-radius-20" id="email" placeholder="College E-mail">
+        &nbsp;<input type="email" name="email" class="border-radius-20" id="email" placeholder="E-mail">
       </label>
 
       <label class="item item-input">
         <i class="icon ion-ios-telephone energized placeholder-icon"></i>
         <input type="text" name="mobile" id="input-mobile" class="border-radius-20" placeholder="Mobile">
       </label>
+
       <label class="item item-input">
           <i class="icon ion-ios-calendar"></i>
           <input id="birthDate" name="birthDate" readonly type="text" class="input-mobile border-radius-20" placeholder="Birth date">
@@ -53,13 +48,13 @@
       </label>
 
       <label class="item item-input item-select">
-        <i class="icon ion-university energized placeholder-icon"></i>
+        <i class="icon ion-android-locate energized placeholder-icon"></i>
         <div class="input-label border-radius-20"><p>Location</p></div>
         <select id="college" class="border-radius-20">
           <option selected>Select</option>
-          <option>Duke University</option>
-          <option>Yale University</option>
-          <option>Other</option>
+          <option value="1">Duke University</option>
+          <option value="2">Yale University</option>
+          <option value="0">Other</option>
           <!-- <option>Test Gmail IDs</option> -->
         </select>
       </label>

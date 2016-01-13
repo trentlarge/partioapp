@@ -6,11 +6,11 @@ Template.register.rendered = function() {
   });
 }
 
-collegeEmails = {
-	"Duke University": "duke.edu",
-	"Yale University": "yale.edu",
+//collegeEmails = {
+	//"Duke University": "duke.edu",
+	//"Yale University": "yale.edu",
 	//"Test Gmail IDs": "gmail.com"
-}
+//}
 
 // emailCheck = function(college, email) {
 // 	if (email.split("@")[1] !== collegeEmails[college]) {
@@ -35,27 +35,28 @@ collegeEmails = {
 
 Template.register.events({
   'change #birthDate': function(e, template) {
-      $('.datepicker').hide();
+    $('.datepicker').hide();
   },
+
   'keypress #input-mobile': function(e, template) {
-      $('#input-mobile').inputmask("+9 (999) 999-9999", {placeholder:" " });
+    $('#input-mobile').inputmask("+9 (999) 999-9999", {placeholder:" " });
   },
 
 	'click #registerButton': function(e, template) {
 		e.preventDefault();
-	    var email = template.find('[name=email]').value;
-	    var password = template.find('[name=password]').value;
-			var mobile = template.find('[name=mobile]').value;
-	    var profileDetails = {
-	    	name: template.find('[name=name]').value,
-				mobile: template.find('[name=mobile]').value,
-	    	college: template.find('#college').value,
-        birthDate: template.find('[name=birthDate]').value,
-	    	avatar: base64imgs('profile-image-placeholder'),
-	    	location: Session.get('newLocation')
-	    };
+    var email = template.find('[name=email]').value;
+    var password = template.find('[name=password]').value;
+		var mobile = template.find('[name=mobile]').value;
+    var profileDetails = {
+    	name: template.find('[name=name]').value,
+			mobile: template.find('[name=mobile]').value,
+    	area: template.find('#college').value,
+      birthDate: template.find('[name=birthDate]').value,
+    	avatar: base64imgs('profile-image-placeholder'),
+    	location: Session.get('newLocation')
+    };
 
-    if(email && password && profileDetails.name && profileDetails.college) {
+    if(email && password && profileDetails.name && profileDetails.area) {
       //if (emailCheck(profileDetails.college, email)) {
 
       PartioLoad.show('Please wait, we\'re creating your account....');

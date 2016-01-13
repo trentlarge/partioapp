@@ -4,9 +4,9 @@ ListingController = RouteController.extend({
 	},
 
 	action: function() {
-			if(this.ready()) {
-				this.render();
-			}
+		if(this.ready()) {
+			this.render();
+		}
 	},
 
 	waitOn: function() {
@@ -14,38 +14,37 @@ ListingController = RouteController.extend({
 		];
 	},
 
-    searchProducts: function() {
-	    var pageSize = 15;
-        var pageNumber = Session.get('pageNumber') || 1;
-        var text = Session.get('searchText');
-        var categories = Session.get('selectedCategories');
-        if(!categories) {
-            categories = Categories.getAllCategoriesText();
-        }
+  searchProducts: function() {
+    var pageSize = 15;
+    var pageNumber = Session.get('pageNumber') || 1;
+    var text = Session.get('searchText');
+    var categories = Session.get('selectedCategories');
+    
+    if(!categories) {
+      categories = Categories.getAllCategoriesText();
+    }
 
-        Meteor.subscribe("productsData",
-                         Meteor.userId(),
-                         pageNumber,
-                         text,
-                         categories);
+    var userArea = Meteor.user().profile.area;
 
-	    var products = Products.find({
-            ownerId: { $ne: Meteor.userId() },
-            title: { $regex: ".*"+text+".*", $options: 'i' },
-            category: { $in: categories }
-        }, {
-            limit: pageNumber * pageSize
-        });
+    Meteor.subscribe("productsData", Meteor.userId(), userArea, pageNumber, text, categories);
 
-        Session.set("pageNumberLoaded", Math.ceil(products.count() / pageSize));
+    var products = Products.find({
+      ownerId: { $ne: Meteor.userId() },
+      ownerArea: userArea,
+      title: { $regex: ".*"+text+".*", $options: 'i' },
+      category: { $in: categories }
+    }, {
+      limit: pageNumber * pageSize
+    });
 
-        return products;
-    },
+    Session.set("pageNumberLoaded", Math.ceil(products.count() / pageSize));
+
+    return products;
+  },
 
 	data: function() {
-
 		return {
-            searchProducts: this.searchProducts()
+      searchProducts: this.searchProducts()
 		};
 	},
 
