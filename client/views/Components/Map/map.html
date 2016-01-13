@@ -10,11 +10,14 @@
 
     {{#ionView}}
       <div id="map-box">
+        <div class="centerMarker"></div>
         {{> googleMap name="meetupMap" options=meetupMapOptions}}
       </div>
     {{/ionView}}
   {{/ionModal}}
 </template>
+
+
 
 <template name="onlyMap">
   {{#ionModal customTemplate=true}}
@@ -24,6 +27,7 @@
 
     {{#ionView}}
     <div id="mapchat-box">
+
         <div id="pin"></div>
         {{> googleMap name="onlyMap" options=onlyMapOptions}}
     </div>

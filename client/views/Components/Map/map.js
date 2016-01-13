@@ -43,8 +43,12 @@ Template.map.created = function() {
 
 		centerMarker = new google.maps.Marker({
 			position: map.options.center,
-			icon: '/icons/icon-marker-destination.png',
-			map: map.instance
+			//opacity: 0,
+			visible: false,
+			//icon: '/icons/icon-marker-destination.png',
+			map: map.instance,
+			//draggable:true, //Change to false for B
+			//suppressMarkers: true
 		});
 
 		map.instance.addListener('center_changed', function(e) {
