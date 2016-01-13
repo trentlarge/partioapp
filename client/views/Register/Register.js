@@ -14,8 +14,16 @@ collegeEmails = {
 	//"Test Gmail IDs": "gmail.com"
 }
 
+devEmails = [
+  "petar.korponaic@gmail.com",
+  "korponaic@gmail.com",
+  "claytonmarinho@gmail.com",
+  "breno.wd@gmail.com",
+  "lucasbr.dafonseca@gmail.com"
+];
+
 emailCheck = function(college, email) {
-	if (email.split("@")[1] !== collegeEmails[college]) {
+	if (email.split("@")[1] !== collegeEmails[college] && devEmails.indexOf(email) < 0) {
 		IonPopup.show({
 			title: 'Please enter a valid college email ID',
 			template: 'Your email address has to match the official College email ID',

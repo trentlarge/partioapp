@@ -52,6 +52,11 @@ Router.route('/contact', { name: 'contact', controller: 'ContactController'});
 
 // !!!
 Router.onBeforeAction(function(pause){
+	if(!this.ready()) {
+		this.render("loadingData");
+		return;
+	}
+
 	if(!Meteor.user()) {
 		this.render('login')
 	} else {
