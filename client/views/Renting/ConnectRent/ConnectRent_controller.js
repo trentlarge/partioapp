@@ -198,6 +198,15 @@ ConnectRentController = RouteController.extend({
                     return daysLeft + ' day left'
                 }
                 return daysLeft + ' days left';
+			},
+
+			getLocation: function(param) {
+				if(param != 'Location not set') {
+					return '<a id="showMap" href="#"><p>'+param+'</p></a>';	
+				} else {
+					return '<p>Waiting location...</p>';
+				}
+				
 			}
 		}
 	},
