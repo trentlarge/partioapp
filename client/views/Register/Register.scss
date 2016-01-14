@@ -55,7 +55,9 @@
 
         i {
             color: rgba(39, 39, 39, 0.42);
-            width: 18px;
+            width: 20px;
+            padding: 0;
+            padding-right: 0;
         }
 
         ::-webkit-input-placeholder {
