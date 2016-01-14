@@ -204,7 +204,7 @@ ConnectRentController = RouteController.extend({
 				if(param != 'Location not set') {
 					return '<a id="showMap" href="#"><p>'+param+'</p></a>';	
 				} else {
-					return '<p>Waiting location...</p>';
+					return '<p style="min-height:15px">Waiting location...</p>';
 				}
 				
 			}

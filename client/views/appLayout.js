@@ -7,6 +7,10 @@ UI.registerHelper('getImage', function(image){
   return base64imgs(image);
 });
 
+UI.registerHelper('getTutorialImage', function(image){
+  return base64imgsTutorial(image);
+});
+
 UI.registerHelper('getVersion', function(){
   return Meteor.settings.public.appVersion;
 });
