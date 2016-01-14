@@ -80,15 +80,12 @@
 
         <label class="item item-input">
           <i class="icon ion-android-locate"></i>
-          <!-- <input type="hidden" value="{{ currentUser.profile.area }}" > -->
-          {{ getUserArea }}
+          <input type="text" value="{{ getUserArea }}" readonly >
         </label>
         <label class="item item-input">
           <i class="icon ion-at"></i>
-          <!-- <input type="hidden" value="{{ currentUser.emails.[0].address }}"> -->
-          {{ currentUser.emails.[0].address }}
+          <input type="email" value="{{ currentUser.emails.[0].address }}" readonly >
         </label>
-
       </div>
 
       {{#if currentUser.emails.[0].verified}}
@@ -102,7 +99,7 @@
             {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
           </a>
       
-          <a class="item item-icon-right" href="{{pathFor 'tutorial'}}" >
+          <a class="item item-icon-right" data-ion-modal="tutorial"  >
             <p>Tutorial</p>
             {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
           </a>
