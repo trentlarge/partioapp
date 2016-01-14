@@ -18,7 +18,18 @@ NotificationsController = RouteController.extend({
 		return {
 			'notifications': function() {
 				return Notifications.find({toId: Meteor.userId()}, {sort: {timestamp: -1}});
-			}
+			},
+            
+            hasRouter: function(connectionId) {
+                if(!connectionId) {
+                    return false;
+                }
+                var connection = Connections.findOne({ _id: connectionId, finished: { $ne: true } });
+                if(!connection) {
+                    return false;
+                }
+                return true;
+            }
 		};
 	},
 
