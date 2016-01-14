@@ -1,22 +1,31 @@
-.slide-item {
-	img {
-	    width: 60%;
-	    margin: auto;
-	    margin-top: 15px;
-	    max-width:310px;
-	}
+.tutorial {
+	.content {
+		overflow-y: auto !important;
 
-	span {
-    	font-size: 14px;
-	}
+		.slide-item {
+			height:calc(100% - 67px);
+			background-position: center !important;
+			background-repeat: no-repeat !important;
+			background-size: contain !important;
+			position: relative;
+			margin-top:8px;
 
-	div {
-	    width: 90%;
-	    margin: auto;
-	    text-align: center;
-	}
-} 
 
-.slider-pager {
-	bottom: 50px !important;
+			.obs {
+				width: 100%;
+		    	font-size: 14px;
+		    	text-align: center;
+		    	position: absolute;
+		    	bottom: 0;
+		    	background-color: rgba(255, 255, 255, 0.8);
+		    	padding:5px;
+			}
+
+			/*div {
+			    width: 90%;
+			    margin: auto;
+			    text-align: center;
+			}*/
+		} 
+	}
 }

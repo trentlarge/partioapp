@@ -23,7 +23,7 @@ MainController = RouteController.extend({
 		if(Meteor.user() && Meteor.user().private) {
 			if(!Meteor.user().private.viewTutorial) {
 				Meteor.call('checkTutorial');
-				Router.go('/tutorial');
+				IonModal.open('tutorial');
 			}
 		}
 	}
