@@ -14,7 +14,7 @@ ion-side-menu.menu-left.menu {
     .badge.badge-notification {
 //        right: 8px;
 //        top: -8px;
-        margin-right: -8px;
+        margin-right: -10px;
         max-width: 20px;
         max-height: 20px;
         display: flex;
@@ -39,23 +39,61 @@ ion-side-menu.menu-left.menu {
         background-color: transparent;
 
         input {
+            -webkit-appearance: none;
+            border-radius: 0;
             display: inline;
-            background-color: #cccccc;
+            //background-color: #cccccc;
+            background-color: #bbbbbb;
             border-top: 1px solid #999999;
             color: #263238;
-            border-radius: 20px;
-            padding-left: 35px;
-            width: 200px;
+            //border-radius: 20px;
+            //padding-left: 35px;
+            //width: 200px;
+            border-top-right-radius: 5px;
+            border-bottom-right-radius: 5px;
+            width: 165px;
             margin-bottom: 10px;
             margin-right: 10px;
-            line-height: 15px;
+            margin-left: -4px;
+            line-height: 16px;
+            height: 34px;
+            max-height: 34px;
+            min-height: 34px;
+            
+            &::-webkit-input-placeholder {
+                color: rgba(39, 39, 39, 0.6);
+                padding-top: 2px;
+            }
+            &::-moz-placeholder {
+                color: rgba(39, 39, 39, 0.6);
+                padding-top: 2px;
+            }
         }
 
-        .ion-search {
-            position: absolute;
-            margin-top: 5px;
-            margin-left: 10px;
+        .search-bar {
+            
+            display: inline-block;
+            background-color: #bbb;
+            padding: 4px;
+            border-top: 1px solid #999999;
+            border-top-left-radius: 5px;
+            border-bottom-left-radius: 5px;
+            height: 34px;
+            max-height: 34px;
+            min-height: 34px;
+            
+            .ion-search {
+    //            position: absolute;
+    //            margin-top: 5px;
+    //            margin-left: 10px;
+                padding-left: 5px;
+                padding-right: 6px;
+                color: #272727;
+            }
+            
         }
+        
+        
 
         .notification {
 //            margin-left: 18px;
