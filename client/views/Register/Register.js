@@ -45,19 +45,19 @@ Template.register.events({
 
 	'click #registerButton': function(e, template) {
 		e.preventDefault();
-    var email = template.find('[name=email]').value;
-    var password = template.find('[name=password]').value;
+        var email = template.find('[name=email]').value;
+        var password = template.find('[name=password]').value;
 		var mobile = template.find('[name=mobile]').value;
-    var profileDetails = {
-    	name: template.find('[name=name]').value,
-			mobile: template.find('[name=mobile]').value,
-    	area: template.find('#college').value,
-      birthDate: template.find('[name=birthDate]').value,
-    	avatar: base64imgs('profile-image-placeholder'),
-    	location: Session.get('newLocation')
+        var profileDetails = {
+            name: template.find('[name=name]').value,
+            mobile: template.find('[name=mobile]').value,
+            area: template.find('#college').value,
+            birthDate: template.find('[name=birthDate]').value,
+            avatar: base64imgs('profile-image-placeholder')
+//            location: Session.get('newLocation')
     };
 
-    if(email && password && profileDetails.name && profileDetails.area) {
+    if(email && password && profileDetails.name && profileDetails.area && profileDetails.area !== 'Select') {
       //if (emailCheck(profileDetails.college, email)) {
 
       PartioLoad.show('Please wait, we\'re creating your account....');
@@ -81,22 +81,6 @@ Template.register.events({
           Router.go('/profile');
         }
       })
-
-      // } else {
-      //       PartioLoad.hide();
-
-	    	// IonPopup.show({
-	    	// 	title: 'Missing fields',
-	    	// 	template: 'Please make sure all mandatory fields are entered to proceed further.',
-	    	// 	buttons: [{
-	    	// 		text: 'OK',
-	    	// 		type: 'button-calm',
-	    	// 		onTap: function() {
-	    	// 			IonPopup.close();
-	    	// 		}
-	    	// 	}]
-	    	// });
-      // }
     } else {
       IonPopup.show({
         title: 'Missing fields',
@@ -128,82 +112,3 @@ Template.modalPrivacyPolicy.events({
 
 });
 
-Template.register.events({
-
-    'change #birthDate': function(e, template) {
-        $('.datepicker').hide();
-    },
-    'keypress #input-mobile': function(e, template) {
-        $('#input-mobile').inputmask("+1 (999) 999-9999", {placeholder:" " });
-    },
-
-
-
-	'click #registerButton': function(e, template) {
-		e.preventDefault();
-	    var email = template.find('[name=email]').value;
-	    var password = template.find('[name=password]').value;
-			var mobile = template.find('[name=mobile]').value;
-	    var profileDetails = {
-	    	name: template.find('[name=name]').value,
-				mobile: template.find('[name=mobile]').value,
-	    	college: template.find('#college').value,
-        birthDate: template.find('[name=birthDate]').value,
-	    	avatar: base64imgs('profile-image-placeholder'),
-	    	location: Session.get('newLocation')
-	    };
-
-    if(email && password && profileDetails.name && profileDetails.college) {
-      if (emailCheck(profileDetails.college, email)) {
-        PartioLoad.show('Please wait, we\'re creating your account....')
-        Accounts.createUser({email: email, password: password, telephone: profileDetails.telephone, profileDetails: profileDetails}, function(error) {
-          if (error) {
-            PartioLoad.hide();
-            IonPopup.show({
-              title: 'Signing up failed.',
-              template: error.reason + '. Please try again.',
-              buttons: [{
-                text: 'OK',
-                type: 'button-assertive',
-                onTap: function() {
-                  IonPopup.close();
-                }
-              }]
-            });
-          } else {
-            PartioLoad.hide();
-            Router.go('/profile');
-          }
-        })
-      } else {
-            PartioLoad.hide();
-
-	    	IonPopup.show({
-	    		title: 'Missing fields',
-	    		template: 'Please make sure all mandatory fields are entered to proceed further.',
-	    		buttons: [{
-	    			text: 'OK',
-	    			type: 'button-calm',
-	    			onTap: function() {
-	    				IonPopup.close();
-	    			}
-	    		}]
-	    	});
-      }
-    }
-    else {
-        IonPopup.show({
-            title: 'Missing fields',
-            template: 'Please make sure all mandatory fields are entered to proceed further',
-            buttons: [{
-                text: 'OK',
-                type: 'button-calm',
-                onTap: function() {
-                    IonPopup.close();
-                }
-            }]
-        });
-    }
-  }
-
-});
