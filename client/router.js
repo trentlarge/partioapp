@@ -2,7 +2,7 @@ Router.configure({
 	trackPageView: true,
 	layoutTemplate: 'appLayout',
 	routeControllerNameConverter: "upperCamelCase",
-//	loadingTemplate: 'loadingData',
+	loadingTemplate: 'loadingData',
 });
 
 // !!!
