@@ -194,14 +194,20 @@ body.keyboard-open .platform-android .content.overflow-scroll {
   padding: 5px;
 }
 
+// -- POPUP --
+
 .popup {
-    padding: 16px;
+    padding: 24px;
     width: auto !important;
-    max-width: 70% !important;
+    max-width: 80% !important;
+    
+    .popup-head {
+        padding: 0;
+    }
     
     .popup-title {
       text-align: left;
-      font-size: 16px;
+      font-size: 20px;
       text-transform: capitalize;
       font-weight: bold;
       color: #272727;
@@ -209,6 +215,7 @@ body.keyboard-open .platform-android .content.overflow-scroll {
     
     .popup-body {
         color: #272727;
+        padding: 16px 0 16px 0;
         
         input {
           margin-top: 10px;
@@ -218,13 +225,22 @@ body.keyboard-open .platform-android .content.overflow-scroll {
     }
     
     .popup-buttons {
-        /*margin-top: 50px;*/
+        margin: 0;
+        min-height: 20px;
+        display: flex;
+        display: -webkit-flex;
+        align-items: center;
+        -webkit-align-items: center;
+        padding: 10px 0 0 0;
         
         .button {
-            font-size: 16px;
+            font-size: 14px;
             font-weight: bold;
             text-transform: uppercase;
             padding: 0;
+            margin: 0;
+            min-height: 20px;
+            height: 20px;
             
             &:hover {
                 opacity: .7;
@@ -282,6 +298,8 @@ body.keyboard-open .platform-android .content.overflow-scroll {
         
     }
 }
+
+// -- END: POPUP --
 
 //.popup-buttons .button-positive {
 //    border-color: #D8880C;

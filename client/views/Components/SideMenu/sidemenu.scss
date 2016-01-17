@@ -55,10 +55,12 @@ ion-side-menu.menu-left.menu {
             margin-bottom: 10px;
             margin-right: 10px;
             margin-left: -4px;
-            line-height: 16px;
+            line-height: 10px;
             height: 34px;
             max-height: 34px;
             min-height: 34px;
+            padding-top: 0;
+            padding-bottom: 0;
             
             &::-webkit-input-placeholder {
                 color: rgba(39, 39, 39, 0.6);
