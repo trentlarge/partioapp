@@ -27,3 +27,21 @@ ShowNotificationMessage = function(strMessage){
 		}]
 	});
 }
+
+jQuery.slowEach = function(array, interval, callback) {
+    if(!array.length) return;
+    var i = 0;
+    next();
+  
+    function next() {
+        if(callback.call(array[i], i, array[i]) !== false)
+            if(++i < array.length)
+                setTimeout(next, interval);
+    }
+      
+    return array;
+};
+  
+jQuery.fn.slowEach = function(interval, callback) {
+    return jQuery.slowEach(this, interval, callback);
+};

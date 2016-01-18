@@ -118,7 +118,6 @@ app.model.Lend = (function () {
     },
 
     addProductToInventoryManually : function(manualProduct) {
-      alert('opa2');
       var self = this;
 
       Meteor.call("insertProduct", manualProduct, function(err, res) {

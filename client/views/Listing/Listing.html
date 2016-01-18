@@ -60,53 +60,45 @@
 </template>
 
 <template name="searchResult">
+    {{#if hasProducts }}
+        <div id='search-result' class="list">
+            {{#each searchProducts}}
+                <div class="package new">
+                    <a href="/listing/search/{{_id}}?ownerId={{ownerId}}" class="item item-avatar-2 qty-check">
+                        <div class="product-avatar">
+                          <img class="product-avatar-inner" src="{{image}}"/>
+                        </div>
+                        <div class="ellipsis">
+                            <p class="main-title-text">{{title}}</p>
+                        </div>
 
-    {{#if Template.subscriptionsReady}}
-<!--    {{#if Template.testIsReady}}-->
-    <div id='search-result' class="list">
-      {{#each searchProducts}}
-            <div class="package">
-                <a href="/listing/search/{{_id}}?ownerId={{ownerId}}" class="item item-avatar-2 qty-check">
-                    <div class="product-avatar">
-                      <img class="product-avatar-inner" src="{{image}}"/>
-                    </div>
-                    <div class="ellipsis">
-                        <p class="main-title-text">{{title}}</p>
-                    </div>
+                        <table class="rent-table">
+                            <tbody>
+                                <tr>
+                                    <th class="one"><i class="icon">DAY</i></th>
+                                    <th class="two"><i class="icon">WEEK</i></th>
+                                    <th class="three"><i class="icon">MONTH</i></th>
+                                    <th class="four"><i class="icon">SEMESTER</i></th>
+                                </tr>
+                                <tr>
+                                    <td>{{rentPrice.day}}</td>
+                                    <td>{{rentPrice.week}}</td>
+                                    <td>{{rentPrice.month}}</td>
+                                    <td>{{rentPrice.semester}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
 
-                    <table class="rent-table">
-                        <tbody>
-                            <tr>
-                                <th class="one"><i class="icon">DAY</i></th>
-                                <th class="two"><i class="icon">WEEK</i></th>
-                                <th class="three"><i class="icon">MONTH</i></th>
-                                <th class="four"><i class="icon">SEMESTER</i></th>
-                            </tr>
-                            <tr>
-                                <td>{{rentPrice.day}}</td>
-                                <td>{{rentPrice.week}}</td>
-                                <td>{{rentPrice.month}}</td>
-                                <td>{{rentPrice.semester}}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-
-                    <div class="item-icon-right">
-                        {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
-                    </div>
-                </a>
-            </div>
-      {{/each}}
-<!--
-        {{#if isFinished searchProducts.count}}
-            <div class="center">
-                <a href="#" id="showMore" class="button button-block">SHOW MORE</a>
-            </div>
-        {{/if}}
--->
-    </div>
-    
+                        <div class="item-icon-right">
+                            {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
+                        </div>
+                    </a>
+                </div>
+            {{/each}}
+        </div>
     {{else}}
-        {{> loader}}
+      <!--  <p>sem produtos</p> -->
     {{/if}}
+
+    {{>loader}}
 </template>

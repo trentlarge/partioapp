@@ -12,22 +12,7 @@ ListingController = RouteController.extend({
 	},
 
 	waitOn: function() {
-    // wait for subscription only if page number is 1 
-    // (to avoid flickering on each subsequent page but still show loading wheel for the first page)
-    if(typeof this.firstLoad == "undefined" || this.firstLoad) {
-      this.firstLoad = false;
-
-      var pageNumber = Session.get('pageNumber') || 1;
-      var text = Session.get('searchText') || "";
-      var categories = Session.get('selectedCategories') || Categories.getAllCategoriesText();
-      var userArea = Meteor.user().profile.area;
-
-      return [
-        Meteor.subscribe("productsData", Meteor.userId(), userArea, pageNumber, text, categories)
-      ];
-    } else {
-      return [];
-    }
+    return [];
 	},
 
   searchProducts: function() {
@@ -39,13 +24,19 @@ ListingController = RouteController.extend({
       categories = Categories.getAllCategoriesText();
     }
 
-    var userArea = Meteor.user().profile.area;
+    var _user = Meteor.user();
+    
+    if(!_user) {
+      return;
+    }
 
-    Meteor.subscribe("productsData", Meteor.userId(), userArea, pageNumber, text, categories);
+    var _userArea = _user.profile.area;
+
+    Meteor.subscribe("productsData", Meteor.userId(), _userArea, pageNumber, text, categories);
 
     var products = Products.find({
       ownerId: { $ne: Meteor.userId() },
-      ownerArea: userArea,
+      ownerArea: _userArea,
       title: { $regex: ".*"+text+".*", $options: 'i' },
       category: { $in: categories }
     }, {
@@ -54,18 +45,34 @@ ListingController = RouteController.extend({
 
     Session.set("pageNumberLoaded", Math.ceil(products.count() / pageSize));
 
+    $('.loadbox').fadeOut();
+    // Session.set('loadingItems', false);
+
+    $('.new').slowEach(70, function() {
+        $(this).fadeIn(function(){
+          $(this).removeClass('new');
+        });
+    });
+    
     return products;
   },
 
 	data: function() {
 		return {
-
-            searchProducts: this.searchProducts(),
-            
-            testIsReady: function() {
-                return false;
-            }
-
+      searchProducts: this.searchProducts(),
+//      loadingItems : Session.get('loadingItems'),
+      
+      hasProducts: function(){
+        if(this.searchProducts.count() > 0){
+          return true;
+        } else {
+          return Session.get('loadingItems');
+        }
+      },
+      
+      testIsReady: function() {
+          return false;
+      }
 		};
 	},
 

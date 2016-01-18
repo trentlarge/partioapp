@@ -48,6 +48,12 @@
     
     .item {
         height: 105px;
+        
+    }
+
+    .package {
+        display:none;
+        /*transition: opacity 200ms ease;*/
     }
     
     .disabled {

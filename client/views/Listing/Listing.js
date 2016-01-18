@@ -8,6 +8,7 @@ Template.listing.rendered = function() {
   Session.set("pageNumberLoaded", 0);
 
   Session.set('listing', true);
+  Session.set('loadingItems', false)
 
   var inputBox = $('.search-header-input');
   var inputIcon = $('.search-header-icon');
@@ -19,7 +20,7 @@ Template.listing.rendered = function() {
 
   inputIcon.css({
     'color': '#272727'
-  });
+  });  
 };
 
 Template.listing.events({
@@ -27,11 +28,21 @@ Template.listing.events({
     var parent = t.$(e.currentTarget);
     var scrollingElement = parent.find(".list");
 
-    if(parent.scrollTop() + parent.height() >= scrollingElement.innerHeight() - 30) {
-      var currentPage = Session.get("pageNumber") || 1;
-      var loadedPage = Session.get("pageNumberLoaded") || 0;
-      if(currentPage == loadedPage) {
-          Session.set("pageNumber", currentPage + 1);
+    if(parent.scrollTop() + parent.height() >= scrollingElement.innerHeight()+20) {
+      if(Session.get('loadingItems') == false){
+        Session.set('loadingItems', true);
+   
+        Meteor.setTimeout(function(){
+          Session.set('loadingItems', false); 
+        }, 3000);
+        
+        $('.loadbox').fadeIn('slow',function(){
+          var currentPage = Session.get("pageNumber") || 1;
+          var loadedPage = Session.get("pageNumberLoaded") || 0;
+          if(currentPage == loadedPage) {
+              Session.set("pageNumber", currentPage + 1);
+          }
+        });
       }
     }
   }

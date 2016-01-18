@@ -17,27 +17,27 @@ app.model.PartioLoad = (function () {
         var loadMsg = "Let\'s PartiO...";
       }
 
-      var _loadTemplate = '<div class="view loadingData">';
-          _loadTemplate +=     '<div class="loading-container visible active">';
-          _loadTemplate += '<div class="loading">';
-          _loadTemplate += '<img src="'+base64imgs('spinner-logo')+'" class="logo-spinner"><div class="message">'+loadMsg+'</div>';
+      var _loadTemplate = '<div class="loadingData">';
+          _loadTemplate +=    '<div class="loading-container visible active">';
+          _loadTemplate +=      '<div class="loading">';
+          _loadTemplate +=        '<img src="'+base64imgs('spinner-logo')+'" class="logo-spinner"><div class="message">'+loadMsg+'</div>';
+          _loadTemplate +=      '</div>';
+          _loadTemplate +=    '</div>';
           _loadTemplate += '</div>';
-          _loadTemplate += '</div>';
-          _loadTemplate += '</div>';
-
-
-
-
 
       IonLoading.show({customTemplate: _loadTemplate });
     },
 
     hide: function(){
       IonLoading.hide();
-      Session.set('partioLoadMsg', '');
+      PartioLoad.setMessage(false);
     },
 
     setMessage: function(message){
+      if(!message) {
+        Session.set('partioLoadMsg', '');  
+      }
+
       Session.set('partioLoadMsg', message);
     }
   }

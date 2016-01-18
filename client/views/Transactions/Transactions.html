@@ -15,8 +15,8 @@
     </a>
   {{/contentFor}}
 
+  
   {{#ionView class="transactions-view"}}
-
     <div class="tabs tabs-top">
       <a class="tab-item {{#if spendingClicked}} {{else}} tab-bg {{/if}}" id="earningButton">
         EARNED
@@ -27,18 +27,27 @@
     </div>
 
     {{#ionContent class="transactions has-tabs-top"}}
-      {{#if spendingClicked}}
 
-        <div class="card card-special padding-vertical">
-            <div class="item item-text-wrap center">
-                <span class="dollar-text">$</span>{{totalSpending}}
+      {{#if Template.subscriptionsReady}}
+        <script>
+          $('.loadbox').fadeOut('medium',function(){
+            $('.loading-wrapper').fadeIn('medium');  
+          });
+        </script>
+      {{/if}}
+
+      {{>loader}}
+      
+        <div class="loading-wrapper">
+          {{#if spendingClicked}}
+            <div class="card card-special padding-vertical">
+                <div class="item item-text-wrap center">
+                    <span class="dollar-text">$</span>{{totalSpending}}
+                </div>
             </div>
-        </div>
 
-        <div class="card list list-inset">
-
-            {{#if spendingAvailable}}
-
+            <div class="card list list-inset">            
+              {{#if spendingAvailable}}
                 {{#each spending}}
                     <div class="item icon-left">
                         <p>
@@ -48,50 +57,52 @@
                         <p class="product-title">{{productName}}</p>
                     </div>
                 {{/each}}
-
-            {{else}}
+              {{else}}
                 <div class="Aligner">
                     <h6 class="dark">No transactions yet!</h6>
                 </div>
-            {{/if}}
-
-        </div>
-
-      {{else}}
-
-          <div class="card card-special padding-vertical">
-              <div class="item item-text-wrap center">
-                  <span class="dollar-text">$</span>{{totalEarning}}
-              </div>
-          </div>
-
-          <div class="card list list-inset">
-
-              {{#if earningAvailable}}
-
-                      {{#each earning}}
-                      <div class="item icon-left">
-                          <p>
-                              <i class="icon ion-cash"></i> <span class="amount">${{ ../formatValue receivedAmount }}</span>
-                              <span class="transaction-date">{{ ../formatDate date }}</span>
-                          </p>
-                          <p class="product-title">{{productName}}</p>
-                      </div>
-                  {{/each}}
-
-              {{else}}
-                  <div class="Aligner">
-                      <h6 class="dark">No transactions yet!</h6>
-                  </div>
               {{/if}}
+            </div>
 
+          {{else}}
+
+              <div class="card card-special padding-vertical">
+                  <div class="item item-text-wrap center">
+                      <span class="dollar-text">$</span>{{totalEarning}}
+                  </div>
+              </div>
+
+              <div class="card list list-inset">
+
+                  {{#if earningAvailable}}
+
+                          {{#each earning}}
+                          <div class="item icon-left">
+                              <p>
+                                  <i class="icon ion-cash"></i> <span class="amount">${{ ../formatValue receivedAmount }}</span>
+                                  <span class="transaction-date">{{ ../formatDate date }}</span>
+                              </p>
+                              <p class="product-title">{{productName}}</p>
+                          </div>
+                      {{/each}}
+
+                  {{else}}
+                      <div class="Aligner">
+                          <h6 class="dark">No transactions yet!</h6>
+                      </div>
+                  {{/if}}
+
+              </div>
+
+
+          {{/if}}
+
+          <div class="center">
+              <a class="email-support" href="/contact" data-rel='external'>CONTACT US</a>
           </div>
-
-
-      {{/if}}
-      <div class="center">
-          <a class="email-support" href="/contact" data-rel='external'>CONTACT US</a>
-      </div>
+        </div>
+      
+      
     {{/ionContent}}
 
 

@@ -9,3 +9,7 @@ Template.transactions.events({
 });
 
 Session.setDefault('spendClicked', false);
+
+Template.transactions.onCreated(function () {
+  this.subscribe('myTransactions');
+});

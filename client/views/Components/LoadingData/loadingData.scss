@@ -1,37 +1,51 @@
 @import "../../../styles/app-variables";
 
-.loadingData {
-    
-  .loading-container {
-    min-height: 100%;
-    background: #272727;
-//    background-image:url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQ9IjgiPgo8cmVjdCB3aWR0aD0iOCIgaGVpZ2h0PSI4IiBmaWxsPSIjNDAzYzNmIj48L3JlY3Q+CjxwYXRoIGQ9Ik0wIDBMOCA4Wk04IDBMMCA4WiIgc3Ryb2tlLXdpZHRoPSIxIiBzdHJva2U9IiMxZTI5MmQiPjwvcGF0aD4KPC9zdmc+");
-    opacity:.7;
-
--webkit-animation: AnimationName 80s ease infinite;
--moz-animation: AnimationName 80s ease infinite;
-animation: AnimationName 80s ease infinite;
-
-@-webkit-keyframes AnimationName {
-    0%{background-position:0% 50%}
-    50%{background-position:100% 50%}
-    100%{background-position:0% 50%}
-}
-@-moz-keyframes AnimationName {
-    0%{background-position:0% 50%}
-    50%{background-position:100% 50%}
-    100%{background-position:0% 50%}
-}
-@keyframes AnimationName {
-    0%{background-position:0% 50%}
-    50%{background-position:100% 50%}
-    100%{background-position:0% 50%}
+.loadingBg {
+  min-height: 100%;
+  width: 100%;
+  display: flex;
+  position: absolute;
 }
 
-    .message {
-      color: $royal;
-      color: #EF9A18;
-      font-size: 16px;
-    }
+
+.loading-container {
+  min-height: 100%;
+  background-color: rgba(0,0,0,0.4);
+
+  .message {
+    color: $royal;
+    color: #EF9A18;
+    font-size: 16px;
   }
+
+  .loading {
+    background: none !important
+  }
+
+  .logo-spinner {
+    top: 50%;
+    left: 50%;
+    width: 80px;
+    height: 80px;
+  }
+
+  .message {
+    font-size: 20px;
+    padding-top: 20px;
+    text-align: center;
+
+  }
+}
+
+
+.logo-spinner {
+  -webkit-animation: spin 1.5s linear infinite;
+  -moz-animation: spin 1.5s linear infinite;
+  animation: spin 1.5s linear infinite;
+  -webkit-box-shadow: 0px 0px 18px -1px rgba(0,0,0,0.38);
+  -moz-box-shadow: 0px 0px 18px -1px rgba(0,0,0,0.38);
+  box-shadow: 0px 0px 18px -1px rgba(0,0,0,0.38);
+  -webkit-border-radius: 50px;
+  -moz-border-radius: 50px;
+  border-radius: 50px;
 }

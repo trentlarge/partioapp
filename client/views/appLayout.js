@@ -63,7 +63,7 @@ Template.appLayout.helpers({
 			case 'login':
 				return true;
 				break;
-			case 'Tutorial':
+			case 'loadingData':
 				return true;
 				break;
 			default:
@@ -79,7 +79,6 @@ getNewNotifications = function(){
 }
 
 Template.appLayout.onRendered(function() {
-
 	var _newNotificatons = getNewNotifications();
 	_newNotificatons.observeChanges({
 		added: function(id, fields) {

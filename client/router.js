@@ -47,20 +47,22 @@ Router.route('/profile/savedcards', { name: 'savedCards', controller: 'SavedCard
 Router.route('/profile/changepassword', { name: 'changePassword', controller: 'ChangePasswordController' });
 Router.route('/notifications', { name: 'notifications', controller: 'NotificationsController' }); //  Controlle OK
 Router.route('/contact', { name: 'contact', controller: 'ContactController'});
+Router.route('/loading', { name: 'loadingData'});
 
 // !!!
 Router.onBeforeAction(function(pause){
-	if(!this.ready()) {
-		this.render("loadingData");
-		return;
-	}
+	var _user = Meteor.user();
 
-	if(!Meteor.user()) {
-		this.render('login')
+	if(!_user) {
+		if(Meteor.loggingIn()){
+			this.render('loadingData');
+		} else {
+			this.render('login');
+		}
 	} else {
-		if(Meteor.user().emails[0].address){
+		if(_user.emails[0].address){
 
-			if(Meteor.user().emails[0].verified) {
+			if(_user.emails[0].verified) {
 				this.next();
 
 			} else {

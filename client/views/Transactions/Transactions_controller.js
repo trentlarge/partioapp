@@ -10,14 +10,28 @@ TransactionsController = RouteController.extend({
 	},
 
 	waitOn: function() {
-		return [
-			Meteor.subscribe("myTransaction")
-		];
+		return [];
 	},
+
+	transactions: function(){
+		var _data = Transactions.findOne({"userId": Meteor.userId()});
+
+		// if(_data && typeof _data != undefined) {
+		// 	this.showData();
+		// }
+
+		return _data;
+	},
+
+	// showData: function(){
+	// 	$('.loadbox').delay(1000).fadeOut(function () {
+	// 		$('.loading-wrapper').fadeIn();
+	// 	});		
+	// },
 
 	data: function() {
 		return {
-			transaction: Transactions.findOne({"userId": Meteor.userId()}),
+			transaction: this.transactions(),
 
 			spendingClicked: function() {
 				return Session.get('spendClicked');

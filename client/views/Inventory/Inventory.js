@@ -1,3 +1,6 @@
+Template.inventory.onCreated(function () {
+  this.subscribe('myProducts');
+});
 
 Template.inventory.helpers({
   'iconRandom': function() {

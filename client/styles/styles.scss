@@ -5,15 +5,15 @@
 @import '{hashwin:ionic-sass}/_ionic';
 @import '{hashwin:ionicons-sass}/_ionicons';
 
-// .logo-spinner {
-//     height: 150px;
-//     -webkit-animation-name: rotate;
-//     -webkit-animation-duration: 4s;
-//     -webkit-animation-iteration-count: infinite;
-//     -webkit-animation-timing-function: linear;
-// }
+/*.logo-spinner {
+     height: 150px;
+     -webkit-animation-name: rotate;
+     -webkit-animation-duration: 4s;
+     -webkit-animation-iteration-count: infinite;
+     -webkit-animation-timing-function: linear;
+}*/
 
-@-moz-keyframes spin {
+/*@-moz-keyframes spin {
   100% {
     -moz-transform: rotate(360deg);
   }
@@ -30,7 +30,7 @@
     -webkit-transform: rotate(360deg);
     transform: rotate(360deg);
   }
-}
+}*/
 
 @-webkit-keyframes bounce {
   0% {
@@ -54,8 +54,8 @@
 @-webkit-keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
 @-moz-keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
 @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
-//modal animation
 
+//modal animation
 .view {
     /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#fafafa+0,f5f5f5+100 */
     background: #fafafa; /* Old browsers */
@@ -82,10 +82,10 @@
     text-align: center;
 }
 
-//#iron-router-progress {
-//    background-color : transparent;
-//    box-shadow : 0 0 5px transparent;
-//}
+/*#iron-router-progress {
+    background-color : transparent;
+    box-shadow : 0 0 5px transparent;
+}*/
 
 .button.button-email-support {
     margin: 0;
@@ -175,6 +175,11 @@ input {
 
 .content.overflow-scroll {
     bottom: 0px !important;
+}
+
+
+body {
+  background:black;
 }
 
 body.keyboard-open .content.overflow-scroll {
@@ -1129,38 +1134,6 @@ a.autolinker {
 
 .loader .ion-loading-c {
   font-size: 64px;
-}
-
-
-.loading-container {
-  background: rgba(0,0,0,0.6);
-
-  .loading {
-    background: none;
-  }
-
-  .logo-spinner {
-    top: 50%;
-    left: 50%;
-    width: 80px;
-    height: 80px;
-    -webkit-animation: spin 1.5s linear infinite;
-    -moz-animation: spin 1.5s linear infinite;
-    animation: spin 1.5s linear infinite;
-    -webkit-box-shadow: 0px 0px 18px -1px rgba(0,0,0,0.38);
-    -moz-box-shadow: 0px 0px 18px -1px rgba(0,0,0,0.38);
-    box-shadow: 0px 0px 18px -1px rgba(0,0,0,0.38);
-    -webkit-border-radius: 50px;
-    -moz-border-radius: 50px;
-    border-radius: 50px;
-  }
-
-  .message {
-    font-size: 20px;
-    padding-top: 20px;
-    text-align: center;
-
-  }
 }
 
 

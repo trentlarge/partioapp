@@ -11,7 +11,7 @@ InventoryController = RouteController.extend({
 
 	waitOn: function() {
 		return [
-			Meteor.subscribe("myProducts"),
+			//Meteor.subscribe("myProducts"),
 			//Meteor.subscribe("myConnections")
 		];
 	},
