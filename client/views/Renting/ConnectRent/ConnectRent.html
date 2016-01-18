@@ -50,13 +50,14 @@
             <span>{{../getRequestDate}}</span>
         </div>
 
-        <div class="item">
+        <div class="item profile">
             <div class="profile-image-box">
                 <a href="/profile/items/{{ connectData.owner }}">
                     <div style="background: url('{{connectData.productData.ownerData.profile.avatar}}') no-repeat; background-size:cover; background-position: 50% 50%;" class="profile-avatar"></div>
                 </a>
                 <p class="main-title-text">{{connectData.productData.ownerData.profile.name}} </p>
             </div>
+<!--
             <div class="profile-content">
                 <a class="item" href="{{pathFor 'talk' _id=connectData._id}}">
                     <i class="icon ion-chatbubbles assertive"></i>
@@ -74,6 +75,23 @@
                     </a>
                 {{/if}}
             </div>
+-->
+          </div>
+          <div class="item tabs tabs-icon-left">
+              <a class="tab-item" href="{{pathFor 'talk' _id=connectData._id}}">
+                <i class="icon ion-chatbubbles assertive"></i>
+                CHAT
+              </a>
+              <a class="tab-item" id="btnCallUser">
+                <i class="icon ion-ios-telephone"></i>
+                CALL
+              </a>
+              {{#if ../paymentPending}}
+                <a class="tab-item" id="cancelRequest">
+                    <i class="icon ion-ios-close royal"></i>
+                    CANCEL
+                </a>
+              {{/if}}
           </div>
           <div class="item details">
                 <i class="icon ion-ios-calendar-outline"></i>
@@ -82,7 +100,7 @@
           <div class="item details">
                 <i class="icon ion-ios-clock-outline"></i>
                 {{../getDaysLeft}}
-                <input type="range" id="myRange" min="0" max="{{connectData.borrowDetails.date.totalDays}}" value="{{../getDaysLeftValue}}" class="range range-assertive" disabled>
+<!--                <input type="range" id="myRange" min="0" max="{{connectData.borrowDetails.date.totalDays}}" value="{{../getDaysLeftValue}}" class="range range-assertive" disabled>-->
           </div>
           <div class="item details">
                 <i class="icon ion-cash"></i>
