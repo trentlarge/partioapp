@@ -63,7 +63,7 @@
     {{#if hasProducts }}
         <div id='search-result' class="list">
             {{#each searchProducts}}
-                <div class="package new">
+                <div class="package">
                     <a href="/listing/search/{{_id}}?ownerId={{ownerId}}" class="item item-avatar-2 qty-check">
                         <div class="product-avatar">
                           <img class="product-avatar-inner" src="{{image}}"/>
@@ -97,8 +97,9 @@
             {{/each}}
         </div>
     {{else}}
-      <!--  <p>sem produtos</p> -->
+<!--        <p>No products available</p> -->
     {{/if}}
-
-    {{>loader}}
+    {{#if hasProducts }}
+        {{>loader}}
+    {{/if}}
 </template>

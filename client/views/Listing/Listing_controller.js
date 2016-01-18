@@ -12,7 +12,7 @@ ListingController = RouteController.extend({
 	},
 
 	waitOn: function() {
-    return [];
+        return [];
 	},
 
   searchProducts: function() {
@@ -48,31 +48,31 @@ ListingController = RouteController.extend({
     $('.loadbox').fadeOut();
     // Session.set('loadingItems', false);
 
-    $('.new').slowEach(70, function() {
-        $(this).fadeIn(function(){
-          $(this).removeClass('new');
-        });
-    });
+//    $('.new').slowEach(70, function() {
+//        $(this).fadeIn(function(){
+//          $(this).removeClass('new');
+//        });
+//    });
     
     return products;
   },
 
 	data: function() {
 		return {
-      searchProducts: this.searchProducts(),
-//      loadingItems : Session.get('loadingItems'),
-      
-      hasProducts: function(){
-        if(this.searchProducts.count() > 0){
-          return true;
-        } else {
-          return Session.get('loadingItems');
-        }
-      },
-      
-      testIsReady: function() {
-          return false;
-      }
+          searchProducts: this.searchProducts(),
+    //      loadingItems : Session.get('loadingItems'),
+
+          hasProducts: function(){
+            if(this.searchProducts.count() > 0){
+              return true;
+            } else {
+              return Session.get('loadingItems');
+            }
+          },
+
+          testIsReady: function() {
+              return false;
+          }
 		};
 	},
 

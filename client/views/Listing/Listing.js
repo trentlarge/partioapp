@@ -27,6 +27,13 @@ Template.listing.events({
   "scroll .overflow-scroll": function(e, t) {
     var parent = t.$(e.currentTarget);
     var scrollingElement = parent.find(".list");
+      
+    var pageNumber = Session.get('pageNumber') || 1;
+    var pageSize = Session.get('pageSize');
+      
+    if($('.package').length < pageNumber * pageSize) {
+        return;
+    }
 
     if(parent.scrollTop() + parent.height() >= scrollingElement.innerHeight()+20) {
       if(Session.get('loadingItems') == false){
