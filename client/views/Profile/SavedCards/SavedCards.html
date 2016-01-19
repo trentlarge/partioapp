@@ -27,10 +27,27 @@
     
       <div class="card padding list">
 
-        <div class="item item-divider item-button-right">
+        <div class="item item-divider card-menu item-button-right">
           <h3>Cards</h3>
 <!--          <button id="test-card" class="button button-small push-up button-clear"><h6 class="positive">Test Cards</h6></button>-->
         </div>
+          
+        {{#if ../cardNotAdded cardsList.length}}
+        {{else}}
+        <div class="item item-card submenu" data-id="{{id}}" data-funding="{{funding}}">
+            <table>
+              <tbody>
+                <tr>
+                    <td class="brand"></td>  
+                    <td class="funding"></td>  
+                    <td class="numbers"></td>  
+                    <td colspan="2" style="text-align:center">Use for</td>  
+                    <td class="trash"></td>  
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        {{/if}}
 
         {{#each cardsList}}
           <div class="item item-card" data-id="{{id}}" data-funding="{{funding}}">
@@ -40,7 +57,7 @@
                   <td class="brand"><i class="{{../getBrandIcon brand}}"></i></td>
                   <td class="funding"><i>{{funding}}</i></td>
                   <td class="numbers"><i>XXXX-{{last4}}</i></td>
-                  <td class="pay"><i class="set-default set-pay-default {{ defaultPay }}">PAY</i></td>
+                  <td class="pay"><i class="set-default set-pay-default {{ defaultPay }}">PAYMENT</i></td>
                   <td class="receive"><i class="set-default set-receive-default {{ defaultReceive }}">{{../isDebit funding}}</i></td>
                   <td class="trash"><i class="delete-card icon ion-ios-trash"></i></td>
                 </tr>
@@ -55,7 +72,7 @@
         </div>
       </div>
       
-      {{#if ../cardAdded cardsList.length}}
+      {{#if ../cardNotAdded cardsList.length}}
           <div class="card padding list">
             <div class="item">
               <p class="term-agreement">By adding your credit/debit cards, you agree to our<a href="#" data-ion-modal="modalTermOfService"> Terms</a>.</p>

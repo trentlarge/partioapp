@@ -18,6 +18,15 @@
 
     .item-divider {
         padding-top: 16px;
+        
+        &.card-menu {
+            background-color: #EEE;    
+        }
+    }
+    
+    .item-card.submenu {
+        padding: 5px;
+        background-color: #F5F5F5;
     }
     
     .item {
@@ -28,7 +37,7 @@
         }
         
     }
-
+    
     table {
         color: $royal;
         margin: 0;
@@ -48,12 +57,14 @@
                     text-align: left;
                 }
                 &.funding {
+                    font-size: 13px;
                     width: 15%;
                     min-width: 15%;
                     max-width: 15%;
                     text-align: left;
                 }
                 &.numbers {
+                    font-size: 12px;
                     width: 25%;
                     min-width: 25%;
                     max-width: 25%;
@@ -63,7 +74,7 @@
                     width: 20%;
                     min-width: 20%;
                     max-width: 20%;
-                    font-size: 12px;
+                    font-size: 10px;
                     letter-spacing: 1px;
                     text-align: center;
                 }
@@ -71,7 +82,7 @@
                     width: 20%;
                     min-width: 20%;
                     max-width: 20%;
-                    font-size: 12px;
+                    font-size: 10px;
                     letter-spacing: 1px;
                     text-align: center;
                 }
@@ -79,7 +90,7 @@
                     width: 10%;
                     min-width: 10%;
                     max-width: 10%;
-                    font-size: 24px;
+                    font-size: 22px;
                     text-align: right;
                 }
             }

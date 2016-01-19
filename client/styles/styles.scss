@@ -254,6 +254,13 @@ body.keyboard-open .platform-android .content.overflow-scroll {
             &.activated {
                 opacity: .8;
             }
+            
+            &:nth-child(even) {
+                display: inline-flex;
+                margin-left: 24px;
+                justify-content: flex-end;
+                max-width: 0;
+            }
         }
         
         .button-default {

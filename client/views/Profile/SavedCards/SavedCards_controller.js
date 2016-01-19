@@ -27,7 +27,7 @@ SavedCardsController = RouteController.extend({
           return '';
       },
 
-      cardAdded: function(numberOfCards) {
+      cardNotAdded: function(numberOfCards) {
           if(numberOfCards > 0){
               return false;
           }

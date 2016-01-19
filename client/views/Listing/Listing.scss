@@ -77,11 +77,19 @@
     to   { opacity: 1; }
 }
 
+*, *:before, *:after {box-sizing:  border-box !important;}
+
 #search-result {
     
-    .item {
-        height: 105px;
-        
+    disabled {
+        display: none;
+    }
+    
+    .product-listing {
+        -moz-column-width: 11em;
+        -webkit-column-width: 11em;
+        -moz-column-gap: 0;
+        -webkit-column-gap: 0;
     }
 
     .package {
@@ -90,69 +98,50 @@
         -ms-animation: fadein 1s; /* Internet Explorer */
         -o-animation: fadein 1s; /* Opera < 12.1 */
         animation: fadein 1s;
-//        display:none;
-        /*transition: opacity 200ms ease;*/
-    }
-    
-    .disabled {
-        display: none;
+
+        padding: 0;
+        margin: 5px;
+        margin-bottom: 0;
+        width: 95%;   
+        display: inline-block;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        text-align: center;
     }
     
     .product-avatar {
-        position: absolute;
-        //height: 60px;
-        height: 65%;
-        width: 60px;
-        left: 12px;
-        -webkit-justify-content: center;
-        justify-content: center;
-        display: -webkit-flex; /* Safari */
-        -webkit-align-items: center; /* Safari 7.0+ */
-        display: flex;
-        align-items: center;
-        -webkit-flex-direction: column;
-        flex-direction: column;
-        border-right: 1px solid #dddddd;
-        padding-right: 10px;
-    }
-
-    .product-avatar-inner {
-        max-width: 100%;
-        max-height: 100%;
+        padding: 5px;
     }
     
-    .badge-qty-users {
-        bottom: 0;
-        display: flex;
-        position: absolute;
-        font-size: 0.5em;
-        font-weight: 200;
-        right: 30px;
-        color: #ffffff;
-        background-color: #f0970d;
-        padding-left: 10px;
-        padding-right: 10px;
-        border-top-right-radius: 5px;
-        border-top-left-radius: 5px
+    .product-avatar-inner {
+        max-height: 120px;
+        max-width: 120px;
     }
     
     .ellipsis {
+        font-size: 14px;
         overflow: hidden;
         max-height: 40px;
-        width: 95%;
-        margin-bottom: 2px;
+        width: 100%;
         padding-left: 5px;
+        padding-right: 5px;
 
-        .main-title-text {
+        p.main-title-text {
             white-space: normal;
+            color: #272727 !important;
         }
     }
 
+    .item-rent-table {
+        padding: 0 2px 5px 2px;
+        background-color: #eee;
+        border-top: 1px solid #ddd;
+        margin-top: 5px;
+    }
+    
     table.rent-table {     
-        width: 90%;
+        width: 100%;
         max-width: 300px;
         font-size: 10px;
-        margin-left: 5px;
         
         tr {
             height: 16px;
@@ -163,13 +152,15 @@
         
         th {
             font-size: 7px;
-            color: rgba(39, 39, 39, 0.7);
+            color: #272727;
+//            color: rgba(39, 39, 39, 0.7);
         }
         
         td {
-            color: rgba(39, 39, 39, 0.75);
-            background-color: #DDDDDD;
-            border-radius: 10px;
+            color: #272727;
+//            color: rgba(39, 39, 39, 0.75);
+//            background-color: #DDDDDD;
+//            border-radius: 10px;
         }
         
         th, td {
@@ -183,23 +174,39 @@
         
     }
     
-    a#showMore {
         
-        color: #df5707;
-        text-decoration: none;
-        background-color: transparent;
-        font-size: 16px;
-        margin: 0;
-        border: 0;
-        
-        &:hover {
-            opacity: .7;
-        }
-        
-        &.activated {
-            opacity: .8;
-        }
-        
-    }
+//    .badge-qty-users {
+//        bottom: 0;
+//        display: flex;
+//        position: absolute;
+//        font-size: 0.5em;
+//        font-weight: 200;
+//        right: 30px;
+//        color: #ffffff;
+//        background-color: #f0970d;
+//        padding-left: 10px;
+//        padding-right: 10px;
+//        border-top-right-radius: 5px;
+//        border-top-left-radius: 5px
+//    }
+//    
+//    a#showMore {
+//        
+//        color: #df5707;
+//        text-decoration: none;
+//        background-color: transparent;
+//        font-size: 16px;
+//        margin: 0;
+//        border: 0;
+//        
+//        &:hover {
+//            opacity: .7;
+//        }
+//        
+//        &.activated {
+//            opacity: .8;
+//        }
+//        
+//    }
 }
 
