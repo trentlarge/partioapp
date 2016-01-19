@@ -11,8 +11,7 @@ InventoryDetailController = RouteController.extend({
 
 	waitOn: function() {
 		return [
-			// subscribe to data here
-			Meteor.subscribe("singleProduct", this.params._id)
+      //Meteor.subscribe("singleProduct", this.params._id)
 		];
 	},
 
@@ -21,15 +20,21 @@ InventoryDetailController = RouteController.extend({
 			product: Products.findOne(this.params._id),
 
       getCategoryIcon: function() {
-        return Categories.getCategoryIconByText(this.product.category);
+        if(this.product) {
+          return Categories.getCategoryIconByText(this.product.category);
+        }
       },
 
       getConditions: function() {
-        return Rating.getConditions();
+        if(this.product) {
+          return Rating.getConditions();
+        }
       },
 
       selectCondition: function(index) {
-        return (index == this.product.conditionId) ? 'selected' : '';
+        if(this.product) {
+          return (index == this.product.conditionId) ? 'selected' : '';
+        }
       },
 
       isEditMode: function() {

@@ -20,9 +20,11 @@
 
       {{#if Template.subscriptionsReady}}
         <script>
-          $('.loadbox').fadeOut('medium',function(){
-            $('.loading-wrapper').fadeIn('medium');  
-          });
+         Meteor.setTimeout(function(){
+            $('.loadbox').fadeOut('medium',function(){
+                $('.loading-wrapper').fadeIn('medium');  
+            });
+          }, 500);
         </script>
       {{/if}}
 
