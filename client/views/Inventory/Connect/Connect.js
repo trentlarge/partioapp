@@ -1,5 +1,8 @@
-Template.connect.events({
+Template.connect.onCreated(function () {
+  Meteor.subscribe("singleConnect", Router.current().params._id);
+});
 
+Template.connect.events({
   'click .product-details': function(e, template) {
     var productDetails = $('.product-details');
     var productDetailsItem = $('.product-details-item');
@@ -16,8 +19,8 @@ Template.connect.events({
 
 	'click #confirmReturn': function() {
 		var connection = this.connectData;
-    var productTitle = connection.productData.title;
-    var searchCollectionId = Search.findOne({title: productTitle});
+	    var productTitle = connection.productData.title;
+	    var searchCollectionId = Search.findOne({title: productTitle});
 
 		IonPopup.confirm({
 			cancelText: 'No',
