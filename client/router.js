@@ -57,7 +57,8 @@ Router.onBeforeAction(function(pause){
 		if(Meteor.loggingIn()){
 			this.render('loadingData');
 		} else {
-			this.render('login');
+			Router.go('login');
+			// this.render('login');
 		}
 	} else {
 		if(_user.emails[0].address){
