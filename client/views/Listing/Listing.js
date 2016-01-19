@@ -20,7 +20,7 @@ Template.listing.rendered = function() {
 
   inputIcon.css({
     'color': '#272727'
-  });  
+  });
 };
 
 Template.listing.events({
@@ -41,7 +41,7 @@ Template.listing.events({
    
         Meteor.setTimeout(function(){
           Session.set('loadingItems', false); 
-        }, 3000);
+        }, 2000);
         
         $('.loadbox').fadeIn('slow',function(){
           var currentPage = Session.get("pageNumber") || 1;

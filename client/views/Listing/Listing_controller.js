@@ -1,4 +1,5 @@
 var pageSize = 15;
+var firstTime = true;
 
 ListingController = RouteController.extend({
 	onBeforeAction: function() {
@@ -45,34 +46,58 @@ ListingController = RouteController.extend({
 
     Session.set("pageNumberLoaded", Math.ceil(products.count() / pageSize));
 
-    $('.loadbox').fadeOut();
-    // Session.set('loadingItems', false);
+    Meteor.setTimeout(function(){
+      $('.loadbox').fadeOut();
+    }, 1000);
+   
+      // Session.set('loadingItems', false);
 
-//    $('.new').slowEach(70, function() {
-//        $(this).fadeIn(function(){
-//          $(this).removeClass('new');
-//        });
-//    });
-    
+      //    $('.new').slowEach(70, function() {
+      //        $(this).fadeIn(function(){
+      //          $(this).removeClass('new');
+      //        });
+      //    });
+
     return products;
   },
 
 	data: function() {
 		return {
-          searchProducts: this.searchProducts(),
-    //      loadingItems : Session.get('loadingItems'),
+      searchProducts: this.searchProducts(),
 
-          hasProducts: function(){
-            if(this.searchProducts.count() > 0){
-              return true;
-            } else {
-              return Session.get('loadingItems');
-            }
-          },
+      hasProducts: function(){
+        if(this.searchProducts.count() > 0){
+          $('.no-items').hide();
+          return true;
+        
+        } else {
+          if(firstTime) {
+            Meteor.setTimeout(function(){
+              firstTime = false;
+            }, 1000);
 
-          testIsReady: function() {
-              return false;
+            Meteor.setTimeout(function(){
+              if($('.package').length > 0){
+                $('.no-items').hide();
+              } else {
+                $('.no-items').fadeIn();
+              }
+            }, 1500);
+
+            return true;
+          } else {
+            $('.no-items').fadeIn();
+            return false;
           }
+
+
+          //return Session.get('loadingItems');
+        }
+      },
+
+      testIsReady: function() {
+          return false;
+      }
 		};
 	},
 
