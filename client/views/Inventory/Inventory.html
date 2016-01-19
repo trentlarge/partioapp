@@ -16,9 +16,7 @@
   {{/contentFor}}
 
   {{#ionView}}
-    {{#ionContent class="product-list"}}
-
-      <!-- FINALIZED REQUESTS -->
+    {{#ionContent class="product-list"}}    
 
       {{#if Template.subscriptionsReady}}
         <script>
@@ -29,6 +27,8 @@
       {{/if}}
 
       {{>loader}}
+
+      <!-- FINALIZED REQUESTS -->
       
       <div class="loading-wrapper">
         {{#if myProducts.count}}

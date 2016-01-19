@@ -37,9 +37,6 @@ Template.appLayout.helpers({
 					return true;
 				}
 				break;
-			case 'login':
-				return false;
-				break;
 			case 'emailverification':
 				return false;
 				break;
@@ -60,7 +57,7 @@ Template.appLayout.helpers({
 	isFullscreen: function(){
 		var mainTemplateName = Router.current()._layout._regions.main._template;
 		switch (mainTemplateName) {
-			case 'login':
+			case 'Login':
 				return true;
 				break;
 			case 'loadingData':

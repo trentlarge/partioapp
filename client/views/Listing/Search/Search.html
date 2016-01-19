@@ -11,114 +11,125 @@
     {{#ionContent class="listing-search overflow-scroll"}}
 
 <!--    <div class="item item-divider product-header-title"><h2>{{ product.title }}</h2></div>-->
+    
+    {{#if Template.subscriptionsReady}}
+        <script>
+            Meteor.setTimeout(function(){
+                $('.loadbox').fadeOut('medium',function(){
+                    $('.loading-wrapper').fadeIn('medium');  
+                });
+            }, 1000);
+        </script>
+    {{/if}}
 
-    <div class="card list">
+    {{>loader}}
 
-        <div class="item item-divider">Product Details</div>
-        
-        <div class="item product">
-            <div class="product-avatar">
-                <img class="product-avatar-inner" src="{{product.image}}"/>
+    <div class="loading-wrapper">
+        <div class="card list">
+            <div class="item item-divider">Product Details</div>
+            
+            <div class="item product">
+                <div class="product-avatar">
+                    <img class="product-avatar-inner" src="{{product.image}}"/>
+                </div>
+                <p class="product-title-text">{{product.title}}</p>
             </div>
-            <p class="product-title-text">{{product.title}}</p>
-        </div>
-        
-        <div class="item item-divider features">
-            <h2>Features <i class="chevron-icon icon ion-chevron-up"></i></h2>
-          </div>
+            
+            <div class="item item-divider features">
+                <h2>Features <i class="chevron-icon icon ion-chevron-up"></i></h2>
+              </div>
 
-          <div class="features-details" style="display: none">
-                <div class="item no-padding row-details">
-                    <div class="col col-50">
-                        <div class="details-box">
-                            <i class="icon {{getCategoryIcon}} bk-energized"></i>
-                            <span class="detail">{{product.amazonCategory}}</span>
+              <div class="features-details" style="display: none">
+                    <div class="item no-padding row-details">
+                        <div class="col col-50">
+                            <div class="details-box">
+                                <i class="icon {{getCategoryIcon}} bk-energized"></i>
+                                <span class="detail">{{product.amazonCategory}}</span>
+                            </div>
+                        </div>
+                        <div class="col col-50">
+                            <div class="details-box">
+                                <i class="icon ion-cash bk-energized"></i>
+                                <span class="detail">{{product.price}}</span>
+                            </div>
                         </div>
                     </div>
-                    <div class="col col-50">
-                        <div class="details-box">
-                            <i class="icon ion-cash bk-energized"></i>
-                            <span class="detail">{{product.price}}</span>
+
+                    <div class="row item attributes">
+                        <div class="col col-33">
+                            {{#each product.attributes}}
+                                <p><b>{{key}}</b></p>
+                            {{/each}}
+                        </div>
+                        <div class="col col-67 scan-result">
+                            {{#each product.attributes}}
+                                <p>{{value}}</p>
+                            {{/each}}
                         </div>
                     </div>
                 </div>
+            
+            <div class="item item-divider">Rent Details</div>
+            
+            <div class="item">
 
-                <div class="row item attributes">
-                    <div class="col col-33">
-                        {{#each product.attributes}}
-                            <p><b>{{key}}</b></p>
-                        {{/each}}
-                    </div>
-                    <div class="col col-67 scan-result">
-                        {{#each product.attributes}}
-                            <p>{{value}}</p>
-                        {{/each}}
-                    </div>
-                </div>
-            </div>
-        
-        <div class="item item-divider">Rent Details</div>
-        
-        <div class="item">
-
-            <div class="profile-image-box">
-                <a href="/profile/items/{{ product.ownerData._id }}" class="profile-avatar-box"> 
-                    <div style="background: url({{ product.ownerData.profile.avatar }}) no-repeat; background-size:cover; background-position: 50% 50%;" class="profile-avatar"></div>
-                </a>
-                <p class="main-title-text"> {{ product.ownerData.profile.name }} </p>
-                <span class="rating-box">{{ > rating}}</span>
-            </div> 
-            <div class="rent-details-box">
-                <p class="price"> <i class="icon ion-cash"></i> Rent Price: </p>
-                <table class="rent-table">
-                    <tbody>
-                        <tr>
-                            <th class="one"><i class="icon">DAY</i></th>
-                            <th class="two"><i class="icon">WEEK</i></th>
-                            <th class="three"><i class="icon">MONTH</i></th>
-                            <th class="four"><i class="icon">SEMESTER</i></th>
-                        </tr>
-                        <tr>
-                            <td>{{product.rentPrice.day}}</td>
-                            <td>{{product.rentPrice.week}}</td>
-                            <td>{{product.rentPrice.month}}</td>
-                            <td>{{product.rentPrice.semester}}</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <p class="condition">Condition: <b>{{ ../getCondition }}</b></p>
-                
-                {{#if ../requestSent ownerId _id}}
-                    {{#if ../isBorrowed ownerId _id}}
-                        <button class="button button-block" disabled>
-                            BORROWED 
-<!--                            <i class="fa fa-check "></i> -->
-                        </button>
-                    {{else}}
-                        <button class="button button-block" disabled> 
-                            REQUEST SENT 
-<!--                            <i class="fa fa-check "></i> -->
-                        </button>
-                    {{/if}}
-                {{else}}
-                    {{#if ../isNotOwner _id}}
-                        {{#if ../isUnavailable ownerId _id}}
+                <div class="profile-image-box">
+                    <a href="/profile/items/{{ product.ownerData._id }}" class="profile-avatar-box"> 
+                        <div style="background: url({{ product.ownerData.profile.avatar }}) no-repeat; background-size:cover; background-position: 50% 50%;" class="profile-avatar"></div>
+                    </a>
+                    <p class="main-title-text"> {{ product.ownerData.profile.name }} </p>
+                    <span class="rating-box">{{ > rating}}</span>
+                </div> 
+                <div class="rent-details-box">
+                    <p class="price"> <i class="icon ion-cash"></i> Rent Price: </p>
+                    <table class="rent-table">
+                        <tbody>
+                            <tr>
+                                <th class="one"><i class="icon">DAY</i></th>
+                                <th class="two"><i class="icon">WEEK</i></th>
+                                <th class="three"><i class="icon">MONTH</i></th>
+                                <th class="four"><i class="icon">SEMESTER</i></th>
+                            </tr>
+                            <tr>
+                                <td>{{product.rentPrice.day}}</td>
+                                <td>{{product.rentPrice.week}}</td>
+                                <td>{{product.rentPrice.month}}</td>
+                                <td>{{product.rentPrice.semester}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p class="condition">Condition: <b>{{ ../getCondition }}</b></p>
+                    
+                    {{#if ../requestSent ownerId _id}}
+                        {{#if ../isBorrowed ownerId _id}}
                             <button class="button button-block" disabled>
-                                UNAVAILABLE 
-<!--                                <i class="fa fa-ban "></i> -->
+                                BORROWED 
+    <!--                            <i class="fa fa-check "></i> -->
                             </button>
                         {{else}}
-                            <button id="requestProduct" class="button button-block button-energized">
-                                REQUEST 
-<!--                                <i class="fa fa-shopping-cart"></i>  -->
+                            <button class="button button-block" disabled> 
+                                REQUEST SENT 
+    <!--                            <i class="fa fa-check "></i> -->
                             </button>
                         {{/if}}
-                    {{/if}}
-                {{/if}}
-                
+                    {{else}}
+                        {{#if ../isNotOwner _id}}
+                            {{#if ../isUnavailable ownerId _id}}
+                                <button class="button button-block" disabled>
+                                    UNAVAILABLE 
+    <!--                                <i class="fa fa-ban "></i> -->
+                                </button>
+                            {{else}}
+                                <button id="requestProduct" class="button button-block button-energized">
+                                    REQUEST 
+    <!--                                <i class="fa fa-shopping-cart"></i>  -->
+                                </button>
+                            {{/if}}
+                        {{/if}}
+                    {{/if}}    
+                </div>
             </div>
         </div>
- 
     </div>
     
     {{/ionContent}}

@@ -96,10 +96,14 @@
                 </div>
             {{/each}}
         </div>
-    {{else}}
-<!--        <p>No products available</p> -->
-    {{/if}}
-    {{#if hasProducts }}
+
         {{>loader}}
     {{/if}}
+
+    <div class="card padding list no-items">
+        <div class="item item-icon-left alerts">
+          <i class="icon energized ion-alert-circled"></i>
+          <p class="energized">No items available.</p>
+        </div>
+    </div>
 </template>

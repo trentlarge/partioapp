@@ -11,14 +11,15 @@ SearchController = RouteController.extend({
 
 	waitOn: function() {
     return [
-      Meteor.subscribe("singleProduct", this.params._id),
-      Meteor.subscribe("singleUser", this.params.query.ownerId),
-      Meteor.subscribe("ownerConnections", this.params.query.ownerId)
     ];
 	},
 
   product: function() {
-    return Products.findOne(this.params._id);
+    var _products = Products.findOne(this.params._id);
+    if(_products){
+      return _products
+    }
+    return false;
   },
 
   owner: function() {
@@ -38,25 +39,39 @@ SearchController = RouteController.extend({
         return userAvatar(data);
       },
       isNotOwner: function() {
-        return (this.product.ownerId !== Meteor.userId()) ? true : false;
+        if(this.product){
+          return (this.product.ownerId !== Meteor.userId()) ? true : false;
+        }
       },
       getCondition: function() {
-        return Rating.getConditionByIndex(this.product.conditionId);
+        if(this.product){
+          return Rating.getConditionByIndex(this.product.conditionId);
+        }
       },
       getCategoryIcon: function() {
-        return Categories.getCategoryIconByText(this.product.category);
+        if(this.product){
+          return Categories.getCategoryIconByText(this.product.category);
+        }
       },
       requestSent: function() {
-        return Connections.findOne({"requestor": Meteor.userId(), finished: { $ne: true }, "owner": this.product.ownerId, "productData._id": this.product._id}) ? true : false;
+        if(this.product){
+          return Connections.findOne({"requestor": Meteor.userId(), finished: { $ne: true }, "owner": this.product.ownerId, "productData._id": this.product._id}) ? true : false;
+        }
       },
       isBorrowed: function() {
-        return Connections.findOne({"requestor": Meteor.userId(), finished: { $ne: true }, "owner": this.product.ownerId, "productData._id": this.product._id, "state":"WAITING"}) ? false : true;
+        if(this.product){
+          return Connections.findOne({"requestor": Meteor.userId(), finished: { $ne: true }, "owner": this.product.ownerId, "productData._id": this.product._id, "state":"WAITING"}) ? false : true;
+        }   
       },
       isUnavailable: function() {
-        return Connections.findOne({"owner": this.product.ownerId, finished: { $ne: true }, "productData._id": this.product._id}) ? true : false;
+        if(this.product){
+          return Connections.findOne({"owner": this.product.ownerId, finished: { $ne: true }, "productData._id": this.product._id}) ? true : false;
+        }
       },
       rating: function() {
-        userRating(this.product.userId);
+        if(this.product){
+          userRating(this.product.userId);
+        }
       }
 		}
 	},
