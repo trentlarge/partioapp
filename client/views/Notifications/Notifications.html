@@ -18,18 +18,32 @@
   {{#ionView}}
     {{#ionContent}}
 
-    <ul class="list">
-      {{#each notifications}}
-      <li class="item item-icon-left item-icon-right show-message item-text-wrap">
-        {{> ionIcon icon="ios-information-outline" class="energized little-icon"}}
-        <h3 class="dark">{{{message}}}</h3>
-        <h4 class="grey">{{cleanDate}}</h4>
-        {{#if ../hasRouter connectionId}}
-            {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
-        {{/if}}
-      </li>
-      {{/each}}
-    </ul>
+      {{#if Template.subscriptionsReady}}
+        <script>
+          Meteor.setTimeout(function(){
+            $('.loadbox').fadeOut('medium',function(){
+              $('.loading-wrapper').fadeIn('medium');  
+            });
+          }, 500);
+        </script>
+      {{/if}}
+
+      {{>loader}}
+      
+      <div class="loading-wrapper">
+        <ul class="list">
+          {{#each notifications}}
+          <li class="item item-icon-left item-icon-right show-message item-text-wrap">
+            {{> ionIcon icon="ios-information-outline" class="energized little-icon"}}
+            <h3 class="dark">{{{message}}}</h3>
+            <h4 class="grey">{{cleanDate}}</h4>
+            {{#if ../hasRouter connectionId}}
+                {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
+            {{/if}}
+          </li>
+          {{/each}}
+        </ul>
+      </div>
 
     {{/ionContent}}
   {{/ionView}}

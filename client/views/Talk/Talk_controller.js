@@ -35,7 +35,7 @@ TalkController = RouteController.extend({
 			unreadMessages: Talk.find({ connectionId: this.params._id,
 										toId: currentUserId,
 										state: "new"
-									})
+										})
 		}
 	},
 

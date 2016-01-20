@@ -14,20 +14,8 @@ TransactionsController = RouteController.extend({
 	},
 
 	transactions: function(){
-		var _data = Transactions.findOne({"userId": Meteor.userId()});
-
-		// if(_data && typeof _data != undefined) {
-		// 	this.showData();
-		// }
-
-		return _data;
+		return Transactions.findOne({"userId": Meteor.userId()});
 	},
-
-	// showData: function(){
-	// 	$('.loadbox').delay(1000).fadeOut(function () {
-	// 		$('.loading-wrapper').fadeIn();
-	// 	});		
-	// },
 
 	data: function() {
 		return {
@@ -91,9 +79,9 @@ TransactionsController = RouteController.extend({
 				return 0;
 			},
 
-	    formatDate: function(date) {
-	      return formatDate(date);
-	    },
+		    formatDate: function(date) {
+		      return formatDate(date);
+		    },
 
 			formatValue: function(value){
 				return Number(value).toFixed(2);

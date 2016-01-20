@@ -1,3 +1,7 @@
+Template.notifications.onCreated(function () {
+  Meteor.subscribe("myNotificationsReceived");
+});
+
 var redirectAndPassConnectionId = function(routeName, connectionId) {
     if(!connectionId) {
         return;
