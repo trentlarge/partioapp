@@ -262,7 +262,7 @@ Template.savedCards.events({
 
 		IonPopup.confirm({
 			title: 'Set default card',
-			template: '<div class="center">Do you want set this card as pay default?</div>',
+			template: 'Do you want set this card as pay default?',
 			onCancel: function(){
 				return false;
 			},
@@ -281,7 +281,7 @@ Template.savedCards.events({
 
 		IonPopup.confirm({
 			title: 'Set default card',
-			template: '<div class="center">Do you want set this card as receive default?</div>',
+			template: 'Do you want set this card as receive default?',
 			onCancel: function(){
 				return false;
 			},

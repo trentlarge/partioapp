@@ -9,7 +9,7 @@ Template.sidemenu.events({
         Session.set('searchText', searchText);
 
         if(Session.get('listing')){
-            PackageSearch.search(searchText);
+//            PackageSearch.search(searchText);
             $('.ion-navicon').parent('button').click();
         } else {
             Router.go('listing');
