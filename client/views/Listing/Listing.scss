@@ -99,8 +99,10 @@
         .product-listing {
             -moz-column-width: 10em;
             -webkit-column-width: 10em;
+            column-width: 10em;
             -moz-column-gap: 0;
             -webkit-column-gap: 0;
+            column-gap: 0;
         }
         
     }
@@ -111,7 +113,14 @@
         -ms-animation: fadein 1s; /* Internet Explorer */
         -o-animation: fadein 1s; /* Opera < 12.1 */
         animation: fadein 1s;
-
+       
+        -moz-column-width: 10em;
+        -webkit-column-width: 10em;
+        column-width: 10em;
+        -moz-column-gap: 0;
+        -webkit-column-gap: 0;
+        column-gap: 0;
+        
         padding: 0;
         margin: 5px;
         margin-bottom: 0;
@@ -119,6 +128,7 @@
         display: inline-block;
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
         text-align: center;
+//        border-radius: 10px;
     }
     
     .product-avatar {
@@ -129,9 +139,24 @@
     }
     
     .product-avatar-inner {
-        width: 100%;
+        max-height: 130px;
+//        width: 100%;
 //        max-height: 120px;
 //        max-width: 120px;
+    }
+    
+    .selling-badge {
+        display: flex;
+        position: relative;
+        float: right;
+        top: -2px;
+        background-color: #272727;
+        font-size: 12px;
+        padding-left: 5px;
+        padding-right: 5px;
+        border-top-left-radius: 10px;
+        border-bottom-left-radius: 10px;
+        color: #ffffff;
     }
     
     .ellipsis {
@@ -152,7 +177,9 @@
         padding: 0 2px 5px 2px;
         background-color: #eee;
         border-top: 1px solid #ddd;
-        margin-top: 5px;
+        margin-top: 8px;
+//        border-bottom-left-radius: 10px;
+//        border-bottom-right-radius: 10px;
     }
     
     table.rent-table {     
@@ -192,38 +219,5 @@
     }
     
         
-//    .badge-qty-users {
-//        bottom: 0;
-//        display: flex;
-//        position: absolute;
-//        font-size: 0.5em;
-//        font-weight: 200;
-//        right: 30px;
-//        color: #ffffff;
-//        background-color: #f0970d;
-//        padding-left: 10px;
-//        padding-right: 10px;
-//        border-top-right-radius: 5px;
-//        border-top-left-radius: 5px
-//    }
-//    
-//    a#showMore {
-//        
-//        color: #df5707;
-//        text-decoration: none;
-//        background-color: transparent;
-//        font-size: 16px;
-//        margin: 0;
-//        border: 0;
-//        
-//        &:hover {
-//            opacity: .7;
-//        }
-//        
-//        &.activated {
-//            opacity: .8;
-//        }
-//        
-//    }
 }
 

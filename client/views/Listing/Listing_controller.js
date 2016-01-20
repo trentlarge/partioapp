@@ -63,41 +63,45 @@ ListingController = RouteController.extend({
 
 	data: function() {
 		return {
-      searchProducts: this.searchProducts(),
+          searchProducts: this.searchProducts(),
 
-      hasProducts: function(){
-        if(this.searchProducts.count() > 0){
-          $('.no-items').hide();
-          return true;
-        
-        } else {
-          if(firstTime) {
-            Meteor.setTimeout(function(){
-              firstTime = false;
-            }, 1000);
+          hasProducts: function(){
+            if(this.searchProducts.count() > 0){
+              $('.no-items').hide();
+              return true;
 
-            Meteor.setTimeout(function(){
-              if($('.package').length > 0){
-                $('.no-items').hide();
+            } else {
+              if(firstTime) {
+                Meteor.setTimeout(function(){
+                  firstTime = false;
+                }, 1000);
+
+                Meteor.setTimeout(function(){
+                  if($('.package').length > 0){
+                    $('.no-items').hide();
+                  } else {
+                    $('.no-items').fadeIn();
+                  }
+                }, 1500);
+
+                return true;
               } else {
                 $('.no-items').fadeIn();
+                return false;
               }
-            }, 1500);
 
-            return true;
-          } else {
-            $('.no-items').fadeIn();
-            return false;
+
+              //return Session.get('loadingItems');
+            }
+          },
+
+          isSellingStatusOn: function(sellingStatus) {
+            return (sellingStatus === 'ON') ? true : false;
+          },
+
+          testIsReady: function() {
+              return false;
           }
-
-
-          //return Session.get('loadingItems');
-        }
-      },
-
-      testIsReady: function() {
-          return false;
-      }
 		};
 	},
 

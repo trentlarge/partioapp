@@ -27,7 +27,7 @@
       {{>loader}}
       
       <div class="loading-wrapper">
-        <div class="card">
+        <div class="card list">
           <div class="item image">
             {{#if editMode product._id}}
             <div class="item-image-box">
@@ -96,22 +96,64 @@
             <h2>Rent Price</h2>
           </div>
 
+          <label class="item row">
+            <div class="col col-50">
+                <input type="number" class="price dayPrice" value="{{product.rentPrice.day}}" placeholder="0.00 (Day)" {{../isEditMode}}>
+            </div>
+            <div class="col col-50">
+                <input type="number" class="price weekPrice" value="{{product.rentPrice.week}}" placeholder="0.00 (Week)" {{../isEditMode}}>
+            </div>
+         </label>
+        <label class="item row">
+            <div class="col col-50">
+                <input type="number" class="price monthPrice" value="{{product.rentPrice.month}}" placeholder="0.00 (Month)" {{../isEditMode}}>
+            </div>
+            <div class="col col-50">
+                <input type="number" class="price semesterPrice" value="{{product.rentPrice.semester}}" placeholder="0.00 (Semester)" {{../isEditMode}}>
+            </div>
+        </label>
+            
+<!--
           <label class="item item-input">
             <span class="input-label"><p>Day:</p></span>
-            <input type="number" class="price dayPrice" value="{{product.rentPrice.day}}" {{../isEditMode}}>
+            <input type="number" class="price dayPrice" value="{{product.rentPrice.day}}" {{../isEditMode}} placeholder="0.00">
           </label>
           <label class="item item-input">
             <span class="input-label"><p>Week:</p></span>
-            <input type="number" class="price weekPrice" value="{{product.rentPrice.week}}" {{../isEditMode}}>
+            <input type="number" class="price weekPrice" value="{{product.rentPrice.week}}" {{../isEditMode}} placeholder="0.00">
           </label>
           <label class="item item-input">
             <span class="input-label"><p>Month:</p></span>
-            <input type="number" class="price monthPrice" value="{{product.rentPrice.month}}" {{../isEditMode}}>
+            <input type="number" class="price monthPrice" value="{{product.rentPrice.month}}" {{../isEditMode}} placeholder="0.00">
           </label>
           <label class="item item-input">
             <span class="input-label"><p>Semester (4m):</p></span>
-            <input type="number" class="price semesterPrice" value="{{product.rentPrice.semester}}" {{../isEditMode}}>
+            <input type="number" class="price semesterPrice" value="{{product.rentPrice.semester}}" {{../isEditMode}} placeholder="0.00">
           </label>
+-->
+            
+          <div class="item item-divider">
+                Purchasing
+            </div>
+            
+            <li class="item row">
+                <div class="col col-50">
+                    <input type="number" class="price sellingPrice" value="{{product.selling.price}}" placeholder="0.00 (Price)" {{../isEditMode}}>
+                </div>
+                <div class="col col-50">
+                     <label class="toggle toggle-assertive">
+                       <input type="checkbox" {{../sellingStatusChecked}} {{../isEditMode}}>
+                       <div class="track">
+                         <div class="handle"></div>
+                       </div>
+                     </label>
+                     {{#if isSellingStatusOn}}
+                        <span class="enablePurchasing">ON</span>
+                     {{else}}
+                        <span class="enablePurchasing">OFF</span>
+                     {{/if}}
+                </div>
+           </li>
 
           {{#if editMode product._id}}
             <div class="padding-horizontal">

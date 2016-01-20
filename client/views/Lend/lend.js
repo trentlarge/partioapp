@@ -7,6 +7,7 @@ Template.lend.events({
 
       //MANUAL INSERT BOOK ---------------------------------------------
       if (Session.get('lendTab') === 'manual') {
+          
         var manualProduct = {
           "title": $('.manualTitle').val().toLowerCase().replace(/\b[a-z]/g, function(letter) {
             return letter.toUpperCase();
@@ -30,6 +31,10 @@ Template.lend.events({
             "week": Number(Session.get('weekPrice')).toFixed(2),
             "month": Number(Session.get('monthPrice')).toFixed(2),
             "semester": Number(Session.get('semesterPrice')).toFixed(2)
+          },
+          "selling": {
+              "price": Number(Session.get('sellingPrice')).toFixed(2),
+              "status": $('.enablePurchasing').text() 
           }
         }
 
@@ -112,6 +117,16 @@ function validateInputs(details) {
 
   if(!details.conditionId || details.conditionId < 1) {
     showInvalidPopUp('Invalid Inputs', 'Please enter a valid Condition of the item.');
+    return false;
+  }
+
+  var lowerValue = 1,
+      highestValue = 1000000;
+    
+  var sellingPrice = parseFloat(details.selling.price, 10);
+
+  if(details.selling.status === 'ON' && (sellingPrice < lowerValue || sellingPrice >= highestValue)) {
+    showInvalidPopUp('Invalid Inputs', 'Please add a valid purchasing price.');  
     return false;
   }
 

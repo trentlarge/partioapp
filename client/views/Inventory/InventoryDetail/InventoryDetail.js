@@ -62,12 +62,15 @@ Template.inventoryDetail.events({
         monthPrice = parseFloat(template.find('.monthPrice').value, 10),
         semesterPrice = parseFloat(template.find('.semesterPrice').value, 10);
 
-    if(dayPrice < 0.5 || weekPrice < 0.5 || monthPrice < 0.5 || semesterPrice < 0.5){
+    var lowerValue = 1,
+      highestValue = 100000;
+      
+    if(dayPrice < lowerValue || weekPrice < lowerValue || monthPrice < lowerValue || semesterPrice < lowerValue){
       showInvalidPopUp('Invalid Inputs', 'Please enter a valid price.');
       return false;
     }
 
-    if(dayPrice > 100000 || weekPrice > 100000 || monthPrice > 100000|| semesterPrice > 100000){
+    if(dayPrice > highestValue || weekPrice > highestValue || monthPrice > highestValue|| semesterPrice > highestValue){
       showInvalidPopUp('Invalid Inputs', 'Please enter a Price less than 100000.');
       return false;
     }
@@ -81,7 +84,19 @@ Template.inventoryDetail.events({
     }
 
     if(conditionId == 0) {
-    	showInvalidPopUp('Invalid Inputs', 'Please enter a Condition');
+      showInvalidPopUp('Invalid Inputs', 'Please enter a Condition');
+      return false;
+    }
+    
+    var sellingPrice = parseFloat(template.find('.sellingPrice').value, 10);
+
+    if($('.enablePurchasing').text() === 'ON' && !sellingPrice)  {
+      showInvalidPopUp('Invalid Inputs', 'Please add a valid purchasing price.');  
+      return false;
+    }
+      
+    if($('.enablePurchasing').text() === 'ON' && (sellingPrice < lowerValue || sellingPrice >= highestValue*10)) {
+      showInvalidPopUp('Invalid Inputs', 'Please add a valid purchasing price.');  
       return false;
     }
 
@@ -97,9 +112,16 @@ Template.inventoryDetail.events({
     template.find('.monthPrice').value = editedPrices.month;
     template.find('.semesterPrice').value = editedPrices.semester;
 
+    var selling = {
+        "price": Number(sellingPrice).toFixed(2),
+        "status": $('.enablePurchasing').text()
+    }
+      
+    template.find('.sellingPrice').value = selling.price;
+    
     var image = template.find('.product-image').src;
       
-    Meteor.call("updateProductData", this.product._id, title, conditionId, editedPrices, image, function(err, res) {
+    Meteor.call("updateProductData", this.product._id, image, title, conditionId, editedPrices, selling, function(err, res) {
       if(err) {
         var errorMessage = err.reason || err.message;
         if(err.details) {
@@ -142,6 +164,15 @@ Template.inventoryDetail.events({
             },
        ]
 		});
+  },
+    
+  'click .toggle': function(e, template) {
+      if($('.enablePurchasing').text() === 'OFF' || $('.enablePurchasing').text() === '') {
+          $('.enablePurchasing').text('ON');
+      }
+      else {
+          $('.enablePurchasing').text('OFF');
+      }
   },
     
   'click .close': function(e, template) {

@@ -15,6 +15,7 @@ Template.manual.rendered = function() {
       Session.set('weekPrice', null);
       Session.set('monthPrice', null);
       Session.set('semesterPrice', null);
+      Session.set('sellingPrice', null);
       Session.set('photoTaken', null);
   }
 
@@ -86,7 +87,10 @@ Template.manual.helpers({
   },
   semesterPrice: function(){
     return Session.get('semesterPrice');
-  }
+  },
+  sellingPrice: function() {
+    return Session.get('sellingPrice');  
+  },
 })
 
 Template.manual.events({
@@ -105,6 +109,15 @@ Template.manual.events({
     FR.readAsDataURL(input.target.files[0]);
   },
 
+  'click .toggle': function(e, template) {
+      if($('.enablePurchasing').text() === 'OFF') {
+          $('.enablePurchasing').text('ON');
+      }
+      else {
+          $('.enablePurchasing').text('OFF');
+      }
+  },
+    
   'change .userPrice': function(e, template) {
     var rentPrice = {
       "day": template.find('.dayPrice').value,
@@ -113,10 +126,14 @@ Template.manual.events({
       "semester": template.find('.semesterPrice').value,
     }
 
+    var sellingPrice = template.find('.sellingPrice').value;
+    
     Session.set('dayPrice', rentPrice.day);
     Session.set('weekPrice', rentPrice.week);
     Session.set('monthPrice', rentPrice.month);
-    Session.set('semesterPrice', rentPrice.semester);
+    Session.set('semesterPrice', rentPrice.semester);    
+      
+    Session.set('sellingPrice', sellingPrice);
   },
 
   'click .scanResult-thumbnail2': function(event, template) {

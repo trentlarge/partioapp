@@ -37,6 +37,22 @@ InventoryDetailController = RouteController.extend({
         }
       },
             
+      sellingStatusChecked: function() {
+        if(this.product) {
+            if(this.product.selling) {
+                return (this.product.selling.status === 'ON') ? 'checked' : '';
+            }
+        }    
+      },
+            
+      isSellingStatusOn: function() {
+          if(this.product) {
+            if(this.product.selling) {
+                return (this.product.selling.status === 'ON') ? true : false;
+            }
+          }  
+      },
+            
       isEditMode: function() {
         if(this.product) {
           var ConnectionObj = Connections.findOne({'productData._id': this.product._id});
