@@ -97,7 +97,9 @@ Template.inventoryDetail.events({
     template.find('.monthPrice').value = editedPrices.month;
     template.find('.semesterPrice').value = editedPrices.semester;
 
-    Meteor.call("updateProductData", this.product._id, title, conditionId, editedPrices, function(err, res) {
+    var image = template.find('.product-image').src;
+      
+    Meteor.call("updateProductData", this.product._id, title, conditionId, editedPrices, image, function(err, res) {
       if(err) {
         var errorMessage = err.reason || err.message;
         if(err.details) {
@@ -140,7 +142,77 @@ Template.inventoryDetail.events({
             },
        ]
 		});
+  },
+    
+  'click .close': function(e, template) {
+      $('#browser-file-upload').val('');
+      template.find('.product-image').src = '/image-not-available.png';
+  },
+    
+  'change #browser-file-upload': function(input, template) {
+    var FR = new FileReader();
+    FR.onload = function(e) {
+        var newImage = e.target.result;
+        template.find('.product-image').src = newImage;
+    };
+    FR.readAsDataURL(input.target.files[0]);
+  },    
+    
+  'click .scanResult-thumbnail2': function(event, template) {
+    IonActionSheet.show({
+      buttons: [
+        { text: 'Take Photo' },
+        { text: 'Choose from Library' },
+      ],
+      cancelText: 'Cancel',
+
+      cancel: function() {
+//        IonActionSheet.close();
+      },
+      buttonClicked: function(index) {
+        var options = {
+          width: 577,
+          height: 1024,
+          quality: 75,
+          sourceType: 1
+        };
+
+        if(Meteor.isCordova || index == 0) {
+            if(Meteor.isCordova) {
+                if(index == 1) {
+                    options.sourceType = Camera.PictureSourceType.PHOTOLIBRARY;
+                } else {
+                    options.sourceType = Camera.PictureSourceType.CAMERA;
+                }
+            }
+
+            MeteorCamera.getPicture(options, function(err, data) {
+              if(err) {
+                IonPopup.show({
+                      title: 'Get picture',
+                      template: '<div class="center dark">Sorry, canot get picture.</div>',
+                      buttons:
+                      [{
+                          text: 'OK',
+                          type: 'button-energized',
+                          onTap: function() {
+                              IonPopup.close();
+                          }
+                      }]
+                });
+                return false;
+              }
+              template.find('.product-image').src = data;
+            });
+        } else {
+          $('#browser-file-upload').click();
+        }
+
+        return true;
+      }
+    });
   }
+    
 });
 
 function showInvalidPopUp(strTitle, strMessage){

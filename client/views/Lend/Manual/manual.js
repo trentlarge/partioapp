@@ -90,6 +90,12 @@ Template.manual.helpers({
 })
 
 Template.manual.events({
+ 
+  'click .close': function(e, template) {
+      Session.set("photoTaken", null);
+      $('#browser-file-upload').val('');
+  },
+    
   'change #browser-file-upload': function(input) {
     var FR = new FileReader();
     FR.onload = function(e) {

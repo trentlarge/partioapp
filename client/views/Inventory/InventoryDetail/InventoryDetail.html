@@ -29,9 +29,18 @@
       <div class="loading-wrapper">
         <div class="card">
           <div class="item image">
+            {{#if editMode product._id}}
+            <div class="item-image-box">
+                <div class="img-wrap">
+                    <div class="close">&times;</div>
+                    <img class="scanResult-thumbnail2 product-image" src="{{product.image}}"/>
+                </div>
+            </div>
+            {{else}}
             <div class="item-image-box">
               <img class="product-image" src="{{product.image}}"/>
             </div>
+            {{/if}}
           </div>
 
           <label class="item item-input">
@@ -115,6 +124,7 @@
           {{/if}}
         </div>
       </div>
+      <input type="file" id="browser-file-upload">
     {{/ionContent}}
   {{/ionView}}
 </template>

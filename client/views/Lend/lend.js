@@ -22,7 +22,7 @@ Template.lend.events({
             if(Session.get('photoTaken')) {
               return Session.get('photoTaken');
             } else {
-              return '';
+              return '/image-not-available.png';
             }
           })(),
           "rentPrice": {

@@ -36,7 +36,7 @@ InventoryDetailController = RouteController.extend({
           return (index == this.product.conditionId) ? 'selected' : '';
         }
       },
-
+            
       isEditMode: function() {
         if(this.product) {
           var ConnectionObj = Connections.findOne({'productData._id': this.product._id});

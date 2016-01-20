@@ -5,7 +5,10 @@
 
             <div class="item center">
                 {{#if photoTaken}}
-                    <img class="scanResult-thumbnail2" src="{{photoTaken}}">
+                    <div class="img-wrap">
+                        <div class="close">&times;</div>
+                        <img class="scanResult-thumbnail2" src="{{photoTaken}}">
+                    </div>
                 {{else}}
                     <i class="scanResult-thumbnail2 ion-image" style="font-size:100px;color:#DDD;"></i>
                     <span style="display:block;margin-top:-10px;color:#DDD;">ADD IMAGE</span>
