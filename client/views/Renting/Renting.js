@@ -14,7 +14,6 @@ Template.renting.events({
   'click #start-borrowing': function() {
         Router.go('/listing')
     },
-
 });
 
 Template.renting.helpers({
@@ -26,5 +25,4 @@ Template.renting.helpers({
                               'ion-ios-americanfootball',
                               'ion-cube']);
   }
-
 });

@@ -9,53 +9,67 @@
 
   {{#ionView class="connectRent-view"}}
     {{#ionContent class="connectRent prevent-keyboardglitch"}}
-      <div class="card padding-horizontal padding-vertical list">
 
-        <div class="item item-divider product-details"><h2>Product Details <i class="chevron-icon icon ion-chevron-up"></i></h2></div>
+      {{#if Template.subscriptionsReady}}
+        <script>
+          Meteor.setTimeout(function(){
+            $('.loadbox').fadeOut('medium',function(){
+              $('.loading-wrapper').fadeIn('medium');  
+            });
+          }, 500);
+        </script>
+      {{/if}}
 
-        <div class="item product-details-item">
-          <div class="product-content">
+      {{>loader}}
+
+      <div class="loading-wrapper">
+        <div class="card padding-horizontal padding-vertical list">
+          <div class="item item-divider product-details"><h2>Product Details <i class="chevron-icon icon ion-chevron-up"></i></h2>
+          </div>
+
+          <div class="item product-details-item">
+            <div class="product-content">
               <p class="product-title">{{connectData.productData.title}}</p>
               <p><i class="icon {{../getCategoryIcon}}"></i> {{connectData.productData.amazonCategory}}</p>
               <p><i class="icon ion-cash"></i> {{connectData.productData.price}}</p>
               <p><i class="icon ion-clipboard"></i> {{../getCondition}}</p>
-          </div>
-          <div class="product-image-box">
+            </div>
+            <div class="product-image-box">
               <img class="connect-thumbnail" src="{{connectData.productData.image}}">
+            </div>
           </div>
-        </div>
 
-        <div class="item product-details-item center hidden">
-          <table class="rent-table">
-            <tbody class="prices">
-            <tr>
-              <th><i>D</i></th>
-              <th><i>W</i></th>
-              <th><i>M</i></th>
-              <th><i>S</i></th>
-            </tr>
-            <tr>
-              <td>${{connectData.productData.rentPrice.day}}</td>
-              <td>${{connectData.productData.rentPrice.week}}</td>
-              <td>${{connectData.productData.rentPrice.month}}</td>
-              <td>${{connectData.productData.rentPrice.semester}}</td>
-            </tr>
-            </tbody>
-          </table>
-        </div>
+          <div class="item product-details-item center hidden">
+            <table class="rent-table">
+              <tbody class="prices">
+              <tr>
+                <th><i>D</i></th>
+                <th><i>W</i></th>
+                <th><i>M</i></th>
+                <th><i>S</i></th>
+              </tr>
+              <tr>
+                <td>${{connectData.productData.rentPrice.day}}</td>
+                <td>${{connectData.productData.rentPrice.week}}</td>
+                <td>${{connectData.productData.rentPrice.month}}</td>
+                <td>${{connectData.productData.rentPrice.semester}}</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
 
-        <div class="item item-divider profile-details"><h2>Lending Details</h2></div>
+          <div class="item item-divider profile-details"><h2>Lending Details</h2></div>
 
-        <div class="item request-date">
+          <div class="item request-date">
             <span>{{../getRequestDate}}</span>
-        </div>
+          </div>
 
-        <div class="item profile">
+          <div class="item profile">
             <div class="profile-image-box">
-                <a href="/profile/items/{{ connectData.owner }}">
-                    <div style="background: url('{{connectData.productData.ownerData.profile.avatar}}') no-repeat; background-size:cover; background-position: 50% 50%;" class="profile-avatar"></div>
-                </a>
-                <p class="main-title-text">{{connectData.productData.ownerData.profile.name}} </p>
+              <a href="/profile/items/{{ connectData.owner }}">
+                <div style="background: url('{{connectData.productData.ownerData.profile.avatar}}') no-repeat; background-size:cover; background-position: 50% 50%;" class="profile-avatar"></div>
+              </a>
+              <p class="main-title-text">{{connectData.productData.ownerData.profile.name}}</p>
             </div>
 <!--
             <div class="profile-content">
@@ -76,8 +90,8 @@
                 {{/if}}
             </div>
 -->
-          </div>
-          <div class="item tabs tabs-icon-left">
+            </div>
+            <div class="item tabs tabs-icon-left">
               <a class="tab-item" href="{{pathFor 'talk' _id=connectData._id}}">
                 <i class="icon ion-chatbubbles assertive"></i>
                 CHAT
@@ -88,58 +102,59 @@
               </a>
               {{#if ../paymentPending}}
                 <a class="tab-item" id="cancelRequest">
-                    <i class="icon ion-ios-close royal"></i>
-                    CANCEL
+                  <i class="icon ion-ios-close royal"></i>
+                  CANCEL
                 </a>
               {{/if}}
-          </div>
-          <div class="item details">
-                <i class="icon ion-ios-calendar-outline"></i>
-                {{../getTotalDays}} ({{../getStartDate}} to {{../getEndDate}})
-          </div>
-          <div class="item details">
-                <i class="icon ion-ios-clock-outline"></i>
-                {{../getDaysLeft}}
-<!--                <input type="range" id="myRange" min="0" max="{{connectData.borrowDetails.date.totalDays}}" value="{{../getDaysLeftValue}}" class="range range-assertive" disabled>-->
-          </div>
-          <div class="item details">
-                <i class="icon ion-cash"></i>
-                <span class="price">${{connectData.borrowDetails.price.total}}</span>
-          </div>
-          {{#if ../isReturned}}
-          {{else}}
+            </div>
             <div class="item details">
-                <i class="icon ion-location"></i>{{{ ../getLocation preferredLocation }}}
+              <i class="icon ion-ios-calendar-outline"></i>
+              {{../getTotalDays}} ({{../getStartDate}} to {{../getEndDate}})
             </div>
-          {{/if}}
-
-          <div style="padding-bottom:16px;"></div>
-
-          {{#if ../paymentDone}}
-            {{#unless ../itemReturnDone}}
-              <div class="item">
-                  <button id="returnItem" class="button button-block">RETURN ITEM</button>
+            <div class="item details">
+              <i class="icon ion-ios-clock-outline"></i>
+              {{../getDaysLeft}}
+  <!-- <input type="range" id="myRange" min="0" max="{{connectData.borrowDetails.date.totalDays}}" value="{{../getDaysLeftValue}}" class="range range-assertive" disabled>-->
+            </div>
+            <div class="item details">
+                  <i class="icon ion-cash"></i>
+                  <span class="price">${{connectData.borrowDetails.price.total}}</span>
+            </div>
+            {{#if ../isReturned}}
+            {{else}}
+              <div class="item details">
+                  <i class="icon ion-location"></i>{{{ ../getLocation preferredLocation }}}
               </div>
-            {{/unless}}
-          {{else}}
-            <div class="item">
-                {{#if ../approvedStatus}}
-                  <button id="payAndRent" class="button button-block button-energized">PAY TOTAL &nbsp; ${{connectData.borrowDetails.price.total}}</button>
-                {{else}}
-                  {{#if ../isTimeOver}}
-                      <button class="button button-block" disabled>TIME IS OVER</button>
+            {{/if}}
+
+            <div style="padding-bottom:16px;"></div>
+
+            {{#if ../paymentDone}}
+              {{#unless ../itemReturnDone}}
+                <div class="item">
+                    <button id="returnItem" class="button button-block">RETURN ITEM</button>
+                </div>
+              {{/unless}}
+            {{else}}
+              <div class="item">
+                  {{#if ../approvedStatus}}
+                    <button id="payAndRent" class="button button-block button-energized">PAY TOTAL &nbsp; ${{connectData.borrowDetails.price.total}}</button>
                   {{else}}
-                      <button id="payAndRent" class="button button-block button-energized disabled">AWAITING APPROVAL</button>
+                    {{#if ../isTimeOver}}
+                        <button class="button button-block" disabled>TIME IS OVER</button>
+                    {{else}}
+                        <button id="payAndRent" class="button button-block button-energized disabled">AWAITING APPROVAL</button>
+                    {{/if}}
                   {{/if}}
-                {{/if}}
-            </div>
-          {{/if}}
-      </div>
+              </div>
+            {{/if}}
+        </div>
 
-      <div class="center">
-        <a class="email-support" href="/contact" data-rel='external'>CONTACT US</a>
-      </div>
+        <div class="center">
+          <a class="email-support" href="/contact" data-rel='external'>CONTACT US</a>
+        </div>
 
+      </div>
     {{/ionContent}}
   {{/ionView}}
 </template>

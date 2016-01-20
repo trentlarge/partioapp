@@ -11,7 +11,7 @@ ConnectRentController = RouteController.extend({
 
 	waitOn: function() {
 		return [
-			Meteor.subscribe("singleConnect", this.params._id),
+			//Meteor.subscribe("singleConnect", this.params._id),
 		];
 	},
 
