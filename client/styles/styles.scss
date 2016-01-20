@@ -255,12 +255,13 @@ body.keyboard-open .platform-android .content.overflow-scroll {
                 opacity: .8;
             }
             
-            &:nth-child(even) {
-                display: inline-flex;
-                margin-left: 24px;
-                justify-content: flex-end;
-                max-width: 0;
-            }
+//            &:nth-child(even) {
+//                display: inline-flex;
+//                display: -webkit-inline-flex;
+//                justify-content: flex-end;
+//                -webkit-justify-content: flex-end;
+//                max-width: 80px;
+//            }
         }
         
         .button-default {
