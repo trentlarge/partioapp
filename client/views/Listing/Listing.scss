@@ -85,7 +85,7 @@
         display: none;
     }
     
-    @media screen and (min-width: 769px) {
+    @media screen and (min-width: 768px) {
         .product-listing {
             -moz-column-width: 14em;
             -webkit-column-width: 14em;
@@ -94,7 +94,7 @@
         }
     }
     
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: 767px) {
         
         .product-listing {
             -moz-column-width: 10em;
