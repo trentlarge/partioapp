@@ -1,5 +1,5 @@
 Template.renting.onCreated(function () {
-  this.subscribe("singleConnect", Router.current().params._id);
+  this.subscribe("myConnections");
 });
 
 

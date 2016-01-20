@@ -9,13 +9,27 @@
 
   {{#ionView}}
     {{#ionContent class="talk-content"}}
-      <div class="list talk-list padding-horizontal" data-keyboard-attach>
-      {{#each messages}}
-        {{> message}}
-      {{/each}}
 
-      <div class="cf"></div>
-    </div>
+      {{#if Template.subscriptionsReady}}
+        <script>
+          $('.loadbox').fadeOut('medium',function(){
+            $('.loading-wrapper').fadeIn('medium');  
+          });
+        </script>
+      {{/if}}
+
+      {{>loader}}
+      
+      <div class="loading-wrapper">
+        <div class="list talk-list padding-horizontal" data-keyboard-attach>
+          {{#each messages}}
+            {{> message}}
+          {{/each}}
+
+          <div class="cf"></div>
+        </div>
+      </div>
+
     {{/ionContent}}
 
     <form>
