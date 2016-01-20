@@ -1,3 +1,8 @@
+Template.renting.onCreated(function () {
+  this.subscribe("singleConnect", Router.current().params._id);
+});
+
+
 Template.renting.events({
   'click .waiting': function() {
       Animations.accordion($('.waiting'), $('.waiting-item'));

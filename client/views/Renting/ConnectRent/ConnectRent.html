@@ -90,64 +90,64 @@
                 {{/if}}
             </div>
 -->
+          </div>
+          <div class="item tabs tabs-icon-left">
+            <a class="tab-item" href="{{pathFor 'talk' _id=connectData._id}}">
+              <i class="icon ion-chatbubbles assertive"></i>
+              CHAT
+            </a>
+            <a class="tab-item" id="btnCallUser">
+              <i class="icon ion-ios-telephone"></i>
+              CALL
+            </a>
+            {{#if ../paymentPending}}
+              <a class="tab-item" id="cancelRequest">
+                <i class="icon ion-ios-close royal"></i>
+                CANCEL
+              </a>
+            {{/if}}
+          </div>
+          <div class="item details">
+            <i class="icon ion-ios-calendar-outline"></i>
+            {{../getTotalDays}} ({{../getStartDate}} to {{../getEndDate}})
+          </div>
+          <div class="item details">
+            <i class="icon ion-ios-clock-outline"></i>
+            {{../getDaysLeft}}
+<!-- <input type="range" id="myRange" min="0" max="{{connectData.borrowDetails.date.totalDays}}" value="{{../getDaysLeftValue}}" class="range range-assertive" disabled>-->
+          </div>
+          <div class="item details">
+            <i class="icon ion-cash"></i>
+            <span class="price">${{connectData.borrowDetails.price.total}}</span>
+          </div>
+          {{#if ../isReturned}}
+          {{else}}
+            <div class="item details">
+              <i class="icon ion-location"></i>{{{ ../getLocation preferredLocation }}}
             </div>
-            <div class="item tabs tabs-icon-left">
-              <a class="tab-item" href="{{pathFor 'talk' _id=connectData._id}}">
-                <i class="icon ion-chatbubbles assertive"></i>
-                CHAT
-              </a>
-              <a class="tab-item" id="btnCallUser">
-                <i class="icon ion-ios-telephone"></i>
-                CALL
-              </a>
-              {{#if ../paymentPending}}
-                <a class="tab-item" id="cancelRequest">
-                  <i class="icon ion-ios-close royal"></i>
-                  CANCEL
-                </a>
+          {{/if}}
+
+          <div style="padding-bottom:16px;"></div>
+
+          {{#if ../paymentDone}}
+            {{#unless ../itemReturnDone}}
+              <div class="item">
+                <button id="returnItem" class="button button-block">RETURN ITEM</button>
+              </div>
+            {{/unless}}
+          {{else}}
+            <div class="item">
+              {{#if ../approvedStatus}}
+                <button id="payAndRent" class="button button-block button-energized">PAY TOTAL &nbsp; ${{connectData.borrowDetails.price.total}}</button>
+              {{else}}
+                {{#if ../isTimeOver}}
+                  <button class="button button-block" disabled>TIME IS OVER</button>
+                {{else}}
+                  <button id="payAndRent" class="button button-block button-energized disabled">AWAITING APPROVAL</button>
+                {{/if}}
               {{/if}}
             </div>
-            <div class="item details">
-              <i class="icon ion-ios-calendar-outline"></i>
-              {{../getTotalDays}} ({{../getStartDate}} to {{../getEndDate}})
-            </div>
-            <div class="item details">
-              <i class="icon ion-ios-clock-outline"></i>
-              {{../getDaysLeft}}
-  <!-- <input type="range" id="myRange" min="0" max="{{connectData.borrowDetails.date.totalDays}}" value="{{../getDaysLeftValue}}" class="range range-assertive" disabled>-->
-            </div>
-            <div class="item details">
-                  <i class="icon ion-cash"></i>
-                  <span class="price">${{connectData.borrowDetails.price.total}}</span>
-            </div>
-            {{#if ../isReturned}}
-            {{else}}
-              <div class="item details">
-                  <i class="icon ion-location"></i>{{{ ../getLocation preferredLocation }}}
-              </div>
-            {{/if}}
-
-            <div style="padding-bottom:16px;"></div>
-
-            {{#if ../paymentDone}}
-              {{#unless ../itemReturnDone}}
-                <div class="item">
-                    <button id="returnItem" class="button button-block">RETURN ITEM</button>
-                </div>
-              {{/unless}}
-            {{else}}
-              <div class="item">
-                  {{#if ../approvedStatus}}
-                    <button id="payAndRent" class="button button-block button-energized">PAY TOTAL &nbsp; ${{connectData.borrowDetails.price.total}}</button>
-                  {{else}}
-                    {{#if ../isTimeOver}}
-                        <button class="button button-block" disabled>TIME IS OVER</button>
-                    {{else}}
-                        <button id="payAndRent" class="button button-block button-energized disabled">AWAITING APPROVAL</button>
-                    {{/if}}
-                  {{/if}}
-              </div>
-            {{/if}}
+          {{/if}}
         </div>
 
         <div class="center">
