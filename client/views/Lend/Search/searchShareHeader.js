@@ -63,10 +63,12 @@ Template.searchShareHeader.events({
 
             if(Session.get('lendTab') !== 'barcode') {
                 Session.set('lendTab', 'camfind');
-                PartioLoad.show('Searching similar products...');
+//                PartioLoad.show('Searching similar products...');
+                PartioLoad.show('Calculating prices...');
             }
             else {
-                PartioLoad.show('Searching barcode...');
+//                PartioLoad.show('Searching barcode...');
+                PartioLoad.show('Calculating prices...');
             }
 
             //get keywords
@@ -75,8 +77,10 @@ Template.searchShareHeader.events({
             //check if exist in all results cache
             if(Lend.allResultsCache[key]) {
 
-                Session.set('allResults', Lend.allResultsCache[key]);
-                Session.set('lendTab', 'results');
+                callResultDetails(Lend.allResultsCache[key]);
+                
+//                Session.set('allResults', Lend.allResultsCache[key]);
+//                Session.set('lendTab', 'results');
                 
                 Lend.latestProduct = key;
                 
@@ -110,8 +114,10 @@ Template.searchShareHeader.events({
                         Lend.allResultsCache[key] = result;
                         Lend.latestProduct = key;
                         
-                        Session.set('allResults', result);
-                        Session.set('lendTab', 'results');
+                        callResultDetails(result);
+                        
+//                        Session.set('allResults', result);
+//                        Session.set('lendTab', 'results');
                         
                         PartioLoad.hide();
                         $(".modal").css("background-image", "");
@@ -131,6 +137,89 @@ Template.searchShareHeader.helpers({
     }
 })
 
+
+function callResultDetails(results) {
+    
+        var resultsLenght = 0;
+        var averagePrice = 0.0;
+
+        var categories = [
+            {
+               text: 'Textbooks',
+               occurrences: 0,
+            },
+            {
+               text: 'Technology',
+               occurrences: 0,
+            },
+            {
+               text: 'Music',
+               occurrences: 0,
+            },
+            {
+               text: 'Home',
+               occurrences: 0,
+            },
+            {
+               text: 'Sports',
+               occurrences: 0,
+            },
+            {
+               text: 'Miscellaneous',
+               occurrences: 0,
+            }
+        ]
+        
+        //get category from number of occurrences
+        $.each(results, function(index, result) {
+
+            $.each(categories, function(key, category) {
+                if(result.category === category.text) {
+                    category.occurrences++;
+                }
+            });
+
+            if(result.price !== '--') {
+                var price = Number(result.price.replace(/[^0-9\.-]+/g,""));
+
+                if(price > 0) {
+                    averagePrice += price;
+                    resultsLenght++;
+                }
+            }
+        })
+
+        categories.sort(function(a, b) {
+            return (a.occurrences < b.occurrences) ? 1 : -1;
+        });
+
+        //get average price from results
+        var averageFinalPrice = (averagePrice/resultsLenght).toFixed(2);
+
+        var title = $('.search-share-header-input').val();
+        var image = Session.get('camfindImage');
+        if(Session.get('lendTab') === 'barcode') {
+            title = results[0].title;
+            image = results[0].image;
+        }
+    
+        var itemNotFound = {
+            'image' : image,
+            'title' : title,
+            'category' : categories[0].text,
+            'price' : {
+                'averagePrice' : averageFinalPrice,
+                'day' : Lend.calculatePrice('ONE_DAY', averageFinalPrice),
+                'week' : Lend.calculatePrice('ONE_WEEK', averageFinalPrice),
+                'month' : Lend.calculatePrice('ONE_MONTH', averageFinalPrice),
+                'semester' : Lend.calculatePrice('FOUR_MONTHS', averageFinalPrice)
+            }
+        }
+
+        Session.set('itemNotFound', itemNotFound);
+        Session.set('lendTab', 'manual');
+    
+}
 
 function resetImageCamFind(){
   $(".modal").css("background-image", "");

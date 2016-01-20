@@ -104,8 +104,6 @@
         }
         
     }
-    
-    
 
     .package {
         -webkit-animation: fadein 1s; /* Safari, Chrome and Opera > 12.1 */
@@ -124,12 +122,16 @@
     }
     
     .product-avatar {
-        padding: 5px;
+//        padding: 5px;
+        max-height: 130px;
+        overflow: hidden;
+        border-bottom: 2px solid #ddd;
     }
     
     .product-avatar-inner {
-        max-height: 120px;
-        max-width: 120px;
+        width: 100%;
+//        max-height: 120px;
+//        max-width: 120px;
     }
     
     .ellipsis {
