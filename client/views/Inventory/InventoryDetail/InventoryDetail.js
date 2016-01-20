@@ -1,43 +1,46 @@
 Template.appLayout.events({
 	'click #editCurrent': function() {
-
     var ConnectionObj = Connections.findOne({'productData._id': this.product._id});
     if(ConnectionObj){
-        var ConnectionStatus = ConnectionObj.state;
-        if(ConnectionStatus != "RETURNED"){
-          IonPopup.show({
-              title: 'Item Borrowed',
-              template: 'It is not possible edit a borrowed item.',
-              buttons:
-              [{
-                text: 'OK',
-                type: 'button-assertive',
-                onTap: function()
-                {
-                  IonPopup.close();
-                }
-              }]
-          });
+      var ConnectionStatus = ConnectionObj.state;
+      if(ConnectionStatus != "RETURNED"){
+        IonPopup.show({
+            title: 'Item Borrowed',
+            template: 'It is not possible edit a borrowed item.',
+            buttons:
+            [{
+              text: 'OK',
+              type: 'button-assertive',
+              onTap: function()
+              {
+                IonPopup.close();
+              }
+            }]
+        });
 
-          return false;
-        }
+        return false;
+      }
     }
 
 		Session.set('editMode', true);
 	},
 });
 
+Template.inventoryDetail.onCreated(function () {
+  Meteor.subscribe("singleProduct", Router.current().params._id)
+});
+
 Template.inventoryDetail.events({
 	'focus input': function() {
 		$('.inventory-details').css({
-				'padding-bottom': '250px'
+			'padding-bottom': '250px'
 		});
 	},
 
 	'focusout input': function() {
-			$('.inventory-details').css({
-					'padding-bottom': '0'
-			});
+		$('.inventory-details').css({
+			'padding-bottom': '0'
+		});
 	},
 
   'click .features': function(e, template) {

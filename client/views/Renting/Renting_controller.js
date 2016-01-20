@@ -14,8 +14,6 @@ RentingController = RouteController.extend({
 		];
 	},
 
-
-
 	data: function() {
 		return {
             toBeApproved: function() {

@@ -1,23 +1,26 @@
+Template.connect.onCreated(function () {
+  Meteor.subscribe("singleConnect", Router.current().params._id);
+});
+
 Template.connect.events({
+	'click .product-details': function(e, template) {
+		var productDetails = $('.product-details');
+		var productDetailsItem = $('.product-details-item');
 
-  'click .product-details': function(e, template) {
-    var productDetails = $('.product-details');
-    var productDetailsItem = $('.product-details-item');
-
-    if(!productDetailsItem.is(':visible')){
-      productDetailsItem.slideDown('fast');
-      productDetails.find('.chevron-icon').removeClass('ion-chevron-up').addClass('ion-chevron-down');
-    }
-    else {
-      productDetailsItem.slideUp('fast');
-      productDetails.find('.chevron-icon').removeClass('ion-chevron-down').addClass('ion-chevron-up');
-    }
-  },
+		if(!productDetailsItem.is(':visible')){
+		  productDetailsItem.slideDown('fast');
+		  productDetails.find('.chevron-icon').removeClass('ion-chevron-up').addClass('ion-chevron-down');
+		}
+		else {
+		  productDetailsItem.slideUp('fast');
+		  productDetails.find('.chevron-icon').removeClass('ion-chevron-down').addClass('ion-chevron-up');
+		}
+	},
 
 	'click #confirmReturn': function() {
 		var connection = this.connectData;
-    var productTitle = connection.productData.title;
-    var searchCollectionId = Search.findOne({title: productTitle});
+		var productTitle = connection.productData.title;
+		var searchCollectionId = Search.findOne({title: productTitle});
 
 		IonPopup.confirm({
 			cancelText: 'No',
@@ -44,11 +47,11 @@ Template.connect.events({
 		});
 	},
 
-  'click #btnCallUser': function(err, template) {
-      PartioCall.init(this.connectData);
-  },
+	'click #btnCallUser': function(err, template) {
+		PartioCall.init(this.connectData);
+	},
 
-  'click #cancelRequest': function() {
+  	'click #cancelRequest': function() {
 		connectionId = this.connectData._id;
 
 		IonPopup.confirm({
@@ -146,7 +149,7 @@ var onSuccess = function(position){
 var onError = function(error) {
   PartioLoad.hide();
 
-  console.log(error);
+  //console.log(error);
 
 	IonPopup.show({
 		title: "Location Services Unavailable.",

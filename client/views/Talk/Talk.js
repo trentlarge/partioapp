@@ -1,6 +1,7 @@
-Template.talk.created = function() {
-
-};
+Template.talk.onCreated(function () {
+	this.subscribe("singleConnect", Router.current().params._id);
+	this.subscribe("talk", Router.current().params._id);
+});
 
 Template.talk.rendered = function() {
 	var self = this;
@@ -42,12 +43,25 @@ Template.talk.rendered = function() {
 Template.talk.helpers({
 	"chatWith": function() {
 		if(!this.connection) {
-			return "";
+			return "loading...";
 		}
-		var owner = this.connection.productData.ownerData;
-		var requestor = this.connection.requestorData;
 
-		return (requestor._id === Meteor.userId()) ? owner.profile.name : requestor.profile.name;
+		var ownerId = this.connection.owner;
+		var requestorId = this.connection.requestor;
+
+		if(ownerId === Meteor.userId()) {
+			var __id = requestorId;
+		} else {
+			var __id = ownerId;
+		}
+
+		var _userData = Meteor.users.findOne({ _id: __id });
+
+		if(_userData) {
+			return _userData.profile.name;
+		} else {
+			return 'loading...';
+		}
 	}
 });
 

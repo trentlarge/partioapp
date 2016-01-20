@@ -1,48 +1,47 @@
+Template.connectRent.onCreated(function () {
+  this.subscribe("singleConnect", Router.current().params._id);
+});
+
 Template.connectRent.rendered = function() {
-  var nowTemp = new Date();
-  var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
+	var nowTemp = new Date();
+	var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
 
-  $('.range').datepicker({
-      format: 'mm-dd-yyyy',
-      startDate: 'd',
-      todayHighlight: true,
-      toggleActive: true,
-      inputs: $('.range-start, .range-end'),
-  });
+	$('.range').datepicker({
+		format: 'mm-dd-yyyy',
+		startDate: 'd',
+		todayHighlight: true,
+		toggleActive: true,
+		inputs: $('.range-start, .range-end'),
+	});
 
-  $('.datepicker-days .active').click(function(){
-      $(this).removeClass('selected').removeClass('active');
-  });
+	$('.datepicker-days .active').click(function(){
+		$(this).removeClass('selected').removeClass('active');
+	});
 
-  var rentPrice = {
-      "semesters": 0,
-      "months": 0,
-      "weeks": 0,
-      "days": 0,
-  }
+	var rentPrice = {
+		"semesters": 0,
+		"months": 0,
+		"weeks": 0,
+		"days": 0,
+	}
 
+	var initializing = true;
 
-var initializing = true;
+	//var handle = this.connectData.find().observe({
+	var handle = Connections.find().observeChanges({
+		changed: function(id, fields) {
+			if(fields.finished){
+				Router.go('/renting');
+			}
+		}
+	});
 
-  //var handle = this.connectData.find().observe({
-  var handle = Connections.find().observeChanges({
-      changed: function(id, fields) {
-
-        if(fields.finished){
-          Router.go('/renting');
-        }
-
-      }
-    });
-
-  initializing = false;
-
-
-  Session.set('rentPrice', rentPrice);
-  Session.set('numberDays', 0);
-  Session.set('numberWeeks', 0);
-  Session.set('numberMonths', 0);
-  Session.set('numberSemesters', 0);
+	initializing = false;
+	Session.set('rentPrice', rentPrice);
+	Session.set('numberDays', 0);
+	Session.set('numberWeeks', 0);
+	Session.set('numberMonths', 0);
+	Session.set('numberSemesters', 0);
 }
 
 Template.connectRent.events({
@@ -50,18 +49,18 @@ Template.connectRent.events({
 		var productDetails = $('.product-details');
 		var productDetailsItem = $('.product-details-item');
 
-	  if(!productDetailsItem.is(':visible')){
-          productDetailsItem.slideDown('fast');
-          productDetails.find('.chevron-icon').removeClass('ion-chevron-up').addClass('ion-chevron-down');
-      }
-      else {
-          productDetailsItem.slideUp('fast');
-          productDetails.find('.chevron-icon').removeClass('ion-chevron-down').addClass('ion-chevron-up');
-      }
+		if(!productDetailsItem.is(':visible')){
+		  productDetailsItem.slideDown('fast');
+		  productDetails.find('.chevron-icon').removeClass('ion-chevron-up').addClass('ion-chevron-down');
+		}
+		else {
+		  productDetailsItem.slideUp('fast');
+		  productDetails.find('.chevron-icon').removeClass('ion-chevron-down').addClass('ion-chevron-up');
+		}
 	},
 
 	'click #btnCallUser': function(err, template) {
-      PartioCall.init(this.connectData);
+    	PartioCall.init(this.connectData);
 	},
 
 	'click #returnItem': function() {
@@ -96,7 +95,6 @@ Template.connectRent.events({
 	},
 
 	'click #payAndRent': function() {
-
 		Session.set('payRedirect', false);
 
 		var connectionId = this.connectData._id;
@@ -141,6 +139,7 @@ Template.connectRent.events({
 			}
 		});
 	},
+
 	'click #cancelRequest': function() {
 		connectionId = this.connectData._id;
 
@@ -199,7 +198,6 @@ Template.connectRent.events({
 				});
 			}, function(error) {
 				PartioLoad.hide();
-
 			});
 		}
 	}

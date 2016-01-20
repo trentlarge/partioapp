@@ -1,5 +1,4 @@
 <template name="items">
-
   {{#contentFor "headerButtonLeft"}}
       {{>ionNavBackButton}}
   {{/contentFor}}
@@ -8,66 +7,77 @@
     <h1 class="title">Select from Owner</h1>
   {{/contentFor}}
 
-    {{#contentFor "headerTitle"}}
-      <h1 class="title" style="text-align:center;">Profile</h1>
-    {{/contentFor}}
+  {{#contentFor "headerTitle"}}
+    <h1 class="title" style="text-align:center;">Profile</h1>
+  {{/contentFor}}
 
-    {{#contentFor "headerButtonRight"}}
-      {{#if profileEdit}}
-        <button id="saveProfile" class="button button-clear button-energized">Save</button>
-        {{else}}
-          <a href="/" class="button button-clear">
-              <img id="spinner-logo-simple" src="{{ getImage 'spinner-logo' }}" />
-          </a>
-      {{/if}}
-    {{/contentFor}}
+  {{#contentFor "headerButtonRight"}}
+    {{#if profileEdit}}
+      <button id="saveProfile" class="button button-clear button-energized">Save</button>
+    {{else}}
+      <a href="/" class="button button-clear">
+        <img id="spinner-logo-simple" src="{{ getImage 'spinner-logo' }}" />
+      </a>
+    {{/if}}
+  {{/contentFor}}
+
   {{#ionView}}
     {{#ionContent class="product-list profile-items-content"}}
-          <div class="item profile-item">
-              <div class="profile-image-container">
-                <div class="profile-avatar" style="background: url('{{connectData.profile.avatar}}') no-repeat; background-size:cover; background-position: 50% 50%;"></div>
-              </div>
 
-              <div class="center">
-                <span class="profile-name">{{connectData.profile.name}}</span>
-                <span class="rating-box">{{ > rating}}</span>
-              </div>
+      {{#if Template.subscriptionsReady}}
+        <script>
+          $('.loadbox').fadeOut('medium',function(){
+            $('.loading-wrapper').fadeIn('medium');  
+          });
+        </script>
+      {{/if}}
+
+      {{>loader}}
+      
+      <div class="loading-wrapper">
+        <div class="item profile-item">
+          <div class="profile-image-container">
+            <div class="profile-avatar" style="background: url('{{connectData.profile.avatar}}') no-repeat; background-size:cover; background-position: 50% 50%;"></div>
           </div>
-          <div class="item item-divider products"><h3>Items</h3></div>
-          <div class="product-item">
-
-            {{#each items}}
+          <div class="center">
+            <span class="profile-name">{{connectData.profile.name}}</span>
+            <span class="rating-box">{{ > rating }}</span>
+          </div>
+        </div>
+        <div class="item item-divider products"><h3>Items</h3></div>
+        <div class="product-item">
+          {{#each items}}
             <a class="item item-avatar-2" href="/listing/search/{{_id}}?ownerId={{ownerId}}">
-
-                <div class="product-avatar my-products">
-                  <img class="product-avatar-inner" src="{{image}}"/>
-                </div>
-                <p class="main-title-text">{{title}}</p>
-                <p class="main-sub-text">Condition: <b>{{../getCondition conditionId}}</b></p>
-                <p class="main-sub-text">
-                  <table class="rent-table">
-                    <tbody>
-                        <tr>
-                            <th class="one"><i class="icon">DAY</i></th>
-                            <th class="two"><i class="icon">WEEK</i></th>
-                            <th class="three"><i class="icon">MONTH</i></th>
-                            <th class="four"><i class="icon">SEMESTER</i></th>
-                        </tr>
-                        <tr>
-                            <td>{{rentPrice.day}}</td>
-                            <td>{{rentPrice.week}}</td>
-                            <td>{{rentPrice.month}}</td>
-                            <td>{{rentPrice.semester}}</td>
-                        </tr>
-                    </tbody>
-                  </table>
-                </p>
-                <div class="item-icon-right">
-                {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
-                </div>
-              </a>
-            {{/each}}
-          </div>
+              <div class="product-avatar my-products">
+                <img class="product-avatar-inner" src="{{image}}"/>
+              </div>
+              <p class="main-title-text">{{title}}</p>
+              <p class="main-sub-text">Condition: <b>{{../getCondition conditionId}}</b></p>
+              <p class="main-sub-text">
+                <table class="rent-table">
+                  <tbody>
+                    <tr>
+                      <th class="one"><i class="icon">DAY</i></th>
+                      <th class="two"><i class="icon">WEEK</i></th>
+                      <th class="three"><i class="icon">MONTH</i></th>
+                      <th class="four"><i class="icon">SEMESTER</i></th>
+                    </tr>
+                    <tr>
+                      <td>{{rentPrice.day}}</td>
+                      <td>{{rentPrice.week}}</td>
+                      <td>{{rentPrice.month}}</td>
+                      <td>{{rentPrice.semester}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </p>
+              <div class="item-icon-right">
+              {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
+              </div>
+            </a>
+          {{/each}}
+        </div>
+      </div>
     {{/ionContent}}
   {{/ionView}}
 </template>

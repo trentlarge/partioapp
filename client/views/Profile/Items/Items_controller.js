@@ -12,8 +12,8 @@ ItemsController = RouteController.extend({
 	waitOn: function() {
 		return [
 			// subscribe to data here
-			Meteor.subscribe("singleUser",this.params._id),
-			Meteor.subscribe("productsListOwner",this.params._id),
+			//Meteor.subscribe("singleUser",this.params._id),
+			//Meteor.subscribe("productsListOwner",this.params._id),
 		];
 	},
 	search: function() {
@@ -26,55 +26,62 @@ ItemsController = RouteController.extend({
 		return {
 			connectData: this.dataOwner(),
 			items: this.search(),
-			nameOwner:this.dataOwner(),
+			nameOwner: this.dataOwner(),
+	
 			labelState: function(state) {
 				if(state === 'PAYMENT') {
 					return 'WAITING ON RENTER PAYMENT';
-				}
-				else if(state === 'IN USE') {
+				} else if(state === 'IN USE') {
 					return 'BORROWED';
-				}
-				else {
+				} else {
 					return state;
 				}
 			},
+
 			newRequests: function() {
-      	return Connections.find({"productData.ownerId": Meteor.userId(), finished: { $ne: true }, $or: [ {"state": "WAITING"}, {"state": "PAYMENT"}, {"state": "IN USE"} ]});
-      },
-      finalizedRequests: function() {
-        return Connections.find({"productData.ownerId": Meteor.userId(), finished: { $ne: true }, "state": "RETURNED"});
-      },
-      getCondition: function(conditionId) {
-        return Rating.getConditionByIndex(conditionId);
-      },
-      getRequestDate: function(requestDate) {
+				return Connections.find({"productData.ownerId": Meteor.userId(), finished: { $ne: true }, $or: [ {"state": "WAITING"}, {"state": "PAYMENT"}, {"state": "IN USE"} ]});
+		    },
+
+			finalizedRequests: function() {
+				return Connections.find({"productData.ownerId": Meteor.userId(), finished: { $ne: true }, "state": "RETURNED"});
+			},
+
+			getCondition: function(conditionId) {
+				return Rating.getConditionByIndex(conditionId);
+			},
+
+			getRequestDate: function(requestDate) {
 				return formatDate(requestDate);
 			},
+
 			getStartDate: function(startDate) {
 				return formatDate(startDate);
 			},
+
 			getEndDate: function(endDate) {
 				return formatDate(endDate);
 			},
+
 			getTotalDays: function(totalDays) {
-				if( totalDays > 1 ) {
+				if(totalDays > 1) {
 					return totalDays + ' days';
 				}
 				return totalDays + ' day';
 			},
-            getDaysLeft: function(startDate, endDate) {
-				 var diff;
-				 if($.now() > new Date(startDate).getTime()) {
-						 diff = new Date(endDate - $.now());
-				 } else {
-						 diff = new Date(endDate - startDate);
-				 }
-				 var daysLeft = Math.floor((diff/1000/60/60/24) + 1);
 
-				 if(daysLeft <= 1) {
-						 return daysLeft + ' day left'
-				 }
-				 return daysLeft + ' days left';
+            getDaysLeft: function(startDate, endDate) {
+				var diff;
+				if($.now() > new Date(startDate).getTime()) {
+					diff = new Date(endDate - $.now());
+				} else {
+					diff = new Date(endDate - startDate);
+				}
+
+				var daysLeft = Math.floor((diff/1000/60/60/24) + 1);
+				if(daysLeft <= 1) {
+					return daysLeft + ' day left'
+				}
+				return daysLeft + ' days left';
 			},
 		}
 	},

@@ -1,3 +1,7 @@
+Template.transactions.onCreated(function () {
+  this.subscribe('myTransaction');
+});
+
 Template.transactions.events({
 	'click #earningButton': function(e) {
 		// $(e.target).addClass('tab-bg');
@@ -9,7 +13,3 @@ Template.transactions.events({
 });
 
 Session.setDefault('spendClicked', false);
-
-Template.transactions.onCreated(function () {
-  this.subscribe('myTransactions');
-});

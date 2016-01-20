@@ -1,3 +1,8 @@
+Template.renting.onCreated(function () {
+  this.subscribe("myConnections");
+});
+
+
 Template.renting.events({
   'click .waiting': function() {
       Animations.accordion($('.waiting'), $('.waiting-item'));
@@ -14,7 +19,6 @@ Template.renting.events({
   'click #start-borrowing': function() {
         Router.go('/listing')
     },
-
 });
 
 Template.renting.helpers({
@@ -26,5 +30,4 @@ Template.renting.helpers({
                               'ion-ios-americanfootball',
                               'ion-cube']);
   }
-
 });
