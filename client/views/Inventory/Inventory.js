@@ -31,6 +31,10 @@ Template.inventory.events({
   'click .products': function() {
     Animations.accordion($('.products'), $('.product-item'));
   },
+    
+  'click .requests-purchasing': function() {
+    Animations.accordion($('.requests-purchasing'), $('.requests-purchasing-item'));
+  },
 
   'click #respondToReq': function(){
     var requestor = this.requestor;

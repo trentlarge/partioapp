@@ -145,6 +145,13 @@
             opacity: .6;
         }
         
+        &.price {
+            height: 20px;
+        }
+    }
+    
+    .priceLabel {
+        font-size: 10px;
     }
     
     .product-title {

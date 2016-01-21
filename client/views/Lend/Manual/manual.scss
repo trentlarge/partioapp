@@ -55,6 +55,14 @@ body.keyboard-open .content.manual-entry.overflow-scroll {
     .img-wrap:hover .close {
         opacity: 1;
     }
+    
+    .priceLabel {
+        font-size: 10px;
+    }
+    
+    input.userPrice {
+        height: 20px;
+    }
  
     .toggle {
         float: right

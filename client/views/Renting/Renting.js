@@ -16,6 +16,9 @@ Template.renting.events({
   'click .returned': function() {
       Animations.accordion($('.returned'), $('.returned-item'));
   },
+  'click .requests-purchasing': function() {
+    Animations.accordion($('.requests-purchasing'), $('.requests-purchasing-item'));
+  },
   'click #start-borrowing': function() {
         Router.go('/listing')
     },

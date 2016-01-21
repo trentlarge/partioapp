@@ -27,6 +27,9 @@ InventoryController = RouteController.extend({
 				else if(state === 'IN USE') {
 					return 'BORROWED';
 				}
+                else if(state === 'SOLD CONFIRMED') {
+                    return 'FEEDBACK';
+                }
 				else {
 					return state;
 				}

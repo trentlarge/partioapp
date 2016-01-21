@@ -65,46 +65,66 @@ Template.search.events({
       }
     };
 
-    IonPopup.confirm({
-      okText: 'Proceed',
-      cancelText: 'Cancel',
-      title: 'Request to the product Owner',
-      template: 'You\'ll receive a notification once the owner accepts your request',
-      onOk: function() {
-        PartioLoad.show();
-        Meteor.call('requestOwnerPurchasing', Meteor.userId(), productId, ownerId, sellingDetails, function(err, res) {
-          PartioLoad.hide();
-          IonPopup.close();
-
-          if(err) {
-            var errorMessage = err.reason || err.message;
-            if(err.details) {
-              errorMessage = errorMessage + "\nDetails:\n" + err.details;
+    Meteor.call('userCanBorrow', function(error, result){
+      if(!result) {
+        IonPopup.show({
+          title: 'Update profile',
+          template: 'Please, update your cards to borrow this item.',
+          buttons: [{
+            text: 'OK',
+            type: 'button-energized',
+            onTap: function() {
+              IonPopup.close();
+              $('.ion-ios-close-empty').click()
+              Router.go('/profile/savedcards/');
             }
-            sAlert.error(errorMessage);
-            return;
-          }
-
-          setTimeout(function(){
-            IonPopup.show({
-              title: 'Request Sent',
-              template: 'Now you just need to wait for owner\'s approval',
-              buttons: [{
-                text: 'OK',
-                type: 'button-energized',
-                onTap: function() {
-                  IonPopup.close();
-                  $('.ion-ios-close-empty').click()
-                  Router.go('/renting');
-                }
-              }]
-            });
-          }, 500);
+          }]
         });
-      },
-
-      onCancel: function() {
         return false;
+      } else {
+          
+            IonPopup.confirm({
+              okText: 'Proceed',
+              cancelText: 'Cancel',
+              title: 'Request to the product Owner',
+              template: 'You\'ll receive a notification once the owner accepts your request',
+              onOk: function() {
+                PartioLoad.show();
+                Meteor.call('requestOwnerPurchasing', Meteor.userId(), productId, ownerId, sellingDetails, function(err, res) {
+                  PartioLoad.hide();
+                  IonPopup.close();
+
+                  if(err) {
+                    var errorMessage = err.reason || err.message;
+                    if(err.details) {
+                      errorMessage = errorMessage + "\nDetails:\n" + err.details;
+                    }
+                    sAlert.error(errorMessage);
+                    return;
+                  }
+
+                  setTimeout(function(){
+                    IonPopup.show({
+                      title: 'Request Sent',
+                      template: 'Now you just need to wait for owner\'s approval',
+                      buttons: [{
+                        text: 'OK',
+                        type: 'button-energized',
+                        onTap: function() {
+                          IonPopup.close();
+                          $('.ion-ios-close-empty').click()
+                          Router.go('/renting');
+                        }
+                      }]
+                    });
+                  }, 500);
+                });
+              },
+            onCancel: function() {
+                return false;
+            }
+        });
+    
       }
     });
   },

@@ -46,10 +46,10 @@
         <div class="loading-wrapper">
           {{#if dataExists}}
             <div class="list">
-            {{#if toBeApprovedPurchasing.count}}
-              <div class="item item-divider waiting"><h3>Purchasing Items<i class="chevron-icon icon ion-chevron-down"></i></h3></div>
-              <div class="waiting-item">
-                  {{#each toBeApprovedPurchasing}}
+            {{#if purchasingItems.count}}
+              <div class="item item-divider requests-purchasing"><h3>Purchasing Items<i class="chevron-icon icon ion-chevron-down"></i></h3></div>
+              <div class="requests-purchasing-item">
+                  {{#each purchasingItems}}
                     {{#ionItem path='connectRent' _id=this._id class="item-avatar-2"}}
                       <div class="product-avatar purchasing">
                           <img class="product-avatar-inner" src="{{productData.image}}"/>
@@ -62,7 +62,7 @@
                           <i class="icon ion-cash"></i>
                           <span class="price">${{borrowDetails.price.total}}</span>
                       </p>
-                      <span class="badge rent-status">{{state}}</span>
+                      <span class="badge rent-status">{{../labelState state}}</span>
                       <div class="item-icon-right">
                           {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
                       </div>

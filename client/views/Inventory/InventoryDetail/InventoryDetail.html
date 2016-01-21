@@ -98,18 +98,22 @@
 
           <label class="item row">
             <div class="col col-50">
-                <input type="number" class="price dayPrice" value="{{product.rentPrice.day}}" placeholder="0.00 (Day)" {{../isEditMode}}>
+                <div class="priceLabel">DAY</div>
+                <input type="number" class="price dayPrice" value="{{product.rentPrice.day}}" placeholder="0.00" {{../isEditMode}}>
             </div>
             <div class="col col-50">
-                <input type="number" class="price weekPrice" value="{{product.rentPrice.week}}" placeholder="0.00 (Week)" {{../isEditMode}}>
+                <div class="priceLabel">WEEK</div>
+                <input type="number" class="price weekPrice" value="{{product.rentPrice.week}}" placeholder="0.00" {{../isEditMode}}>
             </div>
          </label>
         <label class="item row">
             <div class="col col-50">
-                <input type="number" class="price monthPrice" value="{{product.rentPrice.month}}" placeholder="0.00 (Month)" {{../isEditMode}}>
+                <div class="priceLabel">MONTH</div>
+                <input type="number" class="price monthPrice" value="{{product.rentPrice.month}}" placeholder="0.00" {{../isEditMode}}>
             </div>
             <div class="col col-50">
-                <input type="number" class="price semesterPrice" value="{{product.rentPrice.semester}}" placeholder="0.00 (Semester)" {{../isEditMode}}>
+                <div class="priceLabel">SEMESTER</div>
+                <input type="number" class="price semesterPrice" value="{{product.rentPrice.semester}}" placeholder="0.00" {{../isEditMode}}>
             </div>
         </label>
             
@@ -138,7 +142,8 @@
             
             <li class="item row">
                 <div class="col col-50">
-                    <input type="number" class="price sellingPrice" value="{{product.selling.price}}" placeholder="0.00 (Price)" {{../isEditMode}}>
+                    <div class="priceLabel">PRICE</div>
+                    <input type="number" class="price sellingPrice" value="{{product.selling.price}}" placeholder="0.00" {{../isEditMode}}>
                 </div>
                 <div class="col col-50">
                      <label class="toggle toggle-assertive">

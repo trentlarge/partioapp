@@ -16,7 +16,7 @@ RentingController = RouteController.extend({
 
 	data: function() {
 		return {
-            toBeApprovedPurchasing: function() {
+            purchasingItems: function() {
                 return Connections.find({"requestor": Meteor.userId(), finished: { $ne: true }, $or: [ {"state": "WAITING PURCHASING"}, {"state": "PAYMENT PURCHASING"}, {"state": "SOLD"},  {"state": "SOLD CONFIRMED"} ]});
             },
             toBeApproved: function() {
@@ -40,6 +40,12 @@ RentingController = RouteController.extend({
             },
             isTapping: function() {
                 return Session.get('isTapping');
+            },
+            labelState: function(state) {
+                if(state === 'SOLD CONFIRMED') {
+                    return 'WAITING FEEDBACK';
+                }  
+                return state;
             },
             getProductCondition: function(conditionId) {
                 return Rating.getConditionByIndex(conditionId);
