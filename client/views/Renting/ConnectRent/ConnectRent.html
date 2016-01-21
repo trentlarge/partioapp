@@ -154,10 +154,12 @@
               {{/if}}
             
           {{else}}
-                {{#if ../paymentDone}}
-                  <div class="item">
-                    <button id="confirmReceived" class="button button-block">CONFIRM RECEIVE</button>
-                  </div>
+               {{#if ../paymentDone}}
+                  {{#if ../itemSold}}
+                      <div class="item">
+                        <button id="confirmReceived" class="button button-block">CONFIRM RECEIVE</button>
+                      </div>
+                  {{/if}}
               {{else}}
                 <div class="item">
                   {{#if ../approvedStatus}}

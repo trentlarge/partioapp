@@ -18,7 +18,7 @@ InventoryController = RouteController.extend({
 	data: function() {
 		return {
 			myProducts: function() {
-				return Products.find({ownerId: Meteor.userId()})
+				return Products.find({ownerId: Meteor.userId(), sold: { $ne: true }})
 			},
 			labelState: function(state) {
 				if(state === 'PAYMENT') {
@@ -35,7 +35,7 @@ InventoryController = RouteController.extend({
                 return Connections.find({"productData.ownerId": Meteor.userId(), finished: { $ne: true }, $or: [ {"state": "WAITING"}, {"state": "PAYMENT"}, {"state": "IN USE"} ]});
             },
             newPurchasingRequests: function() {
-                return Connections.find({"productData.ownerId": Meteor.userId(), finished: { $ne: true }, $or: [ {"state": "WAITING PURCHASING"}, {"state": "PAYMENT PURCHASING"},  {"state": "SOLD"}]});
+                return Connections.find({"productData.ownerId": Meteor.userId(), finished: { $ne: true }, $or: [ {"state": "WAITING PURCHASING"}, {"state": "PAYMENT PURCHASING"},  {"state": "SOLD"},  {"state": "SOLD CONFIRMED"}]});
             },
       finalizedRequests: function() {
         return Connections.find({"productData.ownerId": Meteor.userId(), finished: { $ne: true }, "state": "RETURNED"});

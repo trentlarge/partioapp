@@ -95,6 +95,11 @@ ConnectRentController = RouteController.extend({
                 if(!this.connectData) { return; }
 				return this.connectData.payment ? true : false;
 			},
+            
+            itemSold: function() {
+                if(!this.connectData) { return; }
+				return (this.connectData.state === "SOLD") ? true : false;
+			},
 
 			itemReturnDone: function() {
                 if(!this.connectData) { return; }
