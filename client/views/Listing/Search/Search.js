@@ -29,6 +29,8 @@ Template.search.events({
   },
 
   'click #requestProduct': function() {
+    var self = this;
+      
     Meteor.call('userCanBorrow', function(error, result){
       if(!result) {
         IonPopup.show({
@@ -46,9 +48,9 @@ Template.search.events({
         });
         return false;
       } else {
-        var ownerId = this.ownerId;
-        var productId = this._id;
-        IonModal.open("requestRent", Products.findOne(this._id));
+          
+        console.log(self.product);
+        IonModal.open("requestRent", Products.findOne(self.product._id));
       }
     });
   },
