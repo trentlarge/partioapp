@@ -46,8 +46,34 @@
         <div class="loading-wrapper">
           {{#if dataExists}}
             <div class="list">
+            {{#if toBeApprovedPurchasing.count}}
+              <div class="item item-divider waiting"><h3>Purchasing Items<i class="chevron-icon icon ion-chevron-down"></i></h3></div>
+              <div class="waiting-item">
+                  {{#each toBeApprovedPurchasing}}
+                    {{#ionItem path='connectRent' _id=this._id class="item-avatar-2"}}
+                      <div class="product-avatar purchasing">
+                          <img class="product-avatar-inner" src="{{productData.image}}"/>
+                      </div>
+                      <p class="main-title-text">{{productData.title}}</p>
+                      <p class="main-sub-text">
+                          Condition of the item: <b>{{../getProductCondition productData.conditionId}}</b>
+                      </p>
+                      <p class="main-sub-text">
+                          <i class="icon ion-cash"></i>
+                          <span class="price">${{borrowDetails.price.total}}</span>
+                      </p>
+                      <span class="badge rent-status">{{state}}</span>
+                      <div class="item-icon-right">
+                          {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
+                      </div>
+                    {{/ionItem}}
+                  {{/each}}
+              </div>
+            {{/if}}
+                
+                
             {{#if toBeApproved.count}}
-                <div class="item item-divider waiting"><h3>Waiting for Owner's Approval <i class="chevron-icon icon ion-chevron-down"></i></h3></div>
+                <div class="item item-divider waiting"><h3>Waiting for Owner's Approval<i class="chevron-icon icon ion-chevron-down"></i></h3></div>
               <div class="waiting-item">
                   {{#each toBeApproved}}
                     {{#ionItem path='connectRent' _id=this._id class="item-avatar-2"}}

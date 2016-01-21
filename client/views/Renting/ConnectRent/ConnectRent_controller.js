@@ -71,9 +71,14 @@ ConnectRentController = RouteController.extend({
 				}
 			},
 
+            isNotPurchasing: function() {
+                if(!this.connectData) { return; }
+				return (this.connectData.state.indexOf('PURCHASING') < 0 && this.connectData.state.indexOf('SOLD') < 0) ? true : false;
+            },
+            
 			approvedStatus: function() {
                 if(!this.connectData) { return; }
-				return this.connectData.state !== 'WAITING' ? true : false;
+				return (this.connectData.state.indexOf('WAITING') < 0)  ? true : false;
 			},
 
 			phoneNumber: function() {
@@ -98,7 +103,7 @@ ConnectRentController = RouteController.extend({
 
 			paymentPending: function() {
                 if(!this.connectData) { return; }
-				return (this.connectData.state === "PAYMENT" || this.connectData.state === "WAITING") ? true : false;
+				return ((this.connectData.state.indexOf("PAYMENT") >= 0) || (this.connectData.state.indexOf("WAITING")) >= 0) ? true : false;
 			},
 
 			calculatedPrice: function() {

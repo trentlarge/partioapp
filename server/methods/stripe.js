@@ -410,7 +410,7 @@ Meteor.methods({
     }
   },
 
-  'chargeCard': function(connectionId) {
+  'chargeCard': function(connectionId, type) {
     console.log('>>>>> [stripe] charging card');
 
     if(!connectionId) {
@@ -487,7 +487,12 @@ Meteor.methods({
               //    console.log('>>>>> [stripe] new transfer ', transfer);
 
               if(charge) {
-                Connections.update({_id: connect._id}, {$set: {state: "IN USE", payment: charge}});
+                if(type === 'PURCHASING') {
+                    Connections.update({_id: connect._id}, {$set: {state: "SOLD", payment: charge}});
+                }
+                else {
+                    Connections.update({_id: connect._id}, {$set: {state: "IN USE", payment: charge}});
+                }
 
                 var payerTrans = {
                   date: charge.created * 1000,

@@ -107,6 +107,7 @@
               </a>
             {{/if}}
           </div>
+          {{#if ../isNotPurchasing}}
           <div class="item details">
             <i class="icon ion-ios-calendar-outline"></i>
             {{../getTotalDays}} ({{../getStartDate}} to {{../getEndDate}})
@@ -116,6 +117,7 @@
             {{../getDaysLeft}}
 <!-- <input type="range" id="myRange" min="0" max="{{connectData.borrowDetails.date.totalDays}}" value="{{../getDaysLeftValue}}" class="range range-assertive" disabled>-->
           </div>
+          {{/if}}
           <div class="item details">
             <i class="icon ion-cash"></i>
             <span class="price">${{connectData.borrowDetails.price.total}}</span>
@@ -129,25 +131,44 @@
 
           <div style="padding-bottom:16px;"></div>
 
-          {{#if ../paymentDone}}
-            {{#unless ../itemReturnDone}}
-              <div class="item">
-                <button id="returnItem" class="button button-block">RETURN ITEM</button>
-              </div>
-            {{/unless}}
-          {{else}}
-            <div class="item">
-              {{#if ../approvedStatus}}
-                <button id="payAndRent" class="button button-block button-energized">PAY TOTAL &nbsp; ${{connectData.borrowDetails.price.total}}</button>
+         {{#if ../isNotPurchasing}}
+            
+              {{#if ../paymentDone}}
+                {{#unless ../itemReturnDone}}
+                  <div class="item">
+                    <button id="returnItem" class="button button-block">RETURN ITEM</button>
+                  </div>
+                {{/unless}}
               {{else}}
-                {{#if ../isTimeOver}}
-                  <button class="button button-block" disabled>TIME IS OVER</button>
-                {{else}}
-                  <button id="payAndRent" class="button button-block button-energized disabled">AWAITING APPROVAL</button>
-                {{/if}}
+                <div class="item">
+                  {{#if ../approvedStatus}}
+                    <button id="payAndRent" class="button button-block button-energized">PAY TOTAL &nbsp; ${{connectData.borrowDetails.price.total}}</button>
+                  {{else}}
+                        {{#if ../isTimeOver}}
+                          <button class="button button-block" disabled>TIME IS OVER</button>
+                        {{else}}
+                          <button class="button button-block button-energized disabled">AWAITING APPROVAL</button>
+                        {{/if}}
+                  {{/if}}
+                </div>
               {{/if}}
-            </div>
+            
+          {{else}}
+                {{#if ../paymentDone}}
+                  <div class="item">
+                    <button id="confirmReceived" class="button button-block">CONFIRM RECEIVE</button>
+                  </div>
+              {{else}}
+                <div class="item">
+                  {{#if ../approvedStatus}}
+                    <button id="payPurchasing" class="button button-block button-energized">PAY TOTAL &nbsp; ${{connectData.borrowDetails.price.total}}</button>
+                  {{else}}
+                    <button class="button button-block button-energized disabled">AWAITING APPROVAL</button>
+                  {{/if}}
+                </div>
+              {{/if}}
           {{/if}}
+            
         </div>
 
         <div class="center">

@@ -26,7 +26,7 @@ Template.connect.events({
 			cancelText: 'No',
 			okText: 'Received',
 			title: 'Is your product returned?',
-			template: '<div class="center"><p> The product will now be available for others to borrow </p></div>',
+			template: '<p> The product will now be available for others to borrow </p>',
 			onCancel: function() {
 
 			},
@@ -46,6 +46,37 @@ Template.connect.events({
 			}
 		});
 	},
+    
+    'click #giveFeedback': function() {
+		var connection = this.connectData;
+		var productTitle = connection.productData.title;
+		var searchCollectionId = Search.findOne({title: productTitle});
+
+		IonPopup.confirm({
+			cancelText: 'No',
+			okText: 'Yes',
+			title: 'Feedback',
+			template: '<p> The delivery confirmation has been made. Please give us your feedback. </p>',
+			onCancel: function() {
+
+			},
+			onOk: function() {
+				Meteor.call('giveFeedback', searchCollectionId, connection._id, function(err, res) {
+					IonPopup.close();
+					if(err) {
+						var errorMessage = err.reason || err.message;
+						if(err.details) {
+							errorMessage = errorMessage + "\nDetails:\n" + err.details;
+						}
+						sAlert.error(errorMessage);
+						return;
+					}
+					IonModal.open("feedbackborrower", connection);
+				});
+			}
+		});
+	},
+
 
 	'click #btnCallUser': function(err, template) {
 		PartioCall.init(this.connectData);
@@ -84,6 +115,36 @@ Template.connect.events({
 		PartioLoad.show();
 		var requestor = this.requestorInfo();
 		Meteor.call('ownerAccept', this.connectData._id, requestor._id, function(err, res) {
+			PartioLoad.hide();
+
+			if(err) {
+				var errorMessage = err.reason || err.message;
+				if(err.details) {
+					errorMessage = errorMessage + "\nDetails:\n" + err.details;
+				}
+				sAlert.error(errorMessage);
+				return;
+			}
+
+			IonPopup.show({
+				title: 'Great!',
+				template: 'Make sure you setup a meeting location and pass on the item to <strong>'+requestor.profile.name+'</strong> once you receive the payment.',
+				buttons:
+					[{
+						text: 'OK',
+						type: 'button-assertive',
+						onTap: function() {
+							IonPopup.close();
+						}
+					}]
+			});
+		});
+	},
+    
+    'click #ownerPurchasingAccept': function() {
+		PartioLoad.show();
+		var requestor = this.requestorInfo();
+		Meteor.call('ownerPurchasingAccept', this.connectData._id, requestor._id, function(err, res) {
 			PartioLoad.hide();
 
 			if(err) {

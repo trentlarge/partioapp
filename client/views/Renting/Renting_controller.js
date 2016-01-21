@@ -16,6 +16,9 @@ RentingController = RouteController.extend({
 
 	data: function() {
 		return {
+            toBeApprovedPurchasing: function() {
+                return Connections.find({"requestor": Meteor.userId(), finished: { $ne: true }, $or: [ {"state": "WAITING PURCHASING"}, {"state": "PAYMENT PURCHASING"}, {"state": "SOLD"} ]});
+            },
             toBeApproved: function() {
                 return Connections.find({"requestor": Meteor.userId(), finished: { $ne: true }, "state": "WAITING"}); //{$ne: "IN USE", $ne: "DONE"}})
             },

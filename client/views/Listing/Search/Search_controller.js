@@ -68,6 +68,13 @@ SearchController = RouteController.extend({
           return Connections.findOne({"owner": this.product.ownerId, finished: { $ne: true }, "productData._id": this.product._id}) ? true : false;
         }
       },
+      isSellingStatusOn: function() {
+          if(this.product){
+            if(this.product.selling){
+                return (this.product.selling.status === 'ON') ? true : false;
+            }
+          }
+      },
       rating: function() {
         if(this.product){
           userRating(this.product.userId);

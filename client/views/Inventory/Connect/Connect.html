@@ -106,6 +106,7 @@
                   </a>
                 {{/if}}
             </div>
+            {{#if ../isNotPurchasing}}
             <div class="item details">
               <i class="icon ion-ios-calendar-outline"></i>
               {{../getTotalDays}} ({{../getStartDate}} to {{../getEndDate}})
@@ -115,6 +116,7 @@
               {{../getDaysLeft}}
   <!--            <input type="range" id="myRange" min="0" max="{{connectData.borrowDetails.date.totalDays}}" value="{{../getDaysLeftValue}}" class="range range-assertive" disabled>-->
             </div>
+            {{/if}}
             <div class="item details">
                   <i class="icon ion-cash"></i>
                   <span class="price">${{connectData.borrowDetails.price.total}}</span>
@@ -135,28 +137,56 @@
 
             <div style="padding-bottom:16px;"></div>
 
-          {{#if alreadyApproved}}
-            {{#if returnItem}}
-                <div class="item button-divider ">
-                    <button id="confirmReturn" class="button button-block">CONFIRM RETURN</button>
-                </div>
-            {{else}}
-                <div class="item button-divider ">
-                    <button class="button button-block" disabled>BORROWED</button>
-                </div>
-            {{/if}}
+              
+          {{#if ../isNotPurchasing}}  
+            
+              {{#if alreadyApproved}}
+                {{#if returnItem}}
+                    <div class="item button-divider ">
+                        <button id="confirmReturn" class="button button-block">CONFIRM RETURN</button>
+                    </div>
+                {{else}}
+                    <div class="item button-divider ">
+                        <button class="button button-block" disabled>BORROWED</button>
+                    </div>
+                {{/if}}
 
-          {{else}}
-            {{#if ../isTimeOver}}
-                <div class="item button-divider ">
-                    <button class="button button-block" disabled>TIME IS OVER</button>
-                </div>
+              {{else}}
+                    {{#if ../isTimeOver}}
+                        <div class="item button-divider ">
+                            <button class="button button-block" disabled>TIME IS OVER</button>
+                        </div>
+                    {{else}}
+                        <div class="item button-divider ">
+                            <button id="ownerAccept" class="button button-block button-energized">ALLOW RENTING</button>
+                        </div>
+                    {{/if}}
+              {{/if}}
+            
             {{else}}
-                <div class="item button-divider ">
-                    <button id="ownerAccept" class="button button-block button-energized">ALLOW RENTING</button>
-                </div>
+                {{#if alreadyApproved}}
+                    {{#if ../confirmSold}}
+                        <div class="item button-divider ">
+                            <button id="giveFeedback" class="button button-block">GIVE THE FEEDBACK</button>
+                        </div>
+                    {{else}}
+                        {{#if ../paymentPending}}
+                            <div class="item button-divider ">
+                                <button class="button button-block" disabled>WAITING PAYMENT</button>
+                            </div>
+                        {{else}}
+                            <div class="item button-divider ">
+                                <button class="button button-block" disabled>SOLD - WAITING CONFIRMATION</button>
+                            </div>
+                        {{/if}}
+                    {{/if}}
+                {{else}}
+                     <div class="item button-divider ">
+                        <button id="ownerPurchasingAccept" class="button button-block button-energized">ALLOW PURCHASING</button>
+                    </div>
+                {{/if}}
+            
             {{/if}}
-          {{/if}}
         </div>
 
         <div class="center">

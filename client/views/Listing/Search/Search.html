@@ -104,12 +104,10 @@
                         {{#if ../isBorrowed ownerId _id}}
                             <button class="button button-block" disabled>
                                 BORROWED 
-    <!--                            <i class="fa fa-check "></i> -->
                             </button>
                         {{else}}
                             <button class="button button-block" disabled> 
                                 REQUEST SENT 
-    <!--                            <i class="fa fa-check "></i> -->
                             </button>
                         {{/if}}
                     {{else}}
@@ -117,13 +115,17 @@
                             {{#if ../isUnavailable ownerId _id}}
                                 <button class="button button-block" disabled>
                                     UNAVAILABLE 
-    <!--                                <i class="fa fa-ban "></i> -->
                                 </button>
                             {{else}}
                                 <button id="requestProduct" class="button button-block button-energized">
                                     REQUEST 
-    <!--                                <i class="fa fa-shopping-cart"></i>  -->
                                 </button>
+                    
+                                {{#if ../isSellingStatusOn}}
+                                    <a id="buyProduct" class="button-energized"> 
+                                        BUY FOR ${{product.selling.price}} 
+                                    </a>
+                                {{/if}}
                             {{/if}}
                         {{/if}}
                     {{/if}}    

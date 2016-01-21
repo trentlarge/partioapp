@@ -149,7 +149,6 @@
         display: flex;
         position: relative;
         float: right;
-        top: -2px;
         background-color: #272727;
         font-size: 12px;
         padding-left: 5px;
@@ -177,7 +176,7 @@
         padding: 0 2px 5px 2px;
         background-color: #eee;
         border-top: 1px solid #ddd;
-        margin-top: 8px;
+        margin-top: 10px;
 //        border-bottom-left-radius: 10px;
 //        border-bottom-right-radius: 10px;
     }
@@ -197,14 +196,10 @@
         th {
             font-size: 7px;
             color: #272727;
-//            color: rgba(39, 39, 39, 0.7);
         }
         
         td {
             color: #272727;
-//            color: rgba(39, 39, 39, 0.75);
-//            background-color: #DDDDDD;
-//            border-radius: 10px;
         }
         
         th, td {

@@ -15,6 +15,10 @@
         align-items: center;
         -webkit-flex-direction: column;
         flex-direction: column;
+        
+        &.purchasing {
+            height: 70px;
+        }
     }
 
     .product-avatar-inner {

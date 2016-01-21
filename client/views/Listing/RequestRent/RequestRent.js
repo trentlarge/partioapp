@@ -158,8 +158,8 @@ Template.requestRent.events({
     IonPopup.confirm({
       okText: 'Proceed',
       cancelText: 'Cancel',
-      title: 'Continuing will send a request to the product Owner',
-      template: '<div class="center">You\'ll receive a notification once the owner accepts your request</div>',
+      title: 'Request to the product Owner',
+      template: 'You\'ll receive a notification once the owner accepts your request',
       onOk: function() {
         PartioLoad.show();
         Meteor.call('requestOwner', Meteor.userId(), productId, ownerId, borrowDetails, function(err, res) {

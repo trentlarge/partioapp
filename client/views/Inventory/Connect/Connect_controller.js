@@ -66,6 +66,11 @@ ConnectController = RouteController.extend({
 				return requestor.profile.mobile;
 			},
 
+            isNotPurchasing: function() {
+                if(!this.connectData) { return; }
+				return (this.connectData.state.indexOf('PURCHASING') < 0 && this.connectData.state.indexOf('SOLD') < 0) ? true : false;
+            },
+            
 			isBorrowed: function() {
         		if(!this.connectData) { return; }
 				return (this.connectData.state === 'IN USE') ? true : false;
@@ -106,12 +111,17 @@ ConnectController = RouteController.extend({
 
 			alreadyApproved: function() {
 				if(!this.connectData) { return; }
-				return (this.connectData.state !== "WAITING") ? true : false;
+				return (this.connectData.state.indexOf("WAITING") < 0) ? true : false;
 			},
 
 			returnItem: function() {
 				if(!this.connectData) { return; }
 				return this.connectData.state === "RETURNED" ? true : false;
+			},
+            
+            confirmSold: function() {
+				if(!this.connectData) { return; }
+				return this.connectData.state === "SOLD CONFIRMED" ? true : false;
 			},
 
 			isTimeOver: function() {
@@ -169,7 +179,7 @@ ConnectController = RouteController.extend({
 
 			paymentPending: function() {
 				if(!this.connectData) { return; }
-				if(this.connectData.state === 'PAYMENT' || this.connectData.state === 'WAITING') {
+				if(this.connectData.state.indexOf('PAYMENT') >= 0 || this.connectData.state.indexOf('WAITING') >= 0) {
 					return true;
 				}
 				return false;
