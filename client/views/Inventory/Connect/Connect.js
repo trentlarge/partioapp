@@ -19,6 +19,7 @@ Template.connect.events({
 
 	'click #confirmReturn': function() {
 		var connection = this.connectData;
+		var requestor = Users.findOne({ _id: connection.requestor });
 		var productTitle = connection.productData.title;
 		var searchCollectionId = Search.findOne({title: productTitle});
 
@@ -41,7 +42,8 @@ Template.connect.events({
 						sAlert.error(errorMessage);
 						return;
 					}
-					IonModal.open("feedbackborrower", connection);
+					//console.log(connection);
+					IonModal.open("feedbackborrower", requestor);
 				});
 			}
 		});
