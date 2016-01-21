@@ -48,62 +48,28 @@ Template.feedback.events({
 	}
 });
 
-
-Template.feedbackborrower.helpers({
+Template.feedbackborrower.helpers({	
 	userInfo: function() {
-		if(!this.requestorData) {
-			return null;
-		}
-		return this.requestorData.profile;
-	},
-	requestorData: function() {
-		if(!this.requestorData) {
-			return null;
-		}
-		return this.requestorData.profile;
-	},
-
-	ownerData: function(){
-		if(!this.productData || !this.productData.ownerData) {
-			return null;
-		}
-		return this.productData.ownerData.profile;
+		return this.profile;
 	},
 
 	requestorAvatar: function() {
-		if( !this.requestorData ||
-			!this.requestorData.profile ||
-			!this.requestorData.profile.avatar ||
-			 this.requestorData.profile.avatar == 'notSet')
-
-		{
-			return '/profile_image_placeholder.jpg'
-		}
-
-		return this.requestorData.profile.avatar;
+		return this.profile.avatar;
 	},
 
-	ownerAvatar: function() {
-		if( !this.productData ||
-			!this.productData.ownerData ||
-			!this.productData.ownerData.profile ||
-			!this.productData.ownerData.profile.avatar ||
-			 this.productData.ownerData.profile.avatar == 'notSet')
-		{
-			return '/profile_image_placeholder.jpg'
-		}
-		return this.productData.ownerData.profile.avatar;
-	},
+	// ownerAvatar: function() {
+	// 	return this.ownerData.profile.avatar;
+	// },
 
 	getAreaName: function() {
-		return areaName(this.requestorData.profile.area);
+		return areaName(this.profile.area);
 	}
 });
 
 Template.feedbackborrower.events({
 	'click #submitFeedback': function() {
-		var personId = this.requestor;
-		var connectionId = this._id;
+		var personId = this._id;
+		var connectionId = Router.current().params._id;
 		var rating = $('input[name=rating]:checked').val();
 
 		if (rating) {
