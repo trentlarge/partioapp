@@ -8,6 +8,19 @@ Template.lend.events({
       //MANUAL INSERT BOOK ---------------------------------------------
       if (Session.get('lendTab') === 'manual') {
           
+        var images = (function() {
+            var images = [];
+            if(Session.get('slideElements')) {
+                var slideElements = Session.get('slideElements');
+                $.each(slideElements, function(index, slideElement) {
+                    if(slideElement.photo !== '') {
+                        images.push(slideElement);
+                    }
+                })
+            }
+            return images;
+        })();  
+          
         var manualProduct = {
           "title": $('.manualTitle').val().toLowerCase().replace(/\b[a-z]/g, function(letter) {
             return letter.toUpperCase();
@@ -20,12 +33,13 @@ Template.lend.events({
           "category": $('.manualCategory').val(),
           "amazonCategory": $('.manualCategory').val(),
           "image": (function() {
-            if(Session.get('photoTaken')) {
-              return Session.get('photoTaken');
+            if(images[0]) {
+              return images[0].photo;
             } else {
               return '/image-not-available.png';
             }
           })(),
+          "images": images,
           "rentPrice": {
             "day": Number(Session.get('dayPrice')).toFixed(2),
             "week": Number(Session.get('weekPrice')).toFixed(2),

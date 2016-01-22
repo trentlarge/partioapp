@@ -27,6 +27,16 @@
     
 //  PRODUCT DETAILS
     
+    .ion-slide.slick-slide {
+        -webkit-justify-content: center;
+        justify-content: center;
+        display: -webkit-flex;
+        -webkit-align-items: center;
+        display: flex;
+        align-items: center;
+        padding-bottom: 10px;
+    }
+    
     .product-avatar {
         -webkit-justify-content: center;
         justify-content: center;
@@ -38,10 +48,12 @@
     }
 
     .product-avatar-inner {
-        width: auto;
-        height: auto;
         max-height: 140px;
-        max-width: 140px;
+        max-width: 100%;
+    }
+    
+    .slide-image {
+        max-width: 90%;
     }
     
     p.product-title-text {

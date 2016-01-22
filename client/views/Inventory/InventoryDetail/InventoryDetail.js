@@ -26,6 +26,18 @@ Template.appLayout.events({
 	},
 });
 
+Template.slideInventoryImages.helpers({
+    
+    slideElements: function() {
+        return Session.get('slideElements');
+    }
+    
+});
+
+Template.inventoryDetail.destroyed = function () {
+    Session.set('slideElements', null);
+};
+
 Template.inventoryDetail.onCreated(function () {
   Meteor.subscribe("singleProduct", Router.current().params._id)
 });

@@ -14,10 +14,21 @@ InventoryDetailController = RouteController.extend({
       //Meteor.subscribe("singleProduct", this.params._id)
 		];
 	},
+    
+    product: function() {
+        var product = Products.findOne(this.params._id);
+        var slideElements = [];
+        $.each(product.images, function(index, image) {
+            slideElements.push(image);       
+        });
+        Session.set('slideElements', slideElements);
+        return product;
+    },
 
 	data: function() {
 		return {
-			product: Products.findOne(this.params._id),
+			product: this.product(),
+            //Products.findOne(this.params._id),
 
       getCategoryIcon: function() {
         if(this.product) {

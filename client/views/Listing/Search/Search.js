@@ -11,8 +11,18 @@ Template.search.rendered = function() {
     todayHighlight: true,
     toggleActive: true,
     inputs: $('.range-start, .range-end'),
-  });
+  });   
 }
+
+Template.search.destroyed = function() {
+    Session.set('slideElements', null);
+}
+
+Template.slideImages.helpers({
+   slideElements: function() {
+        return Session.get('slideElements');   
+   }
+});
 
 Template.search.events({
   'click .features': function(e, template) {

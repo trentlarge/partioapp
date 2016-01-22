@@ -29,6 +29,7 @@
       <div class="loading-wrapper">
         <div class="card list">
           <div class="item image">
+<!--
             {{#if editMode product._id}}
             <div class="item-image-box">
                 <div class="img-wrap">
@@ -37,10 +38,13 @@
                 </div>
             </div>
             {{else}}
+-->
             <div class="item-image-box">
-              <img class="product-image" src="{{product.image}}"/>
+              <a data-ion-modal="slideInventoryImages">
+                <img class="product-image" src="{{product.image}}"/>
+              </a>
             </div>
-            {{/if}}
+<!--            {{/if}}-->
           </div>
 
           <label class="item item-input">
@@ -174,4 +178,21 @@
       <input type="file" id="browser-file-upload">
     {{/ionContent}}
   {{/ionView}}
+</template>
+
+<template name="slideInventoryImages">
+
+    {{#ionModal title="Images" class="inventory-details slide-inventory-images"}}
+    
+        {{#ionSlideBox}}
+            {{#each slideElements}}
+                {{#ionSlide}}
+                <div class="product-avatar">
+                    <img class="slide-image" src="{{photo}}"/>
+                </div>
+                {{/ionSlide}}
+            {{/each}}
+        {{/ionSlideBox}}
+    
+    {{/ionModal}}
 </template>
