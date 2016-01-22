@@ -24,6 +24,7 @@ Router.waitOn(function () {
 // (which is little bit more readable)
 //
 Router.route('/', { name: 'main', controller: 'MainController'});
+Router.route('/admin', { name: 'admin', controller: 'AdminController'});
 Router.route('/verify-email/:token', {name: 'emailverification', controller: 'EmailVerificationController'});
 Router.route('/reset-password/:token', {name: 'resetpassword', controller: 'ResetPasswordController'});
 Router.route('/login', { name: 'login', controller: 'LoginController'});

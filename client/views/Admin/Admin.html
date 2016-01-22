@@ -1,0 +1,44 @@
+<template name="admin"> 
+    {{#contentFor "headerButtonLeft"}}
+        <button class="button button-clear pull-left" data-ion-menu-toggle="left">
+          {{> ionIcon icon='navicon' class="energized"}}
+        </button>
+    {{/contentFor}}
+
+    {{#contentFor "headerTitle"}}
+        <h1 class="title" style="text-align:center;">Admin</h1>
+    {{/contentFor}}
+
+    {{#contentFor "headerButtonRight"}}
+        <a href="/" class="button button-clear">
+            <img id="spinner-logo-simple" src="{{ getImage 'spinner-logo' }}" />
+        </a>
+    {{/contentFor}}
+    
+    {{#ionView}}
+        {{#ionContent class="admin"}}    
+    
+            <div class="card">
+                <div class="item item-divider">
+                    Users by University
+                </div>
+                <div class="item">
+                    <canvas id="universityUsersChart" width="150" height="150"></canvas>
+                </div>
+                <div class="item">
+                    Total: {{../getUsersLenght}}
+                </div>
+                <div class="item item-divider">
+                    Products by University
+                </div>
+                <div class="item">
+                    <canvas id="universityProductsChart" width="150" height="150"></canvas>
+                </div>
+                <div class="item">
+                    Total: {{../getProductsLenght}} 
+                </div>
+            </div>
+    
+        {{/ionContent}}
+    {{/ionView}}
+</template>
