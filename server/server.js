@@ -47,7 +47,7 @@ Meteor.startup(function() {
                 <body>\
                     <table width="750" bgcolor="#f6f6f6">\
                         <tr height="373">\
-                            <td><img src="http://cloudservice.io/partio/template_cabecalho.jpg" /></td>\
+                            <td><img src="http://partioapp.com/img/template_cabecalho.jpg" /></td>\
                         </tr>\
                         <tr>\
                             <td>\
@@ -62,7 +62,7 @@ Meteor.startup(function() {
                             </td>\
                         </tr>\
                         <tr height="262">\
-                            <td><img src="http://cloudservice.io/partio/template_rodape.jpg" /></td>\
+                            <td><img src="http://partioapp.com/img/template_rodape.jpg" /></td>\
                         </tr>\
                     </table>\
                 </body>\
@@ -86,7 +86,7 @@ Meteor.startup(function() {
                 <body>\
                     <table width="750" bgcolor="#f6f6f6">\
                         <tr height="373">\
-                            <td><img src="http://cloudservice.io/partio/template_cabecalho.jpg" /></td>\
+                            <td><img src="http://partioapp.com/img/template_cabecalho.jpg" /></td>\
                         </tr>\
                         <tr>\
                             <td>\
@@ -101,7 +101,7 @@ Meteor.startup(function() {
                             </td>\
                         </tr>\
                         <tr height="262">\
-                            <td><img src="http://cloudservice.io/partio/template_rodape.jpg" /></td>\
+                            <td><img src="http://partioapp.com/img/template_rodape.jpg" /></td>\
                         </tr>\
                     </table>\
                 </body>\
