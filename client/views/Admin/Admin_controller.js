@@ -90,7 +90,7 @@ AdminController = RouteController.extend({
                  
                 var usersId = this.getUsersIdByUniversity(uni);
                  
-                var transactions = this.products.filter(function( transaction ) {
+                var transactions = this.transactions.filter(function( transaction ) {
                     return ($.inArray(transaction.userId, usersId) >= 0);
                 });
                 
