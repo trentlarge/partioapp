@@ -51,11 +51,10 @@ AdminController = RouteController.extend({
                 });
                  
                 var products = this.products.filter(function( product ) {
-                    console.log(product.ownerId.indexOf(usersId));
-                    return (product.ownerId.indexOf(usersId) >= 0);
+                    return ($.inArray(product.ownerId, usersId) >= 0);
                 });
                 
-                return users.length;
+                return products.length;
             }
                 
 		};

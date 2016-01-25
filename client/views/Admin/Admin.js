@@ -32,21 +32,29 @@ Template.admin.rendered = function() {
     
     // NUMBER OF USER BY UNIVERSITY
     
+    var users = {
+        duke: this.data.getTotalUsersByUniversity("@duke.edu"),
+        yale: this.data.getTotalUsersByUniversity("@yale.edu"),
+        total: this.data.getUsersLenght()
+    }
+    
+    users.others = users.total - users.duke - users.yale;
+    
     var usersData = [
     {
-        value: this.data.getTotalUsersByUniversity("@duke.edu"),
+        value: users.duke,
         color:"#F7464A",
         highlight: "#FF5A5E",
         label: "Duke"
     },
     {
-        value: this.data.getTotalUsersByUniversity("@yale.edu"),
+        value: users.yale,
         color: "#46BFBD",
         highlight: "#5AD3D1",
         label: "Yale"
     },
     {
-        value: this.data.getTotalUsersByUniversity("@gmail.com"),
+        value: users.others,
         color: "#FDB45C",
         highlight: "#FFC870",
         label: "Others"
@@ -58,21 +66,29 @@ Template.admin.rendered = function() {
     
     // NUMBER OF PRODUCTS BY USER UNIVERSITY
     
+    var products = {
+        duke: this.data.getTotalProductsByUniversity("@duke.edu"),
+        yale: this.data.getTotalProductsByUniversity("@yale.edu"),
+        total: this.data.getProductsLenght()
+    }
+    
+    products.others = products.total - products.duke - products.yale;
+    
     var productsData = [
     {
-        value: this.data.getTotalProductsByUniversity("@duke.edu"),
+        value: products.duke,
         color:"#F7464A",
         highlight: "#FF5A5E",
         label: "Duke"
     },
     {
-        value: this.data.getTotalProductsByUniversity("@yale.edu"),
+        value: products.yale,
         color: "#46BFBD",
         highlight: "#5AD3D1",
         label: "Yale"
     },
     {
-        value: this.data.getTotalProductsByUniversity("@gmail.com"),
+        value: products.others,
         color: "#FDB45C",
         highlight: "#FFC870",
         label: "Others"
