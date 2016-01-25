@@ -16,13 +16,7 @@ InventoryDetailController = RouteController.extend({
 	},
     
     product: function() {
-        var product = Products.findOne(this.params._id);
-        var slideElements = [];
-        $.each(product.images, function(index, image) {
-            slideElements.push(image);       
-        });
-        Session.set('slideElements', slideElements);
-        return product;
+        return Products.findOne(this.params._id);
     },
 
 	data: function() {

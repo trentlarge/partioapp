@@ -17,7 +17,6 @@ SearchController = RouteController.extend({
   product: function() {
     var _product = Products.findOne(this.params._id);
     if(_product){
-      Session.set('slideElements', _product.images);
       return _product
     }
     return false;

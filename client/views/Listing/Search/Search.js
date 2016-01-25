@@ -12,6 +12,17 @@ Template.search.rendered = function() {
     toggleActive: true,
     inputs: $('.range-start, .range-end'),
   });   
+    
+  var product = this.data.product;
+  if(product) {
+      if(product.images) {
+        Session.set('slideElements', product.images);
+      }
+      else {
+          var slideElements = [{'photo': product.image}];
+          Session.set('slideElements', slideElements);
+      }
+  }
 }
 
 Template.search.destroyed = function() {
