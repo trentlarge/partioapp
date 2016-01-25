@@ -11,6 +11,7 @@ AnalyticsController = RouteController.extend({
 		return [
             Meteor.subscribe("users"),
 			Meteor.subscribe("products"),
+            Meteor.subscribe("allConnections"),
             Meteor.subscribe("transactions")
 		];
 	},
@@ -42,7 +43,11 @@ AnalyticsController = RouteController.extend({
                         return this.connections.length;
                         break;
                     case 'transactions': 
-                        return this.transactions.length;
+                        var transactionsLength = 0;
+                        $.each(this.transactions, function(index, transaction) {
+                            transactionsLength += transaction.spending.length;
+                        });
+                        return transactionsLength;
                         break;
                     default:
                         return 0;
@@ -93,6 +98,11 @@ AnalyticsController = RouteController.extend({
                         elements = this.transactions.filter(function( transaction ) {
                             return ($.inArray(transaction.userId, usersId) >= 0);
                         });
+                        var transactionsLength = 0;
+                        $.each(elements, function(index, transaction) {
+                            transactionsLength += transaction.spending.length;
+                        });
+                        return transactionsLength;
                         break;
                     default:
                         return 0;

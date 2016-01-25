@@ -38,7 +38,11 @@ AdminController = RouteController.extend({
             },
             
             getTransactionsLenght: function() {
-                return this.transactions.length;  
+                var transactionsLength = 0;
+                $.each(this.transactions, function(index, transaction) {
+                    transactionsLength += transaction.spending.length;
+                });
+                return transactionsLength;
             },
             
             getUsersIdByUniversity: function(uni) {
@@ -94,7 +98,13 @@ AdminController = RouteController.extend({
                     return ($.inArray(transaction.userId, usersId) >= 0);
                 });
                 
-                return transactions.length;
+                var transactionsLength = 0;
+                
+                $.each(transactions, function(index, transaction) {
+                    transactionsLength += transaction.spending.length;
+                });
+                
+                return transactionsLength;
             }
                 
 		};
