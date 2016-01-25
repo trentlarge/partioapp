@@ -61,7 +61,7 @@ Template.admin.rendered = function() {
     }
     ];
     
-    var ctx = document.getElementById("universityUsersChart").getContext("2d");
+    var ctx = document.getElementById("adminUsers").getContext("2d");
     var myNewChart = new Chart(ctx).Pie(usersData, options);
     
     // NUMBER OF PRODUCTS BY USER UNIVERSITY
@@ -95,7 +95,75 @@ Template.admin.rendered = function() {
     }
     ];
     
-    var ctx = document.getElementById("universityProductsChart").getContext("2d");
+    var ctx = document.getElementById("adminProducts").getContext("2d");
     var myNewChart = new Chart(ctx).Pie(productsData, options);
+    
+    // NUMBER OF CONNECTIONS BY USER UNIVERSITY
+    
+    var connections = {
+        duke: this.data.getTotalConnectionsByUniversity("@duke.edu"),
+        yale: this.data.getTotalConnectionsByUniversity("@yale.edu"),
+        total: this.data.getConnectionsLenght()
+    }
+    
+    connections.others = connections.total - connections.duke - connections.yale;
+    
+    var connectionsData = [
+    {
+        value: connections.duke,
+        color:"#F7464A",
+        highlight: "#FF5A5E",
+        label: "Duke"
+    },
+    {
+        value: connections.yale,
+        color: "#46BFBD",
+        highlight: "#5AD3D1",
+        label: "Yale"
+    },
+    {
+        value: connections.others,
+        color: "#FDB45C",
+        highlight: "#FFC870",
+        label: "Others"
+    }
+    ];
+    
+    var ctx = document.getElementById("adminConnections").getContext("2d");
+    var myNewChart = new Chart(ctx).Pie(connectionsData, options);
+    
+    // NUMBER OF TRANSACTIONS BY USER UNIVERSITY
+    
+    var transactions = {
+        duke: this.data.getTotalTransactionsByUniversity("@duke.edu"),
+        yale: this.data.getTotalTransactionsByUniversity("@yale.edu"),
+        total: this.data.getTransactionsLenght()
+    }
+    
+    transactions.others = transactions.total - transactions.duke - transactions.yale;
+    
+    var transactionsData = [
+    {
+        value: transactions.duke,
+        color:"#F7464A",
+        highlight: "#FF5A5E",
+        label: "Duke"
+    },
+    {
+        value: transactions.yale,
+        color: "#46BFBD",
+        highlight: "#5AD3D1",
+        label: "Yale"
+    },
+    {
+        value: transactions.others,
+        color: "#FDB45C",
+        highlight: "#FFC870",
+        label: "Others"
+    }
+    ];
+    
+    var ctx = document.getElementById("adminTransactions").getContext("2d");
+    var myNewChart = new Chart(ctx).Pie(transactionsData, options);
     
 };

@@ -3,7 +3,8 @@
 //
 
 Meteor.publish("users", function() {
-	return Users.find({}, { fields: { emails: 1 }});
+	return Users.find({}, { fields: { emails: 1, profile: 1, createdAt: 1 }});
+//    return Users.find({});
 });
 
 Meteor.publish("all_users", function() {
