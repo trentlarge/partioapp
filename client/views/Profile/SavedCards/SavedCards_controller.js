@@ -22,7 +22,7 @@ SavedCardsController = RouteController.extend({
 
       isDebit: function(funding) {
           if(funding === 'debit') {
-              return 'RECEIVE';
+              return 'RECEIVING';
           }
           return '';
       },

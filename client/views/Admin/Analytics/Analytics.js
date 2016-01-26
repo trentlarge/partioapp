@@ -1,5 +1,9 @@
 Template.analytics.rendered = function() {
     
+    if(!this.data.isUserPermited()) {
+        return;
+    }
+    
     var self = this.data;
     
     var options = {
@@ -26,11 +30,18 @@ Template.analytics.rendered = function() {
 
         //Boolean - Whether we animate scaling the Doughnut from the centre
         animateScale : false,
-        
-        //String - A legend template
-        legendTemplate : "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<segments.length; i++){%><li><span style=\"background-color:<%=segments[i].fillColor%>\"></span><%if(segments[i].label){%><%=segments[i].label%><%}%></li><%}%></ul>"
 
+        responsive: false
     };
+    
+    var responsiveOptions = {
+        
+        responsive: true
+        
+    };
+    
+    
+    /* ==== GENERIC ANALYTICS ==== */
     
     // NUMBER OF ELEMENTS BY UNIVERSITY
     
@@ -73,5 +84,81 @@ Template.analytics.rendered = function() {
     
     var ctx = document.getElementById(this.data.analyticsId + "Chart").getContext("2d");
     var myNewChart = new Chart(ctx).Pie(chartData, options);
+    
+    /* ==== USERS ANALYTICS ==== */
+    
+    if(self.analyticsId === 'users') {
+                
+        // NUMBER OF USERS BY MONTH
+        
+        var data = {
+            labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+            datasets: [
+                {
+                    label: "Users",
+                    fillColor: "rgba(151,187,205,0.2)",
+                    strokeColor: "rgba(151,187,205,1)",
+                    pointColor: "rgba(151,187,205,1)",
+                    pointStrokeColor: "#fff",
+                    pointHighlightFill: "#fff",
+                    pointHighlightStroke: "rgba(151,187,205,1)",
+                    data: this.data.getUsersByMonth(),
+                },
+//                {
+//                    label: "Users",
+//                    fillColor: "rgba(220,220,220,0.2)",
+//                    strokeColor: "rgba(220,220,220,1)",
+//                    pointColor: "rgba(220,220,220,1)",
+//                    pointStrokeColor: "#fff",
+//                    pointHighlightFill: "#fff",
+//                    pointHighlightStroke: "rgba(220,220,220,1)",
+//                    data: this.data.getUsersByMonth()
+//                },
+            ]
+        };
+        
+        var ctx = document.getElementById(this.data.analyticsId + "DateChart").getContext("2d");
+        var myLineChart = new Chart(ctx).Line(data, responsiveOptions);
+        
+    }
+    
+    /* ==== PRODUCTS ANALYTICS ==== */
+    
+    if(self.analyticsId === 'products') {
+        
+        // PRODUCTS BY CATEGORIES
+        
+        var data = {
+            labels: Categories.getAllCategoriesText(),
+            datasets: [
+                {
+                    label: "Products by Categories",
+                    fillColor: "rgba(151,187,205,0.2)",
+                    strokeColor: "rgba(151,187,205,1)",
+                    pointColor: "rgba(151,187,205,1)",
+                    pointStrokeColor: "#fff",
+                    pointHighlightFill: "#fff",
+                    pointHighlightStroke: "rgba(151,187,205,1)",
+                    data: this.data.getProductsByCategories(),
+                },
+            ]
+        };
+        
+        var ctx = document.getElementById(this.data.analyticsId + "CategoriesChart").getContext("2d");
+        var myBarChart = new Chart(ctx).Bar(data, responsiveOptions);
+        
+    }
+    
+    /* ==== CONNECTIONS ANALYTICS ==== */
+    
+    if(self.analyticsId === 'connections') {
+        
+    }
+    
+    /* ==== TRANSACTIONS ANALYTICS ==== */
+    
+    if(self.analyticsId === 'transactions') {
+        
+    }
     
 };

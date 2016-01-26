@@ -20,10 +20,29 @@ AdminController = RouteController.extend({
         
 		return {
             
+            user: Users.findOne({_id: Meteor.userId()}),
             users: Users.find({}).fetch(),
             products: Products.find({}).fetch(),
             connections: Connections.find({}).fetch(),
             transactions: Transactions.find({}).fetch(),
+            
+            isUserPermited: function() {
+                
+                var permitedUsers = [
+                    "talles.souza@duke.edu",
+                    "talles@gmail.com",
+                    "trentonlarge@gmail.com",
+                    "petar.korponaic@gmail.com",
+                    "korponaic@gmail.com",
+                    "claytonmarinho@gmail.com",
+                    "breno.wd@gmail.com",
+                    "lucasbr.dafonseca@gmail.com",
+                    "flashblade123@gmail.com"
+                ];
+                
+                return ($.inArray(this.user.emails[0].address, permitedUsers) >= 0) ? true : false;
+                
+            },
             
             getUsersLenght: function() {
                 return this.users.length;  

@@ -14,11 +14,11 @@
     {{/contentFor}}
     
     {{#ionView}}
-        {{#ionContent class="admin"}}    
+        {{#ionContent class="analytics"}}    
+    
+        {{#if isUserPermited}}
     
             <div class="container">
-                
-                
                 
                 <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
                     <div class="card">
@@ -33,6 +33,57 @@
                         </div>
                     </div>
                 </div>
+                
+                
+                {{#if ../isUserAnalytics}}
+                
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                        <div class="card">
+                            <div class="item item-divider">
+                                <span style="text-transform:capitalize;">{{../getAnalyticsId}} by Month (2016)</span> 
+                            </div>
+                            <div class="item">
+                                <canvas id="{{../getAnalyticsId}}DateChart" class="padding"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                
+                {{/if}}
+                
+                
+                {{#if ../isProductsAnalytics}}
+                
+                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+                        <div class="card">
+                            <div class="item item-divider">
+                                <span style="text-transform:capitalize;">{{../getAnalyticsId}} Sold</span> 
+                            </div>
+                            {{#with ../getSoldProducts}}
+                                <div class="item">
+                                    <p class="product-sold">{{total}}</p>
+                                </div>
+                                <div class="item item-divider">
+                                    <span style="text-transform:capitalize;">Average Price</span> 
+                                </div>
+                                <div class="item">
+                                    <p class="average-price">${{averagePrice}}</p>
+                                </div>
+                            {{/with}}
+                        </div>
+                    </div>
+                
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                        <div class="card">
+                            <div class="item item-divider">
+                                <span style="text-transform:capitalize;">{{../getAnalyticsId}} by Categories</span> 
+                            </div>
+                            <div class="item">
+                                <canvas id="{{../getAnalyticsId}}CategoriesChart" class="padding"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                
+                {{/if}}
                 
 <!--
                 <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
@@ -52,6 +103,8 @@
                 
     
             </div>
+    
+        {{/if}}
     
         {{/ionContent}}
     {{/ionView}}

@@ -22,13 +22,48 @@ AnalyticsController = RouteController.extend({
             
             analyticsId: this.params._id,
             
+            user: Users.findOne({_id: Meteor.userId()}),
             users: Users.find({}).fetch(),
             products: Products.find({}).fetch(),
             connections: Connections.find({}).fetch(),
             transactions: Transactions.find({}).fetch(),
             
+            isUserPermited: function() {
+                
+                var permitedUsers = [
+                    "talles.souza@duke.edu",
+                    "talles@gmail.com",
+                    "trentonlarge@gmail.com",
+                    "petar.korponaic@gmail.com",
+                    "korponaic@gmail.com",
+                    "claytonmarinho@gmail.com",
+                    "breno.wd@gmail.com",
+                    "lucasbr.dafonseca@gmail.com",
+                    "flashblade123@gmail.com"
+                ];
+                
+                return ($.inArray(this.user.emails[0].address, permitedUsers) >= 0) ? true : false;
+                
+            },
+            
             getAnalyticsId: function() {
                 return this.analyticsId;
+            },
+            
+            isUserAnalytics: function() {
+                return (this.analyticsId === 'users') ? true : false;
+            },
+            
+            isProductsAnalytics: function() {
+                return (this.analyticsId === 'products') ? true : false;
+            },
+            
+            isConnectionsAnalytics: function() {
+                return (this.analyticsId === 'connections') ? true : false;
+            },
+            
+            isTransactionsAnalytics: function() {
+                return (this.analyticsId === 'transactions') ? true : false;
             },
             
             getLenght: function() {
@@ -77,7 +112,7 @@ AnalyticsController = RouteController.extend({
                 return users.length;
             },
             
-             getTotalByUniversity: function(uni) {
+            getTotalByUniversity: function(uni) {
                 
                 var usersId = this.getUsersIdByUniversity(uni);
                 
@@ -111,6 +146,76 @@ AnalyticsController = RouteController.extend({
                 return elements.length;
             },
             
+            // USERS METHODS
+            
+            getUsersByMonth: function() {
+                
+                var todayDate = new Date();
+                var today = {
+                    day: todayDate.getDate(),
+                    month: todayDate.getMonth(), //January is 0!
+                    year: todayDate.getFullYear()
+                };
+                
+                var users = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+                
+                $.each(this.users, function(index, user) {
+                   
+                    var date = new Date(user.createdAt);
+                    var userDate = {
+                        month: date.getMonth(),
+                        year: date.getFullYear()
+                    };
+                    
+                    if(userDate.year === today.year) {
+                        users[userDate.month]++;  
+                    };
+                    
+                });
+                
+                console.log(users);
+                
+                return users;
+                
+            },
+            
+            // PRODUCTS METHODS
+            
+            getProductsByCategories: function() {
+              
+                var categories = Categories.getAllCategoriesText();
+                
+                var products = [];
+                for(var i=0; i<categories.length; i++) {
+                    products.push(0);
+                }
+                
+                $.each(this.products, function(index, product) {
+                    products[$.inArray(product.category, categories)]++;
+                });
+                
+                console.log(products);
+                
+                return products;
+            },
+            
+            getSoldProducts: function() {
+                
+                var products = this.products.filter(function(product) {
+                    return (product.sold === true)
+                });
+                
+                var soldProducts = {
+                    total: products.length,
+                    averagePrice: 0.00
+                };
+                
+                $.each(products, function(index, product) {
+                    soldProducts.averagePrice += parseFloat(product.selling.price);
+                })
+                
+                return soldProducts;
+            }
                 
 		};
 	},

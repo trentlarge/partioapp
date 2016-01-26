@@ -1,5 +1,9 @@
 Template.admin.rendered = function() {
     
+    if(!this.data.isUserPermited()) {
+        return;
+    }
+    
     var options = {
         //Boolean - Whether we should show a stroke on each segment
         segmentShowStroke : true,
@@ -26,7 +30,7 @@ Template.admin.rendered = function() {
         animateScale : false,
         
         //String - A legend template
-        legendTemplate : "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<segments.length; i++){%><li><span style=\"background-color:<%=segments[i].fillColor%>\"></span><%if(segments[i].label){%><%=segments[i].label%><%}%></li><%}%></ul>"
+        responsive: false
 
     };
     
