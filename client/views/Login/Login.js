@@ -105,7 +105,10 @@ function CheckLocatioOn(){
 }
 
 Template.login.rendered = function() {
-  $(".bar-header").hide();
+    
+  $('.carousel').carousel()
+    
+//  $(".bar-header").hide();
 
 	if(window.cordova && window.cordova.plugins.Keyboard) {
 		// cordova.plugins.Keyboard.disableScroll(true);

@@ -1,9 +1,26 @@
 Template.register.rendered = function() {
-  $('#birthDate').inputmask({"mask": "99/99/9999"});
-  $('#birthDate').datepicker({
+    $('#birthDate').inputmask({"mask": "99/99/9999"});
+    $('#birthDate').datepicker({
       startView: 'decade',
       endDate: '-16y',
-  });
+    });
+    
+    if(window.plugins && window.plugins.sim) {
+        window.plugins.sim.getSimInfo(successCallback, errorCallback);
+    }
+    
+}
+ 
+function successCallback(result) {
+  console.log(result);
+  if(result.phoneNumber) {
+      $('#input-mobile').val(result.phoneNumber);
+  }
+    //alert(JSON.stringify(result));
+}
+ 
+function errorCallback(error) {
+  console.log(error);
 }
 
 // devEmails = [
@@ -47,12 +64,13 @@ Template.register.events({
 		e.preventDefault();
         var email = template.find('[name=email]').value;
         var password = template.find('[name=password]').value;
-		var mobile = template.find('[name=mobile]').value;
+//		var mobile = template.find('[name=mobile]').value;
         var profileDetails = {
             name: template.find('[name=name]').value,
             mobile: template.find('[name=mobile]').value,
             area: template.find('#college').value,
             birthDate: template.find('[name=birthDate]').value,
+//            birthData: '',
             avatar: base64imgs('profile-image-placeholder')
 //            location: Session.get('newLocation')
     };

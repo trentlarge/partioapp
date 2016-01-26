@@ -1,7 +1,139 @@
 <template name="login">
+    
+  {{#contentFor "headerTitle"}}
+    <h1 class="title" style="text-align:center;">
+        <img id="spinner-logo-simple" src="{{ getImage 'spinner-logo' }}" />
+    </h1>
+  {{/contentFor}}
+    
   {{#ionView}}
-    <div class="login content ion-content overflow-scroll" style="background:url({{ getImage 'login-background' }}); background-size: cover; -webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover;">
+<!--    <div class="login content ion-content overflow-scroll" style="background:url({{ getImage 'login-background' }}); background-size: cover; -webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover;">-->
+    
+<!--
+    <div class="bar bar-header bar-royal nav-bar-block nav-bar-transition-ios nav-bar-direction-forward" data-navbar-container="">
+          
+    </div>
+-->
+    
+    <div class="login content ion-content overflow-scroll">
       <div class="center">
+          
+          <div class="wrapper-box">
+              <div class="wrapper-content">
+                <img id="login-logo" src="{{ getImage 'partio_logo' }}" >
+                  
+                <div class="image-box">
+                      <div id="myCarousel" class="carousel slide" data-ride="carousel">
+                        <div class="carousel-inner" role="listbox">
+                            {{#each ../productsImage}}
+                                <div class="item {{../isFirst @index}}">
+                                  <img class="product-image" src="{{image}}">
+                                  <div class="badge">${{price}} / week</div>
+                                </div>
+                            {{/each}}
+                        </div>
+                      </div>
+                </div>
+
+                <input type="email" name="email" placeholder="Username">
+                <input type="password" name="password" placeholder="Password">
+
+                <h5 id="forgot-password">Forgot Password?</h5>
+
+                <button id="loginButton" class="button sign-in">Sign in</button>
+                <button id="triggerGPS" class="button sign-up">Sign up here</button>
+            </div>
+          </div>
+          
+         
+          
+<!--
+          <div class="col-xs-6 hidden-sm hidden-md hidden-lg">
+             <div id="myCarousel" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner" role="listbox">
+                    {{#each ../productsImage}}
+                        <div class="item {{../isFirst @index}}">
+                          <img class="product-image" src="{{image}}">
+                        </div>
+                    {{/each}}
+                </div>
+              </div>
+          </div>
+          
+          <div class="col-xs-6 hidden-sm hidden-md hidden-lg">
+             <div id="myCarousel" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner" role="listbox">
+                    {{#each ../productsImage}}
+                        <div class="item {{../isFirst @index}}">
+                          <img class="product-image" src="{{image}}">
+                        </div>
+                    {{/each}}
+                </div>
+              </div>
+          </div>
+          
+          <div class="col-xs-6 hidden-sm hidden-md hidden-lg">
+             <div id="myCarousel" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner" role="listbox">
+                    {{#each ../productsImage}}
+                        <div class="item {{../isFirst @index}}">
+                          <img class="product-image" src="{{image}}">
+                        </div>
+                    {{/each}}
+                </div>
+              </div>
+          </div>
+          
+          <div class="col-xs-6 hidden-sm hidden-md hidden-lg">
+             <div id="myCarousel" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner" role="listbox">
+                    {{#each ../productsImage}}
+                        <div class="item {{../isFirst @index}}">
+                          <img class="product-image" src="{{image}}">
+                        </div>
+                    {{/each}}
+                </div>
+              </div>
+          </div>
+          
+          <div class="col-xs-6 hidden-sm hidden-md hidden-lg">
+             <div id="myCarousel" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner" role="listbox">
+                    {{#each ../productsImage}}
+                        <div class="item {{../isFirst @index}}">
+                          <img class="product-image" src="{{image}}">
+                        </div>
+                    {{/each}}
+                </div>
+              </div>
+          </div>
+          
+          <div class="col-xs-6 hidden-sm hidden-md hidden-lg">
+             <div id="myCarousel" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner" role="listbox">
+                    {{#each ../productsImage}}
+                        <div class="item {{../isFirst @index}}">
+                          <img class="product-image" src="{{image}}">
+                        </div>
+                    {{/each}}
+                </div>
+              </div>
+          </div>
+          
+          <div class="col-xs-6 hidden-sm hidden-md hidden-lg">
+             <div id="myCarousel" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner" role="listbox">
+                    {{#each ../productsImage}}
+                        <div class="item {{../isFirst @index}}">
+                          <img class="product-image" src="{{image}}">
+                        </div>
+                    {{/each}}
+                </div>
+              </div>
+          </div>
+-->
+          
+<!--
           <img id="login-logo" src="{{ getImage 'partio_logo' }}" >
 
           <input type="email" name="email" placeholder="Username">
@@ -11,6 +143,7 @@
 
           <button id="loginButton" class="button sign-in">Sign in</button>
           <button id="triggerGPS" class="button sign-up">Sign up here</button>
+-->
       </div>
     </div>
   {{/ionView}}

@@ -1,5 +1,5 @@
 Meteor.publish("products", function() {
-	return Products.find({}, {});
+	return Products.find({});
 });
 
 Meteor.publish("myProducts", function() {
