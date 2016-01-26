@@ -61,9 +61,17 @@ Router.onBeforeAction(function(pause){
 			// this.render('login');
 		}
 	} else {
-		if(_user.emails[0].address){
 
+		if(_user.emails[0].address){
 			if(_user.emails[0].verified) {
+				if(_user.private) {
+					if(!_user.private.viewTutorial) {
+						Meteor.call('checkTransaction', _user._id);
+						Meteor.call('checkTutorial');
+						IonModal.open('tutorial');
+					}
+				}	
+			
 				this.next();
 
 			} else {

@@ -20,11 +20,11 @@ MainController = RouteController.extend({
 	},
 
 	onAfterAction: function() {
-		if(Meteor.user() && Meteor.user().private) {
-			if(!Meteor.user().private.viewTutorial) {
-				Meteor.call('checkTutorial');
-				IonModal.open('tutorial');
-			}
-		}
+		// if(Meteor.user() && Meteor.user().private) {
+		// 	if(!Meteor.user().private.viewTutorial) {
+		// 		Meteor.call('checkTutorial');
+		// 		IonModal.open('tutorial');
+		// 	}
+		// }
 	}
 });

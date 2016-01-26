@@ -107,6 +107,9 @@ Meteor.methods({
 			}
 		});
 
+		Meteor.call('checkTransaction', requestorId);
+		Meteor.call('checkTransaction', ownerId);
+
 		return true;
 
 	},
@@ -149,6 +152,9 @@ Meteor.methods({
 				}
 			}
 		});
+
+		Meteor.call('checkTransaction', requestorId);
+		Meteor.call('checkTransaction', ownerId);
 
 		return true;
 
