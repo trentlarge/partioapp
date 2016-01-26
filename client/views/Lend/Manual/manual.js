@@ -23,7 +23,14 @@ Template.manual.rendered = function() {
   var manualProduct = Session.get('cardManualEntry');
 
   if(manualProduct) {
-      Session.set('photoTaken', manualProduct.image);
+      var slideElements = [];
+      for(var i=0; i<5; i++) {
+        if(manualProduct.images[i]) {
+            slideElements.push({photo: manualProduct.images[i]});
+        }
+      }
+      Session.get('slideElements', slideElements);
+//      Session.set('photoTaken', manualProduct.image);
       Session.set('manualTitle', manualProduct.title);
       Session.set('selectedCategory', manualProduct.category);
       Session.set('selectedCondition', manualProduct.conditionId);
@@ -40,20 +47,32 @@ Template.manual.rendered = function() {
   $('.view').css({'background': '#eceff1'});
 
   $('.search-share-header-input').removeClass('has-text');
-//    $('.search-share-header-input').focus();
+  
+    if(Session.get('photoTaken') && Session.get('slideElements')) {
+      var slideElements = Session.get('slideElements');
+      slideElements[0].photo = Session.get('photoTaken');
+      Session.set('slideElements', slideElements);
+    }
+    
 }
 
 Template.manual.destroyed = function() {
   Session.set('itemNotFound', null);
   Session.set('photoTaken', null);
+  Session.set('slideElements', null);  
   Session.set('camfindImage', null);
   Session.set('selectedCategory', null);
   Session.set('selectedCondition', null);
+    
 }
 
 Template.manual.helpers({
   photoTaken: function() {
     return Session.get('photoTaken');
+  },
+  hasPhoto: function(index) {
+    var slideElements = Session.get('slideElements');
+    return (slideElements[index].photo !== '') ? true : false;
   },
   getCategories: function() {
     return Categories.getCategories();
@@ -91,20 +110,43 @@ Template.manual.helpers({
   sellingPrice: function() {
     return Session.get('sellingPrice');  
   },
+  slideElements: function() {
+      
+      if(!Session.get('slideElements')) {
+          var slideElements = [];
+          for(var i=0; i<5; i++) {
+            slideElements.push({photo: ''});     
+          }
+          Session.set('slideElements', slideElements);  
+      }
+      return Session.get('slideElements');
+  }
 })
 
 Template.manual.events({
- 
+    
   'click .close': function(e, template) {
-      Session.set("photoTaken", null);
+//      Session.set("photoTaken", null);
+      var slideElements = Session.get('slideElements');
+      var index = $('.slick-active').attr('data-slick-index');
+      slideElements[index].photo = '';
+      Session.set('slideElements', slideElements);
+      
       $('#browser-file-upload').val('');
   },
     
   'change #browser-file-upload': function(input) {
+    
+    var slideElements = Session.get('slideElements');  
     var FR = new FileReader();
     FR.onload = function(e) {
         var newImage = e.target.result;
-        Session.set("photoTaken", newImage);
+        
+        var index = $('.slick-active').attr('data-slick-index');
+        slideElements[index].photo = newImage;
+        Session.set('slideElements', slideElements);
+        
+        //Session.set("photoTaken", newImage);
     };
     FR.readAsDataURL(input.target.files[0]);
   },
@@ -180,7 +222,13 @@ Template.manual.events({
                 });
                 return false;
               }
-              Session.set("photoTaken", data);
+                
+                var slideElements = Session.get('slideElements');  
+                var index = $('.slick-active').attr('data-slick-index');
+                slideElements[index].photo = data;
+                Session.set('slideElements', slideElements);
+                
+//              Session.set("photoTaken", data);
             });
         } else {
           $('#browser-file-upload').click();

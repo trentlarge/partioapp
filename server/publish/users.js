@@ -1,6 +1,12 @@
 // !!!
 // Temporary solution - publish all users until we setup correct pub/sub mechanism
 //
+
+Meteor.publish("users", function() {
+	return Users.find({}, { fields: { emails: 1, profile: 1, createdAt: 1 }});
+//    return Users.find({});
+});
+
 Meteor.publish("all_users", function() {
 	return Users.find({}, { fields: { profile: 1 }});
 });

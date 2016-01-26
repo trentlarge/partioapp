@@ -4,15 +4,25 @@
 		<div class="card list list-inset">
 
             <div class="item center">
-                {{#if photoTaken}}
-                    <div class="img-wrap">
-                        <div class="close">&times;</div>
-                        <img class="scanResult-thumbnail2" src="{{photoTaken}}">
-                    </div>
-                {{else}}
-                    <i class="scanResult-thumbnail2 ion-image" style="font-size:100px;color:#DDD;"></i>
-                    <span style="display:block;margin-top:-10px;color:#DDD;">ADD IMAGE</span>
-                {{/if}}
+                
+                {{#ionSlideBox}}
+                    {{#each slideElements}}
+                        {{#ionSlide}}
+                            {{#if hasPhoto @index}}
+                                <div class="img-wrap">
+                                    <div class="close">&times;</div>
+                                    <img class="scanResult-thumbnail2" src="{{photo}}">
+                                </div>
+                            {{else}}
+                                <i class="scanResult-thumbnail2 ion-image" style="font-size:100px;color:#DDD;"></i>
+                                <span style="display:block;margin-top:-10px;color:#DDD;">ADD IMAGE</span>
+                            {{/if}}
+                        {{/ionSlide}}
+                    {{/each}}
+                {{/ionSlideBox}}
+                
+                <input type="file" id="browser-file-upload" style="display:none">
+                
             </div>
             
             <label class="item item-input">
@@ -95,6 +105,6 @@
                 </button>
             </div>
         </div>
-        <input type="file" id="browser-file-upload">
+
 	{{/ionContent}}
 </template>

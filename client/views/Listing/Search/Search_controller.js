@@ -15,9 +15,9 @@ SearchController = RouteController.extend({
 	},
 
   product: function() {
-    var _products = Products.findOne(this.params._id);
-    if(_products){
-      return _products
+    var _product = Products.findOne(this.params._id);
+    if(_product){
+      return _product
     }
     return false;
   },

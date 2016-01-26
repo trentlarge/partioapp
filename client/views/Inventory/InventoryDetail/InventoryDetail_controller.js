@@ -14,10 +14,15 @@ InventoryDetailController = RouteController.extend({
       //Meteor.subscribe("singleProduct", this.params._id)
 		];
 	},
+    
+    product: function() {
+        return Products.findOne(this.params._id);
+    },
 
 	data: function() {
 		return {
-			product: Products.findOne(this.params._id),
+			product: this.product(),
+            //Products.findOne(this.params._id),
 
       getCategoryIcon: function() {
         if(this.product) {

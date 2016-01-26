@@ -30,7 +30,9 @@
             
             <div class="item product">
                 <div class="product-avatar">
-                    <img class="product-avatar-inner" src="{{product.image}}"/>
+                    <a data-ion-modal="slideImages">
+                        <img class="product-avatar-inner" src="{{product.image}}">
+                    </a>
                 </div>
                 <p class="product-title-text">{{product.title}}</p>
             </div>
@@ -137,4 +139,21 @@
     {{/ionContent}}
   {{/ionView}}
 
+</template>
+
+<template name="slideImages">
+
+    {{#ionModal title="Images" class="listing-search slide-images"}}
+    
+        {{#ionSlideBox}}
+            {{#each slideElements}}
+                {{#ionSlide}}
+                <div class="product-avatar">
+                    <img class="slide-image" src="{{photo}}"/>
+                </div>
+                {{/ionSlide}}
+            {{/each}}
+        {{/ionSlideBox}}
+    
+    {{/ionModal}}
 </template>

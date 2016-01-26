@@ -1,0 +1,58 @@
+<template name="analytics"> 
+    {{#contentFor "headerButtonLeft"}}
+        {{>ionNavBackButton}}
+    {{/contentFor}}
+
+    {{#contentFor "headerTitle"}}
+        <h1 class="title" style="text-align:center;">Analytics</h1>
+    {{/contentFor}}
+
+    {{#contentFor "headerButtonRight"}}
+        <a href="/" class="button button-clear">
+            <img id="spinner-logo-simple" src="{{ getImage 'spinner-logo' }}" />
+        </a>
+    {{/contentFor}}
+    
+    {{#ionView}}
+        {{#ionContent class="admin"}}    
+    
+            <div class="container">
+                
+                
+                
+                <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+                    <div class="card">
+                        <div class="item item-divider">
+                            <span style="text-transform:capitalize;">{{../getAnalyticsId}} by University</span> 
+                        </div>
+                        <div class="item">
+                            <div class="donut-inner">
+                                <h2>{{../getLenght}}</h2>
+                            </div>
+                            <canvas id="{{../getAnalyticsId}}Chart" width="150" height="150"></canvas>
+                        </div>
+                    </div>
+                </div>
+                
+<!--
+                <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+                    <div class="card">
+                        <div class="item item-divider">
+                            Products by University
+                        </div>
+                        <div class="item">
+                            <div class="donut-inner">
+                                <h2>{{../getLenght}}</h2>
+                            </div>
+                            <canvas id="universityProductsChart" width="150" height="150"></canvas>
+                        </div>
+                    </div>
+                </div>
+-->
+                
+    
+            </div>
+    
+        {{/ionContent}}
+    {{/ionView}}
+</template>

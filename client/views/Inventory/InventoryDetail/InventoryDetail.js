@@ -26,6 +26,37 @@ Template.appLayout.events({
 	},
 });
 
+Template.slideInventoryImages.helpers({
+    
+    slideElements: function() {
+        return Session.get('slideElements');
+    }
+    
+});
+
+Template.inventoryDetail.rendered = function() {
+    
+    var product = this.data.product;
+    var slideElements = [];
+    if(product) {
+        if(product.images) {
+            $.each(product.images, function(index, image) {
+                slideElements.push(image);       
+            });
+            Session.set('slideElements', slideElements);
+        }
+        else {
+            slideElements.push({'photo': product.image});
+            Session.set('slideElements', slideElements);
+        }
+    }
+    
+}
+
+Template.inventoryDetail.destroyed = function () {
+    Session.set('slideElements', null);
+};
+
 Template.inventoryDetail.onCreated(function () {
   Meteor.subscribe("singleProduct", Router.current().params._id)
 });
