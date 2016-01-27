@@ -31,7 +31,7 @@ Template.listing.events({
     var pageNumber = Session.get('pageNumber') || 1;
     var pageSize = Session.get('pageSize');
       
-    if($('.package').length < pageNumber * pageSize) {
+    if($('.product-box').length < pageNumber * pageSize) {
         return;
     }
 

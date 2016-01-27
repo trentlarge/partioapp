@@ -64,37 +64,41 @@
         <div id='search-result' class="list">
             <div class="product-listing">
             {{#each searchProducts}}
-<!--                <div class="package">-->
-                    <a href="/listing/search/{{_id}}?ownerId={{ownerId}}" class="package item item-product-avatar">
-                        <div class="product-avatar">
-                          <img class="product-avatar-inner" src="{{image}}"/>
-                        </div>
-                        <div class="ellipsis">
-                            <p class="main-title-text">{{title}}</p>
-                        </div>
+                <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
+                    <div class="product-box">
                         {{#if ../isSellingStatusOn selling.status}}
                             <span class="selling-badge">${{selling.price}}</span>
                         {{/if}}
-                        <div class="item-rent-table">
-                            <table class="rent-table">
-                                <tbody>
-                                    <tr>
-                                        <th class="one"><i class="icon">DAY</i></th>
-                                        <th class="two"><i class="icon">WEEK</i></th>
-                                        <th class="three"><i class="icon">MONTH</i></th>
-                                        <th class="four"><i class="icon">SEMESTER</i></th>
-                                    </tr>
-                                    <tr>
-                                        <td>{{rentPrice.day}}</td>
-                                        <td>{{rentPrice.week}}</td>
-                                        <td>{{rentPrice.month}}</td>
-                                        <td>{{rentPrice.semester}}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </a>
-<!--                </div>-->
+                        <a href="/listing/search/{{_id}}?ownerId={{ownerId}}">
+                            <div class="product-content">
+                                <div class="product-avatar">
+                                  <img class="product-avatar-inner" src="{{image}}"/>
+                                </div>
+                                <div class="ellipsis">
+                                    <p class="main-title-text">{{title}}</p>
+                                </div>
+                                <div class="item-rent-table">
+                                    <table class="rent-table">
+                                        <tbody>
+                                            <tr>
+                                                <th class="one"><i class="icon">DAY</i></th>
+                                                <th class="two"><i class="icon">WEEK</i></th>
+                                                <th class="three"><i class="icon">MONTH</i></th>
+                                                <th class="four"><i class="icon">SEMESTER</i></th>
+                                            </tr>
+                                            <tr>
+                                                <td>{{rentPrice.day}}</td>
+                                                <td>{{rentPrice.week}}</td>
+                                                <td>{{rentPrice.month}}</td>
+                                                <td>{{rentPrice.semester}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
             {{/each}}
             </div>
         </div>
