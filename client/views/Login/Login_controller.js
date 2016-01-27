@@ -34,13 +34,35 @@ LoginController = RouteController.extend({
                         });
                     }
                     
-                    if(images.length >= 30) {
+                    if(images.length == 32) {
                         return this.shuffle(images);
                     }
                     
                 });
+                
+                images = this.shuffle(images);
+                
+                if(images.length < 32 && images.length > 0) {
+                    
+                    while(images.length < 32) {
+                        var randomIndex = Math.round(Math.random() * images.length);
+                        images.push(images[randomIndex]);
+                    }
+                    
+                }
+                
+                else if (images.length == 0) {
+                    
+                    while(images.length < 32) {
+                        images.push({
+                            'image': '/image-not-available.png',
+                            'price': '0.00',
+                        });
+                    }
+                    
+                }
 
-                return this.shuffle(images);
+                return images;
             },
             
             shuffle: function(array) {
