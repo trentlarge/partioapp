@@ -97,8 +97,12 @@ body.keyboard-open .login.platform-android .content.overflow-scroll {
         }
     }
 
+    input:-webkit-autofill {
+        -webkit-box-shadow: 0 0 0px 1000px white inset;
+    }
+    
     ::-webkit-input-placeholder {
-        color: #606d74;
+        color: rgba(39, 39, 39, 0.56);
     }
 
     .bottom-buttons {
