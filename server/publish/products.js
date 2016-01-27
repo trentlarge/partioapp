@@ -27,7 +27,8 @@ Meteor.publish("productsData", function(ownerId, ownerArea, pageNumber, text, ca
         ownerId: { $ne: ownerId },
         ownerArea: ownerArea,
         title: { $regex: ".*"+text+".*", $options: 'i' },
-        category: { $in: categories }
+        category: { $in: categories },
+        sold: { $ne: true }
     }, {
         limit: pageNumber * pageSize
     });

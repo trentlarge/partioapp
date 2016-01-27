@@ -39,8 +39,7 @@ ListingController = RouteController.extend({
       ownerId: { $ne: Meteor.userId() },
       ownerArea: _userArea,
       title: { $regex: ".*"+text+".*", $options: 'i' },
-      category: { $in: categories },
-      sold: { $ne: true }
+      category: { $in: categories }
     }, {
       limit: pageNumber * pageSize
     });
