@@ -194,8 +194,6 @@ AnalyticsController = RouteController.extend({
                     products[$.inArray(product.category, categories)]++;
                 });
                 
-                console.log(products);
-                
                 return products;
             },
             
@@ -214,9 +212,169 @@ AnalyticsController = RouteController.extend({
                     soldProducts.averagePrice += parseFloat(product.selling.price);
                 })
                 
-                return soldProducts;
-            }
+                soldProducts.averagePrice = Number(soldProducts.averagePrice).toFixed(2);
                 
+                return soldProducts;
+            },
+            
+            // CONNECTIONS METHODS
+            
+            getBorrowConnectionsAverageDaysAndPrice: function() {
+                
+                states = ["WAITING", "PAYMENT", "IN USE", "DONE", "RETURNED"];
+                
+                var connections = this.connections.filter(function(connection) {
+                   return ($.inArray(connection.state, states) >= 0); 
+                });
+                
+                var totalDays = 0;
+                var totalPrice = 0.00
+                
+                $.each(connections, function(index, connection) {
+                    totalDays += connection.borrowDetails.date.totalDays;
+                    totalPrice += parseFloat(connection.borrowDetails.price.total);
+                });
+                
+                var average = {
+                    days: Number(totalDays/connections.length).toFixed(0),
+                    price: Number(totalPrice/connections.length).toFixed(2)
+                } 
+                
+                return average;
+            },
+            
+            getPurchasingConnectionsAveragePrice: function() {
+                
+                states = ["WAITING PURCHASING", "PAYMENT PURCHASING", "SOLD", "SOLD CONFIRMED"];
+                
+                var connections = this.connections.filter(function(connection) {
+                   return ($.inArray(connection.state, states) >= 0); 
+                });
+                
+                var totalPrice = 0.00
+                
+                $.each(connections, function(index, connection) {
+                    totalPrice += parseFloat(connection.borrowDetails.price.total);
+                });
+                
+                var averagePrice = Number(totalPrice/connections.length).toFixed(2)
+                
+                return averagePrice;
+            },
+            
+            getConnectionsFinished: function() {
+                
+                var connections = this.connections.filter(function(connection) {
+                   return (connection.finished === true); 
+                });
+                
+                return connections.length;
+            },
+            
+            getConnectionsInProgress: function() {
+                
+                var connections = this.connections.filter(function(connection) {
+                   return !(connection.finished === true); 
+                });
+                
+                return connections.length;
+            },
+            
+            getBorrowConnectionsByState: function() {
+                
+                states = ["WAITING", "PAYMENT", "IN USE", "DONE", "RETURNED"];
+                
+                var connections = [0, 0, 0, 0, 0];
+                
+                $.each(this.connections, function(index, connection) {
+                    if($.inArray(connection.state, states) >= 0 && !connection.finished) {
+                        connections[$.inArray(connection.state, states)]++;
+                    }
+                });
+                
+                return connections;
+                
+            },
+            
+            getBorrowConnectionsByStateFinished: function() {
+                
+                states = ["WAITING", "PAYMENT", "IN USE", "DONE", "RETURNED"];
+                
+                var connections = [0, 0, 0, 0, 0];
+                
+                 $.each(this.connections, function(index, connection) {
+                    if($.inArray(connection.state, states) >= 0 && connection.finished) {
+                        connections[$.inArray(connection.state, states)]++;
+                    }
+                });
+                
+                return connections;
+                
+            },
+            
+            getPurchasingConnectionsByState: function() {
+                
+                states = ["WAITING PURCHASING", "PAYMENT PURCHASING", "SOLD", "SOLD CONFIRMED"];
+                
+                var connections = [0, 0, 0, 0];
+                
+                 $.each(this.connections, function(index, connection) {
+                    if($.inArray(connection.state, states) >= 0 && !connection.finished) {
+                        connections[$.inArray(connection.state, states)]++;
+                    }
+                });
+                
+                return connections;
+                
+            },
+            
+            getPurchasingConnectionsByStateFinished: function() {
+                
+                states = ["WAITING PURCHASING", "PAYMENT PURCHASING", "SOLD", "SOLD CONFIRMED"];
+                
+                var connections = [0, 0, 0, 0];
+                
+                 $.each(this.connections, function(index, connection) {
+                    if($.inArray(connection.state, states) >= 0 && connection.finished) {
+                        connections[$.inArray(connection.state, states)]++;
+                    }
+                });
+                
+                return connections;
+                
+            },
+            
+            getConnectionsRequestedByMonth: function() {
+                
+                var todayDate = new Date();
+                var today = {
+                    day: todayDate.getDate(),
+                    month: todayDate.getMonth(), //January is 0!
+                    year: todayDate.getFullYear()
+                };
+                
+                var connections = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+                
+                $.each(this.connections, function(index, conenction) {
+                   
+                    var date = new Date(conenction.requestDate);
+                    var conenctionDate = {
+                        month: date.getMonth(),
+                        year: date.getFullYear()
+                    };
+                    
+                    if(conenctionDate.year === conenctionDate.year) {
+                        connections[conenctionDate.month]++;  
+                    };
+                    
+                });
+
+                return connections;
+                
+            },
+            
+            // TRANSACTIONS METHODS
+            
 		};
 	},
 

@@ -85,6 +85,108 @@
                 
                 {{/if}}
                 
+                {{#if ../isConnectionsAnalytics}}
+                
+                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+                        <div class="card">
+                            <div class="item item-divider">
+                                <span style="text-transform:capitalize;">{{../getAnalyticsId}} Average Days</span> 
+                            </div>
+                            {{#with ../getBorrowConnectionsAverageDaysAndPrice}}
+                                <div class="item">
+                                    <p class="connections-average-days">{{days}}</p>
+                                </div>
+                            {{/with}}
+                        </div>
+                    </div>
+                
+                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+                        <div class="card">
+                            <div class="item item-divider">
+                                <span style="text-transform:capitalize;">Av. Borrow Price</span> 
+                            </div>
+                            {{#with ../getBorrowConnectionsAverageDaysAndPrice}}
+                                <div class="item">
+                                    <p class="average-borrow-price">${{price}}</p>
+                                </div>
+                            {{/with}}
+                            <div class="item item-divider">
+                                <span style="text-transform:capitalize;">Av. Purchasing Price</span> 
+                            </div>
+                            <div class="item">
+                                <p class="average-purchasing-price">${{../getPurchasingConnectionsAveragePrice}}</p>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+                        <div class="card">
+                            <div class="item item-divider">
+                                <span style="text-transform:capitalize;">{{../getAnalyticsId}} F/InP</span> 
+                            </div>
+                            <div class="item">
+                                <canvas id="{{../getAnalyticsId}}ProgressChart" width="150" height="150"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                        <div class="card">
+                            <div class="item item-divider">
+                                <span style="text-transform:capitalize;">{{../getAnalyticsId}} by Borrow State (InP)</span> 
+                            </div>
+                            <div class="item">
+                                <canvas id="{{../getAnalyticsId}}StateChart" class="padding"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                        <div class="card">
+                            <div class="item item-divider">
+                                <span style="text-transform:capitalize;">{{../getAnalyticsId}} by Borrow State (F)</span> 
+                            </div>
+                            <div class="item">
+                                <canvas id="{{../getAnalyticsId}}StateFinishedChart" class="padding"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                        <div class="card">
+                            <div class="item item-divider">
+                                <span style="text-transform:capitalize;">{{../getAnalyticsId}} by Purchasing State (InP)</span> 
+                            </div>
+                            <div class="item">
+                                <canvas id="{{../getAnalyticsId}}PurchasingChart" class="padding"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                        <div class="card">
+                            <div class="item item-divider">
+                                <span style="text-transform:capitalize;">{{../getAnalyticsId}} by Purchasing State (F)</span> 
+                            </div>
+                            <div class="item">
+                                <canvas id="{{../getAnalyticsId}}PurchasingFinishedChart" class="padding"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                        <div class="card">
+                            <div class="item item-divider">
+                                <span style="text-transform:capitalize;">{{../getAnalyticsId}} Requested by Month (2016)</span> 
+                            </div>
+                            <div class="item">
+                                <canvas id="{{../getAnalyticsId}}RequestedChart" class="padding"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                
+                {{/if}}
+                
 <!--
                 <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
                     <div class="card">
