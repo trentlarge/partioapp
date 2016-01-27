@@ -221,7 +221,7 @@ AnalyticsController = RouteController.extend({
             
             getBorrowConnectionsAverageDaysAndPrice: function() {
                 
-                states = ["WAITING", "PAYMENT", "IN USE", "DONE", "RETURNED"];
+                states = ["IN USE", "DONE", "RETURNED"];
                 
                 var connections = this.connections.filter(function(connection) {
                    return ($.inArray(connection.state, states) >= 0); 
@@ -245,7 +245,7 @@ AnalyticsController = RouteController.extend({
             
             getPurchasingConnectionsAveragePrice: function() {
                 
-                states = ["WAITING PURCHASING", "PAYMENT PURCHASING", "SOLD", "SOLD CONFIRMED"];
+                states = ["SOLD", "SOLD CONFIRMED"];
                 
                 var connections = this.connections.filter(function(connection) {
                    return ($.inArray(connection.state, states) >= 0); 
@@ -374,6 +374,40 @@ AnalyticsController = RouteController.extend({
             },
             
             // TRANSACTIONS METHODS
+            
+            getTotalSpending: function() {
+                
+                var averageSpending = 0.00;
+                
+                $.each(this.transactions, function(index, transaction) {
+                   
+                    $.each(transaction.spending, function(key, spend) {
+                        averageSpending += parseFloat(spend.paidAmount);
+                    });
+                });
+                
+                averageSpending = Number(averageSpending).toFixed(2);
+                
+                return averageSpending;
+            },
+            
+            getAverageSpending: function() {
+                
+                var averageSpending = 0.00;
+                var numberTransactions = 0;
+                
+                $.each(this.transactions, function(index, transaction) {
+                   
+                    $.each(transaction.spending, function(key, spend) {
+                        averageSpending += parseFloat(spend.paidAmount);
+                        numberTransactions++;
+                    });
+                });
+                
+                averageSpending = Number(averageSpending/numberTransactions).toFixed(2);
+                
+                return averageSpending;
+            }
             
 		};
 	},

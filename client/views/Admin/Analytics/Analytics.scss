@@ -7,6 +7,10 @@
         -webkit-justify-content: center;
     }
     
+    .card {
+        min-height: 220px;
+    }
+    
     canvas {
         z-index: 1;
     }
@@ -23,9 +27,17 @@
         justify-content: center;
     }
     
+    // USERS
+    
+    
+    
+    // PRODUCTS
+    
     .product-sold {
         font-size: 50px;
     }
+    
+    // CONNECTIONS
     
     .average-price {
         font-size: 35px;
@@ -37,6 +49,12 @@
     
     .average-borrow-price,
     .average-purchasing-price {
+        font-size: 25px;
+    }
+    
+    // TRANSACTIONS
+    
+    .total-spending {
         font-size: 25px;
     }
     
