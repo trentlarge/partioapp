@@ -77,7 +77,7 @@ ListingController = RouteController.extend({
                 }, 1000);
 
                 Meteor.setTimeout(function(){
-                  if($('.package').length > 0){
+                  if($('.product-box').length > 0){
                     $('.no-items').hide();
                   } else {
                     $('.no-items').fadeIn();
