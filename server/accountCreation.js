@@ -3,82 +3,101 @@ Accounts.onCreateUser(function(options,user) {
 	console.log("USER-->>", user);
 	var meteorUserId = user._id;
 
-	user.profile = {};
-	user.private = {};
-	user.private.viewTutorial = false;
+	if(user.services) {
+		var service = _.keys(user.services)[0];
 
-	user.secret = {};
-	user.secret.canBorrow = false;
-	user.secret.canShare = false;
+		//facebooklogin
+        if (service == 'facebook') {
+        	var email = user.services[service].email;
+        
+		//manualregister
+        } else {
+        	var email = user.emails[0].address;
+        }
 
-	if (user.services.facebook) {
+     	// see if any existing user has this email address, otherwise create new
+        var existingUser = Meteor.users.findOne({'emails.address': email});
+        
+        if (existingUser) {
+        	console.log('existing user <><><><><><><><><><><><><><><><><><', email);
 
-		console.log(user.services.facebook);
+        	// if(!existingUser.services) {
+         //        existingUser.services = { resume: { loginTokens: [] }};
+        	// }
+            
+         //    if(!existingUser.services.resume) {
+         //        existingUser.services.resume = { loginTokens: [] };
+         //    }
 
-		var fbLink = user.services.facebook.link;
-		var linkId = fbLink.split("https://www.facebook.com/app_scoped_user_id/")[1].split("/")[0];
+         	console.log(existingUser, user.services);
+ 
+            // copy across new service info
+            existingUser.services[service] = user.services[service];
 
-		user.profile = options.profile || {};
-		//user.profile.email = user.services.facebook.email;
-		user.profile.avatar = 'http://graph.facebook.com/'+linkId+'/picture?type=large';
-		user.profile.name = user.services.facebook.name
-		user.profile.birthDate = user.services.facebook.birthday
-		//FOR NO APPARENT REASON FACEBOOK REFUSED TO SEND AVATAR AFTER LOGIN
-		// user.profile.avatar = options.profile.avatar;
-		user.profile.area = '';
-		user.private.mobile = '';
+            //console.log(user);
 
-		var currentEmail = user.services.facebook.email;
+            // existingUser.services.resume.loginTokens.push(
+            //     user.services.resume.loginTokens[0]
+            // );
+ 
+            // even worse hackery
+            Meteor.users.remove({_id: existingUser._id}); // remove existing record
+            return existingUser;                          // record is re-inserted
+        
+        } else {
 
-		// if (currentEmail.split("@")[1] === "duke.edu" || currentEmail.split("@")[1] === "rollins.edu") {
-		// 	user.emails = [{"address": currentEmail, "verified": false}]
+        	console.log('new user <><><><><><><><><><><><><><><><><><', email);
 
-			// Meteor.setTimeout(function() {
-			// 	Accounts.sendVerificationEmail(user._id);
-			// }, 4 * 1000);
+        	user.profile = {};
+			user.private = {};
+			user.private.viewTutorial = false;
 
-//		} else {
+			user.secret = {};
+			user.secret.canBorrow = false;
+			user.secret.canShare = false;
 
-			//Creating transactionsId for new user;
-			Meteor.call('createTransactions', user._id);
-//		}
+			//facebook
+        	if (service == 'facebook') {
+        		var fbLink = user.services.facebook.link;
+				var linkId = fbLink.split("https://www.facebook.com/app_scoped_user_id/")[1].split("/")[0];
 
-		console.log('finished FACEBOOK user creation...');
+				user.profile = options.profile || {};
+				user.profile.avatar = 'http://graph.facebook.com/'+linkId+'/picture?type=normal';
+				user.profile.name = user.services.facebook.name
+				//user.profile.birthDate = user.services.facebook.birthday
+				//FOR NO APPARENT REASON FACEBOOK REFUSED TO SEND AVATAR AFTER LOGIN
+				// user.profile.avatar = options.profile.avatar;
+				user.profile.area = 0;
+				user.private.mobile = '';
+				
+				if (email.split("@")[1] === "duke.edu") {
+					user.profile.area = 1;
+				} 
+				
+				if (email.split("@")[1] === "yale.edu") {
+					user.profile.area = 2;
+				}
+				
+				user.emails = [{"address": email, "verified": false}]
+	        
+	        //manual creating
+	        } else {
+	        	user.profile.name = options.profileDetails.name;
+				user.profile.avatar = options.profileDetails.avatar;
+				user.profile.area = options.profileDetails.area;
+				user.profile.birthDate = options.profileDetails.birthDate;
+				user.private.mobile = options.profileDetails.mobile;
+	        }
 
-		return user;
+	        Meteor.setTimeout(function() {
+				Accounts.sendVerificationEmail(user._id);
+			}, 4 * 1000);
 
+			return user;
+        }
 	} else {
-		//user.profile = options.profile || {};
-		//user.profile.email = user.emails[0].address;
-
-		user.profile.name = options.profileDetails.name;
-		user.profile.avatar = options.profileDetails.avatar;
-		user.profile.area = options.profileDetails.area;
-		user.profile.birthDate = options.profileDetails.birthDate;
-
-		user.private.mobile = options.profileDetails.mobile;
-
-		//NOT TAKING LOCATION DETAILS ON REGISTRATION ANYMORE
-		// user.profile.address = options.profileDetails.location ? options.profileDetails.location.address : "-" ;
-		// user.profile.latLong = options.profileDetails.location ? options.profileDetails.location.latLong : "-";
-
-		// Notifications.insert({
-		// 	userId: meteorUserId,
-		// 	alerts: []
-		// })
-		
-		//Creating transactionsId for new user;
-		Meteor.call('createTransactions', user._id);
-
-		console.log('finished MANUAL user creation...');
-
-		Meteor.setTimeout(function() {
-			Accounts.sendVerificationEmail(user._id);
-		}, 4 * 1000);
-
-		return user;
+		console.log('some error');
 	}
-
 });
 
 // Accounts.validateLoginAttempt(function(attempt){

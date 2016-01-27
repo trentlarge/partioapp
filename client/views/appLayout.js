@@ -31,11 +31,23 @@ Template.appLayout.helpers({
 
 		switch (mainTemplateName) {
 			case 'profile':
-				if(!Meteor.user().emails[0].verified){
-					return false;
+
+				var _user = Meteor.user();
+
+				if(_user){
+					if(_user.emails) {
+						if(!_user.emails[0].verified){
+							return false;
+						} else {
+							return true;
+						}	
+					} else {
+						return false;
+					}
 				} else {
-					return true;
+					return false;
 				}
+
 				break;
 			case 'emailverification':
 				return false;

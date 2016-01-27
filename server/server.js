@@ -16,9 +16,18 @@ Meteor.startup(function() {
 
   // var settingsObject = Meteor.settings.oauth.facebook;
   //     settingsObject.service = "facebook";
-  // add new configuration
-  //Accounts.loginServiceConfiguration.insert(settingsObject);
+  // //add new configuration
+  // Accounts.loginServiceConfiguration.insert(settingsObject);
 
+  Accounts.loginServiceConfiguration.remove({
+    service: "facebook"
+  });
+
+  Accounts.loginServiceConfiguration.insert({
+    service: 'facebook',
+    appId: Meteor.settings.facebook.appId,
+    secret: Meteor.settings.facebook.secret
+  });
 
   Stripe = StripeAPI(Meteor.settings.env.STRIPE_SECRET);
 
@@ -34,78 +43,78 @@ Meteor.startup(function() {
     console.log('new user activation url '+url);
     var body =
     '<!DOCTYPE html>\
-            <html>\
-                <head>\
-                    <title>Partio</title>\
-                    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">\
-                    <style>\
-                    a {\
-                        color:#95cbab;\
-                    }\
-                    </style>\
-                </head>\
-                <body>\
-                    <table width="750" bgcolor="#f6f6f6">\
-                        <tr height="373">\
-                            <td><img src="http://partioapp.com/img/template_cabecalho.jpg" /></td>\
-                        </tr>\
-                        <tr>\
-                            <td>\
-                                <div style="width:640px;font-family:arial; tex-align:left; margin-left:50px;color:#999">\
-                                    <h1 style="color:#263238;font-size:40px">Hello there!</h1>\
-                                    <p style="font-size:20px;line-height:38px;">Welcome aboard partiO!<br />\
-                                    The things you own end up making money for you! Sounds familiar? Er..nevermind! To make this happen, it all starts with one link.<br />\
-                                    The one below. <a href="'+url+'">Click here</a> to verify and get sharing.</p>\
-                                    <p style="font-size:20px;line-height:38px;">For any queries or support, feel free to contact <a href="mailto:support@partioapp.com">support@partioapp.com</a></p>\
-                                    <p style="font-size:20px;line-height:38px;">partiO team</p>\
-                                </div>\
-                            </td>\
-                        </tr>\
-                        <tr height="262">\
-                            <td><img src="http://partioapp.com/img/template_rodape.jpg" /></td>\
-                        </tr>\
-                    </table>\
-                </body>\
-            </html>';
+      <html>\
+          <head>\
+              <title>Partio</title>\
+              <meta http-equiv="Content-Type" content="text/html; charset=utf-8">\
+              <style>\
+              a {\
+                  color:#95cbab;\
+              }\
+              </style>\
+          </head>\
+          <body>\
+              <table width="750" bgcolor="#f6f6f6">\
+                  <tr height="373">\
+                      <td><img src="http://partioapp.com/img/template_cabecalho.jpg" /></td>\
+                  </tr>\
+                  <tr>\
+                    <td>\
+                      <div style="width:640px;font-family:arial; tex-align:left; margin-left:50px;color:#999">\
+                        <h1 style="color:#263238;font-size:40px">Hello there!</h1>\
+                        <p style="font-size:20px;line-height:38px;">Welcome aboard partiO!<br />\
+                        The things you own end up making money for you! Sounds familiar? Er..nevermind! To make this happen, it all starts with one link.<br />\
+                        The one below. <a href="'+url+'">Click here</a> to verify and get sharing.</p>\
+                        <p style="font-size:20px;line-height:38px;">For any queries or support, feel free to contact <a href="mailto:support@partioapp.com">support@partioapp.com</a></p>\
+                        <p style="font-size:20px;line-height:38px;">partiO team</p>\
+                      </div>\
+                    </td>\
+                  </tr>\
+                  <tr height="262">\
+                      <td><img src="http://partioapp.com/img/template_rodape.jpg" /></td>\
+                  </tr>\
+              </table>\
+          </body>\
+      </html>';
     return body;
   };
 
   Accounts.emailTemplates.resetPassword.html = function(user, url) {
     var body =
     '<!DOCTYPE html>\
-            <html>\
-                <head>\
-                    <title>Partio</title>\
-                    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">\
-                    <style>\
-                    a {\
-                        color:#95cbab;\
-                    }\
-                    </style>\
-                </head>\
-                <body>\
-                    <table width="750" bgcolor="#f6f6f6">\
-                        <tr height="373">\
-                            <td><img src="http://partioapp.com/img/template_cabecalho.jpg" /></td>\
-                        </tr>\
-                        <tr>\
-                            <td>\
-                                <div style="width:640px;font-family:arial; tex-align:left; margin-left:50px;color:#999">\
-                                    <h1 style="color:#263238;font-size:40px">Hello!</h1>\
-                                    <p style="font-size:20px;line-height:38px;">\
-                                    To reset your password, simply <a href="'+url+'">Click here</a>.\
-                                     <br />Thanks.<br />\
-                                    partiO team\
-                                    </p>\
-                                </div>\
-                            </td>\
-                        </tr>\
-                        <tr height="262">\
-                            <td><img src="http://partioapp.com/img/template_rodape.jpg" /></td>\
-                        </tr>\
-                    </table>\
-                </body>\
-            </html>';
+      <html>\
+          <head>\
+              <title>Partio</title>\
+              <meta http-equiv="Content-Type" content="text/html; charset=utf-8">\
+              <style>\
+              a {\
+                  color:#95cbab;\
+              }\
+              </style>\
+          </head>\
+          <body>\
+              <table width="750" bgcolor="#f6f6f6">\
+                  <tr height="373">\
+                      <td><img src="http://partioapp.com/img/template_cabecalho.jpg" /></td>\
+                  </tr>\
+                  <tr>\
+                    <td>\
+                      <div style="width:640px;font-family:arial; tex-align:left; margin-left:50px;color:#999">\
+                        <h1 style="color:#263238;font-size:40px">Hello!</h1>\
+                        <p style="font-size:20px;line-height:38px;">\
+                        To reset your password, simply <a href="'+url+'">Click here</a>.\
+                         <br />Thanks.<br />\
+                        partiO team\
+                        </p>\
+                      </div>\
+                    </td>\
+                  </tr>\
+                  <tr height="262">\
+                      <td><img src="http://partioapp.com/img/template_rodape.jpg" /></td>\
+                  </tr>\
+              </table>\
+          </body>\
+      </html>';
     return body;
   };
 });

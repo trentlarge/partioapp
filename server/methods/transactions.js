@@ -1,15 +1,20 @@
 Meteor.methods({
-	'createTransactions': function(userId){
+	'checkTransaction': function(userId){
 
-	  //Creating Transactions Id
-	  var userTransId = Transactions.insert({
-	    earning: [],
-	    spending: [],
-      	userId: userId
-	  });
+		var _trans = Transactions.find({ userId: userId }).fetch();
 
-    console.log(' >>>>> creating new transactionsId ', userTransId);
+		if(_trans.length < 1) {
+			//Creating Transactions Id
+			var userTransId = Transactions.insert({
+				earning: [],
+				spending: [],
+				userId: userId
+			});
 
+			console.log(' >>>>> creating new transactionId ', userTransId);
+		} else {
+			console.log(' >>>>> transactionOk ', _trans._id);
+		}
 	  //Meteor.users.update({"_id": Meteor.userId()}, {$set: {"secret.transactionsId": userTransId}});
 	},
 });

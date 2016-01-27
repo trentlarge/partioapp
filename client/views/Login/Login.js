@@ -63,19 +63,42 @@ Template.login.events({
 	},
 
 	'click #fblogin': function(e, template) {
+		e.preventDefault();
+
+		PartioLoad.show();
+
 		Meteor.loginWithFacebook({ requestPermissions: ['email', 'public_profile', 'user_birthday']}, function(err){
-		 if (err) {
-				 throw new Meteor.Error("Facebook login failed");
-		 } else {
 
-			if (user.hasOwnProperty('services') && user.services.hasOwnProperty('facebook')  ) {
-				var result = Meteor.http.get('https://graph.facebook.com/v2.4/' + user.services.facebook.id + '?access_token=' + user.services.facebook.accessToken + '&fields=first_name, last_name, birthday, email, gender, location, link, friends');
+			//console.log(err);
+			// if(err) {
+			// 	throw new Meteor.Error("Facebook login failed");
+			// } else {
+			// 	if (user.hasOwnProperty('services') && user.services.hasOwnProperty('facebook')  ) {
+			// 		var result = Meteor.http.get('https://graph.facebook.com/v2.4/' + user.services.facebook.id + '?access_token=' + user.services.facebook.accessToken + '&fields=first_name, last_name, birthday, email, gender, location, link, friends');
+			// 	}
+
+			// 	Router.go('/profile');
+			// 	$('#name').val(Meteor.user().profile.name);
+			// 	$('#email').val(Meteor.user().emails[0].address);
+			// }
+			PartioLoad.hide();
+
+			if (err) {
+				IonPopup.show({
+					title: 'Login failed!',
+					template: err.reason + '. Please try again.',
+					buttons: [{
+						text: 'OK',
+						type: 'button-calm',
+						onTap: function() {
+							IonPopup.close();
+						}
+					}]
+				});
+			} else {
+
+				Router.go('/');
 			}
-
-			 Router.go('/profile');
-			 $('#name').val(Meteor.user().profile.name);
-			 $('#email').val(Meteor.user().emails[0].address);
-		 }
 		});
 	},
 })
