@@ -1,4 +1,4 @@
-var pageSize = 15;
+var pageSize = 25;
 var firstTime = true;
 
 ListingController = RouteController.extend({

@@ -120,6 +120,27 @@ Template.analytics.rendered = function() {
         var ctx = document.getElementById(this.data.analyticsId + "DateChart").getContext("2d");
         var myLineChart = new Chart(ctx).Line(data, responsiveOptions);
         
+        // NUMBER OF USER BY DAY
+        
+         var data = {
+            labels: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+            datasets: [
+                {
+                    label: "Users",
+                    fillColor: "rgba(151,187,205,0.2)",
+                    strokeColor: "rgba(151,187,205,1)",
+                    pointColor: "rgba(151,187,205,1)",
+                    pointStrokeColor: "#fff",
+                    pointHighlightFill: "#fff",
+                    pointHighlightStroke: "rgba(151,187,205,1)",
+                    data: this.data.getUsersByDays(),
+                },
+            ]
+        };
+        
+        var ctx = document.getElementById(this.data.analyticsId + "DateDaysChart").getContext("2d");
+        var myLineChart = new Chart(ctx).Line(data, responsiveOptions);
+        
     }
     
     /* ==== PRODUCTS ANALYTICS ==== */

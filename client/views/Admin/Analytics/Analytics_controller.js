@@ -148,6 +148,19 @@ AnalyticsController = RouteController.extend({
             
             // USERS METHODS
             
+            getLastUser: function() {
+                
+                var lastUser = this.users[this.users.length - 1];
+                
+                var user = {
+                    name: lastUser.profile.name,
+                    avatar: lastUser.profile.avatar,
+                    createdAt: formatDate(lastUser.createdAt)
+                }
+                
+                return user;
+            },
+            
             getUsersByMonth: function() {
                 
                 var todayDate = new Date();
@@ -173,7 +186,35 @@ AnalyticsController = RouteController.extend({
                     
                 });
                 
-                console.log(users);
+                return users;
+                
+            },
+            
+            getUsersByDays: function() {
+                
+                var todayDate = new Date();
+                var today = {
+                    day: todayDate.getDay(),
+                    month: todayDate.getMonth(), //January is 0!
+                    year: todayDate.getFullYear()
+                };
+                
+                var users = [0, 0, 0, 0, 0, 0, 0];
+                
+                $.each(this.users, function(index, user) {
+                   
+                    var date = new Date(user.createdAt);
+                    var userDate = {
+                        dat: date.getDay(),
+                        month: date.getMonth(),
+                        year: date.getFullYear()
+                    };
+                    
+                    if(userDate.year === today.year && userDate.month === today.month) {
+                        users[userDate.day]++;  
+                    };
+                    
+                });
                 
                 return users;
                 

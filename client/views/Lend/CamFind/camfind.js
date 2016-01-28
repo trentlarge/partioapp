@@ -3,7 +3,7 @@ function processPicture(data) {
         return;
     }
 
-    PartioLoad.show('We\'re identifying your image. This process could take few seconds...');
+    PartioLoad.show('We\'re identifying your image. This process could take a few seconds...');
     attachImageAndWaitCamFind(data);
 
     Meteor.call('camfindGetTokenBase64', data, function(error, result) {
@@ -134,7 +134,7 @@ Template.camfind.events({
                 
                   IonPopup.show({
                         title: 'Get picture',
-                        template: '<div class="dark">Sorry, canot get picture.</div>',
+                        template: '<div class="dark">Sorry, cannot get picture.</div>',
                         buttons:
                         [{
                             text: 'OK',

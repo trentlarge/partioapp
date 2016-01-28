@@ -37,10 +37,36 @@
                 
                 {{#if ../isUserAnalytics}}
                 
+                    {{#with ../getLastUser}}
+                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+                        <div class="card">
+                            <div class="item item-divider">
+                                <span style="text-transform:capitalize;">Last Register</span> 
+                            </div>
+                            <div class="item user-box">
+                                <img class="user-avatar" src="{{avatar}}">
+                                <span class="user-name">{{name}}</span>
+                                <span class="created-at">{{createdAt}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    {{/with}}
+                
                     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                         <div class="card">
                             <div class="item item-divider">
-                                <span style="text-transform:capitalize;">{{../getAnalyticsId}} by Month (2016)</span> 
+                                <span style="text-transform:capitalize;">Register this Week</span> 
+                            </div>
+                            <div class="item">
+                                <canvas id="{{../getAnalyticsId}}DateDaysChart" class="padding"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                        <div class="card">
+                            <div class="item item-divider">
+                                <span style="text-transform:capitalize;">Register by Month (2016)</span> 
                             </div>
                             <div class="item">
                                 <canvas id="{{../getAnalyticsId}}DateChart" class="padding"></canvas>
