@@ -1,5 +1,14 @@
 .admin {
     
+    @media screen and (min-width: 450px) {
+    
+        .card {
+            max-width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    }
+    
     .item {
         display: flex;
         display: -webkit-flex;
