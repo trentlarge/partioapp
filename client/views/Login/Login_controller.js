@@ -45,7 +45,7 @@ LoginController = RouteController.extend({
                 if(images.length < 32 && images.length > 0) {
                     
                     while(images.length < 32) {
-                        var randomIndex = Math.round(Math.random() * images.length);
+                        var randomIndex = Math.round(Math.random() * (images.length-1));
                         images.push(images[randomIndex]);
                     }
                     
