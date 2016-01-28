@@ -2,6 +2,10 @@ Meteor.publish("products", function() {
 	return Products.find({});
 });
 
+Meteor.publish("loginProducts", function() {
+	return Products.find({ sold: { $ne: true } }, { sort: { _id: -1 }, limit: 64 });
+});
+
 Meteor.publish("myProducts", function() {
 	return Products.find({ ownerId: this.userId });
 });
