@@ -32,6 +32,7 @@ AdminController = RouteController.extend({
                     "talles.souza@duke.edu",
                     "talles@gmail.com",
                     "trentonlarge@gmail.com",
+                    "trenton.large@duke.edu",
                     "petar.korponaic@gmail.com",
                     "korponaic@gmail.com",
                     "claytonmarinho@gmail.com",
