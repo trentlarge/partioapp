@@ -24,18 +24,15 @@ LoginController = RouteController.extend({
             productsImage: function() {
                 
                 var images = [];
+                var self = this;
                 
                 $.each(this.products, function(index, product) {
                    
-                    if(product.image !== '/image-not-available.png') {
+                    if(product.image !== '/image-not-available.png' && images.length < 32) {
                         images.push({
                             'image': product.image,
                             'price': product.rentPrice.week
                         });
-                    }
-                    
-                    if(images.length == 32) {
-                        return this.shuffle(images);
                     }
                     
                 });
