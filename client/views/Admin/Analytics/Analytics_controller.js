@@ -195,6 +195,7 @@ AnalyticsController = RouteController.extend({
                 var todayDate = new Date();
                 var today = {
                     day: todayDate.getDay(),
+                    week: getWeekNumber(todayDate),
                     month: todayDate.getMonth(), //January is 0!
                     year: todayDate.getFullYear()
                 };
@@ -205,12 +206,13 @@ AnalyticsController = RouteController.extend({
                    
                     var date = new Date(user.createdAt);
                     var userDate = {
-                        dat: date.getDay(),
+                        day: date.getDay(),
+                        week: getWeekNumber(date),
                         month: date.getMonth(),
                         year: date.getFullYear()
                     };
                     
-                    if(userDate.year === today.year && userDate.month === today.month) {
+                    if(userDate.year === today.year && userDate.month === today.month && userDate.week[1] === today.week[1]) {
                         users[userDate.day]++;  
                     };
                     
@@ -292,13 +294,20 @@ AnalyticsController = RouteController.extend({
                    return ($.inArray(connection.state, states) >= 0); 
                 });
                 
-                var totalPrice = 0.00
+                var totalPrice = 0.00;
                 
                 $.each(connections, function(index, connection) {
                     totalPrice += parseFloat(connection.borrowDetails.price.total);
                 });
                 
-                var averagePrice = Number(totalPrice/connections.length).toFixed(2)
+                var averagePrice;
+                
+                if(totalPrice === 0.00) {
+                    averagePrice = totalPrice;
+                }
+                else {
+                    averagePrice = Number(totalPrice/connections.length).toFixed(2)
+                }
                 
                 return averagePrice;
             },
