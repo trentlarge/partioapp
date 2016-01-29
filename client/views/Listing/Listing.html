@@ -60,7 +60,7 @@
 </template>
 
 <template name="searchResult">
-    {{#if hasProducts }}
+    {{#if hasProducts}}
         <div id='search-result' class="list">
             <div class="product-listing">
             {{#each searchProducts}}
@@ -104,12 +104,13 @@
         </div>
 
         {{>loader}}
-    {{/if}}
+    {{else}}
 
-    <div class="card padding list no-items">
-        <div class="item item-icon-left alerts">
-          <i class="icon energized ion-alert-circled"></i>
-          <p class="energized">No items available.</p>
+        <div class="card padding list no-items">
+            <div class="item item-icon-left alerts">
+              <i class="icon energized ion-alert-circled"></i>
+              <p class="energized">No items available.</p>
+            </div>
         </div>
-    </div>
+    {{/if}}
 </template>
