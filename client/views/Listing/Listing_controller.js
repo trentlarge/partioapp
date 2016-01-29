@@ -15,7 +15,7 @@ ListingController = RouteController.extend({
         return [];
 	},
 
-  XXXsearchProducts: function() {
+  searchProducts: function() {
     var pageNumber = Session.get('pageNumber') || 1;
     var text = Session.get('searchText');
     var categories = Session.get('selectedCategories');
@@ -58,7 +58,7 @@ ListingController = RouteController.extend({
   },
 
 	data: function() {
-    var prod = this.XXXsearchProducts();
+    var prod = this.searchProducts();
 		return {
           searchProducts: prod,
 
