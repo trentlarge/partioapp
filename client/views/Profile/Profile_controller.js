@@ -16,15 +16,19 @@ ProfileController = RouteController.extend({
 
 	data: function() {
 		return {
-			_user: Meteor.user(),
+			user: Meteor.user(),
 
 			profileEdit: function() {
 				return Session.get('profileEdit');
 			},
 
 			emailSet: function() {
-				return this._user.emails[0].address;
-			}
+				return this.user.emails[0].address;
+			},
+            
+            isLocationSelected: function(index) {
+                return (this.user.profile.area == index) ? 'selected' : '';
+            }
 		};
 	},
 

@@ -13,7 +13,8 @@ Template.appLayout.events({
     var updatedProfile = {
       //college: $('#profileuniversity').val(),
       mobile: $('#profilemobile').val(),
-      birthDate: $('#birthDate').val()
+      birthDate: $('#birthDate').val(),
+      area: $('#college').val()    
     };
 
     Meteor.call("updateUserProfile", updatedProfile, function(err, res) {
@@ -53,6 +54,11 @@ Template.profile.events({
   },
 
   'keyup #profileEdit': function(e, template) {
+    e.preventDefault();
+    Session.set('profileEdit', true);
+  },
+    
+  'change #profileEdit': function(e, template) {
     e.preventDefault();
     Session.set('profileEdit', true);
   },
