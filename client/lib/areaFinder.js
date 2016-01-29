@@ -1,47 +1,67 @@
 areaFinder = function(done){
 	checkUserLocation(function(result){
 		if(!result) {
-			return;
+			done(false);
 		}
 
 		var miles = 5;
 		var max_distance = 1.60934*miles; //need to be in km
 
-		var duke_lat = 41.919769;
+	    var _area = 0;
+
+	    //duke test ----------------------------------------------------------
+	    var duke_lat = 41.919769;
 		var duke_lng = -91.649501;
 
-		var yale_lat = 14.627310;
-		var yale_lng = 121.053896;
-
-		var duke_distance = nearByLocation.getDistance({
+		var duke = nearByLocation.getDistance({
 	        latA: result.lat,
 	        latB: duke_lat,
 	        lngA: result.long,
 	        lngB: duke_lng
 	    })
 
-	    //console.log('duke distance >>>', duke_distance);
+	    //console.log('duke distance >>>', duke.distance);
 
-	    var _area = 0;
-
-		//duke
-		if(duke_distance <= max_distance) {
+		if(duke.distance <= max_distance) {
 			_area = 1;
 		}
+	   
+	    //yale test ------------------------------------------------------------
+		var yale_lat = 14.627310;
+		var yale_lng = 121.053896;
 
-	    var yale_distance = nearByLocation.getDistance({
+	    var yale = nearByLocation.getDistance({
 	        latA: result.lat,
 	        latB: yale_lat,
 	        lngA: result.long,
 	        lngB: yale_lng
 	    })
 
-	   // console.log('yale distance >>>', yale_distance);
+	  	//console.log('yale distance >>>', yale.distance);
 
-	    //yake
-	    if(yale_distance <= max_distance) {
+	    if(yale.distance <= max_distance) {
 			_area = 2;
 		}
+
+
+		//test -----------------------------------------------------------------
+		// var test_lat = -18.912852;
+		// var test_lng = -48.277467;
+
+		// var test = nearByLocation.getDistance({
+	 //        latA: result.lat,
+	 //        latB: test_lat,
+	 //        lngA: result.long,
+	 //        lngB: test_lng
+	 //    })
+
+	 //   	console.log('test distance >>>', test.distance);
+
+	 //    if(test.distance <= max_distance) {
+		// 	_area = 3;
+		// }
+
+		// console.log(_area);
 
 		done(_area);
 	})	

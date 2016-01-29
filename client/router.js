@@ -77,6 +77,10 @@ Router.onBeforeAction(function(pause){
 
 				if(_user.profile.area == -1) {
 					areaFinder(function(area){
+						if(!area) {
+							area = 0;
+						}
+
 						Meteor.call('userAreaUpdate', area);
 					})
 				}

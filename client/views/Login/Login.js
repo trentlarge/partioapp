@@ -78,9 +78,11 @@ Template.login.events({
 			// if(err) {
 			// 	throw new Meteor.Error("Facebook login failed");
 			// } else {
-			// 	if (user.hasOwnProperty('services') && user.services.hasOwnProperty('facebook')  ) {
-			// 		var result = Meteor.http.get('https://graph.facebook.com/v2.4/' + user.services.facebook.id + '?access_token=' + user.services.facebook.accessToken + '&fields=first_name, last_name, birthday, email, gender, location, link, friends');
-			// 	}
+				// if (user.hasOwnProperty('services') && user.services.hasOwnProperty('facebook')  ) {
+				// 	var result = Meteor.http.get('https://graph.facebook.com/v2.4/' + user.services.facebook.id + '?access_token=' + user.services.facebook.accessToken + '&fields=first_name, last_name, birthday, email, gender, location, link, friends');
+
+				// 	console.log(result);
+				// }
 
 			// 	Router.go('/profile');
 			// 	$('#name').val(Meteor.user().profile.name);
