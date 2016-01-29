@@ -3,7 +3,7 @@ Template.listing.rendered = function() {
       Session.set('searchText', '');
   }
 
-  Session.set("pageSize", 25);
+  Session.set("pageSize", 15);
   Session.set("pageNumber", 1);
   Session.set("pageNumberLoaded", 0);
 

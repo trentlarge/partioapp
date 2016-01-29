@@ -24,7 +24,7 @@ Meteor.publish("productsByTitle", function(_title) {
 });
 
 Meteor.publish("productsData", function(ownerId, ownerArea, pageNumber, text, categories) {
-    var pageSize = 25;
+    var pageSize = 15;
     pageNumber = pageNumber || 1;
 
     return Products.find({
