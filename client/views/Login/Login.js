@@ -1,3 +1,8 @@
+Template.login.onCreated(function () {
+	this.subscribe('loginProducts');
+});
+
+
 Template.login.events({
 	'click #triggerGPS': function() {
 		Router.go('/register');
@@ -103,33 +108,11 @@ Template.login.events({
 	},
 })
 
-function CheckLocatioOn(){
-	var onSuccess = function(position) {
-		Session.set('initialLoc', {lat: position.coords.latitude, lng: position.coords.longitude});
-	};
 
-	function onError(error) {
-			// alert(error.code +", "+ error.message);
-			IonPopup.show({
-				title: "Location Services Unavailable.",
-				template: 'Please enable Location services for this app from Settings > Privacy > Location Services',
-				buttons: [{
-					text: 'OK',
-					type: 'button-calm',
-					onTap: function() {
-						IonPopup.close();
-						IonModal.close();
-					}
-				}]
-			});
-		}
-
-	// navigator.geolocation.getCurrentPosition(onSuccess, onError);
-}
 
 Template.login.rendered = function() {
     
-  $('.carousel').carousel()
+  	$('.carousel').carousel();
     
 //  $(".bar-header").hide();
 

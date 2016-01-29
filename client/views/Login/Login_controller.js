@@ -9,7 +9,7 @@ LoginController = RouteController.extend({
 
 	waitOn: function() {
 		return [
-            Meteor.subscribe('loginProducts')
+            //Meteor.subscribe('loginProducts')
 		];
 	},
 
