@@ -8,7 +8,6 @@ Template.listing.rendered = function() {
   Session.set("pageNumberLoaded", 0);
 
   Session.set('listing', true);
-  Session.set('loadingItems', false)
 
   var inputBox = $('.search-header-input');
   var inputIcon = $('.search-header-icon');
@@ -35,23 +34,12 @@ Template.listing.events({
         return;
     }
 
-    if(parent.scrollTop() + parent.height() >= scrollingElement.innerHeight()+20) {
-      if(Session.get('loadingItems') == false){
-        Session.set('loadingItems', true);
-   
-        Meteor.setTimeout(function(){
-          Session.set('loadingItems', false); 
-        }, 2000);
-        
+    if(parent.scrollTop() + parent.height() >= scrollingElement.innerHeight() + 20) {
         $('.loadbox').fadeIn('slow',function(){
-          var currentPage = Session.get("pageNumber") || 1;
           var loadedPage = Session.get("pageNumberLoaded") || 0;
-          if(currentPage == loadedPage) {
-              Session.set("pageNumber", currentPage + 1);
-          }
+          Session.set("pageNumber", loadedPage + 1);
         });
       }
-    }
   }
 });
 

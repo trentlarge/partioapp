@@ -66,8 +66,9 @@ Router.onBeforeAction(function(pause){
 
 		if(_user.emails[0].address){
 			if(_user.emails[0].verified) {
+				
+				//first time after verified
 				if(_user.private) {	
-					//first time
 					if(!_user.private.viewTutorial) {
 						Meteor.call('checkTransaction', _user._id);
 						Meteor.call('checkTutorial');
@@ -75,6 +76,7 @@ Router.onBeforeAction(function(pause){
 					}
 				}	
 
+				//facebook
 				if(_user.profile.area == -1) {
 					areaFinder(function(area){
 						if(!area) {
@@ -83,6 +85,8 @@ Router.onBeforeAction(function(pause){
 
 						Meteor.call('userAreaUpdate', area);
 					})
+
+					Meteor.call('userCheckBirthDay');
 				}
 			
 				this.next();
