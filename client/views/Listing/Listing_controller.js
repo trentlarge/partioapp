@@ -1,5 +1,4 @@
 var pageSize = 25;
-var firstTime = true;
 
 ListingController = RouteController.extend({
 	onBeforeAction: function() {
@@ -16,7 +15,7 @@ ListingController = RouteController.extend({
         return [];
 	},
 
-  searchProducts: function() {
+  XXXsearchProducts: function() {
     var pageNumber = Session.get('pageNumber') || 1;
     var text = Session.get('searchText');
     var categories = Session.get('selectedCategories');
@@ -33,7 +32,6 @@ ListingController = RouteController.extend({
 
     var _userArea = _user.profile.area;
 
-    Meteor.subscribe("productsData", Meteor.userId(), _userArea, pageNumber, text, categories);
 
     var products = Products.find({
       ownerId: { $ne: Meteor.userId() },
@@ -45,55 +43,26 @@ ListingController = RouteController.extend({
     });
 
     Session.set("pageNumberLoaded", Math.ceil(products.count() / pageSize));
+    Meteor.subscribe("productsData", Meteor.userId(), _userArea, pageNumber, text, categories, function() {
+        $('.loadbox').fadeOut();
 
-    Meteor.setTimeout(function(){
-      $('.loadbox').fadeOut();
-    }, 1000);
-   
-      // Session.set('loadingItems', false);
+        if(products.count() > 0) {
+          $('.no-items').hide();
+        } else {
+          $('.no-items').fadeIn();
+        }
 
-      //    $('.new').slowEach(70, function() {
-      //        $(this).fadeIn(function(){
-      //          $(this).removeClass('new');
-      //        });
-      //    });
+    });
 
     return products;
   },
 
 	data: function() {
+    var prod = this.XXXsearchProducts();
 		return {
-          searchProducts: this.searchProducts(),
+          searchProducts: prod,
 
-          hasProducts: function(){
-            if(this.searchProducts.count() > 0){
-              $('.no-items').hide();
-              return true;
-
-            } else {
-              if(firstTime) {
-                Meteor.setTimeout(function(){
-                  firstTime = false;
-                }, 1000);
-
-                Meteor.setTimeout(function(){
-                  if($('.product-box').length > 0){
-                    $('.no-items').hide();
-                  } else {
-                    $('.no-items').fadeIn();
-                  }
-                }, 1500);
-
-                return true;
-              } else {
-                $('.no-items').fadeIn();
-                return false;
-              }
-
-
-              //return Session.get('loadingItems');
-            }
-          },
+          hasProducts: prod ? !!prod.count() : false,
 
           isSellingStatusOn: function(sellingStatus) {
             return (sellingStatus === 'ON') ? true : false;
