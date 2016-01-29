@@ -19,34 +19,15 @@ Accounts.onCreateUser(function(options,user) {
         var existingUser = Meteor.users.findOne({'emails.address': email});
         
         if (existingUser) {
-        	console.log('existing user <><><><><><><><><><><><><><><><><><', email);
-
-        	// if(!existingUser.services) {
-         //        existingUser.services = { resume: { loginTokens: [] }};
-        	// }
-            
-         //    if(!existingUser.services.resume) {
-         //        existingUser.services.resume = { loginTokens: [] };
-         //    }
-
-         	console.log(existingUser, user.services);
- 
+        
             // copy across new service info
             existingUser.services[service] = user.services[service];
-
-            //console.log(user);
-
-            // existingUser.services.resume.loginTokens.push(
-            //     user.services.resume.loginTokens[0]
-            // );
  
             // even worse hackery
             Meteor.users.remove({_id: existingUser._id}); // remove existing record
             return existingUser;                          // record is re-inserted
         
         } else {
-
-        	console.log('new user <><><><><><><><><><><><><><><><><><', email);
 
         	user.profile = {};
 			user.private = {};
@@ -67,18 +48,23 @@ Accounts.onCreateUser(function(options,user) {
 				//user.profile.birthDate = user.services.facebook.birthday
 				//FOR NO APPARENT REASON FACEBOOK REFUSED TO SEND AVATAR AFTER LOGIN
 				// user.profile.avatar = options.profile.avatar;
-				user.profile.area = 0;
+				
 				user.private.mobile = '';
+				user.profile.area = -1; //to get after this on client
+
+				// if(user.profile.area == 0) {
+
+				// 	//Check By Email
+				// 	if (email.split("@")[1] === "duke.edu") {
+				// 		user.profile.area = 1;
+				// 	} 
+					
+				// 	if (email.split("@")[1] === "yale.edu") {
+				// 		user.profile.area = 2;
+				// 	}
+				// }
 				
-				if (email.split("@")[1] === "duke.edu") {
-					user.profile.area = 1;
-				} 
-				
-				if (email.split("@")[1] === "yale.edu") {
-					user.profile.area = 2;
-				}
-				
-				user.emails = [{"address": email, "verified": false}]
+				user.emails = [{"address": email, "verified": true}]
 	        
 	        //manual creating
 	        } else {
@@ -87,16 +73,16 @@ Accounts.onCreateUser(function(options,user) {
 				user.profile.area = options.profileDetails.area;
 				user.profile.birthDate = options.profileDetails.birthDate;
 				user.private.mobile = options.profileDetails.mobile;
-	        }
 
-	        Meteor.setTimeout(function() {
-				Accounts.sendVerificationEmail(user._id);
-			}, 4 * 1000);
+				Meteor.setTimeout(function() {
+					Accounts.sendVerificationEmail(user._id);
+				}, 4 * 1000);
+	        }	        
 
 			return user;
         }
 	} else {
-		console.log('some error');
+		console.log('no services');
 	}
 });
 

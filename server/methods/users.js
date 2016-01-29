@@ -63,6 +63,20 @@ Meteor.methods({
 
 	checkTutorial: function(){
 		Meteor.users.update({"_id": this.userId }, {$set: { "private.viewTutorial": true }}, function(error) {
+			if(error) {
+				return false;
+			}
+
+			return true;
+		});
+	},
+
+	userAreaUpdate: function(area){
+		Meteor.users.update({"_id": this.userId }, {$set: { "profile.area": area }}, function(error) {
+			if(error) {
+				return false;
+			}
+
 			return true;
 		});
 	}
