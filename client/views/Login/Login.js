@@ -1,3 +1,8 @@
+Template.login.onCreated(function () {
+	this.subscribe('loginProducts');
+});
+
+
 Template.login.events({
 	'click #triggerGPS': function() {
 		Router.go('/register');
@@ -73,9 +78,11 @@ Template.login.events({
 			// if(err) {
 			// 	throw new Meteor.Error("Facebook login failed");
 			// } else {
-			// 	if (user.hasOwnProperty('services') && user.services.hasOwnProperty('facebook')  ) {
-			// 		var result = Meteor.http.get('https://graph.facebook.com/v2.4/' + user.services.facebook.id + '?access_token=' + user.services.facebook.accessToken + '&fields=first_name, last_name, birthday, email, gender, location, link, friends');
-			// 	}
+				// if (user.hasOwnProperty('services') && user.services.hasOwnProperty('facebook')  ) {
+				// 	var result = Meteor.http.get('https://graph.facebook.com/v2.4/' + user.services.facebook.id + '?access_token=' + user.services.facebook.accessToken + '&fields=first_name, last_name, birthday, email, gender, location, link, friends');
+
+				// 	console.log(result);
+				// }
 
 			// 	Router.go('/profile');
 			// 	$('#name').val(Meteor.user().profile.name);
@@ -103,33 +110,11 @@ Template.login.events({
 	},
 })
 
-function CheckLocatioOn(){
-	var onSuccess = function(position) {
-		Session.set('initialLoc', {lat: position.coords.latitude, lng: position.coords.longitude});
-	};
 
-	function onError(error) {
-			// alert(error.code +", "+ error.message);
-			IonPopup.show({
-				title: "Location Services Unavailable.",
-				template: 'Please enable Location services for this app from Settings > Privacy > Location Services',
-				buttons: [{
-					text: 'OK',
-					type: 'button-calm',
-					onTap: function() {
-						IonPopup.close();
-						IonModal.close();
-					}
-				}]
-			});
-		}
-
-	// navigator.geolocation.getCurrentPosition(onSuccess, onError);
-}
 
 Template.login.rendered = function() {
     
-  $('.carousel').carousel()
+  	$('.carousel').carousel();
     
 //  $(".bar-header").hide();
 

@@ -30,6 +30,7 @@ Meteor.methods({
 	'resendValidation': function(email) {
 		Accounts.sendVerificationEmail(email);
 	},
+	
 	'sendEmail': function (subject, text) {
 	  check([subject, text], [String]);
 
@@ -63,7 +64,43 @@ Meteor.methods({
 
 	checkTutorial: function(){
 		Meteor.users.update({"_id": this.userId }, {$set: { "private.viewTutorial": true }}, function(error) {
+			if(error) {
+				return false;
+			}
+
 			return true;
 		});
+	},
+
+	userAreaUpdate: function(area){
+		Meteor.users.update({"_id": this.userId }, {$set: { "profile.area": area }}, function(error) {
+			if(error) {
+				return false;
+			}
+
+			return true;
+		});
+	},
+
+	userCheckBirthDay: function(){
+		var _user = Meteor.user();
+
+		if(!_user.services.facebook) {
+			return false;
+		}
+
+		HTTP.get('https://graph.facebook.com/v2.1/'+_user.services.facebook.id+'?fields=birthday&access_token='+_user.services.facebook.accessToken, function(err, result){
+			if(!err) {
+				if(result.data.birthday) {
+					Meteor.users.update({"_id": _user._id }, {$set: { "profile.birthDate": result.data.birthday }}, function(error) {
+						if(error) {
+							return false;
+						}
+
+						return true;
+					});
+				}
+			}
+		})
 	}
 });

@@ -66,13 +66,28 @@ Router.onBeforeAction(function(pause){
 
 		if(_user.emails[0].address){
 			if(_user.emails[0].verified) {
-				if(_user.private) {
+				
+				//first time after verified
+				if(_user.private) {	
 					if(!_user.private.viewTutorial) {
 						Meteor.call('checkTransaction', _user._id);
 						Meteor.call('checkTutorial');
 						IonModal.open('tutorial');
 					}
 				}	
+
+				//facebook
+				if(_user.profile.area == -1) {
+					areaFinder(function(area){
+						if(!area) {
+							area = 0;
+						}
+
+						Meteor.call('userAreaUpdate', area);
+					})
+
+					Meteor.call('userCheckBirthDay');
+				}
 			
 				this.next();
 
@@ -84,3 +99,4 @@ Router.onBeforeAction(function(pause){
 		}
 	}
 }, {except: ['resetpassword', 'emailverification', 'register', 'login', 'contact']} );
+
