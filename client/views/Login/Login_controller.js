@@ -25,17 +25,15 @@ LoginController = RouteController.extend({
             productsImage: function() {
                 
                 var images = [];
-                var self = this;
                 
                 $.each(this.products, function(index, product) {
                    
-                    if(product.image !== '/image-not-available.png' && images.length < 32) {
+                    if(images.length < 32) {
                         images.push({
                             'image': product.image,
                             'price': product.rentPrice.week
                         });
                     }
-                    
                 });
                 
                 images = this.shuffle(images);
@@ -45,8 +43,7 @@ LoginController = RouteController.extend({
                     while(images.length < 32) {
                         var randomIndex = Math.round(Math.random() * (images.length-1));
                         images.push(images[randomIndex]);
-                    }
-                    
+                    } 
                 }
                 
                 else if (images.length == 0) {
@@ -57,7 +54,6 @@ LoginController = RouteController.extend({
                             'price': '0.00',
                         });
                     }
-                    
                 }
 
                 return images;
