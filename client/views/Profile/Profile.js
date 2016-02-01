@@ -58,7 +58,7 @@ Template.profile.events({
     Session.set('profileEdit', true);
   },
     
-  'change #profileEdit': function(e, template) {
+  'change #college': function(e, template) {
     e.preventDefault();
     Session.set('profileEdit', true);
   },
