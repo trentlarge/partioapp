@@ -69,11 +69,17 @@ Router.onBeforeAction(function(pause){
 				
 				//first time after verified
 				if(_user.private) {	
-					if(!_user.private.viewTutorial) {
-						Meteor.call('checkTransaction', _user._id);
-						Meteor.call('checkTutorial');
-						IonModal.open('tutorial');
-					}
+                    
+                    if(!_user.private.viewTutorial && _user.private.checkProfileFields) {
+                        Meteor.call('checkTransaction', _user._id);
+                        Meteor.call('checkTutorial');
+                        IonModal.open('tutorial');
+                    }
+                    
+                    if(!_user.private.checkProfileFields) {
+						IonModal.open('updateProfile');
+                    }
+
 				}	
 
 				//facebook

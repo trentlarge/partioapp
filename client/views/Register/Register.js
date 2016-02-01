@@ -64,13 +64,12 @@ Template.register.events({
 		e.preventDefault();
         var email = template.find('[name=email]').value;
         var password = template.find('[name=password]').value;
-//		var mobile = template.find('[name=mobile]').value;
         var profileDetails = {
             name: template.find('[name=name]').value,
-            mobile: template.find('[name=mobile]').value,
+            //mobile: template.find('[name=mobile]').value,
+            mobile: '',
             area: template.find('#college').value,
             birthDate: template.find('[name=birthDate]').value,
-//            birthData: '',
             avatar: base64imgs('profile-image-placeholder')
 //            location: Session.get('newLocation')
     };

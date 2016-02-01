@@ -32,6 +32,7 @@ Accounts.onCreateUser(function(options,user) {
         	user.profile = {};
 			user.private = {};
 			user.private.viewTutorial = false;
+            user.private.checkProfileFields = false;
 
 			user.secret = {};
 			user.secret.canBorrow = false;
