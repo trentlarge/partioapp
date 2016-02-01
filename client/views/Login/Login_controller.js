@@ -9,13 +9,14 @@ LoginController = RouteController.extend({
 
 	waitOn: function() {
 		return [
-            //Meteor.subscribe('loginProducts')
+            Meteor.subscribe('loginProducts')
 		];
 	},
 
 	data: function() {
 		return {
             products: Products.find({}).fetch(),
+//            products: Products.find({ sold: { $ne: true }, image: { $ne: "/image-not-available.png" } }, { sort: { _id: -1 }, limit: 32 }).fetch(),
             
             isFirst: function(index) {
                 return (index === 0) ? 'active' : '';  
