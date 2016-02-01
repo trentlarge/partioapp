@@ -20,7 +20,7 @@ Meteor.methods({
     var _number = _user.private.mobile;
 
     if(!_number) {
-      throw new Meteor.Error("no_number", "Please update you phone number");
+      throw new Meteor.Error("no_number", "Add your number in the profile section to receive phone calls. Note: Your number will never be shared to other users.");
       return false;
     }
 

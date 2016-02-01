@@ -25,7 +25,7 @@ Template.listing.rendered = function() {
 Template.listing.events({
   "scroll .overflow-scroll": function(e, t) {
     var parent = t.$(e.currentTarget);
-    var scrollingElement = parent.find(".list");
+    //var scrollingElement = parent.find(".list");
       
     var pageNumber = Session.get('pageNumber') || 1;
     var pageSize = Session.get('pageSize');
@@ -33,9 +33,10 @@ Template.listing.events({
     if($('.product-box').length < pageNumber * pageSize) {
         return;
     }
-
-    if(parent.scrollTop() + parent.height() >= scrollingElement.innerHeight() + 20) {
-        $('.loadbox').fadeIn('slow',function(){
+      
+    //if(parent.scrollTop() + parent.height() >= scrollingElement.innerHeight() + 20) {
+    if(parent.scrollTop() + parent.height() >= parent[0].scrollHeight - 100) {
+        $('.loadbox').fadeIn('fast',function(){
           var loadedPage = Session.get("pageNumberLoaded") || 0;
           Session.set("pageNumber", loadedPage + 1);
         });

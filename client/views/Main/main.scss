@@ -1,3 +1,8 @@
+.main {
+    .lend, .rent {
+        cursor: pointer;
+    }
+}
 
 .button.button-calm{
     border-color: #D8880C;
@@ -9,50 +14,49 @@
     }
 }
 
-
  /* Button */
-    .button-md {
-      display: inline-block;
-      position: relative;
-      width: 100%;
-      height: 32px;
-      line-height: 32px;
-      border-radius: 2px;
-      font-size: 0.8em;
-      background-color: #fff;
-      color: #646464;
-    }
+.button-md {
+  display: inline-block;
+  position: relative;
+  width: 100%;
+  height: 32px;
+  line-height: 32px;
+  border-radius: 2px;
+  font-size: 0.8em;
+  background-color: #fff;
+  color: #646464;
+}
 
-    .button-md > paper-ripple {
-      border-radius: 2px;
-      overflow: hidden;
-    }
+.button-md > paper-ripple {
+  border-radius: 2px;
+  overflow: hidden;
+}
 
-    .button-md.narrow {
-      width: 60px;
-    }
+.button-md.narrow {
+  width: 60px;
+}
 
-    .button-md.grey {
-      background-color: #eee;
-    }
+.button-md.grey {
+  background-color: #eee;
+}
 
-    .button-md.blue {
-      background-color: #4285f4;
-      color: #fff;
-    }
+.button-md.blue {
+  background-color: #4285f4;
+  color: #fff;
+}
 
-    .button-md.green {
-      background-color: #0f9d58;
-      color: #fff;
-    }
+.button-md.green {
+  background-color: #0f9d58;
+  color: #fff;
+}
 
-    .button-md.raised {
-      transition: box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-      transition-delay: 0.2s;
-      box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
-    }
+.button-md.raised {
+  transition: box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition-delay: 0.2s;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+}
 
-    .button-md.raised:active {
-      box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2);
-      transition-delay: 0s;
-    }
+.button-md.raised:active {
+  box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2);
+  transition-delay: 0s;
+}

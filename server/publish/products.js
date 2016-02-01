@@ -3,7 +3,7 @@ Meteor.publish("products", function() {
 });
 
 Meteor.publish("loginProducts", function() {
-	return Products.find({ sold: { $ne: true } }, { sort: { _id: -1 }, limit: 64 });
+	return Products.find({ sold: { $ne: true }, image: { $ne: "/image-not-available.png" } }, { sort: { _id: -1 }, limit: 32 });
 });
 
 Meteor.publish("myProducts", function() {
