@@ -41,14 +41,18 @@
         -webkit-justify-content: center;
         justify-content: center;
         display: -webkit-flex; /* Safari */
-        -webkit-align-items: center; /* Safari 7.0+ */
         display: flex;
-        align-items: center;
-        padding-bottom: 10px;
+        -webkit-align-items: flex-start; /* Safari 7.0+ */
+        align-items: flex-start;
+        max-height: 250px;
+        overflow: hidden;
     }
 
+    .item.product {
+        padding: 0;
+    }
+    
     .product-avatar-inner {
-        max-height: 140px;
         max-width: 100%;
     }
     
@@ -61,7 +65,15 @@
         white-space: normal;
         text-align: center;
         color: #272727;
+        position: absolute;
         min-height: 15px;
+        line-height: 18px;
+        height: 50px;
+        overflow: hidden;
+        margin-top: -50px;
+        padding: 10px 0;
+        width: 100%;
+        background-color: rgba(255, 255, 255, 0.7);
     }
     
     .rent-details-box {
