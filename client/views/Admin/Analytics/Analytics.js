@@ -48,13 +48,13 @@ Template.analytics.rendered = function() {
     var data = {
         duke: (function() {
             return (self.analyticsId === 'users') ? 
-                self.getTotalUsersByUniversity("@duke.edu") : 
-                self.getTotalByUniversity("@duke.edu");
+                self.getTotalUsersByUniversity(1) : 
+                self.getTotalByUniversity(1);
         })(),
         yale: (function() {
             return (self.analyticsId === 'users') ? 
-                self.getTotalUsersByUniversity("@yale.edu") : 
-                self.getTotalByUniversity("@yale.edu");
+                self.getTotalUsersByUniversity(2) : 
+                self.getTotalByUniversity(2);
         })(),
         total: self.getLenght()
     }

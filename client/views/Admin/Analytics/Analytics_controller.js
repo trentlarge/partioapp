@@ -40,7 +40,8 @@ AnalyticsController = RouteController.extend({
                     "claytonmarinho@gmail.com",
                     "breno.wd@gmail.com",
                     "lucasbr.dafonseca@gmail.com",
-                    "flashblade123@gmail.com"
+                    "flashblade123@gmail.com",
+                    "cw249@duke.edu"
                 ];
                 
                 return ($.inArray(this.user.emails[0].address, permitedUsers) >= 0) ? true : false;
@@ -93,7 +94,7 @@ AnalyticsController = RouteController.extend({
             getUsersIdByUniversity: function(uni) {
                 
                 var users = this.users.filter(function (user) {
-                    return (user.emails[0].address.indexOf(uni) >= 0);
+                     return (user.profile.area == uni);
                 });
                  
                 var usersId = [];
@@ -107,7 +108,7 @@ AnalyticsController = RouteController.extend({
             getTotalUsersByUniversity: function(uni) {
                 
                 var users = this.users.filter(function( user ) {
-                    return (user.emails[0].address.indexOf(uni) >= 0);
+                    return (user.profile.area == uni);
                 });
                 
                 return users.length;
@@ -122,7 +123,7 @@ AnalyticsController = RouteController.extend({
                 switch(this.analyticsId) {
                     case 'products': 
                         elements = this.products.filter(function( product ) {
-                            return ($.inArray(product.ownerId, usersId) >= 0);
+                            return (product.ownerArea == uni);
                         });
                         break;
                     case 'connections': 
@@ -148,6 +149,22 @@ AnalyticsController = RouteController.extend({
             },
             
             // USERS METHODS
+            
+            getUsersByUniversity: function(uni) {
+                
+                return users = this.users.filter(function (user) {
+                     return (user.profile.area == uni);
+                });
+            },
+            
+            getUserTotalProducts: function(userId) {
+              
+                var products = this.products.filter(function (product) {
+                     return (product.ownerId == userId);
+                });   
+                
+                return products.length;
+            },
             
             getLastUser: function() {
                 

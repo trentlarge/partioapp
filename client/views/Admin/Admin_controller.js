@@ -38,7 +38,8 @@ AdminController = RouteController.extend({
                     "claytonmarinho@gmail.com",
                     "breno.wd@gmail.com",
                     "lucasbr.dafonseca@gmail.com",
-                    "flashblade123@gmail.com"
+                    "flashblade123@gmail.com",
+                    "cw249@duke.edu"
                 ];
                 
                 return ($.inArray(this.user.emails[0].address, permitedUsers) >= 0) ? true : false;
@@ -68,7 +69,7 @@ AdminController = RouteController.extend({
             getUsersIdByUniversity: function(uni) {
                 
                 var users = this.users.filter(function (user) {
-                    return (user.emails[0].address.indexOf(uni) >= 0);
+                    return (user.profile.area == uni);
                 });
                  
                 var usersId = [];
@@ -82,7 +83,7 @@ AdminController = RouteController.extend({
             getTotalUsersByUniversity: function(uni) {
                 
                 var users = this.users.filter(function( user ) {
-                    return (user.emails[0].address.indexOf(uni) >= 0);
+                    return (user.profile.area == uni);
                 });
                 
                 return users.length;
@@ -93,7 +94,7 @@ AdminController = RouteController.extend({
                 var usersId = this.getUsersIdByUniversity(uni);
                  
                 var products = this.products.filter(function( product ) {
-                    return ($.inArray(product.ownerId, usersId) >= 0);
+                    return (product.ownerArea == uni);
                 });
                 
                 return products.length;

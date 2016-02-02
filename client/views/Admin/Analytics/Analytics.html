@@ -34,7 +34,6 @@
                     </div>
                 </div>
                 
-                
                 {{#if ../isUserAnalytics}}
                 
                     {{#with ../getLastUser}}
@@ -74,8 +73,73 @@
                         </div>
                     </div>
                 
-                {{/if}}
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                        <div class="card">
+                            <div class="item item-divider">
+                                <span style="text-transform:capitalize;">Duke Users</span> 
+                            </div>
+                            <div class="item" style="padding:0;">
+                                <table class="user-table">
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Total Products</th>
+                                    </tr>
+                                    {{#each ../getUsersByUniversity 1}}
+                                        <tr>
+                                            <td>{{profile.name}}</td>
+                                            <td>{{../getUserTotalProducts _id}}</td>
+                                        </tr>
+                                    {{/each}}
+                                </table>
+                            </div>
+                        </div>
+                    </div>
                 
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                        <div class="card">
+                            <div class="item item-divider">
+                                <span style="text-transform:capitalize;">Yale Users</span> 
+                            </div>
+                            <div class="item" style="padding:0;">
+                                <table class="user-table">
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Total Products</th>
+                                    </tr>
+                                    {{#each ../getUsersByUniversity 2}}
+                                        <tr>
+                                            <td>{{profile.name}}</td>
+                                            <td>{{../getUserTotalProducts _id}}</td>
+                                        </tr>
+                                    {{/each}}
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                        <div class="card">
+                            <div class="item item-divider">
+                                <span style="text-transform:capitalize;">Other Users</span> 
+                            </div>
+                            <div class="item" style="padding:0;">
+                                <table class="user-table">
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Total Products</th>
+                                    </tr>
+                                    {{#each ../getUsersByUniversity 0}}
+                                        <tr>
+                                            <td>{{profile.name}}</td>
+                                            <td>{{../getUserTotalProducts _id}}</td>
+                                        </tr>
+                                    {{/each}}
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                
+                {{/if}}
                 
                 {{#if ../isProductsAnalytics}}
                 
