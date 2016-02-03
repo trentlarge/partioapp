@@ -70,10 +70,10 @@ Router.onBeforeAction(function(pause){
 				//first time after verified
 				if(_user.private) {	
 					if(!_user.private.viewTutorial) {
-						Meteor.call('checkTransaction', _user._id);
+						Meteor.call('checkTransaction');
 						Meteor.call('checkTutorial');
 						IonModal.open('tutorial');
-					}
+					}					
 				}	
 
 				//facebook
@@ -85,8 +85,8 @@ Router.onBeforeAction(function(pause){
 
 						Meteor.call('userAreaUpdate', area);
 					})
-
-					Meteor.call('userCheckBirthDay');
+					
+					Meteor.call('userCheckBirthDay');					
 				}
 			
 				this.next();
