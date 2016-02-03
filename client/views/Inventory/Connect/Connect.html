@@ -27,14 +27,19 @@
           </div>
 
           <div class="item product-details-item">
-            <div class="product-content">
-                <p class="product-title">{{connectData.productData.title}}</p>
-                <p><i class="icon {{getCategoryIcon}}"></i> {{connectData.productData.amazonCategory}}</p>
-                <p><i class="icon ion-cash"></i> {{connectData.productData.price}}</p>
-                <p><i class="icon ion-clipboard"></i> {{getCondition}}</p>
-            </div>
             <div class="product-image-box">
-                <img class="connect-thumbnail" src="{{connectData.productData.image}}">
+              <img class="product-image" src="{{connectData.productData.image}}">
+            </div>
+            <div class="product-content">
+              <p class="product-title">{{connectData.productData.title}}</p>
+            </div>
+            <div class="item row product-features">
+                <div class="col col-50">
+                    <p><i class="icon {{../getCategoryIcon}}"></i> {{connectData.productData.amazonCategory}}</p>
+                </div>
+                <div class="col col-50">
+                   <p><i class="icon ion-clipboard"></i> {{../getCondition}}</p>
+                </div>
             </div>
           </div>
 

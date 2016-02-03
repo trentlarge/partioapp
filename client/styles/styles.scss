@@ -345,23 +345,38 @@ body.keyboard-open .platform-android .content.overflow-scroll {
 
 // -- END: POPUP --
 
-//.popup-buttons .button-positive {
-//    border-color: #D8880C;
-//    background-color: #F0970D;
-//    color: #FFF;
-//}
-//
-//.popup-buttons .button-positive.active {
-//    border-color: #D8880C;
-//    background-color: #D8880C;
-//    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1) inset;
-//}
-//
-//.popup-buttons .button-positive.activated {
-//    border-color: #D8880C;
-//    background-color: #D8880C;
-//    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1) inset;
-//}
+// -- FAB BUTTONS --
+
+.fab-button {
+    
+    position: fixed;
+    height: 55.5px;
+    width: 55.5px;
+    background-color: #df5707;
+    z-index: 100;
+    bottom: 30px;
+    right: 30px;
+    border-radius: 50%;
+    box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12);
+    transition: .2s ease-out;
+    
+    &:hover {
+        opacity: 1 !important;
+        box-shadow: 0 5px 11px 0 rgba(0,0,0,0.18),0 4px 15px 0 rgba(0,0,0,0.15);
+    }
+        
+    i {
+        font-size: 30px;
+        color: #fff;
+        position: fixed;
+        bottom: 44.25px;
+        right: 44.25px;
+    }
+}
+
+// -- END: FAB BUTTONS --
+
+
 .menutext{
   font-weight:500;
 }
@@ -377,18 +392,18 @@ body.keyboard-open .platform-android .content.overflow-scroll {
   margin-bottom: 20px;
 }
 
-.btn {
-  -webkit-border-radius: 15;
-  -moz-border-radius: 15;
-  border-radius: 28px;
-  color: #ffffff;
-  font-size: 14px;
-  padding: 5px 70px 5px 70px;
-  border: solid #ffffff 1.5px;
-  text-decoration: none;
-  margin-bottom: 10px;
-  margin-top: 20px;
-}
+//.btn {
+//  -webkit-border-radius: 15;
+//  -moz-border-radius: 15;
+//  border-radius: 28px;
+//  color: #ffffff;
+//  font-size: 14px;
+//  padding: 5px 70px 5px 70px;
+//  border: solid #ffffff 1.5px;
+//  text-decoration: none;
+//  margin-bottom: 10px;
+//  margin-top: 20px;
+//}
 
 .search {
   -webkit-border-radius: 15;
@@ -748,16 +763,6 @@ body.keyboard-open .platform-android .content.overflow-scroll {
   clear: both;
 }
 
-// .bubble {
-// 	position: relative;
-// 	width: 75vw;
-// 	padding: 4px;
-// 	margin-top: 5px;
-// 	-webkit-border-radius: 3px;
-// 	-moz-border-radius: 3px;
-// 	border-radius: 3px;
-// }
-
 .bubble:after {
   content: '';
   position: absolute;
@@ -1039,26 +1044,9 @@ input[type="color"] {
   font-size: 20px !important;
 }
 
-
 .float-right {
   float: right;
 }
-
-//.trash-item {
-    // position: absolute;
-    // top: 0;
-    // right: 47px;
-    // z-index: 3;
-    // visibility: visible;
-    // padding: 14px;
-    // height: 100%;
-    // font-size: 24px;
-    // margin-right: 50px;
-//}
-
-// .item-radio input:checked ~ .item-content {
-//   background: #FFF;
-// }
 
 .push-up {
   top: 0px !important;

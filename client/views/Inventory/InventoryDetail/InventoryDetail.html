@@ -8,7 +8,7 @@
   {{/contentFor}}
 
   {{#contentFor "headerButtonRight"}}
-    <button class="button button-clear icon ion-ios-compose-outline button-energized" id="editCurrent"></button>
+<!--    <button class="button button-clear icon ion-ios-compose-outline button-energized" id="editCurrent"></button>-->
   {{/contentFor}}
 
   {{#ionView}}
@@ -26,6 +26,13 @@
 
       {{>loader}}
       
+      {{#if editMode product._id}}
+      {{else}}
+          <a class="fab-button">
+             <i id="editCurrent" class="icon ion-ios-compose-outline"></i>   
+          </a>
+      {{/if}}
+    
       <div class="loading-wrapper">
         <div class="card list">
           <div class="item image">
