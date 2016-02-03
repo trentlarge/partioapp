@@ -10,8 +10,8 @@ areaFinder = function(done){
 	    var _area = 0;
 
 	    //duke test ----------------------------------------------------------
-	    var duke_lat = 41.919769;
-		var duke_lng = -91.649501;
+	    var duke_lat = 36.0014301;
+		var duke_lng = -78.9404226;
 
 		var duke = nearByLocation.getDistance({
 	        latA: result.lat,
@@ -27,8 +27,8 @@ areaFinder = function(done){
 		}
 	   
 	    //yale test ------------------------------------------------------------
-		var yale_lat = 14.627310;
-		var yale_lng = 121.053896;
+		var yale_lat = 41.3163284;
+		var yale_lng = -72.9245371;
 
 	    var yale = nearByLocation.getDistance({
 	        latA: result.lat,
