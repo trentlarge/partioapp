@@ -15,6 +15,10 @@ UI.registerHelper('getVersion', function(){
   return Meteor.settings.public.appVersion;
 });
 
+UI.registerHelper('getUserLocation', function(location){
+  return areaName(location);
+});
+
 Template.appLayout.events({
 	'click .backFromEdit': function() {
 		Session.set('editMode', false);

@@ -37,9 +37,9 @@ Template.admin.rendered = function() {
     // NUMBER OF USER BY UNIVERSITY
     
     var users = {
-        duke: this.data.getTotalUsersByUniversity("@duke.edu"),
-        yale: this.data.getTotalUsersByUniversity("@yale.edu"),
-        total: this.data.getUsersLenght()
+        duke: this.data.getTotalUsersByUniversity(1), // Duke
+        yale: this.data.getTotalUsersByUniversity(2), // Yale
+        total: this.data.getUsersLenght() // Others
     }
     
     users.others = users.total - users.duke - users.yale;
@@ -71,8 +71,8 @@ Template.admin.rendered = function() {
     // NUMBER OF PRODUCTS BY USER UNIVERSITY
     
     var products = {
-        duke: this.data.getTotalProductsByUniversity("@duke.edu"),
-        yale: this.data.getTotalProductsByUniversity("@yale.edu"),
+        duke: this.data.getTotalProductsByUniversity(1),
+        yale: this.data.getTotalProductsByUniversity(2),
         total: this.data.getProductsLenght()
     }
     
@@ -105,8 +105,8 @@ Template.admin.rendered = function() {
     // NUMBER OF CONNECTIONS BY USER UNIVERSITY
     
     var connections = {
-        duke: this.data.getTotalConnectionsByUniversity("@duke.edu"),
-        yale: this.data.getTotalConnectionsByUniversity("@yale.edu"),
+        duke: this.data.getTotalConnectionsByUniversity(1),
+        yale: this.data.getTotalConnectionsByUniversity(2),
         total: this.data.getConnectionsLenght()
     }
     
@@ -139,8 +139,8 @@ Template.admin.rendered = function() {
     // NUMBER OF TRANSACTIONS BY USER UNIVERSITY
     
     var transactions = {
-        duke: this.data.getTotalTransactionsByUniversity("@duke.edu"),
-        yale: this.data.getTotalTransactionsByUniversity("@yale.edu"),
+        duke: this.data.getTotalTransactionsByUniversity(1),
+        yale: this.data.getTotalTransactionsByUniversity(2),
         total: this.data.getTransactionsLenght()
     }
     

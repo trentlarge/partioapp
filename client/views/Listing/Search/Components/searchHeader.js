@@ -34,7 +34,6 @@ Template.searchHeader.events({
     var text = $(e.target).val();
 
     if (e.charCode == 13 || e.keyCode == 13) {
-      PartioLoad.show();
 
       //reset sessions
       Session.set("pageNumber", 1);
@@ -45,7 +44,6 @@ Template.searchHeader.events({
 
       //set text
       Session.set('searchText', text);
-      PartioLoad.hide();
     }
   },
 });

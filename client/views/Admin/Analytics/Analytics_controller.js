@@ -40,7 +40,10 @@ AnalyticsController = RouteController.extend({
                     "claytonmarinho@gmail.com",
                     "breno.wd@gmail.com",
                     "lucasbr.dafonseca@gmail.com",
-                    "flashblade123@gmail.com"
+                    "flashblade123@gmail.com",
+                    "cw249@duke.edu",
+                    "whitney.hazard@duke.edu",
+                    "michael.x.li@duke.edu"
                 ];
                 
                 return ($.inArray(this.user.emails[0].address, permitedUsers) >= 0) ? true : false;
@@ -90,10 +93,22 @@ AnalyticsController = RouteController.extend({
                 }
             },
             
+            getUserById: function(userId) {
+                var reponseUser = {};
+                $.each(this.users, function(index, user) {
+                    if(user._id == userId) {
+                        reponseUser = user;
+                        return user;
+                    }
+                })
+                
+                return reponseUser;
+            },
+            
             getUsersIdByUniversity: function(uni) {
                 
                 var users = this.users.filter(function (user) {
-                    return (user.emails[0].address.indexOf(uni) >= 0);
+                     return (user.profile.area == uni);
                 });
                  
                 var usersId = [];
@@ -107,7 +122,7 @@ AnalyticsController = RouteController.extend({
             getTotalUsersByUniversity: function(uni) {
                 
                 var users = this.users.filter(function( user ) {
-                    return (user.emails[0].address.indexOf(uni) >= 0);
+                    return (user.profile.area == uni);
                 });
                 
                 return users.length;
@@ -122,7 +137,7 @@ AnalyticsController = RouteController.extend({
                 switch(this.analyticsId) {
                     case 'products': 
                         elements = this.products.filter(function( product ) {
-                            return ($.inArray(product.ownerId, usersId) >= 0);
+                            return (product.ownerArea == uni);
                         });
                         break;
                     case 'connections': 
@@ -148,6 +163,22 @@ AnalyticsController = RouteController.extend({
             },
             
             // USERS METHODS
+            
+            getUsersByUniversity: function(uni) {
+                
+                return users = this.users.filter(function (user) {
+                     return (user.profile.area == uni);
+                });
+            },
+            
+            getUserTotalProducts: function(userId) {
+              
+                var products = this.products.filter(function (product) {
+                     return (product.ownerId == userId);
+                });   
+                
+                return products.length;
+            },
             
             getLastUser: function() {
                 
@@ -262,6 +293,10 @@ AnalyticsController = RouteController.extend({
             },
             
             // CONNECTIONS METHODS
+            
+            getConnections: function() {
+                return this.connections;
+            },
             
             getBorrowConnectionsAverageDaysAndPrice: function() {
                 
@@ -458,7 +493,55 @@ AnalyticsController = RouteController.extend({
                 averageSpending = Number(averageSpending/numberTransactions).toFixed(2);
                 
                 return averageSpending;
-            }
+            },
+            
+            getTransactionsSpending: function() {
+                
+                var transactions = [];
+                var self = this;
+                
+                $.each(this.transactions, function(index, transaction) {
+                   
+                    var user = self.getUserById(transaction.userId)
+                    
+                    $.each(transaction.spending, function(key, spend) {
+
+                        transactions.push({
+                            'name': (function() {
+                                return (user.profile) ? user.profile.name : 'User Deleted';
+                            })(),
+                            'product': spend.productName,
+                            'value': spend.paidAmount
+                        });
+                    });
+                });
+                
+                return transactions;
+            },
+            
+            getTransactionsEarning: function() {
+                
+                var transactions = [];
+                var self = this;
+                
+                $.each(this.transactions, function(index, transaction) {
+                   
+                    var user = self.getUserById(transaction.userId)
+                    
+                    $.each(transaction.earning, function(key, spend) {
+
+                        transactions.push({
+                            'name': (function() {
+                                return (user.profile) ? user.profile.name : 'User Deleted';
+                            })(),
+                            'product': spend.productName,
+                            'value': spend.receivedAmount
+                        });
+                    });
+                });
+                
+                return transactions;
+            },
             
 		};
 	},

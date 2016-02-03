@@ -1,3 +1,5 @@
+// LISTING
+
 Template.listing.rendered = function() {
   if(!Session.get('searchText')) {
       Session.set('searchText', '');
@@ -52,13 +54,7 @@ Template.listing.destroyed = function() {
   Session.set('selectedCategories', null);
 };
 
-// Template.searchResult.helpers({
-
-// });
-
-// Template.searchResult.events({
-
-// });
+// SEARCH BOX
 
 Template.searchBox.helpers({
   getCategory: function(index) {

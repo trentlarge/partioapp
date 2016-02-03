@@ -22,6 +22,7 @@
     
     canvas {
         z-index: 1;
+        -webkit-transform: translate3d(0,0,0);
     }
     
     .donut-inner {
@@ -37,6 +38,36 @@
     }
     
     // USERS
+    
+    .user-table {
+        width: 100%;
+        
+        body {
+            width: 100%;
+            background: transparent;
+        }
+        
+        tr {
+            width: 100%;
+            text-align: center;
+            
+            &:nth-child(even) {
+                background: #F5F5F5;
+            }
+            
+            th {
+                width: 50%;
+                padding: 10px 5px;
+                text-align: center;
+                font-weight: bold;
+            }
+            
+            td {
+                width: 50%;
+                padding: 5px;
+            }
+        }
+    }
     
     .user-box {
         display: flex;
@@ -82,10 +113,70 @@
         font-size: 25px;
     }
     
+    .connections-table {
+        width: 100%;
+        
+        tr {
+            width: 100%;
+            text-align: center;
+            
+            &:nth-child(even) {
+                background: #F5F5F5;
+            }
+            
+            th {
+                &:nth-child(1) {width: 20%;}
+                &:nth-child(2) {width: 20%;}
+                &:nth-child(3) {width: 50%;}
+                &:nth-child(4) {width: 10%;}
+                
+                padding: 10px 5px;
+                text-align: center;
+                font-weight: bold;
+            }
+            
+            td {
+                &:nth-child(1) {width: 20%;}
+                &:nth-child(2) {width: 20%;}
+                &:nth-child(3) {width: 50%;}
+                &:nth-child(4) {width: 10%;}
+                
+                padding: 5px;
+                white-space: normal;
+            }
+        }
+    }
+    
     // TRANSACTIONS
     
     .total-spending {
         font-size: 25px;
+    }
+    
+    .transaction-table {
+        width: 100%;
+        
+        tr {
+            width: 100%;
+            text-align: center;
+            
+            &:nth-child(even) {
+                background: #F5F5F5;
+            }
+            
+            th {
+                width: 33.3%;
+                padding: 10px 5px;
+                text-align: center;
+                font-weight: bold;
+            }
+            
+            td {
+                width: 33.3%;
+                padding: 5px;
+                white-space: normal;
+            }
+        }
     }
     
 }
