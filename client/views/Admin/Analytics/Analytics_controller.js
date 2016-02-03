@@ -23,7 +23,7 @@ AnalyticsController = RouteController.extend({
             analyticsId: this.params._id,
             
             user: Users.findOne({_id: Meteor.userId()}),
-            users: Users.find({}).fetch(),
+            users: Users.find({}, {sort: {createdAt: -1}}).fetch(),
             products: Products.find({}).fetch(),
             connections: Connections.find({}).fetch(),
             transactions: Transactions.find({}).fetch(),
@@ -182,7 +182,14 @@ AnalyticsController = RouteController.extend({
             
             getLastUser: function() {
                 
-                var lastUser = this.users[this.users.length - 1];
+                var lastUser = this.users[0];
+                
+                $.each(this.users, function(index, user) {
+                    
+                    if(Number(user.createdAt) > Number(lastUser.createdAt)) {
+                        lastUser = user;
+                    }
+                });
                 
                 var user = {
                     name: lastUser.profile.name,
