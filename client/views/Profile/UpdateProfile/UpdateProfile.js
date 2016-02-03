@@ -1,3 +1,7 @@
+Template.updateProfile.rendered = function() {
+    $('.updateProfile .button-icon').hide();
+};
+
 Template.updateProfile.helpers({
     getMobilePhone: function(){
         var user = Users.findOne({_id: Meteor.userId()});

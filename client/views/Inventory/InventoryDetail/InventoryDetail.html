@@ -69,6 +69,18 @@
             </select>
           </div>
 
+          <div class="item item-input item-select">
+                <div class="input-label">
+                  <p style="height:16px;">Category:</p>
+                </div>
+                <select class="category" {{../isEditMode}}>
+                    {{#each ../getCategories}}
+                        <option {{../selectedCategory text}}>{{text}}</option>
+                    {{/each}}
+                </select>
+          </div>
+            
+<!--
           <div class="item item-divider features">
             <h2>Features <i class="chevron-icon icon ion-chevron-up"></i></h2>
           </div>
@@ -102,6 +114,7 @@
               </div>
             </div>
           </div>
+-->
 
           <div class="item item-divider">
             <h2>Rent Price</h2>

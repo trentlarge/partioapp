@@ -141,7 +141,9 @@ Template.inventoryDetail.events({
     
     var image = template.find('.product-image').src;
       
-    Meteor.call("updateProductData", this.product._id, image, title, conditionId, editedPrices, selling, function(err, res) {
+    var category = template.find('.category').value;
+      
+    Meteor.call("updateProductData", this.product._id, image, title, category, conditionId, editedPrices, selling, function(err, res) {
       if(err) {
         var errorMessage = err.reason || err.message;
         if(err.details) {

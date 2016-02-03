@@ -3,7 +3,7 @@ Meteor.methods({
 		Products.insert(product);
 	},
 
-	updateProductData: function(productId, image, title, conditionId, rentPrice, selling) {
+	updateProductData: function(productId, image, title, category, conditionId, rentPrice, selling) {
 		Products.update({ 
 			_id: productId 
 		}, {
@@ -12,7 +12,8 @@ Meteor.methods({
                 image: image,
         		conditionId: conditionId,
 				rentPrice: rentPrice,
-                selling: selling
+                selling: selling,
+                category: category
 			}
 		});
 	}

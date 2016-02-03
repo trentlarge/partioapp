@@ -29,6 +29,16 @@ InventoryDetailController = RouteController.extend({
           return Categories.getCategoryIconByText(this.product.category);
         }
       },
+            
+      getCategories: function() {
+        return Categories.getCategories();
+      },
+            
+      selectedCategory: function(category) {
+        if(this.product) {
+            return (this.product.category == category) ? 'selected' : '';
+        }
+      },
 
       getConditions: function() {
         if(this.product) {
