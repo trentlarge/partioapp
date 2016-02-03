@@ -1,9 +1,10 @@
 Meteor.methods({
-	'checkTransaction': function(userId){
+	'checkTransaction': function(){
+		var userId = Meteor.userId();
 
-		var _trans = Transactions.find({ userId: userId }).fetch();
+		var _trans = Transactions.findOne({ userId: userId });
 
-		if(_trans.length < 1) {
+		if(!_trans) {
 			//Creating Transactions Id
 			var userTransId = Transactions.insert({
 				earning: [],

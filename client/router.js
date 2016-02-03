@@ -69,17 +69,15 @@ Router.onBeforeAction(function(pause){
 				
 				//first time after verified
 				if(_user.private) {	
-                    
-                    if(!_user.private.viewTutorial && _user.private.checkProfileFields) {
-                        Meteor.call('checkTransaction', _user._id);
-                        Meteor.call('checkTutorial');
-                        IonModal.open('tutorial');
-                    }
-                    
-                    if(!_user.private.checkProfileFields) {
-						IonModal.open('updateProfile');
-                    }
+					if(!_user.private.viewTutorial && _user.private.checkProfileFields) {
+						Meteor.call('checkTransaction');
+						Meteor.call('checkTutorial');
+						IonModal.open('tutorial');
+					}
 
+					if(!_user.private.checkProfileFields) {
+						IonModal.open('updateProfile');
+                    }					
 				}	
 
 				//facebook
@@ -91,8 +89,8 @@ Router.onBeforeAction(function(pause){
 
 						Meteor.call('userAreaUpdate', area);
 					})
-
-					Meteor.call('userCheckBirthDay');
+					
+					Meteor.call('userCheckBirthDay');					
 				}
 			
 				this.next();

@@ -188,43 +188,71 @@ var connectionId;
 var currentPosition;
 
 var CheckLocationOn = function(){
-  navigator.geolocation.getCurrentPosition(onSuccess, onError);
-}
 
-var onSuccess = function(position){
-  PartioLoad.hide();
-	meetingCoordinates = Connections.findOne(connectionId).meetupLatLong;
-	currentPosition = position;
 
-	if(meetingCoordinates.H && JSON.stringify(meetingCoordinates) != 'Location not set') {
-		Session.set('initialLoc', {lat: meetingCoordinates.H, lng: meetingCoordinates.L});
-	} else {
-		Session.set('initialLoc', {lat: position.coords.latitude, lng: position.coords.longitude});
-	}
+	console.log(Geolocation.currentLocation());
 
-	Session.set('currentLoc', {lat: position.coords.latitude, lng: position.coords.longitude});
+	
+	//navigator.geolocation.getCurrentPosition(onSuccess, onError);
 
-	var essentialData = {};
-	essentialData.meetupLatLong = Session.get('initialLoc');
-	essentialData.connectionId = connectionId;
-	IonModal.open('map', essentialData);
+	checkUserLocation(function(result){
+		PartioLoad.hide();
+
+		if(result) {
+			meetingCoordinates = Connections.findOne(connectionId).meetupLatLong;
+			currentPosition = result;
+
+			if(meetingCoordinates.H && JSON.stringify(meetingCoordinates) != 'Location not set') {
+				Session.set('initialLoc', {lat: meetingCoordinates.H, lng: meetingCoordinates.L});
+			} else {
+				Session.set('initialLoc', {lat: currentPosition.lat, lng: currentPosition.long});
+			}
+
+			Session.set('currentLoc', {lat: currentPosition.lat, lng: currentPosition.long});
+
+			var essentialData = {};
+			essentialData.meetupLatLong = Session.get('initialLoc');
+			essentialData.connectionId = connectionId;
+			IonModal.open('map', essentialData);
+		}
+	});
 };
 
-var onError = function(error) {
-  PartioLoad.hide();
 
-  //console.log(error);
 
-	IonPopup.show({
-		title: "Location Services Unavailable.",
-		template: 'Please enable Location services for this app from Settings > Privacy > Location Services',
-		buttons: [{
-			text: 'OK',
-			type: 'button-calm',
-			onTap: function() {
-				IonPopup.close();
-				IonModal.close();
-			}
-		}]
-	});
-}
+// var onSuccess = function(position){
+// 	console.log(position);
+
+// 	meetingCoordinates = Connections.findOne(connectionId).meetupLatLong;
+// 	currentPosition = position;
+
+// 	if(meetingCoordinates.H && JSON.stringify(meetingCoordinates) != 'Location not set') {
+// 		Session.set('initialLoc', {lat: meetingCoordinates.H, lng: meetingCoordinates.L});
+// 	} else {
+// 		Session.set('initialLoc', {lat: position.coords.latitude, lng: position.coords.longitude});
+// 	}
+
+// 	Session.set('currentLoc', {lat: position.coords.latitude, lng: position.coords.longitude});
+
+// 	var essentialData = {};
+// 	essentialData.meetupLatLong = Session.get('initialLoc');
+// 	essentialData.connectionId = connectionId;
+// 	IonModal.open('map', essentialData);
+// };
+
+// var onError = function(error) {
+//   	console.log(error);
+
+// 	IonPopup.show({
+// 		title: "Location Services Unavailable.",
+// 		template: 'Please enable Location services for this app from Settings > Privacy > Location Services',
+// 		buttons: [{
+// 			text: 'OK',
+// 			type: 'button-calm',
+// 			onTap: function() {
+// 				IonPopup.close();
+// 				IonModal.close();
+// 			}
+// 		}]
+// 	});
+// }
