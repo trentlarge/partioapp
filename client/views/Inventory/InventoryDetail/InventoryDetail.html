@@ -47,11 +47,11 @@
 <!--            {{/if}}-->
           </div>
 
-          <label class="item item-input">
+          <div class="item item-input item-title">
             <input type="text" value="{{product.title}}" class="title" style="text-align:center;border:0" {{../isEditMode}}>
-          </label>
+          </div>
 
-          <label class="item item-input item-select">
+          <div class="item item-input item-select">
             <div class="input-label">
               <p>Condition:</p>
             </div>
@@ -60,7 +60,7 @@
                 <option value="{{index}}" {{../selectCondition index}}>{{value}}</option>
               {{/each}}
             </select>
-          </label>
+          </div>
 
           <div class="item item-divider features">
             <h2>Features <i class="chevron-icon icon ion-chevron-up"></i></h2>
@@ -100,7 +100,7 @@
             <h2>Rent Price</h2>
           </div>
 
-          <label class="item row">
+          <div class="item row">
             <div class="col col-50">
                 <div class="priceLabel">DAY</div>
                 <input type="number" class="price dayPrice" value="{{product.rentPrice.day}}" placeholder="0.00" {{../isEditMode}}>
@@ -109,8 +109,8 @@
                 <div class="priceLabel">WEEK</div>
                 <input type="number" class="price weekPrice" value="{{product.rentPrice.week}}" placeholder="0.00" {{../isEditMode}}>
             </div>
-         </label>
-        <label class="item row">
+         </div>
+        <div class="item row">
             <div class="col col-50">
                 <div class="priceLabel">MONTH</div>
                 <input type="number" class="price monthPrice" value="{{product.rentPrice.month}}" placeholder="0.00" {{../isEditMode}}>
@@ -119,7 +119,7 @@
                 <div class="priceLabel">SEMESTER</div>
                 <input type="number" class="price semesterPrice" value="{{product.rentPrice.semester}}" placeholder="0.00" {{../isEditMode}}>
             </div>
-        </label>
+        </div>
             
 <!--
           <label class="item item-input">
