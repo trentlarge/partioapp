@@ -106,7 +106,7 @@ ConnectController = RouteController.extend({
 				if( this.connectData.borrowDetails.date.totalDays > 1 ) {
 					return this.connectData.borrowDetails.date.totalDays + ' days';
 				}
-				return this.connectData.borrowDetails.date.totalDays + ' day';
+				return Math.round(this.connectData.borrowDetails.date.totalDays) + ' day';
 			},
 
 			alreadyApproved: function() {

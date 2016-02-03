@@ -140,7 +140,7 @@ Template.requestRent.events({
       date : {
         start : $(".range-start").datepicker("getDate"),
         end : $(".range-end").datepicker("getDate"),
-        totalDays : Session.get('totalDays'),
+        totalDays : Math.round(Session.get('totalDays')),
         days : Session.get('numberDays'),
         weeks : Session.get('numberWeeks'),
         months : Session.get('numberMonths'),
