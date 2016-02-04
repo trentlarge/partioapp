@@ -43,7 +43,8 @@ AnalyticsController = RouteController.extend({
                     "flashblade123@gmail.com",
                     "cw249@duke.edu",
                     "whitney.hazard@duke.edu",
-                    "michael.x.li@duke.edu"
+                    "michael.x.li@duke.edu",
+                    "mxl3@duke.edu"
                 ];
                 
                 return ($.inArray(this.user.emails[0].address, permitedUsers) >= 0) ? true : false;
