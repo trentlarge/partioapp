@@ -169,7 +169,7 @@ ConnectController = RouteController.extend({
 				var daysLeft = Math.floor((diff/1000/60/60/24) + 1);
 
 				if(daysLeft < 0) {
-				  return 'time is over';
+				  return 'Time is Over';
 				}
 				else if(daysLeft <= 1) {
 				  return daysLeft + ' day left'
