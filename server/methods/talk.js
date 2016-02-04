@@ -28,7 +28,9 @@ Meteor.methods({
 					var fromUser = Users.findOne({ _id: fromId });
 					if(fromUser) {
 						var notifyMessage = "You have " + unreadCount + " unread messages from " + fromUser.profile.name;
+						var pushMessage = "You have a new message from " + fromUser.profile.name;
 						sendNotification(toId, fromId, notifyMessage, "chat", connectionId);
+						sendPush(toId, pushMessage);
 					}
 				}
 			}
@@ -39,11 +41,11 @@ Meteor.methods({
 	},
 
 	"markMessagesRead": function(connectionId) {
-		Talk.update({ 
+		Talk.update({
 			connectionId: connectionId,
-			toId: this.userId 
-		}, 
-		{ 
+			toId: this.userId
+		},
+		{
 			$set: { state: "read" }
 		},
 		{
@@ -59,4 +61,3 @@ Meteor.methods({
 		});
 	}
 });
-

@@ -1,6 +1,11 @@
 // LISTING
 
 Template.listing.rendered = function() {
+  if(window.cordova && window.cordova.plugins.Keyboard) {
+		  cordova.plugins.Keyboard.hideKeyboardAccessoryBar(false);
+	}
+
+
   if(!Session.get('searchText')) {
       Session.set('searchText', '');
   }
@@ -28,14 +33,14 @@ Template.listing.events({
   "scroll .overflow-scroll": function(e, t) {
     var parent = t.$(e.currentTarget);
     //var scrollingElement = parent.find(".list");
-      
+
     var pageNumber = Session.get('pageNumber') || 1;
     var pageSize = Session.get('pageSize');
-      
+
     if($('.product-box').length < pageNumber * pageSize) {
         return;
     }
-      
+
     //if(parent.scrollTop() + parent.height() >= scrollingElement.innerHeight() + 20) {
     if(parent.scrollTop() + parent.height() >= parent[0].scrollHeight - 100) {
         $('.loadbox').fadeIn('fast',function(){
