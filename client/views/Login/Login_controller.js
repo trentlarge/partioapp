@@ -50,7 +50,7 @@ LoginController = RouteController.extend({
                     
                     while(images.length < 32) {
                         images.push({
-                            'image': '/image-not-available.png',
+                            'image': base64imgs('image-not-available'),
                             'price': '0.00',
                         });
                     }

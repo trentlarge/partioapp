@@ -135,19 +135,21 @@ Template.map.events({
 Template.onlyMap.created = function() {
 	var self = this;
 
+
+
 	GoogleMaps.ready('onlyMap', function(map) {
 		var meetupLocation = self.data.meetupLocation || { lat: 0, lng: 0 };
 		var takerLocation = self.data.takerLocation || { lat: 0, lng: 0 };
 
 		var meetupMarker = new google.maps.Marker({
 			position: meetupLocation,
-			icon: '/icons/icon-marker-destination.png',
+			icon: base64imgs('icon-marker-destination'),
 			map: map.instance
 		});
 
 		var takerMarker = new google.maps.Marker({
 			position: self.data.takerLocation,
-			icon: '/icons/icon-current-location.png',
+			icon: base64imgs('icon-current-location'),
 			map: map.instance
 		});
 
