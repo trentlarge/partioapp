@@ -18,7 +18,7 @@ Meteor.methods({
 //		console.log(Meteor.users.findOne(sender).profile.name + " says: " +  message);
 
 		sendPush(recipient, Meteor.users.findOne(sender).profile.name + " says: " +  message)
-		// sendNotification(personId, ratedBy, message, "info")
+	 //	sendNotification(recipient, ratedBy, message, "info")
 	}
 
 	// 'readMessage': function(msgsRead, connectionId) {
