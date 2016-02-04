@@ -8,22 +8,36 @@ AnalyticsController = RouteController.extend({
 	},
 
 	waitOn: function() {
+        
+        var analyticsId = this.params._id;
+        var subscribeElement;
+        
+        switch(analyticsId) {
+            case 'products': 
+                subscribeElement = Meteor.subscribe("products");
+                break;
+            case 'connections': 
+                subscribeElement = Meteor.subscribe("allConnections");
+                break;
+            case 'transactions': 
+                subscribeElement = Meteor.subscribe("transactions");
+                break;
+        }
+        
 		return [
             Meteor.subscribe("users"),
-			Meteor.subscribe("products"),
-            Meteor.subscribe("allConnections"),
-            Meteor.subscribe("transactions")
+			subscribeElement
 		];
 	},
-
+    
 	data: function() {
         
 		return {
             
             analyticsId: this.params._id,
             
-            user: Users.findOne({_id: Meteor.userId()}),
-            users: Users.find({}, {sort: {createdAt: -1}}).fetch(),
+            user: Users.findOne({ _id: Meteor.userId() }),
+            users: Users.find({}, { sort: { 'profile.name': 1 }}).fetch(),
             products: Products.find({}).fetch(),
             connections: Connections.find({}).fetch(),
             transactions: Transactions.find({}).fetch(),
@@ -165,11 +179,30 @@ AnalyticsController = RouteController.extend({
             
             // USERS METHODS
             
-            getUsersByUniversity: function(uni) {
+            getUsersWithPaginationByUniversity: function(uni) {
                 
-                return users = this.users.filter(function (user) {
+                if(!Session.get('pages')) return;
+                
+                var users = [];
+                
+                var pages = Session.get('pages');
+                var page = 0;
+                
+                if(uni == 1) { page = pages.duke }
+                else if(uni == 2) { page = pages.yale }
+                else { page = pages.others }
+                
+                var filterUsers = this.users.filter(function (user) {
                      return (user.profile.area == uni);
                 });
+                
+                for(var i = (page*10); i < ((page+1)*10); i++) {
+                    if(filterUsers[i]) {
+                        users.push(filterUsers[i]);
+                    }
+                }
+                
+                return users;
             },
             
             getUserTotalProducts: function(userId) {

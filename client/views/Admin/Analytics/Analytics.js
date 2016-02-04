@@ -6,6 +6,24 @@ Template.analytics.rendered = function() {
     
     var self = this.data;
     
+    //set pages 
+    
+    var pages = {
+        duke: 0,
+        yale: 0,
+        others: 0
+    }
+    
+    Session.set('pages', pages);
+    
+    var maxPages = {
+        duke: Math.floor(this.data.getTotalUsersByUniversity(1)/10),
+        yale: Math.floor(this.data.getTotalUsersByUniversity(2)/10),
+        others: Math.floor(this.data.getTotalUsersByUniversity(0)/10)
+    }
+    
+    Session.set('maxPages', maxPages);
+    
     var options = {
         //Boolean - Whether we should show a stroke on each segment
         segmentShowStroke : true,
@@ -56,10 +74,14 @@ Template.analytics.rendered = function() {
                 self.getTotalUsersByUniversity(2) : 
                 self.getTotalByUniversity(2);
         })(),
-        total: self.getLenght()
+        others: (function() {
+            return (self.analyticsId === 'users') ? 
+                self.getTotalUsersByUniversity(0) : 
+                self.getTotalByUniversity(0);
+        })()
     }
     
-    data.others = data.total - data.duke - data.yale;
+    data.incomplete = this.data.getLenght() - (data.duke + data.yale + data.others);
     
     var chartData = [
     {
@@ -79,6 +101,12 @@ Template.analytics.rendered = function() {
         color: "#FDB45C",
         highlight: "#FFC870",
         label: "Others"
+    },
+    {
+        value: data.incomplete,
+        color: "#272727",
+        highlight: "#494949",
+        label: "Null"
     }
     ];
     
@@ -308,3 +336,64 @@ Template.analytics.rendered = function() {
     }
     
 };
+
+Template.analytics.events({
+    
+   // Duke Pagination
+    
+   'click #nextDukeUsers': function() {
+       var pages = Session.get('pages');
+       var maxPages = Session.get('maxPages');
+       if(pages.duke < maxPages.duke) {
+           pages.duke++;
+       }
+       Session.set('pages', pages);
+   },
+    
+   'click #previousDukeUsers': function() {
+       var pages = Session.get('pages');
+       if(pages.duke > 0) {
+           pages.duke--;
+       }
+       Session.set('pages', pages);
+   },
+    
+   // Yale Pagination
+    
+   'click #nextYaleUsers': function() {
+       var pages = Session.get('pages');
+       var maxPages = Session.get('maxPages');
+       if(pages.yale < maxPages.yale) {
+           pages.yale++;
+       }
+       Session.set('pages', pages);
+   },
+    
+   'click #previousYaleUsers': function() {
+       var pages = Session.get('pages');
+       if(pages.yale > 0) {
+           pages.yale--;
+       }
+       Session.set('pages', pages);
+   },
+    
+   // Others Pagination
+    
+   'click #nextOthersUsers': function() {
+       var pages = Session.get('pages');
+       var maxPages = Session.get('maxPages');
+       if(pages.others < maxPages.yale) {
+           pages.others++;
+       }
+       Session.set('pages', pages);
+   },
+    
+   'click #previousOthersUsers': function() {
+       var pages = Session.get('pages');
+       if(pages.others > 0) {
+           pages.others--;
+       }
+       Session.set('pages', pages);
+   },
+    
+});
