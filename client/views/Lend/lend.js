@@ -36,7 +36,7 @@ Template.lend.events({
             if(images[0]) {
               return images[0].photo;
             } else {
-              return '/image-not-available.png';
+              return base64imgs('image-not-available');
             }
           })(),
           "images": images,
