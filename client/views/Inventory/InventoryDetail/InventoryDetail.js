@@ -208,7 +208,7 @@ Template.inventoryDetail.events({
     
   'click .close': function(e, template) {
       $('#browser-file-upload').val('');
-      template.find('.product-image').src = '/image-not-available.png';
+      template.find('.product-image').src = base64imgs('image-not-available');
   },
     
   'change #browser-file-upload': function(input, template) {
