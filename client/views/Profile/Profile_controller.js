@@ -24,11 +24,8 @@ ProfileController = RouteController.extend({
 
 			emailSet: function() {
 				return this.user.emails[0].address;
-			},
+			}           
             
-            isLocationSelected: function(index) {
-                return (this.user.profile.area == index) ? 'selected' : '';
-            }
 		};
 	},
 

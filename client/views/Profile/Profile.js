@@ -2,6 +2,10 @@ UI.registerHelper('getUserArea', function(){
   return areaName(Meteor.user().profile.area);
 });
 
+UI.registerHelper('isLocationSelected', function(index){
+  return (Meteor.user().profile.area == index) ? 'selected' : '';
+});
+
 Template.appLayout.events({
   'click #cancelProfile': function() {
       Router.go('/');
@@ -39,7 +43,6 @@ Template.profile.rendered = function() {
       startView: 'decade',
       endDate: '-16y',
   });
-
 }
 
 Session.setDefault('profileEdit', false);
