@@ -4,7 +4,7 @@ areaFinder = function(done){
 			done(false);
 		}
 
-		var miles = 5;
+		var miles = 10;
 		var max_distance = 1.60934*miles; //need to be in km
 
 	    var _area = 0;
