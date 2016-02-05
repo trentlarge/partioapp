@@ -135,10 +135,12 @@
             max-height: 130px;
             overflow: hidden;
             border-bottom: 2px solid #ddd;
+            width: 100%;
+            text-align: center;
         }
 
         .product-avatar-inner {
-            width: 100%;
+            max-width: 100%;
         }
 
         .selling-badge {
