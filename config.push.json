@@ -1,6 +1,6 @@
 {
   "apn": {
-    "passphrase": "partio2021",  
+    "passphrase": "partio2021",
     "key": "PushChatKey.pem",
     "cert": "PushChatCertProduction.pem"
   },
@@ -9,7 +9,7 @@
     "key": "PushChatKey.pem",
     "cert": "PushChatCert.pem"
   },
-  "production": false,
+  "production": true,
   "badge": true,
   "sound": true,
   "alert": true,

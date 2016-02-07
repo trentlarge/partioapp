@@ -44,7 +44,7 @@ Template.appLayout.helpers({
 							return false;
 						} else {
 							return true;
-						}	
+						}
 					} else {
 						return false;
 					}
@@ -92,6 +92,8 @@ getNewNotifications = function(){
 }
 
 Template.appLayout.onRendered(function() {
+
+
 	var _newNotificatons = getNewNotifications();
 	_newNotificatons.observeChanges({
 		added: function(id, fields) {

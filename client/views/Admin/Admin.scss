@@ -1,5 +1,9 @@
 .admin {
     
+    .admin-icon {
+        font-size: 100px;
+    }
+    
     @media screen and (min-width: 450px) {
     
         .card {
@@ -21,22 +25,22 @@
         }
     }
     
-    canvas {
-        z-index: 1;
-        -webkit-transform: translate3d(0,0,0);
-    }
-    
-    .donut-inner {
-        position: absolute;
-        width: 150px;
-        height: 150px;
-        display: flex;
-        display: -webkit-flex;
-        -webkit-align-items: center;
-        align-items: center;
-        -webkit-justify-content: center;
-        justify-content: center;
-    }
+//    canvas {
+//        z-index: 1;
+//        -webkit-transform: translate3d(0,0,0);
+//    }
+//    
+//    .donut-inner {
+//        position: absolute;
+//        width: 150px;
+//        height: 150px;
+//        display: flex;
+//        display: -webkit-flex;
+//        -webkit-align-items: center;
+//        align-items: center;
+//        -webkit-justify-content: center;
+//        justify-content: center;
+//    }
     
 }
 

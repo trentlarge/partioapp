@@ -13,6 +13,10 @@ Template.searchHeader.events({
             'color': '#272727'
         });
 
+        if($('.title')) {
+            $('.title').hide();
+        }
+        
         inputBox.focus();
     } else {
         inputBox.css({
@@ -24,6 +28,10 @@ Template.searchHeader.events({
           'color': '#eeeeee'
         });
 
+        if($('.title')) {
+            $('.title').show();
+        }
+        
         inputBox.focusout();
         inputBox.val('');
         Session.set('isTapping', false);

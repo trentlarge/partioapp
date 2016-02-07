@@ -69,7 +69,6 @@ Meteor.methods({
 	},
     
     requestOwnerPurchasing: function(requestorId, productId, ownerId, borrowDetails) {
-		console.log(requestorId, productId, ownerId);
 
 		var requestor = Meteor.users.findOne({ _id: requestorId });
 		var requestorName = requestor.profile.name;
@@ -115,7 +114,6 @@ Meteor.methods({
 	},
 
 	requestOwner: function(requestorId, productId, ownerId, borrowDetails) {
-		console.log(requestorId, productId, ownerId);
 
 		var requestor = Meteor.users.findOne({ _id: requestorId });
 		var requestorName = requestor.profile.name;
