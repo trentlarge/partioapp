@@ -70,9 +70,14 @@ Template.login.events({
 	'click #fblogin': function(e, template) {
 		e.preventDefault();
 
-		PartioLoad.show();
+		//PartioLoad.show();
 
-		Meteor.loginWithFacebook({ requestPermissions: ['email', 'public_profile', 'user_birthday']}, function(err){
+		Meteor.loginWithFacebook({ requestPermissions: ['email', 'public_profile', 'user_birthday'], 
+									//loginStyle: 'redirect' 
+								}, function(err){
+
+			console.log(err);
+
 
 			//console.log(err);
 			// if(err) {
@@ -93,7 +98,7 @@ Template.login.events({
 			if (err) {
 				IonPopup.show({
 					title: 'Login failed!',
-					template: err.reason + '. Please try again.',
+					template: err.message,
 					buttons: [{
 						text: 'OK',
 						type: 'button-calm',
