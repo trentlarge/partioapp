@@ -73,13 +73,62 @@ Meteor.methods({
 	},
     
     checkProfileFields: function(){
-		Meteor.users.update({"_id": this.userId }, {$set: { "private.checkProfileFields": true }}, function(error) {
-			if(error) {
-				return false;
-			}
+    	var user = Meteor.user();
 
-			return true;
-		});
+    	if(user.private.checkProfileFields) {
+    		return true;
+    	}
+
+    	var birthDate = false;
+    	var mobile = false;
+
+    	if(user.profile.birthDate) {
+    		if(user.profile.birthDate != '') {
+    			birthDate = true;
+    		}
+    	}
+
+    	if(user.private.mobile) {
+    		if(user.private.mobile != '') {
+    			mobile = true;
+    		}
+    	}
+
+    	//has not birthDate
+    	if(!birthDate) {
+    		console.log('calling api graph facebook birthday info');
+
+    		//if there is facebook service, check birthdate from there
+    		if(_user.services.facebook) {
+    			HTTP.get('https://graph.facebook.com/v2.1/'+_user.services.facebook.id+'?fields=birthday&access_token='+_user.services.facebook.accessToken, function(err, result){
+					if(!err) {
+						if(result.data.birthday) {
+							Meteor.users.update({"_id": _user._id }, {$set: { "profile.birthDate": result.data.birthday }}, function(error) {
+								if(mobile) {
+					    			Meteor.users.update({"_id": user._id }, {$set: { "private.checkProfileFields": true }});
+					    			return true;
+					    		} else {
+					    			return false;
+					    		}
+							});
+						}
+					}
+				})
+    		}
+
+    	//has birthDate
+    	} else {
+
+    		// and has mobile
+    		if(mobile) {
+    			Meteor.users.update({"_id": user._id }, {$set: { "private.checkProfileFields": true }});
+    			return true;
+
+    		} else {
+    			return false;
+    		}
+
+    	}	
 	},
 
 	userAreaUpdate: function(area){
@@ -92,25 +141,35 @@ Meteor.methods({
 		});
 	},
 
-	userCheckBirthDay: function(){
-		var _user = Meteor.user();
+	// userCheckBirthDay: function(){
+	// 	var _user = Meteor.user();
 
-		if(!_user.services.facebook) {
-			return false;
-		}
+	// 	var birthDate = false;
 
-		HTTP.get('https://graph.facebook.com/v2.1/'+_user.services.facebook.id+'?fields=birthday&access_token='+_user.services.facebook.accessToken, function(err, result){
-			if(!err) {
-				if(result.data.birthday) {
-					Meteor.users.update({"_id": _user._id }, {$set: { "profile.birthDate": result.data.birthday }}, function(error) {
-						if(error) {
-							return false;
-						}
+	// 	//if facebook
+	// 	if(!_user.services.facebook) {
+	// 		if()
+		
+	// 	} else {
 
-						return true;
-					});
-				}
-			}
-		})
-	}
+
+
+	// 		HTTP.get('https://graph.facebook.com/v2.1/'+_user.services.facebook.id+'?fields=birthday&access_token='+_user.services.facebook.accessToken, function(err, result){
+	// 			if(!err) {
+	// 				if(result.data.birthday) {
+	// 					Meteor.users.update({"_id": _user._id }, {$set: { "profile.birthDate": result.data.birthday }}, function(error) {
+	// 						if(error) {
+	// 							return false;
+	// 						}
+
+	// 						return true;
+	// 					});
+	// 				}
+	// 			}
+	// 		})
+
+	// 	}
+
+		
+	// }
 });

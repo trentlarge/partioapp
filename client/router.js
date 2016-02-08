@@ -64,24 +64,17 @@ Router.onBeforeAction(function(pause){
 		}
 	} else {
 
+		//certify if there is an email
 		if(_user.emails[0].address){
+			
+			//user is verified
 			if(_user.emails[0].verified) {
-				
-				//first time after verified
-				if(_user.private) {	
-					if(!_user.private.viewTutorial && _user.private.checkProfileFields) {
-						Meteor.call('checkTransaction');
-						Meteor.call('checkTutorial');
-						IonModal.open('tutorial');
-					}
 
-					if(!_user.private.checkProfileFields) {
-						IonModal.open('updateProfile');
-                    }					
-				}	
+				var firstTime = false;
 
-				//facebook
+				//FACEBOOK comes with area -1
 				if(_user.profile.area == -1) {
+					//define which area user is with GPS coords, if return nothing, his area is 'Others'
 					areaFinder(function(area){
 						if(!area) {
 							area = 0;
@@ -90,16 +83,51 @@ Router.onBeforeAction(function(pause){
 						Meteor.call('userAreaUpdate', area);
 					})
 					
-					Meteor.call('userCheckBirthDay');					
+
+					//update user birthday with facebook api
+					//Meteor.call('userCheckBirthDay');
 				}
+
+				//first time after verified
+				if(_user.private) {		
+					if(!_user.private.viewTutorial) {
+						firstTime = true;
+					}
+				}
+
+
+				//on first time, create transaction id and open tutorial
+				if(firstTime) {
+					//creating transaction id
+					Meteor.call('checkTransaction');
+
+					//check tutorial ok
+					Meteor.call('checkTutorial');
+					IonModal.open('tutorial');
+				}
+
+
+				if(!user.private.checkProfileFields) {
+					Meteor.call('checkProfileFields', function(_result){
+						IonModal.open('updateProfile');
+					})
+			 	}
+
+				// if(!_user.private.checkProfileFields) {
+				// 	IonModal.open('updateProfile');
+    //             }
 			
 				this.next();
 
+			// user is not verified
 			} else {
 				this.render('profile')
 			}
+
+		//if user NOT has email goes to login
 		} else {
-			this.render('profile')
+			Router.go('login');
+			//this.render('profile')
 		}
 	}
 }, {except: ['resetpassword', 'emailverification', 'register', 'login', 'contact']} );
