@@ -1,5 +1,5 @@
 Template.login.onCreated(function () {
-	this.subscribe('loginProducts');
+	//this.subscribe('loginProducts');
 });
 
 
@@ -76,7 +76,7 @@ Template.login.events({
 									//loginStyle: 'redirect' 
 								}, function(err){
 
-			console.log(err);
+			//console.log(err);
 
 
 			//console.log(err);
