@@ -51,84 +51,72 @@ Router.route('/notifications', { name: 'notifications', controller: 'Notificatio
 Router.route('/contact', { name: 'contact', controller: 'ContactController'});
 Router.route('/loading', { name: 'loadingData'});
 
-// !!!
 Router.onBeforeAction(function(pause){
 	var _user = Meteor.user();
 
+	//has not user
 	if(!_user) {
+
+		//user is logging In
 		if(Meteor.loggingIn()){
 			this.render('loadingData');
+
+		//no user data
 		} else {
 			Router.go('login');
 			// this.render('login');
 		}
+
+	//has user
 	} else {
 
-		//certify if there is an email
+		//certify if there is an email and user private data
 		if(_user.emails[0].address){
 			
 			//user is verified
 			if(_user.emails[0].verified) {
+				
+				if(!_user.private) {
+					this.render('loadingData');
+				
+				} else {				
 
-				var firstTime = false;
+					//FACEBOOK comes with area -1
+					if(_user.profile.area == -1 && Tracker.currentComputation.firstRun) {
+						
+						//define which area user is with GPS coords, if return nothing, his area is 'Others'
+						areaFinder(function(area){
+							if(!area) {
+								area = 0;
+							}
 
-				//FACEBOOK comes with area -1
-				if(_user.profile.area == -1) {
-					//define which area user is with GPS coords, if return nothing, his area is 'Others'
-					areaFinder(function(area){
-						if(!area) {
-							area = 0;
-						}
-
-						Meteor.call('userAreaUpdate', area);
-					})
-					
-
-					//update user birthday with facebook api
-					//Meteor.call('userCheckBirthDay');
-				}
-
-				//first time after verified
-				if(_user.private) {		
-					if(!_user.private.viewTutorial) {
-						firstTime = true;
+							Meteor.call('userAreaUpdate', area);
+						})
 					}
+
+					//on first time, create transaction id and open tutorial
+					if(!_user.private.viewTutorial) {
+						
+						//creating transaction id
+						Meteor.call('checkTransaction');
+
+						//check tutorial ok
+						Meteor.call('checkTutorial');
+						IonModal.open('tutorial');
+					}
+
+					this.next();						
 				}
 
-
-				//on first time, create transaction id and open tutorial
-				if(firstTime) {
-					//creating transaction id
-					Meteor.call('checkTransaction');
-
-					//check tutorial ok
-					Meteor.call('checkTutorial');
-					IonModal.open('tutorial');
-				}
-
-
-				if(!user.private.checkProfileFields) {
-					Meteor.call('checkProfileFields', function(_result){
-						IonModal.open('updateProfile');
-					})
-			 	}
-
-				// if(!_user.private.checkProfileFields) {
-				// 	IonModal.open('updateProfile');
-    //             }
-			
-				this.next();
-
-			// user is not verified
+			// user is not verified, goes to profile with 
 			} else {
 				this.render('profile')
 			}
 
 		//if user NOT has email goes to login
 		} else {
-			Router.go('login');
+			this.render('loadingData');
 			//this.render('profile')
 		}
 	}
 }, {except: ['resetpassword', 'emailverification', 'register', 'login', 'contact']} );
-

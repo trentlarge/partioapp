@@ -63,6 +63,7 @@ Meteor.methods({
 	},
 
 	checkTutorial: function(){
+		console.log('>>>>> check tutorial called');
 		Meteor.users.update({"_id": this.userId }, {$set: { "private.viewTutorial": true }}, function(error) {
 			if(error) {
 				return false;
@@ -73,12 +74,9 @@ Meteor.methods({
 	},
     
     checkProfileFields: function(){
+    	console.log('>>>>> check profile fields');
+
     	var user = Meteor.user();
-
-    	if(user.private.checkProfileFields) {
-    		return true;
-    	}
-
     	var birthDate = false;
     	var mobile = false;
 
@@ -96,17 +94,21 @@ Meteor.methods({
 
     	//has not birthDate
     	if(!birthDate) {
-    		console.log('calling api graph facebook birthday info');
 
     		//if there is facebook service, check birthdate from there
-    		if(_user.services.facebook) {
-    			HTTP.get('https://graph.facebook.com/v2.1/'+_user.services.facebook.id+'?fields=birthday&access_token='+_user.services.facebook.accessToken, function(err, result){
+    		if(user.services.facebook) {
+    			HTTP.get('https://graph.facebook.com/v2.1/'+user.services.facebook.id+'?fields=birthday&access_token='+user.services.facebook.accessToken, function(err, result){
 					if(!err) {
 						if(result.data.birthday) {
-							Meteor.users.update({"_id": _user._id }, {$set: { "profile.birthDate": result.data.birthday }}, function(error) {
+							Meteor.users.update({"_id": user._id }, {$set: { "profile.birthDate": result.data.birthday }}, function(error) {
+								// has birthDate and mobile number -- pass on check
 								if(mobile) {
-					    			Meteor.users.update({"_id": user._id }, {$set: { "private.checkProfileFields": true }});
+									// if(!user.private.checkProfileFields) {
+					    // 				Meteor.users.update({"_id": user._id }, {$set: { "private.checkProfileFields": true }});
+					    // 			}
 					    			return true;
+					    		
+					    		// miss mobile to check
 					    		} else {
 					    			return false;
 					    		}
@@ -114,16 +116,16 @@ Meteor.methods({
 						}
 					}
 				})
+    		} else {
+    			return false;
     		}
 
     	//has birthDate
     	} else {
 
-    		// and has mobile
+    		// has birthDate and mobile number -- pass on check
     		if(mobile) {
-    			Meteor.users.update({"_id": user._id }, {$set: { "private.checkProfileFields": true }});
     			return true;
-
     		} else {
     			return false;
     		}
@@ -132,6 +134,7 @@ Meteor.methods({
 	},
 
 	userAreaUpdate: function(area){
+		console.log('>>>> userAreaUpdate called');
 		Meteor.users.update({"_id": this.userId }, {$set: { "profile.area": area }}, function(error) {
 			if(error) {
 				return false;
