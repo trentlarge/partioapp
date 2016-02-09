@@ -51,56 +51,72 @@ Router.route('/notifications', { name: 'notifications', controller: 'Notificatio
 Router.route('/contact', { name: 'contact', controller: 'ContactController'});
 Router.route('/loading', { name: 'loadingData'});
 
-// !!!
 Router.onBeforeAction(function(pause){
 	var _user = Meteor.user();
 
+	//has not user
 	if(!_user) {
+
+		//user is logging In
 		if(Meteor.loggingIn()){
 			this.render('loadingData');
+
+		//no user data
 		} else {
 			Router.go('login');
 			// this.render('login');
 		}
+
+	//has user
 	} else {
 
+		//certify if there is an email and user private data
 		if(_user.emails[0].address){
+			
+			//user is verified
 			if(_user.emails[0].verified) {
 				
-				//first time after verified
-				if(_user.private) {	
-					if(!_user.private.viewTutorial && _user.private.checkProfileFields) {
+				if(!_user.private) {
+					this.render('loadingData');
+				
+				} else {				
+
+					//FACEBOOK comes with area -1
+					if(_user.profile.area == -1 && Tracker.currentComputation.firstRun) {
+						
+						//define which area user is with GPS coords, if return nothing, his area is 'Others'
+						areaFinder(function(area){
+							if(!area) {
+								area = 0;
+							}
+
+							Meteor.call('userAreaUpdate', area);
+						})
+					}
+
+					//on first time, create transaction id and open tutorial
+					if(!_user.private.viewTutorial) {
+						
+						//creating transaction id
 						Meteor.call('checkTransaction');
+
+						//check tutorial ok
 						Meteor.call('checkTutorial');
 						IonModal.open('tutorial');
 					}
 
-					if(!_user.private.checkProfileFields) {
-						IonModal.open('updateProfile');
-                    }					
-				}	
-
-				//facebook
-				if(_user.profile.area == -1) {
-					areaFinder(function(area){
-						if(!area) {
-							area = 0;
-						}
-
-						Meteor.call('userAreaUpdate', area);
-					})
-					
-					Meteor.call('userCheckBirthDay');					
+					this.next();						
 				}
-			
-				this.next();
 
+			// user is not verified, goes to profile with 
 			} else {
 				this.render('profile')
 			}
+
+		//if user NOT has email goes to login
 		} else {
-			this.render('profile')
+			this.render('loadingData');
+			//this.render('profile')
 		}
 	}
 }, {except: ['resetpassword', 'emailverification', 'register', 'login', 'contact']} );
-

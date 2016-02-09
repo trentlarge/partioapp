@@ -5,6 +5,35 @@ Template.main.events({
 	},
 
 	'click .top-part': function(event){
-    Router.go('/lend');
+    	Router.go('/lend');
 	}
 });
+
+
+Template.main.rendered = function(){
+	var _user = Meteor.user();
+	var birthDate = false;
+	var mobile = false;
+
+	if(_user.profile.birthDate) {
+		if(_user.profile.birthDate != '') {
+			birthDate = true;
+		}
+	}
+
+	if(_user.private.mobile) {
+		if(_user.private.mobile != '') {
+			mobile = true;
+		}
+	}
+
+	//need to update fields
+	if(!mobile || !birthDate) {
+		Meteor.call('checkProfileFields', function(err, check){
+			if(!check) {
+				IonModal.open('updateProfile');
+			}
+		})	
+	}
+}
+

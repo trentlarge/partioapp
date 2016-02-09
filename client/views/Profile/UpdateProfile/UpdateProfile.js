@@ -1,23 +1,32 @@
 Template.updateProfile.rendered = function() {
     $('.updateProfile .button-icon').hide();
+    // $('#input-birthDate').inputmask({"mask": "99/99/9999"});
+    // $('#input-birthDate').datepicker({
+    //   startView: 'decade',
+    //   endDate: '-16y',
+    // });  
+
 };
 
 Template.updateProfile.helpers({
-    getMobilePhone: function(){
-        var user = Users.findOne({_id: Meteor.userId()});
-        return user.private.mobile;
-    }
+  user: function(){
+      return Meteor.user();
+  }
 });
 
 Template.updateProfile.events({
   'keypress #input-mobile': function(e, template) {
     $('#input-mobile').inputmask("+1 (999) 999-9999", {placeholder:" " });
   },
+
+  'keypress #input-birthDate': function(e, template) {
+    $('#input-birthDate').inputmask("99/99/9999", {placeholder:" " });
+  },
     
   'click #updateButton': function(e, template) {
-    
     var updatedProfile = {
       mobile: $('#input-mobile').val(),
+      birthDate: $('#input-birthDate').val(),
     };
 
     Meteor.call("updateUserProfile", updatedProfile, function(err, res) {
@@ -33,8 +42,7 @@ Template.updateProfile.events({
       
       $('.modal .bar button').trigger('click');
         
-      Meteor.call('checkProfileFields');
-    
+      //Meteor.call('checkProfileFields');
     });
   },
 });
