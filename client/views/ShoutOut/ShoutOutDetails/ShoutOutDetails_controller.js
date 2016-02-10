@@ -10,9 +10,6 @@ ShoutOutDetailsController = RouteController.extend({
 	},
 
 	waitOn: function() {
-        
-        console.log(this.params.id)
-        
         return [
             Meteor.subscribe('shoutoutDetails', this.params.id)
         ];

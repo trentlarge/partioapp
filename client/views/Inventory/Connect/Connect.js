@@ -91,8 +91,8 @@ Template.connect.events({
 		IonPopup.confirm({
 			cancelText: 'No',
 			okText: 'Yes',
-			title: 'Book Request Cancel',
-			template: '<div class="center"><p> Do you wish to cancel the request? </p></div>',
+			title: 'Request Cancel',
+			template: 'Do you wish to cancel the request?',
 			onCancel: function() {
 
 			},
