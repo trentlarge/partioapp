@@ -80,6 +80,12 @@
                         {{#if ../isSellingStatusOn selling.status}}
                             <span class="selling-badge">${{selling.price}}</span>
                         {{/if}}
+                        {{#if borrow}}
+                            <span class="borrow-badge">BORROWED</span>
+                        {{/if}}
+                        {{#if purchasing}}
+                            <span class="borrow-badge">PURCHASING</span>
+                        {{/if}}
                         <a href="/listing/search/{{_id}}?ownerId={{ownerId}}">
                             <div class="product-content">
                                 <div class="product-avatar">

@@ -105,14 +105,20 @@
                     <p class="condition">Condition: <b>{{ ../getCondition }}</b></p>
                     
                     {{#if ../requestSent ownerId _id}}
-                        {{#if ../isBorrowed ownerId _id}}
+                        {{#if ../isBorrowedByUser ownerId _id}}
                             <button class="button button-block" disabled>
-                                BORROWED 
+                                REQUEST SENT
                             </button>
                         {{else}}
-                            <button class="button button-block" disabled> 
-                                REQUEST SENT 
-                            </button>
+                            {{#if isPurchasingByUser}}
+                                <button class="button button-block" disabled> 
+                                    PURCHASING
+                                </button>
+                            {{else}}
+                                <button class="button button-block" disabled> 
+                                    BORROWED
+                                </button>
+                            {{/if}}
                         {{/if}}
                     {{else}}
                         {{#if ../isNotOwner _id}}

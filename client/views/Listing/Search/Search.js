@@ -70,7 +70,7 @@ Template.search.events({
         return false;
       } else {
           
-        console.log(self.product);
+//        console.log(self.product);
         IonModal.open("requestRent", Products.findOne(self.product._id));
       }
     });
