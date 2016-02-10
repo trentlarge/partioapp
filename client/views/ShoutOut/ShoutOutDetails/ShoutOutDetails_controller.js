@@ -1,4 +1,4 @@
-ShoutOutController = RouteController.extend({
+ShoutOutDetailsController = RouteController.extend({
 	onBeforeAction: function() {
 		this.next();
 	},
@@ -10,15 +10,17 @@ ShoutOutController = RouteController.extend({
 	},
 
 	waitOn: function() {
+        
+        console.log(this.params.id)
+        
         return [
-            Meteor.subscribe('shoutout')
+            Meteor.subscribe('shoutoutDetails', this.params.id)
         ];
 	},
     
     data: function() {
-        
 		return {
-            shouts: ShoutOut.find({}, {sort: {createdAt: -1}}).fetch(),
+            shout:  ShoutOut.findOne(this.params.id),
             
             getTime: function(createdAt) {
                 
@@ -81,8 +83,8 @@ ShoutOutController = RouteController.extend({
             }
         }
     },
-
-	onAfterAction: function() {
+    
+    onAfterAction: function() {
 
 	}
     
