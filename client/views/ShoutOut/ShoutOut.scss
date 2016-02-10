@@ -1,0 +1,28 @@
+.shout-out {
+    
+    .item-input-wrapper {
+        background-color: #ffffff;
+    }
+    
+    .item {
+        
+        p {
+            white-space: normal;
+        }
+        
+        .user-name {
+            color: #df5707;
+            font-weight: bold;
+        }
+        
+        .user-message {
+            font-weight: bold;
+        }
+        
+        .user-time {
+            font-size: 12px;
+            color: #757575;
+            padding-top: 2px;
+        }
+    }
+}

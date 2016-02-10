@@ -49,6 +49,7 @@ Router.route('/profile/savedcards', { name: 'savedCards', controller: 'SavedCard
 Router.route('/profile/changepassword', { name: 'changePassword', controller: 'ChangePasswordController' });
 Router.route('/notifications', { name: 'notifications', controller: 'NotificationsController' }); //  Controlle OK
 Router.route('/contact', { name: 'contact', controller: 'ContactController'});
+Router.route('/shoutout', { name: 'shoutout', controller: 'ShoutOutController'});
 Router.route('/loading', { name: 'loadingData'});
 
 Router.onBeforeAction(function(pause){

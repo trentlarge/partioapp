@@ -1,0 +1,55 @@
+<template name="shoutout">
+
+    {{#contentFor "headerButtonLeft"}}
+      <button class="button button-clear" data-ion-menu-toggle="left">
+        {{> ionIcon icon='navicon' class="energized"}}
+      </button>
+    {{/contentFor}}
+
+    {{#contentFor "headerTitle"}}
+        <h1 class="title" style="text-align:center">Shout Out</h1>
+    {{/contentFor}}
+
+    {{#contentFor "headerButtonRight"}}
+        <a href="/" class="button button-clear">
+          <img id="spinner-logo-simple" src="{{ getImage 'spinner-logo' }}" />
+        </a>
+    {{/contentFor}}
+
+    {{#ionView class="shout-out"}}
+      
+<!--        <form>-->
+          <div class="bar has-header item-input-inset" data-keyboard-attach>
+            <label class="item-input-wrapper">
+              <textarea id="messageInput" type="text" rows="1" placeholder="Write your message..."></textarea>
+            </label>
+            <button id="shoutSubmit" class="button-assertive button button-clear">Send</button>
+          </div>
+<!--        </form>-->
+            
+        {{#ionContent class="has-subheader overflow-scroll"}}
+    
+            <div class="list">
+
+                {{#each shouts}}
+                
+                    <div class="card">
+                        <a class="item item-avatar" href="#">
+                          <img src="{{user.avatar}}">
+<!--                          <h2></h2>-->
+                          <p>
+                              <span class="user-name">{{user.name}}</span> 
+                              <span class="user-message">{{message}}</span>
+                          </p>
+                          <p class="user-time">{{../getTime createdAt}}</p>
+                        </a>
+                    </div>
+                
+                {{/each}}
+                
+            </div>
+    
+        {{/ionContent}}
+    {{/ionView}}
+
+</template>
