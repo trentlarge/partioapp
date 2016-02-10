@@ -51,6 +51,20 @@
     }
 }
 
+// GENERAL
+
+a {
+    text-decoration: none;
+    color: #df5707;
+    cursor: pointer;
+    
+    &:hover {
+        text-decoration: none;
+        color: #df5707;
+        opacity: .7;
+    }
+}
+
 // VIEW
 
 .view {
@@ -263,7 +277,10 @@ body.keyboard-open .platform-android .content.overflow-scroll {
         display: -webkit-flex;
         align-items: center;
         -webkit-align-items: center;
+        justify-content: flex-end;
+        -webkit-justify-content: flex-end;
         padding: 10px 0 0 0;
+        flex: none;
         
         .button {
             font-size: 14px;
@@ -273,6 +290,14 @@ body.keyboard-open .platform-android .content.overflow-scroll {
             margin: 0;
             min-height: 20px;
             height: 20px;
+            -webkit-box-flex: none;
+            -webkit-flex: none;
+            flex: none;
+            min-width: 0px;
+            
+            &:nth-child(2) {
+                margin-left: 26px;
+            }
             
             &:hover {
                 opacity: .7;

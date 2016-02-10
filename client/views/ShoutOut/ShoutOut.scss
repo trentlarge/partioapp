@@ -1,0 +1,33 @@
+.shout-out {
+    
+    .item-input-wrapper {
+        background-color: #ffffff;
+    }
+    
+    .card {
+        margin: 10px 10px;
+    }
+    
+    .item {
+        
+        p {
+            white-space: normal;
+            padding-right: 10px;
+        }
+        
+        .user-name {
+            color: #df5707;
+            font-weight: bold;
+        }
+        
+        .user-message {
+            font-weight: bold;
+        }
+        
+        .user-time {
+            font-size: 12px;
+            color: #757575;
+            padding-top: 2px;
+        }
+    }
+}

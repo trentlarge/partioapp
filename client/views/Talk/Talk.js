@@ -73,7 +73,7 @@ Template.talk.events({
 			return false;
 		}
 
-		if(!this.connection || !this.connection.productData || !this.connection.productData || !this.connection.requestorData) {
+		if(!this.connection) {
 			return false;
 		}
 
@@ -82,11 +82,11 @@ Template.talk.events({
 			return false;
 		}
 
-		var owner = this.connection.productData.ownerData;
-		var requestor = this.connection.requestorData;
-
+		var ownerId = this.connection.owner;
+		var requestorId = this.connection.requestor;
 		var fromId = Meteor.userId();
-		var toId = (requestor._id === Meteor.userId()) ? owner._id : requestor._id;
+		var toId = (requestorId === Meteor.userId()) ? ownerId : requestorId;
+		
 		if(!fromId || !toId) {
 			return false;
 		}

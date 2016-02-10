@@ -7,6 +7,12 @@ UI.registerHelper('getImage', function(image){
   return base64imgs(image);
 });
 
+UI.registerHelper('getLoadingImage', function(){  
+  var image = Random.choice(['loading1', 'loading2', 'loading3', 'loading4']);
+  console.log(image);
+  return base64imgs(image);
+});
+
 UI.registerHelper('getTutorialImage', function(image){
   return base64imgsTutorial(image);
 });

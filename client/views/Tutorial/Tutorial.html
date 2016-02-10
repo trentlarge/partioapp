@@ -2,6 +2,8 @@
   
   {{#ionModal title="Tutorial" class="tutorial"}}
       
+      {{#if isTutorialStarted}}
+    
       {{#ionSlideBox}}
         {{#ionSlide class="slide-1"}}
           <div class="slide-item" style="background:url({{ getTutorialImage 'Home-Screen' }})">
@@ -65,7 +67,19 @@
         {{/ionSlide}}
 
       {{/ionSlideBox}}
-      
-
+    
+      {{else}}
+    
+            <div class="list padding start-tutorial">
+                <div class="logo-container">
+                    <div class="logo"><img src="{{ getImage 'sidemenu-logo' }}"/></div>
+                </div>
+                <button id="startTutorial" class="button button-block button-energized">Start Tutorial!</button>
+                <a id="jumpTutorial">JUMP TUTORIAL</a>
+            </div>
+    
+      {{/if}}
+    
+    
   {{/ionModal}}
 </template>
