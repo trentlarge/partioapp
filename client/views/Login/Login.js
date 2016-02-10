@@ -2,11 +2,11 @@ Template.login.onCreated(function () {
 	//this.subscribe('loginProducts');
 });
 
-
 Template.login.events({
 	'click #triggerGPS': function() {
 		Router.go('/register');
 	},
+
 	'click #loginButton': function(e, template) {
 		e.preventDefault();
 
@@ -131,4 +131,8 @@ Template.login.rendered = function() {
 	window.addEventListener('native.keyboardhide', function() {
 		$(".content.dont-slice-screen").css("bottom", "0px");
 	});
+
+	Meteor.setTimeout(function(){
+		$('.wrapper-box').fadeIn();
+	}, 500);
 }
