@@ -1,10 +1,22 @@
+//
+//body.keyboard-open .platform-android .content.talk-content.overflow-scroll {
+//    padding-top: 258px;
+//}
+//
+//body.keyboard-open .content.talk-content.overflow-scroll {
+//    padding-top: 258px;
+//}
 
-body.keyboard-open .platform-android .content.talk-content.overflow-scroll {
-    padding-top: 258px;
-}
-
-body.keyboard-open .content.talk-content.overflow-scroll {
-    padding-top: 258px;
+.talk-view {
+    .bar.bar-footer.item-input-inset .item-input-wrapper {
+        height: 40px;
+        margin: 0;
+    }
+    
+    #chatSumit {
+        height: 42px;
+        padding: 5px;
+    }
 }
 
 .talk-content {
