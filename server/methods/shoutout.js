@@ -10,11 +10,22 @@ Meteor.methods({
                 'id': userId,
                 'name': user.profile.name,
                 'avatar': user.profile.avatar
-            }
+            },
+            'sharedProducts': []
         }
         
 		ShoutOut.insert(shout);
         
         return true;
+	},
+    
+    updateShoutOut: function(shoutId, product) {
+		ShoutOut.update({ 
+			_id: shoutId 
+		}, 
+        {
+			$push: { sharedProducts: product },   
+		});
 	}
+    
 });

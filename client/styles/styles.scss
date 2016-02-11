@@ -65,6 +65,11 @@ a {
     }
 }
 
+.no-border { border: 0; }
+.no-padding { padding: 0; margin: 0; }
+.no-padding-top { padding-top: 0 }
+.no-padding-bottom { padding-bottom: 0 }
+
 // VIEW
 
 .view {
@@ -575,11 +580,6 @@ body.keyboard-open .platform-android .content.overflow-scroll {
 .item-avatar-left .item-content {
   padding-left: 80px;
   min-height: 72px;
-}
-
-.no-padding {
-  padding: 0;
-  margin: 0;
 }
 
 .connect-thumbnail {
