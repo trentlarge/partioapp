@@ -1,0 +1,63 @@
+<template name="login">
+    
+  {{#contentFor "headerTitle"}}
+    <h1 class="title" style="text-align:center;">
+        <img id="spinner-logo-simple" src="{{ getImage 'spinner-logo' }}" />
+    </h1>
+  {{/contentFor}}
+    
+  {{#ionView}}
+<!--    <div class="login content ion-content overflow-scroll" style="background:url({{ getImage 'login-background' }}); background-size: cover; -webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover;">-->
+    
+<!--
+    <div class="bar bar-header bar-royal nav-bar-block nav-bar-transition-ios nav-bar-direction-forward" data-navbar-container="">
+          
+    </div>
+-->
+    
+    <div class="login content ion-content overflow-scroll">
+      <div class="center">
+          
+          {{#each ../productsImage}}
+              <div class="col-xs-3 hidden-sm hidden-md hidden-lg">
+                    <div class="image-box">
+                        <div class="badge">${{price}} / week</div>
+                        <img class="background-product-image" src="{{image}}">
+                    </div>
+              </div>
+          {{/each}}
+          
+          <div class="wrapper-box" style="display:none">
+            <div class="wrapper-content">
+                <img id="login-logo" src="{{ getImage 'partio_logo' }}" >
+
+                <div class="list list-inset top">
+                    <label class="item item-input">
+                        <i class="icon ion-at"></i>
+                        <input type="email" name="email" placeholder="Username">
+                    </label>
+                </div>
+                 <div class="list list-inset bottom">
+                    <label class="item item-input">
+                        <i class="icon ion-ios-locked"></i>
+                        <input type="password" name="password" placeholder="Password">
+                    </label>
+                </div>
+
+                <button id="loginButton" class="button sign-in">Sign in</button>
+
+                <button id="fblogin" class="button sign-in-facebook"> 
+                    <i class="icon ion-social-facebook"></i> Sign in with Facebook
+                </button>                
+
+                <div class="bottom-buttons">
+                    <a id="forgot-password">Forgot Password?</a>
+                    <a id="triggerGPS"> New here? Sign up</a>
+                </div>
+            </div>
+          </div>
+
+      </div>
+    </div>
+  {{/ionView}}
+</template>

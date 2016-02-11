@@ -1,0 +1,140 @@
+<template name="listing">
+  {{#contentFor "headerButtonLeft"}}
+      <button class="button button-clear" data-ion-menu-toggle="left">
+        {{> ionIcon icon='navicon' class="energized"}}
+      </button>
+
+      {{> searchHeader}}
+  {{/contentFor}}
+
+  {{#contentFor "headerTitle"}}
+    <h1 class="title" style="text-align:center;display:none">Search Products</h1>
+  {{/contentFor}}
+
+  {{#contentFor "headerButtonRight"}}
+    <a href="/" class="button button-clear">
+      <img id="spinner-logo-simple" src="{{ getImage 'spinner-logo' }}" />
+    </a>
+  {{/contentFor}}
+
+  {{> searchBox}}
+
+  {{#ionView}}
+    {{#ionContent class="has-subheader overflow-scroll"}}
+      {{> searchResult}}
+    {{/ionContent}}
+  {{/ionView}}
+</template>
+
+
+<template name="searchBox">
+    <div class="bar bar-subheader categoriesFilter center" style="padding:0;">
+        <div class="row">
+            <div class="categoryFilter col col-15 {{isActivated 0}}">
+                <i class="{{getCategoryIcon 0}}"></i>
+                <span>{{getCategory 0}}</span>
+            </div>
+            <div class="categoryFilter col col-15 {{isActivated 1}}">
+                <i class="{{getCategoryIcon 1}}"></i>
+                <span>{{getCategory 1}}</span>
+            </div>
+            <div class="categoryFilter col col-15 {{isActivated 2}}">
+                <i class="{{getCategoryIcon 2}}"></i>
+                <span>{{getCategory 2}}</span>
+            </div>
+            <div class="categoryFilter col col-15 {{isActivated 3}}">
+                <i class="{{getCategoryIcon 3}}"></i>
+                <span>{{getCategory 3}}</span>
+            </div>
+            <div class="categoryFilter col col-15 {{isActivated 4}}">
+                <i class="{{getCategoryIcon 4}}"></i>
+                <span>{{getCategory 4}}</span>
+            </div>
+            <div class="categoryFilter col col-15 {{isActivated 5}}">
+                <i class="{{getCategoryIcon 5}}"></i>
+                <span>{{getCategory 5}}</span>
+            </div>
+        </div>
+    </div>
+
+</template>
+
+<template name="searchResult">
+    
+    {{#if Template.subscriptionsReady}}
+        <script>
+         Meteor.setTimeout(function(){
+            $('.loadbox').fadeOut('medium',function(){
+                $('.loading-wrapper').fadeIn('medium');  
+            });
+          }, 500);
+        </script>
+    {{/if}}
+    
+    {{#if hasProducts}}
+        <div id='search-result' class="list">
+            <div class="product-listing">
+            {{#each searchProducts}}
+                <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
+                    <div class="product-box">
+                        {{#if ../isSellingStatusOn selling.status}}
+                            <span class="selling-badge">${{selling.price}}</span>
+                        {{/if}}
+                        {{#if borrow}}
+                            <span class="borrow-badge">BORROWED</span>
+                        {{/if}}
+                        {{#if purchasing}}
+                            <span class="borrow-badge">PURCHASING</span>
+                        {{/if}}
+                        <a href="/listing/search/{{_id}}?ownerId={{ownerId}}">
+                            <div class="product-content">
+                                <div class="product-avatar">
+                                  <img class="product-avatar-inner" src="{{image}}"/>
+                                </div>
+                                <div class="ellipsis">
+                                    <p class="main-title-text">{{title}}</p>
+                                </div>
+                                <div class="item-rent-table">
+                                    <table class="rent-table">
+                                        <tbody>
+                                            <tr>
+                                                <th class="one"><i class="icon">DAY</i></th>
+                                                <th class="two"><i class="icon">WEEK</i></th>
+                                                <th class="three"><i class="icon">MONTH</i></th>
+                                                <th class="four"><i class="icon">SEMESTER</i></th>
+                                            </tr>
+                                            <tr>
+                                                <td>{{rentPrice.day}}</td>
+                                                <td>{{rentPrice.week}}</td>
+                                                <td>{{rentPrice.month}}</td>
+                                                <td>{{rentPrice.semester}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            {{/each}}
+            </div>
+        </div>
+
+        {{>loader}}
+    {{else}}
+
+        <div class="card padding list no-items">
+            <div class="item item-icon-left alerts">
+              <i class="icon energized ion-alert-circled"></i>
+              <p class="energized">No items available.</p>
+            </div>
+        </div>
+    {{/if}}
+    
+<!--
+    <a class="fab-button" href="/shoutout">
+        <i id="shoutOut" class="icon ion-speakerphone"></i>   
+    </a>
+-->
+    
+</template>

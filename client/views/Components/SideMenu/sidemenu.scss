@@ -1,0 +1,207 @@
+ion-side-menu.menu-left.menu {
+  background-color: red !important;
+}
+
+.menu-left {
+  background-color: #272727 !important;
+  color: #FFFFFF !important;
+  overflow: hidden;
+  // background: url('/dvsup_@2X.png') repeat;
+}
+
+.transparent-list {
+
+    .badge.badge-notification {
+//        right: 8px;
+//        top: -8px;
+        margin-right: -16px;
+        max-width: 20px;
+        max-height: 20px;
+        display: flex;
+        display: -webkit-flex;
+        justify-content: center;
+        -webkit-justify-content: center;
+        align-items: center;
+        -webkit-align-items: center;
+    }
+    
+    @media (max-height: 550px) {
+        
+        .whats-available {
+            display: none;
+        }
+        
+    }
+
+    .item.top {
+        border: 0;
+        margin-top: 10px;
+        background-color: transparent;
+
+        input {
+            -webkit-appearance: none;
+            border-radius: 0;
+            display: inline;
+            //background-color: #cccccc;
+            background-color: #bbbbbb;
+            border-top: 1px solid #999999;
+            color: #263238;
+            //border-radius: 20px;
+            //padding-left: 35px;
+            //width: 200px;
+            border-top-right-radius: 5px;
+            border-bottom-right-radius: 5px;
+            width: 165px;
+            margin-bottom: 10px;
+            margin-right: 10px;
+            margin-left: -4px;
+            line-height: 10px;
+            height: 30px;
+            max-height: 30px;
+            min-height: 30px;
+            padding-top: 0;
+            padding-bottom: 0;
+            
+            &::-webkit-input-placeholder {
+                color: rgba(39, 39, 39, 0.6);
+                padding-top: 2px;
+            }
+            &::-moz-placeholder {
+                color: rgba(39, 39, 39, 0.6);
+                padding-top: 2px;
+            }
+        }
+
+        .search-bar {
+            
+            display: inline-block;
+            background-color: #bbb;
+            padding: 2px;
+            border-top: 1px solid #999999;
+            border-top-left-radius: 5px;
+            border-bottom-left-radius: 5px;
+            height: 30px;
+            max-height: 30px;
+            min-height: 30px;
+            
+            #search-icon {
+    //            position: absolute;
+    //            margin-top: 5px;
+    //            margin-left: 10px;
+                padding-left: 5px;
+                padding-right: 6px;
+                color: #272727;
+            }
+            
+        }
+        
+        
+
+        .notification {
+//            margin-left: 18px;
+        }
+
+        i {
+            font-size: 24px;
+        }
+
+        h5 {
+            font-size: 13px;
+        }
+        
+    }
+    
+//    .item.top {
+//        border: 0;
+//        margin-top: 10px;
+//        padding-bottom: 0;
+//        background-color: transparent;
+//
+//        h5 {
+//            font-size: 13px;
+//        }
+//
+//        .notification {
+//            position: absolute;
+//            left: 235px;
+//        }
+//
+//        i {
+//            font-size: 24px;
+//        }
+//    }
+
+    .menu-icon {
+        width: 14px;
+        display: inline-block;
+    }
+
+    .logo-container {
+        // background-color: green;
+        display: -webkit-box;
+        display: -moz-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-box-align: center;
+        -webkit-flex-align: center;
+        -ms-flex-align: center;
+        -webkit-align-items: center;
+        align-items: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+        height: 28vh;
+        margin-top: 1vh;
+    }
+
+    .text {
+        margin-top: -5vh;
+        margin-bottom: 1vh;
+    }
+
+    .logo-container img {
+        height: 19vh;
+    }
+
+    .logo-container-login img {
+        height: 22vh;
+    }
+
+    h5 {
+        margin-top: 0;
+        margin-bottom: -5px;
+    }
+
+    .item.menutext {
+        background-color: transparent;
+        border-color: rgba(0, 0, 0, 0.3);
+        color: #F0F1F1;
+        padding-bottom: 2.4vh;
+        padding-top: 2.4vh;
+    }
+
+    #logout {
+        background-color: transparent;
+        color: #ffffff;
+        border-radius: 24px;
+        min-width: 200px;
+        min-height: 40px;
+        height: 40px;
+        border: 2px solid #ffffff;
+        line-height: 28px;
+        position: fixed;
+        bottom: 30px;
+        margin-left: 30px;
+    }
+
+    .beta {
+        font-size: 0.7em;
+        bottom: 1em;
+        text-align: center;
+        color: gray;
+        position: fixed;
+        bottom: 0;
+        margin-left: 123px;
+    }
+
+}

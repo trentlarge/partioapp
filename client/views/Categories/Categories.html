@@ -1,0 +1,70 @@
+<template name="categories">
+  {{#contentFor "headerButtonLeft"}}
+      <button class="button button-clear " data-ion-menu-toggle="left">
+        {{> ionIcon icon='navicon' class="energized"}}
+      </button>
+  {{/contentFor}}
+
+  {{#contentFor "headerTitle"}}
+    <h1 class="title">Categories</h1>
+  {{/contentFor}}
+
+  {{#contentFor "headerButtonRight"}}
+    <a href="/" class="button button-clear">
+      <img id="spinner-logo-simple" src="{{ getImage 'spinner-logo' }}" />
+    </a>
+  {{/contentFor}}
+
+  {{#ionView}}
+    {{#ionContent class="categories-box-content overflow-scroll"}}
+      {{> categoriesBox}}
+    {{/ionContent}}
+  {{/ionView}}
+</template>
+
+<template name="categoriesBox">
+  <div class="categories-box center">
+      <div class="row">
+          <div class="category col col-50 background-energized">
+              <div class="categoy-item">
+                  <i class="{{getCategoryIcon 0}}"></i>
+                  <span class="caption">{{getCategory 0}}</span>
+              </div>
+          </div>
+          <div class="category col col-50 background-assertive">
+              <div class="categoy-item">
+                  <i class="{{getCategoryIcon 1}}"></i>
+                  <span class="caption">{{getCategory 1}}</span>
+              </div>
+          </div>
+      </div>
+      <div class="row">
+          <div class="category col col-50 background-assertive">
+              <div class="categoy-item">
+                  <i class="{{getCategoryIcon 2}}"></i>
+                  <span class="caption">{{getCategory 2}}</span>
+              </div>
+          </div>
+          <div class="category col col-50 background-energized">
+              <div class="categoy-item">
+                  <i class="{{getCategoryIcon 3}}"></i>
+                  <span class="caption">{{getCategory 3}}</span>
+              </div>
+          </div>
+      </div>
+      <div class="row">
+          <div class="category col-50 background-energized">
+              <div class="categoy-item">
+                  <i class="{{getCategoryIcon 4}}"></i>
+                  <span class="caption">{{getCategory 4}}</span>
+              </div>
+          </div>
+          <div class="category col-50 background-assertive">
+              <div class="categoy-item">
+                  <i class="{{getCategoryIcon 5}}"></i>
+                  <span class="caption">{{getCategory 5}}</span>
+              </div>
+          </div>
+      </div>
+  </div>
+</template>

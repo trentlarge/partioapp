@@ -1,0 +1,67 @@
+<template name="requestRent">
+
+   {{#ionModal title="Rent Request" class="requestRent" style="text-align:center;"}}
+
+    <div class="list card">
+
+        <div class="item item-divider request-tab"><h3>Rent Period <i class="fa fa-calendar"></i></h3></div>
+
+        <div class="item center">
+            <p class="datepicker-message">Please select the dates that you want to stay with the object.</p>
+            <div class="range">
+                <div class="range-start" style="display:none;"></div>
+                <div class="range-end"></div>
+            </div>
+        </div>
+
+        <div class="item item-divider request-tab"><h3>Rent Price<i class="fa fa-money"></i></h3></div>
+
+        <div class="item">
+            <div class="center">
+                <p class="date-periods">
+                    <span class="rent-days"></span> 
+                    <span class="rent-period"></span>
+                </p>
+
+                <table class="rent-table">
+                    <tbody class="details">
+                        <tr>
+                            <th class="{{activeDays}} one"><i>DAY</i></th>
+                            <th class="{{activeWeeks}} two"><i>WEEK</i></th>
+                            <th class="{{activeMonths}} three"><i>MONTH</i></th>
+                            <th class="{{activeSemesters}} four"><i>SEMESTER</i></th>
+                        </tr>
+                        <tr>
+                            <td class="price_header {{activeDays}}">{{rentPrice.day}}</td>
+                            <td class="price_header {{activeWeeks}}">{{rentPrice.week}}</td>
+                            <td class="price_header {{activeMonths}}">{{rentPrice.month}}</td>
+                            <td class="price_header {{activeSemesters}}">{{rentPrice.semester}}</td>
+                        </tr>
+                        <tr>
+                            <td class="{{activeDays}}">x{{numberDays}}</td>
+                            <td class="{{activeWeeks}}">x{{numberWeeks}}</td>
+                            <td class="{{activeMonths}}">x{{numberMonths}}</td>
+                            <td class="{{activeSemesters}}">x{{numberSemesters}}</td>
+                        </tr>
+                        <tr>
+                            <td class="{{activeDays}}">{{totalPriceDays}}</td>
+                            <td class="{{activeWeeks}}">{{totalPriceWeeks}}</td>
+                            <td class="{{activeMonths}}">{{totalPriceMonths}}</td>
+                            <td class="{{activeSemesters}}">{{totalPriceSemesters}}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="4" class="active total_price">Total: ${{calculatedPrice}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="item item-button">
+            <button id="sendRequest" class="button button-block button-energized" {{enableRequest}}>SEND REQUEST</button>
+        </div>
+
+    </div>
+
+  {{/ionModal}}
+</template>

@@ -1,0 +1,25 @@
+<template name="contact">
+  {{#contentFor "headerButtonLeft"}}
+    {{>ionNavBackButton}}
+  {{/contentFor}}
+  {{#contentFor "headerTitle"}}
+    <h1 class="title" style="text-align:center;">Contact</h1>
+  {{/contentFor}}
+  {{#ionView}}
+    {{#ionContent}}
+      <div class="card padding-horizontal padding-vertical">
+        <form id="formContact" >
+          <div class="list">
+            <label class="item item-input">
+                <input id="subject" type="text" placeholder="Subject">
+            </label>
+            <label class="item item-input">
+                 <textarea id="message" class="text-area-message" placeholder="Message"></textarea>
+            </label>
+          </div>
+        </form>
+        <button id="send-message" class="button button-block button-energized">SEND</button>
+      </div>
+    {{/ionContent}}
+  {{/ionView}}
+</template>

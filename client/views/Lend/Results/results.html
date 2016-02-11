@@ -1,0 +1,87 @@
+<template name="results">
+    {{#ionContent class="results-content darken-element"}}
+<!--
+        <div class="tabs tabs-top">
+            <a class="tab-item {{isTabRankingActive}}" id="orderByRanking">
+                ORDER BY RANKING
+            </a>
+            <a class="tab-item {{isTabCategoriesActive}}" id="orderByCategories">
+                ORDER BY CATEGORIES
+            </a>
+        </div>
+-->
+
+     {{#if allResults}}
+        <div class="results">
+
+            {{#each allResults}}
+
+<!--
+                {{#if orderByRanking}}
+                    <div class="item product">
+                        <div class="row">
+                            <div class="col col-20 image-col">
+                                <div class="center">
+                                    <img class="scanResult-thumbnail" src="{{image}}">
+                                </div>
+                            </div>
+
+                            <div class="col col-80">
+                                <div class="ellipsis">
+                                    <p class="title">{{title}}</p>
+                                </div>
+                                <p class="price">{{price}}</p>
+                            </div>
+                        </div>
+                        <div class="item-icon-right">
+                            {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
+                        </div>
+                    </div>
+                {{else}}
+-->
+                    {{#if isDifferentCategory}}
+                        <div class="center menu-category {{splitCategory}}-menu">
+                            <a class="category">
+                                <i class="icon-left icon {{getCategoryIcon}}"></i> {{amazonCategory}}
+                                <i class="icon-right chevron-icon icon {{#if isOnlyOneCategory}} ion-chevron-down {{else}} ion-chevron-up {{/if}}"></i>
+                            </a>
+                        </div>
+
+                        <div class="{{splitCategory}}" style="display: {{#if isOnlyOneCategory}} block {{else}} none {{/if}};">
+                            {{#each allResultsByCategory}}
+                                <div class="item product">
+                                    <div class="row">
+                                        <div class="col col-20 image-col">
+                                            <div class="center">
+                                                <img class="scanResult-thumbnail" src="{{image}}">
+                                            </div>
+                                        </div>
+
+                                        <div class="col col-80">
+                                            <div class="ellipsis">
+                                                <p class="title">{{title}}</p>
+                                            </div>
+                                            <p class="price">{{price}}</p>
+                                        </div>
+                                    </div>
+                                    <div class="item-icon-right">
+                                        {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
+                                    </div>
+                                </div>
+                            {{/each}}
+                        </div>
+                    {{/if}}
+<!--
+                {{/if}}
+-->
+
+            {{/each}}
+            <div class="item itemNotFound">
+                <a class="notFound">Item not found <i class="icon ion-chevron-right"></i></a>
+            </div>
+        </div>
+        {{else}}
+            <div class="content"><p>Not found. Please try again.</p></div>
+        {{/if}}
+    {{/ionContent}}
+</template>

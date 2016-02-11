@@ -1,0 +1,104 @@
+
+body.keyboard-open .content.manual-entry.overflow-scroll {
+    padding-bottom: 250px;
+}
+
+.manual-entry {
+    
+    margin-bottom: 50px;
+
+    .manualTitle {
+        text-transform: capitalize;
+    }
+    
+    .input-label{
+        font-size: 13px;
+        color: #AAA;
+    }
+    .manualCategory{
+        font-size: 13px;
+    }
+    .item p{
+        font-size: 13px;
+        color: #AAA;
+    }
+    .button.button-energized{
+        border-color: #d8880c;
+        background-color: #f0970d;
+        color: #fff;
+    }
+    
+    .img-wrap {
+        position: relative;
+        display: inline-block;
+        font-size: 0;
+    }
+    .img-wrap .close {
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        height: 25px;
+        width: 25px;
+        z-index: 100;
+        background-color: #FFF;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        padding-top: 5px;
+        color: rgba(39, 39, 39, 0.8);
+        font-weight: bold;
+        cursor: pointer;
+        opacity: .9;
+        text-align: center;
+        font-size: 22px;
+        line-height: 10px;
+        border-radius: 50%;
+    }
+    .img-wrap:hover .close {
+        opacity: 1;
+    }
+    
+//    #addMorePhoto {
+//        float: right;
+//        padding-top: 5px;
+//        height: 35px;
+//        width: 35px;
+//        background-color: #EF960D;
+//        border-radius: 50%;
+//        margin-top: -20px;
+//        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+//        color: #fff;
+//        font-size: 20px;
+//    }
+    
+    .slick-slide {
+        margin-bottom: 20px;
+    }
+    
+    .slider-pager {
+        bottom: -12px;
+    }
+    
+    .calculate-prices {
+        float: right;
+        font-size: 12px;
+        padding-top: 3px;
+    }
+    
+    .priceLabel {
+        font-size: 10px;
+    }
+    
+    input.userPrice {
+        height: 20px;
+    }
+ 
+    .toggle {
+        float: right
+    }
+    
+    .enablePurchasing {
+        float: right;
+        margin-top: 10px;
+        margin-right: 5px;
+        font-size: 10px;
+    }
+}

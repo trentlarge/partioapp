@@ -1,0 +1,90 @@
+.transactions-view {
+    
+    a {
+        text-decoration: none;
+        cursor: pointer;
+        
+        &:hover {
+            color: rgba(39, 39, 39, 0.75);
+        }
+    }
+
+    .tabs.tabs-top {
+        background-color: #E0E0E0;
+        background-size: 0;
+    }
+    
+    .tab-item {
+        -webkit-box-shadow: inset 0px -1px 2px 0px rgba(0,0,0,0.2);
+        -moz-box-shadow: inset 0px -1px 2px 0px rgba(0,0,0,0.2);
+        box-shadow: inset 0px -1px 2px 0px rgba(0,0,0,0.2);
+    }
+    
+    .tab-bg {
+        -webkit-transition: all 0.3s ease, border 1ms;         
+        -moz-transition: all 0.3s ease, border 1ms;       
+        -o-transition: all 0.3s ease, border 1ms;
+        -ms-transition: all 0.3s ease, border 1ms;          
+        transition: all 0.3s ease, border 1ms;
+        background-color: #F9F9F9;
+        color: #272727 !important;
+//        border-bottom: 2px solid #272727; 
+        opacity: 1;
+        -webkit-box-shadow: none;
+        -moz-box-shadow: none;
+        box-shadow: none;
+    }
+}
+
+.transactions {
+    
+    .item {
+        .transaction-date {
+            float: right;
+            font-size: 12px;
+        }
+        
+        .amount {
+            padding-left: 5px;
+            color: #f0970d;
+        }
+        
+        .product-title {
+            padding-top: 5px;
+        }
+    }
+    
+    .card-special {
+        .item.item-text-wrap.center {
+            padding-bottom: 5px;
+            padding-top: 5px;
+            -webkit-transform:scale(1.2, 1.0);
+            -moz-transform:scale(1.2, 1.0);
+            -ms-transform:scale(1.2, 1.0);
+            -o-transform:scale(1.2, 1.0);
+            transform:scale(1.2,1.0);
+        }
+    }
+    
+    .dollar-text {
+        font-size: 28px;
+        color: #95a5a6;
+    }
+
+    .card-special .item {
+        background-color: transparent !important;
+    }
+
+    .card-special {
+        background-color: transparent !important;
+        box-shadow: none !important;
+    }
+
+    .card-special div {
+        font-size: 40px;
+        color: #df5707;
+        padding: 40px 0;
+        font-family: Futura-CondensedMedium;
+    }
+    
+}

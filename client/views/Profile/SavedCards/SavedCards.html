@@ -1,0 +1,94 @@
+<template name="savedCards">
+  {{#contentFor "headerButtonLeft"}}
+    {{>ionNavBackButton}}
+  {{/contentFor}}
+
+  {{#contentFor "headerButtonLeft"}}
+    {{>ionNavBackButton}}
+  {{/contentFor}}
+
+  {{#contentFor "headerTitle"}}
+    <h1 class="title" style="text-align:center;">Payment Cards</h1>
+  {{/contentFor}}
+
+  {{#ionView}}
+    {{#ionContent class="savedCard"}}
+      
+      <div class="card padding list">
+        <div class="item item-icon-left hidden alerts no-cards">
+          <i class="icon assertive ion-alert-circled"></i>
+          <p class="assertive">Add a card to be able to share or borrow an item.</p>
+        </div>
+        <div class="item item-icon-left energized hidden alerts only-credit">
+          <i class="icon energized ion-alert-circled "></i>
+          <p class="energized">Please, add a debit card if you want share an item. The card will be used for money deposits in your bank account.</p>
+        </div>
+      </div>
+    
+      <div class="card padding list">
+
+        <div class="item item-divider card-menu item-button-right">
+          <h3>Cards</h3>
+<!--          <button id="test-card" class="button button-small push-up button-clear"><h6 class="positive">Test Cards</h6></button>-->
+        </div>
+          
+        {{#if ../cardNotAdded cardsList.length}}
+        {{else}}
+        <div class="item item-card submenu" data-id="{{id}}" data-funding="{{funding}}">
+            <table>
+              <tbody>
+                <tr>
+                    <td class="brand"></td>  
+                    <td class="funding"></td>  
+                    <td class="numbers"></td>  
+                    <td colspan="2" style="text-align:center">Use for</td>  
+                    <td class="trash"></td>  
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        {{/if}}
+
+        {{#each cardsList}}
+          <div class="item item-card" data-id="{{id}}" data-funding="{{funding}}">
+            <table>
+              <tbody>
+                <tr>
+                  <td class="brand"><i class="{{../getBrandIcon brand}}"></i></td>
+                  <td class="funding"><i>{{funding}}</i></td>
+                  <td class="numbers"><i>XXXX-{{last4}}</i></td>
+                  <td class="pay"><i class="set-default set-pay-default {{ defaultPay }}">PAYING</i></td>
+                  <td class="receive"><i class="set-default set-receive-default {{ defaultReceive }}">{{../isDebit funding}}</i></td>
+                  <td class="trash"><i class="delete-card icon ion-ios-trash"></i></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        {{/each}}
+
+        <div class="item item-icon-left" id="addNewCard" data-ion-modal="addnewCard">
+          <i class="icon ion-ios-plus-outline energized custom-icon"></i>
+          <p class="graytext">New card</p>
+        </div>
+      </div>
+      
+      {{#if ../cardNotAdded cardsList.length}}
+          <div class="card padding list">
+            <div class="item">
+              <p class="term-agreement">By adding your credit/debit cards, you agree to our<a href="#" data-ion-modal="modalTermOfService"> Terms</a>.</p>
+            </div>
+          </div>
+      {{/if}}
+    
+    {{/ionContent}}
+  {{/ionView}}
+</template>
+
+<template name="modalTermOfService">
+  {{#ionModal title="Terms of Service"}}
+  <div class="padding">
+    <p>Payment processing services for borrowers and renters on partiO are provided by Stripe and are subject to the <a target="_blank" href="https://stripe.com/connect/account-terms">Stripe Connected Account Agreement</a>, which includes the <a target="_blank" href="https://stripe.com/terms">Stripe Terms of Service</a> (collectively, the “Stripe Services Agreement”). By agreeing to this agreement or continuing to operate as a borrower or renter on partiO, you agree to be bound by the Stripe Services Agreement, as the same may be modified by Stripe from time to time. As a condition of partiO enabling payment processing services through Stripe, you agree to provide partiO accurate and complete information about you and your business, and you authorize partiO to share it and transaction information related to your use of the payment processing services provided by Stripe.</p>
+  </div>
+  {{/ionModal}}
+</template>
+

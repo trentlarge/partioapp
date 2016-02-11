@@ -1,0 +1,182 @@
+.analytics {
+    
+    @media screen and (min-width: 450px) {
+    
+        .card {
+            max-width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    }
+
+    .item {
+        display: flex;
+        display: -webkit-flex;
+        justify-content: center;
+        -webkit-justify-content: center;
+    }
+    
+    .card {
+        min-height: 220px;
+    }
+    
+    canvas {
+        z-index: 1;
+        -webkit-transform: translate3d(0,0,0);
+    }
+    
+    .donut-inner {
+        position: absolute;
+        width: 150px;
+        height: 150px;
+        display: flex;
+        display: -webkit-flex;
+        -webkit-align-items: center;
+        align-items: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+    }
+    
+    // USERS
+    
+    .user-table {
+        width: 100%;
+        
+        body {
+            width: 100%;
+            background: transparent;
+        }
+        
+        tr {
+            width: 100%;
+            text-align: center;
+            
+            &:nth-child(even) {
+                background: #F5F5F5;
+            }
+            
+            th {
+                width: 50%;
+                padding: 10px 5px;
+                text-align: center;
+                font-weight: bold;
+            }
+            
+            td {
+                width: 50%;
+                padding: 5px;
+            }
+        }
+    }
+    
+    .user-box {
+        display: flex;
+        display: -webkit-flex;
+        -webkit-align-items: center;
+        align-items: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+        flex-direction: column;
+        -webkit-flex-direction: column;
+        
+        .user-avatar {
+            height: 100px;
+            width: 100px;
+            border-radius: 50%;
+        }
+        
+        .user-name {
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+        
+    }
+    
+    // PRODUCTS
+    
+    .product-sold {
+        font-size: 50px;
+    }
+    
+    // CONNECTIONS
+    
+    .average-price {
+        font-size: 35px;
+    }
+    
+    .connections-average-days {
+        font-size: 115px;    
+    }
+    
+    .average-borrow-price,
+    .average-purchasing-price {
+        font-size: 25px;
+    }
+    
+    .connections-table {
+        width: 100%;
+        
+        tr {
+            width: 100%;
+            text-align: center;
+            
+            &:nth-child(even) {
+                background: #F5F5F5;
+            }
+            
+            th {
+                &:nth-child(1) {width: 20%;}
+                &:nth-child(2) {width: 20%;}
+                &:nth-child(3) {width: 50%;}
+                &:nth-child(4) {width: 10%;}
+                
+                padding: 10px 5px;
+                text-align: center;
+                font-weight: bold;
+            }
+            
+            td {
+                &:nth-child(1) {width: 20%;}
+                &:nth-child(2) {width: 20%;}
+                &:nth-child(3) {width: 50%;}
+                &:nth-child(4) {width: 10%;}
+                
+                padding: 5px;
+                white-space: normal;
+            }
+        }
+    }
+    
+    // TRANSACTIONS
+    
+    .total-spending {
+        font-size: 25px;
+    }
+    
+    .transaction-table {
+        width: 100%;
+        
+        tr {
+            width: 100%;
+            text-align: center;
+            
+            &:nth-child(even) {
+                background: #F5F5F5;
+            }
+            
+            th {
+                width: 33.3%;
+                padding: 10px 5px;
+                text-align: center;
+                font-weight: bold;
+            }
+            
+            td {
+                width: 33.3%;
+                padding: 5px;
+                white-space: normal;
+            }
+        }
+    }
+    
+}

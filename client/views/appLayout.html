@@ -1,34 +1,67 @@
 <head>
   <title>Partio</title>
   <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+    <link rel="apple-touch-icon" sizes="57x57" href="/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/icons/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon-180x180.png">
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="icon" type="image/png" href="/icons/favicon-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/icons/favicon-160x160.png" sizes="160x160">
+    <link rel="icon" type="image/png" href="/icons/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/icons/favicon-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="/icons/favicon-32x32.png" sizes="32x32">
 </head>
 
 <body></body>
 
 <template name="appLayout">
 
-  <!-- For app to app calling -->
-  <audio id="incoming" autoplay></audio>
-	<audio id="ringback" src='audio/ringback.wav' loop></audio>
-	<audio id="ringtone" src='audio/phone_ring.wav' loop></audio>
-  <!-- End app to app calling segment -->
-
   {{#ionBody}}
     {{> sAlert template='sAlertCustom'}}
 
-    {{#ionSideMenuContainer side="left"}}
+    <!-- hide sidemenu and title bar -->
+    {{#if isFullscreen}}
+      {{> yield}}
+      
+    <!-- default heaviour -->
+    {{else}}
 
-       <!-- sidemenu -->
-       {{> sidemenu }}
+      <!-- show side menu -->
+      {{#if showSideMenu}}
+        {{#ionSideMenuContainer side="left"}}
+           <!-- sidemenu -->
+           {{> sidemenu }}
 
-       <!-- content -->
-        {{#ionSideMenuContent}}
+           <!-- content -->
+            {{#ionSideMenuContent}}
+              {{> ionNavBar class="bar-royal"}}
+              {{#ionNavView}}
+                {{> yield}}
+              {{/ionNavView}}
+            {{/ionSideMenuContent}}
+        {{/ionSideMenuContainer}}
+
+      <!-- hide side menu -->
+      {{else}}
+
+        {{#ionView}}
           {{> ionNavBar class="bar-royal"}}
           {{#ionNavView}}
             {{> yield}}
           {{/ionNavView}}
-        {{/ionSideMenuContent}}
-    {{/ionSideMenuContainer}}
+        {{/ionView}}
+
+      {{/if}}
+
+    {{/if}}
+
+
 
   {{/ionBody}}
 </template>
@@ -36,10 +69,8 @@
 <template name="sAlertCustom">
     <div class="whichalert s-alert-box s-alert-{{condition}} s-alert-{{position}} s-alert-effect-{{effect}} s-alert-show" id="{{_id}}" style="{{boxPosition}}">
       <div class="s-alert-box-inner">
-        <!-- <a href="/profile"> -->
           <p><strong>{{headerMessage}}</strong></p>
           <p class="truncate">{{message}}</p>
-        <!-- </a> -->
       </div>
       <span class="s-alert-close"></span>
     </div>

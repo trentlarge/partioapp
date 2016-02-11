@@ -1,0 +1,218 @@
+<template name="inventoryDetail">
+  {{#contentFor "headerButtonLeft"}}
+      {{>ionNavBackButton path="inventory" class="backFromEdit"}}
+  {{/contentFor}}
+
+  {{#contentFor "headerTitle"}}
+    <h1 class="title" style="text-align:center;">Product Details</h1>
+  {{/contentFor}}
+
+  {{#contentFor "headerButtonRight"}}
+<!--    <button class="button button-clear icon ion-ios-compose-outline button-energized" id="editCurrent"></button>-->
+  {{/contentFor}}
+
+  {{#ionView}}
+    {{#ionContent class="inventory-details overflow-scroll"}}
+
+      {{#if Template.subscriptionsReady}}
+        <script>
+          Meteor.setTimeout(function(){
+              $('.loadbox').fadeOut('medium',function(){
+                  $('.loading-wrapper').fadeIn('medium');  
+              });
+          }, 500);
+        </script>
+      {{/if}}
+
+      {{>loader}}
+      
+      {{#if editMode product._id}}
+      {{else}}
+          <a class="fab-button">
+             <i id="editCurrent" class="icon ion-ios-compose-outline"></i>   
+          </a>
+      {{/if}}
+    
+      <div class="loading-wrapper">
+        <div class="card list">
+          <div class="item image">
+<!--
+            {{#if editMode product._id}}
+            <div class="item-image-box">
+                <div class="img-wrap">
+                    <div class="close">&times;</div>
+                    <img class="scanResult-thumbnail2 product-image" src="{{product.image}}"/>
+                </div>
+            </div>
+            {{else}}
+-->
+            <div class="item-image-box">
+              <a data-ion-modal="slideInventoryImages">
+                <img class="product-image" src="{{product.image}}"/>
+              </a>
+            </div>
+<!--            {{/if}}-->
+          </div>
+
+          <div class="item item-input item-title">
+            <input type="text" value="{{product.title}}" class="title" style="text-align:center;border:0" {{../isEditMode}}>
+          </div>
+
+          <div class="item item-input item-select">
+            <div class="input-label">
+              <p>Condition:</p>
+            </div>
+            <select class="condition" {{../isEditMode}}>
+              {{#each ../getConditions}}
+                <option value="{{index}}" {{../selectCondition index}}>{{value}}</option>
+              {{/each}}
+            </select>
+          </div>
+
+          <div class="item item-input item-select">
+                <div class="input-label">
+                  <p style="height:16px;">Category:</p>
+                </div>
+                <select class="category" {{../isEditMode}}>
+                    {{#each ../getCategories}}
+                        <option {{../selectedCategory text}}>{{text}}</option>
+                    {{/each}}
+                </select>
+          </div>
+            
+<!--
+          <div class="item item-divider features">
+            <h2>Features <i class="chevron-icon icon ion-chevron-up"></i></h2>
+          </div>
+
+          <div class="features-details" style="display: none">
+            <div class="item no-padding row-details">
+              <div class="col col-50">
+                <div class="details-box">
+                  <i class="icon {{getCategoryIcon}} bk-energized"></i>
+                  <span class="detail">{{product.amazonCategory}}</span>
+                </div>
+              </div>
+              <div class="col col-50">
+                <div class="details-box">
+                  <i class="icon ion-cash bk-energized"></i>
+                  <span class="detail">{{product.price}}</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="row item attributes">
+              <div class="col col-33">
+                {{#each product.attributes}}
+                  <p><b>{{key}}</b></p>
+                {{/each}}
+              </div>
+              <div class="col col-67 scan-result">
+                {{#each product.attributes}}
+                  <p>{{value}}</p>
+                {{/each}}
+              </div>
+            </div>
+          </div>
+-->
+
+          <div class="item item-divider">
+            <h2>Rent Price</h2>
+          </div>
+
+          <div class="item row">
+            <div class="col col-50">
+                <div class="priceLabel">DAY</div>
+                <input type="number" class="price dayPrice" value="{{product.rentPrice.day}}" placeholder="0.00" {{../isEditMode}}>
+            </div>
+            <div class="col col-50">
+                <div class="priceLabel">WEEK</div>
+                <input type="number" class="price weekPrice" value="{{product.rentPrice.week}}" placeholder="0.00" {{../isEditMode}}>
+            </div>
+         </div>
+        <div class="item row">
+            <div class="col col-50">
+                <div class="priceLabel">MONTH</div>
+                <input type="number" class="price monthPrice" value="{{product.rentPrice.month}}" placeholder="0.00" {{../isEditMode}}>
+            </div>
+            <div class="col col-50">
+                <div class="priceLabel">SEMESTER</div>
+                <input type="number" class="price semesterPrice" value="{{product.rentPrice.semester}}" placeholder="0.00" {{../isEditMode}}>
+            </div>
+        </div>
+            
+<!--
+          <label class="item item-input">
+            <span class="input-label"><p>Day:</p></span>
+            <input type="number" class="price dayPrice" value="{{product.rentPrice.day}}" {{../isEditMode}} placeholder="0.00">
+          </label>
+          <label class="item item-input">
+            <span class="input-label"><p>Week:</p></span>
+            <input type="number" class="price weekPrice" value="{{product.rentPrice.week}}" {{../isEditMode}} placeholder="0.00">
+          </label>
+          <label class="item item-input">
+            <span class="input-label"><p>Month:</p></span>
+            <input type="number" class="price monthPrice" value="{{product.rentPrice.month}}" {{../isEditMode}} placeholder="0.00">
+          </label>
+          <label class="item item-input">
+            <span class="input-label"><p>Semester (4m):</p></span>
+            <input type="number" class="price semesterPrice" value="{{product.rentPrice.semester}}" {{../isEditMode}} placeholder="0.00">
+          </label>
+-->
+            
+          <div class="item item-divider">
+                Purchasing
+            </div>
+            
+            <li class="item row">
+                <div class="col col-50">
+                    <div class="priceLabel">PRICE</div>
+                    <input type="number" class="price sellingPrice" value="{{product.selling.price}}" placeholder="0.00" {{../isEditMode}}>
+                </div>
+                <div class="col col-50">
+                     <label class="toggle toggle-assertive">
+                       <input type="checkbox" {{../sellingStatusChecked}} {{../isEditMode}}>
+                       <div class="track">
+                         <div class="handle"></div>
+                       </div>
+                     </label>
+                     {{#if isSellingStatusOn}}
+                        <span class="enablePurchasing">ON</span>
+                     {{else}}
+                        <span class="enablePurchasing">OFF</span>
+                     {{/if}}
+                </div>
+           </li>
+
+          {{#if editMode product._id}}
+            <div class="padding-horizontal">
+              <button id="editSave" class="button button-block button-energized">SAVE</button>
+            </div>
+
+            <div class="padding-horizontal">
+              <button id="editRemove" class="button button-block button-assertive">REMOVE</button>
+            </div>
+          {{/if}}
+        </div>
+      </div>
+<!--      <input type="file" id="browser-file-upload" style="display:none">-->
+    {{/ionContent}}
+  {{/ionView}}
+</template>
+
+<template name="slideInventoryImages">
+
+    {{#ionModal title="Images" class="inventory-details slide-inventory-images"}}
+    
+        {{#ionSlideBox}}
+            {{#each slideElements}}
+                {{#ionSlide}}
+                <div class="product-avatar">
+                    <img class="slide-image" src="{{photo}}"/>
+                </div>
+                {{/ionSlide}}
+            {{/each}}
+        {{/ionSlideBox}}
+    
+    {{/ionModal}}
+</template>

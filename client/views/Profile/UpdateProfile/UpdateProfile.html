@@ -1,0 +1,37 @@
+<template name="updateProfile">
+  {{#ionModal title="Update Profile" class="updateProfile"}}
+    <div class="card padding">
+      {{#if user.private.mobile }}
+      {{else}}
+
+        <p style="padding: 10px; line-height: 18px;">Please add your number to receive phone calls.</p>
+          
+        <label class="item item-input">
+          <i class="icon ion-ios-telephone energized placeholder-icon"></i>
+          <input type="text" name="mobile" id="input-mobile" class="border-radius-20" placeholder="Mobile" value="{{user.private.mobile}}">
+        </label>
+
+        <p style="padding: 10px; line-height: 14px; color: #333; font-size:12px;">Note: Your number will never be shared to other users.</p>
+
+      {{/if}}
+
+      {{#if user.profile.birthDate }}
+      {{else}}
+
+        <p style="padding: 10px; line-height: 18px;">Please update your birth date.</p>
+          
+        <label class="item item-input">
+          <i class="icon ion-ios-calendar energized placeholder-icon"></i>
+          <input type="text" name="birthDate" id="input-birthDate" placeholder="mm/dd/yyyy" class="border-radius-20" value="{{user.profile.birthDate}}">
+        </label>
+      {{/if}}
+        
+      <label class="item item-button" style="border:0;">
+        <button id="updateButton" class="button button-block button-energized">UPDATE</button>
+      </label>
+
+   </div>  
+
+  {{/ionModal}}
+    
+</template>

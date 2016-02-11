@@ -1,0 +1,39 @@
+<template name="main" style="overflow: hidden">
+  {{#contentFor "headerButtonLeft"}}
+      <button class="button button-clear pull-left" data-ion-menu-toggle="left">
+        {{> ionIcon icon='navicon' class="energized"}}
+      </button>
+  {{/contentFor}}
+
+  {{#contentFor "headerTitle"}}
+    <h1 class="title" style="text-align:center;">
+        <img id="spinner-logo-simple" src="{{ getImage 'spinner-logo' }}" />
+    </h1>
+  {{/contentFor}}
+
+  {{#ionView class="main"}}
+    <div class="content overflow-hidden has-header">
+         <div class="lend top-part flex-aligner">
+	    	<div class="center">
+                <img src="{{ getImage 'share-hand' }}" class="lend-image">
+	    		<br><br>
+                <div class="share-box">
+	    		     <span class="share">SHARE</span>
+                </div>
+	    	</div>
+	    </div>
+
+	    <div class="rent bottom-part flex-aligner">
+	    	<div class="center">
+                <img src="{{ getImage 'borrow-hand' }}" class="borrow-image">
+	    		<br><br>
+                <div class="share-box">
+		    	 <span class="rent">BORROW</span>
+                </div>
+	    	</div>
+	    </div>
+
+
+    </div>
+  {{/ionView}}
+</template>

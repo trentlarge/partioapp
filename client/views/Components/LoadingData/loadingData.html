@@ -1,0 +1,19 @@
+<template name="loadingData">
+  {{#contentFor "headerTitle"}}
+    <h1 class="title">
+      <!-- <img id="spinner-logo-simple"  src="{{ getImage 'spinner-logo' }}" /> -->
+    </h1>
+  {{/contentFor}}
+
+    <div class="loadingData">
+     <div class="loadingBg" style="background-image:url({{ getImage 'loading2' }});">
+<!--    <div class="loadingBG">-->
+      <div class="loading-container visible active">
+        <div class="loading">
+          <img src="{{ getImage 'spinner-logo' }}" class="logo-spinner">
+  <!--          <div class="message">Let's PartiO...</div>-->
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

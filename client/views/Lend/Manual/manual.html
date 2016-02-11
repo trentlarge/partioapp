@@ -1,0 +1,110 @@
+<template name="manual">
+	{{#ionContent class="manual-entry has-header"}}
+
+		<div class="card list list-inset">
+
+            <div class="item center">
+                
+                {{#ionSlideBox}}
+                    {{#each slideElements}}
+                        {{#ionSlide}}
+                            {{#if hasPhoto @index}}
+                                <div class="img-wrap">
+                                    <div class="close">&times;</div>
+                                    <img class="scanResult-thumbnail2" src="{{photo}}">
+                                </div>
+                            {{else}}
+                                <i class="scanResult-thumbnail2 ion-image" style="font-size:100px;color:#DDD;"></i>
+                                <span style="display:block;margin-top:-10px;color:#DDD;">ADD IMAGE</span>
+                            {{/if}}
+                        {{/ionSlide}}
+                    {{/each}}
+                {{/ionSlideBox}}
+                
+                <input type="file" id="browser-file-upload" style="display:none">
+                
+            </div>
+            
+            <label class="item item-input">
+                <input class="manualTitle" type="text" value="{{manualTitle}}" placeholder="Title">
+            </label>
+            
+            <label class="item item-input item-select">
+                <div class="input-label">
+                  Category
+                </div>
+                <select class="manualCategory">
+                    {{#each getCategories}}
+                        <option {{selectedCategory text}}>{{text}}</option>
+                    {{/each}}
+                </select>
+            </label>
+            
+             <label class="item item-input item-select">
+                <div class="input-label">
+                  <p>Condition:</p>
+                </div>
+                <select class="manualCondition">
+                    {{#each getConditions}}
+                        <option value="{{index}}" {{selectedCondition index}}>{{value}}</option>
+                    {{/each}}
+                </select>
+            </label>
+            
+            <div class="item item-divider">
+                Rent Price <a class="calculate-prices">CALCULATE PRICES</a>
+            </div>
+            <div class="item row">
+                <div class="col col-50">
+                    <div class="priceLabel">DAY</div>
+                    <input type="number" class="userPrice dayPrice" value="{{dayPrice}}" placeholder="0.00">
+                </div>
+                <div class="col col-50">
+                    <div class="priceLabel">WEEK</div>
+                    <input type="number" class="userPrice weekPrice" value="{{weekPrice}}" placeholder="0.00">
+                </div>
+            </div>
+            <div class="item row">
+                <div class="col col-50">
+                    <div class="priceLabel">MONTH</div>
+                    <input type="number" class="userPrice monthPrice" value="{{monthPrice}}" placeholder="0.00">
+                </div>
+                <div class="col col-50">
+                    <div class="priceLabel">SEMESTER</div>
+                    <input type="number" class="userPrice semesterPrice" value="{{semesterPrice}}" placeholder="0.00">
+                </div>
+            </div>
+            
+            <div class="item item-divider">
+                Purchasing
+            </div>
+            
+            <li class="item row">
+                <div class="col col-50">
+                    <div class="priceLabel">PRICE</div>
+                    <input type="number" class="userPrice sellingPrice" value="{{sellingPrice}}" placeholder="0.00">
+                </div>
+                <div class="col col-50">
+                     <label class="toggle toggle-assertive">
+                       <input type="checkbox">
+                       <div class="track">
+                         <div class="handle"></div>
+                       </div>
+                     </label>
+                     <span class="enablePurchasing">OFF</span>
+                </div>
+            </li>
+
+            <div class="padding-horizontal">
+                <button class="submitProduct button button-block button-energized" {{waitingForPrices}}>
+                    {{#if validatePrices}}
+                    Share this item!
+                    {{else}}
+                    Enter your price above
+                    {{/if}}
+                </button>
+            </div>
+        </div>
+
+	{{/ionContent}}
+</template>

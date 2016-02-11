@@ -1,0 +1,42 @@
+<template name="addnewCard">
+  {{#ionModal title="Add New Card" class="new-card"}}
+
+    <div class="list card">
+      <div class="card-wrapper"></div>
+      <div class="form-container active">
+        <form class="newCardForm" method="post">
+          <label class="item item-input" style="border-top: 1px solid #ddd;">
+            <i class="icon ion-compose placeholder-icon"></i>
+            <input type="text" name="number" class="border-radius-20" placeholder="**** **** **** ****">
+          </label>
+          <label class="item item-input">
+            <i class="icon ion-card placeholder-icon"></i>
+            <input type="text" name="name" class="border-radius-20" placeholder="Full Name">
+          </label>
+
+          <label class="item item-input">
+            <i class="icon ion-calendar placeholder-icon"></i>
+            <input type="text" name="expiry" class="border-radius-20" placeholder="MM/YY">
+          </label>
+
+          <label class="item item-input">
+            <i class="icon ion-ios-locked placeholder-icon"></i>
+            <input type="text" name="cvc" class="border-radius-20" placeholder="***">
+          </label>
+
+            <label class="item item-button">
+                <button class="button button-block button-energized"> SUBMIT </button>
+            </label>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      new Card({
+        form: document.querySelector('form'),
+        container: '.card-wrapper'
+      });
+    </script>
+
+  {{/ionModal}}
+</template>

@@ -1,0 +1,115 @@
+<template name="admin"> 
+    {{#contentFor "headerButtonLeft"}}
+        <button class="button button-clear pull-left" data-ion-menu-toggle="left">
+          {{> ionIcon icon='navicon' class="energized"}}
+        </button>
+    {{/contentFor}}
+
+    {{#contentFor "headerTitle"}}
+        <h1 class="title" style="text-align:center;">Admin</h1>
+    {{/contentFor}}
+
+    {{#contentFor "headerButtonRight"}}
+        <a href="/" class="button button-clear">
+            <img id="spinner-logo-simple" src="{{ getImage 'spinner-logo' }}" />
+        </a>
+    {{/contentFor}}
+    
+    {{#ionView}}
+        {{#ionContent class="admin"}}    
+    
+        {{#if isUserPermited}}
+    
+            <div class="container">
+                
+                <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+                    <div class="card">
+                        <div class="item item-divider">
+                            Users
+                        </div>
+                        <div class="item">
+                            <i class="icon ion-ios-people admin-icon"></i>
+<!--
+                            <div class="donut-inner">
+                                <h2>{{../getUsersLenght}}</h2>
+                            </div>
+                            <canvas id="adminUsers" width="150" height="150"></canvas>
+-->
+                        </div>
+                        <a class="item item-icon-right" href="/analytics/users" >
+                            <p>Users Analytics</p>
+                            {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+                    <div class="card">
+                        <div class="item item-divider">
+                            Products
+                        </div>
+                        <div class="item">
+                            <i class="icon ion-cube admin-icon"></i>
+<!--
+                            <div class="donut-inner">
+                                <h2>{{../getProductsLenght}}</h2>
+                            </div>
+                            <canvas id="adminProducts" width="150" height="150"></canvas>
+-->
+                        </div>
+                        <a class="item item-icon-right" href="/analytics/products" >
+                            <p>Products Analytics</p>
+                            {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+                    <div class="card">
+                        <div class="item item-divider">
+                            Connections
+                        </div>
+                        <div class="item">
+                            <i class="icon ion-android-share-alt admin-icon"></i>
+<!--
+                            <div class="donut-inner">
+                                <h2>{{../getConnectionsLenght}}</h2>
+                            </div>
+                            <canvas id="adminConnections" width="150" height="150"></canvas>
+-->
+                        </div>
+                        <a class="item item-icon-right" href="/analytics/connections" >
+                            <p>Connections Analytics</p>
+                            {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+                    <div class="card">
+                        <div class="item item-divider">
+                            Transactions
+                        </div>
+                        <div class="item">
+                            <i class="icon ion-card admin-icon"></i>
+<!--
+                            <div class="donut-inner">
+                                <h2>{{../getTransactionsLenght}}</h2>
+                            </div>
+                            <canvas id="adminTransactions" width="150" height="150"></canvas>
+-->
+                        </div>
+                        <a class="item item-icon-right" href="/analytics/transactions" >
+                            <p>Transactions Analytics</p>
+                            {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
+                        </a>
+                    </div>
+                </div>
+    
+            </div>
+    
+        {{/if}}
+    
+        {{/ionContent}}
+    {{/ionView}}
+</template>

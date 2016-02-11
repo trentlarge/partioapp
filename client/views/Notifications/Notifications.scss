@@ -1,0 +1,15 @@
+.notifications {
+
+    @media screen and (min-width: 450px) {
+        
+        .loading-wrapper {
+            max-width: 450px;
+            margin-left: auto;
+            margin-right: auto;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }  
+    }
+
+}

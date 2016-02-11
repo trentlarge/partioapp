@@ -1,6 +1,6 @@
 {
   "apn": {
-    "passphrase": "partio2021",  
+    "passphrase": "partio2021",
     "key": "PushChatKey.pem",
     "cert": "PushChatCertProduction.pem"
   },
@@ -9,7 +9,11 @@
     "key": "PushChatKey.pem",
     "cert": "PushChatCert.pem"
   },
-  "production": false,
+  "gcm": {
+     "apiKey": "AIzaSyAQsa_pTCyEvoeY0FyZdzba957dASS3tiY",
+     "projectNumber": 894687342038
+   },
+  "production": true,
   "badge": true,
   "sound": true,
   "alert": true,

@@ -1,0 +1,203 @@
+<template name="inventory">
+  {{#contentFor "headerButtonLeft"}}
+    <button class="button button-clear pull-left" data-ion-menu-toggle="left">
+      {{> ionIcon icon='navicon' class="energized"}}
+    </button>
+  {{/contentFor}}
+
+  {{#contentFor "headerTitle"}}
+    <h1 class="title" style="text-align:center;">Inventory</h1>
+  {{/contentFor}}
+
+  {{#contentFor "headerButtonRight"}}
+    <a href="/" class="button button-clear">
+        <img id="spinner-logo-simple" src="{{ getImage 'spinner-logo' }}" />
+    </a>
+  {{/contentFor}}
+
+  {{#ionView}}
+    {{#ionContent class="product-list"}}    
+
+      {{#if Template.subscriptionsReady}}
+        <script>
+         Meteor.setTimeout(function(){
+            $('.loadbox').fadeOut('medium',function(){
+                $('.loading-wrapper').fadeIn('medium');  
+            });
+          }, 500);
+        </script>
+      {{/if}}
+
+      {{>loader}}
+      
+      <div class="loading-wrapper">
+          
+        <!-- PURCHASING REQUESTS -->
+
+          {{#if newPurchasingRequests.count}}
+            <div class="item item-divider requests-purchasing">
+                <h3>Purchasing requests <i class="chevron-icon icon ion-chevron-down"></i></h3>
+            </div>
+            <div class="requests-purchasing-item">
+                {{#each newPurchasingRequests}}
+                  {{#ionItem path="connect" _id=productData._id class="item-avatar-2"}}
+                    <div class="product-avatar purchasing">
+                      <img class="product-avatar-inner" src="{{productData.image}}"/>
+                    </div>
+                    <p class="main-title-text">{{productData.title}}</p>
+                    <p class="main-sub-text">
+                        Condition: <b>{{../getCondition productData.conditionId}}</b>
+                    </p>
+                    <p class="main-sub-text">
+                        <i class="icon ion-cash"></i>
+                        <span class="price">${{borrowDetails.price.total}}</span>
+                    </p>
+                    <span class="badge share-status">{{../labelState state}}</span>
+                    <div class="item-icon-right">
+                      {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
+                    </div>
+                  {{/ionItem}}
+                {{/each}}
+            </div>
+          {{/if}}
+          
+        <!-- FINALIZED REQUESTS -->
+          
+        {{#if myProducts.count}}
+          {{#if finalizedRequests.count}}
+            <div class="item item-divider final-requests">
+                <h3>Finalized requests <i class="chevron-icon icon ion-chevron-down"></i></h3>
+            </div>
+            <div class="final-request-item">
+                {{#each finalizedRequests}}
+                  {{#ionItem path="connect" _id=productData._id class="item-avatar-2"}}
+                    <div class="product-avatar">
+                      <img class="product-avatar-inner" src="{{productData.image}}"/>
+                    </div>
+                    <p class="main-title-text">{{productData.title}}</p>
+                    <p class="main-sub-text">
+                        Condition <b>{{../getCondition productData.conditionId}}</b>
+                    </p>
+                    <p class="main-sub-text">
+                      <i class="icon ion-ios-calendar-outline"></i>
+                      {{../getTotalDays borrowDetails.date.totalDays}}
+                      ({{../getStartDate borrowDetails.date.start}} to {{../getEndDate borrowDetails.date.end}})
+                    </p>
+                    <p class="main-sub-text">
+                      {{#if ../isTimeOver borrowDetails.date.start borrowDetails.date.end}}
+                          <span style="color:red">
+                              <i class="icon ion-ios-clock-outline"></i>
+                              {{../getDaysLeft borrowDetails.date.start borrowDetails.date.end}}
+                          </span>
+                      {{else}}
+                          <i class="icon ion-ios-clock-outline"></i>
+                          {{../getDaysLeft borrowDetails.date.start borrowDetails.date.end}}
+                      {{/if}}
+                    </p>
+                    <p class="main-sub-text">
+                        <i class="icon ion-cash"></i>
+                        <span class="price">${{borrowDetails.price.total}}</span>
+                    </p>
+                    <span class="badge share-status">{{../labelState state}}</span>
+                    <div class="item-icon-right">
+                      {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
+                    </div>
+                  {{/ionItem}}
+                {{/each}}
+            </div>
+          {{/if}}
+          
+          <!-- NEW REQUESTS -->
+
+          {{#if newRequests.count}}
+            <div class="item item-divider requests">
+                <h3>Requests from others <i class="chevron-icon icon ion-chevron-down"></i></h3>
+            </div>
+            <div class="request-item">
+                {{#each newRequests}}
+                  {{#ionItem path="connect" _id=productData._id class="item-avatar-2"}}
+                    <div class="product-avatar">
+                      <img class="product-avatar-inner" src="{{productData.image}}"/>
+                    </div>
+                    <p class="main-title-text">{{productData.title}}</p>
+                    <p class="main-sub-text">
+                        Condition: <b>{{../getCondition productData.conditionId}}</b>
+                    </p>
+                    <p class="main-sub-text">
+                      <i class="icon ion-ios-calendar-outline"></i>
+                      {{../getTotalDays borrowDetails.date.totalDays}}
+                      ({{../getStartDate borrowDetails.date.start}} to {{../getEndDate borrowDetails.date.end}})
+                    </p>
+                    <p class="main-sub-text">
+                          {{#if ../isTimeOver borrowDetails.date.start borrowDetails.date.end}}
+                              <span style="color:red">
+                                  <i class="icon ion-ios-clock-outline"></i>
+                                  {{../getDaysLeft borrowDetails.date.start borrowDetails.date.end}}
+                              </span>
+                          {{else}}
+                              <i class="icon ion-ios-clock-outline"></i>
+                              {{../getDaysLeft borrowDetails.date.start borrowDetails.date.end}}
+                          {{/if}}
+                    </p>
+                    <p class="main-sub-text">
+                        <i class="icon ion-cash"></i>
+                        <span class="price">${{borrowDetails.price.total}}</span>
+                    </p>
+                    <span class="badge share-status">{{../labelState state}}</span>
+                    <div class="item-icon-right">
+                      {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
+                    </div>
+                  {{/ionItem}}
+                {{/each}}
+            </div>
+          {{/if}}
+
+          <!-- LISTING ALL USER PRODUCTS -->
+          <div class="item item-divider products">
+              <h3>My products <i class="chevron-icon icon ion-chevron-down"></i></h3>
+          </div>
+          <div class="product-item">
+              {{#each myProducts}}
+                {{#ionItem path='inventoryDetail' _id=_id class="item-avatar-2"}}
+                  <div class="product-avatar my-products">
+                    <img class="product-avatar-inner" src="{{image}}"/>
+                  </div>
+                  <p class="main-title-text">{{title}}</p>
+                  <p class="main-sub-text">Condition: <b>{{../getCondition conditionId}}</b></p>
+                  <p class="main-sub-text">
+                    <table class="rent-table">
+                      <tbody>
+                          <tr>
+                              <th class="one"><i class="icon">DAY</i></th>
+                              <th class="two"><i class="icon">WEEK</i></th>
+                              <th class="three"><i class="icon">MONTH</i></th>
+                              <th class="four"><i class="icon">SEMESTER</i></th>
+                          </tr>
+                          <tr>
+                              <td>{{rentPrice.day}}</td>
+                              <td>{{rentPrice.week}}</td>
+                              <td>{{rentPrice.month}}</td>
+                              <td>{{rentPrice.semester}}</td>
+                          </tr>
+                      </tbody>
+                  </table>
+                  </p>
+                  <div class="item-icon-right">
+                  {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
+                  </div>
+                {{/ionItem}}
+              {{/each}}
+          </div>
+        {{else}}
+          <div class="card center padding not-yet">
+            <div style="width:100%">
+              <i class="{{iconRandom}}" style="font-size: 210px;"></i>
+              <button id="start-share" class="start-share button button-block button-energized active">START SHARING!</button>
+              <p class="dark">Start sharing your items on partiO!</p>
+            </div>
+          </div>
+        {{/if}}
+      </div>
+    {{/ionContent}}
+  {{/ionView}}
+</template>

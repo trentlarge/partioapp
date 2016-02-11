@@ -1,0 +1,72 @@
+<template name="productDetail">
+  {{#ionModal title="Product Details" class="inventory-details"}}
+    
+   <div class="card">
+         <div class="item image">
+             <div class="item-image-box">
+                <img class="product-image" src="{{image}}"/>
+             </div>
+          </div>
+         
+          <label class="item item-input">
+             <input type="text" value="{{title}}" class="title" style="text-align:center;border:0" disabled>
+          </label>
+           
+          <div class="item item-divider features">
+            <h2>Features <i class="chevron-icon icon ion-chevron-up"></i></h2>
+          </div>
+
+          <div class="features-details" style="display: none">
+                <div class="item no-padding row-details">
+                    <div class="col col-50">
+                        <div class="details-box">
+                            <i class="icon {{getCategoryIcon}} bk-energized"></i>
+                            <span class="detail">{{amazonCategory}}</span>
+                        </div>
+                    </div>
+                    <div class="col col-50">
+                        <div class="details-box">
+                            <i class="icon ion-cash bk-energized"></i>
+                            <span class="detail">{{price}}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row item attributes">
+                    <div class="col col-33">
+                        {{#each attributes}}
+                            <p>{{key}}</p>
+                        {{/each}}
+                    </div>
+                    <div class="col col-67 scan-result">
+                        {{#each attributes}}
+                            <p>{{value}}</p>
+                        {{/each}}
+                    </div>
+                </div>
+            </div>
+           
+        <div class="item item-divider">
+            <h2>Rent Price</h2>
+        </div>
+            
+        <label class="item item-input">
+            <span class="input-label"><p>Day:</p></span>
+            <input type="number" class="price dayPrice" value="{{rentPrice.day}}" disabled>
+        </label>
+        <label class="item item-input">
+            <span class="input-label"><p>Week:</p></span>
+            <input type="number" class="price weekPrice" value="{{rentPrice.week}}" disabled>
+        </label>
+        <label class="item item-input">
+            <span class="input-label"><p>Month:</p></span>
+            <input type="number" class="price monthPrice" value="{{rentPrice.month}}" disabled>
+        </label>
+        <label class="item item-input">
+            <span class="input-label"><p>Semester (4m):</p></span>
+            <input type="number" class="price semesterPrice" value="{{rentPrice.semester}}" disabled>
+        </label>       
+           
+    </div>
+  {{/ionModal}}
+</template>

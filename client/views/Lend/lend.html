@@ -1,29 +1,37 @@
 <template name="lend">
+    {{#ionView class="lend-view"}}
+        {{#contentFor "headerButtonLeft"}}
+            <button class="button button-clear pull-left" data-ion-menu-toggle="left">
+              {{> ionIcon icon='navicon' class="energized"}}
+            </button>
+            {{> searchShareHeader}}
+        {{/contentFor}}
 
-	<!-- MODAL -->
-	{{#ionModal title="Share Product" customTemplate=true}}
-    <div class="bar bar-header bar-royal">
-      <button type="button" id="closeLend" title="Close" class="button button-clear pull-left"> <i class="icon ion-ios-close-outline pull-left"></i></button>
-      <h2 class="title">Share Product</h2>
-			<button type="button" id="reset" title="Reset" class="button button-clear pull-right"><i class="icon ion-ios-reload pull-right"></i> </button>
-    </div>
+        {{#contentFor "headerTitle"}}
+            <h1 class="title" style="text-align:center;"></h1>
+        {{/contentFor}}
 
-		<!-- DYNAMIC TEMPLATE -->
-		{{> UI.dynamic template=dynamicTemplate}}
+        {{#contentFor "headerButtonRight"}}
+            <a href="/" class="button button-clear">
+                <img id="spinner-logo-simple" src="{{ getImage 'spinner-logo' }}"  />
+            </a>
+        {{/contentFor}}
 
-		<!-- TAB -->
-		{{>lendTabs}}
+        <!-- DYNAMIC TEMPLATE -->
+        {{> UI.dynamic template=dynamicTemplate}}
 
-  {{/ionModal}}
-	<!-- END MODAL -->
-
+        <!-- TAB -->
+        {{>lendTabs}}
+    {{/ionView}}
 </template>
 
 <!-- NEW TAB -->
 <template name="lendTabs">
-  {{#ionTabs style="ios" class="tabs-background-dark tabs-color-light"}}
-     <a class="tab-item {{#if isActiveClass name="camfind" }} active {{/if}}" data-id="camfind"><i class="icon ion-android-image"></i>IMAGE SEARCH</a>
-  	 <a class="tab-item {{#if isActiveClass name="barcode" }} active {{/if}}" data-id="barcode"><i class="icon ion-ios-barcode"></i>BARCODE</a>
-  	 <a class="tab-item {{#if isActiveClass name="manual" }} active {{/if}}" data-id="manual"><i class="icon ion-ios-compose"></i>MANUAL ENTRY</a>
-  {{/ionTabs}}
+    <div class="tabs-background-royal tabs-color-light {{ hideClass }} tabs-icon-top">
+        <div class="tabs darken-element">
+            <a class="tab-item {{#if isActiveClass name="manual" }} active {{/if}}" data-id="manual"><i class="icon ion-ios-compose"></i>MANUAL ENTRY</a>
+            <a class="tab-item {{#if isActiveClass name="barcode" }} active {{/if}}" data-id="barcode"><i class="icon ion-ios-barcode"></i>BARCODE</a>
+            <a class="tab-item {{#if isActiveClass name="camfind" }} active {{/if}}" data-id="camfind"><i class="icon ion-android-image"></i>IMAGE SEARCH</a>
+        </div>
+    </div>
 </template>
