@@ -17,7 +17,6 @@ Template.shoutoutDetails.destroyed = function() {
 Template.shoutoutShare.helpers({
     
     getProducts: function() {
-        console.log(Session.get('products'));
         return Session.get('products');
     },
     

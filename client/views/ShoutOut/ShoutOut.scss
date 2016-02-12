@@ -1,12 +1,26 @@
 .shout-out {
     
-    .item-input-wrapper {
-        background-color: #ffffff;
+    .hidden { display: none; }
+    
+    .content {
+        height: calc(100% - 135px);
     }
     
     .card {
         margin-top: 10px;
         margin-bottom: 10px;
+    }
+    
+    .tab-item {
+        background-color: #353535;
+        
+        &.active {
+            background-color: #272727;
+        }
+    }
+    
+    .item-input-wrapper {
+        background-color: #ffffff;
     }
     
     .item {
