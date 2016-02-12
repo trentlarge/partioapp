@@ -1,8 +1,11 @@
 Template.shoutout.rendered = function() {
-    
     Session.set('shoutsPageNumber', 1);
     Session.set('shoutsPageSize', 15);
-    
+}
+
+Template.shoutout.destroyed = function() {
+    Session.set('shoutsPageNumber', 1);
+    Session.set('shoutsPageSize', 15);
 }
 
 Template.shoutout.helpers({
@@ -32,7 +35,7 @@ Template.shoutout.events({
         }
 
         //if(parent.scrollTop() + parent.height() >= scrollingElement.innerHeight() + 20) {
-        if(parent.scrollTop() + parent.height() >= parent[0].scrollHeight - 300) {        
+        if(parent.scrollTop() + parent.height() >= parent[0].scrollHeight) {        
             $('.loadbox').fadeIn('fast',function(){
                 var pageNumber = Session.get('shoutsPageNumber');
                 Session.set("shoutsPageNumber", pageNumber + 1);
