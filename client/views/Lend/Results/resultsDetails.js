@@ -43,6 +43,10 @@ Template.resultsDetails.helpers({
      return (index == Session.get('selectedCondition')) ? 'selected' : '';
   },
 
+  sellingPrice: function() {
+    return Session.get('sellingPrice');  
+  },
+    
   isOnlyOneCategory: function() {
     if(Session.get('isOnlyOneCategory'))  {
       return Session.get('isOnlyOneCategory');
@@ -173,6 +177,15 @@ Template.resultsDetails.events({
 
     },
 
+    'click .toggle': function(e, template) {
+          if($('.enablePurchasing').text() === 'OFF') {
+              $('.enablePurchasing').text('ON');
+          }
+          else {
+              $('.enablePurchasing').text('OFF');
+          }
+     },
+    
     'change .userPrice': function(e, template){
       var rentPrice = {
         "day": template.find('.dayPrice').value,
@@ -180,12 +193,15 @@ Template.resultsDetails.events({
         "month": template.find('.monthPrice').value,
         "semester": template.find('.semesterPrice').value,
       }
+      
+      var sellingPrice = template.find('.sellingPrice').value;
 
       Session.set('dayPrice', rentPrice.day);
       Session.set('weekPrice', rentPrice.week);
       Session.set('monthPrice', rentPrice.month);
       Session.set('semesterPrice', rentPrice.semester);
 
+      Session.set('sellingPrice', sellingPrice); 
     },
 
     'click .submitProduct': function(e, template) {
@@ -214,17 +230,26 @@ Template.resultsDetails.events({
 
           if(Lend.validatePrices()) {
             var submitProduct = Session.get('scanResult');
+              
+            var images = [];
+            images.push({'photo': submitProduct.image});
+              
             var product = _.extend(submitProduct,
             {
                 "title": $('.productTitle').val(),
                 "ownerId": Meteor.userId(),
                 "ownerArea": Meteor.user().profile.area,
                 "conditionId": $('.fieldConditionLend').val(),
+                "images": images,
                 "rentPrice": {
                   "day": Number(Session.get('dayPrice')).toFixed(2),
                   "week": Number(Session.get('weekPrice')).toFixed(2),
                   "month": Number(Session.get('monthPrice')).toFixed(2),
                   "semester": Number(Session.get('semesterPrice')).toFixed(2)
+                },
+                "selling": {
+                  "price": Number(Session.get('sellingPrice')).toFixed(2),
+                  "status": $('.enablePurchasing').text() 
                 }
             });
 
@@ -249,6 +274,16 @@ function validateInputs(details){
 
   if(!details.conditionId || details.conditionId < 1) {
     showInvalidPopUp('Invalid Inputs', 'Please enter a valid Condition of the item.');
+    return false;
+  }
+    
+  var lowerValue = 1,
+      highestValue = 1000000;
+    
+  var sellingPrice = parseFloat(details.selling.price, 10);
+
+  if(details.selling.status === 'ON' && (sellingPrice < lowerValue || sellingPrice >= highestValue)) {
+    showInvalidPopUp('Invalid Inputs', 'Please add a valid purchasing price.');  
     return false;
   }
 

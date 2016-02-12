@@ -108,4 +108,23 @@
         padding-bottom: 5px;
     }
     
+    .priceLabel {
+        font-size: 10px;
+    }
+    
+    input.userPrice {
+        height: 20px;
+    }
+ 
+    .toggle {
+        float: right
+    }
+    
+    .enablePurchasing {
+        float: right;
+        margin-top: 10px;
+        margin-right: 5px;
+        font-size: 10px;
+    }
+    
 }
