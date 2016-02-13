@@ -34,6 +34,15 @@ Template.resultsDetails.helpers({
   getCategoryIcon: function() {
     return Categories.getCategoryIconByText(this.category);
   },
+    
+  getCategories: function() {
+    return Categories.getCategories();
+  },
+    
+  selectedCategory: function(category) {
+    var scanResult = Session.get('scanResult');
+    return (scanResult.category == category) ? 'selected' : '';
+  },
 
   getConditions: function() {
     return Rating.getConditions();

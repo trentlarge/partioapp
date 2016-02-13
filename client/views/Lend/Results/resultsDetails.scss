@@ -49,6 +49,10 @@
         margin-left: 0;
     }
     
+    select:disabled {
+        opacity: .6;
+    }
+    
     .features-details {
         border-top: 0;
         border-bottom: 0;
