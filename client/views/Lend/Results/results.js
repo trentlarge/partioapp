@@ -158,7 +158,6 @@ Template.results.events({
 
         Session.set('itemNotFound', itemNotFound);
         Session.set('lendTab', 'manual');
-
     },
 
     // hide/show products by category
@@ -166,27 +165,16 @@ Template.results.events({
         var category = $('.' + $(this)[0].amazonCategory.replace(/\s/g,"").replace(/\&/g,""));
         var categoryMenu = $('.' + $(this)[0].amazonCategory.replace(/\s/g,"").replace(/\&/g,"") + '-menu');
 
-        if(!category.is(':visible')){
-            category.slideDown('fast');
-            categoryMenu.find('.chevron-icon').removeClass('ion-chevron-up').addClass('ion-chevron-down');
-        }
-        else {
-            category.slideUp('fast');
-            categoryMenu.find('.chevron-icon').removeClass('ion-chevron-down').addClass('ion-chevron-up');
-        }
-
+        Animations.accordion(categoryMenu, category);
     },
 
     'click .product': function(e, template) {
 
         var _this = this;
-
-        console.log(this);
         
         Session.set('scanResult', _this);
         Router.go('/lend/details');
         Session.set('lendTab', 'resultDetails');
-
     },
 });
 
