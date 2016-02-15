@@ -3,10 +3,11 @@ Template.rating.rendered = function () {
 }
 
 Template.rating.helpers({
-  getRatingNumber: function(ownerId, ownerProfileId) {
+  getRatingNumber: function(ownerId, userId, ownerProfileId) {
       var _id = Meteor.userId();
 
       if(ownerId) { _id = ownerId }
+      if(userId) { _id = userId }
       if(ownerProfileId) { _id = ownerProfileId }
 
       var user = Meteor.users.findOne(_id);
@@ -25,10 +26,11 @@ Template.rating.helpers({
       return 'Not rated yet';
   },
 
-  avgRating: function(ownerId, ownerProfileId) {
+  avgRating: function(ownerId, userId, ownerProfileId) {
     var _id = Meteor.userId();
 
     if(ownerId) { _id = ownerId }
+    if(userId) { _id = userId }
     if(ownerProfileId) { _id = ownerProfileId }
 
     var user = Meteor.users.findOne(_id);
