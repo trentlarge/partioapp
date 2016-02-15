@@ -11,14 +11,14 @@ ShoutOutDetailsController = RouteController.extend({
 
 	waitOn: function() {
         return [
-            Meteor.subscribe('shoutoutDetails', this.params.id),
+            Meteor.subscribe('shoutoutDetails', this.params._id),
             Meteor.subscribe('myProducts')
         ];
 	},
     
     data: function() {
 		return {
-            shout: ShoutOut.findOne(this.params.id),
+            shout: ShoutOut.findOne(this.params._id),
             products: Products.find({}).fetch(),
             
             getTime: function(createdAt) {

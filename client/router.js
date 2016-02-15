@@ -25,6 +25,8 @@ Router.waitOn(function () {
 //
 Router.route('/', { name: 'main', controller: 'MainController'});
 Router.route('/admin', { name: 'admin', controller: 'AdminController'});
+Router.route('/admin/search/:_id', { name: 'adminSearch', controller: 'AdminSearchController'});
+Router.route('/admin/search/:_id/:elementId', { name: 'adminSearchDetails', controller: 'AdminSearchDetailsController'});
 Router.route('/analytics/:_id', { name: 'analytics', controller: 'AnalyticsController'});
 Router.route('/verify-email/:token', {name: 'emailverification', controller: 'EmailVerificationController'});
 Router.route('/reset-password/:token', {name: 'resetpassword', controller: 'ResetPasswordController'});
@@ -50,7 +52,7 @@ Router.route('/profile/changepassword', { name: 'changePassword', controller: 'C
 Router.route('/notifications', { name: 'notifications', controller: 'NotificationsController' }); //  Controlle OK
 Router.route('/contact', { name: 'contact', controller: 'ContactController'});
 Router.route('/shoutout', { name: 'shoutout', controller: 'ShoutOutController'});
-Router.route('/shoutout/:id', { name: 'shoutoutDetails', controller: 'ShoutOutDetailsController'});
+Router.route('/shoutout/:_id', { name: 'shoutoutDetails', controller: 'ShoutOutDetailsController'});
 Router.route('/loading', { name: 'loadingData'});
 
 Router.onBeforeAction(function(pause){

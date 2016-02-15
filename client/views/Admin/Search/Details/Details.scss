@@ -1,0 +1,44 @@
+.admin-search-details {
+    
+    .profile-name {
+        display: block;
+        padding-bottom: 5px;
+    }
+    
+    .rating-number {
+        padding-top: 5px;
+    }
+    
+    .item-input {
+
+        color: #272727;
+
+        i {
+            padding-right: 10px;
+        }
+
+        input {
+
+            color: #272727;
+
+            &:disabled {
+                background-color: #ffffff;
+                opacity: .6;
+            }
+            
+            &:read-only {
+                background-color: #ffffff;
+                opacity: .6;
+            }
+        }
+        
+        select {
+            
+            &:disabled {
+                background-color: #ffffff;
+                opacity: .6;
+            }
+        }
+    }
+    
+}

@@ -1,3 +1,7 @@
+Meteor.publish("adminSearchOwnerProducts", function(_ownerId) {
+	return Products.find({ ownerId: _ownerId });
+});
+
 Meteor.publish("products", function() {
 	return Products.find({});
 });
