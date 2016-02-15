@@ -37,7 +37,6 @@ Template.shoutout.events({
         //if(parent.scrollTop() + parent.height() >= scrollingElement.innerHeight() + 20) {
         if(parent.scrollTop() + parent.height() >= parent[0].scrollHeight) {        
             $('.loadbox').fadeIn('fast',function(){
-                var pageNumber = Session.get('shoutsPageNumber');
                 Session.set("shoutsPageNumber", pageNumber + 1);
             });
         }
