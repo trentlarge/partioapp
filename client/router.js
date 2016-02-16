@@ -25,6 +25,7 @@ Router.waitOn(function () {
 //
 Router.route('/', { name: 'main', controller: 'MainController'});
 Router.route('/admin', { name: 'admin', controller: 'AdminController'});
+Router.route('/admin/configurations', { name: 'adminConfigurations', controller: 'AdminConfigurationsController'});
 Router.route('/admin/search/:_id', { name: 'adminSearch', controller: 'AdminSearchController'});
 Router.route('/admin/search/:_id/:elementId', { name: 'adminSearchDetails', controller: 'AdminSearchDetailsController'});
 Router.route('/analytics/:_id', { name: 'analytics', controller: 'AnalyticsController'});

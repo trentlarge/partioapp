@@ -1,0 +1,110 @@
+<template name="adminConfigurations">
+
+    {{#contentFor "headerButtonLeft"}}
+        {{>ionNavBackButton}}
+    {{/contentFor}}
+
+    {{#contentFor "headerTitle"}}
+        <h1 class="title" style="text-align:center;">Permissions</h1>    
+    {{/contentFor}}
+
+    {{#contentFor "headerButtonRight"}}
+        <a href="/" class="button button-clear">
+            <img id="spinner-logo-simple" src="{{ getImage 'spinner-logo' }}" />
+        </a>
+    {{/contentFor}}
+    
+    {{#ionView}}
+        {{#ionContent class="admin-configurations overflow-scroll"}}    
+
+        {{#if isUserPermited}}
+    
+            <div class="list">
+                <div class="card">
+                
+                    <table>
+                        <tr>
+                            <th>Email</th>
+                            <th>View</th>
+                            <th>Update</th>
+                            <th>Delete</th>
+                            <th></th>
+                        </tr>
+                        {{#each admins}}
+                            <tr>
+                                <td><input type="text" value="{{email}}" {{../isAdmin admin}}></td>
+                                <td>
+                                    <label class="toggle">
+                                       <input type="checkbox" {{../isViewChecked permissions.view}} {{../isAdmin admin}}>
+                                       <div class="track">
+                                         <div class="handle"></div>
+                                       </div>
+                                    </label>
+                                </td>
+                                <td>
+                                    <label class="toggle">
+                                       <input type="checkbox" {{../isUpdateChecked permissions.update}} {{../isAdmin admin}}>
+                                       <div class="track">
+                                         <div class="handle"></div>
+                                       </div>
+                                    </label>
+                                </td>
+                                <td>
+                                    <label class="toggle">
+                                       <input type="checkbox" {{../isDeleteChecked permissions.delete}} {{../isAdmin admin}}>
+                                       <div class="track">
+                                         <div class="handle"></div>
+                                       </div>
+                                    </label>
+                                </td>
+                                <td>
+                                    {{#if admin}}
+                                    {{else}}
+                                        <i class="icon ion-ios-trash delete-admin" id="{{_id}}"></i>
+                                    {{/if}}
+                                </td>
+                            </tr>
+                        {{/each}}
+                        <tr>
+                            <td><input type="text" class="new-email" placeholder="Type an email..."></td>
+                            <td>
+                                <label class="toggle">
+                                   <input type="checkbox" class="new-view">
+                                   <div class="track">
+                                     <div class="handle"></div>
+                                   </div>
+                                </label>
+                            </td>
+                            <td>
+                                <label class="toggle">
+                                   <input type="checkbox" class="new-update">
+                                   <div class="track">
+                                     <div class="handle"></div>
+                                   </div>
+                                </label>
+                            </td>
+                            <td>
+                                <label class="toggle">
+                                   <input type="checkbox" class="new-delete">
+                                   <div class="track">
+                                     <div class="handle"></div>
+                                   </div>
+                                </label>
+                            </td>
+                            <td></td>
+                        </tr>
+                    </table>
+                    
+                    <dib class="item">
+                        <button class="button button-block button-energized save-new-admin" {{isEditMode}}>SAVE</button>
+                    </dib>
+                    
+                </div>
+            </div>        
+    
+        {{/if}}
+    
+        {{/ionContent}}
+    {{/ionView}}
+
+</template>

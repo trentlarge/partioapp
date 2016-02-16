@@ -8,11 +8,11 @@ AdminController = RouteController.extend({
 	},
 
 	waitOn: function() {
+        
+        var user = Users.findOne({_id: Meteor.userId()});
+        
 		return [
-//            Meteor.subscribe("users"),
-//			  Meteor.subscribe("products"),
-//            Meteor.subscribe("allConnections"),
-//            Meteor.subscribe("transactions")
+            Meteor.subscribe("userAdmin", user.emails[0].address),
 		];
 	},
 
@@ -20,6 +20,7 @@ AdminController = RouteController.extend({
         
 		return {
             
+            userAdmin: Admins.find({}).fetch(),
             user: Users.findOne({_id: Meteor.userId()}),
 //            users: Users.find({}).fetch(),
 //            products: Products.find({}).fetch(),
@@ -27,8 +28,13 @@ AdminController = RouteController.extend({
 //            transactions: Transactions.find({}).fetch(),
 //            
             isUserPermited: function() {
-                return ($.inArray(this.user.emails[0].address, Admin.getPermitedUsers()) >= 0) ? true : false;
+                return (this.userAdmin.length > 0) ? true : false;
+//                return ($.inArray(this.user.emails[0].address, Admin.getPermitedUsers()) >= 0) ? true : false;
             },
+            
+            isUserAdmin: function() {
+                return this.userAdmin[0].admin;
+            }
 //            
 //            getUsersLenght: function() {
 //                return this.users.length;  

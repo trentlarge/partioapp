@@ -8,8 +8,10 @@ AdminSearchDetailsController = RouteController.extend({
 	},
 
 	waitOn: function() {
+		var user = Users.findOne({_id: Meteor.userId()});
+        
 		return [
-            
+            Meteor.subscribe("userAdmin", user.emails[0].address),
 		];
 	},
     
@@ -41,15 +43,16 @@ AdminSearchDetailsController = RouteController.extend({
 
                 searchId: this.params._id,
                 userId: this.params.elementId,
-                permitedUser: Users.findOne({_id: Meteor.userId()}),
 
+                userAdmin: Admins.find({}).fetch(),
+                
                 user: this.getUser(this.params.elementId),
                 userProducts: this.getUserProducts(this.params.elementId),
                 userConnections: this.getUserConnections(this.params.elementId),
                 userTransactions: this.getUserTransactions(this.params.elementId),
 
                 isUserPermited: function() {
-                    return ($.inArray(this.permitedUser.emails[0].address, Admin.getPermitedUsers()) >= 0) ? true : false;
+                    return (this.userAdmin.length > 0) ? true : false;
                 },  
 
                 isUserDetails: function() {

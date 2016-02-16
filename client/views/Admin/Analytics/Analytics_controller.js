@@ -24,7 +24,10 @@ AnalyticsController = RouteController.extend({
                 break;
         }
         
+        var user = Users.findOne({_id: Meteor.userId()});
+        
 		return [
+            Meteor.subscribe("userAdmin", user.emails[0].address),
             Meteor.subscribe("users"),
 			subscribeElement
 		];
@@ -36,6 +39,7 @@ AnalyticsController = RouteController.extend({
             
             analyticsId: this.params._id,
             
+            userAdmin: Admins.find({}).fetch(),
             user: Users.findOne({ _id: Meteor.userId() }),
             users: Users.find({}, { sort: { 'profile.name': 1 }}).fetch(),
             products: Products.find({}).fetch(),
@@ -43,7 +47,8 @@ AnalyticsController = RouteController.extend({
             transactions: Transactions.find({}).fetch(),
             
             isUserPermited: function() {
-                return ($.inArray(this.user.emails[0].address, Admin.getPermitedUsers()) >= 0) ? true : false;  
+                return (this.userAdmin.length > 0) ? true : false;
+                //return ($.inArray(this.user.emails[0].address, Admin.getPermitedUsers()) >= 0) ? true : false;  
             },
             
             getAnalyticsId: function() {
