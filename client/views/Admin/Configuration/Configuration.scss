@@ -18,10 +18,22 @@
         }
     }
     
-    i.delete-admin {
+    i {
         font-size: 22px;
         cursor: pointer;
-        color: #df5707;
+        color: #272727;
+        
+//        &.save-admin {
+//            color: #f0970d;
+//        }
+//        
+//        &.delete-admin {
+//            color: #df5707;
+//        }
+        
+        &:hover {
+            opacity: .7
+        }
     }
     
     table {

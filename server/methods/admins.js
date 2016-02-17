@@ -3,7 +3,13 @@ Meteor.methods({
 		Admins.insert(admin);
 	},
     
-    removeAdmin: function(idAdmin) {
-        Admins.remove(idAdmin);
+    removeAdmin: function(adminId) {
+        Admins.remove(adminId);
     },
+    
+    updateAdmin: function(adminId, admin) {
+        Admins.update({_id: adminId },{
+			$set: admin
+		});
+    }
 });

@@ -28,8 +28,8 @@ AdminConfigurationsController = RouteController.extend({
             },
             
             isAdmin: function(admin) {
-                return 'disabled';
-//                return (admin) ? 'disabled' : '';
+//                return 'disabled';
+                return (admin) ? 'disabled' : '';
             },
             
             isViewChecked: function(box) {

@@ -69,6 +69,61 @@ Template.adminConfigurations.events({
         });
     },
     
+    'click .save-admin': function(e, template) {
+      
+        var adminId = $(e.target).attr('id');
+        
+        var admin = {
+            email: $('.email.' + adminId).val(),
+            admin: false,
+            permissions: {
+                view: $('.view.' + adminId).prop('checked'),
+                update: $('.update.' + adminId).prop('checked'),
+                delete: $('.delete.' + adminId).prop('checked'),
+            }
+        }
+        
+        IonPopup.confirm({
+          okText: 'Proceed',
+          cancelText: 'Cancel',
+          title: 'Update user',
+          template: 'Are you sure you want update this user?',
+          onOk: function() {
+            Meteor.call('updateAdmin', adminId, admin, function(err, res) {
+
+              if(err) {
+                var errorMessage = err.reason || err.message;
+                if(err.details) {
+                  errorMessage = errorMessage + "\nDetails:\n" + err.details;
+                }
+                sAlert.error(errorMessage);
+                return;
+              }
+              
+              setTimeout(function(){
+                IonPopup.show({
+                  title: 'User updated',
+                  template: 'User permissions were updated!',
+                  buttons: [{
+                    text: 'OK',
+                    type: 'button-energized',
+                    onTap: function() {
+                      IonPopup.close();
+                    }
+                  }]
+                });
+              }, 500);
+                
+            });
+          },
+
+          onCancel: function() {
+            return false;
+          }
+        });
+        
+    },
+    
     'click .delete-admin': function(e, template) {
       
         var adminId = $(e.target).attr('id');
@@ -90,6 +145,21 @@ Template.adminConfigurations.events({
                 sAlert.error(errorMessage);
                 return;
               }
+                
+              setTimeout(function(){
+                IonPopup.show({
+                  title: 'User removed',
+                  template: 'User permissions were removed!',
+                  buttons: [{
+                    text: 'OK',
+                    type: 'button-energized',
+                    onTap: function() {
+                      IonPopup.close();
+                    }
+                  }]
+                });
+              }, 500);
+                
             });
           },
 

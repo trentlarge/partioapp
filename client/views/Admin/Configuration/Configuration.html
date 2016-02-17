@@ -32,10 +32,10 @@
                         </tr>
                         {{#each admins}}
                             <tr>
-                                <td><input type="text" value="{{email}}" {{../isAdmin admin}}></td>
+                                <td><input type="text" value="{{email}}" class="email {{_id}}" {{../isAdmin admin}}></td>
                                 <td>
                                     <label class="toggle">
-                                       <input type="checkbox" {{../isViewChecked permissions.view}} {{../isAdmin admin}}>
+                                       <input type="checkbox" class="view {{_id}}" {{../isViewChecked permissions.view}} {{../isAdmin admin}}>
                                        <div class="track">
                                          <div class="handle"></div>
                                        </div>
@@ -43,7 +43,7 @@
                                 </td>
                                 <td>
                                     <label class="toggle">
-                                       <input type="checkbox" {{../isUpdateChecked permissions.update}} {{../isAdmin admin}}>
+                                       <input type="checkbox" class="update {{_id}}" {{../isUpdateChecked permissions.update}} {{../isAdmin admin}}>
                                        <div class="track">
                                          <div class="handle"></div>
                                        </div>
@@ -51,7 +51,7 @@
                                 </td>
                                 <td>
                                     <label class="toggle">
-                                       <input type="checkbox" {{../isDeleteChecked permissions.delete}} {{../isAdmin admin}}>
+                                       <input type="checkbox" class="delete {{_id}}" {{../isDeleteChecked permissions.delete}} {{../isAdmin admin}}>
                                        <div class="track">
                                          <div class="handle"></div>
                                        </div>
@@ -60,7 +60,8 @@
                                 <td>
                                     {{#if admin}}
                                     {{else}}
-                                        <i class="icon ion-ios-trash delete-admin" id="{{_id}}"></i>
+                                        <i class="mdi mdi-content-save save-admin" id="{{_id}}"></i>
+                                        <i class="mdi mdi-delete delete-admin" id="{{_id}}"></i>
                                     {{/if}}
                                 </td>
                             </tr>
