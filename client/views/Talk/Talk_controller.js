@@ -13,7 +13,7 @@ TalkController = RouteController.extend({
 		return [
 			// subscribe to data here
 			//Meteor.subscribe("singleConnect", this.params._id),
-			//Meteor.subscribe("talk", this.params._id)
+			Meteor.subscribe("talk", this.params._id)
 		];
 	},
 

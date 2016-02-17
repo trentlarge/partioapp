@@ -10,6 +10,7 @@
   {{#ionView class="talk-view"}}
     {{#ionContent class="talk-content"}}
 
+<!--
       {{#if Template.subscriptionsReady}}
         <script>
           $('.loadbox').fadeOut('medium',function(){
@@ -19,8 +20,9 @@
       {{/if}}
 
       {{>loader}}
+-->
       
-      <div class="loading-wrapper">
+<!--      <div class="loading-wrapper">-->
         <div class="list talk-list padding-horizontal">
           {{#each messages}}
             {{> message}}
@@ -28,7 +30,7 @@
 
           <div class="cf"></div>
         </div>
-      </div>
+<!--      </div>-->
 
     {{/ionContent}}
 
