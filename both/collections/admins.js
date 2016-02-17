@@ -96,15 +96,6 @@ if (Meteor.isServer) {
                     'update': true,
                     'delete': true
                 }
-            },
-            {
-                'email': 'breno.wd@gmail.com',
-                'admin': true,
-                'permissions': {
-                    'view': true,
-                    'update': true,
-                    'delete': true
-                }
             }
           ];
 
