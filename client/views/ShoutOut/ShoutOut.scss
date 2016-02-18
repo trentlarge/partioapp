@@ -1,5 +1,9 @@
 .shout-out {
     
+    #messageInput {
+        width: 100%;
+    }
+    
     .hidden { display: none; }
     
     .content {
@@ -38,6 +42,7 @@
         
         .user-message {
             font-weight: bold;
+            line-height: 16px;
         }
         
         .user-time {

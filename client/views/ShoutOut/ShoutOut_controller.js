@@ -41,6 +41,10 @@ ShoutOutController = RouteController.extend({
 		return {
             shouts: this.shouts(),
             
+            isTypeShout(type) {
+                return (type === 'shout') ? true : false;
+            },
+            
             getTime: function(createdAt) {
                 
                 var date = new Date();

@@ -49,7 +49,7 @@ Template.shoutout.events({
         
         $('#messageInput').val('');
         
-        Meteor.call('insertShoutOut', Meteor.userId(), message, function(err, res) {
+        Meteor.call('insertShoutOut', Meteor.userId(), message, 'shout', function(err, res) {
           PartioLoad.hide();
           if(err) {
             var errorMessage = err.reason || err.message;

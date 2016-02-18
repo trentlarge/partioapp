@@ -37,7 +37,11 @@
                 {{#each shouts}}
                 
                     <div class="card">
-                        <a class="item item-avatar" href="/shoutout/{{_id}}">
+                        <a class="item item-avatar" href="{{#if ../isTypeShout type}}
+                                                            /shoutout/{{_id}} 
+                                                          {{else}}
+                                                            /listing/search/{{sharedProducts.[0]._id}}?ownerId={{sharedProducts.[0].ownerId}}
+                                                          {{/if}}">
                           <img src="{{user.avatar}}">
                           <p>
                               <span class="user-name">{{user.name}}</span> 

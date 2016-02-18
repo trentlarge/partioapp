@@ -1,17 +1,27 @@
 Meteor.methods({
-    insertShoutOut: function(userId, message) {
+    
+    /* =================================
+        Types: 
+          'shout' -> a normal shout
+          'share' -> a product shared
+    ================================= */
+    
+    insertShoutOut: function(userId, message, type, sharedProducts) {
         
         var user = Users.findOne({_id: userId});
 
         var shout = {
             'message': message,
+            'type': type,
             'createdAt': new Date(),
             'user': {
                 'id': userId,
                 'name': user.profile.name,
                 'avatar': user.profile.avatar
             },
-            'sharedProducts': []
+            'sharedProducts': (function() {
+                return (sharedProducts) ? sharedProducts : [];
+            })()
         }
         
 		ShoutOut.insert(shout);
