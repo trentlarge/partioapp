@@ -23,7 +23,7 @@ AdminSearchController = RouteController.extend({
         var text = Session.get('adminSearchText');
         
         if(searchId == 'users') {
-            Meteor.subscribe("searchUsers", text, limit, function() {
+            Meteor.subscribe("adminSearchUsers", text, limit, function() {
                 $('.loadbox').fadeOut();
             });
             return Users.find({ 
@@ -33,12 +33,18 @@ AdminSearchController = RouteController.extend({
                 sort: { 'profile.name': 1 }
             }).fetch();
         }
-//        if(searchId == 'products') {
-//            Meteor.subscribe("products", function() {
-//                $('.loadbox').fadeOut();
-//            });
+        if(searchId == 'products') {
+            Meteor.subscribe("adminSearchProducts", text, limit, function() {
+                $('.loadbox').fadeOut();
+            });
+            return Products.find({ 
+                'title': { $regex: ".*"+text+".*", $options: 'i' }, 
+            }, { 
+                limit: limit, 
+                sort: { 'title': 1 }
+            }).fetch();
 //            return Products.find({}).fetch();
-//        }
+        }
 //        if(searchId == 'connections') {
 //            Meteor.subscribe("allConnections", function() {
 //                $('.loadbox').fadeOut();
@@ -56,27 +62,48 @@ AdminSearchController = RouteController.extend({
     
 	data: function() {
         
-		return {
+        if(this.params._id === 'users') {
             
-            searchId: this.params._id,
+            return {
             
-            userAdmin: Admins.find({}).fetch(),
-            user: Users.findOne({_id: Meteor.userId()}),
-            users: this.getElements('users'),
-         
-            isUserPermited: function() {
-                return (this.userAdmin.length > 0) ? true : false;
-            }, 
+                searchId: this.params._id,
+
+                userAdmin: Admins.find({}).fetch(),
+                users: this.getElements('users'),
+
+                isUserPermited: function() {
+                    return (this.userAdmin.length > 0) ? true : false;
+                }, 
+
+                isUserSearch: function() {
+                    return (this.searchId === 'users') ? true : false;
+                },
+
+            };
+        }
+        
+        if(this.params._id === 'products') {
             
-            isUserSearch: function() {
-                return (this.searchId === 'users') ? true : false;
-            },
+            return {
             
-            // USERS
-            
-            
+                searchId: this.params._id,
+
+                userAdmin: Admins.find({}).fetch(),
+                products: this.getElements('products'),
+
+                isUserPermited: function() {
+                    return (this.userAdmin.length > 0) ? true : false;
+                }, 
                 
-		};
+                isProductSearch: function() {
+                    return (this.searchId === 'products') ? true : false;
+                },
+
+            };
+            
+        }
+        
+		
 	},
 
 	onAfterAction: function() {

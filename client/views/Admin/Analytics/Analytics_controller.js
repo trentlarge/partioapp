@@ -342,9 +342,16 @@ AnalyticsController = RouteController.extend({
                 });
                 
                 var average = {
-                    days: Number(totalDays/connections.length).toFixed(0),
-                    price: Number(totalPrice/connections.length).toFixed(2)
-                } 
+                    days: 0,
+                    price: 0.00
+                }
+                
+                if(connections.lenght > 0) {
+                    average = {
+                        days: Number(totalDays/connections.length).toFixed(0),
+                        price: Number(totalPrice/connections.length).toFixed(2)
+                    }
+                }
                 
                 return average;
             },
@@ -517,7 +524,9 @@ AnalyticsController = RouteController.extend({
                     });
                 });
                 
-                averageSpending = Number(averageSpending/numberTransactions).toFixed(2);
+                if(numberTransactions > 0) {
+                    averageSpending = Number(averageSpending/numberTransactions).toFixed(2);
+                }
                 
                 return averageSpending;
             },

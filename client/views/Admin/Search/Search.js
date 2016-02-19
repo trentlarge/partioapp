@@ -2,6 +2,14 @@ Template.adminSearch.rendered = function() {
     Session.set("adminSearchPageNumber", 1);
     Session.set("adminSearchPageSize", 15);
     Session.set('adminSearchText', '');
+    
+    if(this.data.searchId === 'users') {
+         Session.set("adminSearchPlaceholder", 'Search for an user...');
+    } 
+    if(this.data.searchId === 'products') {
+         Session.set("adminSearchPlaceholder", 'Search for a product...');
+    } 
+    
 }
 
 Template.adminSearch.destroyed = function() {  
@@ -36,6 +44,10 @@ Template.adminSearch.events({
 // SEARCH BOX
 
 Template.adminSearchBox.helpers({
+    
+    placeholder: function() {
+        return Session.get("adminSearchPlaceholder");
+    },
     
     adminSearchText: function() {
         return Session.get('adminSearchText');    

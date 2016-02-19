@@ -2,7 +2,7 @@
 // Temporary solution - publish all users until we setup correct pub/sub mechanism
 //
 
-Meteor.publish("searchUsers", function(text, limit) {
+Meteor.publish("adminSearchUsers", function(text, limit) {
 	return Users.find({ 
         'profile.name': { $regex: ".*"+text+".*", $options: 'i' }, 
     }, { 

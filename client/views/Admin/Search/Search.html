@@ -42,6 +42,28 @@
                 
                 {{/if}}
                 
+                {{#if ../isProductSearch}}
+                
+                    {{#each products}}
+
+                        <div class="card">
+<!--                            <a class="item item-avatar" href="/admin/search/products/{{_id}}">-->
+                            <a class="item item-avatar" href="#">
+                              <img src="{{image}}">
+                              <span class="user-name">{{title}}</span> 
+                              <span class="user-email">{{ownerData.profile.name}}</span> 
+
+                              <div class="item-icon-right">
+                                {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
+                              </div>    
+                            </a>
+                        </div>
+
+                    {{/each}}
+                
+                
+                {{/if}}
+                
             </div>
     
             {{>loader}}
@@ -56,6 +78,6 @@
 <template name="adminSearchBox">
     <div class="admin-search-box">
         <i class="mdi mdi-magnify search-icon"></i>
-        <input type="text" class="search-input" placeholder="Search for an user..." value="{{adminSearchText}}">
+        <input type="text" class="search-input" placeholder="{{placeholder}}" value="{{adminSearchText}}">
     </div>
 </template>

@@ -2,6 +2,15 @@ Meteor.publish("adminSearchOwnerProducts", function(_ownerId) {
 	return Products.find({ ownerId: _ownerId });
 });
 
+Meteor.publish("adminSearchProducts", function(text, limit) {
+	return Products.find({ 
+        'title': { $regex: ".*"+text+".*", $options: 'i' }, 
+    }, { 
+        limit: limit, 
+        sort: { 'title': 1 }
+    });
+});
+
 Meteor.publish("products", function() {
 	return Products.find({});
 });
