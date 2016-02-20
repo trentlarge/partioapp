@@ -1,0 +1,62 @@
+<template name="promotions">
+
+  {{#contentFor "headerButtonLeft"}}
+    {{>ionNavBackButton}}
+  {{/contentFor}}
+
+  {{#contentFor "headerButtonLeft"}}
+    {{>ionNavBackButton}}
+  {{/contentFor}}
+
+  {{#contentFor "headerTitle"}}
+    <h1 class="title" style="text-align:center;">Promotions</h1>
+  {{/contentFor}}
+
+  {{#ionView}}
+    {{#ionContent class="promotions"}}
+        
+        {{#with user.private}}
+    
+            <div class="card">
+                <div class="item item-divider">
+                    <h2>Promotional Code</h2>
+                </div>
+
+                <div class="item center">
+                    <span class="promo-code">{{../getPromotionalCode}}</span>
+                </div>                
+            </div>
+    
+            <div class="card">
+                <div class="item item-divider">
+                    <h2>Best Friend</h2>
+                </div>
+                
+                <div class="item">
+                    <span class="promo-message center">Help a friend added him to receive part of your transactions!</span>
+                    <span class="promo-submessage padding-bottom center">Note: You can't add a friend that already added you.</span>
+                    <div class="center">
+                        <div class="promo-code">
+                            <input type="text" id="promoCode" placeholder="XXXXXX" maxlength="6">
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="card">
+                <div class="item item-divider">
+                    <h2>Friends</h2>
+                </div>
+                
+                <div class="item">
+                    <span class="promo-message center">Share this promotional code with your friends and receive part of their transactions!</span>
+                    <span class="promo-submessage center">Note: You can't add a friend that already added you.</span>
+                </div>
+            </div>
+            
+    
+        {{/with}}
+    
+    {{/ionContent}}
+  {{/ionView}}
+</template>

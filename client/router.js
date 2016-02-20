@@ -48,6 +48,7 @@ Router.route('/listing/search/request/:_id', { name: 'requestRent', controller: 
 Router.route('/transactions', { name: 'transactions', controller: 'TransactionsController' });
 Router.route('/profile/items/:_id', { name: 'items', controller: 'ItemsController' });
 Router.route('/profile', { name: 'profile', controller: 'ProfileController' });
+Router.route('/profile/promotions', { name: 'promotions', controller: 'PromotionsController' });
 Router.route('/profile/savedcards', { name: 'savedCards', controller: 'SavedCardsController' });
 Router.route('/profile/changepassword', { name: 'changePassword', controller: 'ChangePasswordController' });
 Router.route('/notifications', { name: 'notifications', controller: 'NotificationsController' }); //  Controlle OK
