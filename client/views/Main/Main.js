@@ -33,7 +33,8 @@ Template.main.rendered = function(){
 			if(!check) {
 				IonModal.open('updateProfile');
 			}
-		})	
+		})
 	}
-}
 
+	Meteor.call('checkFriendShareCode');
+}
