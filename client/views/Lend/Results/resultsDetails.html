@@ -21,6 +21,7 @@
                         </div>
                     </div>
 
+<!--
                     <div class="item item-divider features">
                         <h2>Features <i class="chevron-icon icon ion-chevron-up"></i></h2>
                     </div>
@@ -54,11 +55,23 @@
                             </div>
                         </div>
                     </div>
+-->
 
                     <label class="item item-input">
                         <input type="text" class="productTitle" placeholder="Title" value="{{title}}">
                     </label>
 
+                    <div class="item item-input item-select">
+                        <div class="input-label">
+                          <p style="height:16px;">Category:</p>
+                        </div>
+                        <select class="category" disabled>
+                            {{#each getCategories}}
+                                <option {{selectedCategory text}}>{{text}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+                    
                     <label class="item item-input item-select">
                         <div class="input-label">
                             <p>Condition:</p>
@@ -73,23 +86,47 @@
                     <div class="item item-divider">
                         <h2>Rent Price</h2>
                     </div>
+                    
+                    <div class="item row">
+                        <div class="col col-50">
+                            <div class="priceLabel">DAY</div>
+                            <input type="number" class="userPrice dayPrice" value="{{calculatedPriceDay}}" placeholder="0.00">
+                        </div>
+                        <div class="col col-50">
+                            <div class="priceLabel">WEEK</div>
+                            <input type="number" class="userPrice weekPrice" value="{{calculatedPriceWeek}}" placeholder="0.00">
+                        </div>
+                    </div>
+                    <div class="item row">
+                        <div class="col col-50">
+                            <div class="priceLabel">MONTH</div>
+                            <input type="number" class="userPrice monthPrice" value="{{calculatedPriceMonth}}" placeholder="0.00">
+                        </div>
+                        <div class="col col-50">
+                            <div class="priceLabel">SEMESTER</div>
+                            <input type="number" class="userPrice semesterPrice" value="{{calculatedPrice4Months}}" placeholder="0.00">
+                        </div>
+                    </div>
 
-                    <label class="item item-input">
-                        <span class="input-label"><p>Day:</p></span>
-                        <input type="number" class="userPrice dayPrice" placeholder="0.00" value="{{calculatedPriceDay}}">
-                    </label>
-                    <label class="item item-input">
-                        <span class="input-label"><p>Week:</p></span>
-                        <input type="number" class="userPrice weekPrice" placeholder="0.00" value="{{calculatedPriceWeek}}">
-                    </label>
-                    <label class="item item-input">
-                        <span class="input-label"><p>Month:</p></span>
-                        <input type="number" class="userPrice monthPrice" placeholder="0.00" value="{{calculatedPriceMonth}}">
-                    </label>
-                    <label class="item item-input">
-                        <span class="input-label"><p>Semester (4m):</p></span>
-                        <input type="number" class="userPrice semesterPrice" placeholder="0.00" value="{{calculatedPrice4Months}}">
-                    </label>
+                    <div class="item item-divider">
+                        Purchasing
+                    </div>
+
+                    <li class="item row">
+                        <div class="col col-50">
+                            <div class="priceLabel">PRICE</div>
+                            <input type="number" class="userPrice sellingPrice" value="{{sellingPrice}}" placeholder="0.00">
+                        </div>
+                        <div class="col col-50">
+                             <label class="toggle toggle-assertive">
+                               <input type="checkbox">
+                               <div class="track">
+                                 <div class="handle"></div>
+                               </div>
+                             </label>
+                             <span class="enablePurchasing">OFF</span>
+                        </div>
+                    </li>
                     
                     <label class="item item-button">
                         <button class="submitProduct button button-block button-energized" {{waitingForPrices}}>

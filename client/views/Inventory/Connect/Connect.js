@@ -20,8 +20,7 @@ Template.connect.events({
 	'click #confirmReturn': function() {
 		var connection = this.connectData;
 		var requestor = Users.findOne({ _id: connection.requestor });
-		var productTitle = connection.productData.title;
-		var searchCollectionId = Search.findOne({title: productTitle});
+        var productId = connection.productData._id;
 
 		IonPopup.confirm({
 			cancelText: 'No',
@@ -32,7 +31,7 @@ Template.connect.events({
 
 			},
 			onOk: function() {
-				Meteor.call('confirmReturn', searchCollectionId, connection._id, function(err, res) {
+				Meteor.call('confirmReturn', connection._id, productId, function(err, res) {
 					IonPopup.close();
 					if(err) {
 						var errorMessage = err.reason || err.message;
@@ -87,6 +86,7 @@ Template.connect.events({
 
   	'click #cancelRequest': function() {
 		connectionId = this.connectData._id;
+        productId = this.connectData.productData._id;
 
 		IonPopup.confirm({
 			cancelText: 'No',
@@ -97,7 +97,7 @@ Template.connect.events({
 
 			},
 			onOk: function() {
-				Meteor.call('updateConnection', connectionId, function(err, res) {
+				Meteor.call('updateConnection', connectionId, productId, function(err, res) {
 					if(err) {
 						var errorMessage = err.reason || err.message;
 						if(err.details) {

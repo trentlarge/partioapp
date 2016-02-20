@@ -221,6 +221,7 @@ Template.connectRent.events({
 
 	'click #cancelRequest': function() {
 		connectionId = this.connectData._id;
+        productId = this.connectData.productData._id;
 
 		IonPopup.confirm({
 			cancelText: 'No',
@@ -232,7 +233,7 @@ Template.connectRent.events({
 			},
 			onOk: function() {
                 //remove data from client is not a good pratice
-                Meteor.call('updateConnection', connectionId, function(err, res) {
+                Meteor.call('updateConnection', connectionId, productId, function(err, res) {
 					if(err) {
 						var errorMessage = err.reason || err.message;
 						if(err.details) {

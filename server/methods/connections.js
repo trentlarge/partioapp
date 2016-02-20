@@ -14,8 +14,11 @@ Meteor.methods({
         Connections.remove(idConnection);
     },
     
-	updateConnection: function(idConnection) {
+	updateConnection: function(idConnection, productId) {
         Connections.update({ _id: idConnection }, { $set: { finished: true }})
+        if(productId) {
+            Products.update({_id: productId}, {$set: {"borrow": false, "purchasing": false}});
+        }
 	},
 
 	'submitRating': function(rating, personId, ratedBy) {
@@ -59,10 +62,12 @@ Meteor.methods({
 		sendNotification(connect.requestor, connect.productData.ownerId, message, "info", connectionId);
 	},
     
-	confirmReturn: function(searchId, connectionId) {
+	confirmReturn: function(connectionId, productId) {
 		var connect = Connections.findOne({ _id: connectionId, finished: { $ne: true }});
 		var ownerName = Meteor.users.findOne(connect.productData.ownerId).profile.name;
-
+        
+        Products.update({_id: productId}, {$set: {"borrow": false}});
+        
 		var message = ownerName + " confirmed your return of " + connect.productData.title;
 		sendPush(connect.requestor, message);
 		sendNotification(connect.requestor, connect.productData.ownerId, message, "info", connectionId);
@@ -106,6 +111,8 @@ Meteor.methods({
 			}
 		});
 
+        Products.update({_id: productId}, {$set: {"purchasing": true}});
+        
 		Meteor.call('checkTransaction', requestorId);
 		Meteor.call('checkTransaction', ownerId);
 
@@ -150,6 +157,8 @@ Meteor.methods({
 				}
 			}
 		});
+        
+        Products.update({_id: productId}, {$set: {"borrow": true}});
 
 		Meteor.call('checkTransaction', requestorId);
 		Meteor.call('checkTransaction', ownerId);

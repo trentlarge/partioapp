@@ -1,0 +1,158 @@
+<template name="adminSearchDetails">
+    {{#contentFor "headerButtonLeft"}}
+        {{>ionNavBackButton}}
+    {{/contentFor}}
+
+    {{#contentFor "headerTitle"}}
+        <h1 class="title" style="text-align:center;">Search</h1>
+    {{/contentFor}}
+
+    {{#contentFor "headerButtonRight"}}
+        <a href="/" class="button button-clear">
+            <img id="spinner-logo-simple" src="{{ getImage 'spinner-logo' }}" />
+        </a>
+    {{/contentFor}}
+    
+    {{#ionView}}
+        {{#ionContent class="admin-search-details"}}    
+
+        {{#if isUserPermited}}
+    
+            <div class="list">
+                
+                {{#if isUserDetails}}
+
+                    {{#with user}}
+
+                        <div class="card">
+                            <div class="profilehead item" >
+                                <div class="profile-image-container">
+                                    <div class="profile-avatar" style="background: url('{{profile.avatar}}') no-repeat; background-size:cover; background-position: 50% 50%;"></div>
+                                </div>
+                                <div class="center">
+                                    <span class="profile-name">{{profile.name}}</span>
+                                    <span  class="rating-box">{{ > rating}}</span>
+                                </div>
+                            </div>
+
+                            <div class="item item-input">
+                                <i class="icon ion-ios-email"></i>
+                                <input id="email" type="text" value="{{ emails.[0].address }}" disabled>
+                            </div>
+                            <div class="item item-input">
+                                <i class="icon ion-ios-telephone"></i>
+                                <input id="mobile" type="text" value="{{ private.mobile }}" disabled>
+                            </div>
+                            <div class="item item-input">
+                                <i class="icon ion-ios-calendar"></i>
+                                <input id="birthDate" data-date-format="mm/dd/yyyy" type="text" value="{{ profile.birthDate }}" disabled>
+                            </div>
+                            <div class="item item-input item-select">
+                                <i class="icon ion-android-locate"></i>
+                                <div class="input-label border-radius-20"><p>Location</p></div>
+                                <select id="college" class="border-radius-20" disabled>
+                                    <option value="1" {{isLocationSelected 1}}>Duke University</option>
+                                    <option value="2" {{isLocationSelected 2}}>Yale University</option>
+                                    <option value="0" {{isLocationSelected 0}}>Other</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="item item-divider">
+                                <h2>Products</h2>
+                            </div>
+                            <div class="item">
+                                <span>Total: {{../getUserProductsLength}}</span>
+                            </div>    
+                        </div>
+
+                        <div class="card">
+                            <div class="item item-divider">
+                                <h2>Connections</h2>
+                            </div>
+                            <div class="item">
+                                <span>Total (Owner): {{../getUserConnectionsOwnerLength}}</span>
+                            </div>
+                            <div class="item">
+                                <span>Total (Requestor): {{../getUserConnectionsRequestorLength}}</span>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="item item-divider">
+                                <h2>Transactions</h2>
+                            </div>
+                            <div class="item">
+                                <span>Total (Spending): {{../getUserTransactionsSpendingLength}}</span>
+                            </div>
+                            <div class="item">
+                                <span>Total (Earning): {{../getUserTransactionsEarningLength}}</span>
+                            </div>
+                        </div>
+
+                    {{/with}}
+
+                {{/if}}
+                
+                {{#if isProductDetails}}
+                
+                    {{#with product}}
+                
+                        <div class="card">
+                            <div class="item">
+                                <span class="product-title">{{title}}</span>
+                                <div class="image-container">
+                                    <img src="{{image}}">
+                                </div>
+                            </div>
+                            
+                            <div class="item item-divider">
+                                <h2>Rent Price</h2>
+                            </div>
+
+                            <div class="item row">
+                                <div class="col col-50">
+                                    <div class="priceLabel">DAY</div>
+                                    <input type="number" class="price dayPrice" value="{{rentPrice.day}}" placeholder="0.00" disabled>
+                                </div>
+                                <div class="col col-50">
+                                    <div class="priceLabel">WEEK</div>
+                                    <input type="number" class="price weekPrice" value="{{rentPrice.week}}" placeholder="0.00" disabled>
+                                </div>
+                                </div>
+                                <div class="item row">
+                                <div class="col col-50">
+                                    <div class="priceLabel">MONTH</div>
+                                    <input type="number" class="price monthPrice" value="{{rentPrice.month}}" placeholder="0.00" disabled>
+                                </div>
+                                <div class="col col-50">
+                                    <div class="priceLabel">SEMESTER</div>
+                                    <input type="number" class="price semesterPrice" value="{{rentPrice.semester}}" placeholder="0.00" disabled>
+                                </div>
+                            </div>
+                            
+                        </div>
+                
+                        <div class="card">
+                            <a class="item item-avatar" href="/admin/search/users/{{ownerId}}">
+                              <img src="{{ownerData.profile.avatar}}">
+                              <span class="user-name">{{ownerData.profile.name}}</span> 
+                              <div class="item-icon-right">
+                                {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
+                              </div>    
+                            </a>
+                        </div>
+                
+                    {{/with}}
+                
+                {{/if}}
+
+            </div>
+    
+        {{/if}}
+    
+        {{/ionContent}}
+    {{/ionView}}
+
+</template>

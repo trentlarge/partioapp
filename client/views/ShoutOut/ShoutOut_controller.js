@@ -11,14 +11,39 @@ ShoutOutController = RouteController.extend({
 
 	waitOn: function() {
         return [
-            Meteor.subscribe('shoutout')
+            //Meteor.subscribe('shoutout')
         ];
 	},
+    
+    shouts: function() {
+        
+        var pageNumber = Session.get('shoutsPageNumber');
+        var pageSize = Session.get('shoutsPageSize');
+        
+        var limit = pageSize * pageNumber;
+        
+        if(Session.get('tabMyShouts')) {
+            Meteor.subscribe('myShoutout', Meteor.userId(), limit, function() {
+                $('.loadbox').fadeOut();
+            });
+        }
+        else {
+            Meteor.subscribe('shoutout', limit, function() {
+                $('.loadbox').fadeOut();
+            });
+        }
+        
+        return ShoutOut.find({}, {sort: {createdAt: -1}}).fetch();
+    },
     
     data: function() {
         
 		return {
-            shouts: ShoutOut.find({}, {sort: {createdAt: -1}}).fetch(),
+            shouts: this.shouts(),
+            
+            isTypeShout(type) {
+                return (type === 'shout') ? true : false;
+            },
             
             getTime: function(createdAt) {
                 

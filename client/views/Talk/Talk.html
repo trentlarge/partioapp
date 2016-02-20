@@ -7,9 +7,10 @@
     <h2 class="title" style="text-align:center;"><i class="icon ion-chatbubbles user-messages-top-icon"></i> <div class="msg-header-username">{{chatWith}}</div></h2>
   {{/contentFor}}
 
-  {{#ionView}}
+  {{#ionView class="talk-view"}}
     {{#ionContent class="talk-content"}}
 
+<!--
       {{#if Template.subscriptionsReady}}
         <script>
           $('.loadbox').fadeOut('medium',function(){
@@ -19,16 +20,17 @@
       {{/if}}
 
       {{>loader}}
+-->
       
-      <div class="loading-wrapper">
-        <div class="list talk-list padding-horizontal" data-keyboard-attach>
+<!--      <div class="loading-wrapper">-->
+        <div class="list talk-list padding-horizontal">
           {{#each messages}}
             {{> message}}
           {{/each}}
 
           <div class="cf"></div>
         </div>
-      </div>
+<!--      </div>-->
 
     {{/ionContent}}
 

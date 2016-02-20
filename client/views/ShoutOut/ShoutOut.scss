@@ -1,11 +1,30 @@
 .shout-out {
     
-    .item-input-wrapper {
-        background-color: #ffffff;
+    #messageInput {
+        width: 100%;
+    }
+    
+    .hidden { display: none; }
+    
+    .content {
+        height: calc(100% - 135px);
     }
     
     .card {
-        margin: 10px 10px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+    
+    .tab-item {
+        background-color: #353535;
+        
+        &.active {
+            background-color: #272727;
+        }
+    }
+    
+    .item-input-wrapper {
+        background-color: #ffffff;
     }
     
     .item {
@@ -13,6 +32,7 @@
         p {
             white-space: normal;
             padding-right: 10px;
+            overflow: visible;
         }
         
         .user-name {
@@ -22,12 +42,15 @@
         
         .user-message {
             font-weight: bold;
+            line-height: 16px;
         }
         
         .user-time {
             font-size: 12px;
+            height: 15px;
             color: #757575;
             padding-top: 2px;
         }
+
     }
 }

@@ -34,46 +34,15 @@
                         <img class="product-avatar-inner" src="{{product.image}}">
                     </a>
                 </div>
-                <p class="product-title-text">{{product.title}}</p>
             </div>
             
-<!--
-            <div class="item item-divider features">
-                <h2>Features <i class="chevron-icon icon ion-chevron-up"></i></h2>
-              </div>
-
-              <div class="features-details" style="display: none">
-                    <div class="item no-padding row-details">
-                        <div class="col col-50">
-                            <div class="details-box">
-                                <i class="icon {{getCategoryIcon}} bk-energized"></i>
-                                <span class="detail">{{product.amazonCategory}}</span>
-                            </div>
-                        </div>
-                        <div class="col col-50">
-                            <div class="details-box">
-                                <i class="icon ion-cash bk-energized"></i>
-                                <span class="detail">{{product.price}}</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row item attributes">
-                        <div class="col col-33">
-                            {{#each product.attributes}}
-                                <p><b>{{key}}</b></p>
-                            {{/each}}
-                        </div>
-                        <div class="col col-67 scan-result">
-                            {{#each product.attributes}}
-                                <p>{{value}}</p>
-                            {{/each}}
-                        </div>
-                    </div>
+            <div class="item title">
+                <div class="card">
+                    <p class="product-title-text">{{product.title}}</p>
                 </div>
--->
+            </div>
             
-            <div class="item item-divider">Rent Details</div>
+<!--            <div class="item item-divider">Rent Details</div>-->
             
             <div class="item">
 
@@ -105,14 +74,20 @@
                     <p class="condition">Condition: <b>{{ ../getCondition }}</b></p>
                     
                     {{#if ../requestSent ownerId _id}}
-                        {{#if ../isBorrowed ownerId _id}}
+                        {{#if ../isBorrowedByUser ownerId _id}}
                             <button class="button button-block" disabled>
-                                BORROWED 
+                                REQUEST SENT
                             </button>
                         {{else}}
-                            <button class="button button-block" disabled> 
-                                REQUEST SENT 
-                            </button>
+                            {{#if isPurchasingByUser}}
+                                <button class="button button-block" disabled> 
+                                    PURCHASING
+                                </button>
+                            {{else}}
+                                <button class="button button-block" disabled> 
+                                    BORROWED
+                                </button>
+                            {{/if}}
                         {{/if}}
                     {{else}}
                         {{#if ../isNotOwner _id}}
