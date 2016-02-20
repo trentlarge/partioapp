@@ -34,6 +34,11 @@ AdminSearchDetailsController = RouteController.extend({
         Meteor.subscribe('adminSearchUserTransactions', userId);
         return Transactions.findOne({ "userId": userId });
     },
+    
+    getProduct: function(productId) {
+        Meteor.subscribe('singleProduct', productId);
+        return Products.findOne(productId);
+    },
 
 	data: function() {
 
@@ -43,7 +48,6 @@ AdminSearchDetailsController = RouteController.extend({
 
                 searchId: this.params._id,
                 userId: this.params.elementId,
-
                 userAdmin: Admins.find({}).fetch(),
                 
                 user: this.getUser(this.params.elementId),
@@ -106,6 +110,27 @@ AdminSearchDetailsController = RouteController.extend({
                 },
 
             }
+        }
+            
+        else if(this.params._id === 'products') {
+            
+            return {
+                
+                searchId: this.params._id,
+                productId: this.params.elementId,
+                userAdmin: Admins.find({}).fetch(),
+                
+                product: this.getProduct(this.params.elementId),
+
+                isUserPermited: function() {
+                    return (this.userAdmin.length > 0) ? true : false;
+                },  
+                
+                isProductDetails: function() {
+                    return (this.searchId === 'products') ? true : false;
+                },
+            }
+            
         }
 	},
 
