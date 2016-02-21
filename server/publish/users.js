@@ -12,14 +12,6 @@ Meteor.publish("adminSearchUsers", function(text, limit) {
     });
 });
 
-Meteor.publish("userBestFriend", function(promoCode) {
-	return Users.find({ 'private.promotions.friendShare.code': promoCode }, { fields: { profile: 1, 'private.promotions': 1 }});
-});
-
-Meteor.publish("userFriends", function(friends) {
-	return Users.find({ _id: { $in: friends }}, { fields: { profile: 1 }});
-});
-
 Meteor.publish("searchSingleUser", function(idUser) {
 	return Users.find({ _id: idUser }, { fields: { emails: 1, profile: 1, private: 1, createdAt: 1 }});
 });
