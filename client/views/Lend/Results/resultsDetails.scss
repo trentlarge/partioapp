@@ -49,10 +49,6 @@
         margin-left: 0;
     }
     
-    select:disabled {
-        opacity: .6;
-    }
-    
     .features-details {
         border-top: 0;
         border-bottom: 0;
@@ -110,25 +106,6 @@
     .item-button {
         padding-top: 5px;
         padding-bottom: 5px;
-    }
-    
-    .priceLabel {
-        font-size: 10px;
-    }
-    
-    input.userPrice {
-        height: 20px;
-    }
- 
-    .toggle {
-        float: right
-    }
-    
-    .enablePurchasing {
-        float: right;
-        margin-top: 10px;
-        margin-right: 5px;
-        font-size: 10px;
     }
     
 }

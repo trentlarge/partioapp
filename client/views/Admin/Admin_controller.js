@@ -8,11 +8,11 @@ AdminController = RouteController.extend({
 	},
 
 	waitOn: function() {
-        
-        var user = Users.findOne({_id: Meteor.userId()});
-        
 		return [
-            Meteor.subscribe("userAdmin", user.emails[0].address),
+//            Meteor.subscribe("users"),
+//			  Meteor.subscribe("products"),
+//            Meteor.subscribe("allConnections"),
+//            Meteor.subscribe("transactions")
 		];
 	},
 
@@ -20,7 +20,6 @@ AdminController = RouteController.extend({
         
 		return {
             
-            userAdmin: Admins.find({}).fetch(),
             user: Users.findOne({_id: Meteor.userId()}),
 //            users: Users.find({}).fetch(),
 //            products: Products.find({}).fetch(),
@@ -28,13 +27,27 @@ AdminController = RouteController.extend({
 //            transactions: Transactions.find({}).fetch(),
 //            
             isUserPermited: function() {
-                return (this.userAdmin.length > 0) ? true : false;
-//                return ($.inArray(this.user.emails[0].address, Admin.getPermitedUsers()) >= 0) ? true : false;
+                
+                var permitedUsers = [
+                    "talles.souza@duke.edu",
+                    "talles@gmail.com",
+                    "trentonlarge@gmail.com",
+                    "trenton.large@duke.edu",
+                    "petar.korponaic@gmail.com",
+                    "korponaic@gmail.com",
+                    "claytonmarinho@gmail.com",
+                    "breno.wd@gmail.com",
+                    "lucasbr.dafonseca@gmail.com",
+                    "flashblade123@gmail.com",
+                    "cw249@duke.edu",
+                    "whitney.hazard@duke.edu",
+                    "michael.x.li@duke.edu",
+                    "mxl3@duke.edu"
+                ];
+                
+                return ($.inArray(this.user.emails[0].address, permitedUsers) >= 0) ? true : false;
+                
             },
-            
-            isUserAdmin: function() {
-                return this.userAdmin[0].admin;
-            }
 //            
 //            getUsersLenght: function() {
 //                return this.users.length;  

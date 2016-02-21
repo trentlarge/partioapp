@@ -158,6 +158,7 @@ Template.results.events({
 
         Session.set('itemNotFound', itemNotFound);
         Session.set('lendTab', 'manual');
+
     },
 
     // hide/show products by category
@@ -165,16 +166,45 @@ Template.results.events({
         var category = $('.' + $(this)[0].amazonCategory.replace(/\s/g,"").replace(/\&/g,""));
         var categoryMenu = $('.' + $(this)[0].amazonCategory.replace(/\s/g,"").replace(/\&/g,"") + '-menu');
 
-        Animations.accordion(categoryMenu, category);
+        if(!category.is(':visible')){
+            category.slideDown('fast');
+            categoryMenu.find('.chevron-icon').removeClass('ion-chevron-up').addClass('ion-chevron-down');
+        }
+        else {
+            category.slideUp('fast');
+            categoryMenu.find('.chevron-icon').removeClass('ion-chevron-down').addClass('ion-chevron-up');
+        }
+
     },
 
     'click .product': function(e, template) {
 
-        var _this = this;
-        
-        Session.set('scanResult', _this);
-        Router.go('/lend/details');
-        Session.set('lendTab', 'resultDetails');
+      var _this = this;
+
+        //Session.set('allResults', );
+        //Meteor.call('userCanShare', function(error, result){
+          //if(!result) {
+            // IonPopup.show({
+            //   title: 'Update profile',
+            //   template: '<div class="center">Please, update your debit card to share this item.</div>',
+            //   buttons: [{
+            //     text: 'OK',
+            //     type: 'button-energized',
+            //     onTap: function() {
+            //       IonPopup.close();
+            //       Router.go('/profile/savedcards/');
+            //     }
+            //   }]
+            // });
+            // return false;
+
+          // } else {
+          //
+          Session.set('scanResult', _this);
+          Router.go('/lend/details');
+          Session.set('lendTab', 'resultDetails');
+          //}
+      //});
     },
 });
 

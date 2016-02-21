@@ -2,20 +2,6 @@
 // Temporary solution - publish all users until we setup correct pub/sub mechanism
 //
 
-Meteor.publish("adminSearchUsers", function(text, limit) {
-	return Users.find({ 
-        'profile.name': { $regex: ".*"+text+".*", $options: 'i' }, 
-    }, { 
-        limit: limit, 
-        sort: { 'profile.name': 1 },
-        fields: { emails: 1, profile: 1, createdAt: 1 }
-    });
-});
-
-Meteor.publish("searchSingleUser", function(idUser) {
-	return Users.find({ _id: idUser }, { fields: { emails: 1, profile: 1, private: 1, createdAt: 1 }});
-});
-
 Meteor.publish("users", function() {
 	return Users.find({}, { fields: { emails: 1, profile: 1, createdAt: 1 }});
 //    return Users.find({});

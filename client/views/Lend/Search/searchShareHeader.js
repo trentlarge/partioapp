@@ -63,12 +63,12 @@ Template.searchShareHeader.events({
 
             if(Session.get('lendTab') !== 'barcode') {
                 Session.set('lendTab', 'camfind');
-                PartioLoad.show('Searching similar products...');
-//                PartioLoad.show('Calculating prices...');
+//                PartioLoad.show('Searching similar products...');
+                PartioLoad.show('Calculating prices...');
             }
             else {
-                PartioLoad.show('Searching barcode...');
-//                PartioLoad.show('Calculating prices...');
+//                PartioLoad.show('Searching barcode...');
+                PartioLoad.show('Calculating prices...');
             }
 
             //get keywords
@@ -77,10 +77,10 @@ Template.searchShareHeader.events({
             //check if exist in all results cache
             if(Lend.allResultsCache[key]) {
 
-//                callResultDetails(Lend.allResultsCache[key]);
+                callResultDetails(Lend.allResultsCache[key]);
                 
-                Session.set('allResults', Lend.allResultsCache[key]);
-                Session.set('lendTab', 'results');
+//                Session.set('allResults', Lend.allResultsCache[key]);
+//                Session.set('lendTab', 'results');
                 
                 Lend.latestProduct = key;
                 
@@ -114,10 +114,10 @@ Template.searchShareHeader.events({
                         Lend.allResultsCache[key] = result;
                         Lend.latestProduct = key;
                         
-//                        callResultDetails(result);
+                        callResultDetails(result);
                         
-                        Session.set('allResults', result);
-                        Session.set('lendTab', 'results');
+//                        Session.set('allResults', result);
+//                        Session.set('lendTab', 'results');
                         
                         PartioLoad.hide();
                         $(".modal").css("background-image", "");

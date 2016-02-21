@@ -123,12 +123,7 @@ Template.talk.events({
 		} else {
 			$("#chatSubmit").addClass("disabled");
 		}
-	},
-    
-    'DOMNodeInserted .content': function(e, t) {
-        $('.content').scrollTop($('.talk-content')[0].scrollHeight);
-    }
-    
+	}
 });
 
 Template.message.helpers({

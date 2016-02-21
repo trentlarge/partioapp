@@ -21,36 +21,14 @@
             {{#with shout}}
     
                 <div class="list card">
-                    <div class="item item-avatar">
+                    <a class="item item-avatar" href="#">
                       <img src="{{user.avatar}}">
                       <p>
                           <span class="user-name">{{user.name}}</span> 
                           <span class="user-message">{{message}}</span>
                       </p>
                       <p class="user-time">{{../getTime createdAt}}</p>
-                    </div>
-                    <div class="item center no-border no-padding-top">
-                        <h2>Have this product?</h2>
-                        <a class="share-it" data-ion-modal="shoutoutShare">SHARE</a> 
-                        <a href="/lend" class="add-it">ADD</a>
-                    </div>
-                    {{#each sharedProducts}}
-                        <a class="item product-item" href="/listing/search/{{_id}}?ownerId={{ownerData._id}}">
-                            <div class="product-image">
-                                <img src="{{image}}">
-                            </div>
-                            <div class="product-content">
-                                <p>
-                                    <span class="shared-name">{{ownerData.profile.name}}</span>  
-                                    shared <b> {{title}}.</b>
-                                </p>
-                            </div>
-                            <div class="item-icon-right">
-                                {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
-                            </div>   
-                        </a>
-                    {{/each}}
-                    
+                    </a>
                 </div>
     
             {{/with}}
@@ -58,42 +36,5 @@
         {{/ionContent}}
     
     {{/ionView}}
-    
-</template>
-
-<template name="shoutoutShare">
-
-    {{#ionModal title="Share Item" class="shout-out-share-item"}}
-    
-        {{#each getProducts}}
-            <a class="item item-avatar-2 share-item">
-                <div class="product-avatar my-products">
-                    <img class="product-avatar-inner" src="{{image}}"/>
-                </div>
-                <p class="main-title-text">{{title}}</p>
-                <p class="main-sub-text">Condition: <b>{{getCondition conditionId}}</b></p>
-                <p class="main-sub-text">
-                <table class="rent-table">
-                  <tbody>
-                      <tr>
-                          <th class="one"><i class="icon">DAY</i></th>
-                          <th class="two"><i class="icon">WEEK</i></th>
-                          <th class="three"><i class="icon">MONTH</i></th>
-                          <th class="four"><i class="icon">SEMESTER</i></th>
-                      </tr>
-                      <tr>
-                          <td>{{rentPrice.day}}</td>
-                          <td>{{rentPrice.week}}</td>
-                          <td>{{rentPrice.month}}</td>
-                          <td>{{rentPrice.semester}}</td>
-                      </tr>
-                  </tbody>
-                </table>
-                </p>
-            </a>
-    
-        {{/each}}
-    
-    {{/ionModal}}
     
 </template>

@@ -74,7 +74,7 @@ Template.profile.events({
   'click #changePassword': function() {
   IonPopup.alert({
     title: 'Changing Password',
-    template: 'Work in progress',
+    template: '<div class="center">Work in progress</div>',
     okText: 'Got It!'
   });
   },
@@ -93,7 +93,7 @@ Template.profile.events({
         IonPopup.alert({
         	okText: 'Enter',
         	title: 'Succesfully',
-        	template: 'Send the link again, please check your email.',
+        	template: '<div class="center">Send the link again, please check your email.</div>',
         	onOk: function() {
         	}
         });

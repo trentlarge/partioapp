@@ -6,7 +6,7 @@
     "cloudSightKey" : "_ALbqMxPQlSXWt77oFVAdA",
     "twilioAccount" : "ACa259379ccf43ebe0af6e2eb7f3bffc93",
     "twilioKey" : "50582e08bc2d140b8e940fe1a54d9623",
-    "twilioXml" : "https://v1-5-4.partiodemo.com/twilio/",
+    "twilioXml" : "http://partiodemo.com/twilio/",
     "partioSite" : "http://partioapp.com/"
   },
   "AWSAccessKeyId": "AKIAIQK2APPMYYIAKOJQ",

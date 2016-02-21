@@ -1,4 +1,4 @@
 <template name="rating">
-  <div class="rateit clean-stars" data-rateit-value="{{avgRating product.ownerData._id _id connectData._id}}" data-rateit-ispreset="true" data-rateit-readonly="true" data-rateit-starwidth="20" data-rateit-starheight="20"></div>
-    <p class="rating-number">({{getRatingNumber product.ownerData._id _id connectData._id }})</p>
+  <div class="rateit clean-stars" data-rateit-value="{{avgRating product.ownerData._id connectData._id}}" data-rateit-ispreset="true" data-rateit-readonly="true" data-rateit-starwidth="20" data-rateit-starheight="20"></div>
+    <p class="rating-number">({{getRatingNumber product.ownerData._id connectData._id }})</p>
 </template>

@@ -8,7 +8,6 @@
 
 .bar.bar-subheader.categoriesFilter {
     background-color: #272727;
-    top: 43px;
 }
 
 .no-items {
@@ -16,7 +15,7 @@
 }
 
 .categoriesFilter {
-
+    
     .row {
         padding: 0;     
         margin: 0;
@@ -153,18 +152,6 @@
             padding-right: 5px;
             border-top-left-radius: 10px;
             border-bottom-right-radius: 10px;
-            color: #ffffff;
-        }
-        
-        .borrow-badge {
-            position: absolute;
-            bottom: 76px;
-            right: 5px;
-            background-color: #df5707;
-            font-size: 11px;
-            padding-left: 10px;
-            padding-right: 5px;
-            border-top-left-radius: 10px;
             color: #ffffff;
         }
 

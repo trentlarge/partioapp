@@ -1,7 +1,3 @@
-Meteor.publish("adminSearchUserConnections", function(userId) {
-	return Connections.find({ $or: [ { "owner": userId }, { "requestor": userId } ] })
-});
-
 Meteor.publish("allConnections", function() {
 	return Connections.find({});
 });

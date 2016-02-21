@@ -11,25 +11,13 @@ ShoutOutDetailsController = RouteController.extend({
 
 	waitOn: function() {
         return [
-            //Meteor.subscribe('shoutoutDetails', this.params._id),
-            //Meteor.subscribe('myProducts')
+            Meteor.subscribe('shoutoutDetails', this.params.id)
         ];
 	},
     
-    getShout: function() {
-        Meteor.subscribe('shoutoutDetails', this.params._id);
-        return ShoutOut.findOne(this.params._id);
-    },
-    
-    getProducts: function() {
-        Meteor.subscribe('myProducts');
-        return Products.find({}).fetch();
-    },
-    
     data: function() {
 		return {
-            shout: this.getShout(),
-            products: this.getProducts(),
+            shout:  ShoutOut.findOne(this.params.id),
             
             getTime: function(createdAt) {
                 
@@ -89,8 +77,7 @@ ShoutOutDetailsController = RouteController.extend({
                 
                 return 'now';
                 
-            },
-            
+            }
         }
     },
     

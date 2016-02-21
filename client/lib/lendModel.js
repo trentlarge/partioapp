@@ -131,27 +131,6 @@ app.model.Lend = (function () {
           sAlert.error(errorMessage);
           return;
         }
-          
-        // ADD SHOUT
-          
-//        manualProduct._id = res;
-//          
-//        var shout = {
-//            message: 'shared "' + manualProduct.title + '"',
-//            sharedProducts: []
-//        }
-//        
-//        shout.sharedProducts.push(manualProduct);
-//          
-//        Meteor.call('insertShoutOut', Meteor.userId(), shout.message, 'share', shout.sharedProducts, function(err, res) {
-//          if(err) {
-//            var errorMessage = err.reason || err.message;
-//            if(err.details) {
-//              errorMessage = errorMessage + "\nDetails:\n" + err.details;
-//            }
-//            sAlert.error(errorMessage);
-//          }  
-//        });
 
         self.clearPrices();
 
@@ -188,27 +167,6 @@ app.model.Lend = (function () {
           return;
         }
 
-        // ADD SHOUT
-          
-//        product._id = res;
-//          
-//        var shout = {
-//            message: 'shared "' + product.title + '"',
-//            sharedProducts: []
-//        }
-//        
-//        shout.sharedProducts.push(product);
-//          
-//        Meteor.call('insertShoutOut', Meteor.userId(), shout.message, 'share', shout.sharedProducts, function(err, res) {
-//          if(err) {
-//            var errorMessage = err.reason || err.message;
-//            if(err.details) {
-//              errorMessage = errorMessage + "\nDetails:\n" + err.details;
-//            }
-//            sAlert.error(errorMessage);
-//          }  
-//        });
-          
         self.clearPrices();
 
         IonPopup.show({

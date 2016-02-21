@@ -1,6 +1,6 @@
 Meteor.methods({
 	insertProduct: function(product) {
-		return Products.insert(product);
+		Products.insert(product);
 	},
 
 	updateProductData: function(productId, image, title, category, conditionId, rentPrice, selling) {

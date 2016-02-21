@@ -58,12 +58,9 @@ SearchController = RouteController.extend({
           return Connections.findOne({"requestor": Meteor.userId(), finished: { $ne: true }, "owner": this.product.ownerId, "productData._id": this.product._id}) ? true : false;
         }
       },
-      isPurchasingByUser: function() {
-        return this.product.purchasing;   
-      },
-      isBorrowedByUser: function() {
+      isBorrowed: function() {
         if(this.product){
-          return Connections.findOne({"requestor": Meteor.userId(), finished: { $ne: true }, "owner": this.product.ownerId, "productData._id": this.product._id, "state":"WAITING"}) ? true : false;
+          return Connections.findOne({"requestor": Meteor.userId(), finished: { $ne: true }, "owner": this.product.ownerId, "productData._id": this.product._id, "state":"WAITING"}) ? false : true;
         }   
       },
       isUnavailable: function() {
