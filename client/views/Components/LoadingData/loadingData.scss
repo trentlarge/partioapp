@@ -1,25 +1,21 @@
 @import "../../../styles/app-variables";
 
 .loadingBg {
-    height: 100%;
-    min-width: 100%;
+    min-height: 100%;
+    width: 100%;
     display: flex;
     position: absolute;
-    background-size: cover; 
-    -webkit-background-size: cover; 
-    -moz-background-size: cover; 
-    -o-background-size: cover;
 }
 
 .loading-container {
     min-height: 100%;
-    background-color: rgba(39, 39, 39, 0.6);
-//    background: #4f4f4f; /* Old browsers */
-//    background: -moz-linear-gradient(top, #4f4f4f 1%, #272727 100%); /* FF3.6-15 */
-//    background: -webkit-linear-gradient(top, #4f4f4f 1%,#272727 100%); /* Chrome10-25,Safari5.1-6 */
-//    background: linear-gradient(to bottom, #4f4f4f 1%,#272727 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-//    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4f4f4f', endColorstr='#272727',GradientType=0 ); /* IE6-9 */
-    
+    background-color: #272727;
+    background: #4f4f4f; /* Old browsers */
+    background: -moz-linear-gradient(top, #4f4f4f 1%, #272727 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, #4f4f4f 1%,#272727 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, #4f4f4f 1%,#272727 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4f4f4f', endColorstr='#272727',GradientType=0 ); /* IE6-9 */
+
     .message {
         color: $royal;
         color: #EF9A18;

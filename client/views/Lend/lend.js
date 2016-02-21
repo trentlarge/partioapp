@@ -119,7 +119,7 @@ Template.lend.rendered = function() {
     Session.set('lendTab', 'manual');
     Session.set('cardManualEntry', null)
   } else {
-    Session.set('lendTab', 'manual');
+    Session.set('lendTab', 'camfind');
   }
 }
 

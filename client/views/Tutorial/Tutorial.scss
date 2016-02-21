@@ -1,38 +1,4 @@
 .tutorial {
-    
-    .start-tutorial {
-        display: flex;
-        display: -webkit-flex;
-        align-items: center;
-        -webkit-align-items: center;
-        justify-content: center;
-        -webkit-justify-content: center;
-        height: 100%;
-        flex-direction: column;
-        
-        .logo-container {
-            height: 200px;
-            width: 200px;
-            text-align: center;
-            margin-bottom: 20px;
-            
-            img {
-                height: 200px;
-            }
-        }
-        
-        #startTutorial {
-            max-width: 250px;
-        }
-        
-        #jumpTutorial {
-            text-decoration: none;
-            color: #df5707;
-            cursor: pointer;
-        }
-        
-    }
-    
 	.content {
 		overflow-y: auto !important;
 

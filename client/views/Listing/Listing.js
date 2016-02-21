@@ -42,7 +42,7 @@ Template.listing.events({
     }
 
     //if(parent.scrollTop() + parent.height() >= scrollingElement.innerHeight() + 20) {
-    if(parent.scrollTop() + parent.height() >= parent[0].scrollHeight - 300) {
+    if(parent.scrollTop() + parent.height() >= parent[0].scrollHeight - 100) {
         $('.loadbox').fadeIn('fast',function(){
           var loadedPage = Session.get("pageNumberLoaded") || 0;
           Session.set("pageNumber", loadedPage + 1);

@@ -8,24 +8,19 @@ Push.allow({
 
 Meteor.methods({
 	'sendMessage': function(message, sender, recipient, connectionId) {
-		if(connectionId && message && sender && recipient) {
-			var messageInsert = {
-				message: message,
-				timestamp: Date.now(),
-				sender: sender,
-				state: "new"
-			}
-
-			Connections.update({_id: connectionId}, {$push: {chat: messageInsert}});
-			
-			var sender_name = Meteor.users.findOne(sender).profile.name;
-
-			if(sender_name) {
-				sendPush(recipient, sender_name + " says: " +  message);
-			}
+		var messageInsert = {
+			message: message,
+			timestamp: Date.now(),
+			sender: sender,
+			state: "new"
 		}
+		Connections.update({_id: connectionId}, {$push: {chat: messageInsert}});
+//		console.log(Meteor.users.findOne(sender).profile.name + " says: " +  message);
+
+		sendPush(recipient, Meteor.users.findOne(sender).profile.name + " says: " +  message)
+	 //	sendNotification(recipient, ratedBy, message, "info")
 	}
- //	sendNotification(recipient, ratedBy, message, "info")
+
 	// 'readMessage': function(msgsRead, connectionId) {
 	// 	var msgsStamps = msgsRead;
 	// 	msgsStamps.forEach(function(element){
@@ -35,18 +30,16 @@ Meteor.methods({
 });
 
 sendPush = function(toId, message) {
-	if(toId && message) {
-	  Push.send({
-	    from: 'partiO chat message',
-	    title: 'partiO chat notification',
-	    text: message,
-	    badge: 1,
-	    sound: 'check',
-	    query: {
-	      userId: toId
-	    }
-	  });
-	}
+  Push.send({
+    from: 'partiO chat message',
+    title: 'partiO chat notification',
+    text: message,
+    badge: 1,
+    sound: 'check',
+    query: {
+      userId: toId
+    }
+  });
 }
 
 
