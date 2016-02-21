@@ -14,100 +14,105 @@
 
   {{#ionView}}
     {{#ionContent class="promotions"}}
+        
+        {{#with user.private}}
     
-        <div class="card">
-            <div class="item item-divider">
-                <h2>Promotional Code</h2>
-            </div>
+            <div class="card">
+                <div class="item item-divider">
+                    <h2>Promotional Code</h2>
+                </div>
 
-            <div class="item center">
-                <span class="promo-code">{{../getPromotionalCode}}</span>
-            </div>                
-        </div>
+                <div class="item center">
+                    <span class="promo-code">{{../getPromotionalCode}}</span>
+                </div>                
+            </div>
     
-        <div class="card">
-            <div class="item item-divider">
-                <h2>Best Friend</h2>
-            </div>
-
-            {{#if ../hasParent}}
-
-                {{#with ../getParent}}
-                    <a class="item item-avatar item-icon-right friend" href="/profile/items/{{_id}}">
-                        <img src={{profile.avatar}}>
-                        <span class="friend-name">{{profile.name}}</span>
-                        {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
-                    </a>
-                {{/with}}
-
-            {{else}}
-
-                 <div class="item">
-                    <span class="promo-message center">Have a friend that recommended PartiO to you? Enter their promo code and they'll get paid for your transactions!</span>
-                    <span class="promo-submessage padding-bottom center">Note: You can't add a friend that already added you.</span>
-                    <div class="center">
-                        <div class="promo-code">
-                            <input type="text" id="promoCode" placeholder="XXXXXX" maxlength="6">
+            <div class="card">
+                <div class="item item-divider">
+                    <h2>Best Friend</h2>
+                </div>
+                
+                {{#if ../hasParent}}
+                
+                    {{#with ../getParent}}
+                        <a class="item item-avatar item-icon-right friend" href="/profile/items/{{_id}}">
+                            <img src={{profile.avatar}}>
+                            <span class="friend-name">{{profile.name}}</span>
+                            {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
+                        </a>
+                    {{/with}}
+                
+                {{else}}
+                
+                     <div class="item">
+                        <span class="promo-message center">Help a friend added him to receive part of your transactions!</span>
+                        <span class="promo-submessage padding-bottom center">Note: You can't add a friend that already added you.</span>
+                        <div class="center">
+                            <div class="promo-code">
+                                <input type="text" id="promoCode" placeholder="XXXXXX" maxlength="6">
+                            </div>
                         </div>
                     </div>
-                </div>
+                    
+                
+                    {{#if isAddPromoCode}}
 
-
-                {{#if isAddPromoCode}}
-
-                    {{#if ../getBestFriend}}
-                        {{#if ../isUserHimself}}
-                            <div class="item center">
-                                Sorry, you can't add yourself.
-                            </div>
-                        {{else}}
-                            {{#if ../isUserChild}}
+                        {{#if ../getBestFriend}}
+                            {{#if ../isUserHimself}}
                                 <div class="item center">
-                                    Sorry, you can't add your friend.
+                                    Sorry, you can't add yourself.
                                 </div>
                             {{else}}
-                                {{#with ../getBestFriend}}
-                                    <div class="item item-avatar">
-                                        <img src={{profile.avatar}}>
-                                        <span class="best-friend-name">{{profile.name}}</span>
-                                        <button id="addBestFriend" class="button button-energized">ADD</button>
+                                {{#if ../isUserChild}}
+                                    <div class="item center">
+                                        Sorry, you can't add your friend.
                                     </div>
-                                {{/with}}
+                                {{else}}
+                                    {{#with ../getBestFriend}}
+                                        <div class="item item-avatar">
+                                            <img src={{profile.avatar}}>
+                                            <span class="best-friend-name">{{profile.name}}</span>
+                                            <button id="addBestFriend" class="button button-energized">ADD</button>
+                                        </div>
+                                    {{/with}}
+                                {{/if}}
                             {{/if}}
+
+                        {{else}}
+                            <div class="item center">
+                                User not found.
+                            </div>
                         {{/if}}
 
-                    {{else}}
-                        <div class="item center">
-                            User not found.
-                        </div>
                     {{/if}}
-
+                
                 {{/if}}
-
-            {{/if}}
-        </div>
-    
-        <div class="card">
-            <div class="item item-divider">
-                <h2>Friends</h2>
             </div>
-
-            {{#if ../hasChildren}}
-                {{#each ../getChildren}}
-                    <a class="item item-avatar item-icon-right friend" href="/profile/items/{{_id}}">
-                        <img src={{profile.avatar}}>
-                        <span class="friend-name">{{profile.name}}</span>
-                        {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
-                    </a>
-                {{/each}}
-            {{else}}
-                <div class="item">
-                    <span class="promo-message center">Share the promotional code with your friends and receive part of their transactions!</span>
-                    <span class="promo-submessage center">Note: You can't add a friend that already added you.</span>
+    
+            <div class="card">
+                <div class="item item-divider">
+                    <h2>Friends</h2>
                 </div>
-            {{/if}}
-        </div>
-
+                
+                {{#if ../hasChildren}}
+                    {{#each ../getChildren}}
+                        <a class="item item-avatar item-icon-right friend" href="/profile/items/{{_id}}">
+                            <img src={{profile.avatar}}>
+                            <span class="friend-name">{{profile.name}}</span>
+                            {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
+                        </a>
+                    {{/each}}
+                {{else}}
+                    <div class="item">
+                        <span class="promo-message center">Share this promotional code with your friends and receive part of their transactions!</span>
+                        <span class="promo-submessage center">Note: You can't add a friend that already added you.</span>
+                    </div>
+                {{/if}}
+            </div>
+            
+    
+        {{/with}}
+    
     {{/ionContent}}
   {{/ionView}}
 </template>
