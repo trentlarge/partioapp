@@ -43,20 +43,7 @@ AdminSearchController = RouteController.extend({
                 limit: limit, 
                 sort: { 'title': 1 }
             }).fetch();
-//            return Products.find({}).fetch();
         }
-//        if(searchId == 'connections') {
-//            Meteor.subscribe("allConnections", function() {
-//                $('.loadbox').fadeOut();
-//            });
-//            return Connections.find({}).fetch();
-//        }
-//        if(searchId == 'transactions') {
-//            Meteor.subscribe("transactions", function() {
-//                $('.loadbox').fadeOut();
-//            });
-//            return Transactions.find({}).fetch();
-//        }
         
     },
     
