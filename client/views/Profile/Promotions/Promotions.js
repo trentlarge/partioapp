@@ -78,15 +78,16 @@ Template.promotions.events({
     },
 
     'click .accept': function(e, template){
-      console.log(this);
+      var _friend = this;
+
       IonPopup.confirm({
         okText: 'Accept',
         cancelText: 'Cancel',
         title: 'Accept friend request',
-        template: ['Are you sure you want accept ' + this.profile.name + ' request?'].join(''),
+        template: ['Are you sure you want accept ' + _friend.profile.name + ' request?'].join(''),
 
         onOk: function() {
-          Meteor.call('acceptFriendRequest', this._id, function(err, res) {
+          Meteor.call('acceptFriendRequest', _friend._id, function(err, res) {
             if(err) {
               var errorMessage = err.reason || err.message;
               if(err.details) {
@@ -107,16 +108,17 @@ Template.promotions.events({
     },
 
     'click .decline': function(e, template){
-      console.log(this);
+
+      var _friend = this;
 
       IonPopup.confirm({
         okText: 'Decline',
         cancelText: 'Cancel',
         title: 'Decline friend request',
-        template: ['Are you sure you want decline ' + this.profile.name + ' request?'].join(''),
+        template: ['Are you sure you want decline ' + _friend.profile.name + ' request?'].join(''),
 
         onOk: function() {
-          Meteor.call('declineFriendRequest', this._id, function(err, res) {
+          Meteor.call('declineFriendRequest', _friend._id, function(err, res) {
             if(err) {
               var errorMessage = err.reason || err.message;
               if(err.details) {

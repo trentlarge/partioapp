@@ -92,14 +92,37 @@ PromotionsController = RouteController.extend({
 				}
 			},
 
-			getFriendWaiting: function(userId){
-					var status = this.getFriendStatus(userId);
+			isFriendWaiting: function(userId){
+				var status = this.getFriendStatus(userId);
 
-					if(status == 'waiting') {
-						return true;
-					} else {
-						return false;
+				if(status == 'waiting') {
+					return true;
+				} else {
+					return false;
+				}
+			},
+
+			parentInviteStatus: function(){
+				Meteor.call('getParentStatus', this.parent._id, function(err, result){
+					if(err || !result){
+						Session.set('parentStatus', '');
+						return;
 					}
+
+					Session.set('parentStatus', result);
+					return;
+				});
+			},
+
+
+			isParentAccepted: function(){
+				var set = this.parentInviteStatus();
+
+				if(Session.get('parentStatus') == 'accepted') {
+					return true;
+				} else {
+					return false;
+				}
 			},
 
       getPromotionalCode: function() {
