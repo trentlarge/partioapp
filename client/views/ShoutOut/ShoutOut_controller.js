@@ -24,12 +24,16 @@ ShoutOutController = RouteController.extend({
         
         if(Session.get('tabMyShouts')) {
             Meteor.subscribe('myShoutout', Meteor.userId(), limit, function() {
-                $('.loadbox').fadeOut();
+                setTimeout(function(){
+                    $('.loadbox').fadeOut();
+                }, 100);
             });
         }
         else {
             Meteor.subscribe('shoutout', limit, function() {
-                $('.loadbox').fadeOut();
+                setTimeout(function(){
+                    $('.loadbox').fadeOut();
+                }, 100);
             });
         }
         
