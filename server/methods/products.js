@@ -1,4 +1,9 @@
 Meteor.methods({
+    
+    removeProduct: function(productId) {
+        Products.remove({_id: productId});
+    },
+    
 	insertProduct: function(product) {
 		return Products.insert(product);
 	},

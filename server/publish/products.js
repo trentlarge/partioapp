@@ -31,6 +31,10 @@ Meteor.publish("singleProduct", function(idProduct) {
 	return Products.find({ _id: idProduct}, {limit: 1});
 });
 
+Meteor.publish("productsInArray", function(productsId) {
+	return Products.find({ _id: { $in: productsId }});
+});
+
 Meteor.publish("productsByTitle", function(_title) {
   var cursor = Products.find({ title: _title });
   return Products.publishJoinedCursors(cursor);

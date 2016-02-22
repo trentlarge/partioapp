@@ -32,6 +32,15 @@ Meteor.methods({
         {
 			$push: { sharedProducts: product },   
 		});
+	},
+    
+    removeSharedProduct: function(shoutId, productId) {
+		ShoutOut.update({ 
+			_id: shoutId 
+		}, 
+        {
+			$pull: { sharedProducts: { _id: productId } },   
+		});
 	}
     
 });

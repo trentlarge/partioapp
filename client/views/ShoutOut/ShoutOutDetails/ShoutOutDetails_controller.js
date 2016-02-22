@@ -22,13 +22,43 @@ ShoutOutDetailsController = RouteController.extend({
         if(shout) {
             Meteor.subscribe('singleUser', shout.userId);
             Session.set('shout', shout);
+            
+            var sharedProductsIds = [];
+            $.each(shout.sharedProducts, function(index, sharedProduct) {
+                sharedProductsIds.push(sharedProduct._id); 
+            });
+            
+            Meteor.subscribe('productsInArray', sharedProductsIds, function() {
+                 
+                var products = Products.find({ _id: { $in: sharedProductsIds }}).fetch();    
+                
+                // UPDATE SHOUT OUT
+                if(products.length != sharedProductsIds.length) {
+                    console.log(products.length + ' ' + sharedProductsIds.length)
+
+                    productsIds = [];
+                    $.each(products, function(index, product) {
+                        productsIds.push(product._id); 
+                    });
+
+                    $.each(sharedProductsIds, function(index, sharedProductsId) {
+                        if(products.length == 0 || sharedProductsId.indexOf(productsIds) < 0) {
+                            Meteor.call('removeSharedProduct', shout._id, sharedProductsId, function() {
+                                //Shared Product removed!
+                            })     
+                        }
+                    });
+                }   
+                
+            });
+
             return shout;
         }
     },
     
     getProducts: function() {
         Meteor.subscribe('myProducts');
-        var products = Products.find({}).fetch();
+        var products = Products.find({ownerId: Meteor.userId()}).fetch();
         if(products) {
             Session.set('products', products);
             return products;
@@ -42,6 +72,10 @@ ShoutOutDetailsController = RouteController.extend({
             
             getUser: function(userId) {
                 return Users.findOne(userId);
+            },
+            
+            productExist: function(productId) {
+                return (Products.findOne(productId)) ? true : false;  
             },
             
             getTime: function(createdAt) {

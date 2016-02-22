@@ -23,7 +23,7 @@ Template.shoutoutShare.helpers({
     getCondition: function(conditionId) {
         return Rating.getConditionByIndex(conditionId);
     },
-    
+
 });
 
 Template.shoutoutShare.events({

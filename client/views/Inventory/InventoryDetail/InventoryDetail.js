@@ -158,33 +158,34 @@ Template.inventoryDetail.events({
   },
 
   'click #editRemove': function(e, template) {
-			var productId = this.product._id;
+      var productId = this.product._id;
 
       IonPopup.show({
 			title: 'Remove product?',
 			template: 'Remove product from your invetory?',
-        buttons:
-        [
-            {
-              text: 'Cancel',
-              type: 'button-default',
-              onTap: function()
-              {
-                IonPopup.close();
-              }
-            },
-            {
-              text: 'Remove',
-              type: 'button-assertive',
-              onTap: function()
-              {
-                Products.remove({_id: productId});
-                IonPopup.close();
-                Session.set('editMode', false);
-                Router.go('/inventory');
-              }
-            },
-       ]
+            buttons:
+            [
+                {
+                  text: 'Cancel',
+                  type: 'button-default',
+                  onTap: function()
+                  {
+                    IonPopup.close();
+                  }
+                },
+                {
+                  text: 'Remove',
+                  type: 'button-assertive',
+                  onTap: function()
+                  {
+                    Meteor.call('removeProduct', productId, function() {
+                        IonPopup.close();
+                        Session.set('editMode', false);
+                        Router.go('/inventory');    
+                    });
+                  }
+                },
+            ]
 		});
   },
     
