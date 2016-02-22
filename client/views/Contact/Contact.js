@@ -19,7 +19,7 @@ Template.contact.events({
           IonPopup.alert({
             okText: 'Enter',
             title: 'Succesfully',
-            template: '<div class="center">We received your message, Thank you :-)</div>',
+            template: '<div class="center">We received your message.<br/>Thank you :-)</div>',
             onOk: function() {
               $('#subject').val('');
               $('#message').val('');
@@ -31,7 +31,7 @@ Template.contact.events({
       IonPopup.alert({
         okText: 'Enter',
         title: 'Error',
-        template: '<div class="center">You need to write something :-)</div>',
+        template: '<div class="center">You need to write something...</div>',
         onOk: function() {
           IonPopup.close();
         }
