@@ -29,20 +29,21 @@
     
     .item {
         
-        p {
+        .user-name {
+            font-size: 14px;
+            color: #df5707;
+            font-weight: bold;
             white-space: normal;
-            padding-right: 10px;
             overflow: visible;
         }
         
-        .user-name {
-            color: #df5707;
-            font-weight: bold;
-        }
-        
         .user-message {
+            font-size: 14px;
             font-weight: bold;
             line-height: 16px;
+            white-space: normal;
+            padding-right: 10px;
+            overflow: visible;
         }
         
         .user-time {

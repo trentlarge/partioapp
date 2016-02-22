@@ -18,18 +18,31 @@ ShoutOutDetailsController = RouteController.extend({
     
     getShout: function() {
         Meteor.subscribe('shoutoutDetails', this.params._id);
-        return ShoutOut.findOne(this.params._id);
+        var shout = ShoutOut.findOne(this.params._id);
+        if(shout) {
+            Meteor.subscribe('singleUser', shout.userId);
+            Session.set('shout', shout);
+            return shout;
+        }
     },
     
     getProducts: function() {
         Meteor.subscribe('myProducts');
-        return Products.find({}).fetch();
+        var products = Products.find({}).fetch();
+        if(products) {
+            Session.set('products', products);
+            return products;
+        }
     },
     
     data: function() {
 		return {
             shout: this.getShout(),
             products: this.getProducts(),
+            
+            getUser: function(userId) {
+                return Users.findOne(userId);
+            },
             
             getTime: function(createdAt) {
                 

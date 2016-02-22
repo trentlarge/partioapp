@@ -33,8 +33,18 @@ ShoutOutController = RouteController.extend({
             });
         }
         
-        return ShoutOut.find({}, {sort: {createdAt: -1}}).fetch();
+        var shouts = ShoutOut.find({}, {sort: {createdAt: -1}}).fetch();
+        var usersId = [];
+        
+        $.each(shouts, function(index, shout) {
+            usersId.push(shout.userId);
+        });
+               
+        Meteor.subscribe('usersInArray', usersId);   
+        
+        return shouts;
     },
+    
     
     data: function() {
         
@@ -43,6 +53,10 @@ ShoutOutController = RouteController.extend({
             
             isTypeShout(type) {
                 return (type === 'shout') ? true : false;
+            },
+            
+            getUser(userId) {
+                return Users.findOne(userId);
             },
             
             getTime: function(createdAt) {
