@@ -14,7 +14,7 @@
 
   {{#ionView}}
     {{#ionContent class="promotions"}}
-    
+
         <div class="card">
             <div class="item item-divider">
                 <h2>Promotional Code</h2>
@@ -22,9 +22,9 @@
 
             <div class="item center">
                 <span class="promo-code">{{../getPromotionalCode}}</span>
-            </div>                
+            </div>
         </div>
-    
+
         <div class="card">
             <div class="item item-divider">
                 <h2>Best Friend</h2>
@@ -86,7 +86,7 @@
 
             {{/if}}
         </div>
-    
+
         <div class="card">
             <div class="item item-divider">
                 <h2>Friends</h2>
@@ -97,6 +97,9 @@
                     <a class="item item-avatar item-icon-right friend" href="/profile/items/{{_id}}">
                         <img src={{profile.avatar}}>
                         <span class="friend-name">{{profile.name}}</span>
+                        {{#if ../getFriendWaiting _id }}
+                          <a href="#" class="accept" data-id="{{_id}}">Accept</a> / <a href="#" class="decline" data-id="{{_id}}">Decline</a>
+                        {{/if}}
                         {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
                     </a>
                 {{/each}}

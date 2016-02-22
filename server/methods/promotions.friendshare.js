@@ -60,13 +60,13 @@ Meteor.methods({
 
   insertBestFriendCode: function(insertCode){
     if(!insertCode){
-      return false;
+      throw new Meteor.Error("insertBestFriendCode", "Promotional Code: Missing code");
     }
 
     var code = insertCode.trim();
 
     if(!code.length == 6) {
-      return false;
+      throw new Meteor.Error("insertBestFriendCode", "Promotional Code: Invalid code");
     }
 
     var _user = Meteor.user();
@@ -87,45 +87,55 @@ Meteor.methods({
         // check if parent is not children
         if(!_userChildren.indexOf(_parent._id) >= 0) {
 
-          // update user parent field
-          Meteor.users.update({"_id": _user._id }, {$set: { "private.promotions.friendShare.parent": _parent._id }}, function(error) {
-            if(error) {
-              return false;
-            }
+          // update parent children field
+          var _parentChildren = _parent.private.promotions.friendShare.children;
 
-            // update parent childrends field
-            var _parentChildren = _parent.private.promotions.friendShare.children;
+          if(!_parentChildren || _parentChildren.length < 1) {
+            _parentChildren = [];
+          }
 
-            if(!_parentChildren || _parentChildren.length < 1) {
-              _parentChildren = [];
-            }
+          //check if user is not already children of parent
+          if(!_parentChildren.indexOf(_user._id) >= 0) {
+            var newChildren = { 'id': _user._id,
+                                'status': 'waiting' }
 
-            //check if user is not already children of parent
-            if(!_parentChildren.indexOf(_user._id) >= 0) {
-              _parentChildren.push(_user._id);
+            _parentChildren.push(newChildren);
 
+            // update user parent field
+            Meteor.users.update({"_id": _user._id }, {$set: { "private.promotions.friendShare.parent": _parent._id }}, function(error) {
+              if(error) {
+                throw new Meteor.Error("insertBestFriendCode", "Promotional Code: Some error... please try again");
+              }
+
+              // update parent children
               Meteor.users.update({"_id": _parent._id }, {$set: { "private.promotions.friendShare.children": _parentChildren }}, function(error) {
                 if(error) {
-                  return false;
+                  throw new Meteor.Error("insertBestFriendCode", "Promotional Code: Some error... please try again");
                 }
-                return true;
-              });
 
-            } else { // user is already children from that
-              return false;
-            }
-          });
+                var notifyMessage = "Congratulations! You have a new friend code request from "+_user.profile.name;
+                var pushMessage = "Promotional Code: Congratulations! You have a new friend code request from "+_user.profile.name;
+
+                sendNotification(_parent._id, _user._id, notifyMessage, "Promotional Code");
+                sendPush(_parent._id, pushMessage);
+
+              });
+            });
+
+          } else { // user is already children from that
+            throw new Meteor.Error("insertBestFriendCode", "Promotional Code: "+_parent.profile.name+" is already your best friend");
+          }
 
         } else { // trying to insert child like parent
-          return false;
+          throw new Meteor.Error("insertBestFriendCode", "Promotional Code: "+_parent.profile.name+" is already your friend.");
         }
 
       } else { // no parent (user not found)
-        return false;
+        throw new Meteor.Error("insertBestFriendCode", "Promotional Code: User not found ;)");
       }
 
     } else { // own code
-      return false;
+      throw new Meteor.Error("insertBestFriendCode", "Promotional Code: Ops... this is your own code ;)");
     }
   }
 });
