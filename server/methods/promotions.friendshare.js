@@ -85,7 +85,7 @@ Meteor.methods({
         }
 
         // check if parent is not children
-        if(!_userChildren.has(_parent._id)) {
+        if(!_userChildren.indexOf(_parent._id) >= 0) {
 
           // update user parent field
           Meteor.users.update({"_id": _user._id }, {$set: { "private.promotions.friendShare.parent": _parent._id }}, function(error) {
@@ -101,7 +101,7 @@ Meteor.methods({
             }
 
             //check if user is not already children of parent
-            if(!_parentChildren.has(_user._id)) {
+            if(!_parentChildren.indexOf(_user._id) >= 0) {
               _parentChildren.push(_user._id);
 
               Meteor.users.update({"_id": _parent._id }, {$set: { "private.promotions.friendShare.children": _parentChildren }}, function(error) {
