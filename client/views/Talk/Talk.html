@@ -48,6 +48,7 @@
 <template name="message">
   <div class="each-chatblock {{direction}}">
     <div class="chat-bubble {{direction}}">
+      <div class="bubble-triangle"></div>
       <div class="message">
         {{message}}
       </div>
@@ -56,5 +57,10 @@
       </div>
     </div>
     <div class="profile-pic {{direction}}" style="background: url('{{avatar}}') no-repeat; background-size:cover; background-position: 50% 50%;"></div>
+<!--
+    <div class="profile-pic {{direction}}">
+        <img class="profile-pic-img" src="{{avatar}}">
+    </div>
+-->
   </div>
 </template>
