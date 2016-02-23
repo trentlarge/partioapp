@@ -364,6 +364,28 @@ body.keyboard-open .platform-android .content.overflow-scroll {
 
 // -- END: POPUP --
 
+// -- ACTION SHEET ANDROID -- {
+.platform-android {
+    .action-sheet {
+        .action-sheet-group {
+            background-color: #fff;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            margin: 10px auto;
+            width: 95%;
+            
+            .button {
+                text-align: center;
+                color: #007aff;
+                font-size: 21px;
+                border-top: 1px solid #d1d3d6;
+            }
+        }
+    }
+    
+    
+    
+}
 // -- FAB BUTTONS --
 
 .fab-button {

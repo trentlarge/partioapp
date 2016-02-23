@@ -1,3 +1,107 @@
+.inventory-edit-images {
+    
+    .row {
+        min-height: 100%;
+        display: flex;
+        display: -webkit-flex;
+        align-items: center;
+        -webkit-align-items: center;
+        
+        .col {
+            display: flex;
+            display: -webkit-flex;
+            justify-content: center;
+            -webkit-justify-content: center;
+            align-items: center;
+            -webkit-align-items: center;
+            flex-direction: column;
+            -webkit-flex-direction: column;
+        }
+    }
+    
+    .select-image {
+        font-size: 100px;
+        color: #BBB;
+        cursor: pointer;
+    }
+    
+    .add-image {
+        display: block;
+        margin-top: -5px;
+        color: #BBB;
+    }
+    
+    #saveImages {
+        width: 120px;
+        height: 40px;
+        min-height: 40px;
+        line-height: 0;
+    }
+    
+    .dragabble-images-box {
+        
+        .dragabble-image-item {
+            
+            text-align: center;
+            width: 90%;
+            height: 90px;
+            margin: 5px auto;
+            overflow: hidden;
+            border: 1px solid #272727;
+            cursor: pointer;
+
+            .cover {
+                display: none;
+                font-size: 8px;
+                background-color: #272727;
+                color: #fff;
+                line-height: 12px;
+                height: 12px;
+            }
+            
+            &:first-child .cover {
+                display: block;
+            }
+            
+            .close {
+                position: absolute;
+                margin-top: -10px;
+                margin-left: -10px;
+                height: 25px;
+                width: 25px;
+                z-index: 100;
+                background-color: #FFF;
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+                padding-top: 6px;
+                color: rgba(39, 39, 39, 0.8);
+                font-weight: bold;
+                cursor: pointer;
+                opacity: .9;
+                text-align: center;
+                font-size: 24px;
+                line-height: 10px;
+                border-radius: 50%;
+            }
+            &:hover { 
+                .close {
+                    opacity: 1;
+                }
+                
+                .dragabble-image {
+                    opacity: 1;
+                }
+            }
+            
+            .dragabble-image {
+                max-width: 100%;
+                opacity: .8;
+            }
+            
+        }
+        
+    }
+}
+
 .inventory-details {
     min-height: 100%;
     padding-bottom: 50px;
@@ -44,44 +148,6 @@
             }
         }
     }
-    
-//    .item.image {
-//        
-//        padding: 0;
-//        display: flex;
-//        display: -webkit-flex;
-//        justify-content: center;
-//        -webkit-justify-content: center;
-//        align-items: center;
-//        -webkit-align-items: center;
-//        
-//        .item-image-box {
-//            padding: 0;
-//            display: inline-flex;
-//            display: -webkit-inline-flex;
-//            flex-direction: column;
-//            -webkit-flex-direction: column;
-//            justify-content: center;
-//            -webkit-justify-content: center;
-//            max-height: 200px;
-//            
-//                .product-image {
-//                    max-width: 100%;
-//                }
-//        
-//        }
-//    
-//    }
-//    
-//    .item.item-title {
-//        margin-top: -47px;
-//        background-color: rgba(255, 255, 255, 0.7);
-//        border: 0;
-//        
-//        input {
-//            background-color: transparent;
-//        }
-//    }
     
     .ion-slide.slick-slide {
         -webkit-justify-content: center;
@@ -244,16 +310,6 @@
         font-size: 10px;
     }
     
-//    .product-title {
-//        display: block;
-//        white-space: normal;
-//        font-size: 15px;
-//        margin-top: 10px;
-//        padding: 10px;
-//        background-color: #EEEEEE;
-//        border-top: 1px solid #E0E0E0;
-//    }
-//    
     .subtitle-box {
         padding: 10px;
         background-color: #EEEEEE;
@@ -262,7 +318,6 @@
     }
     
     .features {
-//        padding: 10px;
         i {
             float: right;
         }

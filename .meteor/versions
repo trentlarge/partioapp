@@ -38,6 +38,7 @@ ddp-rate-limiter@1.0.0
 ddp-server@1.2.2
 deps@1.0.9
 diff-sequence@1.0.1
+dsyko:jquery-ui-touch-punch@1.2.4
 ecmascript@0.1.6
 ecmascript-runtime@0.2.6
 ejson@1.0.7
@@ -102,6 +103,7 @@ mongo-id@1.0.1
 mongo-livedata@1.0.9
 mrgalaxy:stripe@2.2.1
 mrt:accounts-facebook-cordova@0.0.2
+mrt:jquery-ui-sortable@1.10.3
 mrt:moment@2.8.1
 mrt:twilio@1.1.0
 mrt:twilio-meteor@1.1.0

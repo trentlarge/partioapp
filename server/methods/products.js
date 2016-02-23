@@ -21,5 +21,14 @@ Meteor.methods({
                 category: category
 			}
 		});
-	}
+	},
+    
+    updateProduct: function(productId, product) {
+        Products.update({ 
+			_id: productId 
+		}, {
+            $set: product
+		});
+    }
+    
 });

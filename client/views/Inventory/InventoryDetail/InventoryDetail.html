@@ -38,29 +38,22 @@
             
           <div class="item">
             {{#if editMode product._id}}
+                <span class="product-title">Click to edit images</span>
+                <div class="image-container">
+                    <a data-ion-modal="inventoryEditImages">
+                        <img class="product-image" src="{{product.image}}">
+                    </a>
+                </div>
             {{else}}
                 <span class="product-title">{{product.title}}</span>
+                <div class="image-container">
+                    <a data-ion-modal="slideInventoryImages">
+                        <img class="product-image" src="{{product.image}}">
+                    </a>
+                </div>
             {{/if}}
-            <div class="image-container">
-                <a data-ion-modal="slideInventoryImages">
-                    <img class="product-image" src="{{product.image}}">
-                </a>
-            </div>
           </div>
             
-<!--
-          <div class="item image">
-            <div class="item-image-box">
-              <a data-ion-modal="slideInventoryImages">
-                <img class="product-image" src="{{product.image}}"/>
-              </a>
-            </div>
-          </div>
-
-          <div class="item item-input item-title">
-            <input type="text" value="{{product.title}}" class="title" style="text-align:center;border:0" {{../isEditMode}}>
-          </div>
--->
           {{#if editMode product._id}}
             <div class="item item-input">
                 <input type="text" value="{{product.title}}" class="title" style="text-align:center;border:0" {{../isEditMode}}>
@@ -150,25 +143,6 @@
             </div>
         </div>
             
-<!--
-          <label class="item item-input">
-            <span class="input-label"><p>Day:</p></span>
-            <input type="number" class="price dayPrice" value="{{product.rentPrice.day}}" {{../isEditMode}} placeholder="0.00">
-          </label>
-          <label class="item item-input">
-            <span class="input-label"><p>Week:</p></span>
-            <input type="number" class="price weekPrice" value="{{product.rentPrice.week}}" {{../isEditMode}} placeholder="0.00">
-          </label>
-          <label class="item item-input">
-            <span class="input-label"><p>Month:</p></span>
-            <input type="number" class="price monthPrice" value="{{product.rentPrice.month}}" {{../isEditMode}} placeholder="0.00">
-          </label>
-          <label class="item item-input">
-            <span class="input-label"><p>Semester (4m):</p></span>
-            <input type="number" class="price semesterPrice" value="{{product.rentPrice.semester}}" {{../isEditMode}} placeholder="0.00">
-          </label>
--->
-            
           <div class="item item-divider">
                 Purchasing
             </div>
@@ -222,6 +196,45 @@
                 {{/ionSlide}}
             {{/each}}
         {{/ionSlideBox}}
+    
+    {{/ionModal}}
+    
+</template>
+
+<template name="inventoryEditImages">
+
+    {{#ionModal title="Images" class="inventory-details inventory-edit-images"}}
+    
+        <div class="row">
+            
+            <div class="col col-50">
+                {{#unless isMaxImages}}
+                    <i class="ion-image select-image"></i>
+                    <span class="add-image">ADD IMAGE</span>
+                {{/unless}}
+                <input type="file" id="browser-file-upload" style="display:none">
+                <button class="button button-block button-energized" id="saveImages">SAVE</button>
+                <a href="#" id="cancelImages">CANCEL</a>
+            </div>
+            
+            <div class="col col-50">
+                {{#if isMinImages}}
+                    <span class="drag-message">Drag to reorder</span>
+                {{/if}}
+                <ul class="dragabble-images-box">
+                    {{#each slideElements}}
+                        <li class="dragabble-image-item">
+                            <div class="close">&times;</div>
+                            <span class="cover">COVER</span>
+                            <img class="dragabble-image" src="{{photo}}"/>
+                        </li>
+                    {{/each}}
+                </ul>
+            </div>
+           
+        </div>
+    
+        
     
     {{/ionModal}}
 </template>
