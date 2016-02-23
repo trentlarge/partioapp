@@ -38,6 +38,20 @@ Template.searchHeader.events({
     }
   },
   
+  'keyup .search-header-input': function(e, template) {
+      var text = $(e.target).val();
+      
+      //reset sessions
+      Session.set("pageNumber", 1);
+      
+      if(!$('.loadbox').is(':visible')) {
+          $('.loadbox').fadeIn('fast');    
+      }
+      
+      //set text
+      Session.set('searchText', text);
+   },
+    
   'keypress .search-header-input': function(e, template) {
     var text = $(e.target).val();
 
