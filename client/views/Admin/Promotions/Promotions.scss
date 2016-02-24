@@ -1,0 +1,15 @@
+.userList {
+  .closed {
+    .children {
+      display:none;
+    }
+  }
+
+  .children {
+    margin-top:1px;
+  }
+
+  .child {
+    background:#F8F8F8;
+  }
+}

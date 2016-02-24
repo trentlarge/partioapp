@@ -15,16 +15,43 @@
 
   {{#ionView}}
       {{#ionContent class="admin-promotions overflow-scroll"}}
-
-        <h1>Lorem ipsum</h1>
-
-        {{#if isUserPermited}}
+        {{#if isUserPermitted}}
           {{#if Template.subscriptionsReady}}
-            {{#each allUsers}}
-              <p>{{ profile.name }}</p>
-            {{/each}}
+            <div class="card">
+              <div class="item">
+                <span>Promotions: {{filterLabel}}</span>
+              </div>
+            </div>
+
+            <div class="list card userList">
+              {{#each allUsers}}
+                <div class="item item-avatar parent" data-id="{{_id}}">
+                   <img src="{{profile.avatar}}">
+                   <h2>{{profile.name}}</h2>
+                   <p>{{ ../howManyChild _id }}</p>
+                </div>
+                {{#if ../hasChildren _id }}
+                  <div class="children hidden" data-id="{{_id}}">
+                    {{#each ../userChildren _id }}
+                      <div class="item item-avatar child">
+                         <img src="{{profile.avatar}}">
+                         <h3>{{profile.name}}</h3>
+                      </div>
+                    {{/each}}
+                  </div>
+                {{/if}}
+              {{/each}}
+            </div>
+            <div class="tabs-background-royal tabs-color-light tabs-icon-top">
+              <div class="tabs darken-element">
+                <a class="tab-item {{#if isActiveClass "general" }} active {{/if}}" data-id="general" href="general"><i class="icon ion-ios-people"></i>GENERAL</a>
+                <a class="tab-item {{#if isActiveClass "duke" }} active {{/if}}" data-id="duke" href="duke"><i class="icon ion-university"></i>DUKE</a>
+                <a class="tab-item {{#if isActiveClass "yale" }} active {{/if}}" data-id="yale" href="yale"><i class="icon ion-university"></i>YALE</a>
+                <a class="tab-item {{#if isActiveClass "others" }} active {{/if}}" data-id="others" href="others"><i class="icon ion-earth"></i>OTHERS</a>
+              </div>
+            </div>
           {{else}}
-            	<p>loading data...</p>
+            <p>loading data...</p>
           {{/if}}
         {{else}}
           <p>no permission...</p>
