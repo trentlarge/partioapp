@@ -1,3 +1,5 @@
+@import '../../styles/app-variables';
+
 //
 //body.keyboard-open .platform-android .content.talk-content.overflow-scroll {
 //    padding-top: 258px;
@@ -125,7 +127,7 @@
     }
 
     .chat-bubble.right {
-        background-color: #f0970d;
+        background-color: $energized;
         color: #fff;
         
         .bubble-triangle {
@@ -136,7 +138,7 @@
             background-color: transparent;
             right: -10px;
             bottom: 10px;
-            border-color: transparent transparent #f0970d transparent;
+            border-color: transparent transparent $energized transparent;
         }
     }
 
@@ -150,7 +152,7 @@
 
     .chat-bubble.left {
         order: 1;
-        background-color: #df5707;
+        background-color: $assertive;
         color: #fff;
         
         .bubble-triangle {
@@ -161,7 +163,7 @@
             background-color: transparent;
             left: -10px;
             bottom: 10px;
-            border-color: transparent transparent #df5707 transparent;
+            border-color: transparent transparent $assertive transparent;
         }
     }  
     

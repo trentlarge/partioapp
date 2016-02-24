@@ -1,3 +1,5 @@
+@import '../../../../styles/app-variables';
+
 .admin-search-details {
     
     .profile-name {
@@ -11,7 +13,7 @@
     
     .item-input {
 
-        color: #272727;
+        color: $royal;
 
         i {
             padding-right: 10px;
@@ -19,7 +21,7 @@
 
         input {
 
-            color: #272727;
+            color: $royal;
 
             &:disabled {
                 background-color: #ffffff;
@@ -103,7 +105,7 @@
     
     input, select {
         
-        color: #272727;
+        color: $royal;
         
         &:disabled {
             background-color: #ffffff;

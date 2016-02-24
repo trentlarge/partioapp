@@ -1,3 +1,5 @@
+@import '../../../styles/app-variables';
+
 .inventory-edit-images {
     
     .row {
@@ -47,14 +49,14 @@
             height: 90px;
             margin: 5px auto;
             overflow: hidden;
-            border: 1px solid #272727;
+            border: 1px solid $royal;
             cursor: pointer;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 
             .cover {
                 display: none;
                 font-size: 8px;
-                background-color: #272727;
+                background-color: $royal;
                 color: #fff;
                 line-height: 12px;
                 height: 12px;
@@ -106,7 +108,7 @@
 .inventory-details {
     min-height: 100%;
     padding-bottom: 50px;
-    color: #272727;
+    color: $royal;
     
     .product-title {
         display: block;
@@ -258,8 +260,8 @@
             box-shadow: inset 0px -20px 0px 0px rgba(255,255,255,0.1);
         }
 
-        .bk-energized { background-color: #f0970d; }
-        .bk-assertive { background-color: #df5707; }
+        .bk-energized { background-color: $energized; }
+        .bk-assertive { background-color: $assertive; }
 
         .detail {
             font-size: 14px;
@@ -295,7 +297,7 @@
     
     input, select {
         
-        color: #272727;
+        color: $royal;
         
         &:disabled {
             background-color: #ffffff;
@@ -314,7 +316,7 @@
     .subtitle-box {
         padding: 10px;
         background-color: #EEEEEE;
-        color: #272727;
+        color: $royal;
         border-bottom: 1px solid #E0E0E0;
     }
     
@@ -327,7 +329,7 @@
     textarea {
         width: 100%;
         max-width: 100%;
-        color: #272727;
+        color: $royal;
         opacity: 1;
         background-color: #FAFAFA;
         border: 1px solid #f5f5f5;

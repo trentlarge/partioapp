@@ -1,3 +1,5 @@
+@import '../../../styles/app-variables';
+
 .datepicker table tr td.highlighted {
     background: #FFFFFF;
 }
@@ -84,7 +86,7 @@
     p.product-title-text {
         white-space: normal;
         text-align: center;
-        color: #272727;
+        color: $royal;
         min-height: 15px;
         line-height: 18px;
         padding: 10px;
@@ -130,7 +132,7 @@
         }
         
         #buyProduct {
-            color: #df5707;
+            color: $assertive;
             text-decoration: none;
             font-size: 14px;
         }
@@ -226,8 +228,8 @@
             box-shadow: inset 0px -20px 0px 0px rgba(255,255,255,0.1);
         }
 
-        .bk-energized { background-color: #f0970d; }
-        .bk-assertive { background-color: #df5707; }
+        .bk-energized { background-color: $energized; }
+        .bk-assertive { background-color: $assertive; }
 
         .detail {
             font-size: 14px;
@@ -261,7 +263,7 @@
         }
         
         a {
-            color: #df5707;
+            color: $assertive;
             text-decoration: none;
             font-size: 14px;
             

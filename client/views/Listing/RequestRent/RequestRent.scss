@@ -1,3 +1,5 @@
+@import '../../../styles/app-variables';
+
 .datepicker table tr td.range, .datepicker table tr td.range:hover, .datepicker table tr td.range.disabled, .datepicker table tr td.range.disabled:hover {
     display: table-cell;
 }
@@ -97,7 +99,7 @@
 
 .requestRent {
 
-    color: #272727;
+    color: $royal;
 
     .item {
         border: 0;
@@ -180,7 +182,7 @@
                 font-size: 13px;
             }
             td.active {
-                color: #272727;
+                color: $royal;
             }
         }
 

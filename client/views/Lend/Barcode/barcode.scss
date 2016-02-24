@@ -1,3 +1,5 @@
+@import '../../../styles/app-variables';
+
 .barcode {
 
     min-height: 100%;
@@ -22,7 +24,7 @@
         /* fake border */
         position: relative;
         overflow: hidden;
-        box-shadow: inset 0px 0px 0px 10px #f0970d;
+        box-shadow: inset 0px 0px 0px 10px $energized;
         border-radius: 5px;
         //padding: 4em;
         width: 200px;
@@ -94,11 +96,11 @@
       border-radius: 0;
 
       &:focus {
-          border: 1px solid #F0970D;
+          border: 1px solid $energized;
       }
 
       &:focus + button {
-          background-color: #F0970D;
+          background-color: $energized;
       }
   }
 

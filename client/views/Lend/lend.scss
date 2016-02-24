@@ -1,15 +1,17 @@
+@import '../../styles/app-variables';
+
 .lend-view {
     
     .tab-item {
         background-color: #353535;
         
         &.active {
-            background-color: #272727;
+            background-color: $royal;
         }
     }
     
 }
 
 .tabs-background-royal {
-    background-color: #272727;
+    background-color: $royal;
 }

@@ -1,3 +1,5 @@
+@import '../../styles/app-variables';
+
 .shout-out {
     
     #messageInput {
@@ -19,7 +21,7 @@
         background-color: #353535;
         
         &.active {
-            background-color: #272727;
+            background-color: $royal;
         }
     }
     
@@ -31,7 +33,7 @@
         
         .user-name {
             font-size: 14px;
-            color: #df5707;
+            color: $assertive;
             font-weight: bold;
             white-space: normal;
             overflow: visible;

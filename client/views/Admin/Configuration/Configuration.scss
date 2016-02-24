@@ -1,3 +1,5 @@
+@import '../../../styles/app-variables';
+
 .admin-configurations {
     
     @media screen and (min-width: 490px) {
@@ -21,14 +23,14 @@
     i {
         font-size: 22px;
         cursor: pointer;
-        color: #272727;
+        color: $royal;
         
 //        &.save-admin {
-//            color: #f0970d;
+//            color: $energized;
 //        }
 //        
 //        &.delete-admin {
-//            color: #df5707;
+//            color: $assertive;
 //        }
         
         &:hover {
@@ -43,7 +45,7 @@
             width: 100%;
             
             &:first-child {
-                background-color: #272727;
+                background-color: $royal;
                 color: #ffffff;
             }
             
