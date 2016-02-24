@@ -28,6 +28,7 @@ Router.route('/admin', { name: 'admin', controller: 'AdminController'});
 Router.route('/admin/configurations', { name: 'adminConfigurations', controller: 'AdminConfigurationsController'});
 Router.route('/admin/search/:_id', { name: 'adminSearch', controller: 'AdminSearchController'});
 Router.route('/admin/search/:_id/:elementId', { name: 'adminSearchDetails', controller: 'AdminSearchDetailsController'});
+Router.route('/admin/promotions', { name: 'adminPromotions', controller: 'AdminPromotionsController'});
 Router.route('/analytics/:_id', { name: 'analytics', controller: 'AnalyticsController'});
 Router.route('/verify-email/:token', {name: 'emailverification', controller: 'EmailVerificationController'});
 Router.route('/reset-password/:token', {name: 'resetpassword', controller: 'ResetPasswordController'});
@@ -78,18 +79,18 @@ Router.onBeforeAction(function(pause){
 
 		//certify if there is an email and user private data
 		if(_user.emails[0].address){
-			
+
 			//user is verified
 			if(_user.emails[0].verified) {
-				
+
 				if(!_user.private) {
 					this.render('loadingData');
-				
-				} else {				
+
+				} else {
 
 					//FACEBOOK comes with area -1
 					if(_user.profile.area == -1 && Tracker.currentComputation.firstRun) {
-						
+
 						//define which area user is with GPS coords, if return nothing, his area is 'Others'
 						areaFinder(function(area){
 							if(!area) {
@@ -102,7 +103,7 @@ Router.onBeforeAction(function(pause){
 
 					//on first time, create transaction id and open tutorial
 					if(!_user.private.viewTutorial) {
-						
+
 						//creating transaction id
 						Meteor.call('checkTransaction');
 
@@ -111,10 +112,10 @@ Router.onBeforeAction(function(pause){
 						IonModal.open('tutorial');
 					}
 
-					this.next();						
+					this.next();
 				}
 
-			// user is not verified, goes to profile with 
+			// user is not verified, goes to profile with
 			} else {
 				this.render('profile')
 			}

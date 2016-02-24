@@ -31,7 +31,7 @@ Template.inventory.events({
   'click .products': function() {
     Animations.accordion($('.products'), $('.product-item'));
   },
-    
+
   'click .requests-purchasing': function() {
     Animations.accordion($('.requests-purchasing'), $('.requests-purchasing-item'));
   },
@@ -54,7 +54,7 @@ Template.inventory.events({
       template: 'Do you want to share the item with the user?',
       onOk: function() {
         IonPopup.close();
-  
+
         PartioLoad.show();
 
         Meteor.call('ownerAccept', connectionId, function(err, res) {
