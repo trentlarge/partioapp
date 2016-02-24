@@ -37,9 +37,9 @@
                         <img src={{profile.avatar}}>
                         <span class="friend-name">{{profile.name}}</span>
                         {{#if ../isParentAccepted }}
-                          OK
+                          <span class="badge status">APPROVED</span>
                         {{else}}
-                          waiting
+                          <span class="badge status">WAITING</span>
                         {{/if}}
                         {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
                     </a>
@@ -102,11 +102,13 @@
                     <a class="item item-avatar item-icon-right friend" href="/profile/items/{{_id}}">
                         <img src={{profile.avatar}}>
                         <span class="friend-name">{{profile.name}}</span>
-                        {{#if ../isFriendWaiting _id }}
-                          <a href="#" class="accept" data-id="{{_id}}">Accept</a> / <a href="#" class="decline" data-id="{{_id}}">Decline</a>
-                        {{/if}}
                         {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
                     </a>
+                    {{#if ../isFriendWaiting _id }}
+                      <div class="item response-buttons no-padding-top no-border">
+                        <a href="#" class="button button-energized margin-horizontal accept" data-id="{{_id}}">ACCEPT</a> <a href="#" class="decline" data-id="{{_id}}">DECLINE</a>
+                      </div>
+                    {{/if}}
                 {{/each}}
             {{else}}
                 <div class="item">
