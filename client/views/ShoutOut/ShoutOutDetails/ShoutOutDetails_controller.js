@@ -34,7 +34,7 @@ ShoutOutDetailsController = RouteController.extend({
                 
                 // UPDATE SHOUT OUT
                 if(products.length != sharedProductsIds.length) {
-                    console.log(products.length + ' ' + sharedProductsIds.length)
+//                    console.log(products.length + ' ' + sharedProductsIds.length)
 
                     productsIds = [];
                     $.each(products, function(index, product) {

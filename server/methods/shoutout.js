@@ -34,6 +34,10 @@ Meteor.methods({
 		});
 	},
     
+    removeShoutOut: function(shoutId) {
+		ShoutOut.remove(shoutId);
+	},
+    
     removeSharedProduct: function(shoutId, productId) {
 		ShoutOut.update({ 
 			_id: shoutId 
