@@ -55,12 +55,12 @@
 
 a {
     text-decoration: none;
-    color: #df5707;
+    color: $assertive;
     cursor: pointer;
     
     &:hover {
         text-decoration: none;
-        color: #df5707;
+        color: $assertive;
         opacity: .7;
     }
 }
@@ -137,7 +137,7 @@ a {
 }
 
 a.email-support {
-    color: #df5707;
+    color: $assertive;
     text-decoration: none;
     padding-bottom: 20px;
 
@@ -153,7 +153,7 @@ a.email-support {
 // BAR
 
 .bar.bar-stable {
-    background-color: #272727;
+    background-color: $royal;
     color: #ffffff;
     .title, i {
         color: #ffffff;
@@ -261,11 +261,11 @@ body.keyboard-open .platform-android .content.overflow-scroll {
       font-size: 20px;
       text-transform: capitalize;
       font-weight: bold;
-      color: #272727;
+      color: $royal;
     }
     
     .popup-body {
-        color: #272727;
+        color: $royal;
         padding: 16px 0 16px 0;
         
         input {
@@ -318,13 +318,13 @@ body.keyboard-open .platform-android .content.overflow-scroll {
             text-align: right;
             border: 0;
             background-color: transparent;
-            color: #272727;
+            color: $royal;
             box-shadow: none;
             
             &.activated, &.active {
                 border: 0;
                 background-color: transparent;
-                color: #272727;
+                color: $royal;
                 box-shadow: none;
             }
         }
@@ -333,13 +333,13 @@ body.keyboard-open .platform-android .content.overflow-scroll {
             text-align: right;
             border: 0;
             background-color: transparent;
-            color: #df5707;
+            color: $assertive;
             box-shadow: none;
             
             &.activated, &.active {
                 border: 0;
                 background-color: transparent;
-                color: #df5707;
+                color: $assertive;
                 box-shadow: none;
             }
         }
@@ -348,13 +348,13 @@ body.keyboard-open .platform-android .content.overflow-scroll {
             text-align: right;
             border: 0;
             background-color: transparent;
-            color: #F0970D;
+            color: $energized;
             box-shadow: none;
             
             &.activated, &.active {
                 border: 0;
                 background-color: transparent;
-                color: #F0970D;
+                color: $energized;
                 box-shadow: none;
             }
         }
@@ -393,7 +393,7 @@ body.keyboard-open .platform-android .content.overflow-scroll {
     position: fixed;
     height: 55.5px;
     width: 55.5px;
-    background-color: #df5707;
+    background-color: $assertive;
     z-index: 100;
     bottom: 30px;
     right: 30px;
@@ -471,11 +471,11 @@ body.keyboard-open .platform-android .content.overflow-scroll {
     }
     
     .lend {
-        background-color: #f0970d;
+        background-color: $energized;
     }
 
     .rent {
-        background-color: #df5707;
+        background-color: $assertive;
     }
 
     .share-box {
@@ -770,7 +770,7 @@ button.ion-android-send {
 // == ALERT BOX ==
 
 .s-alert-info.s-alert-effect-jelly {
-  background: #f0970d;
+  background: $energized;
   color: #fff
 }
 
