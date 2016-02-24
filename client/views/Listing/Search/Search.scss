@@ -81,52 +81,14 @@
         margin: auto;
     }
     
-//    .product-avatar {
-//        -webkit-justify-content: center;
-//        justify-content: center;
-//        display: -webkit-flex; /* Safari */
-//        display: flex;
-//        -webkit-align-items: flex-start; /* Safari 7.0+ */
-//        align-items: flex-start;
-//        max-height: 230px;
-//        overflow: hidden;
-//    }
-//
-//    .item.product {
-//        padding: 0;
-//    }
-//    
-//    .product-avatar-inner {
-//        max-width: 100%;
-//    }
-    
-    
-    
-//    .item.title {
-//        padding: 0;
-//        margin: -10px 0 0 0;
-//        background-color: transparent;
-//        
-//        .card {
-//            margin: 1px 10px 5px 10px;
-//            background-color: rgba(255, 255, 255, 0.7);
-//        }
-//    }
-    
     p.product-title-text {
         white-space: normal;
         text-align: center;
-//        color: #ffffff;
         color: #272727;
-//        position: absolute;
         min-height: 15px;
         line-height: 18px;
-//        height: 50px;
-//        overflow: hidden;
-//        margin-top: -50px;
         padding: 10px;
         width: 100%;
-//        background-color: rgba(255, 255, 255, 0.7);
     }
     
     .rent-details-box {
@@ -159,7 +121,6 @@
         
         button {
             width: 90%;
-//            margin-top: 25px;
             border-radius: 100px;
             height: 40px;
             min-height: 40px;
@@ -214,7 +175,7 @@
         cursor: pointer;
 
         &:hover {
-            opacity: .7;
+            opacity: .9;
         }
 
         &.activated {
