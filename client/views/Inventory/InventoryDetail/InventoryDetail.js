@@ -340,6 +340,11 @@ Template.inventoryDetail.events({
 
     Session.set('editMode', false);
   },
+    
+  'click #editCancel': function(e, template) {
+      Session.set('editMode', false);
+      Router.go('/inventory');      
+  },
 
   'click #editRemove': function(e, template) {
       var productId = this.product._id;
