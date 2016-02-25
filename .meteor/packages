@@ -68,3 +68,5 @@ perak:camera
 clinical:barcode
 chart:chart
 piyush:nearby
+mrt:jquery-ui-sortable
+dsyko:jquery-ui-touch-punch

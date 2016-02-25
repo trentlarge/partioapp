@@ -1,3 +1,5 @@
+@import '../../../styles/app-variables';
+
 .shout-out-details {
     
     .item {
@@ -16,21 +18,30 @@
         p {
             white-space: normal;
             padding-right: 10px;
+            color: $royal;
+            line-height: 16px;
         }
         
         .user-name {
-            color: #df5707;
+            font-size: 14px;
+            color: $assertive;
             font-weight: bold;
-        }
-        
-        .shared-name {
-            color: #f0970d;
-            font-weight: bold;
+            white-space: normal;
+            overflow: visible;
         }
         
         .user-message {
+            font-size: 14px;
             font-weight: bold;
             line-height: 16px;
+            white-space: normal;
+            padding-right: 10px;
+            overflow: visible;
+        }
+        
+        .shared-name {
+            color: $energized;
+            font-weight: bold;
         }
         
         .user-time {

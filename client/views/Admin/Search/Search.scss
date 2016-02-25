@@ -1,3 +1,5 @@
+@import '../../../styles/app-variables';
+
 .admin-search {
     
     .card {
@@ -40,7 +42,7 @@
     margin-left: 20px;
 
     .search-icon {
-        color: #272727;
+        color: $royal;
         z-index: 20;
         font-size: 25px;
         line-height: 30px;
@@ -50,7 +52,7 @@
         background-color: #BBB;
         border-top: 1px solid #bdbdbd;
         width: 100%;
-        color: #272727;
+        color: $royal;
         z-index: 10;
         border-radius: 5px;
         height: 30px;

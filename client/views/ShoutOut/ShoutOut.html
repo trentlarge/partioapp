@@ -42,11 +42,13 @@
                                                           {{else}}
                                                             /listing/search/{{sharedProducts.[0]._id}}?ownerId={{sharedProducts.[0].ownerId}}
                                                           {{/if}}">
-                          <img src="{{user.avatar}}">
-                          <p>
-                              <span class="user-name">{{user.name}}</span> 
-                              <span class="user-message">{{message}}</span>
-                          </p>
+                          {{#with ../getUser userId}} 
+                              <img src="{{profile.avatar}}">
+                              <span class="user-name">{{profile.name}}</span> 
+                          {{/with}}
+                          
+                          <span class="user-message">{{message}}</span>
+                          
                           <p class="user-time">{{../getTime createdAt}}</p>
                             
                           <div class="item-icon-right">

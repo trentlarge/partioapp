@@ -1,3 +1,5 @@
+@import '../../styles/app-variables';
+
 .register {
 
     //background: url(img/signup-background.jpg);
@@ -61,7 +63,7 @@
         background-color: transparent;
         border: 0;
         border-bottom: 1px solid rgba(199, 191, 191, 0.42);
-        color: #272727;
+        color: $royal;
         margin-bottom: 10px;
 
         i {
@@ -87,14 +89,14 @@
 
     .item-select {
         background-color: transparent;
-        color: #272727;
+        color: $royal;
         p{
             font-size: 14px;
             padding-left: 6px;
             color: #A7A7A7;
         }
         &:after {
-            color: #272727;
+            color: $royal;
         }
 
         #college {

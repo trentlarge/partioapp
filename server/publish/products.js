@@ -1,5 +1,5 @@
-Meteor.publish("adminSearchOwnerProducts", function(_ownerId) {
-	return Products.find({ ownerId: _ownerId });
+Meteor.publish("adminSearchOwnerProducts", function(ownerId) {
+	return Products.findOne({ ownerId: ownerId });
 });
 
 Meteor.publish("adminSearchProducts", function(text, limit) {
@@ -29,6 +29,10 @@ Meteor.publish("productsListOwner", function(_ownerId) {
 
 Meteor.publish("singleProduct", function(idProduct) {
 	return Products.find({ _id: idProduct}, {limit: 1});
+});
+
+Meteor.publish("productsInArray", function(productsId) {
+	return Products.find({ _id: { $in: productsId }});
 });
 
 Meteor.publish("productsByTitle", function(_title) {

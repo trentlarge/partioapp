@@ -78,7 +78,7 @@ Template.lend.events({
               return;
             }
 
-            Lend.addProductToInventoryManually(manualProduct);
+            Lend.addProductToInventory(manualProduct);
             Lend.latestProduct = undefined;
 
           }

@@ -18,18 +18,65 @@ ShoutOutDetailsController = RouteController.extend({
     
     getShout: function() {
         Meteor.subscribe('shoutoutDetails', this.params._id);
-        return ShoutOut.findOne(this.params._id);
+        var shout = ShoutOut.findOne(this.params._id);
+        if(shout) {
+            Meteor.subscribe('singleUser', shout.userId);
+            Session.set('shout', shout);
+            
+            var sharedProductsIds = [];
+            $.each(shout.sharedProducts, function(index, sharedProduct) {
+                sharedProductsIds.push(sharedProduct._id); 
+            });
+            
+            Meteor.subscribe('productsInArray', sharedProductsIds, function() {
+                 
+                var products = Products.find({ _id: { $in: sharedProductsIds }}).fetch();    
+                
+                // UPDATE SHOUT OUT
+                if(products.length != sharedProductsIds.length) {
+//                    console.log(products.length + ' ' + sharedProductsIds.length)
+
+                    productsIds = [];
+                    $.each(products, function(index, product) {
+                        productsIds.push(product._id); 
+                    });
+
+                    $.each(sharedProductsIds, function(index, sharedProductsId) {
+                        if(products.length == 0 || sharedProductsId.indexOf(productsIds) < 0) {
+                            Meteor.call('removeSharedProduct', shout._id, sharedProductsId, function() {
+                                //Shared Product removed!
+                            })     
+                        }
+                    });
+                }   
+                
+            });
+
+            return shout;
+        }
     },
     
     getProducts: function() {
         Meteor.subscribe('myProducts');
-        return Products.find({}).fetch();
+        var products = Products.find({ownerId: Meteor.userId()}).fetch();
+        if(products) {
+            Session.set('products', products);
+            return products;
+        }
     },
     
     data: function() {
 		return {
             shout: this.getShout(),
             products: this.getProducts(),
+            
+            getUser: function(userId) {
+                return Users.findOne(userId);
+            },
+            
+            productExist: function(productId) {
+                return (Products.findOne(productId)) ? true : false;  
+            },
             
             getTime: function(createdAt) {
                 

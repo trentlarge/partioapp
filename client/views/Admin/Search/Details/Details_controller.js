@@ -37,7 +37,11 @@ AdminSearchDetailsController = RouteController.extend({
     
     getProduct: function(productId) {
         Meteor.subscribe('singleProduct', productId);
-        return Products.findOne(productId);
+        var product = Products.findOne(productId);
+        if(product) {
+            Meteor.subscribe('searchSingleUser', product.ownerId);
+            return product;
+        }
     },
 
 	data: function() {
@@ -126,12 +130,28 @@ AdminSearchDetailsController = RouteController.extend({
                     return (this.userAdmin.length > 0) ? true : false;
                 },  
                 
+                getUser: function(userId) {
+                    return Users.findOne(userId);    
+                },
+                
                 isProductDetails: function() {
                     return (this.searchId === 'products') ? true : false;
                 },
+                
+                getCategories: function() {
+                    Session.set('selectedCategory', this.product.category);
+                    return Categories.getCategories();
+                },
+
+                getConditions: function() {
+                    Session.set('selectedCondition', this.product.conditionId);
+                    return Rating.getConditions();
+                },
+
             }
             
         }
+        
 	},
 
 	onAfterAction: function() {

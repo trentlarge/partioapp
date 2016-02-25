@@ -1,3 +1,5 @@
+@import '../../../styles/app-variables';
+
 @-webkit-keyframes fadeIn {
     from { opacity: 0; }
       to { opacity: 1; }
@@ -92,8 +94,8 @@
             box-shadow: inset 0px -20px 0px 0px rgba(255,255,255,0.1);
         }
         
-        .bk-energized { background-color: #f0970d; }
-        .bk-assertive { background-color: #df5707; }
+        .bk-energized { background-color: $energized; }
+        .bk-assertive { background-color: $assertive; }
         
         .detail {
             font-size: 14px;

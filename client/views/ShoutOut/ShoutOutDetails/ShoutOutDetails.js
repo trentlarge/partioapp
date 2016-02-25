@@ -1,12 +1,12 @@
 Template.shoutoutDetails.rendered = function() {
     
-    if(this.data.products) {
-        Session.set('products', this.data.products);
-    }
-    
-    if(this.data.shout) {
-        Session.set('shout', this.data.shout);
-    }
+//    if(this.data.products) {
+//        Session.set('products', this.data.products);
+//    }
+//    
+//    if(this.data.shout) {
+//        Session.set('shout', this.data.shout);
+//    }
 }
 
 Template.shoutoutDetails.destroyed = function() {
@@ -23,7 +23,7 @@ Template.shoutoutShare.helpers({
     getCondition: function(conditionId) {
         return Rating.getConditionByIndex(conditionId);
     },
-    
+
 });
 
 Template.shoutoutShare.events({

@@ -45,7 +45,9 @@ ListingController = RouteController.extend({
 
     Session.set("pageNumberLoaded", Math.ceil(products.count() / pageSize));
     Meteor.subscribe("productsData", Meteor.userId(), _userArea, pageNumber, text, categories, function() {
-        $('.loadbox').fadeOut();
+        setTimeout(function(){
+            $('.loadbox').fadeOut();
+        }, 100);
 
         if(products.count() > 0) {
           $('.no-items').hide();

@@ -1,3 +1,5 @@
+@import '../../../../styles/app-variables';
+
 //.search-header-input {
 //    width: 0%;
 //    -webkit-transition: width 0.3s;
@@ -5,7 +7,7 @@
 //    -ms-transition: width 0.3s;
 //    -o-transition: width 0.3s;
 //    transition: width 0.3s;
-//    color: #272727;
+//    color: $royal;
 //    z-index: 10000;
 //    border-radius: 20px;
 //    padding: 15px;
@@ -21,7 +23,7 @@
 }
 
 .search-header-icon {
-    color: #272727;
+    color: $royal;
     z-index: 20;
     font-size: 25px;
     line-height: 30px;
@@ -47,7 +49,7 @@ input[type="text"].search-header-input {
     background-color: #BBB;
     border-top: 1px solid #bdbdbd;
     width: 0%;
-    color: #272727;
+    color: $royal;
     z-index: 10;
     border-radius: 5px;
     margin-left: -25px;

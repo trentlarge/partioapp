@@ -1,3 +1,5 @@
+@import '../../../styles/app-variables';
+
 .lend-view {
 
     .content {
@@ -18,7 +20,7 @@
 }
 
 .search-share-header-icon {
-    color: #272727;
+    color: $royal;
     z-index: 20;
     font-size: 25px;
     line-height: 30px;
@@ -52,7 +54,7 @@ input[type="text"].search-share-header-input.has-text {
     background-color: #BBB;
     border-top: 1px solid #bdbdbd;
     width: 0%;
-    color: #272727;
+    color: $royal;
     z-index: 10;
     padding-top: 0;
     border-radius: 5px;

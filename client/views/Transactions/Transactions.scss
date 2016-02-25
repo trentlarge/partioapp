@@ -1,3 +1,5 @@
+@import '../../styles/app-variables';
+
 .transactions-view {
     
     a {
@@ -27,8 +29,8 @@
         -ms-transition: all 0.3s ease, border 1ms;          
         transition: all 0.3s ease, border 1ms;
         background-color: #F9F9F9;
-        color: #272727 !important;
-//        border-bottom: 2px solid #272727; 
+        color: $royal !important;
+//        border-bottom: 2px solid $royal; 
         opacity: 1;
         -webkit-box-shadow: none;
         -moz-box-shadow: none;
@@ -46,7 +48,7 @@
         
         .amount {
             padding-left: 5px;
-            color: #f0970d;
+            color: $energized;
         }
         
         .product-title {
@@ -82,7 +84,7 @@
 
     .card-special div {
         font-size: 40px;
-        color: #df5707;
+        color: $assertive;
         padding: 40px 0;
         font-family: Futura-CondensedMedium;
     }

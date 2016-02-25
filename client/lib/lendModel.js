@@ -117,63 +117,6 @@ app.model.Lend = (function () {
       return rentingFinalPrice;
     },
 
-    addProductToInventoryManually : function(manualProduct) {
-      var self = this;
-
-      Meteor.call("insertProduct", manualProduct, function(err, res) {
-        PartioLoad.hide();
-
-        if(err) {
-          var errorMessage = err.reason || err.message;
-          if(err.details) {
-              errorMessage = errorMessage + "\nDetails:\n" + err.details;
-          }
-          sAlert.error(errorMessage);
-          return;
-        }
-          
-        // ADD SHOUT
-          
-//        manualProduct._id = res;
-//          
-//        var shout = {
-//            message: 'shared "' + manualProduct.title + '"',
-//            sharedProducts: []
-//        }
-//        
-//        shout.sharedProducts.push(manualProduct);
-//          
-//        Meteor.call('insertShoutOut', Meteor.userId(), shout.message, 'share', shout.sharedProducts, function(err, res) {
-//          if(err) {
-//            var errorMessage = err.reason || err.message;
-//            if(err.details) {
-//              errorMessage = errorMessage + "\nDetails:\n" + err.details;
-//            }
-//            sAlert.error(errorMessage);
-//          }  
-//        });
-
-        self.clearPrices();
-
-        IonPopup.show({
-          title: 'Your product is successfully submitted',
-          template: 'You can find this shared item in your Repository',
-          buttons:
-            [{
-              text: 'OK',
-              type: 'button-energized',
-              onTap: function() {
-                $('#closeLend').click();
-                IonPopup.close();
-                //IonModal.close();
-                Router.go('/inventory');
-                
-              }
-            }]
-        });
-      });
-    },
-
     addProductToInventory : function(product) {
       var self = this;
 

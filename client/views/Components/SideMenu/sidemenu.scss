@@ -1,9 +1,11 @@
+@import '../../../styles/app-variables';
+
 ion-side-menu.menu-left.menu {
   background-color: red !important;
 }
 
 .menu-left {
-  background-color: #272727 !important;
+  background-color: $royal !important;
   color: #FFFFFF !important;
   overflow: hidden;
   // background: url('/dvsup_@2X.png') repeat;
@@ -90,7 +92,7 @@ ion-side-menu.menu-left.menu {
     //            margin-left: 10px;
                 padding-left: 5px;
                 padding-right: 6px;
-                color: #272727;
+                color: $royal;
             }
             
         }

@@ -24,17 +24,64 @@ ShoutOutController = RouteController.extend({
         
         if(Session.get('tabMyShouts')) {
             Meteor.subscribe('myShoutout', Meteor.userId(), limit, function() {
-                $('.loadbox').fadeOut();
+                setTimeout(function(){
+                    $('.loadbox').fadeOut();
+                }, 100);
             });
         }
         else {
             Meteor.subscribe('shoutout', limit, function() {
-                $('.loadbox').fadeOut();
+                setTimeout(function(){
+                    $('.loadbox').fadeOut();
+                }, 100);
             });
         }
         
-        return ShoutOut.find({}, {sort: {createdAt: -1}}).fetch();
+        var shouts = ShoutOut.find({}, {sort: {createdAt: -1}}).fetch();
+        var usersId = [];
+        
+        $.each(shouts, function(index, shout) {
+            usersId.push(shout.userId);
+        });
+               
+        Meteor.subscribe('usersInArray', usersId);   
+        
+        var sharedProductsIds = [];
+        var shoutIds = [];
+        $.each(shouts, function(index, shout) {
+            if(shout.type == 'share') {
+                sharedProductsIds.push(shout.sharedProducts[0]._id); 
+                shoutIds.push(shout._id);
+            }
+        });
+
+        if(sharedProductsIds.length > 0) {
+            Meteor.subscribe('productsInArray', sharedProductsIds, function() {
+                var products = Products.find({ _id: { $in: sharedProductsIds }}).fetch();    
+
+                // UPDATE SHOUT OUT
+                if(products.length != sharedProductsIds.length) {
+//                    console.log(products.length + ' ' + sharedProductsIds.length)
+
+                    productsIds = [];
+                    $.each(products, function(index, product) {
+                        productsIds.push(product._id); 
+                    });
+
+                    $.each(sharedProductsIds, function(index, sharedProductsId) {
+                        if(products.length == 0 || sharedProductsId.indexOf(productsIds) < 0) {
+                            Meteor.call('removeShoutOut', shoutIds[index], function() {
+                                //Shared Product removed!
+                            })     
+                        }
+                    });
+                }   
+            });
+        }
+
+        return shouts;
     },
+    
     
     data: function() {
         
@@ -43,6 +90,10 @@ ShoutOutController = RouteController.extend({
             
             isTypeShout(type) {
                 return (type === 'shout') ? true : false;
+            },
+            
+            getUser(userId) {
+                return Users.findOne(userId);
             },
             
             getTime: function(createdAt) {

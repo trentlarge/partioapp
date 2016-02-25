@@ -1,3 +1,5 @@
+@import '../../styles/app-variables';
+
 .renting-list {
 
     @media screen and (min-width: 450px) {
@@ -79,7 +81,7 @@
 
         .price {
             font-size: 18px;
-            color: #f0970d;
+            color: $energized;
         }
     }
 
@@ -101,7 +103,7 @@
     .not-yet {
 
         i {
-            color: #272727;
+            color: $royal;
         }
     }
     

@@ -8,17 +8,13 @@ Meteor.methods({
     
     insertShoutOut: function(userId, message, type, sharedProducts) {
         
-        var user = Users.findOne({_id: userId});
+        //var user = Users.findOne({_id: userId});
 
         var shout = {
             'message': message,
             'type': type,
             'createdAt': new Date(),
-            'user': {
-                'id': userId,
-                'name': user.profile.name,
-                'avatar': user.profile.avatar
-            },
+            'userId': userId,
             'sharedProducts': (function() {
                 return (sharedProducts) ? sharedProducts : [];
             })()
@@ -35,6 +31,19 @@ Meteor.methods({
 		}, 
         {
 			$push: { sharedProducts: product },   
+		});
+	},
+    
+    removeShoutOut: function(shoutId) {
+		ShoutOut.remove(shoutId);
+	},
+    
+    removeSharedProduct: function(shoutId, productId) {
+		ShoutOut.update({ 
+			_id: shoutId 
+		}, 
+        {
+			$pull: { sharedProducts: { _id: productId } },   
 		});
 	}
     

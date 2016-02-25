@@ -55,20 +55,21 @@
 
 a {
     text-decoration: none;
-    color: #df5707;
+    color: $assertive;
     cursor: pointer;
     
     &:hover {
         text-decoration: none;
-        color: #df5707;
+        color: $assertive;
         opacity: .7;
     }
 }
 
 .no-border { border: 0; }
-.no-padding { padding: 0; margin: 0; }
+.no-padding { padding: 0; }
 .no-padding-top { padding-top: 0 }
 .no-padding-bottom { padding-bottom: 0 }
+.no-margin { margin: 0; }
 
 // VIEW
 
@@ -137,7 +138,7 @@ a {
 }
 
 a.email-support {
-    color: #df5707;
+    color: $assertive;
     text-decoration: none;
     padding-bottom: 20px;
 
@@ -153,7 +154,7 @@ a.email-support {
 // BAR
 
 .bar.bar-stable {
-    background-color: #272727;
+    background-color: $royal;
     color: #ffffff;
     .title, i {
         color: #ffffff;
@@ -261,11 +262,11 @@ body.keyboard-open .platform-android .content.overflow-scroll {
       font-size: 20px;
       text-transform: capitalize;
       font-weight: bold;
-      color: #272727;
+      color: $royal;
     }
     
     .popup-body {
-        color: #272727;
+        color: $royal;
         padding: 16px 0 16px 0;
         
         input {
@@ -318,13 +319,13 @@ body.keyboard-open .platform-android .content.overflow-scroll {
             text-align: right;
             border: 0;
             background-color: transparent;
-            color: #272727;
+            color: $royal;
             box-shadow: none;
             
             &.activated, &.active {
                 border: 0;
                 background-color: transparent;
-                color: #272727;
+                color: $royal;
                 box-shadow: none;
             }
         }
@@ -333,13 +334,13 @@ body.keyboard-open .platform-android .content.overflow-scroll {
             text-align: right;
             border: 0;
             background-color: transparent;
-            color: #df5707;
+            color: $assertive;
             box-shadow: none;
             
             &.activated, &.active {
                 border: 0;
                 background-color: transparent;
-                color: #df5707;
+                color: $assertive;
                 box-shadow: none;
             }
         }
@@ -348,13 +349,13 @@ body.keyboard-open .platform-android .content.overflow-scroll {
             text-align: right;
             border: 0;
             background-color: transparent;
-            color: #F0970D;
+            color: $energized;
             box-shadow: none;
             
             &.activated, &.active {
                 border: 0;
                 background-color: transparent;
-                color: #F0970D;
+                color: $energized;
                 box-shadow: none;
             }
         }
@@ -364,6 +365,28 @@ body.keyboard-open .platform-android .content.overflow-scroll {
 
 // -- END: POPUP --
 
+// -- ACTION SHEET ANDROID -- {
+.platform-android {
+    .action-sheet {
+        .action-sheet-group {
+            background-color: #fff;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            margin: 10px auto;
+            width: 95%;
+            
+            .button {
+                text-align: center;
+                color: #007aff;
+                font-size: 21px;
+                border-top: 1px solid #d1d3d6;
+            }
+        }
+    }
+    
+    
+    
+}
 // -- FAB BUTTONS --
 
 .fab-button {
@@ -371,7 +394,7 @@ body.keyboard-open .platform-android .content.overflow-scroll {
     position: fixed;
     height: 55.5px;
     width: 55.5px;
-    background-color: #df5707;
+    background-color: $assertive;
     z-index: 100;
     bottom: 30px;
     right: 30px;
@@ -449,11 +472,11 @@ body.keyboard-open .platform-android .content.overflow-scroll {
     }
     
     .lend {
-        background-color: #f0970d;
+        background-color: $energized;
     }
 
     .rent {
-        background-color: #df5707;
+        background-color: $assertive;
     }
 
     .share-box {
@@ -612,7 +635,7 @@ body.keyboard-open .platform-android .content.overflow-scroll {
 
 .main-title-text {
   font-weight: 200 !important;
-  color: #272727 !important;
+  color: $royal !important;
   font-size: 0.9em !important;
   margin-bottom: -1px !important;
 }
@@ -748,7 +771,7 @@ button.ion-android-send {
 // == ALERT BOX ==
 
 .s-alert-info.s-alert-effect-jelly {
-  background: #f0970d;
+  background: $energized;
   color: #fff
 }
 

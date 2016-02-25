@@ -1,3 +1,5 @@
+@import '../../styles/app-variables';
+
 //
 //body.keyboard-open .platform-android .content.talk-content.overflow-scroll {
 //    padding-top: 258px;
@@ -45,18 +47,16 @@
         }
     }
 
-    div.profile-pic {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      border: 2px #fff solid;
-    }
-
-    img.profile-pic {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      border: 1px #fff solid;
+    .profile-pic {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        overflow: hidden;
+        
+        img {
+            max-width: 100%;
+        }
+        
     }
 
     .message {
@@ -98,24 +98,23 @@
         transition: all 30ms linear;
     }
 
-
     .chat-bubble {
-      border-radius: 5px;
-      display: inline-block;
-      padding: 4px 8px 0px 8px;
-      position: relative;
-      margin: 10px;
-      max-width: 60%;
+        border-radius: 5px;
+        display: inline-block;
+        padding: 4px 8px 0px 8px;
+        position: relative;
+        margin: 10px 15px;
+        max-width: 60%;
     }
 
-    .chat-bubble:before {
-      content: "\00a0";
-      display: block;
-      height: 16px;
-      width: 9px;
-      position: absolute;
-      bottom: -7.5px;
-    }
+//    .chat-bubble:before {
+//        content: "\00a0";
+//        display: block;
+//        height: 16px;
+//        width: 9px;
+//        position: absolute;
+//        bottom: -7.5px;
+//    }
 
     .each-chatblock.right {
         text-align: right;
@@ -128,20 +127,19 @@
     }
 
     .chat-bubble.right {
-      background-color: #f0970d;
-      color: #fff;
-    }
-
-    .chat-bubble.right:before {
-        height: 0;
-        width: 0;
-        border: 10px solid;
-        background-color: transparent;
-        right: -5px;
-        bottom: 6px;
-        -webkit-transform: rotate(45deg) skew(-5deg);
-        border-color: #f0970d transparent transparent transparent;
-        z-index: -1;
+        background-color: $energized;
+        color: #fff;
+        
+        .bubble-triangle {
+            position: absolute;
+            height: 0;
+            width: 0;
+            border: 10px solid;
+            background-color: transparent;
+            right: -10px;
+            bottom: 10px;
+            border-color: transparent transparent $energized transparent;
+        }
     }
 
     .each-chatblock.left {
@@ -154,21 +152,20 @@
 
     .chat-bubble.left {
         order: 1;
-        background-color: #df5707;
+        background-color: $assertive;
         color: #fff;
-    }
-
-    .chat-bubble.left:before {
-        height: 0;
-        width: 0;
-        border: 10px solid;
-        background-color: transparent;
-        left: -5px;
-        bottom: 6px;
-        -webkit-transform: rotate(45deg) skew(-5deg);
-        border-color: transparent transparent transparent #df5707;
-        z-index: -1;
-    }
+        
+        .bubble-triangle {
+            position: absolute;
+            height: 0;
+            width: 0;
+            border: 10px solid;
+            background-color: transparent;
+            left: -10px;
+            bottom: 10px;
+            border-color: transparent transparent $assertive transparent;
+        }
+    }  
     
 }
 

@@ -107,6 +107,28 @@
                                 </div>
                             </div>
                             
+                            <div class="item item-input item-select">
+                                <div class="input-label">
+                                  <p>Condition:</p>
+                                </div>
+                                <select class="condition" disabled>
+                                  {{#each ../getConditions}}
+                                    <option value="{{index}}" {{selectedCondition index}}>{{value}}</option>
+                                  {{/each}}
+                                </select>
+                            </div>
+
+                            <div class="item item-input item-select">
+                                <div class="input-label">
+                                  <p style="height:16px;">Category:</p>
+                                </div>
+                                <select class="category" disabled>
+                                    {{#each ../getCategories}}
+                                        <option {{selectedCategory text}}>{{text}}</option>
+                                    {{/each}}
+                                </select>
+                            </div>
+                            
                             <div class="item item-divider">
                                 <h2>Rent Price</h2>
                             </div>
@@ -134,15 +156,17 @@
                             
                         </div>
                 
-                        <div class="card">
-                            <a class="item item-avatar" href="/admin/search/users/{{ownerId}}">
-                              <img src="{{ownerData.profile.avatar}}">
-                              <span class="user-name">{{ownerData.profile.name}}</span> 
-                              <div class="item-icon-right">
-                                {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
-                              </div>    
-                            </a>
-                        </div>
+                        {{#with ../getUser ownerId}}
+                            <div class="card">
+                                <a class="item item-avatar" href="/admin/search/users/{{_id}}">
+                                  <img src="{{profile.avatar}}">
+                                  <span class="user-name">{{profile.name}}</span> 
+                                  <div class="item-icon-right">
+                                    {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
+                                  </div>    
+                                </a>
+                            </div>
+                        {{/with}}
                 
                     {{/with}}
                 

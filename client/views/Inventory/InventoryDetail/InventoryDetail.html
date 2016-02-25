@@ -35,29 +35,31 @@
     
       <div class="loading-wrapper">
         <div class="card list">
-          <div class="item image">
-<!--
+            
+          <div class="item">
             {{#if editMode product._id}}
-            <div class="item-image-box">
-                <div class="img-wrap">
-                    <div class="close">&times;</div>
-                    <img class="scanResult-thumbnail2 product-image" src="{{product.image}}"/>
+                <span class="product-title">Click to edit images</span>
+                <div class="image-container">
+                    <a data-ion-modal="inventoryEditImages">
+                        <img class="product-image" src="{{product.image}}">
+                    </a>
                 </div>
-            </div>
             {{else}}
--->
-            <div class="item-image-box">
-              <a data-ion-modal="slideInventoryImages">
-                <img class="product-image" src="{{product.image}}"/>
-              </a>
+                <span class="product-title">{{product.title}}</span>
+                <div class="image-container">
+                    <a data-ion-modal="slideInventoryImages">
+                        <img class="product-image" src="{{product.image}}">
+                    </a>
+                </div>
+            {{/if}}
+          </div>
+            
+          {{#if editMode product._id}}
+            <div class="item item-input">
+                <input type="text" value="{{product.title}}" class="title" style="text-align:center;border:0" {{../isEditMode}}>
             </div>
-<!--            {{/if}}-->
-          </div>
-
-          <div class="item item-input item-title">
-            <input type="text" value="{{product.title}}" class="title" style="text-align:center;border:0" {{../isEditMode}}>
-          </div>
-
+          {{/if}}
+            
           <div class="item item-input item-select">
             <div class="input-label">
               <p>Condition:</p>
@@ -69,7 +71,7 @@
             </select>
           </div>
 
-          <div class="item item-input item-select">
+          <div class="item item-input item-select no-border">
                 <div class="input-label">
                   <p style="height:16px;">Category:</p>
                 </div>
@@ -130,7 +132,7 @@
                 <input type="number" class="price weekPrice" value="{{product.rentPrice.week}}" placeholder="0.00" {{../isEditMode}}>
             </div>
          </div>
-        <div class="item row">
+        <div class="item row no-border">
             <div class="col col-50">
                 <div class="priceLabel">MONTH</div>
                 <input type="number" class="price monthPrice" value="{{product.rentPrice.month}}" placeholder="0.00" {{../isEditMode}}>
@@ -140,25 +142,6 @@
                 <input type="number" class="price semesterPrice" value="{{product.rentPrice.semester}}" placeholder="0.00" {{../isEditMode}}>
             </div>
         </div>
-            
-<!--
-          <label class="item item-input">
-            <span class="input-label"><p>Day:</p></span>
-            <input type="number" class="price dayPrice" value="{{product.rentPrice.day}}" {{../isEditMode}} placeholder="0.00">
-          </label>
-          <label class="item item-input">
-            <span class="input-label"><p>Week:</p></span>
-            <input type="number" class="price weekPrice" value="{{product.rentPrice.week}}" {{../isEditMode}} placeholder="0.00">
-          </label>
-          <label class="item item-input">
-            <span class="input-label"><p>Month:</p></span>
-            <input type="number" class="price monthPrice" value="{{product.rentPrice.month}}" {{../isEditMode}} placeholder="0.00">
-          </label>
-          <label class="item item-input">
-            <span class="input-label"><p>Semester (4m):</p></span>
-            <input type="number" class="price semesterPrice" value="{{product.rentPrice.semester}}" {{../isEditMode}} placeholder="0.00">
-          </label>
--->
             
           <div class="item item-divider">
                 Purchasing
@@ -189,9 +172,17 @@
               <button id="editSave" class="button button-block button-energized">SAVE</button>
             </div>
 
+            <div class="center padding-vertical">
+              <a id="editCancel" class="">CANCEL</a>
+                <span class="padding-horizontal" style="margin-right: 3px;color: #DDD;">|</span>
+              <a id="editRemove" class="">REMOVE</a>
+            </div>
+<!--
+            
             <div class="padding-horizontal">
               <button id="editRemove" class="button button-block button-assertive">REMOVE</button>
             </div>
+-->
           {{/if}}
         </div>
       </div>
@@ -213,6 +204,45 @@
                 {{/ionSlide}}
             {{/each}}
         {{/ionSlideBox}}
+    
+    {{/ionModal}}
+    
+</template>
+
+<template name="inventoryEditImages">
+
+    {{#ionModal title="Images" class="inventory-details inventory-edit-images"}}
+    
+        <div class="row">
+            
+            <div class="col col-50">
+                {{#unless isMaxImages}}
+                    <i class="ion-image select-image"></i>
+                    <span class="add-image">ADD IMAGE</span>
+                {{/unless}}
+                <input type="file" id="browser-file-upload" style="display:none">
+                <button class="button button-block button-energized" id="saveImages">SAVE</button>
+                <a href="#" id="cancelImages">CANCEL</a>
+            </div>
+            
+            <div class="col col-50">
+                {{#if isMinImages}}
+                    <span class="drag-message">Drag to reorder</span>
+                {{/if}}
+                <ul class="dragabble-images-box">
+                    {{#each slideElements}}
+                        <li class="dragabble-image-item">
+                            <div class="close">&times;</div>
+                            <span class="cover">COVER</span>
+                            <img class="dragabble-image" src="{{photo}}"/>
+                        </li>
+                    {{/each}}
+                </ul>
+            </div>
+           
+        </div>
+    
+        
     
     {{/ionModal}}
 </template>

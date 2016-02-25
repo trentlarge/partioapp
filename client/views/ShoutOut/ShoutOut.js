@@ -42,10 +42,17 @@ Template.shoutout.events({
         }
     },
     
+    'keypress #messageInput': function(e, template) {
+        
+        if (e.charCode == 13 || e.keyCode == 13) {
+            $('#shoutSubmit').click();
+        }
+    },
+    
     'click #shoutSubmit': function(e, template) {
         
         var message = $('#messageInput').val();
-        if(message == '') return;
+        if(message.trim() == '') return;
         
         $('#messageInput').val('');
         

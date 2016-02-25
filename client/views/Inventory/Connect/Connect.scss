@@ -1,6 +1,8 @@
+@import '../../../styles/app-variables';
+
 .connect, .connectRent {
 
-    color: #272727;
+    color: $royal;
 
     .card {
         padding: 0;
@@ -76,7 +78,7 @@
         p.product-title {
             white-space: normal;
             height: 16px;
-            color: #272727;
+            color: $royal;
         }
     }
         
@@ -98,7 +100,7 @@
             min-width: 25px;
             font-size: 15px;
             margin-right: 10px;
-            background-color: #f0970d;
+            background-color: $energized;
             -webkit-box-shadow: inset 0px -10px 0px 0px rgba(255,255,255,0.1);
             -moz-box-shadow: inset 0px -10px 0px 0px rgba(255,255,255,0.1);
             box-shadow: inset 0px -10px 0px 0px rgba(255,255,255,0.1);
@@ -168,11 +170,11 @@
         background-size: 0;
         margin-top: 5px;
         margin-bottom: 5px;      
-        color: #272727;
+        color: $royal;
         
         a.tab-item {
             font-size: 12px;
-            color: #272727;
+            color: $royal;
             text-decoration: none;    
             
             &:hover {
@@ -192,7 +194,7 @@
 //        -webkit-justify-content: center;
 //
 //        a {
-//            color: #272727;
+//            color: $royal;
 //            align-items: center;
 //            -webkit-align-items: center;
 //            cursor: pointer;
@@ -233,7 +235,7 @@
             width: 30px;
             min-width: 30px;
             margin-right: 10px;
-            background-color: #F0970D;
+            background-color: $energized;
             color: #fff;
             border-radius: 2px;
             padding: 5px;
@@ -244,7 +246,7 @@
 //            filter: drop-shadow(1px 1px 0px rgba(134, 85, 8, .8));
 
             &.ion-location {
-                background-color: #DF5707;
+                background-color: $assertive;
 //                -webkit-filter: drop-shadow(1px 1px 0px rgba(107, 42, 4, .8));
 //                filter: drop-shadow(1px 1px 0px rgba(107, 42, 4, .8));
             }
@@ -252,7 +254,7 @@
 
         .price {
             font-size: 18px;
-            color: #f0970d;
+            color: $energized;
         }
 
         input[type="range"] {
@@ -283,7 +285,7 @@
                 white-space: normal;
 
                 &.set-location {
-                    color: #DF5707;
+                    color: $assertive;
                 }
             }
         }
@@ -295,7 +297,7 @@
     }
 
     .title {
-        color: #272727;
+        color: $royal;
         font-size: 16px;
         white-space: -moz-pre-wrap; /* Mozilla */
         white-space: -o-pre-wrap; /* Opera 7 */
