@@ -57,3 +57,7 @@ Meteor.publish("AdminPromotionsAllUsersByArea", function(idArea) {
 Meteor.publish("AdminPromotionUsersByArrayId", function(array) {
 	return Users.find({ _id: { $in: array } }, { fields: { profile: 1, private: 1 }});
 });
+
+Meteor.publish("adminVerifiedUsers", function() {
+	return Users.find({ "emails.0.verified": true }, { fields: { profile: 1, private: 1 }});
+});

@@ -1,8 +1,8 @@
 Template.adminPromotions.onCreated(function () {
   var thiz = this;
 
-  this.subscribe("AdminPromotionsAllUsersByArea", this.data.getFilterId, function(){
-    var _parents = thiz.data.usersByArea();
+  this.subscribe("adminVerifiedUsers", function(){
+    var _parents = thiz.data.allUsers();
 
     var _ids = []
 
@@ -23,13 +23,13 @@ Template.adminPromotions.rendered = function() {
 }
 
 // Template.adminPromotions.helpers({
-    
-  
+
+
 // usersByArea: function(){
 //         return Meteor.users.find({ 'profile.area': this.getFilterId }).fetch()
 //       },
 
-    
+
 // });
 
 

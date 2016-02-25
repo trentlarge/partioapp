@@ -42,12 +42,19 @@ AdminPromotionsController = RouteController.extend({
 			filter: this.filter(),
 			getFilterId: this.getFilterId(),
 
+			allUsers: function(){
+				var _userByArea = Meteor.users.find({}).fetch();
+				return _userByArea;
+			},
+
 			usersByArea: function(){
 				if(this.getFilterId) {
 					var _userByArea = Meteor.users.find({ 'profile.area': this.getFilterId }).fetch();	
 				} else {
 					var _userByArea = Meteor.users.find({}).fetch();
 				}
+
+				//console.log(_userByArea);
 
 				return _userByArea;
 			},
@@ -84,11 +91,11 @@ AdminPromotionsController = RouteController.extend({
 
 			transactionEarnByUserId: function(userId){
 				if(userId){
-					var transactions = Transactions.findOne({ userId: userId });
+					var transaction = Transactions.findOne({ userId: userId });
 
-					if(transactions){
+					if(transaction){
 						var total = 0;
-						var earningArray = transactions.earning;
+						var earningArray = transaction.earning;
 						earningArray.forEach(function(item) {
 							total += (item.receivedAmount || 0);
 						});
@@ -101,11 +108,11 @@ AdminPromotionsController = RouteController.extend({
 
 			transactionSpentByUserId: function(userId){
 				if(userId){
-					var transactions = Transactions.findOne({ userId: userId });
+					var transaction = Transactions.findOne({ userId: userId });
 
-					if(transactions){
+					if(transaction){
 						var total = 0;
-						var spendingArray = transactions.spending;
+						var spendingArray = transaction.spending;
 						spendingArray.forEach(function(item) {
 							total += (item.paidAmount || 0);
 						});
@@ -121,11 +128,14 @@ AdminPromotionsController = RouteController.extend({
 			transactionsTotalByArea: function(){
 				var _usersByArea = this.usersByArea();
 
+				//console.log(_usersByArea);
+
 				if(_usersByArea){
 					var thiz = this;
 					var total = 0;
 
 					_usersByArea.map(function(user){
+						//console.log(thiz.transactionEarnByUserId(user._id));
 						total += (thiz.transactionEarnByUserId(user._id) || 0);
 				    });
 
