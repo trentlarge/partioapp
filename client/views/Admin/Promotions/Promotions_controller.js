@@ -92,10 +92,10 @@ AdminPromotionsController = RouteController.extend({
 						earningArray.forEach(function(item) {
 							total += (item.receivedAmount || 0);
 						});
-						return Number(total).toFixed(2);
+						return Number(total);
 					}
 					
-					return Number(0).toFixed(2);				
+					return Number(0);				
 				}
 			},
 
@@ -109,29 +109,65 @@ AdminPromotionsController = RouteController.extend({
 						spendingArray.forEach(function(item) {
 							total += (item.paidAmount || 0);
 						});
-						return Number(total).toFixed(2);
+						return Number(total);
+						//return Number(total).toFixed(2);
 					}
 					
-					return Number(0).toFixed(2);				
+					//return Number(0).toFixed(2);				
+					return Number(0);				
 				}
 			},
 
+			transactionsTotalByArea: function(){
+				var _usersByArea = this.usersByArea();
+
+				if(_usersByArea){
+					var thiz = this;
+					var total = 0;
+
+					_usersByArea.map(function(user){
+						total += (thiz.transactionEarnByUserId(user._id) || 0);
+				    });
+
+				    return Number(total);
+				}
+				
+			},
 
 			userChildren: function(userId){
 				var _children = Meteor.users.find({ 'private.promotions.friendShare.parent': userId }).fetch();
 				return _children;
 			},
 
-			// hasChildren: function(userId){
-			// 	Meteor.call('getUserChildren', userId, function(error, result){
-			// 	 	if(result){
-			// 	 		return true;
-			// 	 	}
+			childrenEarnTotal: function(userId){
+				var _userChildren = this.userChildren(userId);
 
-			// 	 	return false;
-			// 	 });
-				
-			// },
+				if(_userChildren) {
+					var thiz = this;
+					var total = 0;
+
+					_userChildren.map(function(user){
+						total += (thiz.transactionEarnByUserId(user._id) || 0);
+				    });
+
+				    return Number(total);
+				}
+			},
+
+			childrenSpentTotal: function(userId){
+				var _userChildren = this.userChildren(userId);
+
+				if(_userChildren) {
+					var thiz = this;
+					var total = 0;
+
+					_userChildren.map(function(user){
+						total += (thiz.transactionSpentByUserId(user._id) || 0);
+				    });
+
+				    return Number(total);
+				}
+			},
 
 			childrenCount : function(userId){
 				var _user = Meteor.users.findOne({ '_id': userId});

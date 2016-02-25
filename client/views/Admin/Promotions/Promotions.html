@@ -32,7 +32,7 @@
               <div class="item">
                 <h2>Listing {{countUsersByArea}} users</h2>
                 <span class="item-note">
-                  <b>Total Area:</b> E $0,00 / S $0,00
+                  <b>Total Transactions:</b> ${{ transactionsTotalByArea }}
                 </span>
               </div>
             </div>
@@ -52,7 +52,7 @@
                   <p>$0,00</p> -->
                   <span class="badge badge-energized">{{ ../childrenCount _id }} friends</span>
                   <span class="item-note">
-                    <b>Friends Total:</b> E $0 / S $0
+                    <b>Friends Total:</b> E ${{../childrenEarnTotal _id}} / S ${{../childrenSpentTotal _id}}
                   </span>
                 </div>
 
