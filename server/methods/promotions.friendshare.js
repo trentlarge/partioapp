@@ -275,5 +275,91 @@ Meteor.methods({
     } else {
       return response.result;
     }
+  },
+
+  getUserChildren: function(idUser){
+    console.log(idUser);
+
+    if(!idUser){
+      throw new Meteor.Error("getUserChildren", 'missing user id');
+    }
+
+    var response = Async.runSync(function(done) {
+      var _parent = Meteor.users.findOne({ '_id': idUser });
+
+      if(!_parent) {
+        done('Parent not found', false);
+      }
+
+      if(!_parent.private.promotions) {
+        done('user does not has promotions field', false);
+      }
+
+      if(!_parent.private.promotions.friendShare) {
+        done('user does not has friendShare field', false);
+      }
+
+      if(!_parent.private.promotions.friendShare.children) {
+        done('user does not has children', false);
+      }
+
+      var children = _parent.private.promotions.friendShare.children;
+
+      // console.log(children);
+
+      // children.map(function(child){
+      //   console.log(child);
+      // })
+
+      done(false, children);
+    });
+
+    if(response.error) {
+      throw new Meteor.Error("getUserChildren", response.error);
+    } else {
+      return response.result;
+    }
+
+
+    // if(!user || !user.private){
+    //   throw new Meteor.Error("getUserChildren", 'user not found');
+    // }
+
+    // if(!user.private.promotions) {
+    //   throw new Meteor.Error("getUserChildren", 'user does not has promotions field');
+    // }
+
+    // if(!user.private.friendShare) {
+    //   throw new Meteor.Error("getUserChildren", 'user does not has friendShare field');
+    // }
+
+    // if(!user.private.friendShare.children) {
+    //   throw new Meteor.Error("getUserChildren", 'user does not has children');
+    // }
+
+    // var children = user.private.promotions.friendShare.children;
+
+    // children.map(function(child){
+    //   console.log(child);
+    // })
+
+    //return 'ok';
+    
+    // var response = Async.runSync(function(done) {
+    //   var _return = '';
+
+      // if(idArea || idArea === 0){
+      //    idArea.toString();
+      //   _return = Meteor.users.find({ "profile.area": idArea }, { fields: { profile: 1 }}).fetch();
+      // } else {
+      //   _return = Meteor.users.find({}, { fields: { profile: 1 }}).fetch();
+      // }
+
+      // console.log(_return);
+
+    //   done(false, _return);
+    // });
+
+    //return response.result;
   }
 });

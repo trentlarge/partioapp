@@ -42,11 +42,10 @@ Meteor.publish("singleUser", function(idUser) {
 });
 
 Meteor.publish("allUsersByArea", function(idArea) {
-	console.log(idArea);
-	if(idArea){
+	if(idArea || idArea === 0){
+		idArea.toString();
 		return Users.find({ "profile.area": idArea }, { fields: { profile: 1 }});
 	} else {
 		return Users.find({}, { fields: { profile: 1 }});
 	}
-
 });

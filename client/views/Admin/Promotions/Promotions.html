@@ -17,31 +17,55 @@
       {{#ionContent class="admin-promotions overflow-scroll"}}
         {{#if isUserPermitted}}
           {{#if Template.subscriptionsReady}}
-            <div class="card">
-              <div class="item">
-                <span>Promotions: {{filterLabel}}</span>
+             
+            <div class="list card userList">
+              <div class="item item-icon-left">
+                <i class="icon ion-university"></i>
+                <h2>{{filterLabel}}</h2>
+                <p>{{countUsersByArea}} users</p>
+                <span class="item-note">
+                  <b>Total:</b> R $0,00 / B $0,00
+                </span>
               </div>
             </div>
 
-            <div class="list card userList">
-              {{#each allUsers}}
-                <div class="item item-avatar parent" data-id="{{_id}}">
-                   <img src="{{profile.avatar}}">
-                   <h2>{{profile.name}}</h2>
-                   <p>{{ ../howManyChild _id }}</p>
+            {{#each usersByArea}}
+              <div class="list card userList">
+                <div class="item item-avatar">
+                  <img src="{{profile.avatar}}">
+                  
+                  <h2>{{profile.name}}</h2>
+                  <p><i>{{../filterLabel profile.area}}</i></p>
+                  <p>R $0,00 / B $0,00</p>                  
+                 <!--  <p>{{ ../hasChildren _id }}</p>
+                  <p>{{profile.area}}</p>
+                  <p>$0,00</p>
+                  <p>$0,00</p> -->
+                  <span class="badge badge-assertive">{{ ../childrenCount _id }}</span>
+                  <span class="item-note">
+                    <b>Total:</b> R $0,00 / B $0,00
+                  </span>
                 </div>
+
                 {{#if ../hasChildren _id }}
-                  <div class="children hidden" data-id="{{_id}}">
-                    {{#each ../userChildren _id }}
-                      <div class="item item-avatar child">
-                         <img src="{{profile.avatar}}">
-                         <h3>{{profile.name}}</h3>
-                      </div>
-                    {{/each}}
-                  </div>
+                  {{#each ../userChildren _id }}
+                    <div class="item item-text-wrap item-avatar child">
+                      <!-- <div class="item "> -->
+                        <img src="{{profile.avatar}}">
+
+                        {{profile.name}}
+                       <!--  <p>$0,00</p>
+                        <p>$0,00</p> -->
+                      <!-- </div>  -->
+                        <span class="item-note">
+                          R $0,00 / B $0,00
+                        </span>
+                    </div>
+                  {{/each}}
                 {{/if}}
-              {{/each}}
-            </div>
+              </div>
+            {{/each}}
+
             <div class="tabs-background-royal tabs-color-light tabs-icon-top">
               <div class="tabs darken-element">
                 <a class="tab-item {{#if isActiveClass "general" }} active {{/if}}" data-id="general" href="general"><i class="icon ion-ios-people"></i>GENERAL</a>

@@ -1,15 +1,13 @@
 .userList {
-  .closed {
-    .children {
-      display:none;
-    }
-  }
-
-  .children {
-    margin-top:1px;
-  }
-
   .child {
     background:#F8F8F8;
+  }
+
+  .badge {
+    font-size:12px;
+  }
+
+  .item-note, p {
+    font-family: "Ubuntu", sans-serif;
   }
 }

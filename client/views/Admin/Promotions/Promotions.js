@@ -1,25 +1,45 @@
 Template.adminPromotions.onCreated(function () {
-  var _thiz = this;
+  var thiz = this;
 
-  var _filter = this.data.getFilterId();
+  this.subscribe("allUsersByArea", this.data.getFilterId, function(){
+    var _parents = thiz.data.usersByArea();
+    _parents = _parents.fetch();
 
-  Meteor.subscribe('allUsersByArea', _filter, function(){
-    var _userIds = _thiz.data.allUsersId();
+    var _ids = []
 
-    if(_userIds && !_userIds.length < 1) {
-      Meteor.subscribe('transactionsByUserId', _userIds);
-    }
+    _parents.map(function(user){
+      _ids.push(user._id);
+    });
+
+    thiz.subscribe("transactionsByUserId", _ids);
   });
+
+
+
 });
 
 Template.adminPromotions.rendered = function() {
   if(!this.data.isUserPermitted()) {
       return;
   }
+
 }
 
-Template.adminPromotions.events({
-  'click .parent': function() {
-    $('.children[data-id='+this._id+']').toggleClass('hidden');
-  },
-});
+// Template.adminPromotions.helpers({
+    
+  
+// usersByArea: function(){
+//         return Meteor.users.find({ 'profile.area': this.getFilterId }).fetch()
+//       },
+
+    
+// });
+
+
+
+
+// Template.adminPromotions.events({
+//   'click .parent': function() {
+//     $('.children[data-id='+this._id+']').toggleClass('hidden');
+//   },
+// });

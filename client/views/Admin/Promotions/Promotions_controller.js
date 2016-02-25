@@ -8,41 +8,76 @@ AdminPromotionsController = RouteController.extend({
 	},
 
 	waitOn: function() {
-    return [
-      Meteor.subscribe("admins"),
-    ];
+		return [
+	       Meteor.subscribe("admins"),
+	    ];
+	},
+
+	getFilterId: function(){
+		var _return = false;
+
+		switch (this.params._id) {
+			case 'others':
+				_return = "0";
+			break;
+			case 'duke':
+				_return = "1";
+			break;
+			case 'yale':
+				_return = "2";
+			break;
+		}
+
+		return _return;
 	},
 
 	filter: function() {
 		return this.params._id;
 	},
 
+	userChildren: function(userId){
+		 Meteor.call('getUserChildren', userId, function(error, result){
+		 	if(result){
+		 		return result;
+		 	}
+		 });
+	},
+
 	data: function() {
 		return {
-      user: Meteor.user(),
-      admins: Admins.find({}).fetch(),
+      		user: Meteor.user(),
+      		admins: Admins.find({}).fetch(),
 			filter: this.filter(),
+			getFilterId: this.getFilterId(),
+			
+			usersByArea: function(){
+				return Meteor.users.find({ 'profile.area': this.getFilterId });
+			},
 
-      isUserPermitted: function() {
-        var userAdmin = Admins.findOne({email: this.user.emails[0].address});
-        return userAdmin.admin;
-      },
+			countUsersByArea: function(){
+				var _usersByArea = this.usersByArea();
+				_usersByArea = _usersByArea.fetch();
 
-			allUsers: function(){
-				var filterId = this.getFilterId();
-				if(filterId){
-					return Meteor.users.find({ 'profile.area': filterId }).fetch();
+				if(_usersByArea){
+					return _usersByArea.length;	
 				} else {
-					return Meteor.users.find({}).fetch();
+					return '0';
 				}
 			},
 
+			isUserPermitted: function() {
+				var userAdmin = Admins.findOne({email: this.user.emails[0].address});
+				return userAdmin.admin;
+			},
+
 			allUsersId: function(){
-				var _users = this.allUsers();
+				var _usersByArea = this.usersByArea();
+				_usersByArea = _usersByArea.fetch();
+				
 				var _userIds = [];
 
-				if(_users) {
-					_users.map(function(user){
+				if(_usersByArea) {
+					_usersByArea.map(function(user){
 						_userIds.push(user._id);
 					});
 				}
@@ -59,30 +94,41 @@ AdminPromotionsController = RouteController.extend({
 			},
 
 			userChildren: function(userId){
-				return Meteor.users.find({ 'private.promotions.friendShare.parent': userId }).fetch();
+				// return Meteor.call('getUserChildren', userId, function(){
+
+				// });
+				// var _children = Meteor.users.find({ 'private.promotions.friendShare.parent': userId }).fetch();
+				// return _children;
 			},
 
 			hasChildren: function(userId){
-				var userChildren = this.userChildren(userId);
-				if(userChildren.length > 0){
-					return userChildren.length;
-				}
+				// var userChildren = this.userChildren(userId);
+				// if(userChildren.length > 0){
+				// 	return userChildren.length;
+				// }
 				return false;
 			},
 
-			howManyChild : function(userId){
-				var countChildren = this.hasChildren(userId);
-				var _return = 'No friends';
+			childrenCount : function(userId){
 
-				if(countChildren) {
-					if(countChildren == 1){
-						_return = '1 friend';
-					} else {
-						_return = countChildren+" friends";
-					}
-				}
+				 // Meteor.call('getUserChildren', userId, function(error, result){
+				 // 	console.log(error,result);
+				 // });
 
-				return _return;
+				// var countChildren = this.hasChildren(userId);
+				// var _return = 'no friends';
+
+				// if(countChildren) {
+				// 	if(countChildren == 1){
+				// 		_return = '1 friend';
+				// 	} else {
+				// 		_return = countChildren+" friends";
+				// 	}
+				// }
+
+				// return _return;
+
+				return '0';
 			},
 
 			isActiveClass: function(filterParam){
@@ -92,36 +138,22 @@ AdminPromotionsController = RouteController.extend({
 				return;
 			},
 
-			getFilterId: function(filter){
-				var _return = false;
+			filterLabel: function(filterId){
+				var _return = 'General Users';
 
-				switch (this.filter) {
-					case 'others':
-						_return = 0;
-					break;
-					case 'duke':
-						_return = 1;
-					break;
-					case 'yale':
-						_return = 2;
-					break;
+				if(!filterId) {
+					filterId = this.getFilterId;
 				}
 
-				return _return;
-			},
-
-			filterLabel: function(){
-				var _return = 'No filter';
-
-				switch (this.filter) {
-					case 'others':
-						_return = 'Filtering by other areas';
+				switch (filterId) {
+					case '0':
+						_return = 'Other areas';
 					break;
-					case 'duke':
-						_return = 'Filtering by Duke University';
+					case '1':
+						_return = 'Duke University';
 					break;
-					case 'yale':
-						_return = 'Filtering by Yale University';
+					case '2':
+						_return = 'Yale University';
 					break;
 				}
 
