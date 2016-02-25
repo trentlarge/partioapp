@@ -1,9 +1,8 @@
 Template.adminPromotions.onCreated(function () {
   var thiz = this;
 
-  this.subscribe("allUsersByArea", this.data.getFilterId, function(){
+  this.subscribe("AdminPromotionsAllUsersByArea", this.data.getFilterId, function(){
     var _parents = thiz.data.usersByArea();
-    _parents = _parents.fetch();
 
     var _ids = []
 
@@ -13,8 +12,6 @@ Template.adminPromotions.onCreated(function () {
 
     thiz.subscribe("transactionsByUserId", _ids);
   });
-
-
 
 });
 

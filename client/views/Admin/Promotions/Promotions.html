@@ -13,18 +13,26 @@
     </a>
   {{/contentFor}}
 
+  <div class="tabs-background-royal tabs-top tabs-color-light tabs-icon-top">
+    <div class="tabs darken-element">
+      <a class="tab-item {{#if isActiveClass "general" }} active {{/if}}" data-id="general" href="general"><i class="icon ion-ios-people"></i>GENERAL</a>
+      <a class="tab-item {{#if isActiveClass "duke" }} active {{/if}}" data-id="duke" href="duke"><i class="icon ion-university"></i>DUKE</a>
+      <a class="tab-item {{#if isActiveClass "yale" }} active {{/if}}" data-id="yale" href="yale"><i class="icon ion-university"></i>YALE</a>
+      <a class="tab-item {{#if isActiveClass "others" }} active {{/if}}" data-id="others" href="others"><i class="icon ion-earth"></i>OTHERS</a>
+    </div>
+  </div>
+
   {{#ionView}}
-      {{#ionContent class="admin-promotions overflow-scroll"}}
+
+      {{#ionContent class="admin-promotions has-tabs-top overflow-scroll"}}
         {{#if isUserPermitted}}
           {{#if Template.subscriptionsReady}}
              
             <div class="list card userList">
-              <div class="item item-icon-left">
-                <i class="icon ion-university"></i>
-                <h2>{{filterLabel}}</h2>
-                <p>{{countUsersByArea}} users</p>
+              <div class="item">
+                <h2>Listing {{countUsersByArea}} users</h2>
                 <span class="item-note">
-                  <b>Total:</b> R $0,00 / B $0,00
+                  <b>Total Area:</b> E $0,00 / S $0,00
                 </span>
               </div>
             </div>
@@ -35,50 +43,52 @@
                   <img src="{{profile.avatar}}">
                   
                   <h2>{{profile.name}}</h2>
-                  <p><i>{{../filterLabel profile.area}}</i></p>
-                  <p>R $0,00 / B $0,00</p>                  
+                  <p>{{../filterLabel profile.area}}</p>
+                  <p>E ${{../transactionEarnByUserId _id}} / S ${{../transactionSpentByUserId _id}}</p> 
+                                   
                  <!--  <p>{{ ../hasChildren _id }}</p>
                   <p>{{profile.area}}</p>
                   <p>$0,00</p>
                   <p>$0,00</p> -->
-                  <span class="badge badge-assertive">{{ ../childrenCount _id }}</span>
+                  <span class="badge badge-energized">{{ ../childrenCount _id }} friends</span>
                   <span class="item-note">
-                    <b>Total:</b> R $0,00 / B $0,00
+                    <b>Friends Total:</b> E $0 / S $0
                   </span>
                 </div>
 
-                {{#if ../hasChildren _id }}
-                  {{#each ../userChildren _id }}
-                    <div class="item item-text-wrap item-avatar child">
-                      <!-- <div class="item "> -->
-                        <img src="{{profile.avatar}}">
+                {{#each ../userChildren _id }}
+                  <div class="item item-text-wrap item-avatar child">
+                    <!-- <div class="item "> -->
+                      <img src="{{profile.avatar}}">
 
-                        {{profile.name}}
-                       <!--  <p>$0,00</p>
-                        <p>$0,00</p> -->
-                      <!-- </div>  -->
-                        <span class="item-note">
-                          R $0,00 / B $0,00
-                        </span>
-                    </div>
-                  {{/each}}
-                {{/if}}
+                      <h3>{{profile.name}}</h3>
+                      <p>{{../../filterLabel profile.area}}</p>
+                     <!--  <p>$0,00</p>
+                      <p>$0,00</p> -->
+                    <!-- </div>  -->
+                      <span class="item-note">
+                        E ${{../../transactionEarnByUserId _id}} / S ${{../../transactionSpentByUserId _id}}
+                      </span>
+                  </div>
+                {{/each}}
+                
               </div>
             {{/each}}
 
-            <div class="tabs-background-royal tabs-color-light tabs-icon-top">
-              <div class="tabs darken-element">
-                <a class="tab-item {{#if isActiveClass "general" }} active {{/if}}" data-id="general" href="general"><i class="icon ion-ios-people"></i>GENERAL</a>
-                <a class="tab-item {{#if isActiveClass "duke" }} active {{/if}}" data-id="duke" href="duke"><i class="icon ion-university"></i>DUKE</a>
-                <a class="tab-item {{#if isActiveClass "yale" }} active {{/if}}" data-id="yale" href="yale"><i class="icon ion-university"></i>YALE</a>
-                <a class="tab-item {{#if isActiveClass "others" }} active {{/if}}" data-id="others" href="others"><i class="icon ion-earth"></i>OTHERS</a>
-              </div>
-            </div>
+            
           {{else}}
-            <p>loading data...</p>
+            <div class="list card">
+                <div class="item title">
+                  loading data...
+                </div>
+            </div>
           {{/if}}
         {{else}}
-          <p>no permission...</p>
+          <div class="list card">
+                <div class="item title">
+                  no permission
+                </div>
+            </div>
         {{/if}}
       {{/ionContent}}
   {{/ionView}}

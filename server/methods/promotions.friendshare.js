@@ -305,13 +305,20 @@ Meteor.methods({
 
       var children = _parent.private.promotions.friendShare.children;
 
-      // console.log(children);
+      if(!children || children.length < 1) {
+         done('user does not has children', false);
+      }
 
-      // children.map(function(child){
-      //   console.log(child);
-      // })
+      var _ids = [];
 
-      done(false, children);
+      children.map(function(child){
+        if(child.status == 'accepted') {
+          _ids.push(child.id);
+        }
+      })
+
+      //var _children = Meteor.users.find({'_id': { $in: _ids } }).fetch();
+      done(false, _ids);
     });
 
     if(response.error) {

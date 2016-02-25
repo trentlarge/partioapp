@@ -35,28 +35,25 @@ AdminPromotionsController = RouteController.extend({
 		return this.params._id;
 	},
 
-	userChildren: function(userId){
-		 Meteor.call('getUserChildren', userId, function(error, result){
-		 	if(result){
-		 		return result;
-		 	}
-		 });
-	},
-
 	data: function() {
 		return {
       		user: Meteor.user(),
       		admins: Admins.find({}).fetch(),
 			filter: this.filter(),
 			getFilterId: this.getFilterId(),
-			
+
 			usersByArea: function(){
-				return Meteor.users.find({ 'profile.area': this.getFilterId });
+				if(this.getFilterId) {
+					var _userByArea = Meteor.users.find({ 'profile.area': this.getFilterId }).fetch();	
+				} else {
+					var _userByArea = Meteor.users.find({}).fetch();
+				}
+
+				return _userByArea;
 			},
 
 			countUsersByArea: function(){
 				var _usersByArea = this.usersByArea();
-				_usersByArea = _usersByArea.fetch();
 
 				if(_usersByArea){
 					return _usersByArea.length;	
@@ -72,8 +69,6 @@ AdminPromotionsController = RouteController.extend({
 
 			allUsersId: function(){
 				var _usersByArea = this.usersByArea();
-				_usersByArea = _usersByArea.fetch();
-				
 				var _userIds = [];
 
 				if(_usersByArea) {
@@ -87,48 +82,72 @@ AdminPromotionsController = RouteController.extend({
 				}
 			},
 
-			transactionByUserId: function(userId){
+			transactionEarnByUserId: function(userId){
 				if(userId){
-					return Transactions.findOne({ userId: userId });
+					var transactions = Transactions.findOne({ userId: userId });
+
+					if(transactions){
+						var total = 0;
+						var earningArray = transactions.earning;
+						earningArray.forEach(function(item) {
+							total += (item.receivedAmount || 0);
+						});
+						return Number(total).toFixed(2);
+					}
+					
+					return Number(0).toFixed(2);				
 				}
 			},
 
+			transactionSpentByUserId: function(userId){
+				if(userId){
+					var transactions = Transactions.findOne({ userId: userId });
+
+					if(transactions){
+						var total = 0;
+						var spendingArray = transactions.spending;
+						spendingArray.forEach(function(item) {
+							total += (item.paidAmount || 0);
+						});
+						return Number(total).toFixed(2);
+					}
+					
+					return Number(0).toFixed(2);				
+				}
+			},
+
+
 			userChildren: function(userId){
-				// return Meteor.call('getUserChildren', userId, function(){
-
-				// });
-				// var _children = Meteor.users.find({ 'private.promotions.friendShare.parent': userId }).fetch();
-				// return _children;
+				var _children = Meteor.users.find({ 'private.promotions.friendShare.parent': userId }).fetch();
+				return _children;
 			},
 
-			hasChildren: function(userId){
-				// var userChildren = this.userChildren(userId);
-				// if(userChildren.length > 0){
-				// 	return userChildren.length;
-				// }
-				return false;
-			},
+			// hasChildren: function(userId){
+			// 	Meteor.call('getUserChildren', userId, function(error, result){
+			// 	 	if(result){
+			// 	 		return true;
+			// 	 	}
+
+			// 	 	return false;
+			// 	 });
+				
+			// },
 
 			childrenCount : function(userId){
+				var _user = Meteor.users.findOne({ '_id': userId});
+				var _return = '0';
 
-				 // Meteor.call('getUserChildren', userId, function(error, result){
-				 // 	console.log(error,result);
-				 // });
+				if(_user) {
+					if(_user.private.promotions) {
+						if(_user.private.promotions.friendShare){
+							if(_user.private.promotions.friendShare.children){
+								_return = _user.private.promotions.friendShare.children.length;
+							}
+						}
+					}
+				}
 
-				// var countChildren = this.hasChildren(userId);
-				// var _return = 'no friends';
-
-				// if(countChildren) {
-				// 	if(countChildren == 1){
-				// 		_return = '1 friend';
-				// 	} else {
-				// 		_return = countChildren+" friends";
-				// 	}
-				// }
-
-				// return _return;
-
-				return '0';
+				return _return;
 			},
 
 			isActiveClass: function(filterParam){
