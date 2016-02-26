@@ -31,6 +31,12 @@ Meteor.startup(function() {
 
   Stripe = StripeAPI(Meteor.settings.env.STRIPE_SECRET);
 
+  process.env.MAIL_URL = Meteor.settings.env.MAIL_URL;
+  process.env.MAIL_FROM = Meteor.settings.env.MAIL_FROM;
+  process.env.MAIL_NAME = Meteor.settings.env.MAIL_NAME;
+
+  console.log(process.env.MAIL_FROM, process.env.MAIL_NAME, process.env.MAIL_URL);
+
   Accounts.emailTemplates.from = process.env.MAIL_FROM;
   Accounts.emailTemplates.siteName = process.env.MAIL_NAME;
 

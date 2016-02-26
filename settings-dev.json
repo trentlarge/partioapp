@@ -6,8 +6,8 @@
     "twilioKey" : "50582e08bc2d140b8e940fe1a54d9623",
     "twilioXml" : "https://v1-5-4.partiodemo.com/twilio/",
     "partioSite" : "http://partioapp.com/",
-    "MAIL_URL" : "smtp://support%40partioapp.com:partio123@smtp.zoho.com:465/",
-    "MAIL_FROM" : "support@partioapp.com",
+    "MAIL_URL" : "smtp://partiodevelopment%40gmail.com:partio123@smtp.gmail.com:465/",
+    "MAIL_FROM" : "partiodevelopment@gmail.com",
     "MAIL_NAME" : "partiO dev"
   },
   "AWSAccessKeyId": "AKIAIQK2APPMYYIAKOJQ",
@@ -36,3 +36,5 @@
     "appVersion": "dev 1.5.4"
   }
 }
+
+
