@@ -144,9 +144,55 @@ AdminPromotionsController = RouteController.extend({
 				
 			},
 
+			//accepted children
 			userChildren: function(userId){
-				var _children = Meteor.users.find({ 'private.promotions.friendShare.parent': userId }).fetch();
-				return _children;
+				var _parent = Meteor.users.findOne({ '_id': userId });
+
+				if(	_parent.private.promotions &&
+					_parent.private.promotions.friendShare &&
+					_parent.private.promotions.friendShare.children){
+
+					var ids = [];
+					
+					_parent.private.promotions.friendShare.children.map(function(child){
+						if(child.status == 'accepted'){
+							ids.push(child.id);
+						}
+					})
+
+					return Meteor.users.find({ '_id': { $in: ids }}).fetch();
+				}
+			},
+
+
+			//waiting children
+			userChildrenWaiting: function(userId){
+				var _parent = Meteor.users.findOne({ '_id': userId });
+
+				if(	_parent.private.promotions &&
+					_parent.private.promotions.friendShare &&
+					_parent.private.promotions.friendShare.children){
+
+					var ids = [];
+					
+					_parent.private.promotions.friendShare.children.map(function(child){
+						if(child.status == 'waiting'){
+							ids.push(child.id);
+						}
+					})
+
+					return Meteor.users.find({ '_id': { $in: ids }}).fetch();
+				}
+			},
+
+
+			childrenCount : function(userId){
+				var _children = this.userChildren(userId)
+				if(_children) {
+					return _children.length;	
+				}
+
+				return '0';
 			},
 
 			childrenEarnTotal: function(userId){
@@ -162,6 +208,8 @@ AdminPromotionsController = RouteController.extend({
 
 				    return Number(total);
 				}
+					
+				return 0;
 			},
 
 			childrenSpentTotal: function(userId){
@@ -177,23 +225,26 @@ AdminPromotionsController = RouteController.extend({
 
 				    return Number(total);
 				}
+
+				return 0;
 			},
 
-			childrenCount : function(userId){
-				var _user = Meteor.users.findOne({ '_id': userId});
-				var _return = '0';
+			childSince: function(parentId, childId){
+				var _parent = Meteor.users.findOne({ '_id': parentId });
 
-				if(_user) {
-					if(_user.private.promotions) {
-						if(_user.private.promotions.friendShare){
-							if(_user.private.promotions.friendShare.children){
-								_return = _user.private.promotions.friendShare.children.length;
-							}
+				var _return = '';
+
+				if(	_parent.private.promotions &&
+					_parent.private.promotions.friendShare &&
+					_parent.private.promotions.friendShare.children){
+					_parent.private.promotions.friendShare.children.map(function(child){
+						if(child.id == childId){
+							_return = child.timestamp;
 						}
-					}
+					})
 				}
 
-				return _return;
+				return formatDate(_return);
 			},
 
 			isActiveClass: function(filterParam){
@@ -204,7 +255,7 @@ AdminPromotionsController = RouteController.extend({
 			},
 
 			filterLabel: function(filterId){
-				var _return = 'General Users';
+				var _return = 'General users';
 
 				if(!filterId) {
 					filterId = this.getFilterId;

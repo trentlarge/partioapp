@@ -167,6 +167,7 @@ Meteor.methods({
     _parentChildren.map(function(_user){
       if(_user.id == friendId) {
         _user.status = 'accepted';
+        _user.timestamp = Date.now();
       }
     });
 

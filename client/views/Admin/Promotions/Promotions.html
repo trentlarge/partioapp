@@ -41,34 +41,41 @@
               <div class="list card userList">
                 <div class="item item-avatar">
                   <img src="{{profile.avatar}}">
-                  
                   <h2>{{profile.name}}</h2>
                   <p>{{../filterLabel profile.area}}</p>
-                  <p>E ${{../transactionEarnByUserId _id}} / S ${{../transactionSpentByUserId _id}}</p> 
-                                   
-                 <!--  <p>{{ ../hasChildren _id }}</p>
-                  <p>{{profile.area}}</p>
-                  <p>$0,00</p>
-                  <p>$0,00</p> -->
+                  <p><small>{{emails.[0].address}}</small></p>
+                  <p>
+                    <small class="color-earn">E ${{../transactionEarnByUserId _id}}</small> 
+                    <small class="color-spent">S ${{../transactionSpentByUserId _id}}</small>
+                  </p>
                   <span class="badge badge-energized">{{ ../childrenCount _id }} friends</span>
                   <span class="item-note">
-                    <b>Friends Total:</b> E ${{../childrenEarnTotal _id}} / S ${{../childrenSpentTotal _id}}
+                    <b>friend's income:</b> E ${{../childrenEarnTotal _id}} / S ${{../childrenSpentTotal _id}}
                   </span>
                 </div>
 
                 {{#each ../userChildren _id }}
                   <div class="item item-text-wrap item-avatar child">
-                    <!-- <div class="item "> -->
                       <img src="{{profile.avatar}}">
-
-                      <h3>{{profile.name}}</h3>
+                      <p><b>{{profile.name}}</b> <small>friend since {{ ../../childSince ../_id _id }}</small></p>
                       <p>{{../../filterLabel profile.area}}</p>
-                     <!--  <p>$0,00</p>
-                      <p>$0,00</p> -->
-                    <!-- </div>  -->
+                      <p><small>{{emails.[0].address}}</small></p>
+                      <p>
+                        <small class="color-earn">E ${{../../transactionEarnByUserId _id}}</small> 
+                        <small class="color-spent">S ${{../../transactionSpentByUserId _id}}</small>
+                      </p>
                       <span class="item-note">
                         E ${{../../transactionEarnByUserId _id}} / S ${{../../transactionSpentByUserId _id}}
                       </span>
+                  </div>
+                {{/each}}
+
+                {{#each ../userChildrenWaiting _id }}
+                  <div class="item item-text-wrap item-avatar child">
+                      <img src="{{profile.avatar}}">
+                      <p><b>{{profile.name}}</b> <small>waiting {{../profile.name}}</small></p>
+                      <p>{{../../filterLabel profile.area}}</p>
+                      <p><small>{{emails.[0].address}}</small></p>
                   </div>
                 {{/each}}
                 

@@ -1,4 +1,8 @@
 Template.adminPromotions.onCreated(function () {
+  if(!this.data.isUserPermitted()) {
+      return;
+  }
+
   var thiz = this;
 
   this.subscribe("adminVerifiedUsers", function(){
@@ -15,28 +19,8 @@ Template.adminPromotions.onCreated(function () {
 
 });
 
-Template.adminPromotions.rendered = function() {
-  if(!this.data.isUserPermitted()) {
-      return;
-  }
-
-}
-
-// Template.adminPromotions.helpers({
-
-
-// usersByArea: function(){
-//         return Meteor.users.find({ 'profile.area': this.getFilterId }).fetch()
-//       },
-
-
-// });
-
-
-
-
-// Template.adminPromotions.events({
-//   'click .parent': function() {
-//     $('.children[data-id='+this._id+']').toggleClass('hidden');
-//   },
-// });
+// Template.adminPromotions.rendered = function() {
+//   if(!this.data.isUserPermitted()) {
+//       return;
+//   }
+// }
