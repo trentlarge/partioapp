@@ -54,8 +54,6 @@ AdminPromotionsController = RouteController.extend({
 					var _userByArea = Meteor.users.find({}).fetch();
 				}
 
-				//console.log(_userByArea);
-
 				return _userByArea;
 			},
 
@@ -89,6 +87,7 @@ AdminPromotionsController = RouteController.extend({
 				}
 			},
 
+			//catch user total earn transactions
 			transactionEarnByUserId: function(userId){
 				if(userId){
 					var transaction = Transactions.findOne({ userId: userId });
@@ -106,6 +105,7 @@ AdminPromotionsController = RouteController.extend({
 				}
 			},
 
+			//catch user total spent transactions
 			transactionSpentByUserId: function(userId){
 				if(userId){
 					var transaction = Transactions.findOne({ userId: userId });
@@ -125,17 +125,57 @@ AdminPromotionsController = RouteController.extend({
 				}
 			},
 
+			//catch user total earn transactions after timestamp
+			transacTimeEarnByUserId: function(parentId, childId){
+				if(childId && parentId){
+					var timestamp = this.childSinceTimestamp(parentId, childId);
+					var transaction = Transactions.findOne({ userId: childId });
+
+					if(transaction){
+						var total = 0;
+						var earningArray = transaction.earning;
+						earningArray.forEach(function(item) {
+							if(item.date >= timestamp){
+								total += (item.receivedAmount || 0);	
+							}
+						});
+						return Number(total);
+					}
+					
+					return Number(0);				
+				}
+			},
+
+			//catch user total spent transactions
+			transacTimeSpentByUserId: function(parentId, childId){
+				if(childId && parentId){
+					var timestamp = this.childSinceTimestamp(parentId, childId);
+					var transaction = Transactions.findOne({ userId: childId });
+
+					if(transaction){
+						var total = 0;
+						var spendingArray = transaction.spending;
+						spendingArray.forEach(function(item) {
+							if(item.date >= timestamp){
+								total += (item.paidAmount || 0);
+							}
+						});
+						return Number(total);
+					}
+							
+					return Number(0);				
+				}
+			},
+
+
 			transactionsTotalByArea: function(){
 				var _usersByArea = this.usersByArea();
-
-				//console.log(_usersByArea);
 
 				if(_usersByArea){
 					var thiz = this;
 					var total = 0;
 
 					_usersByArea.map(function(user){
-						//console.log(thiz.transactionEarnByUserId(user._id));
 						total += (thiz.transactionEarnByUserId(user._id) || 0);
 				    });
 
@@ -195,15 +235,15 @@ AdminPromotionsController = RouteController.extend({
 				return '0';
 			},
 
-			childrenEarnTotal: function(userId){
-				var _userChildren = this.userChildren(userId);
+			childrenEarnTotal: function(parentId){
+				var _userChildren = this.userChildren(parentId);
 
 				if(_userChildren) {
 					var thiz = this;
 					var total = 0;
 
 					_userChildren.map(function(user){
-						total += (thiz.transactionEarnByUserId(user._id) || 0);
+						total += (thiz.transacTimeEarnByUserId(parentId, user._id) || 0);
 				    });
 
 				    return Number(total);
@@ -212,15 +252,15 @@ AdminPromotionsController = RouteController.extend({
 				return 0;
 			},
 
-			childrenSpentTotal: function(userId){
-				var _userChildren = this.userChildren(userId);
+			childrenSpentTotal: function(parentId){
+				var _userChildren = this.userChildren(parentId);
 
 				if(_userChildren) {
 					var thiz = this;
 					var total = 0;
 
 					_userChildren.map(function(user){
-						total += (thiz.transactionSpentByUserId(user._id) || 0);
+						total += (thiz.transacTimeSpentByUserId(parentId, user._id) || 0);
 				    });
 
 				    return Number(total);
@@ -229,7 +269,7 @@ AdminPromotionsController = RouteController.extend({
 				return 0;
 			},
 
-			childSince: function(parentId, childId){
+			childSinceTimestamp: function(parentId, childId){
 				var _parent = Meteor.users.findOne({ '_id': parentId });
 
 				var _return = '';
@@ -244,7 +284,12 @@ AdminPromotionsController = RouteController.extend({
 					})
 				}
 
-				return formatDate(_return);
+				return _return;
+			},
+
+			//formated to template
+			childSince: function(parentId, childId){
+				return formatDate(this.childSinceTimestamp(parentId, childId));
 			},
 
 			isActiveClass: function(filterParam){

@@ -327,47 +327,5 @@ Meteor.methods({
     } else {
       return response.result;
     }
-
-
-    // if(!user || !user.private){
-    //   throw new Meteor.Error("getUserChildren", 'user not found');
-    // }
-
-    // if(!user.private.promotions) {
-    //   throw new Meteor.Error("getUserChildren", 'user does not has promotions field');
-    // }
-
-    // if(!user.private.friendShare) {
-    //   throw new Meteor.Error("getUserChildren", 'user does not has friendShare field');
-    // }
-
-    // if(!user.private.friendShare.children) {
-    //   throw new Meteor.Error("getUserChildren", 'user does not has children');
-    // }
-
-    // var children = user.private.promotions.friendShare.children;
-
-    // children.map(function(child){
-    //   console.log(child);
-    // })
-
-    //return 'ok';
-    
-    // var response = Async.runSync(function(done) {
-    //   var _return = '';
-
-      // if(idArea || idArea === 0){
-      //    idArea.toString();
-      //   _return = Meteor.users.find({ "profile.area": idArea }, { fields: { profile: 1 }}).fetch();
-      // } else {
-      //   _return = Meteor.users.find({}, { fields: { profile: 1 }}).fetch();
-      // }
-
-      // console.log(_return);
-
-    //   done(false, _return);
-    // });
-
-    //return response.result;
   }
 });

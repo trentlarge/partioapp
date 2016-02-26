@@ -4,7 +4,7 @@
   {{/contentFor}}
 
   {{#contentFor "headerTitle"}}
-    <h1 class="title" style="text-align:center;">Promotions</h1>
+    <h1 class="title" style="text-align:center;">Users & Promotions</h1>
   {{/contentFor}}
 
   {{#contentFor "headerButtonRight"}}
@@ -48,10 +48,15 @@
                     <small class="color-earn">E ${{../transactionEarnByUserId _id}}</small> 
                     <small class="color-spent">S ${{../transactionSpentByUserId _id}}</small>
                   </p>
+
                   <span class="badge badge-energized">{{ ../childrenCount _id }} friends</span>
-                  <span class="item-note">
-                    <b>friend's income:</b> E ${{../childrenEarnTotal _id}} / S ${{../childrenSpentTotal _id}}
-                  </span>
+                  
+                  {{#if ../userChildren _id }}
+                    <span class="item-note color-spent">S ${{../childrenSpentTotal _id}}</span>
+                    <span class="item-note color-earn">E ${{../childrenEarnTotal _id}}</span>
+                    <span class="item-note"><b>friend's income:</b> </span>
+                  {{/if}}
+                 
                 </div>
 
                 {{#each ../userChildren _id }}
@@ -64,9 +69,13 @@
                         <small class="color-earn">E ${{../../transactionEarnByUserId _id}}</small> 
                         <small class="color-spent">S ${{../../transactionSpentByUserId _id}}</small>
                       </p>
-                      <span class="item-note">
-                        E ${{../../transactionEarnByUserId _id}} / S ${{../../transactionSpentByUserId _id}}
-                      </span>
+                      
+                      <div class="friendEarnings">
+                        <p>
+                          <span class="color-earn">E ${{../../transacTimeEarnByUserId ../_id _id}}</span>
+                          <span class="color-spent">S ${{../../transacTimeSpentByUserId ../_id _id}}</span>
+                        </p>
+                      </div>
                   </div>
                 {{/each}}
 

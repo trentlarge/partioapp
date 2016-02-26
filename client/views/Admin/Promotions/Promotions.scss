@@ -3,6 +3,18 @@
     background:#F8F8F8;
   }
 
+  .friendEarnings {
+	display: flex;
+	position: absolute;
+	right: 17px;
+	top: 14px;
+
+	.color-earn {
+		padding-right:4px;
+	}
+  }
+   
+
   .badge {
     font-size:12px;
   }
@@ -15,10 +27,14 @@
 
 
   .color-earn {
-  	color:green;
+  	color:green !important;
+
+  	&.item-note {
+  		padding-right:7px;
+  		padding-left:8px;
+  	}
   }
-  
+
   .color-spent {
-  	
-  	color:orange;
+  	color:orange !important;
   }
