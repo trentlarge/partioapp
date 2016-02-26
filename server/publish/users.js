@@ -3,10 +3,10 @@
 //
 
 Meteor.publish("adminSearchUsers", function(text, limit) {
-	return Users.find({ 
-        'profile.name': { $regex: ".*"+text+".*", $options: 'i' }, 
-    }, { 
-        limit: limit, 
+	return Users.find({
+        'profile.name': { $regex: ".*"+text+".*", $options: 'i' },
+    }, {
+        limit: limit,
         sort: { 'profile.name': 1 },
         fields: { emails: 1, profile: 1, createdAt: 1 }
     });
@@ -43,4 +43,8 @@ Meteor.publish("userData", function() {
 
 Meteor.publish("singleUser", function(idUser) {
 	return Users.find({ _id: idUser }, { fields: { profile: 1 }});
+});
+
+Meteor.publish("adminUsers", function() {
+	return Users.find({}, { sort: { 'profile.name': 1 }, fields: { emails: 1, profile: 1, private: 1 }});
 });

@@ -167,6 +167,7 @@ Meteor.methods({
     _parentChildren.map(function(_user){
       if(_user.id == friendId) {
         _user.status = 'accepted';
+        _user.timestamp = Date.now();
       }
     });
 
@@ -272,6 +273,57 @@ Meteor.methods({
 
     if(response.error) {
       throw new Meteor.Error("getParentStatus", response.error);
+    } else {
+      return response.result;
+    }
+  },
+
+  getUserChildren: function(idUser){
+    console.log(idUser);
+
+    if(!idUser){
+      throw new Meteor.Error("getUserChildren", 'missing user id');
+    }
+
+    var response = Async.runSync(function(done) {
+      var _parent = Meteor.users.findOne({ '_id': idUser });
+
+      if(!_parent) {
+        done('Parent not found', false);
+      }
+
+      if(!_parent.private.promotions) {
+        done('user does not has promotions field', false);
+      }
+
+      if(!_parent.private.promotions.friendShare) {
+        done('user does not has friendShare field', false);
+      }
+
+      if(!_parent.private.promotions.friendShare.children) {
+        done('user does not has children', false);
+      }
+
+      var children = _parent.private.promotions.friendShare.children;
+
+      if(!children || children.length < 1) {
+         done('user does not has children', false);
+      }
+
+      var _ids = [];
+
+      children.map(function(child){
+        if(child.status == 'accepted') {
+          _ids.push(child.id);
+        }
+      })
+
+      //var _children = Meteor.users.find({'_id': { $in: _ids } }).fetch();
+      done(false, _ids);
+    });
+
+    if(response.error) {
+      throw new Meteor.Error("getUserChildren", response.error);
     } else {
       return response.result;
     }

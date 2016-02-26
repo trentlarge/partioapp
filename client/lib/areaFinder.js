@@ -7,10 +7,10 @@ areaFinder = function(done){
 		var miles = 10;
 		var max_distance = 1.60934*miles; //need to be in km
 
-	    var _area = 0;
+	  var _area = 0;
 
-	    //duke test ----------------------------------------------------------
-	    var duke_lat = 36.0014301;
+		//duke test ----------------------------------------------------------
+	  var duke_lat = 36.0014301;
 		var duke_lng = -78.9404226;
 
 		var duke = nearByLocation.getDistance({
@@ -25,7 +25,7 @@ areaFinder = function(done){
 		if(duke.distance <= max_distance) {
 			_area = 1;
 		}
-	   
+
 	    //yale test ------------------------------------------------------------
 		var yale_lat = 41.3163284;
 		var yale_lng = -72.9245371;
@@ -64,7 +64,5 @@ areaFinder = function(done){
 		// console.log(_area);
 
 		done(_area);
-	})	
+	})
 }
-
-

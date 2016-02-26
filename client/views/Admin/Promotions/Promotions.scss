@@ -1,0 +1,40 @@
+.userList {
+  .child {
+    background:#F8F8F8;
+  }
+
+  .friendEarnings {
+	display: flex;
+	position: absolute;
+	right: 17px;
+	top: 14px;
+
+	.color-earn {
+		padding-right:4px;
+	}
+  }
+   
+
+  .badge {
+    font-size:12px;
+  }
+
+  .item-note, p, .badge {
+    font-family: "Ubuntu", sans-serif;
+  }
+
+}
+
+
+  .color-earn {
+  	color:green !important;
+
+  	&.item-note {
+  		padding-right:7px;
+  		padding-left:8px;
+  	}
+  }
+
+  .color-spent {
+  	color:orange !important;
+  }

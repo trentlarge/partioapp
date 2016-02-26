@@ -1,0 +1,111 @@
+<template name="adminPromotions">
+  {{#contentFor "headerButtonLeft"}}
+    {{>ionNavBackButton pathFor="admin"}}
+  {{/contentFor}}
+
+  {{#contentFor "headerTitle"}}
+    <h1 class="title" style="text-align:center;">Users & Promotions</h1>
+  {{/contentFor}}
+
+  {{#contentFor "headerButtonRight"}}
+    <a href="/" class="button button-clear">
+      <img id="spinner-logo-simple" src="{{ getImage 'spinner-logo' }}" />
+    </a>
+  {{/contentFor}}
+
+  <div class="tabs-background-royal tabs-top tabs-color-light tabs-icon-top">
+    <div class="tabs darken-element">
+      <a class="tab-item {{#if isActiveClass "general" }} active {{/if}}" data-id="general" href="general"><i class="icon ion-ios-people"></i>GENERAL</a>
+      <a class="tab-item {{#if isActiveClass "duke" }} active {{/if}}" data-id="duke" href="duke"><i class="icon ion-university"></i>DUKE</a>
+      <a class="tab-item {{#if isActiveClass "yale" }} active {{/if}}" data-id="yale" href="yale"><i class="icon ion-university"></i>YALE</a>
+      <a class="tab-item {{#if isActiveClass "others" }} active {{/if}}" data-id="others" href="others"><i class="icon ion-earth"></i>OTHERS</a>
+    </div>
+  </div>
+
+  {{#ionView}}
+
+      {{#ionContent class="admin-promotions has-tabs-top overflow-scroll"}}
+        {{#if isUserPermitted}}
+          {{#if Template.subscriptionsReady}}
+             
+            <div class="list card userList">
+              <div class="item">
+                <h2>Listing {{countUsersByArea}} users</h2>
+                <span class="item-note">
+                  <b>Total Transactions:</b> ${{ transactionsTotalByArea }}
+                </span>
+              </div>
+            </div>
+
+            {{#each usersByArea}}
+              <div class="list card userList">
+                <div class="item item-avatar">
+                  <img src="{{profile.avatar}}">
+                  <h2>{{profile.name}}</h2>
+                  <p>{{../filterLabel profile.area}} {{#if ../userVerified _id }} <small style="color:green">verified</small> {{else}} <small style="color:red">not verified</small> {{/if}}</p>
+                  <p><small>{{emails.[0].address}}</small></p>
+                  <p>
+                    <small class="color-earn">E ${{../transactionEarnByUserId _id}}</small> 
+                    <small class="color-spent">S ${{../transactionSpentByUserId _id}}</small>
+                  </p>
+
+                  <span class="badge badge-energized">{{ ../childrenCount _id }} friends</span>
+                  
+                  {{#if ../userChildren _id }}
+                    <span class="item-note color-spent">S ${{../childrenSpentTotal _id}}</span>
+                    <span class="item-note color-earn">E ${{../childrenEarnTotal _id}}</span>
+                    <span class="item-note"><b>friend's income:</b> </span>
+                  {{/if}}
+                 
+                </div>
+
+                {{#each ../userChildren _id }}
+                  <div class="item item-text-wrap item-avatar child">
+                      <img src="{{profile.avatar}}">
+                      <p><b>{{profile.name}}</b> <small>friend since {{ ../../childSince ../_id _id }}</small></p>
+                      <p>{{../../filterLabel profile.area}}</p>
+                      <p><small>{{emails.[0].address}}</small></p>
+                      <p>
+                        <small class="color-earn">E ${{../../transactionEarnByUserId _id}}</small> 
+                        <small class="color-spent">S ${{../../transactionSpentByUserId _id}}</small>
+                      </p>
+                      
+                      <div class="friendEarnings">
+                        <p>
+                          <span class="color-earn">E ${{../../transacTimeEarnByUserId ../_id _id}}</span>
+                          <span class="color-spent">S ${{../../transacTimeSpentByUserId ../_id _id}}</span>
+                        </p>
+                      </div>
+                  </div>
+                {{/each}}
+
+                {{#each ../userChildrenWaiting _id }}
+                  <div class="item item-text-wrap item-avatar child">
+                      <img src="{{profile.avatar}}">
+                      <p><b>{{profile.name}}</b> <small>waiting {{../profile.name}}</small></p>
+                      <p>{{../../filterLabel profile.area}}</p>
+                      <p><small>{{emails.[0].address}}</small></p>
+                  </div>
+                {{/each}}
+                
+              </div>
+            {{/each}}
+
+            
+          {{else}}
+            <div class="list card">
+                <div class="item title">
+                  loading data...
+                </div>
+            </div>
+          {{/if}}
+        {{else}}
+          <div class="list card">
+                <div class="item title">
+                  no permission
+                </div>
+            </div>
+        {{/if}}
+      {{/ionContent}}
+  {{/ionView}}
+</template>

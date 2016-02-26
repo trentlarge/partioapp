@@ -31,9 +31,8 @@ Meteor.startup(function() {
 
   Stripe = StripeAPI(Meteor.settings.env.STRIPE_SECRET);
 
-  process.env.MAIL_URL="smtp://support%40partioapp.com:partio123@smtp.zoho.com:465/";
-  Accounts.emailTemplates.from = 'support@partioapp.com';
-  Accounts.emailTemplates.siteName = 'partiO';
+  Accounts.emailTemplates.from = process.env.MAIL_FROM;
+  Accounts.emailTemplates.siteName = process.env.MAIL_NAME;
 
   Accounts.emailTemplates.verifyEmail.subject = function(user) {
     return 'Welcome to partiO!';
