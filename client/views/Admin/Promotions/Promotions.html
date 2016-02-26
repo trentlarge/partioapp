@@ -1,6 +1,6 @@
 <template name="adminPromotions">
   {{#contentFor "headerButtonLeft"}}
-    {{>ionNavBackButton}}
+    {{>ionNavBackButton pathFor="admin"}}
   {{/contentFor}}
 
   {{#contentFor "headerTitle"}}
@@ -42,7 +42,7 @@
                 <div class="item item-avatar">
                   <img src="{{profile.avatar}}">
                   <h2>{{profile.name}}</h2>
-                  <p>{{../filterLabel profile.area}}</p>
+                  <p>{{../filterLabel profile.area}} {{#if ../userVerified _id }} <small style="color:green">verified</small> {{else}} <small style="color:red">not verified</small> {{/if}}</p>
                   <p><small>{{emails.[0].address}}</small></p>
                   <p>
                     <small class="color-earn">E ${{../transactionEarnByUserId _id}}</small> 

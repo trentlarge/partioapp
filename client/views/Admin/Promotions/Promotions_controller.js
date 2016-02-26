@@ -300,13 +300,14 @@ AdminPromotionsController = RouteController.extend({
 			},
 
 			filterLabel: function(filterId){
-				var _return = 'General users';
+				var _filter = filterId.toString();
 
-				if(!filterId) {
-					filterId = this.getFilterId;
-				}
+				var _return;
 
-				switch (filterId) {
+				switch (_filter) {
+					case '-1':
+						_return = 'not set';
+					break;
 					case '0':
 						_return = 'Other areas';
 					break;
@@ -316,10 +317,25 @@ AdminPromotionsController = RouteController.extend({
 					case '2':
 						_return = 'Yale University';
 					break;
+					default:
+						_return = 'some error';
 				}
 
 				return _return;
+			},
+
+			userVerified: function(userId){
+
+				var _user = Meteor.users.findOne({ '_id': userId });
+
+				console.log(_user.emails[0].verified, userId);
+				if(_user.emails[0].verified){
+					return true;
+				}
+
+				return false;
 			}
+
 		};
 	},
 

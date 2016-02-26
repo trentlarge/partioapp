@@ -45,20 +45,6 @@ Meteor.publish("singleUser", function(idUser) {
 	return Users.find({ _id: idUser }, { fields: { profile: 1 }});
 });
 
-
-// Meteor.publish("AdminPromotionsAllUsersByArea", function(idArea) {
-// 	if(idArea || idArea === 0){
-// 		idArea.toString();
-// 		return Users.find({ "profile.area": idArea }, { fields: { profile: 1, private: 1 }});
-// 	} else {
-// 		return Users.find({}, { fields: { profile: 1, private: 1 }});
-// 	}
-// });
-
-// Meteor.publish("AdminPromotionUsersByArrayId", function(array) {
-// 	return Users.find({ _id: { $in: array } }, { fields: { profile: 1, private: 1 }});
-// });
-
-Meteor.publish("adminVerifiedUsers", function() {
-	return Users.find({ "emails.0.verified": true }, { fields: { emails: 1, profile: 1, private: 1 }});
+Meteor.publish("adminUsers", function() {
+	return Users.find({}, { sort: { 'profile.name': 1 }, fields: { emails: 1, profile: 1, private: 1 }});
 });

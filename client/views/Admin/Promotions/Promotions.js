@@ -5,7 +5,7 @@ Template.adminPromotions.onCreated(function () {
 
   var thiz = this;
 
-  this.subscribe("adminVerifiedUsers", function(){
+  this.subscribe("adminUsers", function(){
     var _parents = thiz.data.allUsers();
 
     var _ids = []
