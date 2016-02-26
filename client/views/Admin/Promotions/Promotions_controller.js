@@ -17,7 +17,7 @@ AdminPromotionsController = RouteController.extend({
 		var _return = false;
 
 		switch (this.params._id) {
-			case 'others':
+			case 'other':
 				_return = "0";
 			break;
 			case 'duke':
@@ -176,7 +176,7 @@ AdminPromotionsController = RouteController.extend({
 					var total = 0;
 
 					_usersByArea.map(function(user){
-						console.log(user);
+						console.log(user._id);
 						total += (thiz.transactionEarnByUserId(user._id) || 0);
 				    });
 
@@ -310,7 +310,7 @@ AdminPromotionsController = RouteController.extend({
 						_return = 'not set';
 					break;
 					case '0':
-						_return = 'Other areas';
+						_return = 'Other';
 					break;
 					case '1':
 						_return = 'Duke University';
@@ -328,8 +328,6 @@ AdminPromotionsController = RouteController.extend({
 			userVerified: function(userId){
 
 				var _user = Meteor.users.findOne({ '_id': userId });
-
-				console.log(_user.emails[0].verified, userId);
 				if(_user.emails[0].verified){
 					return true;
 				}
