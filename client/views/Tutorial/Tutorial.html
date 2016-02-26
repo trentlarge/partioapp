@@ -1,4 +1,159 @@
-<template name="tutorial">
+<!-- PART 1 -->
+
+<template name="tutorial_p1_step1">
+    <div class="tutorial">
+        <div class="list padding start-tutorial">
+            <div class="logo-container">
+                <img src="{{ getImage 'sidemenu-logo' }}"/>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template name="tutorial_p1_step2">
+    <div class="tutorial">
+        <p>Start sharing an item by clicking on share box.</p>
+    </div>
+</template>
+
+<!--PART 2 -->
+
+<template name="tutorial_p2_step1">
+    <div class="tutorial">
+        <div class="center">
+            <h3>SHARE</h3>
+        </div>
+       <p>Add a product using the search bar at top or one of the 3 options at bottom.</p>
+    </div>
+</template>
+
+<template name="tutorial_p2_step2">
+    <div class="tutorial">
+        <div class="center">
+            <h3>MANUAL ENTRY</h3>
+        </div>
+        <p>
+            A product can be added manually using the manual entry. 
+            You are able to share a product with 4 price options: day, week, month and semester (4 months).
+        </p>
+        <p>Additionally, you can sell the product adding the price and enabling the selling option.</p>
+    </div>
+</template>
+
+<template name="tutorial_p2_step3">
+    <div class="tutorial">
+        <div class="center">
+            <h3>BARCODE SCANNER</h3>
+        </div>
+        <p>Also, you can add a product using the barcode scanner or...</p>
+    </div>
+</template>
+
+<template name="tutorial_p2_step4">
+    <div class="tutorial">
+        <div class="center">
+            <h3>IMAGE SEARCH</h3>
+        </div>
+        <p>...simply take a picture of the product!</p>
+    </div>
+</template>
+
+<!-- PART 3 -->
+
+<template name="tutorial_p3_step1">
+     <div class="tutorial">
+        <p>You can borrow an item by clicking on borrow box.</p>
+    </div>
+</template>
+
+<template name="tutorial_p3_step2">
+     <div class="tutorial">
+        <p>You can borrow an item by clicking on borrow box.</p>
+    </div>
+</template>
+
+<!-- PART 4 -->
+
+<template name="tutorial_p4_step1">
+    <div class="tutorial">
+        <div class="center">
+            <h3>BORROW</h3>
+        </div>
+        <p>Select the product you want to borrow and request the item.</p>
+        <p>Additionally, you can user the search and categories bar to filter the products.</p>
+    </div>
+</template>
+
+<!-- PART 5 -->
+
+<template name="tutorial_p5_step1">
+    <div class="tutorial">
+        <div class="center">
+            <h3>TRANSACTIONS</h3>
+        </div>
+        <p>Finally, after borrow and pay the product you can check your transactions.</p>
+    </div>
+</template>
+
+
+<!-- PARTIO TUTORIAL -->
+
+<template name="partioTutorial">
+    {{#if tutorialEnabled}}
+        {{#if tutorialPart 1}}
+            {{> tutorial options 1}}
+        {{/if}}
+        {{#if tutorialPart 2}}
+            {{> tutorial options 2}}
+        {{/if}}
+        {{#if tutorialPart 3}}
+            {{> tutorial options 3}}
+        {{/if}}
+        {{#if tutorialPart 4}}
+            {{> tutorial options 4}}
+        {{/if}}
+        {{#if tutorialPart 5}}
+            {{> tutorial options 5}}
+        {{/if}}
+    {{/if}}
+</template>
+
+
+
+<template name="profileTutorial_step1">
+    <div class="tutorial">
+        <p>Remember keep your profile updated!</p>
+    </div>
+</template>
+
+<template name="profileTutorial_step2">
+    <div class="tutorial">
+        <p>Remember keep your profile updated!</p>
+    </div>
+</template>
+
+<template name="profileTutorial_step3">
+    <div class="tutorial">
+        <p>Product will be filtered in borrow screen according with your location!</p>
+    </div>
+</template>
+
+<template name="profileTutorial_step4">
+    <div class="tutorial">
+        <p>Add a payment card to share and borrow items! If you have questions, please contact us!</p>
+    </div>
+</template>
+
+<!-- PARTIO PROFILE TUTORIAL -->
+
+<template name="partioProfileTutorial">
+    {{#if profileTutorialEnabled}}
+        {{> tutorial options}}
+    {{/if}}
+</template>
+
+
+<template name="appTutorial">
   
   {{#ionModal title="Tutorial" class="tutorial"}}
       

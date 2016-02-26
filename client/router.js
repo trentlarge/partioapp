@@ -102,14 +102,29 @@ Router.onBeforeAction(function(pause){
 
 					//on first time, create transaction id and open tutorial
 					if(!_user.private.viewTutorial) {
-						
+                        
 						//creating transaction id
 						Meteor.call('checkTransaction');
 
 						//check tutorial ok
-						Meteor.call('checkTutorial');
-						IonModal.open('tutorial');
+						//Meteor.call('checkTutorial');
+                        
+                        //start tutorial  
+                        if(!Session.get('tutorialEnabled')) {
+                            Router.go('/');
+                            Session.set('tutorialPart', 1);
+                            Session.set('tutorialEnabled', true);   
+                        }
+//						IonModal.open('tutorial');
 					}
+                    else {
+                        if(!_user.private.viewProfileTutorial) {
+                            //start tutorial  
+                            if(!Session.get('profileTutorialEnabled')) {
+                                Session.set('profileTutorialEnabled', true);   
+                            }
+                        }
+                    }
 
 					this.next();						
 				}

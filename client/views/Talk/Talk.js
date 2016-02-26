@@ -4,6 +4,7 @@ Template.talk.onCreated(function () {
 });
 
 Template.talk.rendered = function() {
+    
 	var self = this;
 
 	// Chat input textarea auto-resize when more than 1 line is entered
@@ -19,6 +20,14 @@ Template.talk.rendered = function() {
 		window.addEventListener('native.keyboardshow', function() {
 			$('.content').scrollTop( $('.talk-content')[0].scrollHeight );
 		});
+        
+        document.addEventListener('resume', function() {
+            cordova.plugins.Keyboard.close();
+        }, false);
+        
+        document.addEventListener('pause', function() {
+            cordova.plugins.Keyboard.close();
+        }, false);
 	}
 
 //	$("textarea").focus();

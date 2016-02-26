@@ -1,10 +1,10 @@
 Template.updateProfile.rendered = function() {
     $('.updateProfile .button-icon').hide();
-    // $('#input-birthDate').inputmask({"mask": "99/99/9999"});
-    // $('#input-birthDate').datepicker({
-    //   startView: 'decade',
-    //   endDate: '-16y',
-    // });  
+//     $('#input-birthDate').inputmask({"mask": "99/99/9999"});
+//     $('#input-birthDate').datepicker({
+//       startView: 'decade',
+//       endDate: '-16y',
+//     });  
 
 };
 

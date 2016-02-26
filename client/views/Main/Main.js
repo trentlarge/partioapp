@@ -1,12 +1,12 @@
 Template.main.events({
 	'click .bottom-part': function() {
-    Session.set('searchText', '');
+        Session.set('searchText', '');
 		Router.go('/listing');
 	},
 
 	'click .top-part': function(event){
     	Router.go('/lend');
-	}
+	},
 });
 
 
@@ -28,7 +28,7 @@ Template.main.rendered = function(){
 	}
 
 	//need to update fields
-	if(!mobile || !birthDate) {
+	if(( !mobile || !birthDate ) && _user.private.viewTutorial) {
 		Meteor.call('checkProfileFields', function(err, check){
 			if(!check) {
 				IonModal.open('updateProfile');
@@ -37,4 +37,5 @@ Template.main.rendered = function(){
 	}
 
 	Meteor.call('checkFriendShareCode');
+
 }

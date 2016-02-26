@@ -68,15 +68,15 @@
 
       <div class="card padding-horizontal">
         <form id="profileEdit">
-          <label class="item item-input">
+          <label class="item item-input item-mobile">
             <i class="icon ion-ios-telephone"></i>
             <input id="profilemobile" type="text" value="{{ currentUser.private.mobile }}">
           </label>
-          <label class="item item-input">
+          <label class="item item-input item-birthdate">
             <i class="icon ion-ios-calendar"></i>
             <input id="birthDate" data-date-format="mm/dd/yyyy" type="text" value="{{ currentUser.profile.birthDate }}" readonly>
           </label>
-          <label class="item item-input item-select">
+          <label class="item item-input item-select item-college">
             <i class="icon ion-android-locate"></i>
             <div class="input-label border-radius-20"><p>Location</p></div>
             <select id="college" class="border-radius-20">
@@ -94,7 +94,7 @@
       </div>
 
       {{#if currentUser.emails.[0].verified}}
-        <div class="card padding-horizontal">
+        <div class="card padding-horizontal card-profile-menu">
           <a class="item item-icon-right" href="{{pathFor 'savedCards'}}" >
             <p>Payment Cards</p>
             {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
@@ -112,10 +112,12 @@
             {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
           </a>
       
-          <a class="item item-icon-right" data-ion-modal="tutorial"  >
+<!--
+          <a class="item item-icon-right" data-ion-modal="appTutorial"  >
             <p>Tutorial</p>
             {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
           </a>
+-->
 
           <a class="item item-icon-right" href="{{pathFor 'changePassword'}}" >
             <p>Change Password</p>
@@ -137,7 +139,12 @@
           {{> ionIcon icon="android-exit" class="energized right-arrow"}}
         </a>
       </div>
+    
     {{/ionContent}}
+    
+    {{#if currentUser.emails.[0].verified}}
+        {{> partioProfileTutorial}}
+    {{/if}}
   {{/ionView}}
 </template>
 

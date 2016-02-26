@@ -32,6 +32,41 @@
 
 //MODAL
 
+// Tutorial Modal
+
+body.block-background {
+    pointer-events: none;
+}
+
+.modal-dialog.positioned {
+    width: 90% !important;
+    margin: 40px 0 0 0 !important;
+    left: 5% !important;
+    pointer-events: all !important;
+    
+    .skipTutorial {
+        float: left;
+        padding-top: 7px;
+    }
+    
+    span.muted.pull-left {
+        display: none;
+    }
+    
+    .btn-primary, .btn-success {
+        color: #fff;
+        background-color: $assertive;
+        border-color: $assertive-border;
+    }   
+}
+
+.spotlight {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+
+// Normal Modal
+
 @media (min-width: 680px) {
     .modal {
         top: 5%;
