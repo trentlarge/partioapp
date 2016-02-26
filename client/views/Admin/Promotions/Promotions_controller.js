@@ -176,6 +176,7 @@ AdminPromotionsController = RouteController.extend({
 					var total = 0;
 
 					_usersByArea.map(function(user){
+						console.log(user);
 						total += (thiz.transactionEarnByUserId(user._id) || 0);
 				    });
 
