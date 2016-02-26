@@ -38,7 +38,7 @@
             </div>
 
             {{#each usersByArea}}
-              <div class="list card userList">
+              <div class="list card userList {{#if emails.[0].verified }} {{else}} notverified {{/if}}">
                 <div class="item item-avatar">
                   <img src="{{profile.avatar}}">
                   <h2>{{profile.name}}</h2>
