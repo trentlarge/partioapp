@@ -49,7 +49,9 @@ AdminPromotionsController = RouteController.extend({
 
 			usersByArea: function(){
 				if(this.getFilterId) {
-					var _userByArea = Meteor.users.find({ 'profile.area': this.getFilterId }).fetch();	
+					//some ids are number, that needs to unify
+					var filterNumber = Number(this.getFilterId);
+					var _userByArea = Meteor.users.find({ 'profile.area': { $in: [this.getFilterId, filterNumber]}  }).fetch();	
 				} else {
 					var _userByArea = Meteor.users.find({}).fetch();
 				}
@@ -176,7 +178,7 @@ AdminPromotionsController = RouteController.extend({
 					var total = 0;
 
 					_usersByArea.map(function(user){
-						console.log(user._id);
+						//console.log(user._id);
 						total += (thiz.transactionEarnByUserId(user._id) || 0);
 				    });
 
@@ -312,7 +314,7 @@ AdminPromotionsController = RouteController.extend({
 					case '0':
 						_return = 'Other';
 					break;
-					case '1':
+					case "1":
 						_return = 'Duke University';
 					break;
 					case '2':

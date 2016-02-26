@@ -1,9 +1,11 @@
 areaName = function(id) {
-	if(!id) {
+	var _id = id.toString();
+
+	if(!_id) {
 		return false;
 	}
 
-	switch(id) {
+	switch(_id) {
 	  case '1':
 	    var label = 'Duke University';       
 	    break;

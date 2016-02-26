@@ -7,7 +7,7 @@ areaFinder = function(done){
 		var miles = 10;
 		var max_distance = 1.60934*miles; //need to be in km
 
-	  var _area = 0;
+	  var _area = '0';
 
 		//duke test ----------------------------------------------------------
 	  var duke_lat = 36.0014301;
@@ -23,7 +23,7 @@ areaFinder = function(done){
 	    //console.log('duke distance >>>', duke.distance);
 
 		if(duke.distance <= max_distance) {
-			_area = 1;
+			_area = '1';
 		}
 
 	    //yale test ------------------------------------------------------------
@@ -40,7 +40,7 @@ areaFinder = function(done){
 	  	//console.log('yale distance >>>', yale.distance);
 
 	    if(yale.distance <= max_distance) {
-			_area = 2;
+			_area = '2';
 		}
 
 
