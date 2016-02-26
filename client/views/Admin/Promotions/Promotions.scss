@@ -1,40 +1,55 @@
-.userList {
-  .child {
-    background:#F8F8F8;
-  }
+.admin-promotions {
+    
+    .card {
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+    
+    .userList {
 
-  .friendEarnings {
-	display: flex;
-	position: absolute;
-	right: 17px;
-	top: 14px;
+        .child {
+            background:#F8F8F8;
+        }
 
-	.color-earn {
-		padding-right:4px;
-	}
-  }
-   
+        .friendEarnings {
+            display: flex;
+            position: absolute;
+            right: 17px;
+            top: 14px;
 
-  .badge {
-    font-size:12px;
-  }
+            .color-earn {
+                padding-right:4px;
+            }
+        }
 
-  .item-note, p, .badge {
-    font-family: "Ubuntu", sans-serif;
-  }
+        .badge {
+            font-size:12px;
+        }
 
+        .item-note, p, .badge {
+            font-family: "Ubuntu", sans-serif;
+        }
+    }
 }
 
+.tabs.darken-element.tabs-location {
+    box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.26);
+    z-index: 100;
+    
+    a.tab-item {
+        text-decoration: none;
+    }
+}
+    
+.color-earn {
+    color:green !important;
 
-  .color-earn {
-  	color:green !important;
+    &.item-note {
+        padding-right:7px;
+        padding-left:8px;
+    }
+}
 
-  	&.item-note {
-  		padding-right:7px;
-  		padding-left:8px;
-  	}
-  }
-
-  .color-spent {
-  	color:orange !important;
-  }
+.color-spent {
+    color:orange !important;
+}
