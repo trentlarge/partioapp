@@ -3,6 +3,8 @@ Template.connectRent.onCreated(function () {
 });
 
 Template.connectRent.rendered = function() {
+    Session.set('isConnectScreen', true);
+    
 	var nowTemp = new Date();
 	var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
 
@@ -31,7 +33,7 @@ Template.connectRent.rendered = function() {
 	var handle = Connections.find().observeChanges({
 		changed: function(id, fields) {
 			if(fields.finished){
-				Router.go('/renting');
+				Router.go('/items');
 			}
 		}
 	});

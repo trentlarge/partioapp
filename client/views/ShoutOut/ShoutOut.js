@@ -18,6 +18,13 @@ Template.shoutout.helpers({
             return 'active';
         }
         return '';
+    },
+    
+    productExist: function() {
+        if (this.type == 'share') {
+            return Products.findOne(this.sharedProducts[0]._id) ? true : false;
+        }
+        return true;
     }
     
 });

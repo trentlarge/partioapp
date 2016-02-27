@@ -134,7 +134,7 @@ Template.search.events({
                         onTap: function() {
                           IonPopup.close();
                           $('.ion-ios-close-empty').click()
-                          Router.go('/renting');
+                          Router.go('/items');
                         }
                       }]
                     });

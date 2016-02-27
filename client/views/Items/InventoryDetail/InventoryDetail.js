@@ -343,7 +343,7 @@ Template.inventoryDetail.events({
     
   'click #editCancel': function(e, template) {
       Session.set('editMode', false);
-      Router.go('/inventory');      
+      Router.go('/items');      
   },
 
   'click #editRemove': function(e, template) {
@@ -370,7 +370,7 @@ Template.inventoryDetail.events({
                     Meteor.call('removeProduct', productId, function() {
                         IonPopup.close();
                         Session.set('editMode', false);
-                        Router.go('/inventory');    
+                        Router.go('/items');    
                     });
                   }
                 },

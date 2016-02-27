@@ -308,7 +308,7 @@ function ShowApprovalPopUp(strBookName){
 					if(currentPage.indexOf("renting")>=0) {
 					    //do something you want
 					} else {
-						Router.go('/renting');
+						Router.go('/items');
 					}
 
 				},1000)

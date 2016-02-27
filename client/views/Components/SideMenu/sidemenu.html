@@ -8,7 +8,7 @@
 <!--                <i class="icon ion-search" id="search-icon"></i>-->
             </div>
            <input type="text" name="search" id="search" placeholder="Search for a item...">
-           <a href="{{pathFor "notifications"}}" class="notification " data-ion-menu-close>
+           <a href="{{pathFor 'notifications'}}" class="notification " data-ion-menu-close>
             {{> ionIcon icon="android-notifications" class="energized btnshadow"}}
             {{#if alertCount}}
               <span class="badge badge-alert badge-assertive badge-notification">{{alertCount}}</span>
@@ -21,22 +21,27 @@
              <h5 style="color:white;"> Welcome back,<b> {{currentUser.profile.name}}</b>.</h5>
           </div>
         </div>
-        <a href="{{pathFor "listing"}}" class="item menutext whats-available" data-ion-menu-close>
+        <a href="{{pathFor 'listing'}}" class="item menutext whats-available" data-ion-menu-close>
           {{> ionIcon icon="android-compass" class="menu-icon energized btnshadow"}} &nbsp;&nbsp;&nbsp;&nbsp; What's Avaliable?
         </a>
-        <a href="{{pathFor "inventory"}}" class="item menutext" data-ion-menu-close>
-          <i class="mdi mdi-basket-unfill menu-icon energized btnshadow"></i> &nbsp;&nbsp;&nbsp;&nbsp; Shared Items
+        <a href="{{pathFor 'shoutout'}}" class="item menutext whats-available" data-ion-menu-close>
+          {{> ionIcon icon="speakerphone" class="menu-icon energized btnshadow"}} &nbsp;&nbsp;&nbsp;&nbsp; Shout Out!
+        </a>
+        <a href="{{pathFor 'myItems'}}" class="item menutext" data-ion-menu-close>
+          <i class="mdi mdi-tag-multiple menu-icon energized btnshadow"></i> &nbsp;&nbsp;&nbsp;&nbsp; My Items
           <span class="badge badge-alert badge-assertive">{{#if inventoryCount}}{{inventoryCount}}{{/if}}</span>
         </a>
+<!--
         <a href="{{pathFor "renting"}}" class="item menutext" data-ion-menu-close>
         <i class="mdi mdi-cart menu-icon energized btnshadow"></i> &nbsp;&nbsp;&nbsp;&nbsp; Borrowed Items
           <span class="badge badge-alert badge-assertive">{{#if rentedCount}}{{rentedCount}}{{/if}}</span>
         </a>
-        <a href="{{pathFor "transactions"}}" class="item menutext" data-ion-menu-close>
+-->
+        <a href="{{pathFor 'transactions'}}" class="item menutext" data-ion-menu-close>
           {{> ionIcon icon="card" class="menu-icon energized btnshadow"}} &nbsp;&nbsp;&nbsp;&nbsp; Transactions
           <span class="badge badge-alert badge-assertive">{{#if transactionCount}}{{transactionCount}}{{/if}}</span>
         </a>
-        <a href="{{pathFor "profile"}}" class="item menutext" data-ion-menu-close>
+        <a href="{{pathFor 'profile'}}" class="item menutext" data-ion-menu-close>
           {{> ionIcon icon="person" class="menu-icon energized btnshadow"}} &nbsp;&nbsp;&nbsp;&nbsp; My Profile
         </a>
          <button class="btn" style="box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);" id="logout" data-ion-menu-close>LOGOUT</button>

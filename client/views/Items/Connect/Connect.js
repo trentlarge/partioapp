@@ -2,6 +2,10 @@ Template.connect.onCreated(function () {
   Meteor.subscribe("singleConnect", Router.current().params._id);
 });
 
+Template.connect.rendered = function() {
+    Session.set('isConnectScreen', true);
+};
+
 Template.connect.events({
 	'click .product-details': function(e, template) {
 		var productDetails = $('.product-details');
@@ -109,7 +113,7 @@ Template.connect.events({
 				});
 				//Chat.remove({connectionId: connectionId})
 				IonPopup.close();
-				Router.go('/inventory');
+				Router.go('/items');
 			}
 		});
 	},

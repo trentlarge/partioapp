@@ -165,7 +165,7 @@ app.model.Lend = (function () {
                 $('#closeLend').click();
                 IonPopup.close();
                 //IonModal.close();
-                Router.go('/inventory');
+                Router.go('/items');
               }
             }]
         });

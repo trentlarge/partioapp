@@ -34,7 +34,7 @@
 
                 {{#each shouts}}
                 
-                    <div class="card">
+                    <div class="list card" style="{{#unless productExist}} display:none; {{/unless}}">
                         <a class="item item-avatar" href="{{#if ../isTypeShout type}}
                                                             /shoutout/{{_id}} 
                                                           {{else}}

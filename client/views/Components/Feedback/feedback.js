@@ -93,7 +93,7 @@ Template.feedbackborrower.events({
 						return;
 					}
 				});
-				Router.go('/inventory');
+				Router.go('/items');
 			});
 		} else {
 			IonLoading.show({
