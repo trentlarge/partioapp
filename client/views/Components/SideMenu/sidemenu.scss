@@ -193,7 +193,7 @@ ion-side-menu.menu-left.menu {
         line-height: 28px;
         position: fixed;
         bottom: 30px;
-        margin-left: 30px;
+        left: 32.5px;
     }
 
     .beta {
@@ -203,7 +203,8 @@ ion-side-menu.menu-left.menu {
         color: gray;
         position: fixed;
         bottom: 0;
-        margin-left: 123px;
+        margin: 10px auto;
+        width: 265px;
     }
 
 }
