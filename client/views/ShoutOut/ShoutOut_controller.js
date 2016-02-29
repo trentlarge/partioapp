@@ -47,42 +47,16 @@ ShoutOutController = RouteController.extend({
         Meteor.subscribe('usersInArray', usersId);   
         
         var sharedProductsIds = [];
-        var shoutIds = [];
         $.each(shouts, function(index, shout) {
             if(shout.type == 'share') {
                 sharedProductsIds.push(shout.sharedProducts[0]._id); 
-                shoutIds.push(shout._id);
             }
         });
         
+        //Get all share products to check if they exist.
         if(sharedProductsIds.length > 0) {
             Meteor.subscribe('productsInArray', sharedProductsIds);
         }
-        
-//
-//        if(sharedProductsIds.length > 0) {
-//            Meteor.subscribe('productsInArray', sharedProductsIds, function() {
-//                var products = Products.find({ _id: { $in: sharedProductsIds }}).fetch();    
-//
-//                // UPDATE SHOUT OUT
-//                if(products.length != sharedProductsIds.length && products.length > 0 ) {
-//
-//                    productsIds = [];
-//                    $.each(products, function(index, product) {
-//                        productsIds.push(product._id); 
-//                    });
-//
-//                    $.each(sharedProductsIds, function(index, sharedProductsId) {
-//
-//                        if(sharedProductsId.indexOf(productsIds) < 0) {
-//                            Meteor.call('removeShoutOut', shoutIds[index], function() {
-//                                //Shared Product removed!
-//                            })     
-//                        }
-//                    });
-//                }   
-//            });
-//        }
 
         return shouts;
     },

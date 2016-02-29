@@ -1,7 +1,6 @@
 <template name="shoutout">
 
     {{#contentFor "headerButtonLeft"}}
-<!--      {{>ionNavBackButton}}-->
         <button class="button button-clear" data-ion-menu-toggle="left">
             {{> ionIcon icon='navicon' class="energized"}}
         </button>
@@ -19,14 +18,12 @@
 
     {{#ionView class="shout-out"}}
       
-<!--        <form>-->
           <div class="bar has-header item-input-inset" data-keyboard-attach>
             <label class="item-input-wrapper">
               <textarea id="messageInput" type="text" rows="1" placeholder="What do you need?"></textarea>
             </label>
             <button id="shoutSubmit" class="button-assertive button button-clear">Send</button>
           </div>
-<!--        </form>-->
             
         {{#ionContent class="has-subheader overflow-scroll"}}
     

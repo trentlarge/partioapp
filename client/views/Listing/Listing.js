@@ -43,7 +43,7 @@ Template.listing.events({
 
     //if(parent.scrollTop() + parent.height() >= scrollingElement.innerHeight() + 20) {
     if(parent.scrollTop() + parent.height() >= parent[0].scrollHeight - 300) {
-        $('.loadbox').fadeIn('fast',function(){
+        $('.loadbox').fadeIn(function(){
           var loadedPage = Session.get("pageNumberLoaded") || 0;
           Session.set("pageNumber", loadedPage + 1);
         });

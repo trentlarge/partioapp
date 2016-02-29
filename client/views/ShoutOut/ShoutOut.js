@@ -118,9 +118,9 @@ Template.shoutout.events({
         tabShoutOut.removeClass('active');
         tabMyShouts.addClass('active');
         
-        $('.list').fadeOut('fast', function() {
+        $('.list').fadeOut(function() {
         
-            $('.loadbox').fadeIn('fast', function () {
+            $('.loadbox').fadeIn(function () {
                 Session.set('tabMyShouts', true);
                 Session.set('shoutsPageNumber', 1);
                 Session.set('shoutsPageSize', 15);

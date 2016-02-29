@@ -8,14 +8,11 @@ ion-side-menu.menu-left.menu {
   background-color: $royal !important;
   color: #FFFFFF !important;
   overflow: hidden;
-  // background: url('/dvsup_@2X.png') repeat;
 }
 
 .transparent-list {
 
     .badge.badge-notification {
-//        right: 8px;
-//        top: -8px;
         margin-right: -16px;
         max-width: 20px;
         max-height: 20px;
@@ -32,7 +29,25 @@ ion-side-menu.menu-left.menu {
         .whats-available {
             display: none;
         }
+    }
+    
+    @media (min-height: 627px) {
         
+        .item.menutext {
+            padding-bottom: 2.6vh !important;
+            padding-top: 2.6vh !important;
+        }
+    }
+    
+    @media (min-height: 736px) {
+        
+        .logo-container {
+            margin-top: 3vh !important;   
+        }
+        
+        .text {
+            margin-bottom: 3vh !important;
+        }
     }
 
     .item.top {
@@ -44,13 +59,9 @@ ion-side-menu.menu-left.menu {
             -webkit-appearance: none;
             border-radius: 0;
             display: inline;
-            //background-color: #cccccc;
             background-color: #bbbbbb;
             border-top: 1px solid #999999;
             color: #263238;
-            //border-radius: 20px;
-            //padding-left: 35px;
-            //width: 200px;
             border-top-right-radius: 5px;
             border-bottom-right-radius: 5px;
             width: 165px;
@@ -87,20 +98,11 @@ ion-side-menu.menu-left.menu {
             min-height: 30px;
             
             #search-icon {
-    //            position: absolute;
-    //            margin-top: 5px;
-    //            margin-left: 10px;
                 padding-left: 5px;
                 padding-right: 6px;
                 color: $royal;
             }
             
-        }
-        
-        
-
-        .notification {
-//            margin-left: 18px;
         }
 
         i {
@@ -112,26 +114,6 @@ ion-side-menu.menu-left.menu {
         }
         
     }
-    
-//    .item.top {
-//        border: 0;
-//        margin-top: 10px;
-//        padding-bottom: 0;
-//        background-color: transparent;
-//
-//        h5 {
-//            font-size: 13px;
-//        }
-//
-//        .notification {
-//            position: absolute;
-//            left: 235px;
-//        }
-//
-//        i {
-//            font-size: 24px;
-//        }
-//    }
 
     .menu-icon {
         width: 14px;
@@ -178,6 +160,7 @@ ion-side-menu.menu-left.menu {
         background-color: transparent;
         border-color: rgba(0, 0, 0, 0.3);
         color: #F0F1F1;
+        min-height: 45px;
         padding-bottom: 2.4vh;
         padding-top: 2.4vh;
     }

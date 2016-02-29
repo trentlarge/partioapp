@@ -64,8 +64,8 @@
     {{#if Template.subscriptionsReady}}
         <script>
          Meteor.setTimeout(function(){
-            $('.loadbox').fadeOut('medium',function(){
-                $('.loading-wrapper').fadeIn('medium');  
+            $('.loadbox').fadeOut(function(){
+                $('.loading-wrapper').fadeIn();  
             });
           }, 500);
         </script>
