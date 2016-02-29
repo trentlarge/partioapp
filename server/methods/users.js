@@ -18,6 +18,16 @@ Meteor.methods({
 			$set: updateProfile
 		});
 	},
+    
+    updateUser: function(userId, user) {
+        Meteor.users.update({_id: userId },{
+			$set: user
+		});
+    },
+    
+    removeUser: function(userId) {
+		Meteor.users.remove(userId);
+	},
 
 	// 'updateOfficialEmail': function(college, email) {
 	// 	Meteor.users.update({"_id": this.userId}, {$set: {"emails": [{"address": email, "verified": false}], "profile.college": college}}, function(error) {

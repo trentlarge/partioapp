@@ -50,13 +50,32 @@
                             <div class="item item-input item-select">
                                 <i class="icon ion-android-locate"></i>
                                 <div class="input-label border-radius-20"><p>Location</p></div>
-                                <select id="college" class="border-radius-20" disabled>
-                                    <option value="1" {{isLocationSelected 1}}>Duke University</option>
-                                    <option value="2" {{isLocationSelected 2}}>Yale University</option>
-                                    <option value="0" {{isLocationSelected 0}}>Other</option>
-                                </select>
+                                {{#if ../userCanUpdate}} 
+                                     <select id="college" class="border-radius-20">
+                                        <option value="1" {{isLocationSelected 1}}>Duke University</option>
+                                        <option value="2" {{isLocationSelected 2}}>Yale University</option>
+                                        <option value="0" {{isLocationSelected 0}}>Other</option>
+                                    </select>
+                                {{else}}
+                                    <select id="college" class="border-radius-20" disabled>
+                                        <option value="1" {{isLocationSelected 1}}>Duke University</option>
+                                        <option value="2" {{isLocationSelected 2}}>Yale University</option>
+                                        <option value="0" {{isLocationSelected 0}}>Other</option>
+                                    </select>
+                                {{/if}}
+                            </div>
+                                
+                            <div class="item no-padding-vertical">
+                                {{#if ../userCanUpdate}}
+                                    <button class="button button-block button-energized update-user" {{updateMode}}>UPDATE</button>
+                                {{/if}}
+                                {{#if ../userCanDelete}}
+                                    <button class="button button-block button-assertive delete-user">DELETE</button>
+                                {{/if}}
                             </div>
                         </div>
+                
+                        
 
                         <div class="card">
                             <div class="item item-divider">

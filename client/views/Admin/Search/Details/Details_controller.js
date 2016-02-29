@@ -8,12 +8,20 @@ AdminSearchDetailsController = RouteController.extend({
 	},
 
 	waitOn: function() {
-		var user = Users.findOne({_id: Meteor.userId()});
-        
 		return [
-            Meteor.subscribe("userAdmin", user.emails[0].address),
+//            Meteor.subscribe("userAdmin", user.emails[0].address),
+            Meteor.subscribe("admins")
 		];
 	},
+    
+    getUserAdmin: function() {
+        var user = Meteor.user();
+        return Admins.findOne({email: user.emails[0].address});
+    },
+    
+    getAdmins: function() {
+        return Admins.find({}).fetch();  
+    },
     
     getUser: function(userId) {
         Meteor.subscribe('searchSingleUser', userId);
@@ -52,7 +60,8 @@ AdminSearchDetailsController = RouteController.extend({
 
                 searchId: this.params._id,
                 userId: this.params.elementId,
-                userAdmin: Admins.find({}).fetch(),
+                userAdmin: this.getUserAdmin(),
+                admins: this.getAdmins(),
                 
                 user: this.getUser(this.params.elementId),
                 userProducts: this.getUserProducts(this.params.elementId),
@@ -60,8 +69,24 @@ AdminSearchDetailsController = RouteController.extend({
                 userTransactions: this.getUserTransactions(this.params.elementId),
 
                 isUserPermited: function() {
-                    return (this.userAdmin.length > 0) ? true : false;
+                    return (this.userAdmin) ? true : false;
                 },  
+                
+                userCanUpdate: function() {
+                    var admin = Admins.findOne({email: this.user.emails[0].address, admin: true});
+                    if(!admin) {
+                        return this.userAdmin.permissions.update;
+                    }
+                    return false;
+                },
+                
+                userCanDelete: function() {
+                    var admin = Admins.findOne({email: this.user.emails[0].address, admin: true});
+                    if(!admin) {
+                        return this.userAdmin.permissions.delete;
+                    }
+                    return false;
+                },
 
                 isUserDetails: function() {
                     return (this.searchId === 'users') ? true : false;
@@ -122,12 +147,12 @@ AdminSearchDetailsController = RouteController.extend({
                 
                 searchId: this.params._id,
                 productId: this.params.elementId,
-                userAdmin: Admins.find({}).fetch(),
+                userAdmin: this.getUserAdmin(),
                 
                 product: this.getProduct(this.params.elementId),
 
                 isUserPermited: function() {
-                    return (this.userAdmin.length > 0) ? true : false;
+                    return (this.userAdmin) ? true : false;
                 },  
                 
                 getUser: function(userId) {
