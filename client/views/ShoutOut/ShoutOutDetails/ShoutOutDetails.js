@@ -14,6 +14,45 @@ Template.shoutoutDetails.destroyed = function() {
     Session.set('shout', null);
 }
 
+Template.shoutoutDetails.events({
+   
+    'click .delete-shout': function(e, template) {
+        
+        var shout = this;
+        
+         IonPopup.confirm({
+            okText: 'Remove',
+            cancelText: 'Cancel',
+            title: 'Remove Shout',
+            template: 'Are you sure you want remove this shout?',
+            onOk: function() {
+                PartioLoad.show();
+                Meteor.call('removeShoutOut', shout._id, function(err, res) {
+                    PartioLoad.hide();
+                    IonPopup.close();
+                    
+                    if(err) {
+                        var errorMessage = err.reason || err.message;
+                        if(err.details) {
+                          errorMessage = errorMessage + "\nDetails:\n" + err.details;
+                        }
+                        sAlert.error(errorMessage);
+                        return;
+                    }
+                    
+                    Router.go('/shoutout');
+                }); 
+            },
+
+            onCancel: function() {
+                return false;
+            }
+        });
+        
+    }
+    
+});
+
 Template.shoutoutShare.helpers({
     
     getProducts: function() {

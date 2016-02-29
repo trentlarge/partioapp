@@ -32,30 +32,61 @@
     
             <div class="list">
 
-                {{#each shouts}}
+                {{#if tabMyShouts}}
                 
-                    <div class="list card" style="{{#unless productExist}} display:none; {{/unless}}">
-                        <a class="item item-avatar" href="{{#if ../isTypeShout type}}
-                                                            /shoutout/{{_id}} 
-                                                          {{else}}
-                                                            /listing/search/{{sharedProducts.[0]._id}}?ownerId={{sharedProducts.[0].ownerId}}
-                                                          {{/if}}">
-                          {{#with ../getUser userId}} 
-                              <img src="{{profile.avatar}}">
-                              <span class="user-name">{{profile.name}}</span> 
-                          {{/with}}
-                          
-                          <span class="user-message">{{message}}</span>
-                          
-                          <p class="user-time">{{../getTime createdAt}}</p>
-                            
-                          <div class="item-icon-right">
-                            {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
-                          </div>    
-                        </a>
-                    </div>
+                    {{#each ../myShouts}}
+
+                        <div class="list card" style="{{#unless productExist}} display:none; {{/unless}}">
+                            <a class="item item-avatar" href="{{#if ../isTypeShout type}}
+                                                                /shoutout/{{_id}} 
+                                                              {{else}}
+                                                                /listing/search/{{sharedProducts.[0]._id}}?ownerId={{sharedProducts.[0].ownerId}}
+                                                              {{/if}}">
+                              {{#with ../getUser userId}} 
+                                  <img src="{{profile.avatar}}">
+                                  <span class="user-name">{{profile.name}}</span> 
+                              {{/with}}
+
+                              <span class="user-message">{{message}}</span>
+
+                              <p class="user-time">{{../getTime createdAt}}</p>
+
+                              <div class="item-icon-right">
+                                {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
+                              </div>    
+                            </a>
+                        </div>
+
+                    {{/each}}
                 
-                {{/each}}
+                {{else}}
+                
+                    {{#each shouts}}
+
+                        <div class="list card" style="{{#unless productExist}} display:none; {{/unless}}">
+                            <a class="item item-avatar" href="{{#if ../isTypeShout type}}
+                                                                /shoutout/{{_id}} 
+                                                              {{else}}
+                                                                /listing/search/{{sharedProducts.[0]._id}}?ownerId={{sharedProducts.[0].ownerId}}
+                                                              {{/if}}">
+                              {{#with ../getUser userId}} 
+                                  <img src="{{profile.avatar}}">
+                                  <span class="user-name">{{profile.name}}</span> 
+                              {{/with}}
+
+                              <span class="user-message">{{message}}</span>
+
+                              <p class="user-time">{{../getTime createdAt}}</p>
+
+                              <div class="item-icon-right">
+                                {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
+                              </div>    
+                            </a>
+                        </div>
+
+                    {{/each}}
+                
+                {{/if}}
                 
             </div>
     

@@ -29,11 +29,19 @@
                       <span class="user-message">{{message}}</span>
                       <p class="user-time">{{../getTime createdAt}}</p>
                     </div>
-                    <div class="item center no-border no-padding-top">
-                        <h2>Have this product?</h2>
-                        <a class="share-it" data-ion-modal="shoutoutShare">SHARE</a> 
-                        <a href="/lend" class="add-it">ADD</a>
-                    </div>
+                    
+                    {{#if ../isOwner}}
+                        <div class="item center no-border no-padding-top">
+                            <a class="delete-shout">REMOVE</a>     
+                        </div>
+                    {{else}}
+                        <div class="item center no-border no-padding-top">
+                            <h2>Have this product?</h2>
+                            <a class="share-it" data-ion-modal="shoutoutShare">SHARE</a> 
+                            <a href="/lend" class="add-it">ADD</a>
+                        </div>
+                    {{/if}}
+                    
                     {{#each sharedProducts}}
                         <a class="item product-item" href="/listing/search/{{_id}}?ownerId={{ownerData._id}}">
                             <div class="product-image">

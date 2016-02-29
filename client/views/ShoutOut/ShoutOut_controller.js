@@ -101,6 +101,16 @@ ShoutOutController = RouteController.extend({
                 return Users.findOne(userId);
             },
             
+            myShouts: function() {
+                if(!this.shouts) return;
+                
+                var myShouts = this.shouts.filter(function(shout) {
+                    return shout.userId === Meteor.userId();
+                })
+                
+                return myShouts;
+            },
+            
             getTime: function(createdAt) {
                 
                 var date = new Date();

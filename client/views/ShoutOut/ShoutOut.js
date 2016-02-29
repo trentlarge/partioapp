@@ -22,9 +22,18 @@ Template.shoutout.helpers({
     
     productExist: function() {
         if (this.type == 'share') {
-            return Products.findOne(this.sharedProducts[0]._id) ? true : false;
+            if (Products.findOne(this.sharedProducts[0]._id)) {
+                Meteor.call('removeShoutOut', this._id, function() {
+                    console.log('removed');
+                }); 
+                return false;
+            }
         }
         return true;
+    },
+    
+    tabMyShouts: function() {
+        return Session.get('tabMyShouts');
     }
     
 });

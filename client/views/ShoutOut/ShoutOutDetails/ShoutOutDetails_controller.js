@@ -74,6 +74,11 @@ ShoutOutDetailsController = RouteController.extend({
                 return Users.findOne(userId);
             },
             
+            isOwner: function() {
+                if(!this.shout) return;
+                return (this.shout.userId === Meteor.userId()) ? true : false;  
+            },
+            
             productExist: function(productId) {
                 return (Products.findOne(productId)) ? true : false;  
             },
