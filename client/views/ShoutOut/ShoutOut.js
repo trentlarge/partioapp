@@ -22,7 +22,7 @@ Template.shoutout.helpers({
     
     productExist: function() {
         if (this.type == 'share') {
-            if (Products.findOne(this.sharedProducts[0]._id)) {
+            if (!Products.findOne(this.sharedProducts[0]._id)) {
                 Meteor.call('removeShoutOut', this._id, function() {
                     console.log('removed');
                 }); 
@@ -70,18 +70,18 @@ Template.shoutout.events({
         var message = $('#messageInput').val();
         if(message.trim() == '') return;
         
-        $('#messageInput').val('');
-        
         Meteor.call('insertShoutOut', Meteor.userId(), message, 'shout', function(err, res) {
-          PartioLoad.hide();
-          if(err) {
-            var errorMessage = err.reason || err.message;
-            if(err.details) {
-              errorMessage = errorMessage + "\nDetails:\n" + err.details;
-            }
-            sAlert.error(errorMessage);
-            return;
-          }  
+
+            if(err) {
+                var errorMessage = err.reason || err.message;
+                if(err.details) {
+                    errorMessage = errorMessage + "\nDetails:\n" + err.details;
+                }
+                sAlert.error(errorMessage);
+                return;
+            }  
+            
+            $('#messageInput').val('');
         });
         
     },

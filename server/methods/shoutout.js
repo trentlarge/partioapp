@@ -25,13 +25,20 @@ Meteor.methods({
         return true;
 	},
     
-    updateShoutOut: function(shoutId, product) {
+    updateShoutOut: function(shout, product, userId) {
 		ShoutOut.update({ 
-			_id: shoutId 
+			_id: shout._id
 		}, 
         {
 			$push: { sharedProducts: product },   
 		});
+        
+        var message = '"' + product.title + '" was shared in your shout "' + shout.message + '".';
+        
+        sendPush(shout.userId, message);
+		sendNotification(shout.userId, userId, message, "shout-share", shout._id);
+        
+        return true;
 	},
     
     removeShoutOut: function(shoutId) {

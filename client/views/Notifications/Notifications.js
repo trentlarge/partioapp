@@ -15,6 +15,19 @@ var redirectAndPassConnectionId = function(routeName, connectionId) {
     Router.go(routeName, { _id: connectionId });
 };
 
+//var redirectAndPassShoutId = function(routeName, connectionId) {
+//    if(!connectionId) {
+//        return;
+//    }
+//
+//    var connection = ShoutOut.findOne({ _id: connectionId });
+//    if(!connection) {
+//        return;
+//    }
+//
+//    Router.go(routeName, { _id: connectionId });
+//};
+
 Template.notifications.events({
     'click .show-message': function(e, t) {
     	e.preventDefault();
@@ -40,6 +53,9 @@ Template.notifications.events({
     		case "chat": {
                 redirectAndPassConnectionId("talk", this.connectionId);
     		}; break;
+//            case "shout-share": {
+//                redirectAndPassShoutId("shout", this.connectionId);
+//    		}; break;
     	}
 		return false;
      }

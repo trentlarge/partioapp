@@ -102,7 +102,7 @@ Template.shoutoutShare.events({
             template: 'Are you sure you want share ' + product.title + '?',
             onOk: function() {
                 PartioLoad.show();
-                Meteor.call('updateShoutOut', shout._id, product, function(err, res) {
+                Meteor.call('updateShoutOut', shout, product, Meteor.userId(), function(err, res) {
                   PartioLoad.hide();
                   IonPopup.close();
 
