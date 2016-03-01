@@ -257,9 +257,23 @@ profileTutorialSteps = [
   },
   {
       template: Template.profileTutorial_step4,
-      spot: ".card-profile-menu",
+      spot: ".item-saved-cards",
       onLoad: function() {
           $('.overflow-scroll').scrollTop(200);
+      }
+  },
+  {
+      template: Template.profileTutorial_step5,
+      spot: ".item-promotions",
+      onLoad: function() {
+          
+      }
+  },
+  {
+      template: Template.profileTutorial_step6,
+      spot: ".item-contact-us",
+      onLoad: function() {
+          
       }
   }
 ];
