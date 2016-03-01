@@ -1,4 +1,11 @@
+@import '../../../styles/app-variables';
+
 .profile-items-content {
+    
+    .card {
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
     
     .item.profile-item {
         padding: 0;
@@ -7,6 +14,45 @@
     .profile-name {
         display: block;
         padding-bottom: 5px;
+    }
+    
+    p.main-title {
+        color: $royal;
+        padding-right: 10px;
+    }
+    
+    table.rent-table {
+        width: 95%;
+        font-size: 10px;
+        margin-top: 5px;
+
+        tr {
+            height: 16px;
+            display: flex;
+            width: 100%;
+            margin-top: -1px;
+        }
+
+        th {
+            font-size: 7px;
+            color: rgba(39, 39, 39, 0.7);
+        }
+
+        td {
+            color: rgba(39, 39, 39, 0.75);
+            background-color: #DDDDDD;
+            border-radius: 10px;
+        }
+
+        th, td {
+            width: 25%;
+            margin-right: 3px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            height: 16px;
+        }
+
     }
 
 }

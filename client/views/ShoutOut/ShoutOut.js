@@ -103,7 +103,9 @@ Template.shoutout.events({
                 Session.set('shoutsPageNumber', 1);
                 Session.set('shoutsPageSize', 15);
                 
-                $('.list').fadeIn();
+                setTimeout(function(){
+                    $('.list').fadeIn();
+                }, 500);
             });
         });
     },
@@ -125,7 +127,9 @@ Template.shoutout.events({
                 Session.set('shoutsPageNumber', 1);
                 Session.set('shoutsPageSize', 15);
                 
-                $('.list').fadeIn();
+                setTimeout(function(){
+                    $('.list').fadeIn();
+                }, 500);
             }); 
         });
     }
