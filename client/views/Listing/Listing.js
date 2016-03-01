@@ -30,6 +30,35 @@ Template.listing.rendered = function() {
 };
 
 Template.listing.events({
+    
+  "click .filter-borrow": function(e, t) {
+      $(e.target).toggleClass('active');
+      if(Session.get('borrowFilter')) {
+          Session.set('borrowFilter', false);
+      }
+      else {
+          Session.set('borrowFilter', true);
+      }
+      
+      setTimeout(function(){
+        $('.loadbox').fadeOut();
+      }, 500);
+  },
+    
+  "click .filter-purchasing": function(e, t) {
+      $(e.target).toggleClass('active');
+      if(Session.get('purchasingFilter')) {
+          Session.set('purchasingFilter', false);
+      }
+      else {
+          Session.set('purchasingFilter', true);
+      }
+      
+      setTimeout(function(){
+        $('.loadbox').fadeOut();
+      }, 500);
+  },
+    
   "scroll .overflow-scroll": function(e, t) {
     var parent = t.$(e.currentTarget);
     //var scrollingElement = parent.find(".list");
@@ -53,10 +82,12 @@ Template.listing.events({
 
 
 Template.listing.destroyed = function() {
-  Session.set('searchText', '');
-  Session.set('listing', false);
-  Session.set('categoryIndex', -1);
-  Session.set('selectedCategories', null);
+    Session.set('searchText', '');
+    Session.set('listing', false);
+    Session.set('categoryIndex', -1);
+    Session.set('selectedCategories', null);
+    Session.set("borrowFilter", null);
+    Session.set("purchasingFilter", null);
 };
 
 // SEARCH BOX

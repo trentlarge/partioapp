@@ -32,18 +32,6 @@ ListingController = RouteController.extend({
 
     var _userArea = _user.profile.area;
 
-
-    var products = Products.find({
-      ownerId: { $ne: Meteor.userId() },
-      ownerArea: _userArea,
-      title: { $regex: ".*"+text+".*", $options: 'i' },
-      category: { $in: categories },
-      sold: { $ne: true }
-    }, {
-      limit: pageNumber * pageSize
-    });
-
-    Session.set("pageNumberLoaded", Math.ceil(products.count() / pageSize));
     Meteor.subscribe("productsData", Meteor.userId(), _userArea, pageNumber, text, categories, function() {
         setTimeout(function(){
             $('.loadbox').fadeOut();
@@ -56,6 +44,30 @@ ListingController = RouteController.extend({
         }
 
     });
+      
+     var filter = {
+        ownerId: { $ne: Meteor.userId() },
+        ownerArea: _userArea,
+        title: { $regex: ".*"+text+".*", $options: 'i' },
+        category: { $in: categories },
+        sold: { $ne: true },
+        borrow: { $ne: true },
+        purchasing: { $ne: true },
+    }
+    
+    if(Session.get("borrowFilter")) {
+        delete filter.borrow;
+    }
+      
+    if(Session.get("purchasingFilter")) {
+        delete filter.purchasing;
+    }
+      
+    var products = Products.find(filter, {
+      limit: pageNumber * pageSize
+    });
+
+    Session.set("pageNumberLoaded", Math.ceil(products.count() / pageSize));
 
     return products;
   },
