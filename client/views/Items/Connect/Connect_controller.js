@@ -119,6 +119,11 @@ ConnectController = RouteController.extend({
 				return this.connectData.state === "RETURNED" ? true : false;
 			},
             
+            waitingPayment: function() {
+                if(!this.connectData) { return; }
+				return this.connectData.state === "PAYMENT" ? true : false;
+            },
+            
             confirmSold: function() {
 				if(!this.connectData) { return; }
 				return this.connectData.state === "SOLD CONFIRMED" ? true : false;

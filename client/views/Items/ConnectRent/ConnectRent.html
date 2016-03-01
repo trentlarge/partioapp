@@ -28,13 +28,17 @@
           </div>
 
           <div class="item product-details-item">
-            <div class="product-image-box">
-              <img class="product-image" src="{{connectData.productData.image}}">
+              
+            <div class="item">
+                <span class="product-title">{{connectData.productData.title}}</span>
+                <div class="image-container">
+                    <a>
+                        <img src="{{connectData.productData.image}}">
+                    </a>
+                </div>
             </div>
-            <div class="product-content">
-              <p class="product-title">{{connectData.productData.title}}</p>
-            </div>
-            <div class="item row product-features">
+              
+            <div class="item product-features no-padding-top">
                 <div class="col col-50">
                     <p><i class="icon {{../getCategoryIcon}}"></i> {{connectData.productData.amazonCategory}}</p>
                 </div>
@@ -42,6 +46,7 @@
                    <p><i class="icon ion-clipboard"></i> {{../getCondition}}</p>
                 </div>
             </div>
+              
           </div>
 
           <div class="item product-details-item center hidden">
