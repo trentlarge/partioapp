@@ -299,6 +299,12 @@
                                 <span style="text-transform:capitalize;">Connections</span> 
                             </div>
                             <div class="item" style="padding:0;">
+                                <ul class="pager">
+                                    <li><a href="#" id="previousConnection">Previous</a></li>
+                                    <li><a href="#" id="nextConnection">Next</a></li>
+                                </ul>
+                            </div>
+                            <div class="item" style="padding:0;">
                                 <table class="connections-table">
                                     <tr>
                                         <th>Requestor</th>
@@ -306,7 +312,7 @@
                                         <th>Product</th>
                                         <th>Total ($)</th>
                                     </tr>
-                                    {{#each ../getConnections}}
+                                    {{#each ../getConnectionsWithPagination}}
                                         <tr>
                                             <td>{{requestorData.profile.name}}</td>
                                             <td>{{productData.ownerData.profile.name}}</td>

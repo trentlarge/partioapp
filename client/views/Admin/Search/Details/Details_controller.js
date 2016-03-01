@@ -172,6 +172,22 @@ AdminSearchDetailsController = RouteController.extend({
                     Session.set('selectedCondition', this.product.conditionId);
                     return Rating.getConditions();
                 },
+                
+                sellingStatusChecked: function() {
+                    if(this.product) {
+                        if(this.product.selling) {
+                            return (this.product.selling.status === 'ON') ? 'checked' : '';
+                        }
+                    }    
+                },
+                
+                isSellingStatusOn: function() {
+                    if(this.product) {
+                        if(this.product.selling) {
+                            return (this.product.selling.status === 'ON') ? true : false;
+                        }
+                    }  
+                },
 
             }
             

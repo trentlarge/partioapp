@@ -325,6 +325,10 @@ AnalyticsController = RouteController.extend({
                 return this.connections;
             },
             
+            getTotalConnections: function() {
+                return this.connections.length;
+            },
+            
             getBorrowConnectionsAverageDaysAndPrice: function() {
                 
                 states = ["IN USE", "DONE", "RETURNED"];
@@ -491,6 +495,24 @@ AnalyticsController = RouteController.extend({
 
                 return connections;
                 
+            },
+            
+            getConnectionsWithPagination: function() {
+                
+                if(!Session.get('pages')) return;
+                
+                var connections = [];
+                
+                var pages = Session.get('pages');
+                var page = pages.connections;
+                
+                for(var i = (page*10); i < ((page+1)*10); i++) {
+                    if(this.connections[i]) {
+                        connections.push(this.connections[i]);
+                    }
+                }
+                
+                return connections;
             },
             
             // TRANSACTIONS METHODS
