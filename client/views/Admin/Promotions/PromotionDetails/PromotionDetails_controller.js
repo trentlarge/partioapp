@@ -23,9 +23,7 @@ AdminPromotionsDetailsController = RouteController.extend({
     },
     
 	data: function() {
-        
 		return {
-            
             userAdmin: Admins.find({}).fetch(),
             user: this.getUser(this.params._id),
           
@@ -44,7 +42,12 @@ AdminPromotionsDetailsController = RouteController.extend({
             },
             
             getTotalChildren: function() {
-                return (this.user.private.promotions.friendShare.children) ? this.user.private.promotions.friendShare.children.length : 0;
+            	if(	this.user.private.promotions &&
+					this.user.private.promotions.friendShare){
+            		return (this.user.private.promotions.friendShare.children) ? this.user.private.promotions.friendShare.children.length : 0;
+            	} else {
+            		return 0;
+            	}
             },
             
             getEarningTotal: function() {
