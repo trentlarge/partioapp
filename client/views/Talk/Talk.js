@@ -75,9 +75,9 @@ Template.talk.helpers({
 });
 
 Template.talk.events({
-	'submit form': function(e, t) {
+	'click #chatSubmit': function(e, t) {
 		e.preventDefault();
-
+        
 		if(!Meteor.userId()) {
 			return false;
 		}
@@ -113,8 +113,7 @@ Template.talk.events({
 				$('.content').scrollTop($('.talk-content')[0].scrollHeight);
 			}
 		});
-
-		$('#messageInput').focus();
+    
 	},
 
 	'keydown textarea': function(e, t) {
