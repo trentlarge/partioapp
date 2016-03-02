@@ -44,7 +44,38 @@
                                 <button class="button button-energized add-earning">ADD</button>
                             </div>
                         {{/if}}
+                        <div class="item no-padding-vertical">
+                            <button class="button button-block button-energized earning-timeline">SHOW TIMELINE</button>
+                        </div>
                     </div>
+    
+                    {{#if earningTimeline}}
+    
+                        <div class="card list timeline">
+                            <div class="item-divider center">
+                                Timeline
+                            </div>
+                        </div>
+
+                        {{#each ../getEarningTimeline}}
+
+                            {{#with ../../getUserTimeline userId}}
+
+                                <div class="card list timeline">
+                                    <div class="item item-avatar">
+                                        <img src="{{profile.avatar}}">
+                                        <span class="friend-date">{{ ../../../getFormatedDate ../timestamp }}</span>
+                                        <p><b>{{profile.name}}</b></p>
+                                        <p><small>{{emails.[0].address}}</small></p>
+                                        <p class="value-earning {{../../../getValueColor ../value}}">${{../value}}</p>
+                                    </div>
+                                </div>       
+
+                            {{/with}}
+
+                        {{/each}}
+    
+                    {{/if}}
 
                     <div class="card list">
                         <div class="item">
@@ -57,7 +88,38 @@
                                 <button class="button button-energized add-spending">ADD</button>
                             </div>
                         {{/if}}
+                        <div class="item no-padding-vertical">
+                            <button class="button button-block button-energized spending-timeline">SHOW TIMELINE</button>
+                        </div>
                     </div>
+    
+                    {{#if spendingTimeline}}
+    
+                        <div class="card list timeline">
+                            <div class="item-divider center">
+                                Timeline
+                            </div>
+                        </div>
+
+                        {{#each ../getSpendingTimeline}}
+
+                            {{#with ../../getUserTimeline userId}}
+
+                                <div class="card list timeline">
+                                    <div class="item item-avatar">
+                                        <img src="{{profile.avatar}}">
+                                        <span class="friend-date">{{ ../../../getFormatedDate ../timestamp }}</span>
+                                        <p><b>{{profile.name}}</b></p>
+                                        <p><small>{{emails.[0].address}}</small></p>
+                                        <p class="value-spending {{../../../getValueColor ../value}}">${{../value}}</p>
+                                    </div>
+                                </div>       
+
+                            {{/with}}
+
+                        {{/each}}
+    
+                    {{/if}}
 
                     <div class="card list">
                         <div class="item-divider center">

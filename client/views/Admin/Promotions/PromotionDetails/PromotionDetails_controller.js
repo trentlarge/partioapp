@@ -8,11 +8,8 @@ AdminPromotionsDetailsController = RouteController.extend({
 	},
 
 	waitOn: function() {
-        
-        var user = Users.findOne({_id: Meteor.userId()});
-        
 		return [
-            Meteor.subscribe("userAdmin", user.emails[0].address),
+            Meteor.subscribe("admins"),
 		];
 	},
 
@@ -22,9 +19,14 @@ AdminPromotionsDetailsController = RouteController.extend({
         return Users.findOne(userId);
     },
     
+    getUserAdmin: function() {
+        var user = Meteor.user();
+        return Admins.find({email: user.emails[0].address}).fetch();
+    },
+    
 	data: function() {
 		return {
-            userAdmin: Admins.find({}).fetch(),
+            userAdmin: this.getUserAdmin(),
             user: this.getUser(this.params._id),
           
             isUserPermited: function() {
@@ -48,6 +50,40 @@ AdminPromotionsDetailsController = RouteController.extend({
             	} else {
             		return 0;
             	}
+            },
+            
+            getEarningTimeline: function() {
+                if(	this.user.private.promotions &&
+					this.user.private.promotions.earning){
+            		return (this.user.private.promotions.earning.timeline) ? this.user.private.promotions.earning.timeline.reverse() : false;
+            	} else {
+                    return false;
+                }
+            },
+            
+            getSpendingTimeline: function() {
+                if(	this.user.private.promotions &&
+					this.user.private.promotions.spending){
+            		return (this.user.private.promotions.spending.timeline) ? this.user.private.promotions.spending.timeline.reverse() : false;
+            	} else {
+                    return false;
+                }
+            },
+            
+            getUserTimeline: function(userId) {
+                Meteor.subscribe("searchSingleUser", userId);  
+                var user = Users.findOne(userId); 
+                if(user) {
+                    return user;
+                }
+            },
+            
+            getFormatedDate: function(timestamp) {
+                return formatDate(timestamp);
+            },
+            
+            getValueColor: function(value) {
+                return (Number(value) >= 0) ? 'positive' : 'negative';
             },
             
             getEarningTotal: function() {

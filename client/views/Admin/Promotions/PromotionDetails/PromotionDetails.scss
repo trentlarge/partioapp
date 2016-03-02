@@ -5,6 +5,10 @@
         margin-top: 10px;
     }
     
+    input {
+        padding-left: 6px !important;
+    }
+    
     .price {
         float: right;
         
@@ -14,6 +18,24 @@
         
         &.spending {
             color: orange;
+        }
+    }
+    
+    .value-earning {
+        &.positive {
+            color: green;
+        }
+        &.negative {
+            color: red;
+        }
+    }
+    
+    .value-spending {
+        &.positive {
+            color: orange;
+        }
+        &.negative {
+            color: red;
         }
     }
     

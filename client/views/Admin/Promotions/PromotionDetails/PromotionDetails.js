@@ -1,6 +1,58 @@
+Template.adminPromotionsDetails.destroyed = function() {
+    Session.set('earningTimeline', null);
+    Session.set('spendingTimeline', null);
+}
+
+Template.adminPromotionsDetails.helpers({
+    
+    earningTimeline: function() {
+        return Session.get('earningTimeline');
+    },
+    
+    spendingTimeline: function() {
+        return Session.get('spendingTimeline');
+    }
+    
+});
+
 Template.adminPromotionsDetails.events({
     
+    'click .earning-timeline': function(e, template) {
+      
+        var button = $(e.target);
+        
+        if(Session.get('earningTimeline')) {
+            button.text('SHOW TIMELINE');
+            Session.set('earningTimeline', false);
+        }
+        else {
+            button.text('HIDE TIMELINE');
+            Session.set('earningTimeline', true);
+        }
+        
+    },
+    
+    'click .spending-timeline': function(e, template) {
+      
+        var button = $(e.target);
+        
+        if(Session.get('spendingTimeline')) {
+            button.text('SHOW TIMELINE');
+            Session.set('spendingTimeline', false);
+        }
+        else {
+            button.text('HIDE TIMELINE');
+            Session.set('spendingTimeline', true);
+        }
+        
+    },
+    
     'click .add-earning': function(e, template) {
+        
+        if($('.input-earning').val() == '') return;
+        
+        var self = this;
+        console.log(self);
         
         var data = {
             userId: Meteor.userId(),
@@ -14,7 +66,7 @@ Template.adminPromotionsDetails.events({
           title: 'Add Earning',
           template: 'Are you sure you want add $' + data.value + '?',
           onOk: function() {
-            Meteor.call('addEarningPromotionValue', data, function(err, res) {
+            Meteor.call('addEarningPromotionValue', self._id, data, function(err, res) {
 
               if(err) {
                 var errorMessage = err.reason || err.message;
@@ -25,6 +77,8 @@ Template.adminPromotionsDetails.events({
                 return;
               }
               
+              $('.input-earning').val('');
+                
               setTimeout(function(){
                 IonPopup.show({
                   title: 'Earning updated',
@@ -51,6 +105,11 @@ Template.adminPromotionsDetails.events({
     
     'click .add-spending': function(e, template) {
         
+        if($('.input-spending').val() == '') return;
+        
+        var self = this;
+        console.log(self);
+        
         var data = {
             userId: Meteor.userId(),
             value: parseFloat($('.input-spending').val()).toFixed(2),
@@ -59,7 +118,11 @@ Template.adminPromotionsDetails.events({
         
         if(this.private.promotions.earning && this.private.promotions.earning.total) {
             if(this.private.promotions.spending && this.private.promotions.spending.total) {
-                if(this.private.promotions.spending.total > this.private.promotions.earning.total) {
+                
+                var spending = Number(this.private.promotions.spending.total) + Number(data.value);
+                var earning = Number(this.private.promotions.earning.total);
+                
+                if(spending > earning) {
                     IonPopup.alert({
                        title: "Sorry",
                        template:  "You can't add a spending value more than earning value",
@@ -82,7 +145,7 @@ Template.adminPromotionsDetails.events({
           title: 'Add Spending',
           template: 'Are you sure you want add $' + data.value + '?',
           onOk: function() {
-            Meteor.call('addSpendingPromotionValue', data, function(err, res) {
+            Meteor.call('addSpendingPromotionValue', self._id, data, function(err, res) {
 
               if(err) {
                 var errorMessage = err.reason || err.message;
@@ -93,6 +156,8 @@ Template.adminPromotionsDetails.events({
                 return;
               }
               
+              $('.input-spending').val('');
+                
               setTimeout(function(){
                 IonPopup.show({
                   title: 'Spending updated',
