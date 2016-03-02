@@ -36,11 +36,11 @@
                     <div class="card list">
                         <div class="item">
                             <span class="price-text earning">Earning:</span>
-                            <span class="price earning">$10.00</span>
+                            <span class="price earning">${{../getEarningTotal}}</span>
                         </div>
                         {{#if ../userCanUpdate}}
                             <div class="item item-input padding-horizontal">
-                                <input type="number" placeholder="0.00">
+                                <input type="number" class="input-earning" placeholder="0.00">
                                 <button class="button button-energized add-earning">ADD</button>
                             </div>
                         {{/if}}
@@ -48,12 +48,12 @@
 
                     <div class="card list">
                         <div class="item">
-                            <span class="price-text earning">Spending:</span>
-                            <span class="price spending">$10.00</span>
+                            <span class="price-text spending">Spending:</span>
+                            <span class="price spending">${{../getSpendingTotal}}</span>
                         </div>
                         {{#if ../userCanUpdate}}
                             <div class="item item-input padding-horizontal">
-                                <input type="number" placeholder="0.00">
+                                <input type="number" class="input-spending" placeholder="0.00">
                                 <button class="button button-energized add-spending">ADD</button>
                             </div>
                         {{/if}}

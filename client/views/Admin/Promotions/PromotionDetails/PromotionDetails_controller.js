@@ -47,6 +47,14 @@ AdminPromotionsDetailsController = RouteController.extend({
                 return (this.user.private.promotions.friendShare.children) ? this.user.private.promotions.friendShare.children.length : 0;
             },
             
+            getEarningTotal: function() {
+                return (this.user.private.promotions && this.user.private.promotions.earning && this.user.private.promotions.earning.total) ? this.user.private.promotions.earning.total : '0.00';
+            },
+            
+            getSpendingTotal: function() {
+                return (this.user.private.promotions && this.user.private.promotions.spending && this.user.private.promotions.spending.total) ? this.user.private.promotions.spending.total : '0.00';
+            },
+            
             //accepted children
 			userChildren: function(userId){
 				var _parent = Meteor.users.findOne({ '_id': userId });
