@@ -492,8 +492,6 @@ Meteor.methods({
 
                   done(false, charge);
                 }
-                //   })
-                //}
               })
             ) // charges.create
           } //if customer
@@ -529,12 +527,13 @@ Meteor.methods({
 
     if(userAmount < partioAmount){
       partial = true;
+      formattedAmount -= userAmount;
     }
 
     var formattedAmount = (amount * 100).toFixed(0);
     var formattedPartioAmount = (partioAmount * 100).toFixed(0);
 
-    console.log(formattedAmount, formattedPartioAmount);
+    console.log(formattedAmount, formattedPartioAmount, amount+partioAmount);
     return false;
 
     var response = Async.runSync(function(done) {
@@ -599,8 +598,6 @@ Meteor.methods({
 
                   done(false, charge);
                 }
-                //   })
-                //}
               })
             ) // charges.create
           } //if customer

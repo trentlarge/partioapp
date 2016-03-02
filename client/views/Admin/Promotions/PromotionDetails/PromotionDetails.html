@@ -32,7 +32,14 @@
                             </p>
                         </div>
                     </div>
-    
+                    
+                    <div class="card list">
+                        <div class="item">
+                            <span class="price-text earning">Promotional Balance:</span>
+                            <span class="price value-earning {{ ../getValueColor (../getBalanceByUserId _id) }}">${{ ../getBalanceByUserId _id }}</span>
+                        </div>
+                    </div>
+
                     <div class="card list">
                         <div class="item">
                             <span class="price-text earning">Promotional Earning:</span>

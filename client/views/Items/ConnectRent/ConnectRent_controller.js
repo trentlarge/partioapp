@@ -233,12 +233,12 @@ ConnectRentController = RouteController.extend({
                 if(user.private.promotions && user.private.promotions.earning) {
                     
                     var value = Number(user.private.promotions.earning.total);
-                    
+
                     if(user.private.promotions.spending) {
                         value = value - Number(user.private.promotions.spending.total);
                     }
                     
-                    return parseFloat(value).toFixed(2);;
+                    return parseFloat(value).toFixed(2);
                 }
                 
                 return 0.00;

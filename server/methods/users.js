@@ -73,7 +73,7 @@ Meteor.methods({
 	},
 
 	checkTutorial: function(){
-		console.log('>>>>> check tutorial called');
+		//console.log('>>>>> check tutorial called');
 		Meteor.users.update({"_id": this.userId }, {$set: { "private.viewTutorial": true }}, function(error) {
 			if(error) {
 				return false;
@@ -84,7 +84,7 @@ Meteor.methods({
 	},
     
     checkProfileTutorial: function(){
-		console.log('>>>>> check tutorial called');
+		//console.log('>>>>> check tutorial called');
 		Meteor.users.update({"_id": this.userId }, {$set: { "private.viewProfileTutorial": true }}, function(error) {
 			if(error) {
 				return false;
