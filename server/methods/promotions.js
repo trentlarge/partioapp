@@ -27,6 +27,8 @@ Meteor.methods({
       _earning.total += (Number(item.value) || 0);
     });
 
+    _earning.total = _earning.total.toFixed(2);
+
     Meteor.users.update({"_id": _user._id }, 
       { $set: {
         "private.promotions.earning": _earning
@@ -46,9 +48,9 @@ Meteor.methods({
     
     object.timestamp = Date.now();
     
-    var _spending = {  total:0,
+    var _spending = { total:0,
                       timeline: []
-                   };
+                    };
 
     if(_user.private.promotions.spending && _user.private.promotions.spending.timeline.length > 0){
       _spending.timeline = _user.private.promotions.spending.timeline;
@@ -59,6 +61,8 @@ Meteor.methods({
     _spending.timeline.forEach(function(item) {
       _spending.total += (Number(item.value) || 0);
     });
+
+    _spending.total = _spending.total.toFixed(2);
 
     Meteor.users.update({"_id": _user._id }, 
       { $set: {
