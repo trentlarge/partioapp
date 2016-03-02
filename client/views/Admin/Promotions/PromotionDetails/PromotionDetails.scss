@@ -1,0 +1,28 @@
+.admin-promotions-details {
+    
+    .card {
+        margin-bottom: 10px;
+        margin-top: 10px;
+    }
+    
+    .price {
+        float: right;
+        
+        &.earning {
+            color: green;
+        }
+        
+        &.spending {
+            color: orange;
+        }
+    }
+    
+    .friend-date {
+        float: right;
+        position: absolute;
+        top: 2px;
+        right: 5px;
+        font-size: 10px;
+    }
+    
+}

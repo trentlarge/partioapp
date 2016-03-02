@@ -39,7 +39,7 @@
 
             {{#each usersByArea}}
               <div class="list card userList {{#if emails.[0].verified }} {{else}} notverified {{/if}}">
-                <div class="item item-avatar">
+                <a class="item item-avatar item-icon-right" href="/admin/promotions/details/{{_id}}">
                   <img src="{{profile.avatar}}">
                   <h2>{{profile.name}}</h2>
                   <p>{{../filterLabel profile.area}} {{#if emails.[0].verified }} <small style="color:green">verified</small> {{else}} <small style="color:red">not verified</small> {{/if}}</p>
@@ -57,7 +57,9 @@
                     <span class="item-note"><b>friend's income:</b> </span>
                   {{/if}}
                  
-                </div>
+                  {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
+                    
+                </a>
 
                 {{#each ../userChildren _id }}
                   <div class="item item-text-wrap item-avatar child">

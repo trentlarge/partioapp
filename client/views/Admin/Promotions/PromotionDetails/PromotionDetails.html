@@ -1,0 +1,91 @@
+<template name="adminPromotionsDetails">
+
+    {{#contentFor "headerButtonLeft"}}
+        {{>ionNavBackButton}}
+    {{/contentFor}}
+
+    {{#contentFor "headerTitle"}}
+        <h1 class="title" style="text-align:center;">Details</h1>
+    {{/contentFor}}
+
+    {{#contentFor "headerButtonRight"}}
+        <a href="/" class="button button-clear">
+          <img id="spinner-logo-simple" src="{{ getImage 'spinner-logo' }}" />
+        </a>
+    {{/contentFor}}
+    
+    {{#ionView}}
+        {{#ionContent class="admin-promotions-details"}}
+    
+            {{#if ../isUserPermited}}
+    
+                {{#with user}}
+
+                    <div class="card list">
+                        <div class="item item-avatar">
+                            <img src="{{profile.avatar}}">
+                            <p><b>{{profile.name}}</b></p>
+                            <p><small>{{emails.[0].address}}</small></p>
+                            <p>
+                                <small class="color-earn">E ${{../transactionEarnByUserId _id}}</small> 
+                                <small class="color-spent">S ${{../transactionSpentByUserId _id}}</small>
+                            </p>
+                        </div>
+                    </div>
+    
+                    <div class="card list">
+                        <div class="item">
+                            <span class="price-text earning">Earning:</span>
+                            <span class="price earning">$10.00</span>
+                        </div>
+                        {{#if ../userCanUpdate}}
+                            <div class="item item-input padding-horizontal">
+                                <input type="number" placeholder="0.00">
+                                <button class="button button-energized add-earning">ADD</button>
+                            </div>
+                        {{/if}}
+                    </div>
+
+                    <div class="card list">
+                        <div class="item">
+                            <span class="price-text earning">Spending:</span>
+                            <span class="price spending">$10.00</span>
+                        </div>
+                        {{#if ../userCanUpdate}}
+                            <div class="item item-input padding-horizontal">
+                                <input type="number" placeholder="0.00">
+                                <button class="button button-energized add-spending">ADD</button>
+                            </div>
+                        {{/if}}
+                    </div>
+
+                    <div class="card list">
+                        <div class="item-divider center">
+                            Friends ({{../getTotalChildren}})
+                        </div>
+                    </div>
+
+                    {{#each ../userChildren _id }}
+                        <div class="card list">
+                            <div class="item item-avatar">
+                                <img src="{{profile.avatar}}">
+                                <span class="friend-date">{{ ../../childSince ../_id _id }}</span>
+                                <p><b>{{profile.name}}</b></p>
+                                <p><small>{{emails.[0].address}}</small></p>
+                                <p>
+                                    <small class="color-earn">E ${{../../transactionEarnByUserId _id}}</small> 
+                                    <small class="color-spent">S ${{../../transactionSpentByUserId _id}}</small>
+                                </p>
+                            </div>
+                        </div>
+                    {{/each}}
+                
+                {{/with}}
+    
+            {{/if}}
+    
+        {{/ionContent}}
+    {{/ionView}}
+    
+
+</template>
