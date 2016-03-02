@@ -58,12 +58,14 @@ Template.adminPromotionsDetails.events({
         }
         
         if(this.private.promotions.earning && this.private.promotions.earning.total) {
-            if(this.private.promotions.spending.total > this.private.promotions.earning.total) {
-                IonPopup.alert({
-                   title: "Sorry",
-                   template:  "You can't add a spending value more than earning value",
-                });
-                return;
+            if(this.private.promotions.spending && this.private.promotions.spending.total) {
+                if(this.private.promotions.spending.total > this.private.promotions.earning.total) {
+                    IonPopup.alert({
+                       title: "Sorry",
+                       template:  "You can't add a spending value more than earning value",
+                    });
+                    return;
+                }
             }
         }
         else {
