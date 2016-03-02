@@ -95,19 +95,17 @@
 
       {{#if currentUser.emails.[0].verified}}
         <div class="card padding-horizontal card-profile-menu">
-          <a class="item item-icon-right" href="{{pathFor 'savedCards'}}" >
+          <a class="item item-icon-right item-saved-cards" href="{{pathFor 'savedCards'}}" >
             <p>Payment Cards</p>
             {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
           </a>
-            
-<!--
-          <a class="item item-icon-right" href="{{pathFor 'promotions'}}" >
+
+         <a class="item item-icon-right item-promotions" href="{{pathFor 'promotions'}}" >
             <p>Promotions</p>
             {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
           </a>
--->
             
-          <a class="item item-icon-right" href="{{pathFor 'contact'}}" >
+          <a class="item item-icon-right item-contact-us" href="{{pathFor 'contact'}}" >
             <p>Contact Us</p>
             {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
           </a>
@@ -117,12 +115,7 @@
             <p>Tutorial</p>
             {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
           </a>
--->
-
-           <a class="item item-icon-right" href="{{pathFor 'promotions'}}" >
-            <p>Promotions</p>
-            {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
-          </a>         
+-->      
 
           <a class="item item-icon-right" href="{{pathFor 'changePassword'}}" >
             <p>Change Password</p>

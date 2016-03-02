@@ -27,13 +27,17 @@
           </div>
 
           <div class="item product-details-item">
-            <div class="product-image-box">
-              <img class="product-image" src="{{connectData.productData.image}}">
+              
+            <div class="item">
+                <span class="product-title">{{connectData.productData.title}}</span>
+                <div class="image-container">
+                    <a>
+                        <img src="{{connectData.productData.image}}">
+                    </a>
+                </div>
             </div>
-            <div class="product-content">
-              <p class="product-title">{{connectData.productData.title}}</p>
-            </div>
-            <div class="item row product-features">
+              
+            <div class="item product-features no-padding-top">
                 <div class="col col-50">
                     <p><i class="icon {{../getCategoryIcon}}"></i> {{connectData.productData.amazonCategory}}</p>
                 </div>
@@ -41,25 +45,7 @@
                    <p><i class="icon ion-clipboard"></i> {{../getCondition}}</p>
                 </div>
             </div>
-          </div>
-
-          <div class="item product-details-item center hidden">
-            <table class="rent-table">
-              <tbody class="prices">
-              <tr>
-                <th><i>D</i></th>
-                <th><i>W</i></th>
-                <th><i>M</i></th>
-                <th><i>S</i></th>
-              </tr>
-              <tr>
-                <td>${{connectData.productData.rentPrice.day}}</td>
-                <td>${{connectData.productData.rentPrice.week}}</td>
-                <td>${{connectData.productData.rentPrice.month}}</td>
-                <td>${{connectData.productData.rentPrice.semester}}</td>
-              </tr>
-              </tbody>
-            </table>
+              
           </div>
 
           <div class="item item-divider profile-details"><h2>Renting Details </h2></div>
@@ -151,9 +137,15 @@
                         <button id="confirmReturn" class="button button-block">CONFIRM RETURN</button>
                     </div>
                 {{else}}
-                    <div class="item button-divider ">
-                        <button class="button button-block" disabled>BORROWED</button>
-                    </div>
+                    {{#if waitingPayment}}
+                        <div class="item button-divider ">
+                            <button class="button button-block" disabled>WAITING PAYMENT</button>
+                        </div>
+                    {{else}}
+                        <div class="item button-divider ">
+                            <button class="button button-block" disabled>BORROWED</button>
+                        </div>
+                    {{/if}}
                 {{/if}}
 
               {{else}}
@@ -168,7 +160,7 @@
                     {{/if}}
               {{/if}}
             
-            {{else}}
+           {{else}}
                 {{#if alreadyApproved}}
                     {{#if ../confirmSold}}
                         <div class="item button-divider ">

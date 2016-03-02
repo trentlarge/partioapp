@@ -11,7 +11,8 @@ Template.analytics.rendered = function() {
     var pages = {
         duke: 0,
         yale: 0,
-        others: 0
+        others: 0,
+        connections: 0
     }
     
     Session.set('pages', pages);
@@ -19,7 +20,8 @@ Template.analytics.rendered = function() {
     var maxPages = {
         duke: Math.floor(this.data.getTotalUsersByUniversity(1)/10),
         yale: Math.floor(this.data.getTotalUsersByUniversity(2)/10),
-        others: Math.floor(this.data.getTotalUsersByUniversity(0)/10)
+        others: Math.floor(this.data.getTotalUsersByUniversity(0)/10),
+        connections: Math.floor(this.data.getTotalConnections(0)/10)
     }
     
     Session.set('maxPages', maxPages);
@@ -392,6 +394,25 @@ Template.analytics.events({
        var pages = Session.get('pages');
        if(pages.others > 0) {
            pages.others--;
+       }
+       Session.set('pages', pages);
+   },
+    
+   // Connection Pagination
+    
+   'click #nextConnection': function() {
+       var pages = Session.get('pages');
+       var maxPages = Session.get('maxPages');
+       if(pages.connections < maxPages.connections) {
+           pages.connections++;
+       }
+       Session.set('pages', pages);
+   },
+    
+   'click #previousConnection': function() {
+       var pages = Session.get('pages');
+       if(pages.connections > 0) {
+           pages.connections--;
        }
        Session.set('pages', pages);
    },

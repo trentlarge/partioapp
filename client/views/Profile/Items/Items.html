@@ -47,34 +47,34 @@
         <div class="item item-divider products"><h3>Items</h3></div>
         <div class="product-item">
           {{#each items}}
-            <a class="item item-avatar-2" href="/listing/search/{{_id}}?ownerId={{ownerId}}">
-              <div class="product-avatar my-products">
-                <img class="product-avatar-inner" src="{{image}}"/>
-              </div>
-              <p class="main-title-text">{{title}}</p>
-              <p class="main-sub-text">Condition: <b>{{../getCondition conditionId}}</b></p>
-              <p class="main-sub-text">
-                <table class="rent-table">
-                  <tbody>
-                    <tr>
-                      <th class="one"><i class="icon">DAY</i></th>
-                      <th class="two"><i class="icon">WEEK</i></th>
-                      <th class="three"><i class="icon">MONTH</i></th>
-                      <th class="four"><i class="icon">SEMESTER</i></th>
-                    </tr>
-                    <tr>
-                      <td>{{rentPrice.day}}</td>
-                      <td>{{rentPrice.week}}</td>
-                      <td>{{rentPrice.month}}</td>
-                      <td>{{rentPrice.semester}}</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </p>
-              <div class="item-icon-right">
-              {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
-              </div>
-            </a>
+            
+            <div class="list card">
+                <a class="item item-avatar" href="/listing/search/{{_id}}?ownerId={{ownerId}}">
+                    <img src="{{image}}"/>
+                    <p class="main-title">{{title}}</p>
+                    <p class="main-sub-text">{{category}} | {{../getCondition conditionId}}</p>
+                    <table class="rent-table">
+                      <tbody>
+                          <tr>
+                              <th class="one"><i class="icon">DAY</i></th>
+                              <th class="two"><i class="icon">WEEK</i></th>
+                              <th class="three"><i class="icon">MONTH</i></th>
+                              <th class="four"><i class="icon">SEMESTER</i></th>
+                          </tr>
+                          <tr>
+                              <td>{{rentPrice.day}}</td>
+                              <td>{{rentPrice.week}}</td>
+                              <td>{{rentPrice.month}}</td>
+                              <td>{{rentPrice.semester}}</td>
+                          </tr>
+                      </tbody>
+                  </table>
+                  <div class="item-icon-right">
+                  {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
+                  </div>
+                </a>
+            </div>
+            
           {{/each}}
         </div>
       </div>

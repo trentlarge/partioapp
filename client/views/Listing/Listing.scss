@@ -85,6 +85,37 @@
 
 #search-result {
     
+    .status-filter {
+        display: block;
+        color: #7D7D7D;
+        line-height: 1.0;
+        width: 90%;
+        max-width: 200px;
+        background-color: #fff;
+        box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+        
+        &.filter-borrow {
+            float: right;
+            border-top-left-radius: 20px;
+            border-bottom-left-radius: 20px;
+        }
+        
+        &.filter-purchasing {
+            border-top-right-radius: 20px;
+            border-bottom-right-radius: 20px;
+        }
+        
+        &.activated {
+            background-color: $royal;
+            color: #ffffff;
+        }
+        
+        &.active {
+            background-color: $royal;
+            color: #ffffff;
+        }
+    }
+    
     disabled {
         display: none;
     }

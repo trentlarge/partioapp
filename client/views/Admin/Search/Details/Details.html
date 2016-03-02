@@ -50,13 +50,32 @@
                             <div class="item item-input item-select">
                                 <i class="icon ion-android-locate"></i>
                                 <div class="input-label border-radius-20"><p>Location</p></div>
-                                <select id="college" class="border-radius-20" disabled>
-                                    <option value="1" {{isLocationSelected 1}}>Duke University</option>
-                                    <option value="2" {{isLocationSelected 2}}>Yale University</option>
-                                    <option value="0" {{isLocationSelected 0}}>Other</option>
-                                </select>
+                                {{#if ../userCanUpdate}} 
+                                     <select id="college" class="border-radius-20">
+                                        <option value="1" {{isLocationSelected 1}}>Duke University</option>
+                                        <option value="2" {{isLocationSelected 2}}>Yale University</option>
+                                        <option value="0" {{isLocationSelected 0}}>Other</option>
+                                    </select>
+                                {{else}}
+                                    <select id="college" class="border-radius-20" disabled>
+                                        <option value="1" {{isLocationSelected 1}}>Duke University</option>
+                                        <option value="2" {{isLocationSelected 2}}>Yale University</option>
+                                        <option value="0" {{isLocationSelected 0}}>Other</option>
+                                    </select>
+                                {{/if}}
+                            </div>
+                                
+                            <div class="item no-padding-vertical">
+                                {{#if ../userCanUpdate}}
+                                    <button class="button button-block button-energized update-user" {{updateMode}}>UPDATE</button>
+                                {{/if}}
+                                {{#if ../userCanDelete}}
+                                    <button class="button button-block button-assertive delete-user">DELETE</button>
+                                {{/if}}
                             </div>
                         </div>
+                
+                        
 
                         <div class="card">
                             <div class="item item-divider">
@@ -118,7 +137,7 @@
                                 </select>
                             </div>
 
-                            <div class="item item-input item-select">
+                            <div class="item item-input item-select no-border">
                                 <div class="input-label">
                                   <p style="height:16px;">Category:</p>
                                 </div>
@@ -143,7 +162,7 @@
                                     <input type="number" class="price weekPrice" value="{{rentPrice.week}}" placeholder="0.00" disabled>
                                 </div>
                                 </div>
-                                <div class="item row">
+                                <div class="item row no-border">
                                 <div class="col col-50">
                                     <div class="priceLabel">MONTH</div>
                                     <input type="number" class="price monthPrice" value="{{rentPrice.month}}" placeholder="0.00" disabled>
@@ -153,6 +172,30 @@
                                     <input type="number" class="price semesterPrice" value="{{rentPrice.semester}}" placeholder="0.00" disabled>
                                 </div>
                             </div>
+                            
+                            <div class="item item-divider">
+                                Purchasing
+                            </div>
+
+                            <div class="item row">
+                                <div class="col col-50">
+                                    <div class="priceLabel">PRICE</div>
+                                    <input type="number" class="price sellingPrice" value="{{selling.price}}" placeholder="0.00" disabled>
+                                </div>
+                                <div class="col col-50">
+                                     <label class="toggle toggle-assertive">
+                                       <input type="checkbox" {{../sellingStatusChecked}} disabled>
+                                       <div class="track">
+                                         <div class="handle"></div>
+                                       </div>
+                                     </label>
+                                     {{#if ../isSellingStatusOn}}
+                                        <span class="enablePurchasing">ON</span>
+                                     {{else}}
+                                        <span class="enablePurchasing">OFF</span>
+                                     {{/if}}
+                                </div>
+                           </div>
                             
                         </div>
                 
