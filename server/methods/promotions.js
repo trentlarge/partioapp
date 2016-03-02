@@ -23,10 +23,8 @@ Meteor.methods({
 
     _earning.timeline.push(object);
 
-    var total = 0;
-
     _earning.timeline.forEach(function(item) {
-      _earning.total += (item.value || 0);
+      _earning.total += (Number(item.value) || 0);
     });
 
     Meteor.users.update({"_id": _user._id }, 
@@ -58,10 +56,8 @@ Meteor.methods({
 
     _spending.timeline.push(object);
 
-    var total = 0;
-
     _spending.timeline.forEach(function(item) {
-      _spending.total += (item.value || 0);
+      _spending.total += (Number(item.value) || 0);
     });
 
     Meteor.users.update({"_id": _user._id }, 
