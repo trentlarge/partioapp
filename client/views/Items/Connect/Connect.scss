@@ -1,5 +1,38 @@
 @import '../../../styles/app-variables';
 
+.connectRent {
+    
+    .item-checkbox {
+        
+        .checkbox {
+            padding-left: 9px !important;
+        }
+        
+        .checkbox input:checked:before, .checkbox input:checked + .checkbox-icon:before {
+            background: $assertive;
+            border-color: $assertive;
+        }
+        
+        .check-coupon {
+            margin: 0 !important;
+        }
+        
+        .coupon-text {
+            margin-left:-5px;
+            
+            .cupon-value {
+                font-size: 18px;
+                color: $energized;
+                
+                &.old {
+                    color: #757575;
+                    text-decoration: line-through;
+                }
+            }
+        }   
+    }
+}
+
 .connect, .connectRent {
 
     color: $royal;
@@ -99,31 +132,6 @@
             }
         }
     }
-    
-//    .product-image-box {
-//        text-align: center;
-//        max-height: 250px;
-//        
-//        .product-image {
-//            max-width: 100%;
-//        }
-//    }
-//    
-//    .product-content {
-//        position: absolute;
-//        width: 100%;
-//        text-align: center;
-//        padding: 10px;
-//        margin-top: -36px;
-//        overflow: hidden;
-//        background-color: rgba(255, 255, 255, 0.7);
-//        
-//        p.product-title {
-//            white-space: normal;
-//            height: 16px;
-//            color: $royal;
-//        }
-//    }
         
     .product-features {
 
@@ -258,6 +266,11 @@
         .price {
             font-size: 18px;
             color: $energized;
+            
+            &.old {
+                color: #757575;
+                text-decoration: line-through;
+            }
         }
 
         input[type="range"] {

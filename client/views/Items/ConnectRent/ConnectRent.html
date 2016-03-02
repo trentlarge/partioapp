@@ -81,25 +81,7 @@
               </a>
               <p class="main-title-text">{{connectData.productData.ownerData.profile.name}}</p>
             </div>
-<!--
-            <div class="profile-content">
-                <a class="item" href="{{pathFor 'talk' _id=connectData._id}}">
-                    <i class="icon ion-chatbubbles assertive"></i>
-                    CHAT
-                </a>
-                <a class="item" id="btnCallUser">
-                    <i class="icon ion-ios-telephone assertive"></i>
-                    CALL
-                </a>
 
-                {{#if ../paymentPending}}
-                    <a class="item" id="cancelRequest">
-                        <i class="icon ion-ios-close royal"></i>
-                        CANCEL
-                    </a>
-                {{/if}}
-            </div>
--->
           </div>
           <div class="item tabs tabs-icon-left">
             <a class="tab-item" href="{{pathFor 'talk' _id=connectData._id}}">
@@ -130,8 +112,40 @@
           {{/if}}
           <div class="item details">
             <i class="icon ion-cash"></i>
-            <span class="price">${{connectData.borrowDetails.price.total}}</span>
+              {{#if couponChecked}}
+                <span class="price old">${{connectData.borrowDetails.price.total}}</span>
+                <span class="price padding-left">${{../getNewPrice connectData.borrowDetails.price.total}}</span>
+              {{else}}
+                <span class="price">${{connectData.borrowDetails.price.total}}</span>
+              {{/if}}
           </div>
+            
+          {{#if ../paymentState}}
+                {{#if ../hasCoupon}}
+            
+                      <div class="item item-checkbox">
+                       <label class="checkbox">
+                           {{#if couponChecked}}
+                                <input type="checkbox" class="check-coupon" checked>
+                           {{else}}
+                                <input type="checkbox" class="check-coupon">
+                           {{/if}}
+                        </label>
+                        <p class="coupon-text"> 
+                            Use Coupon 
+                            ( 
+                                {{#if couponChecked}}
+                                    <span class="cupon-value old">${{../getCouponValue}}</span>
+                                    <span class="cupon-value padding-left">${{../getNewCouponPrice connectData.borrowDetails.price.total}}</span>
+                                {{else}}
+                                    <span class="cupon-value">${{../getCouponValue}}</span>
+                                {{/if}}
+                             )</p>
+                      </div>    
+            
+                {{/if}}
+          {{/if}}
+            
           {{#if ../isReturned}}
           {{else}}
             <div class="item details">
@@ -152,7 +166,13 @@
               {{else}}
                 <div class="item">
                   {{#if ../approvedStatus}}
-                    <button id="payAndRent" class="button button-block button-energized">PAY TOTAL &nbsp; ${{connectData.borrowDetails.price.total}}</button>
+                    
+                        {{#if couponChecked}}
+                            <button id="payAndRent" class="button button-block button-energized">PAY TOTAL &nbsp; ${{newPrice}}</button>
+                        {{else}}
+                            <button id="payAndRent" class="button button-block button-energized">PAY TOTAL &nbsp; ${{connectData.borrowDetails.price.total}}</button>
+                        {{/if}}
+                    
                   {{else}}
                         {{#if ../isTimeOver}}
                           <button class="button button-block" disabled>TIME IS OVER</button>
@@ -173,7 +193,12 @@
               {{else}}
                 <div class="item">
                   {{#if ../approvedStatus}}
-                    <button id="payPurchasing" class="button button-block button-energized">PAY TOTAL &nbsp; ${{connectData.borrowDetails.price.total}}</button>
+                        
+                        {{#if couponChecked}}
+                            <button id="payPurchasing" class="button button-block button-energized">PAY TOTAL &nbsp; ${{newPrice}}</button>
+                        {{else}}
+                            <button id="payPurchasing" class="button button-block button-energized">PAY TOTAL &nbsp; ${{connectData.borrowDetails.price.total}}</button>
+                        {{/if}}
                   {{else}}
                     <button class="button button-block button-energized disabled">AWAITING APPROVAL</button>
                   {{/if}}

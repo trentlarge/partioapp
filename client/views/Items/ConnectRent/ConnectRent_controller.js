@@ -106,6 +106,11 @@ ConnectRentController = RouteController.extend({
 				return (this.connectData.state === "RETURNED" || this.connectData.state === "DONE" ) ? true : false;
 			},
 
+            paymentState: function() {
+                if(!this.connectData) { return; }
+				return (this.connectData.state.indexOf("PAYMENT") >= 0) ? true : false;
+			},
+            
 			paymentPending: function() {
                 if(!this.connectData) { return; }
 				return ((this.connectData.state.indexOf("PAYMENT") >= 0) || (this.connectData.state.indexOf("WAITING")) >= 0) ? true : false;
@@ -217,7 +222,60 @@ ConnectRentController = RouteController.extend({
 					return '<p style="min-height:15px">Waiting location...</p>';
 				}
 				
-			}
+			},
+            
+            // PROMOTION 
+            
+            getPromotionalValue: function() {
+                
+                var user = Meteor.user();
+                
+                if(user.private.promotions && user.private.promotions.earning) {
+                    
+                    var value = Number(user.private.promotions.earning.total);
+                    
+                    if(user.private.promotions.spending) {
+                        value = value - Number(user.private.promotions.spending.total);
+                    }
+                    
+                    return parseFloat(value).toFixed(2);;
+                }
+                
+                return 0.00;
+                
+            },
+            
+            hasCoupon: function() {
+                return (this.getPromotionalValue() > 0) ? true : false;
+            },
+            
+            getNewPrice: function(oldPrice) {
+                var value = this.getPromotionalValue();
+                
+                if(value >= Number(oldPrice)) {
+                    Session.set('newPrice', parseFloat(0.00).toFixed(2));
+                    return  parseFloat(0.00).toFixed(2);
+                }
+                
+                var newPrice = parseFloat(Number(oldPrice) - value).toFixed(2);
+                
+                Session.set('newPrice', newPrice);
+                return newPrice;
+            },
+            
+            getNewCouponPrice: function(rentPrice) {
+                var value = this.getPromotionalValue();
+                
+                if(Number(rentPrice) >= value) {
+                    return  parseFloat(0.00).toFixed(2);
+                }
+                
+                return  parseFloat(value - Number(rentPrice)).toFixed(2);
+            },
+            
+            getCouponValue: function() {
+                return this.getPromotionalValue();
+            }
 		}
 	},
 

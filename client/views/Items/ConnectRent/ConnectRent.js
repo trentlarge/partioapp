@@ -46,7 +46,36 @@ Template.connectRent.rendered = function() {
 	Session.set('numberSemesters', 0);
 }
 
+Template.connectRent.destroyed = function() {
+    Session.set('couponChecked', null);
+    Session.set('newPrice', null);
+}
+
+Template.connectRent.helpers({
+   
+    couponChecked: function() {
+        return Session.get('couponChecked');
+    },
+    
+    newPrice: function() {
+        console.log(Session.get('newPrice'));
+        return Session.get('newPrice');
+    }
+    
+});
+
 Template.connectRent.events({
+    
+    'click .check-coupon': function(e, template) {
+        
+        if(Session.get('couponChecked')) {
+            Session.set('couponChecked', false);
+        }
+        else {
+            Session.set('couponChecked', true);
+        }
+    },
+    
 	'click .product-details': function(e, template) {
 		var productDetails = $('.product-details');
 		var productDetailsItem = $('.product-details-item');
@@ -131,7 +160,16 @@ Template.connectRent.events({
 		Session.set('payRedirect', false);
 
 		var connectionId = this.connectData._id;
-		var amount = this.connectData.borrowDetails.price.total;
+        var amount = 0.00;
+        var partioAmount = 0.00;
+        
+        if(Session.get('couponChecked')) {
+            amount = Session.get('newPrice');
+            partioAmount = this.connectData.borrowDetails.price.total;
+        }
+        else {
+            amount = this.connectData.borrowDetails.price.total;
+        }
 
 		IonPopup.confirm({
 			cancelText: 'Cancel',
@@ -178,8 +216,19 @@ Template.connectRent.events({
 		Session.set('payRedirect', false);
 
 		var connectionId = this.connectData._id;
-		var amount = this.connectData.borrowDetails.price.total;
-
+		//var amount = this.connectData.borrowDetails.price.total;
+        
+        var amount = 0.00;
+        var partioAmount = 0.00;
+        
+        if(Session.get('couponChecked')) {
+            amount = Session.get('newPrice');
+            partioAmount = this.connectData.borrowDetails.price.total;
+        }
+        else {
+            amount = this.connectData.borrowDetails.price.total;
+        }
+        
 		IonPopup.confirm({
 			cancelText: 'Cancel',
 			okText: 'PAY',
