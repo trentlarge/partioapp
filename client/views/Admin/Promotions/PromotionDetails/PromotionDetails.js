@@ -52,8 +52,7 @@ Template.adminPromotionsDetails.events({
         if($('.input-earning').val() == '') return;
         
         var self = this;
-        console.log(self);
-        
+
         var data = {
             userId: Meteor.userId(),
             value: parseFloat($('.input-earning').val()).toFixed(2),
@@ -108,7 +107,6 @@ Template.adminPromotionsDetails.events({
         if($('.input-spending').val() == '') return;
         
         var self = this;
-        console.log(self);
         
         var data = {
             userId: Meteor.userId(),

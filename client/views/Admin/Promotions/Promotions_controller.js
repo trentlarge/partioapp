@@ -70,8 +70,8 @@ AdminPromotionsController = RouteController.extend({
 			},
 
 			isUserPermitted: function() {
-				var userAdmin = Admins.findOne({email: this.user.emails[0].address});
-				return userAdmin.admin;
+				var userAdmin = Admins.find({email: this.user.emails[0].address}).fetch();
+				return (userAdmin.length > 0) ? true : false;
 			},
 
 			allUsersId: function(){
