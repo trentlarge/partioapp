@@ -60,9 +60,9 @@ PromotionsController = RouteController.extend({
 	data: function() {
 		return {
 			user: Meteor.user(),
-      parent: this.getParent(),
-      children: this.getChildren(),
-      bestFriend: this.getBestFriend(),
+            parent: this.getParent(),
+            children: this.getChildren(),
+            bestFriend: this.getBestFriend(),
 
 			getFriendStatus: function(userId){
 				var user = Meteor.user();
@@ -113,8 +113,7 @@ PromotionsController = RouteController.extend({
 					return;
 				});
 			},
-
-
+            
 			isParentAccepted: function(){
 				var set = this.parentInviteStatus();
 
@@ -125,45 +124,59 @@ PromotionsController = RouteController.extend({
 				}
 			},
 
-      getPromotionalCode: function() {
-          if(this.user.private.promotions && this.user.private.promotions.friendShare && this.user.private.promotions.friendShare.code) {
-              return this.user.private.promotions.friendShare.code
-          }
-      },
+            getPromoEarning: function() {
+                if(this.user && this.user.private.promotions && this.user.private.promotions.earning) {
+                    return this.user.private.promotions.earning.total;
+                }
+                return '0.00';
+            },
+            
+            getPromoSpending: function() {
+                if(this.user && this.user.private.promotions && this.user.private.promotions.spending) {
+                    return this.user.private.promotions.spending.total;
+                }
+                return '0.00';
+            },
+            
+            getPromotionalCode: function() {
+              if(this.user.private.promotions && this.user.private.promotions.friendShare && this.user.private.promotions.friendShare.code) {
+                  return this.user.private.promotions.friendShare.code
+              }
+            },
 
-      hasParent: function() {
-          if(this.user.private.promotions && this.user.private.promotions.friendShare && this.user.private.promotions.friendShare.parent) {
-              return true;
-          }
-          return false;
-      },
+            hasParent: function() {
+              if(this.user.private.promotions && this.user.private.promotions.friendShare && this.user.private.promotions.friendShare.parent) {
+                  return true;
+              }
+              return false;
+            },
 
-      hasChildren: function() {
-          if(this.user.private.promotions && this.user.private.promotions.friendShare && this.user.private.promotions.friendShare.children) {
-              return true;
-          }
-          return false;
-      },
+            hasChildren: function() {
+              if(this.user.private.promotions && this.user.private.promotions.friendShare && this.user.private.promotions.friendShare.children) {
+                  return true;
+              }
+              return false;
+            },
 
-      getParent: function() {
-          return this.parent;
-      },
+            getParent: function() {
+              return this.parent;
+            },
 
-      getChildren: function() {
-          return this.children;
-      },
+            getChildren: function() {
+              return this.children;
+            },
 
-      getBestFriend: function() {
-          return this.bestFriend;
-      },
+            getBestFriend: function() {
+              return this.bestFriend;
+            },
 
-      isUserHimself: function() {
-          return (this.bestFriend.private.promotions.friendShare.code === this.user.private.promotions.friendShare.code) ? true : false;
-      },
+            isUserHimself: function() {
+              return (this.bestFriend.private.promotions.friendShare.code === this.user.private.promotions.friendShare.code) ? true : false;
+            },
 
-      isUserChild: function() {
-          return (this.bestFriend._id.indexOf(this.user.private.promotions.friendShare.children) >= 0) ? true : false;
-      }
+            isUserChild: function() {
+              return (this.bestFriend._id.indexOf(this.user.private.promotions.friendShare.children) >= 0) ? true : false;
+            }
 		};
 	},
 

@@ -29,6 +29,18 @@
         }
     }
     
+    .price {
+        float: right;
+        
+        &.earning {
+            color: green
+        }
+        
+        &.spending {
+            color: red;
+        }
+    }
+    
     .promo-message {
         display: block;
         white-space: normal;
