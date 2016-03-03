@@ -52,7 +52,7 @@ Accounts.onCreateUser(function(options,user) {
 				// user.profile.avatar = options.profile.avatar;
 				
 				user.private.mobile = '';
-				user.profile.area = -1; //to get after this on client
+				user.profile.area = '-1'; //to get after this on client
 
 				// if(user.profile.area == 0) {
 
