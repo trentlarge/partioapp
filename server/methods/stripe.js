@@ -509,33 +509,41 @@ Meteor.methods({
   'chargeCardPromotion': function(connectionId, partioAmount, type) {
     console.log('>>>>> [stripe] charging card');
 
-    if(!connectionId || partioAmount) {
+    if(!connectionId || !partioAmount) {
       throw new Meteor.Error("chargeCard", "missing params");
     }
 
     var connect = Connections.findOne({ _id: connectionId, finished: { $ne: true } });
 
     if(!connect) {
-      throw new Meteor.Error("chargeCard", "connect not finished or not found");
+      throw new Meteor.Error("chargeCard", "connect finished or not found");
     }
 
     var requestor = Meteor.users.findOne(connect.requestor);
     var owner = Meteor.users.findOne(connect.productData.ownerId);
     
-    var userAmount = connect.borrowDetails.price.total;
+    var amount = connect.borrowDetails.price.total;
+    var userAmount = Number(amount) - Number(partioAmount);
+      
     var partial = false;
-
-    if(userAmount < partioAmount){
-      partial = true;
-      formattedAmount -= userAmount;
+    if(amount > partioAmount){
+        partial = true;
     }
 
-    var formattedAmount = (amount * 100).toFixed(0);
+    var formattedUserAmount = (userAmount * 100).toFixed(0);
     var formattedPartioAmount = (partioAmount * 100).toFixed(0);
 
-    console.log(formattedAmount, formattedPartioAmount, amount+partioAmount);
+    console.log(formattedUserAmount, formattedPartioAmount, partial);
     return false;
 
+    //You can put just user payment inside this IF, because partio payment will be always done.
+    if(partial) {
+        //make the 2 payments
+    }
+    else {
+        //make just partioAmount payment
+    }
+      
     var response = Async.runSync(function(done) {
       Stripe.customers.retrieve(requestor.secret.stripeCustomer,
         Meteor.bindEnvironment(function (err, customer) {
