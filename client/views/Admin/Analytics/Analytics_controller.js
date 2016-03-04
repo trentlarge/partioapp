@@ -165,6 +165,32 @@ AnalyticsController = RouteController.extend({
             
             // USERS METHODS
             
+            getUsersWithPagination: function() {
+                
+                if(!Session.get('pages')) return;
+                
+                var usersArray = Users.find({}, { sort: { 'createdAt': -1 }}).fetch();
+                var users = [];
+                var pages = Session.get('pages');
+                var page = pages.total;
+                
+                for(var i = (page*10); i < ((page+1)*10); i++) {
+                    if(usersArray[i]) {
+                        users.push(usersArray[i]);
+                    }
+                }
+                
+                return users;
+            },
+            
+            getAreaName: function(area) {
+                return areaName(area);
+            },
+            
+            getFormattedDate: function(date) {
+                return formatDate(date);  
+            },
+            
             getUsersWithPaginationByUniversity: function(uni) {
                 
                 if(!Session.get('pages')) return;

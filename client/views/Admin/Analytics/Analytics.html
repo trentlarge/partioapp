@@ -73,6 +73,36 @@
                         </div>
                     </div>
                 
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                        <div class="card">
+                            <div class="item item-divider">
+                                <span style="text-transform:capitalize;">All Users</span> 
+                            </div>
+                            <div class="item" style="padding:0;">
+                                <ul class="pager">
+                                    <li><a href="#" id="previousAllUsers">Previous</a></li>
+                                    <li><a href="#" id="nextAllUsers">Next</a></li>
+                                </ul>
+                            </div>
+                            <div class="item" style="padding:0;">
+                                <table class="all-user-table">
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Location</th>
+                                        <th>Created At</th>
+                                    </tr>
+                                    {{#each ../getUsersWithPagination}}
+                                        <tr>
+                                            <td>{{profile.name}}</td>
+                                            <t>{{../getAreaName profile.area}}</t>
+                                            <td>{{../getFormattedDate createdAt}}</td>
+                                        </tr>
+                                    {{/each}}
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                
                 {{/if}}
                 
                 {{#if ../isProductsAnalytics}}
