@@ -541,8 +541,6 @@ Meteor.methods({
 
     console.log(formattedUserAmount, formattedPartioAmount);
 
-
-
     var response = Async.runSync(function(done) {
 
       //Partio to owner (promotional)
@@ -595,40 +593,42 @@ Meteor.methods({
       //           Meteor.bindEnvironment(function (err, charge) {
       //             if(err) {
       //               done(err.message, false);
-      //             }
+                //   }
 
-      //             console.log('>>>>> [stripe] new charge ', charge);
+                //   console.log('>>>>> [stripe] new charge ', charge);
 
-      //             if(charge) {
-      //               if(type === 'PURCHASING') {
-      //                   Connections.update({_id: connect._id}, {$set: {state: "SOLD", payment: charge}});
-      //               }
-      //               else {
-      //                   Connections.update({_id: connect._id}, {$set: {state: "IN USE", payment: charge}});
-      //               }
+                //   if(charge) {
+                //     if(type === 'PURCHASING') {
+                //         Connections.update({_id: connect._id}, {$set: {state: "SOLD", payment: charge}});
+                //     }
+                //     else {
+                //         Connections.update({_id: connect._id}, {$set: {state: "IN USE", payment: charge}});
+                //     }
 
-      //               var payerTrans = {
-      //                 date: charge.created * 1000,
-      //                 productName: connect.productData.title,
-      //                 paidAmount: charge.amount/100
-      //               }
+                //      var requestorSpend = {
+                //           date: charge.created * 1000,
+                //           productName: connect.productData.title,
+                //           paidAmount: charge.amount/100,
+                //           userId: connect.owner
+                //         }
 
-      //               var recipientTrans = {
-      //                 date: charge.created * 1000,
-      //                 productName: connect.productData.title,
-      //                 receivedAmount: charge.amount/100
-      //               }
+                //         var ownerEarning = {
+                //           date: charge.created * 1000,
+                //           productName: connect.productData.title,
+                //           receivedAmount: charge.amount/100,
+                //           userId: connect.requestor
+                //         }
 
-      //               Transactions.update({'userId': connect.requestor }, {$push: {spending: payerTrans}});
-      //               Transactions.update({'userId': connect.owner }, {$push: {earning: recipientTrans}});
+                //         Transactions.update({'userId': connect.requestor }, {$push: {spending: requestorSpend}});
+                //         Transactions.update({'userId': connect.owner }, {$push: {earning: ownerEarning}});
 
-      //               var message = 'You received a payment of $' + amount + ' from ' + requestor.profile.name
-      //               sendPush(owner._id, message);
-      //               sendNotification(owner._id, requestor._id, message, "info");
+                //     var message = 'You received a payment of $' + amount + ' from ' + requestor.profile.name
+                //     sendPush(owner._id, message);
+                //     sendNotification(owner._id, requestor._id, message, "info");
 
-      //               done(false, charge);
-      //             }
-      //           })
+                //     done(false, charge);
+                //   }
+                // })
       //         ) // charges.create
       //       } //if customer
       //     })
@@ -644,5 +644,66 @@ Meteor.methods({
     } else {
       return response.result;
     }
-  }
+  },
+
+  stripeTestAddBalance: function(){
+    console.log('test balance');
+
+    var response = Async.runSync(function(done) {
+
+      Stripe.balance.retrieve(function(err, balance) {
+        if(err) {
+          done(err.message, false);
+        }
+
+        if(balance.livemode) {
+          done('live mode', false);
+        }
+
+        //var available = result.available[0].amount;
+        var pending = balance.available[0].amount;
+
+        //var sum = available+pending;
+        //sum = sum*-1;
+
+        value = pending*-1;
+
+        if(value > 0) {
+          Stripe.tokens.create({
+            card: {
+              "number": '4000000000000077',
+              "exp_month": 12,
+              "exp_year": 2017,
+              "cvc": '123'
+            }
+          }, function(err, token) {
+            if(err) {
+              done(err.message, false);
+            }
+              
+            Stripe.charges.create({
+              amount: value,
+              currency: "usd",
+              source: token.id, // obtained with Stripe.js
+              description: "Charge for test balance"
+            }, function(err, charge) {
+               if(err) {
+                  done(err.message, false);
+                }
+
+                done(charge);
+            });
+          });
+        } else {
+          done('nothing is pending', false);
+        }
+      });
+    });
+
+    if(response.error) {
+      throw new Meteor.Error("stripeTestAddBalance", response.error);
+    } else {
+      return response.result;
+    }
+  }     
 });

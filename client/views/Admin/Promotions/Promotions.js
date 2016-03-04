@@ -20,7 +20,5 @@ Template.adminPromotions.onCreated(function () {
 });
 
 // Template.adminPromotions.rendered = function() {
-//   if(!this.data.isUserPermitted()) {
-//       return;
-//   }
+  
 // }
