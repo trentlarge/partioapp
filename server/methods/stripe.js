@@ -522,10 +522,14 @@ Meteor.methods({
     var requestor = Meteor.users.findOne(connect.requestor);
     var owner = Meteor.users.findOne(connect.productData.ownerId);
     
+    //total price
     var amount = connect.borrowDetails.price.total;
+    
+    //pay by user
     var userAmount = Number(amount) - Number(partioAmount);
-      
+
     var partial = false;
+    
     if(amount > partioAmount){
         partial = true;
     }
@@ -533,84 +537,104 @@ Meteor.methods({
     var formattedUserAmount = (userAmount * 100).toFixed(0);
     var formattedPartioAmount = (partioAmount * 100).toFixed(0);
 
-    console.log(formattedUserAmount, formattedPartioAmount, partial);
-    return false;
+    console.log(formattedUserAmount, formattedPartioAmount);
 
-    //You can put just user payment inside this IF, because partio payment will be always done.
-    if(partial) {
-        //make the 2 payments
-    }
-    else {
-        //make just partioAmount payment
-    }
-      
+
+
     var response = Async.runSync(function(done) {
-      Stripe.customers.retrieve(requestor.secret.stripeCustomer,
-        Meteor.bindEnvironment(function (err, customer) {
-          if(err) {
-            done(err.message, false);
-          }
 
-          if(customer) {
-            var payCardId = customer.default_source;
+      //Partio to owner (promotional)
+      Stripe.transfers.create({
+        amount: formattedPartioAmount,
+        currency: "usd",
+        destination: owner.secret.stripeManaged,
+        description: "Promotional payment"
+      }, Meteor.bindEnvironment(function(err, transfer) {
+        if(err){
+          done(err.message, false);  
+        }
+        
+        if(transfer){
+          Meteor.call('addSpendingPromotionValue', requestor._id, { value: partioAmount, from: 'Renting from '+owner.profile.name, connectionId: connectionId });
+          console.log(transfer);  
+        }
+        
+        
+      }));
 
-            // Creating a charge
-            Stripe.charges.create({
-              amount: formattedAmount,
-              currency: "usd",
-              customer: requestor.secret.stripeCustomer,
-              source: payCardId,
-              destination: owner.secret.stripeManaged,
-              metadata: {
-                connectId: connect._id,
-                productId: connect.productData._id,
-                productName: connect.productData.title,
-                ownerId: connect.owner,
-                requestorId: connect.requestor
-              },
-              description: requestor.emails[0].address+' renting from '+owner.emails[0].address },
+      return false;
 
-              Meteor.bindEnvironment(function (err, charge) {
-                if(err) {
-                  done(err.message, false);
-                }
+      // if(partial) {
+      //   Stripe.customers.retrieve(requestor.secret.stripeCustomer,
+      //     Meteor.bindEnvironment(function (err, customer) {
+      //       if(err) {
+      //         done(err.message, false);
+      //       }
 
-                console.log('>>>>> [stripe] new charge ', charge);
+      //       if(customer) {
+      //         var payCardId = customer.default_source;
 
-                if(charge) {
-                  if(type === 'PURCHASING') {
-                      Connections.update({_id: connect._id}, {$set: {state: "SOLD", payment: charge}});
-                  }
-                  else {
-                      Connections.update({_id: connect._id}, {$set: {state: "IN USE", payment: charge}});
-                  }
+      //         // Creating a charge
+      //         Stripe.charges.create({
+      //           amount: formattedUserAmount,
+      //           currency: "usd",
+      //           customer: requestor.secret.stripeCustomer,
+      //           source: payCardId,
+      //           destination: owner.secret.stripeManaged,
+      //           metadata: {
+      //             connectId: connect._id,
+      //             productId: connect.productData._id,
+      //             productName: connect.productData.title,
+      //             ownerId: connect.owner,
+      //             requestorId: connect.requestor
+      //           },
+      //           description: requestor.emails[0].address+' renting from '+owner.emails[0].address },
 
-                  var payerTrans = {
-                    date: charge.created * 1000,
-                    productName: connect.productData.title,
-                    paidAmount: charge.amount/100
-                  }
+      //           Meteor.bindEnvironment(function (err, charge) {
+      //             if(err) {
+      //               done(err.message, false);
+      //             }
 
-                  var recipientTrans = {
-                    date: charge.created * 1000,
-                    productName: connect.productData.title,
-                    receivedAmount: charge.amount/100
-                  }
+      //             console.log('>>>>> [stripe] new charge ', charge);
 
-                  Transactions.update({'userId': connect.requestor }, {$push: {spending: payerTrans}});
-                  Transactions.update({'userId': connect.owner }, {$push: {earning: recipientTrans}});
+      //             if(charge) {
+      //               if(type === 'PURCHASING') {
+      //                   Connections.update({_id: connect._id}, {$set: {state: "SOLD", payment: charge}});
+      //               }
+      //               else {
+      //                   Connections.update({_id: connect._id}, {$set: {state: "IN USE", payment: charge}});
+      //               }
 
-                  var message = 'You received a payment of $' + amount + ' from ' + requestor.profile.name
-                  sendPush(owner._id, message);
-                  sendNotification(owner._id, requestor._id, message, "info");
+      //               var payerTrans = {
+      //                 date: charge.created * 1000,
+      //                 productName: connect.productData.title,
+      //                 paidAmount: charge.amount/100
+      //               }
 
-                  done(false, charge);
-                }
-              })
-            ) // charges.create
-          } //if customer
-        })
-      ); // customer.retrieve
+      //               var recipientTrans = {
+      //                 date: charge.created * 1000,
+      //                 productName: connect.productData.title,
+      //                 receivedAmount: charge.amount/100
+      //               }
+
+      //               Transactions.update({'userId': connect.requestor }, {$push: {spending: payerTrans}});
+      //               Transactions.update({'userId': connect.owner }, {$push: {earning: recipientTrans}});
+
+      //               var message = 'You received a payment of $' + amount + ' from ' + requestor.profile.name
+      //               sendPush(owner._id, message);
+      //               sendNotification(owner._id, requestor._id, message, "info");
+
+      //               done(false, charge);
+      //             }
+      //           })
+      //         ) // charges.create
+      //       } //if customer
+      //     })
+      //   ); // customer.retrieve
+
+      // }
+
+
     }); //async
 
     if(response.error) {

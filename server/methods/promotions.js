@@ -36,7 +36,7 @@ Meteor.methods({
   },
 
   addSpendingPromotionValue: function(userId, object){
-    if(!object.value || !object.userId || !object.from){
+    if(!object.value || !object.from){
       throw new Meteor.Error("addValue", 'missing fields');
     }
 
