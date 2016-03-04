@@ -471,20 +471,22 @@ Meteor.methods({
                       Connections.update({_id: connect._id}, {$set: {state: "IN USE", payment: charge}});
                   }
 
-                  var payerTrans = {
+                  var requestorSpend = {
                     date: charge.created * 1000,
                     productName: connect.productData.title,
-                    paidAmount: charge.amount/100
+                    paidAmount: charge.amount/100,
+                    userId: connect.owner
                   }
 
-                  var recipientTrans = {
+                  var ownerEarning = {
                     date: charge.created * 1000,
                     productName: connect.productData.title,
-                    receivedAmount: charge.amount/100
+                    receivedAmount: charge.amount/100,
+                    userId: connect.requestor
                   }
 
-                  Transactions.update({'userId': connect.requestor }, {$push: {spending: payerTrans}});
-                  Transactions.update({'userId': connect.owner }, {$push: {earning: recipientTrans}});
+                  Transactions.update({'userId': connect.requestor }, {$push: {spending: requestorSpend}});
+                  Transactions.update({'userId': connect.owner }, {$push: {earning: ownerEarning}});
 
                   var message = 'You received a payment of $' + amount + ' from ' + requestor.profile.name
                   sendPush(owner._id, message);
