@@ -155,8 +155,10 @@ Meteor.methods({
 	},
 
 	userAreaUpdate: function(area){
-		console.log('>>>> userAreaUpdate called');
-		Meteor.users.update({"_id": this.userId }, {$set: { "profile.area": area }}, function(error) {
+		
+		var _area = area.toString();
+
+		Meteor.users.update({"_id": this.userId }, {$set: { "profile.area": _area }}, function(error) {
 			if(error) {
 				return false;
 			}
