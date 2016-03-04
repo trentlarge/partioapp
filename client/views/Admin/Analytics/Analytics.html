@@ -379,20 +379,28 @@
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                         <div class="card">
                             <div class="item item-divider">
-                                <span style="text-transform:capitalize;">Spending</span> 
+                                <span style="text-transform:capitalize;">Transactions</span> 
+                            </div>
+                            <div class="item" style="padding:0;">
+                                <ul class="pager">
+                                    <li><a href="#" id="previousTransactions">Previous</a></li>
+                                    <li><a href="#" id="nextTransactions">Next</a></li>
+                                </ul>
                             </div>
                             <div class="item" style="padding:0;">
                                 <table class="transaction-table">
                                     <tr>
-                                        <th>Name</th>
+                                        <th>Requestor</th>
+                                        <th>Owner</th>
                                         <th>Product Name</th>
                                         <th>Value ($)</th>
                                     </tr>
-                                    {{#each ../getTransactionsSpending}}
+                                    {{#each ../getTransactionsWithPagination}}
                                         <tr>
-                                            <td>{{name}}</td>
-                                            <td>{{product}}</td>
-                                            <td>{{value}}</td>
+                                            <td class="requestor">{{requestor}}</td>
+                                            <td class="owner">{{owner}}</td>
+                                            <td class="product">{{product}}</td>
+                                            <td class="value">{{value}}</td>
                                         </tr>
                                     {{/each}}
                                 </table>
@@ -400,6 +408,7 @@
                         </div>
                     </div>
                 
+<!--
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                         <div class="card">
                             <div class="item item-divider">
@@ -423,6 +432,7 @@
                             </div>
                         </div>
                     </div>
+-->
                 
                 {{/if}}
     

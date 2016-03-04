@@ -13,7 +13,8 @@ Template.analytics.rendered = function() {
         yale: 0,
         others: 0,
         total: 0,
-        connections: 0
+        connections: 0,
+        transactions: 0
     }
     
     Session.set('pages', pages);
@@ -24,6 +25,7 @@ Template.analytics.rendered = function() {
         others: Math.floor(this.data.getTotalUsersByUniversity(0)/10),
         total: Math.floor(this.data.getLenght('users')/10),
         connections: Math.floor(this.data.getTotalConnections(0)/10),
+        transactions: Math.floor(this.data.getTotalTransactions(0)/10),
     }
     
     Session.set('maxPages', maxPages);
@@ -434,6 +436,25 @@ Template.analytics.events({
        var pages = Session.get('pages');
        if(pages.connections > 0) {
            pages.connections--;
+       }
+       Session.set('pages', pages);
+   },
+    
+   // Transactions Pagination
+    
+   'click #nextTransaction': function() {
+       var pages = Session.get('pages');
+       var maxPages = Session.get('maxPages');
+       if(pages.transactions < maxPages.transactions) {
+           pages.transactions++;
+       }
+       Session.set('pages', pages);
+   },
+    
+   'click #previousTransaction': function() {
+       var pages = Session.get('pages');
+       if(pages.transactions > 0) {
+           pages.transactions--;
        }
        Session.set('pages', pages);
    },

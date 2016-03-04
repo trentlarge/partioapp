@@ -543,6 +543,17 @@ AnalyticsController = RouteController.extend({
             
             // TRANSACTIONS METHODS
             
+            getTotalTransactions: function() {
+              
+                var totalTransactions = 0;
+                
+                $.each(this.transactions, function(index, transaction) {
+                    totalTransactions += transaction.spending.length;
+                });
+                
+                return totalTransactions;
+            },
+            
             getTotalSpending: function() {
                 
                 var averageSpending = 0.00;
@@ -579,7 +590,9 @@ AnalyticsController = RouteController.extend({
                 return averageSpending;
             },
             
-            getTransactionsSpending: function() {
+            getTransactionsWithPagination: function() {
+                
+                if(!Session.get('pages')) return;
                 
                 var transactions = [];
                 var self = this;
@@ -590,9 +603,18 @@ AnalyticsController = RouteController.extend({
                     
                     $.each(transaction.spending, function(key, spend) {
 
+                        var owner = undefined; 
+                        
+                        if(spend.userId) {
+                            owner = self.getUserById(spend.userId)
+                        }
+                        
                         transactions.push({
-                            'name': (function() {
-                                return (user.profile) ? user.profile.name : 'User Deleted';
+                            'requestor': (function() {
+                                return (user && user.profile) ? user.profile.name : 'User Deleted';
+                            })(),
+                            'owner': (function() {
+                                return (owner && owner.profile) ? owner.profile.name : 'Not Available';
                             })(),
                             'product': spend.productName,
                             'value': spend.paidAmount
@@ -600,32 +622,43 @@ AnalyticsController = RouteController.extend({
                     });
                 });
                 
-                return transactions;
+                var trans = [];
+                
+                var pages = Session.get('pages');
+                var page = pages.transactions;
+                
+                for(var i = (page*10); i < ((page+1)*10); i++) {
+                    if(transactions[i]) {
+                        trans.push(transactions[i]);
+                    }
+                }
+                
+                return trans;
             },
             
-            getTransactionsEarning: function() {
-                
-                var transactions = [];
-                var self = this;
-                
-                $.each(this.transactions, function(index, transaction) {
-                   
-                    var user = self.getUserById(transaction.userId)
-                    
-                    $.each(transaction.earning, function(key, spend) {
-
-                        transactions.push({
-                            'name': (function() {
-                                return (user.profile) ? user.profile.name : 'User Deleted';
-                            })(),
-                            'product': spend.productName,
-                            'value': spend.receivedAmount
-                        });
-                    });
-                });
-                
-                return transactions;
-            },
+//            getTransactionsEarning: function() {
+//                
+//                var transactions = [];
+//                var self = this;
+//                
+//                $.each(this.transactions, function(index, transaction) {
+//                   
+//                    var user = self.getUserById(transaction.userId)
+//                    
+//                    $.each(transaction.earning, function(key, spend) {
+//
+//                        transactions.push({
+//                            'name': (function() {
+//                                return (user.profile) ? user.profile.name : 'User Deleted';
+//                            })(),
+//                            'product': spend.productName,
+//                            'value': spend.receivedAmount
+//                        });
+//                    });
+//                });
+//                
+//                return transactions;
+//            },
             
 		};
 	},

@@ -185,16 +185,19 @@
             }
             
             th {
-                width: 33.3%;
                 padding: 10px 5px;
                 text-align: center;
                 font-weight: bold;
             }
             
             td {
-                width: 33.3%;
                 padding: 5px;
                 white-space: normal;
+                
+                &.requestor { width: 20% }
+                &.owner { width: 20% }
+                &.product { width: 50% }
+                &.value { width: 10% }
             }
         }
     }
