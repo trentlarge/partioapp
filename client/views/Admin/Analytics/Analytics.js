@@ -12,7 +12,9 @@ Template.analytics.rendered = function() {
         duke: 0,
         yale: 0,
         others: 0,
-        connections: 0
+        total: 0,
+        connections: 0,
+        transactions: 0
     }
     
     Session.set('pages', pages);
@@ -21,7 +23,9 @@ Template.analytics.rendered = function() {
         duke: Math.floor(this.data.getTotalUsersByUniversity(1)/10),
         yale: Math.floor(this.data.getTotalUsersByUniversity(2)/10),
         others: Math.floor(this.data.getTotalUsersByUniversity(0)/10),
-        connections: Math.floor(this.data.getTotalConnections(0)/10)
+        total: Math.floor(this.data.getLenght('users')/10),
+        connections: Math.floor(this.data.getTotalConnections(0)/10),
+        transactions: Math.floor(this.data.getTotalTransactions(0)/10),
     }
     
     Session.set('maxPages', maxPages);
@@ -398,6 +402,25 @@ Template.analytics.events({
        Session.set('pages', pages);
    },
     
+   // All Users Pagination
+    
+   'click #nextAllUsers': function() {
+       var pages = Session.get('pages');
+       var maxPages = Session.get('maxPages');
+       if(pages.total < maxPages.total) {
+           pages.total++;
+       }
+       Session.set('pages', pages);
+   },
+    
+   'click #previousAllUsers': function() {
+       var pages = Session.get('pages');
+       if(pages.total > 0) {
+           pages.total--;
+       }
+       Session.set('pages', pages);
+   },
+    
    // Connection Pagination
     
    'click #nextConnection': function() {
@@ -413,6 +436,25 @@ Template.analytics.events({
        var pages = Session.get('pages');
        if(pages.connections > 0) {
            pages.connections--;
+       }
+       Session.set('pages', pages);
+   },
+    
+   // Transactions Pagination
+    
+   'click #nextTransaction': function() {
+       var pages = Session.get('pages');
+       var maxPages = Session.get('maxPages');
+       if(pages.transactions < maxPages.transactions) {
+           pages.transactions++;
+       }
+       Session.set('pages', pages);
+   },
+    
+   'click #previousTransaction': function() {
+       var pages = Session.get('pages');
+       if(pages.transactions > 0) {
+           pages.transactions--;
        }
        Session.set('pages', pages);
    },

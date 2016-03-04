@@ -73,6 +73,36 @@
                         </div>
                     </div>
                 
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                        <div class="card">
+                            <div class="item item-divider">
+                                <span style="text-transform:capitalize;">All Users</span> 
+                            </div>
+                            <div class="item" style="padding:0;">
+                                <ul class="pager">
+                                    <li><a href="#" id="previousAllUsers">Previous</a></li>
+                                    <li><a href="#" id="nextAllUsers">Next</a></li>
+                                </ul>
+                            </div>
+                            <div class="item" style="padding:0;">
+                                <table class="all-user-table">
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Location</th>
+                                        <th>Created At</th>
+                                    </tr>
+                                    {{#each ../getUsersWithPagination}}
+                                        <tr>
+                                            <td>{{profile.name}}</td>
+                                            <t>{{../getAreaName profile.area}}</t>
+                                            <td>{{../getFormattedDate createdAt}}</td>
+                                        </tr>
+                                    {{/each}}
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                
                 {{/if}}
                 
                 {{#if ../isProductsAnalytics}}
@@ -349,20 +379,28 @@
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                         <div class="card">
                             <div class="item item-divider">
-                                <span style="text-transform:capitalize;">Spending</span> 
+                                <span style="text-transform:capitalize;">Transactions</span> 
+                            </div>
+                            <div class="item" style="padding:0;">
+                                <ul class="pager">
+                                    <li><a href="#" id="previousTransactions">Previous</a></li>
+                                    <li><a href="#" id="nextTransactions">Next</a></li>
+                                </ul>
                             </div>
                             <div class="item" style="padding:0;">
                                 <table class="transaction-table">
                                     <tr>
-                                        <th>Name</th>
+                                        <th>Requestor</th>
+                                        <th>Owner</th>
                                         <th>Product Name</th>
                                         <th>Value ($)</th>
                                     </tr>
-                                    {{#each ../getTransactionsSpending}}
+                                    {{#each ../getTransactionsWithPagination}}
                                         <tr>
-                                            <td>{{name}}</td>
-                                            <td>{{product}}</td>
-                                            <td>{{value}}</td>
+                                            <td class="requestor">{{requestor}}</td>
+                                            <td class="owner">{{owner}}</td>
+                                            <td class="product">{{product}}</td>
+                                            <td class="value">{{value}}</td>
                                         </tr>
                                     {{/each}}
                                 </table>
@@ -370,6 +408,7 @@
                         </div>
                     </div>
                 
+<!--
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                         <div class="card">
                             <div class="item item-divider">
@@ -393,6 +432,7 @@
                             </div>
                         </div>
                     </div>
+-->
                 
                 {{/if}}
     

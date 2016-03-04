@@ -39,13 +39,33 @@
     
     // USERS
     
-    .user-table {
+    .all-user-table {
         width: 100%;
         
-        body {
+        tr {
             width: 100%;
-            background: transparent;
+            text-align: center;
+            
+            &:nth-child(even) {
+                background: #F5F5F5;
+            }
+            
+            th {
+                width: 33.3%;
+                padding: 10px 5px;
+                text-align: center;
+                font-weight: bold;
+            }
+            
+            td {
+                width: 33.3%;
+                padding: 5px;
+            }
         }
+    }
+    
+    .user-table {
+        width: 100%;
         
         tr {
             width: 100%;
@@ -165,16 +185,19 @@
             }
             
             th {
-                width: 33.3%;
                 padding: 10px 5px;
                 text-align: center;
                 font-weight: bold;
             }
             
             td {
-                width: 33.3%;
                 padding: 5px;
                 white-space: normal;
+                
+                &.requestor { width: 20% }
+                &.owner { width: 20% }
+                &.product { width: 50% }
+                &.value { width: 10% }
             }
         }
     }
