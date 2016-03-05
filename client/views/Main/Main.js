@@ -14,7 +14,7 @@ Template.main.rendered = function(){
 	var _user = Meteor.user();
 	var birthDate = false;
 	var mobile = false;
-
+	
 	if(_user.profile.birthDate) {
 		if(_user.profile.birthDate != '') {
 			birthDate = true;

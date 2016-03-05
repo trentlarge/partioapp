@@ -183,11 +183,24 @@ Template.connectRent.events({
                         PartioLoad.hide();
 
                         if(error) {
-                            var errorMessage = error.reason || error.message;
-                            if(error.details) {
-                                errorMessage = errorMessage + "\nDetails:\n" + error.details;
-                            }
-                            sAlert.error(errorMessage);
+                            // var errorMessage = error.reason || error.message;
+                            // if(error.details) {
+                            //     errorMessage = errorMessage + "\nDetails:\n" + error.details;
+                            // }
+                            // sAlert.error(errorMessage);
+                             IonPopup.show({
+                                title: 'Ops...',
+                                template: 'Coupon system isn\'t working now. Please try again later. Thank you.',
+                                buttons:
+                                [{
+                                    text: 'OK',
+                                    type: 'button-assertive',
+                                    onTap: function() {
+                                        IonPopup.close();
+                                    }
+                                }]
+                            });
+
                             return;
                         }
 

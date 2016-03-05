@@ -8,7 +8,7 @@ Meteor.methods({
     var _user = Meteor.users.findOne({ '_id': userId });
     
     if(!_user.private.promotions) {
-       throw new Meteor.Error("addValue", 'user '+object.userId+' doesn\`t has promotion field');
+       throw new Meteor.Error("addValue", 'user '+userId+' doesn\`t has promotion field');
     }
     
     object.timestamp = Date.now();
@@ -36,14 +36,14 @@ Meteor.methods({
   },
 
   addSpendingPromotionValue: function(userId, object){
-    if(!object.value || !object.from){
+    if(!object.value || !object.userId || !object.from){
       throw new Meteor.Error("addValue", 'missing fields');
     }
 
     var _user = Meteor.users.findOne({ '_id': userId });
     
     if(!_user.private.promotions) {
-       throw new Meteor.Error("addValue", 'user '+object.userId+' doesn\`t has promotion field');
+       throw new Meteor.Error("addValue", 'user '+_user._id+' doesn\`t has promotion field');
     }
     
     object.timestamp = Date.now();

@@ -3,8 +3,12 @@ app = app || {};
 app.model.stripeBalance = (function () {
  'use strict';
   var stripeBalance = {
-    check: function() {
-    	Meteor.call('stripeTestAddBalance', function(err, result){
+    add: function(value) {
+      if(!value){
+        return false;
+      }
+
+    	Meteor.call('stripeTestAddBalance', value, function(err, result){
     		if(err){
     			console.log(err)
     		}
