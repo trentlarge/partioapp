@@ -24,8 +24,21 @@
         #promoCode {
             font-size: 30px;
             line-height: 30px;
+            height: 36px !important;
             width: 170px;
             text-align: center;
+        }
+    }
+    
+    .price {
+        float: right;
+        
+        &.earning {
+            color: green
+        }
+        
+        &.spending {
+            color: red;
         }
     }
     

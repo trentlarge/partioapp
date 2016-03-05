@@ -48,3 +48,7 @@ Meteor.publish("singleUser", function(idUser) {
 Meteor.publish("adminUsers", function() {
 	return Users.find({}, { sort: { 'profile.name': 1 }, fields: { emails: 1, profile: 1, private: 1 }});
 });
+
+Meteor.publish("adminUsersInArray", function(usersId) {
+	return Users.find({ _id: { $in: usersId }}, { fields: { emails: 1, profile: 1, private: 1 }});
+});

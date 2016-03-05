@@ -53,7 +53,7 @@ Meteor.methods({
           }
         }, 2000);
       } else {
-        console.log('>>>>>>> friendcode >> ok');
+        //console.log('>>>>>>> friendcode >> ok');
       }
   	}, 1500);
   },
@@ -328,4 +328,5 @@ Meteor.methods({
       return response.result;
     }
   }
+  
 });

@@ -1,0 +1,51 @@
+.admin-promotions-details {
+    
+    .card {
+        margin-bottom: 10px;
+        margin-top: 10px;
+        font-family: "Ubuntu", sans-serif;
+    }
+    
+    input {
+        padding-left: 6px !important;
+    }
+    
+    .price {
+        float: right;
+        
+        &.earning {
+            color: green;
+        }
+        
+        &.spending {
+            color: red;
+        }
+    }
+    
+    .value-earning {
+        &.positive {
+            color: green;
+        }
+        &.negative {
+            color: red;
+        }
+    }
+    
+    .value-spending {
+        &.positive {
+            color: orange;
+        }
+        &.negative {
+            color: red;
+        }
+    }
+    
+    .friend-date {
+        float: right;
+        position: absolute;
+        top: 2px;
+        right: 5px;
+        font-size: 10px;
+    }
+    
+}

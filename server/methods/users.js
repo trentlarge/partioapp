@@ -41,7 +41,7 @@ Meteor.methods({
 		Accounts.sendVerificationEmail(email);
 	},
 	
-	'sendEmail': function (subject, text) {
+	'sendEmail': function (subject, text, to) {
 	  check([subject, text], [String]);
 
 		var _user = Meteor.user();
@@ -50,18 +50,24 @@ Meteor.methods({
 		// without waiting for the email sending to complete.
 		this.unblock();
 
-		console.log('SEND FORM CONTACT');
-
 		text+= '\n\n';
 		text+= 'Name: '+_user.profile.name;
 		text+= '\n';
 		text+= 'From: '+_user.emails[0].address;
 
+		var _to = process.env.MAIL_FROM;
+
+		if(to) {
+			_to = to;
+		}
+
+		console.log('SENDING EMAIL TO '+to);
+
 		Email.send({
-			to: 'support@partioapp.com',
-			from: 'support@partioapp.com',
+			to: _to,
+			from: process.env.MAIL_FROM,
 			subject: subject,
-			text: text
+			html: text
 		});
 	},
 	'userCanShare': function(){
@@ -73,7 +79,7 @@ Meteor.methods({
 	},
 
 	checkTutorial: function(){
-		console.log('>>>>> check tutorial called');
+		//console.log('>>>>> check tutorial called');
 		Meteor.users.update({"_id": this.userId }, {$set: { "private.viewTutorial": true }}, function(error) {
 			if(error) {
 				return false;
@@ -84,7 +90,7 @@ Meteor.methods({
 	},
     
     checkProfileTutorial: function(){
-		console.log('>>>>> check tutorial called');
+		//console.log('>>>>> check tutorial called');
 		Meteor.users.update({"_id": this.userId }, {$set: { "private.viewProfileTutorial": true }}, function(error) {
 			if(error) {
 				return false;

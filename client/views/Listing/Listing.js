@@ -67,7 +67,7 @@ Template.listing.events({
     var pageSize = Session.get('pageSize');
 
     if($('.product-box').length < pageNumber * pageSize) {
-        return;
+        //return;
     }
 
     //if(parent.scrollTop() + parent.height() >= scrollingElement.innerHeight() + 20) {

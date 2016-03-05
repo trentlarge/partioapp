@@ -30,6 +30,7 @@ Router.route('/admin/search/:_id', { name: 'adminSearch', controller: 'AdminSear
 Router.route('/admin/search/:_id/:elementId', { name: 'adminSearchDetails', controller: 'AdminSearchDetailsController'});
 Router.route('/admin/promotions', { action: function() { this.redirect('/admin/promotions/general'); } });
 Router.route('/admin/promotions/:_id', { name: 'adminPromotions', controller: 'AdminPromotionsController'});
+Router.route('/admin/promotions/details/:_id', { name: 'adminPromotionsDetails', controller: 'AdminPromotionsDetailsController'});
 Router.route('/analytics/:_id', { name: 'analytics', controller: 'AnalyticsController'});
 Router.route('/verify-email/:token', {name: 'emailverification', controller: 'EmailVerificationController'});
 Router.route('/reset-password/:token', {name: 'resetpassword', controller: 'ResetPasswordController'});

@@ -24,7 +24,7 @@
 
                     {{#with user}}
 
-                        <div class="card">
+                        <div class="card list">
                             <div class="profilehead item" >
                                 <div class="profile-image-container">
                                     <div class="profile-avatar" style="background: url('{{profile.avatar}}') no-repeat; background-size:cover; background-position: 50% 50%;"></div>
@@ -75,9 +75,14 @@
                             </div>
                         </div>
                 
-                        
+                        <div class="card list">
+                            <a class="item item-icon-right" href="/admin/promotions/details/{{_id}}">
+                                <p>Promotions</p>
+                                {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
+                            </a>    
+                        </div>
 
-                        <div class="card">
+                        <div class="card list">
                             <div class="item item-divider">
                                 <h2>Products</h2>
                             </div>
@@ -86,7 +91,7 @@
                             </div>    
                         </div>
 
-                        <div class="card">
+                        <div class="card list">
                             <div class="item item-divider">
                                 <h2>Connections</h2>
                             </div>
@@ -98,7 +103,7 @@
                             </div>
                         </div>
 
-                        <div class="card">
+                        <div class="card list">
                             <div class="item item-divider">
                                 <h2>Transactions</h2>
                             </div>
