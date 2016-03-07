@@ -266,10 +266,15 @@
         .price {
             font-size: 18px;
             color: $energized;
+            text-align: center;
             
             &.old {
                 color: #757575;
                 text-decoration: line-through;
+            }
+            
+            .fee {
+                font-size: 10px;
             }
         }
 

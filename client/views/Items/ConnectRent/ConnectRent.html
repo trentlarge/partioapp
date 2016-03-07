@@ -113,10 +113,16 @@
           <div class="item details">
             <i class="icon ion-cash"></i>
               {{#if couponChecked}}
-                <span class="price old">${{connectData.borrowDetails.price.total}}</span>
+                <span class="price old">
+                    ${{../getTotalPrice connectData.borrowDetails.price.total}}
+                    <p class="fee">(${{../getFee connectData.borrowDetails.price.total}} fee)</p>
+                </span>
                 <span class="price padding-left">${{../getNewPrice connectData.borrowDetails.price.total}}</span>
               {{else}}
-                <span class="price">${{connectData.borrowDetails.price.total}}</span>
+                <span class="price">
+                    ${{../getTotalPrice connectData.borrowDetails.price.total}}
+                    <p class="fee">(${{../getFee connectData.borrowDetails.price.total}} fee)</p>
+                </span>
               {{/if}}
           </div>
             
@@ -168,9 +174,13 @@
                   {{#if ../approvedStatus}}
                     
                         {{#if couponChecked}}
-                            <button id="payAndRent" class="button button-block button-energized">PAY TOTAL &nbsp; ${{newPrice}}</button>
+                            <button id="payAndRent" class="button button-block button-energized">
+                                PAY TOTAL &nbsp; ${{newPrice}}
+                            </button>
                         {{else}}
-                            <button id="payAndRent" class="button button-block button-energized">PAY TOTAL &nbsp; ${{connectData.borrowDetails.price.total}}</button>
+                            <button id="payAndRent" class="button button-block button-energized">
+                                PAY TOTAL &nbsp; ${{../getTotalPrice connectData.borrowDetails.price.total}}
+                            </button>
                         {{/if}}
                     
                   {{else}}
