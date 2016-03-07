@@ -30,7 +30,7 @@ ShoutOutController = RouteController.extend({
             });
         }
         else {
-            Meteor.subscribe('shoutout', limit, function() {
+            Meteor.subscribe('shoutout', Meteor.user(), limit, function() {
                 setTimeout(function(){
                     $('.loadbox').fadeOut();
                 }, 100);
@@ -38,13 +38,13 @@ ShoutOutController = RouteController.extend({
         }
         
         var shouts = ShoutOut.find({}, {sort: {createdAt: -1}}).fetch();
-        var usersId = [];
-        
-        $.each(shouts, function(index, shout) {
-            usersId.push(shout.userId);
-        });
-               
-        Meteor.subscribe('usersInArray', usersId);   
+//        var usersId = [];
+//        
+//        $.each(shouts, function(index, shout) {
+//            usersId.push(shout.userId);
+//        });
+//               
+//        Meteor.subscribe('usersInArray', usersId);   
         
         var sharedProductsIds = [];
         $.each(shouts, function(index, shout) {

@@ -10,8 +10,8 @@ SearchController = RouteController.extend({
 	},
 
 	waitOn: function() {
-    return [
-    ];
+        return [
+        ];
 	},
 
   product: function() {

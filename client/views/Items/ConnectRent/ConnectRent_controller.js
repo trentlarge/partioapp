@@ -245,12 +245,23 @@ ConnectRentController = RouteController.extend({
                 
             },
             
+            getTotalPrice: function(price) {
+                return parseFloat(Number(price) + (0.03 * Number(price)) + 0.30).toFixed(2);
+            },
+            
+            getFee: function(price) {
+                return parseFloat((0.03 * Number(price)) + 0.30).toFixed(2);
+            },
+            
             hasCoupon: function() {
                 return (this.getPromotionalValue() > 0) ? true : false;
             },
             
             getNewPrice: function(oldPrice) {
                 var value = this.getPromotionalValue();
+                
+                //add fee
+                oldPrice = parseFloat(Number(oldPrice) + (0.03 * Number(oldPrice)) + 0.30).toFixed(2);
                 
                 if(value >= Number(oldPrice)) {
                     Session.set('newPrice', parseFloat(0.00).toFixed(2));
@@ -265,6 +276,9 @@ ConnectRentController = RouteController.extend({
             
             getNewCouponPrice: function(rentPrice) {
                 var value = this.getPromotionalValue();
+                
+                //add fee
+                rentPrice = parseFloat(Number(rentPrice) + (0.03 * Number(rentPrice)) + 0.30).toFixed(2);
                 
                 if(Number(rentPrice) >= value) {
                     return  parseFloat(0.00).toFixed(2);

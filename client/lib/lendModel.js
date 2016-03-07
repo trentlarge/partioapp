@@ -155,8 +155,9 @@ app.model.Lend = (function () {
         self.clearPrices();
 
         IonPopup.show({
-          title: 'Your product is successfully submitted',
-          template: 'And saved to your Inventory.',
+          title: 'Product submitted',
+          template: 'Your product is successfully submitted and saved in your Inventory! ' + 
+            '<span class="popup-sub-message">Note: A 10% fee will be charged in each transaction of this product.</span>',
           buttons:
             [{
               text: 'OK',

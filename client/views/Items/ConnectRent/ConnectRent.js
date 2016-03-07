@@ -159,15 +159,17 @@ Template.connectRent.events({
         
 		Session.set('payRedirect', false);
 
-		var connectionId = this.connectData._id;
-        var amount = 0.00;
+		var connectionId = this.connectData._id,
+            amount = 0.00,
+            price = this.connectData.borrowDetails.price.total,
+            priceWithFee = parseFloat(Number(price) + (0.03 * Number(price)) + 0.30).toFixed(2);
         
         // PROMOTION PAYMENT
         
         if(Session.get('couponChecked')) {
             
             amount = Session.get('newPrice');
-            var partioAmount = parseFloat(Number(this.connectData.borrowDetails.price.total) - Number(amount)).toFixed(2);
+            var partioAmount = parseFloat(Number(priceWithFee) - Number(amount)).toFixed(2);
             
             IonPopup.confirm({
                 cancelText: 'Cancel',
@@ -228,7 +230,7 @@ Template.connectRent.events({
         
         else {
             
-            amount = this.connectData.borrowDetails.price.total;
+            amount = priceWithFee;
             
             IonPopup.confirm({
                 cancelText: 'Cancel',
@@ -276,17 +278,17 @@ Template.connectRent.events({
     'click #payPurchasing': function() {
 		Session.set('payRedirect', false);
 
-		var connectionId = this.connectData._id;
-		//var amount = this.connectData.borrowDetails.price.total;
-        
-        var amount = 0.00;
+		var connectionId = this.connectData._id,
+            amount = 0.00,
+            price = this.connectData.borrowDetails.price.total,
+            priceWithFee = parseFloat(Number(price) + (0.03 * Number(price)) + 0.30).toFixed(2);
         
         // PROMOTION PAYMENT
         
         if(Session.get('couponChecked')) {
             
             amount = Session.get('newPrice');
-            var partioAmount = parseFloat(Number(this.connectData.borrowDetails.price.total) - Number(amount)).toFixed(2);
+            var partioAmount = parseFloat(Number(priceWithFee) - Number(amount)).toFixed(2);
             
             IonPopup.confirm({
                 cancelText: 'Cancel',
@@ -332,7 +334,7 @@ Template.connectRent.events({
         // NORMAL PAYMENT
         
         else {
-            amount = this.connectData.borrowDetails.price.total;
+            amount = priceWithFee;
             
             IonPopup.confirm({
                 cancelText: 'Cancel',

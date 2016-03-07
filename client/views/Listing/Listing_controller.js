@@ -16,9 +16,9 @@ ListingController = RouteController.extend({
 	},
 
   searchProducts: function() {
-    var pageNumber = Session.get('pageNumber') || 1;
-    var text = Session.get('searchText');
-    var categories = Session.get('selectedCategories');
+    var pageNumber = Session.get('pageNumber') || 1,
+        text = Session.get('searchText'),
+        categories = Session.get('selectedCategories');
     
     if(!categories) {
       categories = Categories.getAllCategoriesText();
