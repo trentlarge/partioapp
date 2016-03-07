@@ -37,8 +37,8 @@ Template.slideImages.helpers({
 
 Template.search.events({
   'click .features': function(e, template) {
-      var features = $('.features');
-      var featureDetails = $('.features-details');
+      var features = $('.features'),
+          featureDetails = $('.features-details');
 
       if(!featureDetails.is(':visible')){
           featureDetails.slideDown('fast');
@@ -78,13 +78,13 @@ Template.search.events({
     
   'click #buyProduct': function() {
       
-    var ownerId = this.product.ownerId;
-    var productId = this.product._id;
-    var sellingDetails = {
-      price : {
-        total : this.product.selling.price,
-      }
-    };
+    var ownerId = this.product.ownerId,
+        productId = this.product._id,
+        sellingDetails = {
+              price : {
+                total : this.product.selling.price,
+              }
+        };
 
     Meteor.call('userCanBorrow', function(error, result){
       if(!result) {
