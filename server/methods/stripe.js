@@ -423,11 +423,13 @@ Meteor.methods({
       throw new Meteor.Error("chargeCard", "connect not finished or not found");
     }
 
-    var requestor = Meteor.users.findOne(connect.requestor);
-    var owner = Meteor.users.findOne(connect.productData.ownerId);
-
-    var amount = connect.borrowDetails.price.total;
-    var formattedAmount = (amount * 100).toFixed(0);
+    var requestor = Meteor.users.findOne(connect.requestor),
+        owner = Meteor.users.findOne(connect.productData.ownerId),
+        amount = connect.borrowDetails.price.total, 
+        formattedAmount = (amount*100).toFixed(0),
+        partioFee = formattedAmount*0.1, // 10%
+        stripeFee = 30+(formattedAmount*0.03),  // original by stripe is 0.30 + 2.9%, but we charge 3%
+        totalAmount = formattedAmount+stripeFee;
 
     var response = Async.runSync(function(done) {
       Stripe.customers.retrieve(requestor.secret.stripeCustomer,
@@ -442,11 +444,13 @@ Meteor.methods({
 
             // Creating a charge
             Stripe.charges.create({
-              amount: formattedAmount,
+              amount: totalAmount,
               currency: "usd",
               customer: requestor.secret.stripeCustomer,
               source: payCardId,
               destination: owner.secret.stripeManaged,
+              application_fee: partioFee,
+
               metadata: {
                 connectId: connect._id,
                 productId: connect.productData._id,
@@ -475,20 +479,22 @@ Meteor.methods({
                     date: charge.created * 1000,
                     productName: connect.productData.title,
                     paidAmount: charge.amount/100,
-                    userId: connect.owner
+                    userId: connect.owner,
+                    connectionId: connect._id
                   }
 
                   var ownerEarning = {
                     date: charge.created * 1000,
                     productName: connect.productData.title,
                     receivedAmount: charge.amount/100,
-                    userId: connect.requestor
+                    userId: connect.requestor,
+                    connectionId: connect._id
                   }
 
                   Transactions.update({'userId': connect.requestor }, {$push: {spending: requestorSpend}});
                   Transactions.update({'userId': connect.owner }, {$push: {earning: ownerEarning}});
 
-                  var message = 'You received a payment of $' + amount + ' from ' + requestor.profile.name
+                  var message = 'You received a payment of $' + (charge.amount/100) + ' from ' + requestor.profile.name
                   sendPush(owner._id, message);
                   sendNotification(owner._id, requestor._id, message, "info");
 
@@ -521,23 +527,23 @@ Meteor.methods({
       throw new Meteor.Error("chargeCard", "connect finished or not found");
     }
 
-    var requestor = Meteor.users.findOne(connect.requestor);
-    var owner = Meteor.users.findOne(connect.productData.ownerId);
-    
-    //total price
-    var amount = connect.borrowDetails.price.total;
-    
-    //pay by user
-    var userAmount = Number(amount) - Number(partioAmount);
+    var requestor = Meteor.users.findOne(connect.requestor),
+        owner = Meteor.users.findOne(connect.productData.ownerId),
+        amount = connect.borrowDetails.price.total,  //price total
+        formattedAmount = (amount * 100).foFixed(0), //price total - in cents
+        stripeFee = 30+(formattedAmount*0.03),  // original by stripe is 0.30 + 2.9%, but we charge 3%
+        formattedAmountWithFee = formattedAmount+stripeFee,
+        partioFee = (formattedAmount/100)*10, // 10%
+        formattedPartioAmount = (partioAmount * 100).toFixed(0), //price partio is paying - in cents
+        totalPartioAmount = formattedAmountWithFee-partioFee,
+        formattedUserAmount = (Number(formattedAmountWithFee) - Number(formattedPartioAmount)), //price user is paying
+        
+    // totalAmount = formattedAmount+stripeFee,
+    partial = false;
 
-    var partial = false;
-    
-    if(amount > partioAmount){
+    if(formattedAmountWithFee > formattedPartioAmount){
         partial = true;
     }
-
-    var formattedUserAmount = (userAmount * 100).toFixed(0);
-    var formattedPartioAmount = (partioAmount * 100).toFixed(0);
 
     console.log(formattedUserAmount, formattedPartioAmount);
 
@@ -547,7 +553,7 @@ Meteor.methods({
       // Partio to owner (promotional) --------------------------------------------------
       // --------------------------------------------------------------------------------      
       Stripe.transfers.create({
-          amount: formattedPartioAmount,
+          amount: totalPartioAmount,
           currency: "usd",
           destination: owner.secret.stripeManaged,
           description: "Promotional payment",
@@ -575,7 +581,7 @@ Meteor.methods({
           }
 
           if(transfer){
-            Meteor.call('addSpendingPromotionValue', connect.requestor, { value: partioAmount, 
+            Meteor.call('addSpendingPromotionValue', connect.requestor, { value: totalPartioAmount, 
                                                                           from: 'Renting from '+owner.profile.name, 
                                                                           connectionId: connectionId,
                                                                           userId: connect.owner });
@@ -636,15 +642,18 @@ Meteor.methods({
     
     } else {
 
-      var _amount = parseFloat(amount);
-      var _partioAmount = parseFloat(partioAmount);
+      var _ownerAmount = parseFloat(formattedAmountWithFee).toFixed(2);
+      var _requestorAmount = parseFloat(formattedAmountWithFee).toFixed(2);
+      
+      var _partioAmount = parseFloat(totalPartioAmount).toFixed(2);
       
       var requestorSpend = {
         date: Date.now(),
         productName: connect.productData.title,
         paidAmount: _amount,
         userId: connect.owner,
-        promoAmount:_partioAmount
+        promoAmount:_partioAmount,
+        connectionId: connect._id
       }
 
       var ownerEarning = {
@@ -652,7 +661,8 @@ Meteor.methods({
         productName: connect.productData.title,
         receivedAmount: _amount,
         userId: connect.requestor,
-        promoAmount: _partioAmount
+        promoAmount: _partioAmount,
+        connectionId: connect._id
       }
 
       Transactions.update({'userId': connect.requestor }, {$push: {spending: requestorSpend}});
