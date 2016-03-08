@@ -560,7 +560,7 @@ Meteor.methods({
 
     var requestor = Meteor.users.findOne(connect.requestor),
         owner = Meteor.users.findOne(connect.productData.ownerId),
-        
+
         amount = connect.borrowDetails.price.total,  //price total
         formattedAmount = (amount * 100).foFixed(0), //price total - in cents
         
