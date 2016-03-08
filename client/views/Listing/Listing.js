@@ -27,6 +27,12 @@ Template.listing.rendered = function() {
   inputIcon.css({
     'color': '#272727'
   });
+    
+   Meteor.setTimeout(function(){
+    $('.loadbox').fadeOut(function(){
+        $('.loading-wrapper').fadeIn();  
+    });
+   }, 500);
 };
 
 Template.listing.events({
@@ -66,7 +72,7 @@ Template.listing.events({
         pageSize = Session.get('pageSize');
 
     if($('.product-box').length < pageNumber * pageSize) {
-        //return;
+        return;
     }
 
     //if(parent.scrollTop() + parent.height() >= scrollingElement.innerHeight() + 20) {

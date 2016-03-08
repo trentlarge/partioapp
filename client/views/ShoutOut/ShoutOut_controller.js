@@ -17,10 +17,9 @@ ShoutOutController = RouteController.extend({
     
     shouts: function() {
         
-        var pageNumber = Session.get('shoutsPageNumber');
-        var pageSize = Session.get('shoutsPageSize');
-        
-        var limit = pageSize * pageNumber;
+        var pageNumber = Session.get('shoutsPageNumber'),
+            pageSize = Session.get('shoutsPageSize'),
+            limit = pageSize * pageNumber;
         
         if(Session.get('tabMyShouts')) {
             Meteor.subscribe('myShoutout', Meteor.userId(), limit, function() {
@@ -37,16 +36,9 @@ ShoutOutController = RouteController.extend({
             });
         }
         
-        var shouts = ShoutOut.find({}, {sort: {createdAt: -1}}).fetch();
-//        var usersId = [];
-//        
-//        $.each(shouts, function(index, shout) {
-//            usersId.push(shout.userId);
-//        });
-//               
-//        Meteor.subscribe('usersInArray', usersId);   
-        
-        var sharedProductsIds = [];
+        var shouts = ShoutOut.find({}, {sort: {createdAt: -1}}).fetch(),
+            sharedProductsIds = [];
+
         $.each(shouts, function(index, shout) {
             if(shout.type == 'share') {
                 sharedProductsIds.push(shout.sharedProducts[0]._id); 
@@ -143,7 +135,15 @@ ShoutOutController = RouteController.extend({
                 
                 return 'now';
                 
-            }
+            },
+            
+            hasSharedProducts: function(sharedProductsLength) {
+                return (sharedProductsLength > 0) ? true : false;
+            },
+            
+            getSharedProductsBadge: function(sharedProductsLength) {
+                return (sharedProductsLength === 1) ? sharedProductsLength + ' Item' : sharedProductsLength + ' Items';
+            },
         }
     },
 

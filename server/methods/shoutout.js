@@ -33,7 +33,7 @@ Meteor.methods({
 			$push: { sharedProducts: product },   
 		});
         
-        var message = '"' + product.title + '" was shared in your shout "' + shout.message + '".';
+        var message = '"' + product.title + '" has pinned to your shout "' + shout.message + '".';
         
         sendPush(shout.userId, message);
 		sendNotification(shout.userId, userId, message, "shout-share", shout._id);
