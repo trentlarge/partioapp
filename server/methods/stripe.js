@@ -427,11 +427,11 @@ Meteor.methods({
         owner = Meteor.users.findOne(connect.productData.ownerId),
         amount = connect.borrowDetails.price.total, 
         formattedAmount = (amount*100).toFixed(0),
-        partioFee = formattedAmount*0.1, // 10%
-        stripeFee = 30+(formattedAmount*0.03),  // original by stripe is 0.30 + 2.9%, but we charge 3%
-        totalAmount = Number(formattedAmount)+Number(stripeFee);
+        formattedPartioFee = formattedAmount*0.1, // 10%
+        formattedStripeFee = 30+(formattedAmount*0.03),  // original by stripe is 0.30 + 2.9%, but we charge 3%
+        formattedAmountWithStripeFee = Number(formattedAmount)+Number(formattedStripeFee);
 
-        console.log(formattedAmount, partioFee, stripeFee, totalAmount);
+    console.log(formattedAmount, formattedPartioFee, formattedStripeFee, formattedAmountWithStripeFee);
 
     var response = Async.runSync(function(done) {
       Stripe.customers.retrieve(requestor.secret.stripeCustomer,
@@ -442,21 +442,19 @@ Meteor.methods({
 
           if(customer) {
 
-            var payCardId = customer.default_source;
-
-            // Creating a charge
+            // Creating a charge from requestor
             Stripe.charges.create({
-              amount: totalAmount,
+              amount: formattedAmountWithStripeFee,
               currency: "usd",
               customer: requestor.secret.stripeCustomer,
-              source: payCardId,
-              destination: owner.secret.stripeManaged,
-              application_fee: partioFee+stripeFee,
-
+              source: customer.default_source,
+              // destination: owner.secret.stripeManaged,
+              //application_fee: partioFee,
               metadata: {
                 connectId: connect._id,
                 productId: connect.productData._id,
                 productName: connect.productData.title,
+                productValue: amount,
                 ownerId: connect.owner,
                 requestorId: connect.requestor
               },
@@ -467,53 +465,71 @@ Meteor.methods({
                   done(err.message, false);
                 }
 
-                console.log('>>>>> [stripe] new charge ', charge);
-
                 if(charge) {
-                    
-                  var _state = 'IN USE';
 
-                  if(type === 'PURCHASING') {
-                    _state = 'SOLD';
-                  }
-                    
-                  Connections.update({
-                      _id: connect._id
-                  }, {
-                      $set: {
-                          state: _state, 
-                          payment: charge,
-                          selfCheck: {
-                                status: true,
-                                timestamp: Date.now()
-                          }
+                  // Sending money to owner
+                  Stripe.transfers.create({
+                      amount: formattedAmount,
+                      currency: "usd",
+                      destination: owner.secret.stripeManaged,
+                      description: requestor.emails[0].address+' renting from '+owner.emails[0].address,
+                      source_transaction: charge.id,
+                      application_fee: formattedPartioFee,
+                      metadata: {
+                        connectId: connect._id,
+                        productId: connect.productData._id,
+                        productName: connect.productData.title,
+                        productValue: amount,
+                        ownerId: connect.owner,
+                        requestorId: connect.requestor
                       }
-                  });
-                  
-                  var requestorSpend = {
-                    date: charge.created * 1000,
-                    productName: connect.productData.title,
-                    paidAmount: charge.amount/100,
-                    userId: connect.owner,
-                    connectionId: connect._id
-                  }
+                    }, Meteor.bindEnvironment(function(err, transfer) {
 
-                  var ownerEarning = {
-                    date: charge.created * 1000,
-                    productName: connect.productData.title,
-                    receivedAmount: charge.amount/100,
-                    userId: connect.requestor,
-                    connectionId: connect._id
-                  }
+                      var ownerTotal = ((formattedAmount-formattedPartioFee)/100),
+                      requestorSpend = {
+                        date: charge.created * 1000,
+                        productName: connect.productData.title,
+                        paidAmount: charge.amount/100,
+                        userId: connect.owner,
+                        connectionId: connect._id
+                      },                 
+                      ownerEarning = {
+                        date: transfer.created * 1000,
+                        productName: connect.productData.title,
+                        receivedAmount: ownerTotal,
+                        userId: connect.requestor,
+                        connectionId: connect._id
+                      },
+                      _state = 'IN USE';
 
-                  Transactions.update({'userId': connect.requestor }, {$push: {spending: requestorSpend}});
-                  Transactions.update({'userId': connect.owner }, {$push: {earning: ownerEarning}});
+                      if(type === 'PURCHASING') {
+                        _state = 'SOLD';
+                      }
+                        
+                      Connections.update({
+                        _id: connect._id
+                      }, {
+                        $set: {
+                          state: _state, 
+                          payment: { requestor: charge, owner: transfer },
+                          selfCheck: {
+                            status: true,
+                            timestamp: Date.now()
+                          }
+                        }
+                      });
+                      
+                      Transactions.update({'userId': connect.requestor }, {$push: {spending: requestorSpend}});
+                      Transactions.update({'userId': connect.owner }, {$push: {earning: ownerEarning}});
 
-                  var message = 'You received a payment of $' + (charge.amount/100) + ' from ' + requestor.profile.name
-                  sendPush(owner._id, message);
-                  sendNotification(owner._id, requestor._id, message, "info");
+                      var message = 'You received a payment of $' + ownerTotal + ' from ' + requestor.profile.name
 
-                  done(false, charge);
+                      sendPush(owner._id, message);
+                      sendNotification(owner._id, requestor._id, message, "info");
+
+                      done(false, charge);
+                    })
+                  );
                 }
               })
             ) // charges.create
