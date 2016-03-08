@@ -560,39 +560,39 @@ Meteor.methods({
 
     var requestor = Meteor.users.findOne(connect.requestor),
         owner = Meteor.users.findOne(connect.productData.ownerId),
-        
-        amount = connect.borrowDetails.price.total,  //price total
-        formattedAmount = (amount * 100).foFixed(0), //price total - in cents
-        
-        stripeFee = 30+(formattedAmount*0.03),  // original by stripe is 0.30 + 2.9%, but we charge 3%
-        formattedAmountWithFee = formattedAmount+stripeFee,
-        
-        partioFee = (formattedAmount/100)*10, // 10%
-        formattedPartioAmount = (partioAmount * 100).toFixed(0), //price partio is paying - in cents
-        
-        totalPartioAmount = formattedAmountWithFee-partioFee,
-        
-        formattedUserAmount = (Number(formattedAmountWithFee) - Number(formattedPartioAmount)), //price user is paying
-        
-    // totalAmount = formattedAmount+stripeFee,
-    partial = false;
+        amount = connect.borrowDetails.price.total, //price total
+        formattedAmount = (amount*100).toFixed(0), //price total - in cents
+        formattedPartioPromoAmount = (partioAmount*100).toFixed(0); //price user is paying with promo - in cents
+        formattedPartioFee = formattedAmount*0.1; // 10% 
 
-    if(formattedAmountWithFee > formattedPartioAmount){
-        partial = true;
+    //requestor is using promo money + card
+    if(Number(formattedAmount) > Number(formattedPartioPromoAmount)){
+      var formattedPartial = (Number(formattedAmount)-Number(formattedPartioPromoAmount)),
+          formattedStripeFee = 30+(formattedPartial*0.03),  // original by stripe is 0.30 + 2.9%, but we charge 3%
+          formattedPartialWithStripeFee = (Number(formattedPartial)+Number(formattedStripeFee));
+
+    //only with promotional money
+    } else {
+      var formattedPartial = 0,
+          formattedStripeFee = 0, 
+          formattedPartialWithStripeFee = 0;
     }
 
-    console.log(formattedUserAmount, formattedPartioAmount);
+    console.log(formattedAmount, formattedPartial, formattedPartioFee, formattedStripeFee, formattedPartialWithStripeFee);
 
     var response = Async.runSync(function(done) {
 
       // --------------------------------------------------------------------------------
       // Partio to owner (promotional) --------------------------------------------------
       // --------------------------------------------------------------------------------      
+
+      // obs.: owner receives normal
       Stripe.transfers.create({
-          amount: totalPartioAmount,
+          amount: formattedAmount,
           currency: "usd",
           destination: owner.secret.stripeManaged,
           description: "Promotional payment",
+          application_fee: formattedPartioFee,
           metadata: {
             connectId: connect._id,
             productId: connect.productData._id,
@@ -602,9 +602,9 @@ Meteor.methods({
             requestorId: connect.requestor
           }
         }, Meteor.bindEnvironment(function(err, transfer) {
+
           if(err){
-            //here i think we should try to notify support by email about error (maybe user is trying to use coupon);
-            done(err.message, false);
+            //probably partio balance does not have a positive balance
             var _msg =  "<p>This is an automatic message from Partio app!<br>"+
                         "Users can\'t use promotional money without balance on Stripe</p><hr>"+
                         "<p>Item Name: $"+connect.productData.title+" </p>"+
@@ -613,80 +613,79 @@ Meteor.methods({
                         "<p>Requestor: "+requestor.profile.name+" ("+requestor.emails[0].address+")</p>"+
                         "<p>connectionId: "+connectionId+"</p>";
             Meteor.call('sendEmail', 'Urgent! Stripe without balance', _msg);
+            done(err.message, false);
             return;
           }
 
           if(transfer){
-            Meteor.call('addSpendingPromotionValue', connect.requestor, { value: totalPartioAmount, 
+            //saving promo info
+            Meteor.call('addSpendingPromotionValue', connect.requestor, { value: formattedPartioPromoAmount/100, 
                                                                           from: 'Renting from '+owner.profile.name, 
                                                                           connectionId: connectionId,
                                                                           userId: connect.owner });
-          }
 
-          // --------------------------------------------------------------------------------
-          // Requestor to owner  ------------------------------------------------------------
-          // --------------------------------------------------------------------------------
-          if(partial){
+            // --------------------------------------------------------------------------------
+            // Requestor to partio ------------------------------------------------------------
+            // --------------------------------------------------------------------------------
+            if(Number(formattedPartial) > 0){
 
-            // Getting requestor stripe customer
-            Stripe.customers.retrieve(requestor.secret.stripeCustomer,
-              Meteor.bindEnvironment(function (err, customer) {
-                if(err) {
-                  done(err.message, false);
-                }
+              // Getting requestor stripe customer
+              Stripe.customers.retrieve(requestor.secret.stripeCustomer,
+                Meteor.bindEnvironment(function (err, customer) {
+                  if(err) {
+                    done(err.message, false);
+                  }
 
-                var payCardId = customer.default_source;
+                  // Creating a charge from requestor to owner
+                  Stripe.charges.create({
+                    amount: formattedPartialWithStripeFee,
+                    currency: "usd",
+                    customer: requestor.secret.stripeCustomer,
+                    source: customer.default_source,
+                    //destination: owner.secret.stripeManaged,
+                    metadata: {
+                      connectId: connect._id,
+                      productId: connect.productData._id,
+                      productName: connect.productData.title,
+                      productValue: amount,
+                      ownerId: connect.owner,
+                      requestorId: connect.requestor
+                    },
+                    description: requestor.emails[0].address+' renting from '+owner.emails[0].address },
 
-                // Creating a charge from requestor to owner
-                Stripe.charges.create({
-                  amount: formattedUserAmount,
-                  currency: "usd",
-                  customer: requestor.secret.stripeCustomer,
-                  source: payCardId,
-                  destination: owner.secret.stripeManaged,
-                  metadata: {
-                    connectId: connect._id,
-                    productId: connect.productData._id,
-                    productName: connect.productData.title,
-                    ownerId: connect.owner,
-                    requestorId: connect.requestor
-                  },
-                  description: requestor.emails[0].address+' renting from '+owner.emails[0].address },
+                    Meteor.bindEnvironment(function (err, charge) {
+                      if(err) {
+                        done(err.message, false);
+                      }
 
-                  Meteor.bindEnvironment(function (err, charge) {
-                    if(err) {
-                      done(err.message, false);
-                    }
-
-                    done(false, { promo: transfer, charge: charge });
-                  })
-                ) // charges.create
-              })
-            ); // customer.retrieve        
-          
-          //only promo
-          } else {
-             done(false, { promo: transfer, charge: false });
+                      done(false, { promotion: transfer, payment: charge });
+                    })
+                  ) // charges.create
+                })
+              ); // customer.retrieve        
+            
+            //only promo
+            } else {
+               done(false, { promotion: transfer, payment: { amount: 0 } });
+            }
           }
         })
       );         
     }); //async
-
 
     if(response.error) {
       throw new Meteor.Error("chargeCardPromotion", response.error);
     
     } else {
 
-      var _ownerAmount = parseFloat(formattedAmountWithFee).toFixed(2);
-      var _requestorAmount = parseFloat(formattedAmountWithFee).toFixed(2);
-      
-      var _partioAmount = parseFloat(totalPartioAmount).toFixed(2);
+      var _ownerAmount = ((formattedAmount-formattedPartioFee)/100);
+      var _requestorAmount = (formattedPartialWithStripeFee/100);
+      var _partioAmount = (formattedPartioPromoAmount/100);
       
       var requestorSpend = {
         date: Date.now(),
         productName: connect.productData.title,
-        paidAmount: _amount,
+        paidAmount: _requestorAmount,
         userId: connect.owner,
         promoAmount:_partioAmount,
         connectionId: connect._id
@@ -695,7 +694,7 @@ Meteor.methods({
       var ownerEarning = {
         date: Date.now(),
         productName: connect.productData.title,
-        receivedAmount: _amount,
+        receivedAmount: _ownerAmount,
         userId: connect.requestor,
         promoAmount: _partioAmount,
         connectionId: connect._id
@@ -711,19 +710,20 @@ Meteor.methods({
       }
 
       Connections.update({
-          _id: connect._id
+        _id: connect._id
       }, {
-          $set: { 
-              state: _state, 
-              payment: response.result.charge,
-              promotion: response.result.promo,
-              selfCheck: {
-                    status: true,
-                    timestamp: Date.now()
-              }
-        }});
+        $set: { 
+            state: _state, 
+            payment: response.result.payment,
+            promotion: response.result.promotion,
+            selfCheck: {
+                  status: true,
+                  timestamp: Date.now()
+            }
+        }
+      });
 
-      var message = 'You received a payment of $' + amount + ' from ' + requestor.profile.name
+      var message = 'You received a payment of $' + _ownerAmount + ' from ' + requestor.profile.name
       sendPush(owner._id, message);
       sendNotification(owner._id, requestor._id, message, "info");
 

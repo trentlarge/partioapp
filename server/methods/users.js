@@ -61,7 +61,7 @@ Meteor.methods({
 			_to = to;
 		}
 
-		console.log('SENDING EMAIL TO '+to);
+		console.log('SENDING EMAIL TO '+_to);
 
 		Email.send({
 			to: _to,
