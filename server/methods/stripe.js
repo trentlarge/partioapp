@@ -429,7 +429,9 @@ Meteor.methods({
         formattedAmount = (amount*100).toFixed(0),
         partioFee = formattedAmount*0.1, // 10%
         stripeFee = 30+(formattedAmount*0.03),  // original by stripe is 0.30 + 2.9%, but we charge 3%
-        totalAmount = formattedAmount+stripeFee;
+        totalAmount = Number(formattedAmount)+Number(stripeFee);
+
+        console.log(formattedAmount, partioFee, stripeFee, totalAmount);
 
     var response = Async.runSync(function(done) {
       Stripe.customers.retrieve(requestor.secret.stripeCustomer,
@@ -449,7 +451,7 @@ Meteor.methods({
               customer: requestor.secret.stripeCustomer,
               source: payCardId,
               destination: owner.secret.stripeManaged,
-              application_fee: partioFee,
+              application_fee: partioFee+stripeFee,
 
               metadata: {
                 connectId: connect._id,
@@ -529,13 +531,18 @@ Meteor.methods({
 
     var requestor = Meteor.users.findOne(connect.requestor),
         owner = Meteor.users.findOne(connect.productData.ownerId),
+        
         amount = connect.borrowDetails.price.total,  //price total
         formattedAmount = (amount * 100).foFixed(0), //price total - in cents
+        
         stripeFee = 30+(formattedAmount*0.03),  // original by stripe is 0.30 + 2.9%, but we charge 3%
         formattedAmountWithFee = formattedAmount+stripeFee,
+        
         partioFee = (formattedAmount/100)*10, // 10%
         formattedPartioAmount = (partioAmount * 100).toFixed(0), //price partio is paying - in cents
+        
         totalPartioAmount = formattedAmountWithFee-partioFee,
+        
         formattedUserAmount = (Number(formattedAmountWithFee) - Number(formattedPartioAmount)), //price user is paying
         
     // totalAmount = formattedAmount+stripeFee,
