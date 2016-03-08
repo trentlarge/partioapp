@@ -470,13 +470,26 @@ Meteor.methods({
                 console.log('>>>>> [stripe] new charge ', charge);
 
                 if(charge) {
-                  if(type === 'PURCHASING') {
-                      Connections.update({_id: connect._id}, {$set: {state: "SOLD", payment: charge}});
-                  }
-                  else {
-                      Connections.update({_id: connect._id}, {$set: {state: "IN USE", payment: charge}});
-                  }
+                    
+                  var _state = 'IN USE';
 
+                  if(type === 'PURCHASING') {
+                    _state = 'SOLD';
+                  }
+                    
+                  Connections.update({
+                      _id: connect._id
+                  }, {
+                      $set: {
+                          state: _state, 
+                          payment: charge,
+                          selfCheck: {
+                                status: true,
+                                timestamp: Date.now()
+                          }
+                      }
+                  });
+                  
                   var requestorSpend = {
                     date: charge.created * 1000,
                     productName: connect.productData.title,
@@ -681,10 +694,18 @@ Meteor.methods({
         _state = 'SOLD';
       }
 
-      Connections.update({_id: connect._id}, {$set: { state: _state, 
-                                                      payment: response.result.charge,
-                                                      promotion: response.result.promo 
-                                                    }});
+      Connections.update({
+          _id: connect._id
+      }, {
+          $set: { 
+              state: _state, 
+              payment: response.result.charge,
+              promotion: response.result.promo,
+              selfCheck: {
+                    status: true,
+                    timestamp: Date.now()
+              }
+        }});
 
       var message = 'You received a payment of $' + amount + ' from ' + requestor.profile.name
       sendPush(owner._id, message);

@@ -207,7 +207,7 @@
                         {{#if couponChecked}}
                             <button id="payPurchasing" class="button button-block button-energized">PAY TOTAL &nbsp; ${{newPrice}}</button>
                         {{else}}
-                            <button id="payPurchasing" class="button button-block button-energized">PAY TOTAL &nbsp; ${{connectData.borrowDetails.price.total}}</button>
+                            <button id="payPurchasing" class="button button-block button-energized">PAY TOTAL &nbsp; ${{../getTotalPrice connectData.borrowDetails.price.total}}</button>
                         {{/if}}
                   {{else}}
                     <button class="button button-block button-energized disabled">AWAITING APPROVAL</button>

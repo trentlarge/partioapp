@@ -216,14 +216,38 @@ Meteor.methods({
     'payPurchasingNow': function(payer) {
 		console.log(payer);
 		Meteor._sleepForMs(1000);
-		Connections.update({_id: payer}, {$set: {state: "SOLD"}});
+		Connections.update(
+            {
+                _id: payer
+            }, 
+            {
+                $set: {
+                    state: "SOLD",
+                    selfCheck: {
+                        status: true,
+                        timestamp: new Date().now()
+                    }
+                }
+            });
 		return "yes, payment done"
 	},
     
 	'payNow': function(payer) {
 		console.log(payer);
 		Meteor._sleepForMs(1000);
-		Connections.update({_id: payer}, {$set: {state: "IN USE"}});
+		Connections.update(
+            {
+                _id: payer
+            }, 
+            {
+                $set: {
+                    state: "IN USE", 
+                    selfCheck: {
+                        status: true,
+                        timestamp: Date.now()
+                    }
+                }
+            });
 		return "yes, payment done"
 	},
 	// 'updateTerms': function() {
