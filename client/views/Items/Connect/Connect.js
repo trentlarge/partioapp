@@ -102,7 +102,7 @@ Template.connect.events({
 
 			},
 			onOk: function() {
-				Meteor.call('updateConnection', connectionId, productId, function(err, res) {
+				Meteor.call('declineConnection', connectionId, productId, function(err, res) {
 					if(err) {
 						var errorMessage = err.reason || err.message;
 						if(err.details) {

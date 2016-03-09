@@ -20,19 +20,27 @@ Meteor.methods({
             Products.update({_id: productId}, {$set: {"borrow": false, "purchasing": false}});
         }
 	},
+    
+    declineConnection: function(idConnection, productId) {
+        Connections.update({ _id: idConnection }, { $set: { finished: true }})
+        if(productId) {
+            Products.update({_id: productId}, {$set: {"borrow": false, "purchasing": false}});
+        }
+    },
 
 	'submitRating': function(rating, personId, ratedBy) {
 		Meteor.users.update({_id: personId}, {$push: {"profile.rating": rating}});
-		var ratedByName = Meteor.users.findOne(ratedBy).profile.name;
-		var message = 'You got a rating of ' + rating + ' from ' + ratedByName;
+		var ratedByName = Meteor.users.findOne(ratedBy).profile.name,
+		    message = 'You got a rating of ' + rating + ' from ' + ratedByName;
 
 		sendPush(personId, message)
 		sendNotification(personId, ratedBy, message, "info")
 	},
 
 	returnItem: function(connectionId) {
-		var connect = Connections.findOne({ _id: connectionId, finished: { $ne: true }});
-		var borrowerName = Meteor.users.findOne(connect.requestor).profile.name;
+		var connect = Connections.findOne({ _id: connectionId, finished: { $ne: true }}),
+		    borrowerName = Meteor.users.findOne(connect.requestor).profile.name,
+            message = borrowerName + " wants to return the " + connect.productData.title;
 
 		Connections.update({_id: connectionId}, {$set: {"state": "RETURNED"}});
 
@@ -45,66 +53,65 @@ Meteor.methods({
             Meteor.call('returnItemReported', connect._id);
         }
         
-		var message = borrowerName + " wants to return the " + connect.productData.title;
 		sendPush(connect.productData.ownerId, message);
 		sendNotification(connect.productData.ownerId, connect.requestor, message, "info", connectionId);
 	},
     
    confirmSold: function(connectionId, productId) {
-		var connect = Connections.findOne({ _id: connectionId, finished: { $ne: true }});
-		var borrowerName = Meteor.users.findOne(connect.requestor).profile.name;
+		var connect = Connections.findOne({ _id: connectionId, finished: { $ne: true }}),
+		    borrowerName = Meteor.users.findOne(connect.requestor).profile.name,
+            message = borrowerName + " confirmed the delivery of " + connect.productData.title;
 
 		Connections.update({_id: connectionId}, {$set: {"state": "SOLD CONFIRMED"}});
         Products.update({_id: productId}, {$set: {"sold": true}});
 
-		var message = borrowerName + " confirmed the delivery of " + connect.productData.title;
 		sendPush(connect.productData.ownerId, message);
 		sendNotification(connect.productData.ownerId, connect.requestor, message, "info", connectionId);
 	},
 
     giveFeedback: function(searchId, connectionId) {
-		var connect = Connections.findOne({ _id: connectionId, finished: { $ne: true }});
-		var ownerName = Meteor.users.findOne(connect.productData.ownerId).profile.name;
-
-		var message = ownerName + " give the feedback about " + connect.productData.title;
+		var connect = Connections.findOne({ _id: connectionId, finished: { $ne: true }}),
+		    ownerName = Meteor.users.findOne(connect.productData.ownerId).profile.name,
+            message = ownerName + " give the feedback about " + connect.productData.title;
+        
 		sendPush(connect.requestor, message);
 		sendNotification(connect.requestor, connect.productData.ownerId, message, "info", connectionId);
 	},
     
 	confirmReturn: function(connectionId, productId) {
-		var connect = Connections.findOne({ _id: connectionId, finished: { $ne: true }});
-		var ownerName = Meteor.users.findOne(connect.productData.ownerId).profile.name;
+		var connect = Connections.findOne({ _id: connectionId, finished: { $ne: true }}),
+		    ownerName = Meteor.users.findOne(connect.productData.ownerId).profile.name,
+            message = ownerName + " confirmed your return of " + connect.productData.title;
         
         Products.update({_id: productId}, {$set: {"borrow": false}});
         
-		var message = ownerName + " confirmed your return of " + connect.productData.title;
 		sendPush(connect.requestor, message);
 		sendNotification(connect.requestor, connect.productData.ownerId, message, "info", connectionId);
 	},
     
     requestOwnerPurchasing: function(requestorId, productId, ownerId, borrowDetails) {
 
-		var requestor = Meteor.users.findOne({ _id: requestorId });
-		var requestorName = requestor.profile.name;
+		var requestor = Meteor.users.findOne({ _id: requestorId }),
+		    requestorName = requestor.profile.name,
 
-		var owner = Meteor.users.findOne({ _id: ownerId });
-		var ownerEmail = owner && owner.emails && owner.emails.length ? owner.emails[0].address : "";
+		    owner = Meteor.users.findOne({ _id: ownerId }),
+		    ownerEmail = owner && owner.emails && owner.emails.length ? owner.emails[0].address : "",
 
-		var product = Products.findOne(productId);
+		    product = Products.findOne(productId),
 
-		var connection = {
-			owner: ownerId,
-			requestor: requestorId,
-			state: 'WAITING PURCHASING',
-			requestDate: new Date(),
-			borrowDetails: borrowDetails,
-			productData: product,
-			chat: [  ],
-			meetupLocation: "Location not set",
-			meetupLatLong: "Location not set"
-		};
+		    connection = {
+                owner: ownerId,
+                requestor: requestorId,
+                state: 'WAITING PURCHASING',
+                requestDate: new Date(),
+                borrowDetails: borrowDetails,
+                productData: product,
+                chat: [  ],
+                meetupLocation: "Location not set",
+                meetupLatLong: "Location not set"
+            },
 
-		var httpHeaders = this.connection.httpHeaders;
+		    httpHeaders = this.connection.httpHeaders;
 
 		Connections.insert(connection, function(e, r) {
 			if(e) {
@@ -131,27 +138,27 @@ Meteor.methods({
 
 	requestOwner: function(requestorId, productId, ownerId, borrowDetails) {
 
-		var requestor = Meteor.users.findOne({ _id: requestorId });
-		var requestorName = requestor.profile.name;
+		var requestor = Meteor.users.findOne({ _id: requestorId }),
+		    requestorName = requestor.profile.name,
+            
+            owner = Meteor.users.findOne({ _id: ownerId }),
+		    ownerEmail = owner && owner.emails && owner.emails.length ? owner.emails[0].address : "",
 
-		var owner = Meteor.users.findOne({ _id: ownerId });
-		var ownerEmail = owner && owner.emails && owner.emails.length ? owner.emails[0].address : "";
+		    product = Products.findOne(productId),
 
-		var product = Products.findOne(productId);
+		    connection = {
+                owner: ownerId,
+                requestor: requestorId,
+                state: 'WAITING',
+                requestDate: new Date(),
+                borrowDetails: borrowDetails,
+                productData: product,
+                chat: [  ],
+                meetupLocation: "Location not set",
+                meetupLatLong: "Location not set"
+            },
 
-		var connection = {
-			owner: ownerId,
-			requestor: requestorId,
-			state: 'WAITING',
-			requestDate: new Date(),
-			borrowDetails: borrowDetails,
-			productData: product,
-			chat: [  ],
-			meetupLocation: "Location not set",
-			meetupLatLong: "Location not set"
-		};
-
-		var httpHeaders = this.connection.httpHeaders;
+            httpHeaders = this.connection.httpHeaders;
 
 		Connections.insert(connection, function(e, r) {
 			if(e) {
@@ -178,15 +185,15 @@ Meteor.methods({
     
     'ownerPurchasingAccept': function(connectionId) {
 		Meteor._sleepForMs(1000);
-		console.log("changing status from Waiting to Payment");
+		//console.log("changing status from Waiting to Payment");
 
-		var connect = Connections.findOne({ _id: connectionId, finished: { $ne: true }});
-		var ownerName = Meteor.users.findOne(connect.productData.ownerId).profile.name;
+		var connect = Connections.findOne({ _id: connectionId, finished: { $ne: true }}),
+		    ownerName = Meteor.users.findOne(connect.productData.ownerId).profile.name,
+            message = ownerName + " accepted your request for " + connect.productData.title;
 
 		Connections.remove({"productData._id": connect.productData._id, "requestor": {$ne: connect.requestor}});
 		Connections.update({_id: connectionId}, {$set: {state: "PAYMENT PURCHASING"}});
 
-		var message = ownerName + " accepted your request for " + connect.productData.title;
 		sendPush(connect.requestor, message);
 		sendNotification(connect.requestor, connect.productData.ownerId, message, "approved", connectionId);
 
@@ -197,30 +204,33 @@ Meteor.methods({
 		Meteor._sleepForMs(1000);
 		console.log("changing status from Waiting to Payment");
 
-		var connect = Connections.findOne({ _id: connectionId, finished: { $ne: true }});
-		var ownerName = Meteor.users.findOne(connect.productData.ownerId).profile.name;
+		var connect = Connections.findOne({ _id: connectionId, finished: { $ne: true }}),
+		    ownerName = Meteor.users.findOne(connect.productData.ownerId).profile.name,
+            message = ownerName + " accepted your request for " + connect.productData.title;
 
 		Connections.remove({"productData._id": connect.productData._id, "requestor": {$ne: connect.requestor}});
 		Connections.update({_id: connectionId}, {$set: {state: "PAYMENT"}});
 
-		var message = ownerName + " accepted your request for " + connect.productData.title;
 		sendPush(connect.requestor, message);
 		sendNotification(connect.requestor, connect.productData.ownerId, message, "approved", connectionId);
 
 		return true;
 	},
 
-	'ownerDecline': function(connectionId) {
-		Meteor._sleepForMs(1000);
-		var connect = Connections.findOne({ _id: connectionId, finished: { $ne: true }});
-		var ownerName = Meteor.users.findOne(connect.productData.ownerId).profile.name;
-		var message =  "Your request for " + connect.productData.title + " has been declined.";
-		sendPush(connect.requestor, message);
-		sendNotification(connect.requestor, connect.productData.ownerId, message, "declined", connectionId);
-		Connections.remove(connectionId);
-
-		return true;
-	},
+//	'ownerDecline': function(connectionId) {
+//		Meteor._sleepForMs(1000);
+//        
+//		var connect = Connections.findOne({ _id: connectionId, finished: { $ne: true }}),
+//		    ownerName = Meteor.users.findOne(connect.productData.ownerId).profile.name,
+//		    message =  "Your request for " + connect.productData.title + " has been declined.";
+//        
+//		sendPush(connect.requestor, message);
+//		sendNotification(connect.requestor, connect.productData.ownerId, message, "declined", connectionId);
+//        
+//        Connections.remove(connectionId);
+//
+//		return true;
+//	},
     
     'ignoreSelfCheck': function(connectionId) {
       
