@@ -184,7 +184,9 @@ Template.requestRent.events({
                 type: 'button-energized',
                 onTap: function() {
                   IonPopup.close();
-                  $('.ion-ios-close-empty').click()
+                  $('.ion-ios-close-empty').click();
+                  Session.set('isConnectScreen', true);
+                  Session.set('tabBorrowed', true);
                   Router.go('/items');
                 }
               }]

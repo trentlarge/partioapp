@@ -318,6 +318,11 @@ body.keyboard-open .platform-android .content.overflow-scroll {
         font-size: 11px;
         padding-top: 10px;
         color: #757575;
+        line-height: 16px;
+        
+        &.red {
+            color: red;
+        }
     }
     
     .popup-body {

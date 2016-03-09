@@ -1,11 +1,15 @@
 @import '../../../styles/app-variables';
 
-.connectRent {
+.connectRent, .report-item {
     
     .item-checkbox {
         
         .checkbox {
             padding-left: 9px !important;
+            
+            input {
+                margin: 0 !important;
+            }
         }
         
         .checkbox input:checked:before, .checkbox input:checked + .checkbox-icon:before {
@@ -30,6 +34,14 @@
                 }
             }
         }   
+        
+        .main-text {
+            white-space: normal;
+        }
+        
+        .problem {
+            height: 15px;
+        }
     }
 }
 
@@ -326,6 +338,22 @@
         white-space: pre-line; /* CSS 3 */
         word-wrap: break-word; /* IE */
         margin-top: 10px;
+    }
+    
+    .self-check-item {
+        display: flex;
+        display: -webkit-flex;
+        align-items: center;
+        -webkit-align-items: center;
+        justify-content: center;
+        -webkit-justify-content: center;
+        flex-direction: column;
+        -webkit-flex-direction: column;
+        
+        .time-left {
+            font-size: 12px;
+            padding-top: 5px;
+        }
     }
 }
 

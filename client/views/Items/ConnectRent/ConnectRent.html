@@ -117,7 +117,10 @@
                     ${{../getTotalPrice connectData.borrowDetails.price.total}}
                     <p class="fee">(${{../getFee connectData.borrowDetails.price.total}} fee)</p>
                 </span>
-                <span class="price padding-left">${{../getNewPrice connectData.borrowDetails.price.total}}</span>
+                <span class="price padding-left">
+                    ${{../getNewPrice connectData.borrowDetails.price.total}}
+                    <p class="fee">(${{../getNewFee connectData.borrowDetails.price.total}} fee)</p>
+                </span>
               {{else}}
                 <span class="price">
                     ${{../getTotalPrice connectData.borrowDetails.price.total}}
@@ -168,18 +171,27 @@
                   <div class="item">
                     <button id="returnItem" class="button button-block">RETURN ITEM</button>
                   </div>
+            
+                  {{#if ../selfCheck}}
+                    <div class="item self-check-item no-padding-top">
+                        <a class="self-check" data-ion-modal="reportItem">REPORT ITEM</a>
+                        <span class="time-left">{{../getSelfCheckTimeLeft}}</span>
+                    </div>
+                  {{/if}}
                 {{/unless}}
               {{else}}
                 <div class="item">
                   {{#if ../approvedStatus}}
                     
                         {{#if couponChecked}}
-                            <button id="payAndRent" class="button button-block button-energized">
-                                PAY TOTAL &nbsp; ${{newPrice}}
+                            <button id="payment" paymentType="RENTING" class="button button-block button-energized">
+                                PAY TOTAL &nbsp; 
+                                ${{newPriceWithFee}}
                             </button>
                         {{else}}
-                            <button id="payAndRent" class="button button-block button-energized">
-                                PAY TOTAL &nbsp; ${{../getTotalPrice connectData.borrowDetails.price.total}}
+                            <button id="payment" paymentType="RENTING" class="button button-block button-energized">
+                                PAY TOTAL &nbsp; 
+                                ${{../getTotalPrice connectData.borrowDetails.price.total}}
                             </button>
                         {{/if}}
                     
@@ -205,9 +217,15 @@
                   {{#if ../approvedStatus}}
                         
                         {{#if couponChecked}}
-                            <button id="payPurchasing" class="button button-block button-energized">PAY TOTAL &nbsp; ${{newPrice}}</button>
+                            <button id="payment" paymentType="PURCHASING" class="button button-block button-energized">
+                                PAY TOTAL &nbsp; 
+                                ${{newPriceWithFee}}
+                            </button>
                         {{else}}
-                            <button id="payPurchasing" class="button button-block button-energized">PAY TOTAL &nbsp; ${{../getTotalPrice connectData.borrowDetails.price.total}}</button>
+                            <button id="payment" paymentType="PURCHASING" class="button button-block button-energized">
+                                PAY TOTAL &nbsp; 
+                                ${{../getTotalPrice connectData.borrowDetails.price.total}}
+                            </button>
                         {{/if}}
                   {{else}}
                     <button class="button button-block button-energized disabled">AWAITING APPROVAL</button>
@@ -225,4 +243,37 @@
       </div>
     {{/ionContent}}
   {{/ionView}}
+</template>
+
+<template name="reportItem">
+  {{#ionModal title="Report Item" class="report-item"}}
+  
+    <div class="card list">
+        <div class="item no-border">
+            <span class="main-text">Select at least one of the following items.</span>
+        </div>
+        <div class="item item-checkbox no-border">
+           <label class="checkbox">
+                <input type="checkbox" class="check-problem broken">
+            </label>
+            <p class="problem">Item broken</p>
+        </div>
+        <div class="item item-checkbox no-border">
+           <label class="checkbox">
+                <input type="checkbox" class="check-problem working">
+            </label>
+            <p class="problem">Item not working</p>
+        </div>
+        <div class="item item-checkbox no-border">
+           <label class="checkbox">
+                <input type="checkbox" class="check-problem condition">
+            </label>
+            <p class="problem">Condition not match</p>
+        </div>
+        <div class="item no-border">
+            <button class="button button-block button-energized send-report">SEND REPORT</button>
+        </div>
+    </div>
+    
+  {{/ionModal}}
 </template>
