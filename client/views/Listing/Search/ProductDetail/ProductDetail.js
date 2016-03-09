@@ -1,7 +1,7 @@
 Template.productDetail.events({
   'click .features': function(e, template) {
-    var features = $('.features');
-    var featureDetails = $('.features-details');
+    var features = $('.features'),
+        featureDetails = $('.features-details');
 
     if(!featureDetails.is(':visible')){
       featureDetails.slideDown('fast');

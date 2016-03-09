@@ -55,8 +55,8 @@ Template.talk.helpers({
 			return "loading...";
 		}
 
-		var ownerId = this.connection.owner;
-		var requestorId = this.connection.requestor;
+		var ownerId = this.connection.owner,
+		    requestorId = this.connection.requestor;
 
 		if(ownerId === Meteor.userId()) {
 			var __id = requestorId;
@@ -91,10 +91,10 @@ Template.talk.events({
 			return false;
 		}
 
-		var ownerId = this.connection.owner;
-		var requestorId = this.connection.requestor;
-		var fromId = Meteor.userId();
-		var toId = (requestorId === Meteor.userId()) ? ownerId : requestorId;
+		var ownerId = this.connection.owner,
+		    requestorId = this.connection.requestor,
+		    fromId = Meteor.userId(),
+		    toId = (requestorId === Meteor.userId()) ? ownerId : requestorId;
 		
 		if(!fromId || !toId) {
 			return false;

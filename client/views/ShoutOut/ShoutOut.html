@@ -33,7 +33,7 @@
                 
                     {{#each ../myShouts}}
 
-                        <div class="list card" style="{{#unless productExist}} display:none; {{/unless}}">
+                        <div class="list card {{productExist}}">
                             <a class="item item-avatar" href="{{#if ../isTypeShout type}}
                                                                 /shoutout/{{_id}} 
                                                               {{else}}
@@ -44,6 +44,12 @@
                                   <span class="user-name">{{profile.name}}</span> 
                               {{/with}}
 
+                              {{#if ../isTypeShout type}}
+                                {{#if ../hasSharedProducts sharedProducts.length}}
+                                    <span class="badge badge-energized badge-items">{{../getSharedProductsBadge sharedProducts.length}}</span>
+                                {{/if}}
+                              {{/if}}
+                                
                               <span class="user-message">{{message}}</span>
 
                               <p class="user-time">{{../getTime createdAt}}</p>
@@ -60,7 +66,7 @@
                 
                     {{#each shouts}}
 
-                        <div class="list card" style="{{#unless productExist}} display:none; {{/unless}}">
+                        <div class="list card {{productExist}}">
                             <a class="item item-avatar" href="{{#if ../isTypeShout type}}
                                                                 /shoutout/{{_id}} 
                                                               {{else}}
@@ -71,6 +77,12 @@
                                   <span class="user-name">{{profile.name}}</span> 
                               {{/with}}
 
+                              {{#if ../isTypeShout type}}
+                                {{#if ../hasSharedProducts sharedProducts.length}}
+                                    <span class="badge badge-energized badge-items">{{../getSharedProductsBadge sharedProducts.length}}</span>
+                                {{/if}}
+                              {{/if}}
+                                
                               <span class="user-message">{{message}}</span>
 
                               <p class="user-time">{{../getTime createdAt}}</p>

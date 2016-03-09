@@ -18,10 +18,12 @@ Meteor.methods({
 
 			Connections.update({_id: connectionId}, {$push: {chat: messageInsert}});
 			
-			var sender_name = Meteor.users.findOne(sender).profile.name;
+			if(Meteor.isCordova) {
+				var sender_name = Meteor.users.findOne(sender).profile.name;
 
-			if(sender_name) {
-				sendPush(recipient, sender_name + " says: " +  message);
+				if(sender_name) {
+					sendPush(recipient, sender_name + " says: " +  message);
+				}
 			}
 		}
 	}
@@ -35,18 +37,21 @@ Meteor.methods({
 });
 
 sendPush = function(toId, message) {
-	if(toId && message) {
-	  Push.send({
-	    from: 'partiO chat message',
-	    title: 'partiO chat notification',
-	    text: message,
-	    badge: 1,
-	    sound: 'check',
-	    query: {
-	      userId: toId
-	    }
-	  });
+	if(Meteor.isCordova) {
+		if(toId && message) {
+		  Push.send({
+		    from: 'partiO chat message',
+		    title: 'partiO chat notification',
+		    text: message,
+		    badge: 1,
+		    sound: 'check',
+		    query: {
+		      userId: toId
+		    }
+		  });
+		}	
 	}
+	
 }
 
 

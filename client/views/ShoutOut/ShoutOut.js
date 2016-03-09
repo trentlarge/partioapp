@@ -23,13 +23,18 @@ Template.shoutout.helpers({
     productExist: function() {
         if (this.type == 'share') {
             if (!Products.findOne(this.sharedProducts[0]._id)) {
-                Meteor.call('removeShoutOut', this._id, function() {
-                    console.log('removed');
-                }); 
-                return false;
+//                Meteor.call('removeShoutOut', this._id, function() {
+//                    console.log('removed');
+//                }); 
+                return 'hidden';
+            }
+            else {
+                return '';
             }
         }
-        return true;
+        else {
+            return '';   
+        }
     },
     
     tabMyShouts: function() {
@@ -41,10 +46,9 @@ Template.shoutout.helpers({
 Template.shoutout.events({
     
     'scroll .overflow-scroll': function(e, t) {
-        var parent = t.$(e.currentTarget);
-
-        var pageNumber = Session.get('shoutsPageNumber');
-        var pageSize = Session.get('shoutsPageSize');
+        var parent = t.$(e.currentTarget),
+            pageNumber = Session.get('shoutsPageNumber'),
+            pageSize = Session.get('shoutsPageSize');
 
         if($('.card').length < pageNumber * pageSize) {
             return;
@@ -88,8 +92,8 @@ Template.shoutout.events({
     
     'click #tabShoutOut': function(e, template) {
         
-        var tabShoutOut = $('#tabShoutOut');
-        var tabMyShouts = $('#tabMyShouts');
+        var tabShoutOut = $('#tabShoutOut'),
+            tabMyShouts = $('#tabMyShouts');
         
         if(tabShoutOut.hasClass('active')) return;
         
@@ -112,8 +116,8 @@ Template.shoutout.events({
     
     'click #tabMyShouts': function(e, template) {
         
-        var tabShoutOut = $('#tabShoutOut');
-        var tabMyShouts = $('#tabMyShouts');
+        var tabShoutOut = $('#tabShoutOut'),
+            tabMyShouts = $('#tabMyShouts');
         
         if(tabMyShouts.hasClass('active')) return;
         

@@ -313,6 +313,18 @@ body.keyboard-open .platform-android .content.overflow-scroll {
       color: $royal;
     }
     
+    .popup-sub-message {
+        display: block;
+        font-size: 11px;
+        padding-top: 10px;
+        color: #757575;
+        line-height: 16px;
+        
+        &.red {
+            color: red;
+        }
+    }
+    
     .popup-body {
         color: $royal;
         padding: 16px 0 16px 0;

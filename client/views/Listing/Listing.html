@@ -61,16 +61,6 @@
 
 <template name="searchResult">
     
-    {{#if Template.subscriptionsReady}}
-        <script>
-         Meteor.setTimeout(function(){
-            $('.loadbox').fadeOut(function(){
-                $('.loading-wrapper').fadeIn();  
-            });
-          }, 500);
-        </script>
-    {{/if}}
-    
     <div id='search-result' class="list">
     
 <!--

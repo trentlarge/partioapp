@@ -110,7 +110,10 @@
             {{/if}}
             <div class="item details">
                   <i class="icon ion-cash"></i>
-                  <span class="price">${{connectData.borrowDetails.price.total}}</span>
+                  <span class="price">
+                      ${{connectData.borrowDetails.price.total}}
+                      <p class="fee">(-10% fee)</p>
+                  </span>
             </div>
             {{#if isReturned}}
             {{else}}

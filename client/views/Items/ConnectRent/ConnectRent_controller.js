@@ -16,7 +16,17 @@ ConnectRentController = RouteController.extend({
 	},
 
 	connection : function(){
-		return Connections.findOne({ _id: this.params._id, finished: { $ne: true } });
+		var connection = Connections.findOne({ _id: this.params._id, finished: { $ne: true } });
+        
+        if(connection && connection.selfCheck) {
+            if(connection.selfCheck.status && Math.floor((Date.now() - connection.selfCheck.timestamp)/60000) <= 120) {
+                setInterval(function() {
+                    Session.set('timeNow', Date.now()); 
+                }, 1000);
+            } 
+        }
+        
+        return connection;
 	},
 
 	data: function() {
@@ -224,6 +234,39 @@ ConnectRentController = RouteController.extend({
 				
 			},
             
+            selfCheck: function() {
+                if(this.connectData && this.connectData.selfCheck) {
+                    var selfCheck = this.connectData.selfCheck;
+
+                    if(selfCheck.status && Math.floor((Date.now() - selfCheck.timestamp)/60000) < 120) {
+                      return true;
+                    } 
+                }
+
+                return false;
+            },
+            
+            getSelfCheckTimeLeft: function() {
+                if(this.connectData && this.connectData.selfCheck && Session.get('timeNow')) {
+                    var selfCheck = this.connectData.selfCheck,
+                        timeleft = Math.floor(7200000 - ((Session.get('timeNow') - selfCheck.timestamp))),
+                        hours =  Math.floor(timeleft/3600000),
+                        minutes = Math.floor((timeleft/60000) - (60*hours)),
+                        seconds = Math.floor((timeleft/1000) - (3600*hours) - (60*minutes));
+
+                    if(hours < 10) { hours = '0' + hours; }
+                    if(minutes < 10) { minutes = '0' + minutes; }
+                    if(seconds < 10) { seconds = '0' + seconds; }
+                    
+                    if(hours < 0) {
+                        return '(time out)'
+                    }
+                    
+                    return '(' + hours + ':' + minutes + ':' + seconds + ' left)';
+
+                }
+            },
+            
             // PROMOTION 
             
             getPromotionalValue: function() {
@@ -245,22 +288,48 @@ ConnectRentController = RouteController.extend({
                 
             },
             
+            getTotalPrice: function(price) {
+                return parseFloat((Number(price) + 0.3)/0.971).toFixed(2);
+            },
+            
+            getFee: function(price) {
+                return parseFloat(((Number(price) + 0.3)/0.971) - Number(price)).toFixed(2);
+            },
+            
             hasCoupon: function() {
                 return (this.getPromotionalValue() > 0) ? true : false;
             },
             
             getNewPrice: function(oldPrice) {
-                var value = this.getPromotionalValue();
+                var value = this.getPromotionalValue(),
+                    newPrice = Number(oldPrice) - Number(value);
                 
                 if(value >= Number(oldPrice)) {
                     Session.set('newPrice', parseFloat(0.00).toFixed(2));
+                    Session.set('newPriceWithFee', parseFloat(0.00).toFixed(2));
                     return  parseFloat(0.00).toFixed(2);
                 }
                 
-                var newPrice = parseFloat(Number(oldPrice) - value).toFixed(2);
-                
                 Session.set('newPrice', newPrice);
+                
+                //add fee
+                newPrice = parseFloat((Number(newPrice) + 0.3)/0.971).toFixed(2);
+                
+                Session.set('newPriceWithFee', newPrice);
+                
                 return newPrice;
+            },
+            
+            getNewFee: function(oldPrice) {
+                var value = this.getPromotionalValue(),
+                    newPrice = Number(oldPrice) - Number(value);
+
+                if(value >= Number(oldPrice)) {
+                    return  parseFloat(0.00).toFixed(2);
+                }
+                
+                //add fee
+                return parseFloat(((Number(newPrice) + 0.3)/0.971) - Number(newPrice)).toFixed(2);
             },
             
             getNewCouponPrice: function(rentPrice) {
@@ -269,6 +338,9 @@ ConnectRentController = RouteController.extend({
                 if(Number(rentPrice) >= value) {
                     return  parseFloat(0.00).toFixed(2);
                 }
+                
+                //add fee
+                //rentPrice = parseFloat(((Number(rentPrice) + 0.3)/0.971)).toFixed(2);
                 
                 return  parseFloat(value - Number(rentPrice)).toFixed(2);
             },

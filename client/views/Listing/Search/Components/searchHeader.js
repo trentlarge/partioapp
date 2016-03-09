@@ -1,7 +1,7 @@
 Template.searchHeader.events({
   'click .search-header-icon': function(e, template){
-    var inputBox = $('.search-header-input');
-    var inputIcon = $('.search-header-icon');
+    var inputBox = $('.search-header-input'),
+        inputIcon = $('.search-header-icon');
 
     if(inputBox.css('width') === '0px' || inputBox.css('width') === '0%'){
         inputBox.css({
@@ -39,13 +39,14 @@ Template.searchHeader.events({
   },
   
   'keyup .search-header-input': function(e, template) {
-      var text = $(e.target).val();
+      var text = $(e.target).val(),
+          loadBox = $('.loadbox');
       
       //reset sessions
       Session.set("pageNumber", 1);
       
-      if(!$('.loadbox').is(':visible')) {
-          $('.loadbox').fadeIn('fast');    
+      if(!loadBox.is(':visible')) {
+          loadBox.fadeIn('fast');    
       }
       
       //set text

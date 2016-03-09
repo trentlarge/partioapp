@@ -16,8 +16,8 @@ Template.listing.rendered = function() {
 
   Session.set('listing', true);
 
-  var inputBox = $('.search-header-input');
-  var inputIcon = $('.search-header-icon');
+  var inputBox = $('.search-header-input'),
+      inputIcon = $('.search-header-icon');
 
   inputBox.css({
     'width':'100%',
@@ -27,6 +27,12 @@ Template.listing.rendered = function() {
   inputIcon.css({
     'color': '#272727'
   });
+    
+   Meteor.setTimeout(function(){
+    $('.loadbox').fadeOut(function(){
+        $('.loading-wrapper').fadeIn();  
+    });
+   }, 500);
 };
 
 Template.listing.events({
@@ -60,14 +66,13 @@ Template.listing.events({
   },
     
   "scroll .overflow-scroll": function(e, t) {
-    var parent = t.$(e.currentTarget);
-    //var scrollingElement = parent.find(".list");
-
-    var pageNumber = Session.get('pageNumber') || 1;
-    var pageSize = Session.get('pageSize');
+      
+    var parent = t.$(e.currentTarget),
+        pageNumber = Session.get('pageNumber') || 1,
+        pageSize = Session.get('pageSize');
 
     if($('.product-box').length < pageNumber * pageSize) {
-        //return;
+        return;
     }
 
     //if(parent.scrollTop() + parent.height() >= scrollingElement.innerHeight() + 20) {
@@ -115,16 +120,16 @@ Template.searchBox.helpers({
 
 Template.searchBox.events({
   "click .categoryFilter": function(e, template) {
-    var categoryFilterBox = $(e.currentTarget);
+      
+    var categoryFilterBox = $(e.currentTarget),
+        categories = Categories.getCategories(),
+        selectedCategories = [];
+      
     categoryFilterBox.toggleClass('active');
-
-    var categories = Categories.getCategories();
-    var selectedCategories = [];
 
     if($('.categoryFilter').hasClass('active')) {
       $.each($('.categoryFilter.active'), function(index, categoryFilter) {
-        var categoryText = $(categoryFilter).find('span').text();
-        selectedCategories.push(categoryText);
+        selectedCategories.push($(categoryFilter).find('span').text());
       });
 
       Session.set("selectedCategories", selectedCategories);
