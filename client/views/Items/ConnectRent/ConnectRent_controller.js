@@ -105,7 +105,7 @@ ConnectRentController = RouteController.extend({
 
 			paymentDone: function() {
                 if(!this.connectData) { return; }
-				return this.connectData.payment ? true : false;
+				return ((this.connectData.state.indexOf("PAYMENT") < 0) && (this.connectData.state.indexOf("WAITING")) < 0) ? true : false;
 			},
             
             itemSold: function() {

@@ -517,7 +517,7 @@ Meteor.methods({
                               done(err.message, false);
                             }
                             
-                            done(false, true)
+                            done(false, {charge: charge})
                         }));      
 
                     } // customer
@@ -531,7 +531,7 @@ Meteor.methods({
                 return;
             } else {
                 // transfer
-                transfer();
+                transfer(chargeResponse.result.charge);
             }
 
         } // partial
@@ -540,7 +540,7 @@ Meteor.methods({
             transfer();
         }
       
-        function transfer() {
+        function transfer(charge) {
             
             var transferResponse = Async.runSync(function(done) {
 
@@ -631,10 +631,13 @@ Meteor.methods({
                 Transactions.update({'userId': connect.requestor }, {$push: {spending: requestorSpend}});
                 Transactions.update({'userId': connect.owner }, {$push: {earning: ownerEarn}});
 
-                var _state = 'IN USE';
+                var state = 'IN USE',
+                    charge = (function() {
+                        return (charge) ? charge : false;
+                    })();
 
                 if(type === 'PURCHASING') {
-                    _state = 'SOLD';
+                    state = 'SOLD';
                 }
 
                 // update connections
@@ -642,8 +645,9 @@ Meteor.methods({
                     _id: connect._id
                 }, {
                 $set: { 
-                    state: _state, 
-                    payment: transferResponse.result.transfer,
+                    state: state, 
+                    charge: charge,
+                    transfer: transferResponse.result.transfer,
                     selfCheck: {
                         status: true,
                         timestamp: Date.now()

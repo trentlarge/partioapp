@@ -38,7 +38,7 @@ Meteor.methods({
 
         //ignore self check
         if(connect.selfCheck && connect.selfCheck.status) {
-            Meteor.call('ignoreSelfCheck', connect_.id);
+            Meteor.call('ignoreSelfCheck', connect._id);
         }
         
 		var message = borrowerName + " wants to return the " + connect.productData.title;
@@ -256,7 +256,7 @@ Meteor.methods({
         });
         
 		sendPush(connect.requestor, message);
-		sendNotification(connect.requestor, connect.productData.ownerId, message, "declined", connectionId);
+		sendNotification(connect.productData.ownerId, connect.requestor, message, "declined", connectionId);
         
     },
     
