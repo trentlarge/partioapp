@@ -41,6 +41,10 @@ Meteor.methods({
             Meteor.call('ignoreSelfCheck', connect._id);
         }
         
+        if(connect.report && connect.report.status) {
+            Meteor.call('returnItemReported', connect._id);
+        }
+        
 		var message = borrowerName + " wants to return the " + connect.productData.title;
 		sendPush(connect.productData.ownerId, message);
 		sendNotification(connect.productData.ownerId, connect.requestor, message, "info", connectionId);
@@ -229,8 +233,31 @@ Meteor.methods({
                 selfCheck: {
                     status: false,
                     timestamp: connect.selfCheck.timestamp,
-                    reported: false
-                }        
+                },
+                report: {
+                    status: false,
+                    timestamp: Date.now()
+                }
+            }
+        });
+        
+    },
+    
+    'returnItemReported': function(connectionId) {
+      
+        var connect = Connections.findOne({ _id: connectionId, finished: { $ne: true }}),
+            report = connect.report;
+        
+        report.returned = {
+            status: true,
+            timestamp: Date.now()
+        }
+            
+        Connections.update({
+            _id: connectionId
+        }, {
+            $set: {
+                report: report
             }
         });
         
@@ -249,9 +276,12 @@ Meteor.methods({
                 selfCheck: {
                     status: false,
                     timestamp: connect.selfCheck.timestamp, 
-                    reported: true,
+                },
+                report: {
+                    status: true,
+                    timestamp: Date.now(),
                     problems: problems
-                }        
+                }
             }
         });
         
