@@ -23,7 +23,9 @@ ConnectRentController = RouteController.extend({
                 setInterval(function() {
                     Session.set('timeNow', Date.now()); 
                 }, 1000);
-            } 
+            }
+            
+            Session.set('connectionId', connection._id);
         }
         
         return connection;
@@ -239,7 +241,7 @@ ConnectRentController = RouteController.extend({
                     var selfCheck = this.connectData.selfCheck;
 
                     if(selfCheck.status && Math.floor((Date.now() - selfCheck.timestamp)/60000) < 120) {
-                      return true;
+                        return true;
                     } 
                 }
 
@@ -250,17 +252,21 @@ ConnectRentController = RouteController.extend({
                 if(this.connectData && this.connectData.selfCheck && Session.get('timeNow')) {
                     var selfCheck = this.connectData.selfCheck,
                         timeleft = Math.floor(7200000 - ((Session.get('timeNow') - selfCheck.timestamp))),
+//                        timeleft = Math.floor(10000 - ((Session.get('timeNow') - selfCheck.timestamp))),
                         hours =  Math.floor(timeleft/3600000),
                         minutes = Math.floor((timeleft/60000) - (60*hours)),
                         seconds = Math.floor((timeleft/1000) - (3600*hours) - (60*minutes));
 
+                    if(hours < 0) {
+                        //time out -> ignore self check
+                        $('.ion-ios-close-empty').click();
+                        Meteor.call('ignoreSelfCheck', this.connectData._id);
+                        return '(time out)'
+                    }
+                    
                     if(hours < 10) { hours = '0' + hours; }
                     if(minutes < 10) { minutes = '0' + minutes; }
                     if(seconds < 10) { seconds = '0' + seconds; }
-                    
-                    if(hours < 0) {
-                        return '(time out)'
-                    }
                     
                     return '(' + hours + ':' + minutes + ':' + seconds + ' left)';
 

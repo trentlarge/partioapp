@@ -36,7 +36,7 @@
             
                 {{#if isConnections}}
                 
-                    {{#each connections}}
+                    {{#each ../getConnections}}
                 
                         <div class="list card">
                             <a class="item item-avatar" href="{{#if tabBorrowed}} /items/connect-rent/{{_id}} {{else}} /items/connect/{{_id}} {{/if}}">

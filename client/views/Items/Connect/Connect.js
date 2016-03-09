@@ -29,8 +29,9 @@ Template.connect.events({
 		IonPopup.confirm({
 			cancelText: 'No',
 			okText: 'Received',
-			title: 'Is your product returned?',
-			template: '<p> The product will now be available for others to borrow </p>',
+			title: 'Confirmation',
+			template: 'Is your product returned?' +
+            '<span class="popup-sub-message">The product will now be available for others to borrow.</span>',
 			onCancel: function() {
 
 			},
@@ -62,7 +63,7 @@ Template.connect.events({
 			cancelText: 'No',
 			okText: 'Yes',
 			title: 'Feedback',
-			template: '<p> The delivery confirmation has been made. Please give us your feedback. </p>',
+			template: 'The delivery confirmation has been made. Please give us your feedback.',
 			onCancel: function() {
 
 			},

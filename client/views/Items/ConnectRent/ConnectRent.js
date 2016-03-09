@@ -49,6 +49,7 @@ Template.connectRent.rendered = function() {
 Template.connectRent.destroyed = function() {
     Session.set('couponChecked', null);
     Session.set('newPrice', null);
+    Session.set('connectionId', null);
 }
 
 Template.connectRent.helpers({
@@ -101,8 +102,9 @@ Template.connectRent.events({
 		IonPopup.confirm({
 			cancelText: 'Cancel',
 			okText: 'Return',
-			title: 'Are you sure you want to return this item?',
-			template: 'Please make sure the item is passed back to the owner',
+			title: 'Return Item',
+			template: 'Are you sure you want to return this item?' +
+            '<span class="popup-sub-message">Please make sure the item is passed back to the owner</span>',
 			onCancel: function() {
         	IonPopup.close();
 			},
@@ -178,8 +180,8 @@ Template.connectRent.events({
             amountWithFee = priceWithFee;
         }
         
-        console.log('amount: ' + amountWithFee);
-        console.log('partioAmount: ' + partioAmount);
+//        console.log('amount: ' + amountWithFee);
+//        console.log('partioAmount: ' + partioAmount);
         
         IonPopup.confirm({
             cancelText: 'Cancel',
@@ -206,7 +208,7 @@ Template.connectRent.events({
                     IonPopup.show({
                         title: 'Payment Successful!',
                         template: 'A record of this payment is stored under Transactions History.' + 
-                        '<span class="popup-sub-message">Note: You have 2 hours to report the item if you find some problem.</span>',
+                        '<span class="popup-sub-message red">Note: You have 2 hours to report the item if you find some problem.</span>',
                         buttons:
                         [{
                             text: 'OK',
@@ -220,225 +222,7 @@ Template.connectRent.events({
             }
         });
         
-        
-//        
-//        // PROMOTION PAYMENT
-//        
-//        if(Session.get('couponChecked')) {
-//            
-//            amount = Session.get('newPrice');
-//            var partioAmount = parseFloat(Number(priceWithFee) - Number(amount)).toFixed(2);
-//            
-//            IonPopup.confirm({
-//                cancelText: 'Cancel',
-//                okText: 'PAY',
-//                title: 'PAYMENT',
-//                template: 'You are about to make a payment of $' + amount,
-//                onCancel: function() {
-//
-//                },
-//                onOk: function() {
-//                    PartioLoad.show();
-//                    Meteor.call('chargeCardPromotion', connectionId, partioAmount, 'RENTING', function(error, result) {
-//                        PartioLoad.hide();
-//
-//                        if(error) {
-//                            // var errorMessage = error.reason || error.message;
-//                            // if(error.details) {
-//                            //     errorMessage = errorMessage + "\nDetails:\n" + error.details;
-//                            // }
-//                            // sAlert.error(errorMessage);
-//                             IonPopup.show({
-//                                title: 'Ops...',
-//                                template: 'Coupon system isn\'t working now. Please try again later. Thank you.',
-//                                buttons:
-//                                [{
-//                                    text: 'OK',
-//                                    type: 'button-assertive',
-//                                    onTap: function() {
-//                                        IonPopup.close();
-//                                    }
-//                                }]
-//                            });
-//
-//                            return;
-//                        }
-//
-//                        IonPopup.show({
-//                            title: 'Payment Successful!',
-//                            template: 'A record of this payment is stored under Transactions History.' + 
-//                            '<span class="popup-sub-message">Note: You have 2 hours to report the item if you find some problem.</span>',
-//                            buttons:
-//                            [{
-//                                text: 'OK',
-//                                type: 'button-assertive',
-//                                onTap: function() {
-//                                    IonPopup.close();
-////                                    Router.go('/transactions');
-////                                    Session.set('spendClicked', true);
-//                                }
-//                            }]
-//                        });
-//                    });
-//                }
-//            });
-//            
-//        }
-//        
-//        // NORMAL PAYMENT
-//        
-//        else {
-//            
-//            amount = priceWithFee;
-//            
-//            IonPopup.confirm({
-//                cancelText: 'Cancel',
-//                okText: 'PAY',
-//                title: 'PAYMENT',
-//                template: 'You are about to make a payment of $' + amount,
-//                onCancel: function() {
-//
-//                },
-//                onOk: function() {
-//                    PartioLoad.show();
-//                    Meteor.call('chargeCard', connectionId, 'RENTING', function(error, result) {
-//                        PartioLoad.hide();
-//
-//                        if(error) {
-//                            var errorMessage = error.reason || error.message;
-//                            if(error.details) {
-//                                errorMessage = errorMessage + "\nDetails:\n" + error.details;
-//                            }
-//                            sAlert.error(errorMessage);
-//                            return;
-//                        }
-//
-//                        IonPopup.show({
-//                            title: 'Payment Successful!',
-//                            template: 'A record of this payment is stored under Transactions History.' + 
-//                            '<span class="popup-sub-message">Note: You have 2 hours to report the item if you find some problem.</span>',
-//                            buttons:
-//                            [{
-//                                text: 'OK',
-//                                type: 'button-assertive',
-//                                onTap: function() {
-//                                    IonPopup.close();
-////                                    Router.go('/transactions');
-////                                    Session.set('spendClicked', true);
-//                                }
-//                            }]
-//                        });
-//                    });
-//                }
-//            });
-//        }
-
 	},
-    
-//    'click #payPurchasing': function() {
-//		Session.set('payRedirect', false);
-//
-//		var connectionId = this.connectData._id,
-//            amount = 0.00,
-//            price = this.connectData.borrowDetails.price.total,
-//            priceWithFee = parseFloat(Number(price) + (0.03 * Number(price)) + 0.30).toFixed(2),
-//            partioAmount = 0.00;
-//        
-//        
-//        // PROMOTION PAYMENT
-//        
-//        if(Session.get('couponChecked')) {
-//            
-//            amount = Session.get('newPrice');
-//            var partioAmount = parseFloat(Number(priceWithFee) - Number(amount)).toFixed(2);
-//            
-//            IonPopup.confirm({
-//                cancelText: 'Cancel',
-//                okText: 'PAY',
-//                title: 'PAYMENT',
-//                template: 'You are about to make a payment of $' + amount,
-//                onCancel: function() {
-//
-//                },
-//                onOk: function() {
-//                    PartioLoad.show();
-//                    Meteor.call('chargeCardPromotion', connectionId, partioAmount, 'PURCHASING', function(error, result) {
-//                        PartioLoad.hide();
-//
-//                        if(error) {
-//                            var errorMessage = error.reason || error.message;
-//                            if(error.details) {
-//                                errorMessage = errorMessage + "\nDetails:\n" + error.details;
-//                            }
-//                            sAlert.error(errorMessage);
-//                            return;
-//                        }
-//
-//                        IonPopup.show({
-//                            title: 'Payment Successful!',
-//                            template: 'A record of this payment is stored under Transactions History.',
-//                            buttons:
-//                            [{
-//                                text: 'OK',
-//                                type: 'button-assertive',
-//                                onTap: function() {
-//                                    IonPopup.close();
-////                                    Router.go('/transactions');
-////                                    Session.set('spendClicked', true);
-//                                }
-//                            }]
-//                        });
-//                    });
-//                }
-//            });
-//        }
-//        
-//        // NORMAL PAYMENT
-//        
-//        else {
-//            amount = priceWithFee;
-//            
-//            IonPopup.confirm({
-//                cancelText: 'Cancel',
-//                okText: 'PAY',
-//                title: 'PAYMENT',
-//                template: 'You are about to make a payment of $' + amount,
-//                onCancel: function() {
-//
-//                },
-//                onOk: function() {
-//                    PartioLoad.show();
-//                    Meteor.call('chargeCard', connectionId, 'PURCHASING', function(error, result) {
-//                        PartioLoad.hide();
-//
-//                        if(error) {
-//                            var errorMessage = error.reason || error.message;
-//                            if(error.details) {
-//                                errorMessage = errorMessage + "\nDetails:\n" + error.details;
-//                            }
-//                            sAlert.error(errorMessage);
-//                            return;
-//                        }
-//
-//                        IonPopup.show({
-//                            title: 'Payment Successful!',
-//                            template: 'A record of this payment is stored under Transactions History.',
-//                            buttons:
-//                            [{
-//                                text: 'OK',
-//                                type: 'button-assertive',
-//                                onTap: function() {
-//                                    IonPopup.close();
-////                                    Router.go('/transactions');
-////                                    Session.set('spendClicked', true);
-//                                }
-//                            }]
-//                        });
-//                    });
-//                }
-//            });
-//        }
-//	},
 
 	'click #cancelRequest': function() {
 		connectionId = this.connectData._id;
@@ -502,4 +286,91 @@ Template.connectRent.events({
 			});
 		}
 	}
+});
+
+// REPORT ITEM
+
+Template.reportItem.rendered = function() {
+    
+    Session.set('sendEnabled', false);
+}
+
+Template.reportItem.helpers({
+    
+    sendEnabled: function() {
+        return Session.get('sendEnabled') ? '' : 'disabled';
+    }
+    
+});
+
+Template.reportItem.events({
+   
+    'change .check-problem': function(e, template) {
+        
+        var broken = $('.broken').prop('checked'),
+            working = $('.working').prop('checked'),
+            condition = $('.condition').prop('checked');
+        
+        if(broken || working || condition ) {
+            Session.set('sendEnabled', true);
+        }
+        else {
+            Session.set('sendEnabled', false);
+        }
+        
+    },
+    
+    'click .send-report': function(e, template) {
+        
+        var problems = {
+                broken: $('.broken').prop('checked'),
+                working: $('.working').prop('checked'),
+                condition: $('.condition').prop('checked')
+            },
+            connectionId = Session.get('connectionId');
+        
+        IonPopup.confirm({
+          okText: 'Proceed',
+          cancelText: 'Cancel',
+          title: 'Report item',
+          template: 'Are you sure you want report this item?',
+          onOk: function() {
+            Meteor.call('reportItem', connectionId, problems, function(err, res) {
+              IonPopup.close();
+              $('.ion-ios-close-empty').click();
+                
+              if(err) {
+                var errorMessage = err.reason || err.message;
+                if(err.details) {
+                  errorMessage = errorMessage + "\nDetails:\n" + err.details;
+                }
+                sAlert.error(errorMessage);
+                return;
+              }
+                
+              setTimeout(function(){
+                IonPopup.show({
+                  title: 'Item reported',
+                  template: 'Item reported successfully!',
+                  buttons: [{
+                    text: 'OK',
+                    type: 'button-energized',
+                    onTap: function() {
+                      IonPopup.close();
+                    }
+                  }]
+                });
+              }, 500);
+                
+            });
+          },
+
+          onCancel: function() {
+            return false;
+          }
+        });
+        
+    },
+    
+    
 });
