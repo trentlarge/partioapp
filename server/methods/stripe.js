@@ -737,7 +737,7 @@ Meteor.methods({
           ownerSpending = {
             date: Date.now(),
             productName: connect.productData.title,
-            paidAmount: refundAmount,
+            paidAmount: reversalAmount,
             userId: connect.requestor,
             connectionId: connect._id
           };
