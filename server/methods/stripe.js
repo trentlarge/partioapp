@@ -683,36 +683,45 @@ Meteor.methods({
     }
 
     var connect = Connections.findOne({ _id: connectionId, finished: { $ne: true } }),
-        chargeId = connection.transfer.source_transaction;
+        chargeId = connect.charge.id,
+        transferId = connect.transfer.id;
 
     if(!connect) {
       throw new Meteor.Error("chargeCard", "connect not finished or not found");
     }
 
-    var refundsResponse = Async.runSync(function(done) {
+    var refundResponse = Async.runSync(function(done) {
       Stripe.refunds.create({
         charge: chargeId,
-        reverse_transfer: true
+        //reverse_transfer: true
 
         }, Meteor.bindEnvironment(function (err, refund) {
-          // asynchronously called
           if(err) {
               done(err, false);
           }
-         
-          done(false, { refunds: refunds });
+
+          Stripe.transfers.createReversal(transferId, { },
+            Meteor.bindEnvironment(function (err, refund) {
+              if(err) {
+                done(err, false);
+              }
+
+              done(false, { charge: refund, transfer: reversal });
+            })
+          );
         })
       );
     });
 
-    if(refundsResponse.error) {
+    if(refundResponse.error) {
       throw new Meteor.Error("refundCharge", refundsResponse.error);
 
     // refund ok  
     } else {
       console.log('refund success!');
 
-      var refundAmount = (refundsResponse.result.refunds.amount/100).toFixed(2),
+      var refundAmount = (refundsResponse.result.charge.amount/100).toFixed(2),
+          reversalAmount = (refundsResponse.result.transfer.amount/100).toFixed(2),
           owner = Meteor.users.findOne(connect.owner),
 
           requestorEarning = {
@@ -739,9 +748,10 @@ Meteor.methods({
       Connections.update({
         _id: connect._id
       }, {
-      $set: { 
-        refund: refundsResponse.result.refunds
-      }});
+        $set: { 
+          refund: refundsResponse.result
+        }
+      });
 
       var message = 'You received back the charge of $' + refundAmount + ' from ' + owner.profile.name
       sendPush(connect.requestor, message);
