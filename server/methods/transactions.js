@@ -18,4 +18,9 @@ Meteor.methods({
 		}
 	  //Meteor.users.update({"_id": Meteor.userId()}, {$set: {"secret.transactionsId": userTransId}});
 	},
+    
+    /* ================================
+        UPDATE -> Look 'stripe.js'
+    ================================== */
+    
 });

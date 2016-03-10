@@ -36,6 +36,11 @@ Meteor.methods({
 
 		Connections.update({_id: connectionId}, {$set: {"state": "RETURNED"}});
 
+        //ignore self check
+        if(connect.selfCheck && connect.selfCheck.status) {
+            Meteor.call('ignoreSelfCheck', connect._id);
+        }
+        
 		var message = borrowerName + " wants to return the " + connect.productData.title;
 		sendPush(connect.productData.ownerId, message);
 		sendNotification(connect.productData.ownerId, connect.requestor, message, "info", connectionId);
@@ -213,53 +218,101 @@ Meteor.methods({
 		return true;
 	},
     
-    'payPurchasingNow': function(payer) {
-		console.log(payer);
-		Meteor._sleepForMs(1000);
-		Connections.update(
-            {
-                _id: payer
-            }, 
-            {
-                $set: {
-                    state: "SOLD",
-                    selfCheck: {
-                        status: true,
-                        timestamp: new Date().now()
-                    }
-                }
-            });
-		return "yes, payment done"
-	},
+    'ignoreSelfCheck': function(connectionId) {
+      
+        var connect = Connections.findOne({ _id: connectionId, finished: { $ne: true }});
+        
+        Connections.update({
+            _id: connectionId
+        }, {
+            $set: {
+                selfCheck: {
+                    status: false,
+                    timestamp: connect.selfCheck.timestamp,
+                    reported: false
+                }        
+            }
+        });
+        
+    },
     
-	'payNow': function(payer) {
-		console.log(payer);
-		Meteor._sleepForMs(1000);
-		Connections.update(
-            {
-                _id: payer
-            }, 
-            {
-                $set: {
-                    state: "IN USE", 
-                    selfCheck: {
-                        status: true,
-                        timestamp: Date.now()
-                    }
-                }
-            });
-		return "yes, payment done"
-	},
-	// 'updateTerms': function() {
-	//
-	//
-	// 	console.log('updateTerms');
-	//
-	// 	Meteor.users.update({"_id": Meteor.userId() }, {$set: {
-	// 		"profile.stripeTerms": true,
-	// 		//"profile.stripeCustomer": customerResult.id,
-	// 		//"profile.transactionsId": userTransId
-	// 	}})
-	//
-	// },
+    'reportItem': function(connectionId, problems) {
+      
+        var connect = Connections.findOne({ _id: connectionId, finished: { $ne: true }}),
+            ownerName = Meteor.users.findOne(connect.productData.ownerId).profile.name,
+		    message =  "Your request for " + connect.productData.title + " has been reported.";
+        
+        Connections.update({
+            _id: connectionId
+        }, {
+            $set: {
+                selfCheck: {
+                    status: false,
+                    timestamp: connect.selfCheck.timestamp, 
+                    reported: true,
+                    problems: problems
+                }        
+            }
+        });
+        
+		sendPush(connect.requestor, message);
+		sendNotification(connect.productData.ownerId, connect.requestor, message, "declined", connectionId);
+        
+    },
+    
+    
+    /* ================================
+        PAYMENT -> Look 'stripe.js'
+    ================================== */
+    
+    
+//    'payPurchasingNow': function(payer) {
+//		console.log(payer);
+//		Meteor._sleepForMs(1000);
+//		Connections.update(
+//            {
+//                _id: payer
+//            }, 
+//            {
+//                $set: {
+//                    state: "SOLD",
+//                    selfCheck: {
+//                        status: true,
+//                        timestamp: new Date().now()
+//                    }
+//                }
+//            });
+//		return "yes, payment done"
+//	},
+//    
+//	'payNow': function(payer) {
+//		console.log(payer);
+//		Meteor._sleepForMs(1000);
+//		Connections.update(
+//            {
+//                _id: payer
+//            }, 
+//            {
+//                $set: {
+//                    state: "IN USE", 
+//                    selfCheck: {
+//                        status: true,
+//                        timestamp: Date.now()
+//                    }
+//                }
+//            });
+//		return "yes, payment done"
+//	},
+//	 'updateTerms': function() {
+//	
+//	
+//	 	console.log('updateTerms');
+//	
+//	 	Meteor.users.update({"_id": Meteor.userId() }, {$set: {
+//	 		"profile.stripeTerms": true,
+//	 		//"profile.stripeCustomer": customerResult.id,
+//	 		//"profile.transactionsId": userTransId
+//	 	}})
+//	
+//	 },
 });

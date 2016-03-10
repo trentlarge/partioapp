@@ -167,7 +167,11 @@
          {{#if ../isNotPurchasing}}
             
               {{#if ../paymentDone}}
-                {{#unless ../itemReturnDone}}
+                {{#if ../itemReturnDone}}
+                  <div class="item">
+                    <button class="button button-block" disabled>RETURNED</button>
+                  </div>
+                {{else}}
                   <div class="item">
                     <button id="returnItem" class="button button-block">RETURN ITEM</button>
                   </div>
@@ -178,7 +182,7 @@
                         <span class="time-left">{{../getSelfCheckTimeLeft}}</span>
                     </div>
                   {{/if}}
-                {{/unless}}
+                {{/if}}
               {{else}}
                 <div class="item">
                   {{#if ../approvedStatus}}
@@ -271,7 +275,7 @@
             <p class="problem">Condition not match</p>
         </div>
         <div class="item no-border">
-            <button class="button button-block button-energized send-report">SEND REPORT</button>
+            <button class="button button-block button-energized send-report" {{sendEnabled}}>SEND REPORT</button>
         </div>
     </div>
     

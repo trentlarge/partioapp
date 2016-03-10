@@ -37,6 +37,10 @@ MyItemsController = RouteController.extend({
 			myProducts: this.myProducts(),
             connections: this.connections(),
             
+            getConnections: function() {
+                return this.connections;  
+            },
+            
 			labelState: function(state) {
 				if(state === 'PAYMENT') {
 					return 'WAITING ON RENTER PAYMENT';

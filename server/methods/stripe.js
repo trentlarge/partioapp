@@ -471,15 +471,15 @@ Meteor.methods({
         userAmount = userAmount.toFixed(2);
         partioAmount = partioAmount.toFixed(2);
 
-        console.log('amount: ', amount);
-        console.log('userAmount: ', userAmount);
-        console.log('partioAmount: ', partioAmount);
-        console.log('stripeFee: ', stripeFee);
-        console.log('partioFee: ', partioFee);
-        console.log('formattedAmount: ', formattedAmount);
-        console.log('formattedUserAmount: ', formattedUserAmount);
-        console.log('formattedPartioAmount: ', formattedPartioAmount);
-        console.log('formattedPartioFee: ', formattedPartioFee);
+//        console.log('amount: ', amount);
+//        console.log('userAmount: ', userAmount);
+//        console.log('partioAmount: ', partioAmount);
+//        console.log('stripeFee: ', stripeFee);
+//        console.log('partioFee: ', partioFee);
+//        console.log('formattedAmount: ', formattedAmount);
+//        console.log('formattedUserAmount: ', formattedUserAmount);
+//        console.log('formattedPartioAmount: ', formattedPartioAmount);
+//        console.log('formattedPartioFee: ', formattedPartioFee);
 
         //return false;
 
@@ -517,7 +517,7 @@ Meteor.methods({
                               done(err.message, false);
                             }
                             
-                            done(false, true)
+                            done(false, {charge: charge})
                         }));      
 
                     } // customer
@@ -531,7 +531,7 @@ Meteor.methods({
                 return;
             } else {
                 // transfer
-                transfer();
+                transfer(chargeResponse.result.charge);
             }
 
         } // partial
@@ -540,7 +540,7 @@ Meteor.methods({
             transfer();
         }
       
-        function transfer() {
+        function transfer(charge) {
             
             var transferResponse = Async.runSync(function(done) {
 
@@ -574,8 +574,6 @@ Meteor.methods({
                         return;
                     }
 
-                    console.log(transfer);
-
                     if(transfer && promotion){
                         Meteor.call('addSpendingPromotionValue', connect.requestor, { 
                             value: partioAmount, 
@@ -591,15 +589,11 @@ Meteor.methods({
 
             }); // response
 
-            console.log(transferResponse);
-
             if(transferResponse.error) {
                 throw new Meteor.Error("chargeCard", transferResponse.error);
                 return;
             } 
             else {
-
-                console.log('entrou');
 
                 var requestorAmount = Number(userAmount).toFixed(2),
                     ownerAmount = (Number(amount) - Number(partioFee)).toFixed(2),
@@ -615,7 +609,7 @@ Meteor.methods({
                         connectionId: connect._id
                     },
 
-                    // owner earn
+                    // owner earned
                     ownerEarn = {
                         date: Date.now(),
                         productName: connect.productData.title,
@@ -624,30 +618,36 @@ Meteor.methods({
                         connectionId: connect._id
                     };
 
-                console.log('requestorAmount: ', requestorAmount);
-                console.log('ownerAmount: ', ownerAmount);
-                console.log('promoAmount: ', promoAmount);
+//                console.log('requestorAmount: ', requestorAmount);
+//                console.log('ownerAmount: ', ownerAmount);
+//                console.log('promoAmount: ', promoAmount);
 
                 if(promotion) {
                     requestorSpend.promoAmount = promoAmount;
                     ownerEarn.promoAmount = promoAmount;
                 }
 
+                // update transactions
                 Transactions.update({'userId': connect.requestor }, {$push: {spending: requestorSpend}});
                 Transactions.update({'userId': connect.owner }, {$push: {earning: ownerEarn}});
 
-                var _state = 'IN USE';
+                var state = 'IN USE',
+                    charge = (function() {
+                        return (charge) ? charge : false;
+                    })();
 
                 if(type === 'PURCHASING') {
-                    _state = 'SOLD';
+                    state = 'SOLD';
                 }
 
+                // update connections
                 Connections.update({
                     _id: connect._id
                 }, {
                 $set: { 
-                    state: _state, 
-                    payment: transferResponse.result.transfer,
+                    state: state, 
+                    charge: charge,
+                    transfer: transferResponse.result.transfer,
                     selfCheck: {
                         status: true,
                         timestamp: Date.now()
