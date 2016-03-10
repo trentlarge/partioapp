@@ -677,82 +677,81 @@ Meteor.methods({
     
    },    
     
-   'refundCharge': function(connectionId) {
+  'refundCharge': function(connectionId) {
        
-        if(!connectionId) {
-          throw new Meteor.Error("chargeCard", "missing params");
-        }
+    if(!connectionId) {
+      throw new Meteor.Error("chargeCard", "missing params");
+    }
 
-        var connection = Connections.findOne({ _id: connectionId, finished: { $ne: true } }),
-            transferId = connection.transfer.id,
-            chargeId = connection.transfer.source_transaction;
+    var connection = Connections.findOne({ _id: connectionId, finished: { $ne: true } }),
+        transferId = connection.transfer.id,
+        chargeId = connection.transfer.source_transaction;
 
-        if(!connect) {
-          throw new Meteor.Error("chargeCard", "connect not finished or not found");
-        }
+    if(!connect) {
+      throw new Meteor.Error("chargeCard", "connect not finished or not found");
+    }
+
+    var refundsResponse = Async.runSync(function(done) {
+      Stripe.refunds.create({
+        charge: chargeId,
+        reverse_transfer: true
+
+        }, Meteor.bindEnvironment(function (err, refund) {
+          // asynchronously called
+          if(err) {
+              done(err, false);
+          }
+         
+          done(false, { refunds: refunds });
+        })
+      );
+    });
+
+    if(refundsResponse.error) {
+      throw new Meteor.Error("refundCharge", refundsResponse.error);
+
+    // refund ok  
+    } else {
+      console.log('refund success!');
+
+      var refundAmount = (refundsResponse.result.refunds.amount/100).toFixed(2),
+
+      requestorEarning = {
+        date: Date.now(),
+        productName: connect.productData.title,
+        paidAmount: refundAmount,
+        userId: connect.owner,
+        connectionId: connect._id
+      },
+      ownerSpending = {
+        date: Date.now(),
+        productName: connect.productData.title,
+        receivedAmount: refundAmount,
+        userId: connect.requestor,
+        connectionId: connect._id
+      };
+      
+      // update transactions
+      Transactions.update({'userId': connect.requestor }, {$push: {earning: requestorEarning}});
+      Transactions.update({'userId': connect.owner }, {$push: {spending: ownerSpending}});
+
+      // update connections
+      Connections.update({
+        _id: connect._id
+      }, {
+      $set: { 
+        refund: refundsResponse.result.refunds
+      }});
+
+      var message = 'You received back the charge of $' + refundAmount + ' from ' + owner.profile.name
+      sendPush(requestor._id, message);
+      sendNotification(requestor._id, owner._id, message, "info");
+
+      return true;
+
+    }
        
-        var refundsResponse = Async.runSync(function(done) {
-          Stripe.refunds.create({
-            charge: chargeId,
-            reverse_transfer: true
-
-          }, Meteor.bindEnvironment(function (err, refund) {
-            // asynchronously called
-            if(err) {
-                done(err, false);
-            }
-           
-            done(false, { refunds: refunds });
-              
-          });
-
-        }); // response
-       
-        if(refundsResponse.error) {
-          throw new Meteor.Error("refundCharge", refundsResponse.error);
-        
-        // refund ok  
-        } else {
-          console.log('refund success!');
-
-          var refundAmount = (refundsResponse.result.refunds.amount/100).toFixed(2),
-
-          requestorEarning = {
-            date: Date.now(),
-            productName: connect.productData.title,
-            paidAmount: refundAmount,
-            userId: connect.owner,
-            connectionId: connect._id
-          },
-          ownerSpending = {
-            date: Date.now(),
-            productName: connect.productData.title,
-            receivedAmount: refundAmount,
-            userId: connect.requestor,
-            connectionId: connect._id
-          };
-          
-          // update transactions
-          Transactions.update({'userId': connect.requestor }, {$push: {earning: requestorEarning}});
-          Transactions.update({'userId': connect.owner }, {$push: {spending: ownerSpending}});
-
-          // update connections
-          Connections.update({
-            _id: connect._id
-          }, {
-          $set: { 
-            refund: refundsResponse.result.refunds
-          }});
-
-          var message = 'You received back the charge of $' + refundAmount + ' from ' + owner.profile.name
-          sendPush(requestor._id, message);
-          sendNotification(requestor._id, owner._id, message, "info");
-
-          return true;
-
-        }
-       
-   },
+  },
     
     
 //  'chargeCard': function(connectionId, type) {
