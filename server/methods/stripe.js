@@ -679,7 +679,7 @@ Meteor.methods({
     
   'refundCharge': function(connectionId) {
     if(!connectionId) {
-      throw new Meteor.Error("chargeCard", "missing params");
+      throw new Meteor.Error("refundCharge", "missing params");
     }
 
     var connect = Connections.findOne({ _id: connectionId, finished: { $ne: true } }),
@@ -687,7 +687,7 @@ Meteor.methods({
         transferId = connect.transfer.id;
 
     if(!connect) {
-      throw new Meteor.Error("chargeCard", "connect not finished or not found");
+      throw new Meteor.Error("refundCharge", "connect not finished or not found");
     }
 
     var refundResponse = Async.runSync(function(done) {
