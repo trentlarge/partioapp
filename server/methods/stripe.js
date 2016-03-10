@@ -678,13 +678,11 @@ Meteor.methods({
    },    
     
   'refundCharge': function(connectionId) {
-       
     if(!connectionId) {
       throw new Meteor.Error("chargeCard", "missing params");
     }
 
-    var connection = Connections.findOne({ _id: connectionId, finished: { $ne: true } }),
-        transferId = connection.transfer.id,
+    var connect = Connections.findOne({ _id: connectionId, finished: { $ne: true } }),
         chargeId = connection.transfer.source_transaction;
 
     if(!connect) {
@@ -715,21 +713,23 @@ Meteor.methods({
       console.log('refund success!');
 
       var refundAmount = (refundsResponse.result.refunds.amount/100).toFixed(2),
+          owner = Meteor.users.findOne(connect.owner),
 
-      requestorEarning = {
-        date: Date.now(),
-        productName: connect.productData.title,
-        paidAmount: refundAmount,
-        userId: connect.owner,
-        connectionId: connect._id
-      },
-      ownerSpending = {
-        date: Date.now(),
-        productName: connect.productData.title,
-        receivedAmount: refundAmount,
-        userId: connect.requestor,
-        connectionId: connect._id
-      };
+          requestorEarning = {
+            date: Date.now(),
+            productName: connect.productData.title,
+            paidAmount: refundAmount,
+            userId: connect.owner,
+            connectionId: connect._id
+          },
+
+          ownerSpending = {
+            date: Date.now(),
+            productName: connect.productData.title,
+            receivedAmount: refundAmount,
+            userId: connect.requestor,
+            connectionId: connect._id
+          };
       
       // update transactions
       Transactions.update({'userId': connect.requestor }, {$push: {earning: requestorEarning}});
@@ -744,8 +744,8 @@ Meteor.methods({
       }});
 
       var message = 'You received back the charge of $' + refundAmount + ' from ' + owner.profile.name
-      sendPush(requestor._id, message);
-      sendNotification(requestor._id, owner._id, message, "info");
+      sendPush(connect.requestor, message);
+      sendNotification(connect.requestor, connect.owner, message, "info");
 
       return true;
 
