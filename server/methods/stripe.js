@@ -700,7 +700,9 @@ Meteor.methods({
               done(err, false);
           }
 
-          Stripe.transfers.createReversal(transferId, { },
+          Stripe.transfers.createReversal(transferId, {
+            refund_application_fee: true,
+          },
             Meteor.bindEnvironment(function (err, reversal) {
               if(err) {
                 done(err, false);
