@@ -33,14 +33,14 @@
       <div class="loading-wrapper">
         <ul class="list">
           {{#each notifications}}
-          <li class="item item-icon-left item-icon-right show-message item-text-wrap">
+          <a class="item item-icon-left item-icon-right show-message item-text-wrap" href="/items">
             {{> ionIcon icon="ios-information-outline" class="energized little-icon"}}
             <h3 class="dark">{{{message}}}</h3>
             <h4 class="grey">{{cleanDate}}</h4>
             {{#if ../hasRouter connectionId}}
                 {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
             {{/if}}
-          </li>
+          </a>
           {{/each}}
         </ul>
       </div>

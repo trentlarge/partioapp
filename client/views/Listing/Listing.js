@@ -1,6 +1,8 @@
 // LISTING
+var canLoad = true;
 
 Template.listing.rendered = function() {
+
   if(window.cordova && window.cordova.plugins.Keyboard) {
 		  cordova.plugins.Keyboard.hideKeyboardAccessoryBar(false);
 	}
@@ -65,16 +67,16 @@ Template.listing.events({
         pageNumber = Session.get('pageNumber') || 1,
         pageSize = Session.get('pageSize');
 
-    if($('.product-box').length < pageNumber * pageSize) {
-        //return;
-    }
-
-    //if(parent.scrollTop() + parent.height() >= scrollingElement.innerHeight() + 20) {
-    if(parent.scrollTop() + parent.height() >= parent[0].scrollHeight - 300) {
+    if(canLoad && parent.scrollTop() + parent.height() >= parent[0].scrollHeight - 300) {
+        canLoad = false;
         $('.loadbox').fadeIn(function(){
           var loadedPage = Session.get("pageNumberLoaded") || 0;
           Session.set("pageNumber", loadedPage + 1);
         });
+        Meteor.clearInterval();
+        Meteor.setInterval(function() {
+          canLoad = true;
+        }, 700);
       }
   }
 });
