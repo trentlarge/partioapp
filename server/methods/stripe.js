@@ -701,7 +701,7 @@ Meteor.methods({
           }
 
           Stripe.transfers.createReversal(transferId, { },
-            Meteor.bindEnvironment(function (err, refund) {
+            Meteor.bindEnvironment(function (err, reversal) {
               if(err) {
                 done(err, false);
               }
