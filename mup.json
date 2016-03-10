@@ -2,7 +2,7 @@
   // Server authentication info
   "servers": [
     {
-     "host": "v1-5-5.partiodemo.com",
+     "host": "v-1-5-5.partiodemo.com",
      "username": "root",
      //"password": "password",
      // or pem file (ssh based authentication)
@@ -29,13 +29,13 @@
   // Configure environment
   // ROOT_URL must be set to your correct domain (https or http)
   "env": {
-    "ROOT_URL": "https://v1-5-5.partiodemo.com", 
+    "ROOT_URL": "https://v-1-5-5.partiodemo.com", 
     "MONGO_URL": "mongodb://partio:zpartio2016#@45.55.195.172:27017/partioapp"
   },
 
   "ssl": {
-    "certificate": "./ssl/1_v1-5-5.partiodemo.com_bundle.crt", // this is a bundle of certificates
-    "key": "./ssl/v1-5-5_partiodemo_com.key", // this is the private key of the certificate
+    "certificate": "./ssl/v-1-5-5.partiodemo.com/1_v-1-5-5.partiodemo.com_bundle.crt", // this is a bundle of certificates
+    "key": "./ssl/v-1-5-5.partiodemo.com/v-1-5-5.partiodemo.com.key", // this is the private key of the certificate
     "port": 443 // 443 is the default value and it's the standard HTTPS port
   },
 
