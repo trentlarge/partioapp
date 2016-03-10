@@ -294,7 +294,7 @@ ConnectRentController = RouteController.extend({
                 if(this.connectData && this.connectData.report && Session.get('timeNow')) {
                     var report = this.connectData.report,
                         timeleft = Math.floor(86400000 - ((Session.get('timeNow') - report.timestamp))),
-//                        timeleft = Math.floor(10000 - ((Session.get('timeNow') - selfCheck.timestamp))),
+//                        timeleft = Math.floor(10000 - ((Session.get('timeNow') - report.timestamp))),
                         hours =  Math.floor(timeleft/3600000),
                         minutes = Math.floor((timeleft/60000) - (60*hours)),
                         seconds = Math.floor((timeleft/1000) - (3600*hours) - (60*minutes));

@@ -87,6 +87,7 @@ Meteor.methods({
         
         if(connect.report && connect.report.status) {
             Meteor.call('confirmItemReported', connect._id);
+            Meteor.call('refundCharge', connect._id);
         }
         
 		sendPush(connect.requestor, message);
@@ -264,7 +265,8 @@ Meteor.methods({
             report = connect.report;
         
         report.status = false;
-            
+        report.ignored = true;
+        
         Connections.update({
             _id: connectionId
         }, {
