@@ -85,6 +85,10 @@ Meteor.methods({
         
         Products.update({_id: productId}, {$set: {"borrow": false}});
         
+        if(connect.report && connect.report.status) {
+            Meteor.call('confirmItemReported', connect._id);
+        }
+        
 		sendPush(connect.requestor, message);
 		sendNotification(connect.requestor, connect.productData.ownerId, message, "info", connectionId);
 	},
@@ -253,12 +257,50 @@ Meteor.methods({
         
     },
     
+    
+    'ignoreReport': function(connectionId) {
+      
+        var connect = Connections.findOne({ _id: connectionId, finished: { $ne: true }}),
+            report = connect.report;
+        
+        report.status = false;
+            
+        Connections.update({
+            _id: connectionId
+        }, {
+            $set: {
+                report: report
+            }
+        });
+        
+    },
+    
     'returnItemReported': function(connectionId) {
       
         var connect = Connections.findOne({ _id: connectionId, finished: { $ne: true }}),
             report = connect.report;
         
         report.returned = {
+            status: true,
+            timestamp: Date.now()
+        }
+            
+        Connections.update({
+            _id: connectionId
+        }, {
+            $set: {
+                report: report
+            }
+        });
+        
+    },
+    
+    'confirmItemReported': function(connectionId) {
+      
+        var connect = Connections.findOne({ _id: connectionId, finished: { $ne: true }}),
+            report = connect.report;
+        
+        report.confirmed = {
             status: true,
             timestamp: Date.now()
         }
@@ -296,7 +338,7 @@ Meteor.methods({
         });
         
 		sendPush(connect.requestor, message);
-		sendNotification(connect.productData.ownerId, connect.requestor, message, "declined", connectionId);
+		sendNotification(connect.productData.ownerId, connect.requestor, message, "reported", connectionId);
         
     },
     

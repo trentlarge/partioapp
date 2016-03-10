@@ -19,13 +19,21 @@ ConnectRentController = RouteController.extend({
 		var connection = Connections.findOne({ _id: this.params._id, finished: { $ne: true } });
         
         if(connection && connection.selfCheck) {
-            if(connection.selfCheck.status && Math.floor((Date.now() - connection.selfCheck.timestamp)/60000) <= 120) {
+            if(connection.selfCheck.status) {
                 setInterval(function() {
                     Session.set('timeNow', Date.now()); 
                 }, 1000);
             }
             
             Session.set('connectionId', connection._id);
+        }
+         
+        if(connection && connection.report) {
+            if(connection.report.status) {
+                setInterval(function() {
+                    Session.set('timeNow', Date.now()); 
+                }, 1000);
+            }
         }
         
         return connection;
@@ -240,9 +248,12 @@ ConnectRentController = RouteController.extend({
                 if(this.connectData && this.connectData.selfCheck) {
                     var selfCheck = this.connectData.selfCheck;
 
-                    if(selfCheck.status && Math.floor((Date.now() - selfCheck.timestamp)/60000) < 120) {
-                        return true;
-                    } 
+                    //if not promotion
+                    if(this.connectData.transfer.source_transaction) {
+                        if(selfCheck.status && Math.floor((Date.now() - selfCheck.timestamp)/60000) < 120) {
+                            return true;
+                        } 
+                    }
                 }
 
                 return false;
@@ -261,6 +272,36 @@ ConnectRentController = RouteController.extend({
                         //time out -> ignore self check
                         $('.ion-ios-close-empty').click();
                         Meteor.call('ignoreSelfCheck', this.connectData._id);
+                        return '(time out)'
+                    }
+                    
+                    if(hours < 10) { hours = '0' + hours; }
+                    if(minutes < 10) { minutes = '0' + minutes; }
+                    if(seconds < 10) { seconds = '0' + seconds; }
+                    
+                    return '(' + hours + ':' + minutes + ':' + seconds + ' left)';
+
+                }
+            },
+            
+            itemReported: function() {
+                if(this.connectData && this.connectData.report) {
+                    return (this.connectData.report.status);
+                }
+            },
+            
+            getReportTimeLeft: function() {
+                if(this.connectData && this.connectData.report && Session.get('timeNow')) {
+                    var report = this.connectData.report,
+                        timeleft = Math.floor(86400000 - ((Session.get('timeNow') - report.timestamp))),
+//                        timeleft = Math.floor(10000 - ((Session.get('timeNow') - selfCheck.timestamp))),
+                        hours =  Math.floor(timeleft/3600000),
+                        minutes = Math.floor((timeleft/60000) - (60*hours)),
+                        seconds = Math.floor((timeleft/1000) - (3600*hours) - (60*minutes));
+
+                    if(hours < 0) {
+                        //time out -> ignore report
+                        Meteor.call('ignoreReport', this.connectData._id);
                         return '(time out)'
                     }
                     

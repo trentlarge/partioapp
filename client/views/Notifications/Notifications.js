@@ -44,6 +44,9 @@ Template.notifications.events({
             case "request": {
                 redirectAndPassConnectionId("connect", this.connectionId);
             }; break;
+            case "reported": {
+                redirectAndPassConnectionId("connect", this.connectionId);
+            }; break;
             case "approved": {
                 redirectAndPassConnectionId("connectRent", this.connectionId);
             }; break;

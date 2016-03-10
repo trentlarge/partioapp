@@ -16,7 +16,17 @@ ConnectController = RouteController.extend({
 	},
 
 	connection : function(){
-		return Connections.findOne({ _id: this.params._id, finished: { $ne: true } });
+		var connection = Connections.findOne({ _id: this.params._id, finished: { $ne: true } });
+        
+        if(connection && connection.report) {
+            if(connection.report.status) {
+                setInterval(function() {
+                    Session.set('timeNow', Date.now()); 
+                }, 1000);
+            }
+        }
+        
+        return connection;
 	},
 
 	data: function() {
@@ -188,7 +198,37 @@ ConnectController = RouteController.extend({
 					return true;
 				}
 				return false;
-      		}
+      		},
+            
+            itemReported: function() {
+                if(this.connectData && this.connectData.report) {
+                    return  this.connectData.report.status;
+                }
+            },
+            
+            getReportTimeLeft: function() {
+                if(this.connectData && this.connectData.report && Session.get('timeNow')) {
+                    var report = this.connectData.report,
+                        timeleft = Math.floor(86400000 - ((Session.get('timeNow') - report.timestamp))),
+                        hours =  Math.floor(timeleft/3600000),
+                        minutes = Math.floor((timeleft/60000) - (60*hours)),
+                        seconds = Math.floor((timeleft/1000) - (3600*hours) - (60*minutes));
+
+                    if(hours < 0) {
+                        //time out -> ignore report
+                        Meteor.call('ignoreReport', this.connectData._id);
+                        return '(time out)'
+                    }
+                    
+                    if(hours < 10) { hours = '0' + hours; }
+                    if(minutes < 10) { minutes = '0' + minutes; }
+                    if(seconds < 10) { seconds = '0' + seconds; }
+                    
+                    return '(' + hours + ':' + minutes + ':' + seconds + ' left)';
+
+                }
+            },
+            
 		}
 	},
 

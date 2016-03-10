@@ -353,6 +353,14 @@
         .time-left {
             font-size: 12px;
             padding-top: 5px;
+            white-space: normal;
+        }
+        
+        .item-reported-message {
+            font-size: 11px;
+            width: 200px;
+            padding-top: 5px;
+            white-space: normal;
         }
     }
 }

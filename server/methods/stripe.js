@@ -542,9 +542,7 @@ Meteor.methods({
       
         function transfer(charge) {
             
-            var transferResponse = Async.runSync(function(done) {
-
-                Stripe.transfers.create({
+            var transferData = {
                     amount: formattedPartioAmount,
                     currency: "usd",
                     destination: owner.secret.stripeManaged,
@@ -558,7 +556,21 @@ Meteor.methods({
                         ownerId: connect.owner,
                         requestorId: connect.requestor
                     }
-                }, Meteor.bindEnvironment(function(err, transfer) {
+                },
+            
+                chargeId = (function() {
+                    return (promotion) ? null : charge.id;    
+                })();
+            
+            if(chargeId) {
+                transferData.source_transaction = chargeId;
+            }
+            
+            console.log('chargeId: ' + chargeId);
+            
+            var transferResponse = Async.runSync(function(done) {
+
+                Stripe.transfers.create(transferData, Meteor.bindEnvironment(function(err, transfer) {
 
                     if(err){
                         //here i think we should try to notify support by email about error (maybe user is trying to use coupon);

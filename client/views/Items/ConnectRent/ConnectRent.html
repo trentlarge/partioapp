@@ -183,6 +183,15 @@
                     </div>
                   {{/if}}
                 {{/if}}
+            
+                {{#if ../itemReported}}
+                    <div class="item self-check-item no-padding-top">
+                        <span class="item-reported">ITEM REPORTED</span>
+                        <span class="item-reported-message center">You have 24h to return the item and receive confirmation from owner</span>
+                        <span class="time-left">{{../getReportTimeLeft}}</span>
+                    </div>           
+                {{/if}}
+            
               {{else}}
                 <div class="item">
                   {{#if ../approvedStatus}}

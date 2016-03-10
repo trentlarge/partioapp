@@ -167,18 +167,32 @@ Template.connectRent.events({
             price = Number(this.connectData.borrowDetails.price.total),
             priceWithFee = ((price + 0.3)/0.971).toFixed(2), 
             partioAmount = 0.00,
-            type = $(e.target).attr('paymentType'); //'RENTING';
+            type = $(e.target).attr('paymentType'), //'RENTING';
+            successMessage = 'A record of this payment is stored under Transactions History.';
         
+        //promotion
         if(Session.get('couponChecked')) {
             amount = Session.get('newPrice');
             amountWithFee = Session.get('newPriceWithFee');
             partioAmount = parseFloat(Number(price) - Number(amount)).toFixed(2);
-            Session.set('couponChecked', null);
         }
-        
+        //normal
         else {
             amountWithFee = priceWithFee;
         }
+        
+        //type renting
+        if(type === 'RENTING') {
+            successMessage += '<span class="popup-sub-message red">Note: You have 2 hours to report the item if you find some problem.</span>';
+        }
+        
+        var askMessage = 'You are about to make a payment of $' + amountWithFee;
+        
+        //promotion
+        if(Session.get('couponChecked')) {
+            askMessage += "<span class=\"popup-sub-message red\">Using the coupon you won't be able of ask refund.</span>";
+        }
+        
         
 //        console.log('amount: ' + amountWithFee);
 //        console.log('partioAmount: ' + partioAmount);
@@ -195,7 +209,8 @@ Template.connectRent.events({
                 PartioLoad.show();
                 Meteor.call('chargeCard', connectionId, type, partioAmount, function(error, result) {
                     PartioLoad.hide();
-
+                    Session.set('couponChecked', null);
+                    
                     if(error) {
                         var errorMessage = error.reason || error.message;
                         if(error.details) {
@@ -207,8 +222,7 @@ Template.connectRent.events({
 
                     IonPopup.show({
                         title: 'Payment Successful!',
-                        template: 'A record of this payment is stored under Transactions History.' + 
-                        '<span class="popup-sub-message red">Note: You have 2 hours to report the item if you find some problem.</span>',
+                        template: successMessage,
                         buttons:
                         [{
                             text: 'OK',
@@ -351,7 +365,8 @@ Template.reportItem.events({
               setTimeout(function(){
                 IonPopup.show({
                   title: 'Item reported',
-                  template: 'Item reported successfully!',
+                  template: 'Item reported successfully!' + 
+                    '<span class="popup-sub-message red">Note: You have 24 hours to return the item and receive confirmation from owner.</span>',
                   buttons: [{
                     text: 'OK',
                     type: 'button-energized',
