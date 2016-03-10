@@ -677,6 +677,50 @@ Meteor.methods({
     
    },    
     
+   'refundCharge': function(connectionId) {
+       
+        if(!connectionId) {
+          throw new Meteor.Error("chargeCard", "missing params");
+        }
+
+        var connection = Connections.findOne({ _id: connectionId, finished: { $ne: true } }),
+            transferId = connection.transfer.id,
+            chargeId = connection.transfer.source_transaction;
+
+        if(!connect) {
+          throw new Meteor.Error("chargeCard", "connect not finished or not found");
+        }
+       
+        var refundsResponse = Async.runSync(function(done) {
+
+                Stripe.refunds.create({
+                    charge: chargeId,
+                    reverse_transfer: true
+                }, function(err, refund) {
+                  // asynchronously called
+                    
+                    if(err) {
+                        console.log(err);
+                    }
+                   
+                    done(false, { refunds: refunds });
+                    
+                });
+            
+            }); // response
+       
+        if(refundsResponse.error) {
+            throw new Meteor.Error("refundCharge", refundsResponse.error);
+            return;
+        } 
+        else {
+            
+            console.log('refund success!');
+            
+        }
+       
+   },
+    
     
 //  'chargeCard': function(connectionId, type) {
 //    console.log('>>>>> [stripe] charging card');
