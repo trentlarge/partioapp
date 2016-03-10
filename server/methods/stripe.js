@@ -612,31 +612,31 @@ Meteor.methods({
 
                     promoAmount = Number(partioAmount).toFixed(2),
 
-                    // requestor spent
-                    requestorSpend = {
-                        date: Date.now(),
-                        productName: connect.productData.title,
-                        paidAmount: Number(requestorAmount),
-                        userId: connect.owner,
-                        connectionId: connect._id
-                    },
+                  // requestor spent
+                  requestorSpend = {
+                    date: Date.now(),
+                    productName: connect.productData.title,
+                    paidAmount: Number(requestorAmount),
+                    userId: connect.owner,
+                    connectionId: connect._id
+                  },
 
-                    // owner earned
-                    ownerEarn = {
-                        date: Date.now(),
-                        productName: connect.productData.title,
-                        receivedAmount: Number(ownerAmount),
-                        userId: connect.requestor,
-                        connectionId: connect._id
-                    };
+                  // owner earned
+                  ownerEarn = {
+                    date: Date.now(),
+                    productName: connect.productData.title,
+                    receivedAmount: Number(ownerAmount),
+                    userId: connect.requestor,
+                    connectionId: connect._id
+                  };
 
 //                console.log('requestorAmount: ', requestorAmount);
 //                console.log('ownerAmount: ', ownerAmount);
 //                console.log('promoAmount: ', promoAmount);
 
                 if(promotion) {
-                    requestorSpend.promoAmount = promoAmount;
-                    ownerEarn.promoAmount = promoAmount;
+                  requestorSpend.promoAmount = promoAmount;
+                  ownerEarn.promoAmount = promoAmount;
                 }
 
                 // update transactions
@@ -654,16 +654,16 @@ Meteor.methods({
 
                 // update connections
                 Connections.update({
-                    _id: connect._id
+                  _id: connect._id
                 }, {
                 $set: { 
-                    state: state, 
-                    charge: charge,
-                    transfer: transferResponse.result.transfer,
-                    selfCheck: {
-                        status: true,
-                        timestamp: Date.now()
-                    }
+                  state: state, 
+                  charge: charge,
+                  transfer: transferResponse.result.transfer,
+                  selfCheck: {
+                      status: true,
+                      timestamp: Date.now()
+                  }
                 }});
 
                 var message = 'You received a payment of $' + amount + ' from ' + requestor.profile.name
@@ -692,31 +692,64 @@ Meteor.methods({
         }
        
         var refundsResponse = Async.runSync(function(done) {
+          Stripe.refunds.create({
+            charge: chargeId,
+            reverse_transfer: true
 
-                Stripe.refunds.create({
-                    charge: chargeId,
-                    reverse_transfer: true
-                }, function(err, refund) {
-                  // asynchronously called
-                    
-                    if(err) {
-                        console.log(err);
-                    }
-                   
-                    done(false, { refunds: refunds });
-                    
-                });
-            
-            }); // response
+          }, Meteor.bindEnvironment(function (err, refund) {
+            // asynchronously called
+            if(err) {
+                done(err, false);
+            }
+           
+            done(false, { refunds: refunds });
+              
+          });
+
+        }); // response
        
         if(refundsResponse.error) {
-            throw new Meteor.Error("refundCharge", refundsResponse.error);
-            return;
-        } 
-        else {
-            
-            console.log('refund success!');
-            
+          throw new Meteor.Error("refundCharge", refundsResponse.error);
+        
+        // refund ok  
+        } else {
+          console.log('refund success!');
+
+          var refundAmount = (refundsResponse.result.refunds.amount/100).toFixed(2),
+
+          requestorEarning = {
+            date: Date.now(),
+            productName: connect.productData.title,
+            paidAmount: refundAmount,
+            userId: connect.owner,
+            connectionId: connect._id
+          },
+          ownerSpending = {
+            date: Date.now(),
+            productName: connect.productData.title,
+            receivedAmount: refundAmount,
+            userId: connect.requestor,
+            connectionId: connect._id
+          };
+          
+          // update transactions
+          Transactions.update({'userId': connect.requestor }, {$push: {earning: requestorEarning}});
+          Transactions.update({'userId': connect.owner }, {$push: {spending: ownerSpending}});
+
+          // update connections
+          Connections.update({
+            _id: connect._id
+          }, {
+          $set: { 
+            refund: refundsResponse.result.refunds
+          }});
+
+          var message = 'You received back the charge of $' + refundAmount + ' from ' + owner.profile.name
+          sendPush(requestor._id, message);
+          sendNotification(requestor._id, owner._id, message, "info");
+
+          return true;
+
         }
        
    },
