@@ -714,20 +714,20 @@ Meteor.methods({
     });
 
     if(refundResponse.error) {
-      throw new Meteor.Error("refundCharge", refundsResponse.error);
+      throw new Meteor.Error("refundCharge", refundResponse.error);
 
     // refund ok  
     } else {
       console.log('refund success!');
 
-      var refundAmount = (refundsResponse.result.charge.amount/100).toFixed(2),
-          reversalAmount = (refundsResponse.result.transfer.amount/100).toFixed(2),
+      var refundAmount = (refundResponse.result.charge.amount/100).toFixed(2),
+          reversalAmount = (refundResponse.result.transfer.amount/100).toFixed(2),
           owner = Meteor.users.findOne(connect.owner),
 
           requestorEarning = {
             date: Date.now(),
             productName: connect.productData.title,
-            paidAmount: refundAmount,
+            receivedAmount: refundAmount,
             userId: connect.owner,
             connectionId: connect._id
           },
@@ -735,7 +735,7 @@ Meteor.methods({
           ownerSpending = {
             date: Date.now(),
             productName: connect.productData.title,
-            receivedAmount: refundAmount,
+            paidAmount: refundAmount,
             userId: connect.requestor,
             connectionId: connect._id
           };
@@ -749,7 +749,7 @@ Meteor.methods({
         _id: connect._id
       }, {
         $set: { 
-          refund: refundsResponse.result
+          refund: refundResponse.result
         }
       });
 
