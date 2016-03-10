@@ -90,12 +90,12 @@ Router.onBeforeAction(function(pause){
 				} else {
 
 					//FACEBOOK comes with area -1
-					if(_user.profile.area == -1 && Tracker.currentComputation.firstRun) {
+					if(_user.profile.area == '-1' && Tracker.currentComputation.firstRun) {
 
 						//define which area user is with GPS coords, if return nothing, his area is 'Others'
 						areaFinder(function(area){
 							if(!area) {
-								area = 0;
+								area = '0';
 							}
 
 							Meteor.call('userAreaUpdate', area);

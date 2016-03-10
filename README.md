@@ -1,53 +1,34 @@
-Branch Archive Location: https://drive.google.com/file/d/0ByiMOaGVDKkUVGFuUUEtWURhRUE/view?usp=sharing
 
-KNOWN ISSUES:
-- Facebook de-link account since there's no password concept
-- Facebook wait until service configuration loaded
-- Facebook login needs additional fields for complete user registration -> location, college, phone number (DONE)
-- Over a period of time, an Amazon call is not always necessary. What if the book is already there in Partio databsae? Why waste a call to Amazon?
-- Both 10 and 13 need to be added in Search Collection for users searching for either of them (DONE)
-- ProductUniqueId in Search is referencing the first item in Products.findOne. Possible Error when products in database increase
-- Need to remove Search collection - doesn't make sense for products of ANY kind (not just books)
-
+FOR LOCALHOST TESTING
+- meteor run --settings settings-dev.json
 
 Sample Debit Card:
-5200 8282 8282 8210  MasterCard (debit)
+5200 8282 8282 8210
 
-Sample Books ISBN
-0470614811 Dynamics
-1118131991 Thermo
+Sample Credit Card:
+4242 4242 4242 4242 
 
+BUILD
+- meteor build [dir] --server https://[version].partiodemo.com --mobile-settings settings.json
 
-{
-  "apn": {
-    "passphrase": "xxxxxxxxx",  
-    "key": "apnProdKey.pem",
-    "cert": "apnProdCert.pem"
-  },
-  "apn-dev": {
-    "passphrase": "xxxxxxxxx",
-    "key": "apnDevKey.pem",
-    "cert": "apnDevCert.pem"
-  },  
-  "gcm": {
-    "apiKey": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-    "projectNumber": xxxxxxxxxxxx
-  },
-  "production": true,
-  // "badge": true,
-  // "sound": true,
-  // "alert": true,
-  // "vibrate": true,
-  // "sendInterval": 15000,  Configurable interval between sending notifications
-  // "sendBatchSize": 1  Configurable number of notifications to send per batch
-}
+Build Android
+- cd [dir]
+- jarsigner -digestalg SHA1 release-unsigned.apk partioapp 
+- [android-sdk-dir]/build-tools/[build-tools-vr]/zipalign 4 release-unsigned.apk partioapp-release-signed.apk
 
+DEPLOY SERVER (ssh key must exists on server)
+- mupx deploy
 
-FOR LOCALHOST TESTING ->
-*STRIPE_SECRET=sk_test_z3FwqB2S5uJxnQGRGKBA1Hzh meteor run --settings settings.json*
+Logs
+- mpux logs -f
 
-BUILD TO XCODE -> 
-*meteor run ios-device --mobile-server http://stagingpartio-50559.onmodulus.net --production*
-
-
-
+SSL - how to create and configure new SLL server for a new version - 
+Using how example vr v1-5-5
+- On server, just install the openssl (yum install openssl openssl-devel)
+- On your code, create a new dir v1-5-5.partiodemo.com inside ssl folder, go to folder and run:
+- openssl req -newkey rsa:2048 -nodes -keyout v1-5-5.partiodemo.com.key -out v1-5-5.partiodemo.com.csr
+- Copy the .csr file code and past on startssl.com (certificates wizard)
+- You must validate a domain with same vr: v1-5-5.partiodemo.com
+- After validation, download the certificate (v1-5-5.partiodemo.com.zip) from site and save on ./ssl/v1-5-5.partiodemo.com
+- Open the zip file and the NginxServer.zip inside. Copy 1_v1-5-5.partiodemo.com_bundle.crt to ./ssl/v1-5-5...
+- Edit the mup.json file, updating the informations on SSL node.
