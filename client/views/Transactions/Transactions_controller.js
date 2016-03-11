@@ -29,8 +29,16 @@ TransactionsController = RouteController.extend({
 				if(!this.transaction) {
 					return 0;
 				}
+                
+                var earning = this.transaction.earning;
 
-				return this.transaction.earning;
+                if(earning.length > 1) {
+                    if(earning[0].date > earning[1].date) {
+                        earning = earning.reverse();
+                    }
+                }
+
+				return earning.reverse();
 			},
 
 			totalEarning: function() {
@@ -57,7 +65,15 @@ TransactionsController = RouteController.extend({
 					return 0;
 				}
 
-				return this.transaction.spending;
+                var spending = this.transaction.spending;
+                
+                if(spending.length > 1) {
+                    if(spending[0].date > spending[1].date) {
+                        spending = spending.reverse();
+                    }
+                }
+                
+				return spending.reverse();
 			},
 
 			totalSpending: function() {
