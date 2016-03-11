@@ -8,8 +8,7 @@ Template.myItems.rendered = function() {
         Session.set('tabRequests', false);
         Session.set('isConnections', false);
     }
-    
-    $('.items-list').fadeIn('fast');
+
 }
 
 Template.myItems.helpers({
@@ -47,10 +46,9 @@ Template.myItems.events({
             Session.set('isConnections', false);
            
             $('.loadbox').fadeIn('fast', function () {
-                
-                setTimeout(function(){
-                    $('.items-list').fadeIn('fast');
-                }, 500);
+//                setTimeout(function(){
+//                    $('.items-list').fadeIn('fast');
+//                }, 500);
             });
         });
 		
@@ -67,9 +65,9 @@ Template.myItems.events({
             Session.set('isConnections', true);
             
             $('.loadbox').fadeIn('fast', function () {    
-                setTimeout(function(){
-                    $('.items-list').fadeIn('fast');
-                }, 500);
+//                setTimeout(function(){
+//                    $('.items-list').fadeIn('fast');
+//                }, 500);
             });
         });
 	},    
@@ -86,9 +84,9 @@ Template.myItems.events({
             Session.set('isConnections', false);
             
             $('.loadbox').fadeIn('fast', function () {
-                setTimeout(function(){
-                    $('.items-list').fadeIn('fast');
-                }, 500);
+//                setTimeout(function(){
+//                    $('.items-list').fadeIn('fast');
+//                }, 500);
             });
         });
     },
@@ -104,9 +102,9 @@ Template.myItems.events({
             Session.set('isConnections', true);
             
             $('.loadbox').fadeIn('fast', function () {
-                setTimeout(function(){
-                    $('.items-list').fadeIn('fast');
-                }, 500);
+//                setTimeout(function(){
+//                    $('.items-list').fadeIn('fast');
+//                }, 500);
             });
         });
     }

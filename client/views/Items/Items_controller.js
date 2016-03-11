@@ -20,7 +20,9 @@ MyItemsController = RouteController.extend({
         if(!Session.get('tabBorrowed') && !Session.get('tabRequests')) {
             Meteor.subscribe("myProducts", function() {
                 setTimeout(function(){
-                    $('.loadbox').fadeOut();
+                    $('.loadbox').fadeOut(function(){
+                        $('.items-list').fadeIn('fast');
+                    });
                 }, 100);
             });
             return Products.find({ownerId: Meteor.userId(), sold: { $ne: true }}).fetch();
@@ -32,17 +34,21 @@ MyItemsController = RouteController.extend({
         if(Session.get('tabBorrowed')) {
             connections = Connections.find({"requestor": Meteor.userId(), finished: { $ne: true }}).fetch();
             setTimeout(function(){
-                $('.loadbox').fadeOut();
+                $('.loadbox').fadeOut(function(){
+                    $('.items-list').fadeIn('fast');
+                });
             }, 100);
-            return connections;
         }
         else if(Session.get('tabRequests')){
             connections = Connections.find({"productData.ownerId": Meteor.userId(), finished: { $ne: true } }).fetch();
             setTimeout(function(){
-                $('.loadbox').fadeOut();
+                $('.loadbox').fadeOut(function(){
+                    $('.items-list').fadeIn('fast');
+                });
             }, 100);
-            return connections
         }
+        
+        return connections;
     },
     
 	data: function() {
