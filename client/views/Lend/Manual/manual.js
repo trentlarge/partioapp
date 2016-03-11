@@ -1,4 +1,7 @@
 Template.manual.rendered = function() {
+    
+  IonSideMenu.snapper.settings({touchToDrag: false});
+    
   var itemNotFound = Session.get('itemNotFound');
 
   if(itemNotFound) {
@@ -57,13 +60,15 @@ Template.manual.rendered = function() {
 }
 
 Template.manual.destroyed = function() {
+    
+  IonSideMenu.snapper.settings({touchToDrag: true});
+    
   Session.set('itemNotFound', null);
   Session.set('photoTaken', null);
   Session.set('slideElements', null);  
   Session.set('camfindImage', null);
   Session.set('selectedCategory', null);
-  Session.set('selectedCondition', null);
-    
+  Session.set('selectedCondition', null);  
 }
 
 Template.manual.helpers({

@@ -28,7 +28,7 @@ Template.barcode.events({
             $('.search-share-header-input').trigger({type: 'keypress', charCode: 13});
         },
         function(error) {
-          alert("Scanning failed: " + error);
+          //console.log("Scanning failed: " + error);
         });
     // not cordova
     } else {
