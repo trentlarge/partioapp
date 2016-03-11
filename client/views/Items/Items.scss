@@ -2,6 +2,10 @@
 
 .my-items {
     
+    .items-list {
+        display: none;
+    }
+    
     .content {
         height: calc(100% - 95px);
     }

@@ -8,6 +8,8 @@ Template.myItems.rendered = function() {
         Session.set('tabRequests', false);
         Session.set('isConnections', false);
     }
+    
+    $('.items-list').fadeIn('fast');
 }
 
 Template.myItems.helpers({
@@ -20,6 +22,14 @@ Template.myItems.helpers({
     },
     isConnections: function() {
         return Session.get('isConnections');
+    },
+    'iconRandom': function() {
+        return Random.choice(['ion-ios-book',
+                              'ion-ios-game-controller-b',
+                              'ion-headphone',
+                              'ion-android-restaurant',
+                              'ion-ios-americanfootball',
+                              'ion-cube']);
     }
     
 });
@@ -27,24 +37,78 @@ Template.myItems.helpers({
 Template.myItems.events({
     
     'click #tabInventory': function(e) {
-		Session.set('tabRequests', false);
-        Session.set('isConnections', false);
+        
+        if(!Session.get('tabRequests') && !Session.get('isConnections')) {
+            return;
+        }
+        
+        $('.items-list').fadeOut(function() {
+            Session.set('tabRequests', false);
+            Session.set('isConnections', false);
+           
+            $('.loadbox').fadeIn('fast', function () {
+                
+                setTimeout(function(){
+                    $('.items-list').fadeIn('fast');
+                }, 500);
+            });
+        });
+		
 	},
     
 	'click #tabRequests': function() {
-        Session.set('tabRequests', true);
-        Session.set('isConnections', true);
+        
+        if(Session.get('tabRequests') && Session.get('isConnections')) {
+            return;
+        }
+        
+        $('.items-list').fadeOut(function() {
+            Session.set('tabRequests', true);
+            Session.set('isConnections', true);
+            
+            $('.loadbox').fadeIn('fast', function () {    
+                setTimeout(function(){
+                    $('.items-list').fadeIn('fast');
+                }, 500);
+            });
+        });
 	},    
     
     'click #tabShared': function(e, template) {
-        Session.set('tabBorrowed', false);
-        Session.set('tabRequests', false);
-        Session.set('isConnections', false);
+        
+        if(!Session.get('tabRequests') && !Session.get('isConnections') && !Session.get('tabBorrowed')) {
+            return;
+        }
+        
+        $('.items-list').fadeOut(function() {
+            Session.set('tabBorrowed', false);
+            Session.set('tabRequests', false);
+            Session.set('isConnections', false);
+            
+            $('.loadbox').fadeIn('fast', function () {
+                setTimeout(function(){
+                    $('.items-list').fadeIn('fast');
+                }, 500);
+            });
+        });
     },
     
     'click #tabBorrowed': function(e, template) {
-        Session.set('tabBorrowed', true);
-        Session.set('isConnections', true);
+        
+        if(Session.get('isConnections') && Session.get('tabBorrowed')) {
+            return;
+        }
+        
+        $('.items-list').fadeOut(function() {
+            Session.set('tabBorrowed', true);
+            Session.set('isConnections', true);
+            
+            $('.loadbox').fadeIn('fast', function () {
+                setTimeout(function(){
+                    $('.items-list').fadeIn('fast');
+                }, 500);
+            });
+        });
     }
     
 })

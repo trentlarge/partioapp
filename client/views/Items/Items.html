@@ -31,12 +31,15 @@
                 </div>
             {{/unless}}
     
+            <div class="loadbox" style="{{#unless tabBorrowed}} margin-top:50px {{/unless}}">
+                {{>loader}}
+            </div>
     
-            <div class="list" style="{{#unless tabBorrowed}} margin-top:50px {{/unless}}">
-            
+            <div class="list items-list" style="{{#unless tabBorrowed}} margin-top:50px {{/unless}}">
+                
                 {{#if isConnections}}
                 
-                    {{#each ../getConnections}}
+                    {{#each connections}}
                 
                         <div class="list card">
                             <a class="item item-avatar" href="{{#if tabBorrowed}} /items/connect-rent/{{_id}} {{else}} /items/connect/{{_id}} {{/if}}">
@@ -81,6 +84,25 @@
                 
                     {{/each}}
                 
+                    {{#if ../hasNoConnections}}
+                        {{#if tabBorrowed}}
+                            <div class="card center padding not-yet">
+                                <div style="width:100%">
+                                  <i class="{{iconRandom}}" style="font-size: 210px;"></i>
+                                  <a href="/listing" class="button button-block button-energized">START BORROWING!</a>
+                                  <p class="dark">Browse listings on partiO and start borrow!</p>
+                                </div>
+                            </div>
+                        {{else}}
+                            <div class="card list padding">
+                                <div class="item item-icon-left alerts">
+                                  <i class="icon energized ion-alert-circled"></i>
+                                  <p class="energized">You have no requests.</p>
+                                </div>
+                            </div>
+                        {{/if}}
+                    {{/if}}
+                
                 {{else}}
                 
                     {{#each myProducts}}
@@ -113,6 +135,16 @@
                         </div>
 
                     {{/each}}
+                
+                    {{#if ../hasNoProducts}}
+                        <div class="card center padding not-yet">
+                            <div style="width:100%">
+                              <i class="{{iconRandom}}" style="font-size: 210px;"></i>
+                              <a href="/lend" class="button button-block button-energized">START SHARING!</a>
+                              <p class="dark">Start sharing your items on partiO!</p>
+                            </div>
+                        </div>
+                    {{/if}}
                 
                 {{/if}}
                 

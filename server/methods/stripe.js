@@ -729,7 +729,7 @@ Meteor.methods({
           requestorEarning = {
             date: Date.now(),
             productName: connect.productData.title,
-            receivedAmount: refundAmount,
+            receivedAmount: Number(refundAmount),
             userId: connect.owner,
             connectionId: connect._id
           },
@@ -737,7 +737,7 @@ Meteor.methods({
           ownerSpending = {
             date: Date.now(),
             productName: connect.productData.title,
-            paidAmount: reversalAmount,
+            paidAmount: Number(reversalAmount),
             userId: connect.requestor,
             connectionId: connect._id
           };

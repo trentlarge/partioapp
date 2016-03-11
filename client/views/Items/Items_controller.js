@@ -18,17 +18,30 @@ MyItemsController = RouteController.extend({
     
     myProducts: function() {
         if(!Session.get('tabBorrowed') && !Session.get('tabRequests')) {
-            Meteor.subscribe("myProducts", function() {});
+            Meteor.subscribe("myProducts", function() {
+                setTimeout(function(){
+                    $('.loadbox').fadeOut();
+                }, 100);
+            });
             return Products.find({ownerId: Meteor.userId(), sold: { $ne: true }}).fetch();
         }
     },
     
     connections: function() {
+        var connections;
         if(Session.get('tabBorrowed')) {
-            return Connections.find({"requestor": Meteor.userId(), finished: { $ne: true }}).fetch();
+            connections = Connections.find({"requestor": Meteor.userId(), finished: { $ne: true }}).fetch();
+            setTimeout(function(){
+                $('.loadbox').fadeOut();
+            }, 100);
+            return connections;
         }
         else if(Session.get('tabRequests')){
-            return Connections.find({"productData.ownerId": Meteor.userId(), finished: { $ne: true } }).fetch();
+            connections = Connections.find({"productData.ownerId": Meteor.userId(), finished: { $ne: true } }).fetch();
+            setTimeout(function(){
+                $('.loadbox').fadeOut();
+            }, 100);
+            return connections
         }
     },
     
@@ -37,8 +50,16 @@ MyItemsController = RouteController.extend({
 			myProducts: this.myProducts(),
             connections: this.connections(),
             
-            getConnections: function() {
-                return this.connections;  
+            hasNoConnections: function() {
+                if(this.connections) {
+                    return (this.connections.length === 0) ? true : false;
+                }
+            },
+            
+            hasNoProducts: function() {
+                if(this.myProducts) {
+                    return (this.myProducts.length === 0) ? true : false;
+                }
             },
             
 			labelState: function(state) {

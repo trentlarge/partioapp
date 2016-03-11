@@ -100,7 +100,7 @@ Template.shoutout.events({
         tabMyShouts.removeClass('active');
         tabShoutOut.addClass('active');
         
-        $('.list').fadeOut('fast', function() {
+        $('.list').fadeOut(function() {
            
             $('.loadbox').fadeIn('fast', function () {
                 Session.set('tabMyShouts', false);
@@ -108,7 +108,7 @@ Template.shoutout.events({
                 Session.set('shoutsPageSize', 15);
                 
                 setTimeout(function(){
-                    $('.list').fadeIn();
+                    $('.list').fadeIn('fast');
                 }, 500);
             });
         });
@@ -126,13 +126,13 @@ Template.shoutout.events({
         
         $('.list').fadeOut(function() {
         
-            $('.loadbox').fadeIn(function () {
+            $('.loadbox').fadeIn('fast', function () {
                 Session.set('tabMyShouts', true);
                 Session.set('shoutsPageNumber', 1);
                 Session.set('shoutsPageSize', 15);
                 
                 setTimeout(function(){
-                    $('.list').fadeIn();
+                    $('.list').fadeIn('fast');
                 }, 500);
             }); 
         });
