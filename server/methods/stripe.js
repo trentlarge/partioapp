@@ -607,16 +607,14 @@ Meteor.methods({
             } 
             else {
 
-                var requestorAmount = Number(userAmount).toFixed(2),
-                    ownerAmount = (Number(amount) - Number(partioFee)).toFixed(2),
-
+                var ownerAmount = (Number(amount) - Number(partioFee)).toFixed(2),
                     promoAmount = Number(partioAmount).toFixed(2),
 
                   // requestor spent
                   requestorSpend = {
                     date: Date.now(),
                     productName: connect.productData.title,
-                    paidAmount: Number(requestorAmount),
+                    paidAmount: Number(formattedUserAmount/100).toFixed(2),
                     userId: connect.owner,
                     connectionId: connect._id
                   },
