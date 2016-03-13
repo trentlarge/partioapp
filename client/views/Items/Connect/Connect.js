@@ -36,7 +36,9 @@ Template.connect.events({
 
 			},
 			onOk: function() {
+                PartioLoad.show();
 				Meteor.call('confirmReturn', connection._id, productId, function(err, res) {
+                    PartioLoad.hide();
 					IonPopup.close();
 					if(err) {
 						var errorMessage = err.reason || err.message;

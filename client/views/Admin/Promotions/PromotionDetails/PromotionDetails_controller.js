@@ -150,10 +150,10 @@ AdminPromotionsDetailsController = RouteController.extend({
 						earningArray.forEach(function(item) {
 							total += (item.receivedAmount || 0);
 						});
-						return Number(total);
+						return Number(total).toFixed(2);
 					}
 					
-					return Number(0);				
+					return Number(0).toFixed(2);				
 				}
 			},
 
@@ -168,12 +168,12 @@ AdminPromotionsDetailsController = RouteController.extend({
 						spendingArray.forEach(function(item) {
 							total += (item.paidAmount || 0);
 						});
-						return Number(total);
+						return Number(total).toFixed(2);
 						//return Number(total).toFixed(2);
 					}
 					
 					//return Number(0).toFixed(2);				
-					return Number(0);				
+					return Number(0).toFixed(2);				
 				}
 			},
 

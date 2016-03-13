@@ -315,6 +315,18 @@ Meteor.methods({
             }
         });
         
+        // add earning refund if promotion exist
+        if(connect.promotion && connect.promotion.status) {
+            
+            var earning = {
+                userId: connect.requestor,
+                value: connect.promotion.value,
+                from: 'refund',
+            }
+            
+            Meteor.call('addEarningPromotionValue', connect.requestor, earning);
+        }
+        
     },
     
     'reportItem': function(connectionId, problems) {
