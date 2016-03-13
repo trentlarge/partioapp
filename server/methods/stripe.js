@@ -683,36 +683,69 @@ Meteor.methods({
     }
 
     var connect = Connections.findOne({ _id: connectionId, finished: { $ne: true } }),
-        chargeId = connect.charge.id,
-        transferId = connect.transfer.id;
+        transferId = connect.transfer.id,
+        chargeId = (function() {
+                      return (connect.charge) ? false : connect.charge.id;    
+                    })();
 
     if(!connect) {
       throw new Meteor.Error("refundCharge", "connect not finished or not found");
     }
 
     var refundResponse = Async.runSync(function(done) {
-      Stripe.refunds.create({
-        charge: chargeId,
-        //reverse_transfer: true
 
-        }, Meteor.bindEnvironment(function (err, refund) {
+      //returning transfer
+      Stripe.transfers.createReversal(transferId, {
+        refund_application_fee: true,
+      },
+        Meteor.bindEnvironment(function (err, reversal) {
           if(err) {
-              done(err, false);
+            done(err, false);
           }
 
-          Stripe.transfers.createReversal(transferId, {
-            refund_application_fee: true,
-          },
-            Meteor.bindEnvironment(function (err, reversal) {
-              if(err) {
-                done(err, false);
-              }
+          // if had charge
+          if(chargeId) {
+            Stripe.refunds.create({
+              charge: chargeId,
+              //reverse_transfer: true
 
-              done(false, { charge: refund, transfer: reversal });
-            })
-          );
+              }, 
+                Meteor.bindEnvironment(function (err, refund) {
+                  if(err) {
+                      done(err, false);
+                  }
+
+                  done(false, { charge: refund, transfer: reversal });
+                })
+            );
+          } else {
+            done(false, { charge: false, transfer: reversal });
+          }          
         })
       );
+
+      // Stripe.refunds.create({
+      //   charge: chargeId,
+      //   //reverse_transfer: true
+
+      //   }, Meteor.bindEnvironment(function (err, refund) {
+      //     if(err) {
+      //         done(err, false);
+      //     }
+
+      //     Stripe.transfers.createReversal(transferId, {
+      //       refund_application_fee: true,
+      //     },
+      //       Meteor.bindEnvironment(function (err, reversal) {
+      //         if(err) {
+      //           done(err, false);
+      //         }
+
+      //         done(false, { charge: refund, transfer: reversal });
+      //       })
+      //     );
+      //   })
+      // );
     });
 
     if(refundResponse.error) {
@@ -722,7 +755,9 @@ Meteor.methods({
     } else {
       console.log('refund success!');
 
-      var refundAmount = (refundResponse.result.charge.amount/100).toFixed(2),
+      var refundAmount = (function() {
+                          return (connect.charge) ? (0).toFixed(2) : (refundResponse.result.charge.amount/100).toFixed(2);
+                        })(),
           reversalAmount = refundResponse.result.transfer.amount/100,
           reversalAmountWithFree = (reversalAmount-(reversalAmount*0.1)).toFixed(2),
 
