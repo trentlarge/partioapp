@@ -723,12 +723,14 @@ Meteor.methods({
       console.log('refund success!');
 
       var refundAmount = (refundResponse.result.charge.amount/100).toFixed(2),
-          reversalAmount = (refundResponse.result.transfer.amount/100).toFixed(2),
+          reversalAmount = refundResponse.result.transfer.amount/100,
+          reversalAmountWithFree = (reversalAmount-(reversalAmount*0.1)).toFixed(2),
+
           owner = Meteor.users.findOne(connect.owner),
 
           requestorEarning = {
             date: Date.now(),
-            productName: connect.productData.title,
+            productName: 'Refund: '+connect.productData.title,
             receivedAmount: Number(refundAmount),
             userId: connect.owner,
             connectionId: connect._id
@@ -736,8 +738,8 @@ Meteor.methods({
 
           ownerSpending = {
             date: Date.now(),
-            productName: connect.productData.title,
-            paidAmount: Number(reversalAmount),
+            productName: 'Refund: '+connect.productData.title,
+            paidAmount: Number(reversalAmountWithFree),
             userId: connect.requestor,
             connectionId: connect._id
           };
