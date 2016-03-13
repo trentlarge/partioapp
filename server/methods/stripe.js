@@ -482,7 +482,6 @@ Meteor.methods({
 //        console.log('formattedPartioFee: ', formattedPartioFee);
 
         //return false;
-
         if(partial) {
 
             var chargeResponse = Async.runSync(function(done) {
@@ -536,8 +535,9 @@ Meteor.methods({
 
         } // partial
         else {
-            // transfer
-            transfer();
+
+          // transfer
+          transfer();
         }
       
         function transfer(charge) {
@@ -563,7 +563,7 @@ Meteor.methods({
                 })();
             
             if(chargeId) {
-                transferData.source_transaction = chargeId;
+              transferData.source_transaction = chargeId;
             }
             
             console.log('chargeId: ' + chargeId);
@@ -608,13 +608,15 @@ Meteor.methods({
             else {
 
                 var ownerAmount = (Number(amount) - Number(partioFee)).toFixed(2),
+                    requestorAmount = Number(formattedUserAmount/100).toFixed(2),
                     promoAmount = Number(partioAmount).toFixed(2),
+
 
                   // requestor spent
                   requestorSpend = {
                     date: Date.now(),
                     productName: connect.productData.title,
-                    paidAmount: Number(formattedUserAmount/100).toFixed(2),
+                    paidAmount: Number(requestorAmount),
                     userId: connect.owner,
                     connectionId: connect._id
                   },
@@ -664,7 +666,7 @@ Meteor.methods({
                   }
                 }});
 
-                var message = 'You received a payment of $' + amount + ' from ' + requestor.profile.name
+                var message = 'You received a payment of $' + ownerAmount + ' from ' + requestor.profile.name
                 sendPush(owner._id, message);
                 sendNotification(owner._id, requestor._id, message, "info");
 
