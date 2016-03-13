@@ -249,11 +249,11 @@ ConnectRentController = RouteController.extend({
                     var selfCheck = this.connectData.selfCheck;
 
                     //if not promotion
-                    if(this.connectData.transfer.source_transaction) {
+                    //if(this.connectData.transfer.source_transaction) {
                         if(selfCheck.status && Math.floor((Date.now() - selfCheck.timestamp)/60000) < 120) {
                             return true;
                         } 
-                    }
+                    //}
                 }
 
                 return false;

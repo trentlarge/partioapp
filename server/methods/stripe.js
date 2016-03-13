@@ -685,7 +685,7 @@ Meteor.methods({
     var connect = Connections.findOne({ _id: connectionId, finished: { $ne: true } }),
         transferId = connect.transfer.id,
         chargeId = (function() {
-                      return (connect.charge) ? false : connect.charge.id;    
+                      return (connect.charge) ? connect.charge.id : false;    
                     })();
 
     if(!connect) {
@@ -710,13 +710,13 @@ Meteor.methods({
               //reverse_transfer: true
 
               }, 
-                Meteor.bindEnvironment(function (err, refund) {
-                  if(err) {
-                      done(err, false);
-                  }
+              Meteor.bindEnvironment(function (err, refund) {
+                if(err) {
+                  done(err, false);
+                }
 
-                  done(false, { charge: refund, transfer: reversal });
-                })
+                done(false, { charge: refund, transfer: reversal });
+              })
             );
           } else {
             done(false, { charge: false, transfer: reversal });
@@ -756,7 +756,7 @@ Meteor.methods({
       console.log('refund success!');
 
       var refundAmount = (function() {
-                          return (connect.charge) ? (0).toFixed(2) : (refundResponse.result.charge.amount/100).toFixed(2);
+                          return (connect.charge) ? (refundResponse.result.charge.amount/100).toFixed(2) : (0).toFixed(2);
                         })(),
           reversalAmount = refundResponse.result.transfer.amount/100,
           reversalAmountWithFree = (reversalAmount-(reversalAmount*0.1)).toFixed(2),
