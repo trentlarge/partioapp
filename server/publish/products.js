@@ -56,3 +56,28 @@ Meteor.publish("productsData", function(ownerId, ownerArea, pageNumber, text, ca
         limit: pageNumber * pageSize
     });
 });
+
+Meteor.publish("listingProducts", function(data) {
+    
+    var pageNumber = data.pageNumber || 1,
+        pageSize = 15,
+        filter = {
+            ownerId: { $ne: data.ownerId },
+            ownerArea: data.ownerArea.toString(),
+            title: { $regex: ".*" + data.text + ".*", $options: 'i' },
+            category: { $in: data.categories },
+            sold: { $ne: true }
+        }
+
+    if(data.borrow) {
+        filter.borrow = { $ne: true };
+    }
+    
+    if(data.purchasing) {
+        filter.purchasing = { $ne: true };
+    }
+    
+    return Products.find(filter, {
+        limit: pageNumber * pageSize
+    });
+});

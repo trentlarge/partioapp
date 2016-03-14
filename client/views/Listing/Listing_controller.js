@@ -18,63 +18,53 @@ ListingController = RouteController.extend({
   searchProducts: function() {
     var pageNumber = Session.get('pageNumber') || 1,
         text = Session.get('searchText'),
-        categories = Session.get('selectedCategories');
+        categories = Session.get('selectedCategories'),
+        user = Meteor.user();
     
+    if(!user) { return; }
+      
     if(!categories) {
       categories = Categories.getAllCategoriesText();
     }
 
-    var _user = Meteor.user();
-    
-    if(!_user) {
-      return;
+    var data = {
+        ownerId: user._id,
+        ownerArea: user.profile.area,
+        pageNumber: pageNumber,
+        text: text,
+        categories: categories
+    }
+      
+    if(!Session.get("borrowFilter")) {
+        data.borrow = true;
+    }
+      
+    if(!Session.get("purchasingFilter")) {
+        data.purchasing = true;
     }
 
-    var _userArea = _user.profile.area;
-
-    Meteor.subscribe("productsData", Meteor.userId(), _userArea, pageNumber, text, categories, function() {
+    Meteor.subscribe("listingProducts", data, function() {
         setTimeout(function(){
-            $('.loadbox').fadeOut();
+            $('.loadbox').fadeOut('fast', function() {
+                 if(!$('.list-products').is(':visible')) {
+                    $('.list-products').fadeIn();    
+                 }
+            });
         }, 100);
-
-        if(products.count() > 0) {
-          $('.no-items').hide();
-        } else {
-          $('.no-items').fadeIn();
-        }
-
     });
       
-     var filter = {
-        ownerId: { $ne: Meteor.userId() },
-        ownerArea: _userArea,
-        title: { $regex: ".*"+text+".*", $options: 'i' },
-        category: { $in: categories },
-        sold: { $ne: true },
-        borrow: { $ne: true },
-        purchasing: { $ne: true },
-    }
-    
-    if(Session.get("borrowFilter")) {
-        delete filter.borrow;
-    }
+    var products = Products.find({});
       
-    if(Session.get("purchasingFilter")) {
-        delete filter.purchasing;
-    }
-      
-    var products = Products.find(filter, {
-      limit: pageNumber * pageSize
-    });
-
     Session.set("pageNumberLoaded", Math.ceil(products.count() / pageSize));
 
     return products;
   },
 
-	data: function() {
+  data: function() {
+    
     var prod = this.searchProducts();
-		return {
+      
+    return {
           searchProducts: prod,
 
           hasProducts: prod ? !!prod.count() : false,
@@ -86,10 +76,10 @@ ListingController = RouteController.extend({
           testIsReady: function() {
               return false;
           }
-		};
-	},
+    };
+  },
 
-	onAfterAction: function() {
+  onAfterAction: function() {
 
-	}
+  }
 });

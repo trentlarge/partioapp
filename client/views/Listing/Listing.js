@@ -28,41 +28,39 @@ Template.listing.rendered = function() {
     'color': '#272727'
   });
     
-   Meteor.setTimeout(function(){
-    $('.loadbox').fadeOut(function(){
-        $('.loading-wrapper').fadeIn();  
-    });
-   }, 500);
 };
 
 Template.listing.events({
     
   "click .filter-borrow": function(e, t) {
       $(e.target).toggleClass('active');
-      if(Session.get('borrowFilter')) {
-          Session.set('borrowFilter', false);
-      }
-      else {
-          Session.set('borrowFilter', true);
-      }
+      var borrow = true;
       
-      setTimeout(function(){
-        $('.loadbox').fadeOut();
-      }, 500);
+      if(Session.get('borrowFilter')) {
+          borrow = false;
+      }
+
+      $('.list-products').fadeOut(function() {
+          $('.loadbox').fadeIn('fast', function() {
+              Session.set('borrowFilter', borrow);
+          });
+      });
+      
   },
     
   "click .filter-purchasing": function(e, t) {
       $(e.target).toggleClass('active');
+      var purchasing = true;
+      
       if(Session.get('purchasingFilter')) {
-          Session.set('purchasingFilter', false);
-      }
-      else {
-          Session.set('purchasingFilter', true);
+          purchasing = false;
       }
       
-      setTimeout(function(){
-        $('.loadbox').fadeOut();
-      }, 500);
+      $('.list-products').fadeOut(function() {
+          $('.loadbox').fadeIn('fast', function() {
+              Session.set('purchasingFilter', purchasing);
+          });
+      });
   },
     
   "scroll .overflow-scroll": function(e, t) {
@@ -125,19 +123,24 @@ Template.searchBox.events({
         categories = Categories.getCategories(),
         selectedCategories = [];
       
+    $('.loadbox').fadeIn('fast'); 
+      
     categoryFilterBox.toggleClass('active');
 
     if($('.categoryFilter').hasClass('active')) {
+        
       $.each($('.categoryFilter.active'), function(index, categoryFilter) {
         selectedCategories.push($(categoryFilter).find('span').text());
       });
-
+        
       Session.set("selectedCategories", selectedCategories);
       Session.set("pageNumber", 1);
+      
     } else {
-
+        
       Session.set("selectedCategories", null);
       Session.set("pageNumber", 1);
+
     }
   }
 });
