@@ -77,7 +77,8 @@
           <div class="item profile">
             <div class="profile-image-box">
               <a href="/profile/items/{{ connectData.owner }}">
-                <div style="background: url('{{connectData.productData.ownerData.profile.avatar}}') no-repeat; background-size:cover; background-position: 50% 50%;" class="profile-avatar"></div>
+                <div style="background: url('{{connectData.productData.ownerData.profile.avatar}}') no-repeat; 
+                            background-size:cover; background-position: 50% 50%;" class="profile-avatar"></div>
               </a>
               <p class="main-title-text">{{connectData.productData.ownerData.profile.name}}</p>
             </div>
@@ -164,7 +165,7 @@
 
           <div style="padding-bottom:16px;"></div>
 
-         {{#if ../isNotPurchasing}}
+          {{#if ../isNotPurchasing}}
             
               {{#if ../paymentDone}}
                 {{#if ../itemReturnDone}}
@@ -196,17 +197,17 @@
                 <div class="item">
                   {{#if ../approvedStatus}}
                     
-                        {{#if couponChecked}}
-                            <button id="payment" paymentType="RENTING" class="button button-block button-energized">
-                                PAY TOTAL &nbsp; 
-                                ${{newPriceWithFee}}
-                            </button>
-                        {{else}}
-                            <button id="payment" paymentType="RENTING" class="button button-block button-energized">
-                                PAY TOTAL &nbsp; 
-                                ${{../getTotalPrice connectData.borrowDetails.price.total}}
-                            </button>
-                        {{/if}}
+                    {{#if couponChecked}}
+                        <button id="payment" paymentType="RENTING" class="button button-block button-energized">
+                            PAY TOTAL &nbsp; 
+                            ${{newPriceWithFee}}
+                        </button>
+                    {{else}}
+                        <button id="payment" paymentType="RENTING" class="button button-block button-energized">
+                            PAY TOTAL &nbsp; 
+                            ${{../getTotalPrice connectData.borrowDetails.price.total}}
+                        </button>
+                    {{/if}}
                     
                   {{else}}
                         {{#if ../isTimeOver}}
@@ -219,27 +220,32 @@
               {{/if}}
             
           {{else}}
-               {{#if ../paymentDone}}
+              {{#if ../paymentDone}}
                   {{#if ../itemSold}}
                       <div class="item">
                         <button id="confirmReceived" class="button button-block">CONFIRM RECEIVE</button>
                       </div>
+                      {{#if ../selfCheck}}
+                        <div class="item self-check-item no-padding-top">
+                            <a class="self-check" data-ion-modal="reportItem">REPORT ITEM</a>
+                            <span class="time-left">{{../getSelfCheckTimeLeft}}</span>
+                        </div>
+                      {{/if}}
                   {{/if}}
               {{else}}
                 <div class="item">
                   {{#if ../approvedStatus}}
-                        
-                        {{#if couponChecked}}
-                            <button id="payment" paymentType="PURCHASING" class="button button-block button-energized">
-                                PAY TOTAL &nbsp; 
-                                ${{newPriceWithFee}}
-                            </button>
-                        {{else}}
-                            <button id="payment" paymentType="PURCHASING" class="button button-block button-energized">
-                                PAY TOTAL &nbsp; 
-                                ${{../getTotalPrice connectData.borrowDetails.price.total}}
-                            </button>
-                        {{/if}}
+                    {{#if couponChecked}}
+                        <button id="payment" paymentType="PURCHASING" class="button button-block button-energized">
+                          PAY TOTAL &nbsp; 
+                          ${{newPriceWithFee}}
+                        </button>
+                    {{else}}
+                        <button id="payment" paymentType="PURCHASING" class="button button-block button-energized">
+                          PAY TOTAL &nbsp; 
+                          ${{../getTotalPrice connectData.borrowDetails.price.total}}
+                        </button>
+                    {{/if}}
                   {{else}}
                     <button class="button button-block button-energized disabled">AWAITING APPROVAL</button>
                   {{/if}}
