@@ -209,10 +209,8 @@ var currentPosition;
 
 var CheckLocationOn = function(){
 
+//	console.log(Geolocation.currentLocation());
 
-	console.log(Geolocation.currentLocation());
-
-	
 	//navigator.geolocation.getCurrentPosition(onSuccess, onError);
 
 	checkUserLocation(function(result){
