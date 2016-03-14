@@ -131,7 +131,7 @@
 
             <div style="padding-bottom:16px;"></div>
 
-              
+          <!--  RENTING  -->
           {{#if ../isNotPurchasing}}  
             
               {{#if alreadyApproved}}
@@ -171,21 +171,50 @@
                     {{/if}}
               {{/if}}
             
+           <!--  PURCHASING  -->
            {{else}}
                 {{#if alreadyApproved}}
                     {{#if ../confirmSold}}
-                        <div class="item button-divider ">
-                            <button id="giveFeedback" class="button button-block">GIVE THE FEEDBACK</button>
-                        </div>
+                        {{#if ../itemReported}}
+                            <div class="item button-divider ">
+                                <button id="giveFeedback" class="button button-block">CONFIRM RETURN</button>
+                            </div>
+            
+                            <div class="item self-check-item no-padding-top">
+                                <span class="item-reported">ITEM REPORTED</span>
+                                <span class="item-reported-message center">The requestor has 24h to return the item and receive your confirmation</span>
+                                <span class="time-left">{{../getReportTimeLeft}}</span>
+                            </div>      
+            
+                        {{else}}
+                            <div class="item button-divider ">
+                                <button id="giveFeedback" class="button button-block">GIVE THE FEEDBACK</button>
+                            </div>
+                        {{/if}}
+            
                     {{else}}
                         {{#if ../paymentPending}}
                             <div class="item button-divider ">
                                 <button class="button button-block" disabled>WAITING PAYMENT</button>
                             </div>
+            
                         {{else}}
-                            <div class="item button-divider ">
-                                <button class="button button-block" disabled>SOLD - WAITING CONFIRMATION</button>
-                            </div>
+                            {{#if ../itemReported}}
+                                <div class="item button-divider ">
+                                    <button class="button button-block" disabled>WAITING RETURN</button>
+                                </div>
+            
+                                <div class="item self-check-item no-padding-top">
+                                    <span class="item-reported">ITEM REPORTED</span>
+                                    <span class="item-reported-message center">The requestor has 24h to return the item and receive your confirmation</span>
+                                    <span class="time-left">{{../getReportTimeLeft}}</span>
+                                </div>  
+            
+                            {{else}}
+                                <div class="item button-divider ">
+                                    <button class="button button-block" disabled>SOLD - WAITING CONFIRMATION</button>
+                                </div>
+                            {{/if}}
                         {{/if}}
                     {{/if}}
                 {{else}}

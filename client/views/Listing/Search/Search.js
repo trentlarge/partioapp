@@ -134,6 +134,12 @@ Template.search.events({
                         onTap: function() {
                           IonPopup.close();
                           $('.ion-ios-close-empty').click()
+                          
+                          Session.set('isConnectScreen', true);
+                          Session.set('isConnections', true);
+                          Session.set('tabBorrowed', true);
+                          Session.set('tabRequests', false);
+                            
                           Router.go('/items');
                         }
                       }]
