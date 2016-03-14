@@ -22,19 +22,17 @@ Template.shoutout.helpers({
     
     productExist: function() {
         if (this.type == 'share') {
-            if (!Products.findOne(this.sharedProducts[0]._id)) {
-//                Meteor.call('removeShoutOut', this._id, function() {
-//                    console.log('removed');
-//                }); 
+            var product = Products.findOne(this.sharedProducts[0]._id);
+            
+            if (!product) {
                 return 'hidden';
             }
-            else {
-                return '';
+            else if(product.sold === true) {
+                return 'hidden';
             }
         }
-        else {
-            return '';   
-        }
+        
+        return '';   
     },
     
     tabMyShouts: function() {
@@ -95,20 +93,20 @@ Template.shoutout.events({
         var tabShoutOut = $('#tabShoutOut'),
             tabMyShouts = $('#tabMyShouts');
         
-        if(tabShoutOut.hasClass('active')) return;
+        if(tabShoutOut.hasClass('active') && !Session.get('tabMyShouts')) return;
         
         tabMyShouts.removeClass('active');
         tabShoutOut.addClass('active');
         
-        $('.list').fadeOut(function() {
-           
+        $('.list-shouts').fadeOut(function() {
+            
             $('.loadbox').fadeIn('fast', function () {
                 Session.set('tabMyShouts', false);
                 Session.set('shoutsPageNumber', 1);
                 Session.set('shoutsPageSize', 15);
                 
                 setTimeout(function(){
-                    $('.list').fadeIn('fast');
+                    $('.list-shouts').fadeIn('fast');
                 }, 500);
             });
         });
@@ -119,20 +117,20 @@ Template.shoutout.events({
         var tabShoutOut = $('#tabShoutOut'),
             tabMyShouts = $('#tabMyShouts');
         
-        if(tabMyShouts.hasClass('active')) return;
+        if(tabMyShouts.hasClass('active') && Session.get('tabMyShouts')) return;
         
         tabShoutOut.removeClass('active');
         tabMyShouts.addClass('active');
         
-        $('.list').fadeOut(function() {
-        
+        $('.list-shouts').fadeOut(function() {
+            
             $('.loadbox').fadeIn('fast', function () {
                 Session.set('tabMyShouts', true);
                 Session.set('shoutsPageNumber', 1);
                 Session.set('shoutsPageSize', 15);
                 
                 setTimeout(function(){
-                    $('.list').fadeIn('fast');
+                    $('.list-shouts').fadeIn('fast');
                 }, 500);
             }); 
         });
