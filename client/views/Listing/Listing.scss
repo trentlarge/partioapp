@@ -85,6 +85,10 @@
 
 #search-result {
     
+    &.list-products {
+        display: none;
+    }
+    
     .status-filter {
         display: block;
         color: #7D7D7D;
