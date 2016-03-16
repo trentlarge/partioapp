@@ -245,15 +245,22 @@
                             </div>
                             {{#with ../getBorrowConnectionsAverageDaysAndPrice}}
                                 <div class="item">
-                                    <p class="average-borrow-price">${{price}}</p>
+                                    <p class="average-borrow-price">
+                                        ${{price}}
+                                        <p class="total">( Total ${{totalPrice}} )</p>
+                                    </p>
                                 </div>
                             {{/with}}
                             <div class="item item-divider">
                                 <span style="text-transform:capitalize;">Av. Purchasing Price</span> 
                             </div>
-                            <div class="item">
-                                <p class="average-purchasing-price">${{../getPurchasingConnectionsAveragePrice}}</p>
-                            </div>
+                            {{#with ../getPurchasingConnectionsAveragePrice}}
+                                <div class="item">
+                                    <p class="average-purchasing-price">${{price}}
+                                        <p class="total">( Total ${{totalPrice}} )</p>
+                                    </p>
+                                </div>
+                            {{/with}}
                         </div>
                     </div>
                 
@@ -330,8 +337,8 @@
                             </div>
                             <div class="item" style="padding:0;">
                                 <ul class="pager">
-                                    <li><a href="#" id="previousConnection">Previous</a></li>
-                                    <li><a href="#" id="nextConnection">Next</a></li>
+                                    <li><a href="#" id="previousConnections">Previous</a></li>
+                                    <li><a href="#" id="nextConnections">Next</a></li>
                                 </ul>
                             </div>
                             <div class="item" style="padding:0;">
@@ -365,13 +372,17 @@
                                 <span style="text-transform:capitalize;">Total Spending</span> 
                             </div>
                             <div class="item">
-                                <p class="total-spending">${{../getTotalSpending}}</p>
+                                <p class="total-spending">${{../getTotalSpending}}
+                                    <p class="average">( Average ${{../getAverageSpending}} )</p>
+                                </p>
                             </div>
                             <div class="item item-divider">
-                                <span style="text-transform:capitalize;">Average Spending</span> 
+                                <span style="text-transform:capitalize;">PartiO Earning</span> 
                             </div>
                             <div class="item">
-                                <p class="total-spending">${{../getAverageSpending}}</p>
+                                <p class="total-spending">${{../getTotalPartioEarning}}
+                                    <p class="average">( Average ${{../getAveragePartioEarning}} )</p>
+                                </p>
                             </div>
                         </div>
                     </div>

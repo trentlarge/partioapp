@@ -21,6 +21,7 @@
             color: #bdbdbd;
             overflow: hidden;
             margin-right: 20px;
+            min-height: 18px;
             text-overflow: ellipsis;
         }
         
@@ -28,6 +29,13 @@
             overflow: hidden;
             margin-right: 20px;
             text-overflow: ellipsis;
+        }
+        
+        .date {
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            font-size: 10px;
         }
         
     }

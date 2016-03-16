@@ -423,7 +423,7 @@ Template.analytics.events({
     
    // Connection Pagination
     
-   'click #nextConnection': function() {
+   'click #nextConnections': function() {
        var pages = Session.get('pages');
        var maxPages = Session.get('maxPages');
        if(pages.connections < maxPages.connections) {
@@ -432,7 +432,7 @@ Template.analytics.events({
        Session.set('pages', pages);
    },
     
-   'click #previousConnection': function() {
+   'click #previousConnections': function() {
        var pages = Session.get('pages');
        if(pages.connections > 0) {
            pages.connections--;
@@ -442,7 +442,7 @@ Template.analytics.events({
     
    // Transactions Pagination
     
-   'click #nextTransaction': function() {
+   'click #nextTransactions': function() {
        var pages = Session.get('pages');
        var maxPages = Session.get('maxPages');
        if(pages.transactions < maxPages.transactions) {
@@ -451,7 +451,7 @@ Template.analytics.events({
        Session.set('pages', pages);
    },
     
-   'click #previousTransaction': function() {
+   'click #previousTransactions': function() {
        var pages = Session.get('pages');
        if(pages.transactions > 0) {
            pages.transactions--;

@@ -1,3 +1,33 @@
+Meteor.publish("adminSearchConnections", function(text, limit) {
+	return Connections.find({ 
+        'productData.title': { $regex: ".*" + text + ".*", $options: 'i' }, 
+    }, { 
+        limit: limit, 
+        sort: { 'requestDate': -1, 'productData.title': 1 }
+    });
+});
+
+Meteor.publish("adminSingleConnection", function(connectionId) {
+	var connection = Connections.findOne({ _id: connectionId });
+	if(!connection) {
+		return this.ready();
+	}
+
+	var requestorId = connection.requestor;
+	var ownerId = connection.productData.ownerId;
+
+	if(this.userId == requestorId) {
+		var _idGuest = ownerId;
+	} else {
+		var _idGuest = requestorId;
+	}
+
+	return [
+		Connections.find({ connectionId: connectionId }),
+		Users.find({ _id: _idGuest }, { fields: { profile: 1 }})
+	];
+});
+
 Meteor.publish("adminSearchUserConnections", function(userId) {
 	return Connections.find({ $or: [ { "owner": userId }, { "requestor": userId } ] })
 });
