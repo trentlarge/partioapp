@@ -303,27 +303,37 @@
                                         {{/if}}
                                     </tr>
                                 {{/if}}
+                                
+                                {{#if report.confirmed}}
+                                    <tr>
+                                        <td> Refund </td>
+                                        <td> YES </td>
+                                    </tr>
+                                {{/if}}
                             </table>
                         </div>
                 
-                        {{#if report}}
+                        {{#if report.problems}}
                             <div class="list card">
                                 <table class="connection-details-table">
 
                                     <tr>
                                         <td> Reported </td>
-                                        {{#if report.status}}
-                                            <td> YES </td>
-                                        {{else}}
-                                            <td> NO </td>
-                                        {{/if}}
+                                        <td> YES </td>
                                     </tr>
                                     <tr>
                                         <td>Date</td>
                                         <td>{{../formatDate report.timestamp}} {{../getTime report.timestamp}}</td>
                                     </tr>
+                                    
+                                    {{#if report.ignored}}
+                                        <tr>
+                                            <td> Ignored </td>
+                                            <td> YES </td>
+                                        </tr>
+                                    {{/if}}
 
-                                    {{#if report.status}}
+                                    {{#if report.problems}}
                                         <tr>
                                             <td> Problems </td>
                                             <td>

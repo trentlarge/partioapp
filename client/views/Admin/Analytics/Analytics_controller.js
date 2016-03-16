@@ -9,28 +9,27 @@ AnalyticsController = RouteController.extend({
 
 	waitOn: function() {
         
-        var analyticsId = this.params._id;
-        var subscribeElement;
+        var analyticsId = this.params._id,
+            user = Users.findOne({_id: Meteor.userId()}),
+            subscribeElement = [
+                Meteor.subscribe("userAdmin", user.emails[0].address),
+                Meteor.subscribe("users")
+            ];
         
         switch(analyticsId) {
             case 'products': 
-                subscribeElement = Meteor.subscribe("products");
+                subscribeElement.push(Meteor.subscribe("products"));
                 break;
             case 'connections': 
-                subscribeElement = Meteor.subscribe("allConnections");
+                subscribeElement.push(Meteor.subscribe("allConnections"));
                 break;
             case 'transactions': 
-                subscribeElement = Meteor.subscribe("transactions");
+                subscribeElement.push(Meteor.subscribe("transactions"));
+                subscribeElement.push(Meteor.subscribe("allConnections"));
                 break;
         }
         
-        var user = Users.findOne({_id: Meteor.userId()});
-        
-		return [
-            Meteor.subscribe("userAdmin", user.emails[0].address),
-            Meteor.subscribe("users"),
-			subscribeElement
-		];
+		return subscribeElement;
 	},
     
 	data: function() {
@@ -570,26 +569,10 @@ AnalyticsController = RouteController.extend({
                 return averageSpending;
             },
             
-             getTotalPartioEarning: function() {
-                
-                var averageSpending = 0.00;
-                
-                $.each(this.transactions, function(index, transaction) {
-                   
-                    $.each(transaction.spending, function(key, spend) {
-                        averageSpending += parseFloat(spend.paidAmount);
-                    });
-                });
-                
-                averageSpending = Number(averageSpending*0.1).toFixed(2);
-                
-                return averageSpending;
-            },
-            
             getAverageSpending: function() {
                 
-                var averageSpending = 0.00;
-                var numberTransactions = 0;
+                var averageSpending = 0.00,
+                    numberTransactions = 0;
                 
                 $.each(this.transactions, function(index, transaction) {
                    
@@ -606,24 +589,37 @@ AnalyticsController = RouteController.extend({
                 return averageSpending;
             },
             
-            getAveragePartioEarning: function() {
+            getTotalPartioEarning: function() {
                 
-                var averageSpending = 0.00;
-                var numberTransactions = 0;
+                var averageEarning = 0;
                 
-                $.each(this.transactions, function(index, transaction) {
-                   
-                    $.each(transaction.spending, function(key, spend) {
-                        averageSpending += parseFloat(spend.paidAmount);
-                        numberTransactions++;
-                    });
+                $.each(this.connections, function(index, connection) {
+                    if(connection.charge) {
+                        averageEarning += connection.charge.amount;
+                    }
                 });
                 
-                if(numberTransactions > 0) {
-                    averageSpending = Number((averageSpending/numberTransactions)*0.1).toFixed(2);
-                }
+                averageEarning = Number(averageEarning*0.001).toFixed(2);
                 
-                return averageSpending;
+                return averageEarning;
+            },
+            
+            
+            getAveragePartioEarning: function() {
+                
+                var averageEarning = 0,
+                    numberTransactions = 0;
+                
+                $.each(this.connections, function(index, connection) {
+                    if(connection.charge) {
+                        averageEarning += connection.charge.amount;
+                        numberTransactions++;
+                    }
+                });
+                
+                averageEarning = Number((averageEarning/numberTransactions)*0.001).toFixed(2);
+                
+                return averageEarning;
                 
             },
             
@@ -631,8 +627,8 @@ AnalyticsController = RouteController.extend({
                 
                 if(!Session.get('pages')) return;
                 
-                var transactions = [];
-                var self = this;
+                var transactions = [],
+                    self = this;
                 
                 $.each(this.transactions, function(index, transaction) {
                    
@@ -659,10 +655,9 @@ AnalyticsController = RouteController.extend({
                     });
                 });
                 
-                var trans = [];
-                
-                var pages = Session.get('pages');
-                var page = pages.transactions;
+                var trans = [],
+                    pages = Session.get('pages'),
+                    page = pages.transactions;
                 
                 for(var i = (page*10); i < ((page+1)*10); i++) {
                     if(transactions[i]) {
