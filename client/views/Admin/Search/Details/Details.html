@@ -220,6 +220,169 @@
                 
                 {{/if}}
 
+                {{#if isConnectionDetails}}
+                
+                    {{#with connection}}
+                
+                        <div class="list card">
+                            <div class="item">
+                                <span class="product-title">{{productData.title}}</span>
+                                <div class="image-container">
+                                    <img src="{{productData.image}}">
+                                </div>
+                            </div>
+                        </div>
+                
+                        <div class="list card">
+                            <div class="item item-divider">Owner</div>
+                            <div class="item item-avatar">
+                              <img src="{{productData.ownerData.profile.avatar}}">
+                              <span class="user-name">{{productData.ownerData.profile.name}}</span>
+                            </div>
+                        </div>
+                
+                        <div class="list card">
+                            <div class="item item-divider">Requestor</div>
+                            <div class="item item-avatar">
+                              <img src="{{requestorData.profile.avatar}}">
+                              <span class="user-name">{{requestorData.profile.name}}</span>
+                            </div>
+                        </div>
+                
+                        <div class="list card">
+                            <table class="connection-details-table">
+                                <tr>
+                                    <td> Request </td>
+                                    <td> {{../formatDate requestDate}} </td>
+                                </tr>
+                                <tr>
+                                    <td> Total </td>
+                                    <td> ${{borrowDetails.price.total}} </td>
+                                </tr>
+                                {{#if borrowDetails.date}}
+                                    <tr>
+                                        <td> Total Days </td>
+                                        <td> {{borrowDetails.date.totalDays}} </td>
+                                    </tr>
+                                    <tr>
+                                        <td> Start Date </td>
+                                        <td> {{../formatDate borrowDetails.date.start}} </td>
+                                    </tr>
+                                    <tr>
+                                        <td> End Date</td>
+                                        <td> {{../formatDate borrowDetails.date.end}} </td>
+                                    </tr>
+                                {{/if}}
+                            </table>
+                
+                        </div>
+                
+                        <div class="list card">
+                            <table class="connection-details-table">
+                                <tr>
+                                    <td> State </td>
+                                    <td> {{state}} </td>
+                                </tr>
+                                
+                                <tr>
+                                    <td> Finished </td>
+                                    {{#if finished}}
+                                        <td> YES </td>
+                                    {{else}}
+                                        <td> NO </td>
+                                    {{/if}}
+                                </tr>
+                                
+                                {{#if promotion}}
+                                    <tr>
+                                        <td> Promotion </td>
+                                        {{#if promotion.status}}
+                                            <td> YES - ${{promotion.value}}</td>
+                                        {{else}}
+                                            <td> NO </td>
+                                        {{/if}}
+                                    </tr>
+                                {{/if}}
+                                
+                                {{#if report.confirmed}}
+                                    <tr>
+                                        <td> Refund </td>
+                                        <td> YES </td>
+                                    </tr>
+                                {{/if}}
+                            </table>
+                        </div>
+                
+                        {{#if report.problems}}
+                            <div class="list card">
+                                <table class="connection-details-table">
+
+                                    <tr>
+                                        <td> Reported </td>
+                                        <td> YES </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Date</td>
+                                        <td>{{../formatDate report.timestamp}} {{../getTime report.timestamp}}</td>
+                                    </tr>
+                                    
+                                    {{#if report.ignored}}
+                                        <tr>
+                                            <td> Ignored </td>
+                                            <td> YES </td>
+                                        </tr>
+                                    {{/if}}
+
+                                    {{#if report.problems}}
+                                        <tr>
+                                            <td> Problems </td>
+                                            <td>
+                                                {{#if report.problems.broken}} <p>Item broken</p> {{/if}}
+                                                {{#if report.problems.working}} <p>Item not working</p> {{/if}}
+                                                {{#if report.problems.condition}} <p>Condition not match</p> {{/if}}
+                                            </td>
+                                        </tr>
+                                    {{/if}}
+
+                                    {{#if report.returned}}
+                                        <tr>
+                                            <td> Returned </td>
+                                            {{#if report.returned.status}}
+                                                <td> YES </td>
+                                            {{else}}
+                                                <td> NO </td>
+                                            {{/if}}
+                                        </tr>
+                                        <tr>
+                                            <td>Returned Date</td>
+                                            <td>{{../formatDate report.returned.timestamp}} {{../getTime report.returned.timestamp}}</td>
+                                        </tr>
+                                    {{/if}}
+
+                                    {{#if report.confirmed}}
+                                        <tr>
+                                            <td> Confirmed </td>
+                                            {{#if report.confirmed.status}}
+                                                <td> YES </td>
+                                            {{else}}
+                                                <td> NO </td>
+                                            {{/if}}
+                                        </tr>
+                                        <tr>
+                                            <td>Confirmed Date</td>
+                                            <td>{{../formatDate report.confirmed.timestamp}} {{../getTime report.confirmed.timestamp}}</td>
+                                        </tr>
+                                    {{/if}}
+
+                                </table>
+
+                            </div>
+                        {{/if}}
+                
+                    {{/with}}
+                            
+                {{/if}}
+                
             </div>
     
         {{/if}}
