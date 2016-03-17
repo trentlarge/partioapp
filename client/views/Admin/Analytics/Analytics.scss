@@ -118,6 +118,15 @@
         font-size: 50px;
     }
     
+    .product-borrowed {
+        font-size: 80px;
+        text-align: center;
+        
+        .percent {
+            font-size: 18px;   
+        }
+    }
+    
     // CONNECTIONS
     
     .average-price {

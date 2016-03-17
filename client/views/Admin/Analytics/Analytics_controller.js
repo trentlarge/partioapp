@@ -324,6 +324,42 @@ AnalyticsController = RouteController.extend({
                 return products;
             },
             
+            getAvailableProducts: function() {
+                
+                var products = this.products.filter(function(product) {
+                    return (product.borrow !== true && product.purchasing !== true && product.sold !== true)
+                });
+                
+                return products.length;
+            },
+            
+            getAvailablePercentProducts: function() {
+              
+                var products = this.products.filter(function(product) {
+                    return (product.borrow !== true && product.purchasing !== true && product.sold !== true)
+                });
+                
+                return Number((products.length*100)/this.products.length).toFixed(2);
+            },
+            
+            getBorrowedProducts: function() {
+              
+                var products = this.products.filter(function(product) {
+                    return (product.borrow === true)
+                });
+                
+                return products.length;
+            },
+            
+            getBorrowedPercentProducts: function() {
+              
+                var products = this.products.filter(function(product) {
+                    return (product.borrow === true)
+                });
+                
+                return Number((products.length*100)/this.products.length).toFixed(2);
+            },
+            
             getSoldProducts: function() {
                 
                 var products = this.products.filter(function(product) {
