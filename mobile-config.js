@@ -1,5 +1,5 @@
 App.info({
-  id: 'com.partio.partiobeta',
+  id: 'com.partio.app',
   name: 'partiO',
   description: 'Share. Borrow. Party-o',
   author: 'partiO',
