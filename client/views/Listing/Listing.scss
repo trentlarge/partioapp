@@ -20,13 +20,13 @@
 .categoriesFilter {
 
     .row {
-        padding: 0;     
+        padding: 0;
         margin: 0;
         height: 40px;
-    
+
         .categoryFilter {
             color: rgba(255, 255, 255, 0.4);
-            border-bottom: 2px solid $royal;      
+            border-bottom: 2px solid $royal;
             font-size: 24px;
             height: 44px;
             -webkit-justify-content: center;
@@ -38,12 +38,12 @@
             -webkit-flex-direction: column;
             flex-direction: column;
             cursor: pointer;
-            
+
             span {
                 display: none;
             }
         }
-        
+
         .active {
             color: #ffffff;
             border-bottom: 2px solid #ffffff;
@@ -83,12 +83,44 @@
 
 //*, *:before, *:after {box-sizing:  border-box !important;}
 
+.listing.tabs.tabs-top {
+    top: 0px !important;
+    background-color: #E0E0E0;
+    background-size: 0;
+    color: $royal;
+
+    .tab-item {
+        -webkit-box-shadow: inset 0px -1px 2px 0px rgba(0,0,0,0.2);
+        -moz-box-shadow: inset 0px -1px 2px 0px rgba(0,0,0,0.2);
+        box-shadow: inset 0px -1px 2px 0px rgba(0,0,0,0.2);
+
+        &:hover {
+            color: $royal;
+        }
+
+        &.tab-bg {
+            -webkit-transition: all 0.3s ease, border 1ms;
+            -moz-transition: all 0.3s ease, border 1ms;
+            -o-transition: all 0.3s ease, border 1ms;
+            -ms-transition: all 0.3s ease, border 1ms;
+            transition: all 0.3s ease, border 1ms;
+            background-color: #F9F9F9;
+            opacity: 1;
+            -webkit-box-shadow: none;
+            -moz-box-shadow: none;
+            box-shadow: none;
+        }
+    }
+}
+
 #search-result {
-    
+
+    margin-top: 52px;
+
     &.list-products {
         display: none;
     }
-    
+
     .status-filter {
         display: block;
         color: #7D7D7D;
@@ -97,40 +129,40 @@
         max-width: 200px;
         background-color: #fff;
         box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
-        
+
         &.filter-borrow {
             float: right;
             border-top-left-radius: 20px;
             border-bottom-left-radius: 20px;
         }
-        
+
         &.filter-purchasing {
             border-top-right-radius: 20px;
             border-bottom-right-radius: 20px;
         }
-        
+
         &.activated {
             background-color: $royal;
             color: #ffffff;
         }
-        
+
         &.active {
             background-color: $royal;
             color: #ffffff;
         }
     }
-    
+
     disabled {
         display: none;
     }
-    
+
     .col-xs-6,
     .col-sm-4,
     .col-md-3,
     .col-lg-2 {
         padding: 0;
     }
-    
+
     .product-box {
         padding: 0;
         margin: 5px;
@@ -140,18 +172,18 @@
         -ms-animation: fadein 1s; /* Internet Explorer */
         -o-animation: fadein 1s; /* Opera < 12.1 */
         animation: fadein 1s;
-        
+
         a {
             text-decoration: none;
-            
+
             &.activated {
-                
+
                 .product-content {
-                    opacity: .8;   
+                    opacity: .8;
                 }
             }
         }
-        
+
         .product-content {
             width: 100%;
             height: 100%;
@@ -166,12 +198,12 @@
             -ms-transition: all 200ms ease-in;
             -moz-transition: all 200ms ease-in;
             transition: all 200ms ease-in;
-            
+
             &:hover {
                 box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
             }
         }
-        
+
         .product-avatar {
             max-height: 130px;
             overflow: hidden;
@@ -195,7 +227,7 @@
             border-bottom-right-radius: 10px;
             color: #ffffff;
         }
-        
+
         .borrow-badge {
             position: absolute;
             bottom: 76px;
@@ -224,6 +256,25 @@
             }
         }
 
+        .item-buy {
+            background-color: #eee;
+            border-top: 1px solid #ddd;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 5px;
+
+            .buy {
+                &.text {
+                    color: $royal;
+                    float: left;
+                }
+                &.price {
+                    float: right;
+                }
+            }
+        }
+
         .item-rent-table {
             background-color: #eee;
             border-top: 1px solid #ddd;
@@ -232,7 +283,7 @@
             width: 100%;
         }
 
-        table.rent-table {     
+        table.rent-table {
             font-size: 10px;
             width: 100%;
 
@@ -254,7 +305,7 @@
 
             th, td {
                 width: 25%;
-                margin-right: 3px; 
+                margin-right: 3px;
                 display: inline-flex;
                 align-items: center;
                 justify-content: center;
@@ -262,8 +313,7 @@
             }
 
         }
-        
-    }
-        
-}
 
+    }
+
+}

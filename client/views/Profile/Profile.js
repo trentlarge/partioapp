@@ -203,11 +203,11 @@ Template.settingsProfileImage.events({
 
                         function onFail1(message)
                         {
-                            IonPopup.alert({
-                                title: 'Camera Operation',
-                                template: message,
-                                okText: 'Got It.'
-                            });
+//                            IonPopup.alert({
+//                                title: 'Camera Operation',
+//                                template: message,
+//                                okText: 'Got It.'
+//                            });
                         }
                     }
                     if (index === 1)
@@ -254,12 +254,12 @@ Template.settingsProfileImage.events({
 
                         function onFail2(message)
                         {
-                            IonPopup.alert(
-                                {
-                                    title: 'Camera Operation',
-                                    template: message,
-                                    okText: 'Got It.'
-                                });
+//                            IonPopup.alert(
+//                                {
+//                                    title: 'Camera Operation',
+//                                    template: message,
+//                                    okText: 'Got It.'
+//                                });
                         }
                     }
                     return true;

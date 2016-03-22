@@ -32,7 +32,12 @@ ListingController = RouteController.extend({
             ownerArea: user.profile.area,
             pageNumber: pageNumber,
             text: text,
-            categories: categories
+            categories: categories,
+            buy: false
+        }
+
+        if(Session.get('tabBuy')) {
+            data.buy = true;
         }
 
         if(!Session.get("borrowFilter")) {
@@ -47,7 +52,7 @@ ListingController = RouteController.extend({
             setTimeout(function(){
                 $('.loadbox').fadeOut('fast', function() {
                     if(!$('.list-products').is(':visible')) {
-                        $('.list-products').fadeIn();    
+                        $('.list-products').fadeIn();
                     }
                 });
             }, 100);
@@ -68,7 +73,14 @@ ListingController = RouteController.extend({
         if(data.purchasing) {
             filter.purchasing = { $ne: true };
         }
-        
+
+        if(data.buy) {
+            filter['selling.status'] = 'ON';
+        }
+        else {
+            filter['rentPrice.status'] = { $ne: 'OFF' };
+        }
+
         var products = Products.find(filter);
 
         Session.set("pageNumberLoaded", Math.ceil(products.count() / pageSize));

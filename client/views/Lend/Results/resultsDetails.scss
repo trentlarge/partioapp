@@ -21,11 +21,11 @@
 }
 
 .results-details-content {
-    
+
     .card {
         padding: 0;
     }
-    
+
 }
 
 .results-details {
@@ -33,57 +33,57 @@
     .row {
         margin-left: 0;
     }
-    
+
     .features {
-        
+
         border: 0;
-        
+
         i {
             float: right;
         }
     }
-    
+
     .item-divider {
         margin: 0;
     }
-    
+
     .item-input {
         margin-left: 0;
     }
-    
+
     select:disabled {
         opacity: .6;
     }
-    
+
     .features-details {
         border-top: 0;
         border-bottom: 0;
     }
-    
+
     .attributes {
         border: 0;
     }
-    
+
     .row-details {
         display: flex;
-        
+
         .col {
             padding: 0;
-        }   
+        }
     }
-    
+
     .details-box {
-        
+
         padding: 5px;
         display: flex;
         display: -webkit-flex;
         align-items: center;
         -webkit-align-items: center;
-             
+
         i {
             color: #fff;
             border-radius: 2px;
-            padding: 10px;            
+            padding: 10px;
             text-align: center;
             width: 42px;
             min-width: 42px;
@@ -93,10 +93,10 @@
             -moz-box-shadow: inset 0px -20px 0px 0px rgba(255,255,255,0.1);
             box-shadow: inset 0px -20px 0px 0px rgba(255,255,255,0.1);
         }
-        
+
         .bk-energized { background-color: $energized; }
         .bk-assertive { background-color: $assertive; }
-        
+
         .detail {
             font-size: 14px;
             padding: 10px;
@@ -106,31 +106,36 @@
             text-overflow: ellipsis;
             white-space: nowrap;
         }
-        
+
     }
-    
+
     .item-button {
         padding-top: 5px;
         padding-bottom: 5px;
     }
-    
+
     .priceLabel {
         font-size: 10px;
     }
-    
+
     input.userPrice {
         height: 20px;
     }
- 
-    .toggle {
-        float: right
+
+    .item-divider {
+        display: flex;
+        display: -webkit-flex;
+        align-items: center;
+        -webkit-aling-items: center;
     }
-    
-    .enablePurchasing {
-        float: right;
-        margin-top: 10px;
-        margin-right: 5px;
+
+    .toggle {
+        margin-left: 10px;
+    }
+
+    .enablePurchasing, .enableRent {
+        margin-left: 10px;
         font-size: 10px;
     }
-    
+
 }

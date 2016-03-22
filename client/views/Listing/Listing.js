@@ -27,7 +27,6 @@ Template.listing.rendered = function() {
     inputIcon.css({
         'color': '#272727'
     });
-
 };
 
 Template.listing.events({
@@ -123,7 +122,7 @@ Template.searchBox.events({
             categories = Categories.getCategories(),
             selectedCategories = [];
 
-        $('.loadbox').fadeIn('fast'); 
+        $('.loadbox').fadeIn('fast');
 
         categoryFilterBox.toggleClass('active');
 
@@ -143,4 +142,41 @@ Template.searchBox.events({
 
         }
     }
+});
+
+// SEARCH RESULT
+
+Template.searchResult.helpers({
+
+    tabBuy: function() {
+        return Session.get('tabBuy');
+    }
+
+});
+
+Template.searchResult.events({
+
+    "click .product" : function(e, template) {
+
+        Session.set('listingProduct', true);
+
+    },
+
+    "click .tab-item": function(e, template) {
+
+        var tab = $(e.target).attr('id'),
+            buy = false;
+
+        if(tab === 'Buy') {
+            buy = true;
+        }
+
+        $('.list-products').fadeOut(function() {
+            $('.loadbox').fadeIn('fast', function() {
+                Session.set('tabBuy', buy);
+            });
+        });
+
+    }
+
 });

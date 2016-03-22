@@ -18,24 +18,24 @@
         <script>
           Meteor.setTimeout(function(){
               $('.loadbox').fadeOut('medium',function(){
-                  $('.loading-wrapper').fadeIn('medium');  
+                  $('.loading-wrapper').fadeIn('medium');
               });
           }, 500);
         </script>
       {{/if}}
 
       {{>loader}}
-      
+
       {{#if editMode product._id}}
       {{else}}
           <a class="fab-button">
-             <i id="editCurrent" class="icon ion-ios-compose-outline"></i>   
+             <i id="editCurrent" class="icon ion-ios-compose-outline"></i>
           </a>
       {{/if}}
-    
+
       <div class="loading-wrapper">
         <div class="card list">
-            
+
           <div class="item">
             {{#if editMode product._id}}
                 <span class="product-title">Click to edit images</span>
@@ -53,13 +53,13 @@
                 </div>
             {{/if}}
           </div>
-            
+
           {{#if editMode product._id}}
             <div class="item item-input">
                 <input type="text" value="{{product.title}}" class="title" style="text-align:center;border:0" {{../isEditMode}}>
             </div>
           {{/if}}
-            
+
           <div class="item item-input item-select">
             <div class="input-label">
               <p>Condition:</p>
@@ -81,7 +81,7 @@
                     {{/each}}
                 </select>
           </div>
-            
+
 <!--
           <div class="item item-divider features">
             <h2>Features <i class="chevron-icon icon ion-chevron-up"></i></h2>
@@ -119,7 +119,19 @@
 -->
 
           <div class="item item-divider">
-            <h2>Rent Price</h2>
+            Rent
+
+            <label class="toggle toggle-assertive toggle-rent">
+              <input type="checkbox" {{../rentingStatusChecked}} {{../isEditMode}}>
+              <div class="track">
+                <div class="handle"></div>
+              </div>
+            </label>
+            {{#if isRentingStatusOn}}
+               <span class="enableRent">ON</span>
+            {{else}}
+               <span class="enableRent">OFF</span>
+            {{/if}}
           </div>
 
           <div class="item row">
@@ -142,28 +154,27 @@
                 <input type="number" class="price semesterPrice" value="{{product.rentPrice.semester}}" placeholder="0.00" {{../isEditMode}}>
             </div>
         </div>
-            
+
           <div class="item item-divider">
-                Purchasing
+                Sell
+
+                <label class="toggle toggle-assertive toggle-purchasing">
+                  <input type="checkbox" {{../sellingStatusChecked}} {{../isEditMode}}>
+                  <div class="track">
+                    <div class="handle"></div>
+                  </div>
+                </label>
+                {{#if isSellingStatusOn}}
+                   <span class="enablePurchasing">ON</span>
+                {{else}}
+                   <span class="enablePurchasing">OFF</span>
+                {{/if}}
             </div>
-            
+
             <li class="item row">
-                <div class="col col-50">
+                <div class="col col-100">
                     <div class="priceLabel">PRICE</div>
                     <input type="number" class="price sellingPrice" value="{{product.selling.price}}" placeholder="0.00" {{../isEditMode}}>
-                </div>
-                <div class="col col-50">
-                     <label class="toggle toggle-assertive">
-                       <input type="checkbox" {{../sellingStatusChecked}} {{../isEditMode}}>
-                       <div class="track">
-                         <div class="handle"></div>
-                       </div>
-                     </label>
-                     {{#if isSellingStatusOn}}
-                        <span class="enablePurchasing">ON</span>
-                     {{else}}
-                        <span class="enablePurchasing">OFF</span>
-                     {{/if}}
                 </div>
            </li>
 
@@ -178,7 +189,7 @@
               <a id="editRemove" class="">REMOVE</a>
             </div>
 <!--
-            
+
             <div class="padding-horizontal">
               <button id="editRemove" class="button button-block button-assertive">REMOVE</button>
             </div>
@@ -194,7 +205,7 @@
 <template name="slideInventoryImages">
 
     {{#ionModal title="Images" class="inventory-details slide-inventory-images"}}
-    
+
         {{#ionSlideBox}}
             {{#each slideElements}}
                 {{#ionSlide}}
@@ -204,17 +215,17 @@
                 {{/ionSlide}}
             {{/each}}
         {{/ionSlideBox}}
-    
+
     {{/ionModal}}
-    
+
 </template>
 
 <template name="inventoryEditImages">
 
     {{#ionModal title="Images" class="inventory-details inventory-edit-images"}}
-    
+
         <div class="row">
-            
+
             <div class="col col-50">
                 {{#unless isMaxImages}}
                     <i class="ion-image select-image"></i>
@@ -224,7 +235,7 @@
                 <button class="button button-block button-energized" id="saveImages">SAVE</button>
                 <a href="#" id="cancelImages">CANCEL</a>
             </div>
-            
+
             <div class="col col-50">
                 {{#if isMinImages}}
                     <span class="drag-message">Drag to reorder</span>
@@ -239,10 +250,10 @@
                     {{/each}}
                 </ul>
             </div>
-           
+
         </div>
-    
-        
-    
+
+
+
     {{/ionModal}}
 </template>

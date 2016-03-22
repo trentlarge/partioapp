@@ -5,13 +5,13 @@
 //}
 
 .manual-entry {
-    
+
     margin-bottom: 50px;
 
     .manualTitle {
         text-transform: capitalize;
     }
-    
+
     .input-label{
         font-size: 13px;
         color: #AAA;
@@ -28,7 +28,7 @@
         background-color: $energized;
         color: #fff;
     }
-    
+
     .img-wrap {
         position: relative;
         display: inline-block;
@@ -56,50 +56,43 @@
     .img-wrap:hover .close {
         opacity: 1;
     }
-    
-//    #addMorePhoto {
-//        float: right;
-//        padding-top: 5px;
-//        height: 35px;
-//        width: 35px;
-//        background-color: #EF960D;
-//        border-radius: 50%;
-//        margin-top: -20px;
-//        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-//        color: #fff;
-//        font-size: 20px;
-//    }
-    
+
     .slick-slide {
         margin-bottom: 20px;
     }
-    
+
     .slider-pager {
         bottom: -12px;
     }
-    
+
     .calculate-prices {
-        float: right;
+        position: absolute;
         font-size: 12px;
-        padding-top: 3px;
+        right: 10px;
+        top: 21px;
     }
-    
+
     .priceLabel {
         font-size: 10px;
     }
-    
+
     input.userPrice {
         height: 20px;
     }
- 
-    .toggle {
-        float: right
+
+    .item-divider {
+        display: flex;
+        display: -webkit-flex;
+        align-items: center;
+        -webkit-aling-items: center;
     }
-    
-    .enablePurchasing {
-        float: right;
-        margin-top: 10px;
-        margin-right: 5px;
+
+    .toggle {
+        margin-left: 10px;
+    }
+
+    .enablePurchasing, .enableRent {
+        margin-left: 10px;
         font-size: 10px;
     }
 }

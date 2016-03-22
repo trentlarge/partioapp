@@ -43,21 +43,21 @@ body.block-background {
     margin: 40px 0 0 0 !important;
     left: 5% !important;
     pointer-events: all !important;
-    
+
     .skipTutorial {
         float: left;
         padding-top: 7px;
     }
-    
+
     span.muted.pull-left {
         display: none;
     }
-    
+
     .btn-primary, .btn-success {
         color: #fff;
         background-color: $assertive;
         border-color: $assertive-border;
-    }   
+    }
 }
 
 .spotlight {
@@ -80,7 +80,7 @@ body.block-background {
         -moz-box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.75);
         box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.75);
     }
-    
+
     .modal-backdrop {
         background-color: rgba(0, 0, 0, 0.5);
     }
@@ -92,7 +92,7 @@ a {
     text-decoration: none;
     color: $assertive;
     cursor: pointer;
-    
+
     &:hover {
         text-decoration: none;
         color: $assertive;
@@ -133,7 +133,7 @@ a {
 }
 
 @media screen and (min-width: 490px) {
-    
+
     .card {
         max-width: 450px;
         margin-left: auto;
@@ -219,7 +219,7 @@ a.email-support {
 
 .title {
   text-align: center;
-    
+
   #spinner-logo-simple {
     margin-top: 7px;
   }
@@ -300,11 +300,11 @@ body.keyboard-open .platform-android .content.overflow-scroll {
     padding: 24px;
     width: auto !important;
     max-width: 80% !important;
-    
+
     .popup-head {
         padding: 0;
     }
-    
+
     .popup-title {
       text-align: left;
       font-size: 20px;
@@ -312,30 +312,30 @@ body.keyboard-open .platform-android .content.overflow-scroll {
       font-weight: bold;
       color: $royal;
     }
-    
+
     .popup-sub-message {
         display: block;
         font-size: 11px;
         padding-top: 10px;
         color: #757575;
         line-height: 16px;
-        
+
         &.red {
             color: red;
         }
     }
-    
+
     .popup-body {
         color: $royal;
         padding: 16px 0 16px 0;
-        
+
         input {
           margin-top: 10px;
           padding: 10px;
           border: 1px solid #eee;
         }
     }
-    
+
     .popup-buttons {
         margin: 0;
         min-height: 20px;
@@ -347,7 +347,7 @@ body.keyboard-open .platform-android .content.overflow-scroll {
         -webkit-justify-content: flex-end;
         padding: 10px 0 0 0;
         flex: none;
-        
+
         .button {
             font-size: 14px;
             font-weight: bold;
@@ -360,28 +360,28 @@ body.keyboard-open .platform-android .content.overflow-scroll {
             -webkit-flex: none;
             flex: none;
             min-width: 0px;
-            
+
             &:nth-child(2) {
                 margin-left: 26px;
             }
-            
+
             &:hover {
                 opacity: .7;
             }
-            
+
             &.activated {
                 opacity: .8;
             }
-        
+
         }
-        
+
         .button-default {
             text-align: right;
             border: 0;
             background-color: transparent;
             color: $royal;
             box-shadow: none;
-            
+
             &.activated, &.active {
                 border: 0;
                 background-color: transparent;
@@ -389,14 +389,14 @@ body.keyboard-open .platform-android .content.overflow-scroll {
                 box-shadow: none;
             }
         }
-        
+
         .button-assertive {
             text-align: right;
             border: 0;
             background-color: transparent;
             color: $assertive;
             box-shadow: none;
-            
+
             &.activated, &.active {
                 border: 0;
                 background-color: transparent;
@@ -404,14 +404,14 @@ body.keyboard-open .platform-android .content.overflow-scroll {
                 box-shadow: none;
             }
         }
-        
+
         .button-calm, .button-positive, .button-energized {
             text-align: right;
             border: 0;
             background-color: transparent;
             color: $energized;
             box-shadow: none;
-            
+
             &.activated, &.active {
                 border: 0;
                 background-color: transparent;
@@ -419,7 +419,7 @@ body.keyboard-open .platform-android .content.overflow-scroll {
                 box-shadow: none;
             }
         }
-        
+
     }
 }
 
@@ -434,7 +434,7 @@ body.keyboard-open .platform-android .content.overflow-scroll {
             border-radius: 5px;
             margin: 10px auto;
             width: 95%;
-            
+
             .button {
                 text-align: center;
                 color: #007aff;
@@ -443,14 +443,14 @@ body.keyboard-open .platform-android .content.overflow-scroll {
             }
         }
     }
-    
-    
-    
+
+
+
 }
 // -- FAB BUTTONS --
 
 .fab-button {
-    
+
     position: fixed;
     height: 55.5px;
     width: 55.5px;
@@ -461,12 +461,12 @@ body.keyboard-open .platform-android .content.overflow-scroll {
     border-radius: 50%;
     box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12);
     transition: .2s ease-out;
-    
+
     &:hover {
         opacity: 1 !important;
         box-shadow: 0 5px 11px 0 rgba(0,0,0,0.18),0 4px 15px 0 rgba(0,0,0,0.15);
     }
-        
+
     i {
         font-size: 30px;
         color: #fff;
@@ -517,49 +517,6 @@ body.keyboard-open .platform-android .content.overflow-scroll {
 
 
 // == END: MAP ==
-
-// == MAIN ==
-
-.main {
-    min-height: 100%;
-
-    .lend-image {
-      height: 12vh;
-    }
-
-    .borrow-image {
-      height: 12vh;
-    }
-    
-    .lend {
-        background-color: $energized;
-    }
-
-    .rent {
-        background-color: $assertive;
-    }
-
-    .share-box {
-        border: 1px solid #ffffff;
-        min-width: 250px;
-        padding: 20px;
-        font-size: 30px;
-    }
-
-    .top-part {
-        height: 45vh;
-        font-size: 1.5em;
-        color: white;
-    }
-
-    .bottom-part {
-        height: 50vh;
-        font-size: 1.5em;
-        color: white;
-    }
-}
-
-// == END: MAIN ==
 
 .scroll-bar-indicator {
   display: none;
