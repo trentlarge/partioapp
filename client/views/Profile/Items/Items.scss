@@ -1,26 +1,34 @@
 @import '../../../styles/app-variables';
 
 .profile-items-content {
-    
-    .card {
-        margin-top: 10px;
-        margin-bottom: 10px;
+
+    .list {
+        padding: 5px 10px;
+        margin: 0;
     }
-    
+
+    .card {
+        margin: 0;
+    }
+
+    .product-item {
+        padding: 10px 0;
+    }
+
     .item.profile-item {
         padding: 0;
     }
-    
+
     .profile-name {
         display: block;
         padding-bottom: 5px;
     }
-    
+
     p.main-title {
         color: $royal;
         padding-right: 10px;
     }
-    
+
     table.rent-table {
         width: 95%;
         font-size: 10px;

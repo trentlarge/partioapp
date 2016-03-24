@@ -13,8 +13,8 @@
 
   {{#ionView}}
     {{#ionContent class="savedCard"}}
-      
-      <div class="card padding list">
+
+      <div class="card card-limited padding list">
         <div class="item item-icon-left hidden alerts no-cards">
           <i class="icon assertive ion-alert-circled"></i>
           <p class="assertive">Add a card to be able to share or borrow an item.</p>
@@ -24,25 +24,25 @@
           <p class="energized">Please, add a debit card if you want share an item. The card will be used for money deposits in your bank account.</p>
         </div>
       </div>
-    
-      <div class="card padding list">
+
+      <div class="card card-limited padding list">
 
         <div class="item item-divider card-menu item-button-right">
           <h3>Cards</h3>
 <!--          <button id="test-card" class="button button-small push-up button-clear"><h6 class="positive">Test Cards</h6></button>-->
         </div>
-          
+
         {{#if ../cardNotAdded cardsList.length}}
         {{else}}
         <div class="item item-card submenu" data-id="{{id}}" data-funding="{{funding}}">
             <table>
               <tbody>
                 <tr>
-                    <td class="brand"></td>  
-                    <td class="funding"></td>  
-                    <td class="numbers"></td>  
-                    <td colspan="2" style="text-align:center">Use for</td>  
-                    <td class="trash"></td>  
+                    <td class="brand"></td>
+                    <td class="funding"></td>
+                    <td class="numbers"></td>
+                    <td colspan="2" style="text-align:center">Use for</td>
+                    <td class="trash"></td>
                 </tr>
               </tbody>
             </table>
@@ -71,15 +71,15 @@
           <p class="graytext">New card</p>
         </div>
       </div>
-      
+
       {{#if ../cardNotAdded cardsList.length}}
-          <div class="card padding list">
+          <div class="card card-limited padding list">
             <div class="item">
               <p class="term-agreement">By adding your credit/debit cards, you agree to our<a href="#" data-ion-modal="modalTermOfService"> Terms</a>.</p>
             </div>
           </div>
       {{/if}}
-    
+
     {{/ionContent}}
   {{/ionView}}
 </template>
@@ -91,4 +91,3 @@
   </div>
   {{/ionModal}}
 </template>
-

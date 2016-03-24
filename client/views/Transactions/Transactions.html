@@ -15,7 +15,7 @@
     </a>
   {{/contentFor}}
 
-  
+
   {{#ionView class="transactions-view"}}
     <div class="tabs tabs-top">
       <a class="tab-item {{#if spendingClicked}} {{else}} tab-bg {{/if}}" id="earningButton">
@@ -31,22 +31,22 @@
       {{#if Template.subscriptionsReady}}
         <script>
           $('.loadbox').fadeOut('medium',function(){
-            $('.loading-wrapper').fadeIn('medium');  
+            $('.loading-wrapper').fadeIn('medium');
           });
         </script>
       {{/if}}
 
       {{>loader}}
-      
+
         <div class="loading-wrapper">
           {{#if spendingClicked}}
-            <div class="card card-special padding-vertical">
+            <div class="card card-limited card-special padding-vertical">
                 <div class="item item-text-wrap center">
                     <span class="dollar-text">$</span>{{totalSpending}}
                 </div>
             </div>
 
-            <div class="card list list-inset">            
+            <div class="card card-limited list list-inset">
               {{#if spendingAvailable}}
                 {{#each spending}}
                     <div class="item icon-left">
@@ -66,13 +66,13 @@
 
           {{else}}
 
-              <div class="card card-special padding-vertical">
+              <div class="card card-limited card-special padding-vertical">
                   <div class="item item-text-wrap center">
                       <span class="dollar-text">$</span>{{totalEarning}}
                   </div>
               </div>
 
-              <div class="card list list-inset">
+              <div class="card card-limited list list-inset">
 
                   {{#if earningAvailable}}
 
@@ -101,9 +101,9 @@
               <a class="email-support" href="/contact" data-rel='external'>CONTACT US</a>
           </div>
         </div>
-      
+
         {{> partioTutorial}}
-    
+
     {{/ionContent}}
 
 

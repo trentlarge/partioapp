@@ -66,7 +66,7 @@
         </div>
       {{/if}}
 
-      <div class="card padding-horizontal">
+      <div class="card card-limited padding-horizontal">
         <form id="profileEdit">
           <label class="item item-input item-mobile">
             <i class="icon ion-ios-telephone"></i>
@@ -86,7 +86,7 @@
             </select>
            </label>
         </form>
-          
+
         <label class="item item-input">
           <i class="icon ion-at"></i>
           <input type="email" value="{{ currentUser.emails.[0].address }}" readonly >
@@ -94,7 +94,7 @@
       </div>
 
       {{#if currentUser.emails.[0].verified}}
-        <div class="card padding-horizontal card-profile-menu">
+        <div class="card card-limited padding-horizontal card-profile-menu">
           <a class="item item-icon-right item-saved-cards" href="{{pathFor 'savedCards'}}" >
             <p>Payment Cards</p>
             {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
@@ -104,18 +104,18 @@
             <p>Promotions</p>
             {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
           </a>
-            
+
           <a class="item item-icon-right item-contact-us" href="{{pathFor 'contact'}}" >
             <p>Contact Us</p>
             {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
           </a>
-      
+
 <!--
           <a class="item item-icon-right" data-ion-modal="appTutorial"  >
             <p>Tutorial</p>
             {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
           </a>
--->      
+-->
 
           <a class="item item-icon-right" href="{{pathFor 'changePassword'}}" >
             <p>Change Password</p>
@@ -123,7 +123,7 @@
           </a>
         </div>
       {{else}}
-        <div class="card padding-horizontal">
+        <div class="card card-limited padding-horizontal">
           <a class="item item-icon-right" href="{{pathFor 'contact'}}" >
             <p>Contact Us</p>
             {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
@@ -131,15 +131,15 @@
         </div>
       {{/if}}
 
-      <div class="card padding-horizontal">
+      <div class="card card-limited padding-horizontal">
         <a class="item item-icon-right" id="logout"  >
           <p>Logout</p>
           {{> ionIcon icon="android-exit" class="energized right-arrow"}}
         </a>
       </div>
-    
+
     {{/ionContent}}
-    
+
     {{#if currentUser.emails.[0].verified}}
         {{> partioProfileTutorial}}
     {{/if}}

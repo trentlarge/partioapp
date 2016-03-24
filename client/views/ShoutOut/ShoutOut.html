@@ -17,92 +17,96 @@
     {{/contentFor}}
 
     {{#ionView class="shout-out"}}
-      
+
           <div class="bar has-header item-input-inset" style="padding:0;" data-keyboard-attach>
             <label class="item-input-wrapper" style="padding:0;">
               <textarea id="messageInput" type="text" rows="1" placeholder="What do you need?"></textarea>
             </label>
             <button id="shoutSubmit" class="button-assertive button button-clear">Send</button>
           </div>
-            
+
         {{#ionContent class="has-subheader overflow-scroll"}}
-    
-            <div class="list list-shouts">
+
+            <div class="list-shouts">
 
                 {{#if tabMyShouts}}
-                
+
                     {{#each ../myShouts}}
 
-                        <div class="list card {{productExist}}">
-                            <a class="item item-avatar" href="{{#if ../isTypeShout type}}
-                                                                /shoutout/{{_id}} 
-                                                              {{else}}
-                                                                /listing/search/{{sharedProducts.[0]._id}}?ownerId={{sharedProducts.[0].ownerId}}
-                                                              {{/if}}">
-                              {{#with ../getUser userId}} 
-                                  <img src="{{profile.avatar}}">
-                                  <span class="user-name">{{profile.name}}</span> 
-                              {{/with}}
+                        <div class="list col-xs-12 col-sm-12 col-md-6 col-lg-4 {{productExist}}">
+                            <div class="card">
+                                <a class="item item-avatar" href="{{#if ../isTypeShout type}}
+                                                                    /shoutout/{{_id}}
+                                                                  {{else}}
+                                                                    /listing/search/{{sharedProducts.[0]._id}}?ownerId={{sharedProducts.[0].ownerId}}
+                                                                  {{/if}}">
+                                  {{#with ../getUser userId}}
+                                      <img src="{{profile.avatar}}">
+                                      <span class="user-name">{{profile.name}}</span>
+                                  {{/with}}
 
-                              {{#if ../isTypeShout type}}
-                                {{#if ../hasSharedProducts sharedProducts.length}}
-                                    <span class="badge badge-energized badge-items">{{../getSharedProductsBadge sharedProducts.length}}</span>
-                                {{/if}}
-                              {{/if}}
-                                
-                              <span class="user-message">{{message}}</span>
+                                  {{#if ../isTypeShout type}}
+                                    {{#if ../hasSharedProducts sharedProducts.length}}
+                                        <span class="badge badge-energized badge-items">{{../getSharedProductsBadge sharedProducts.length}}</span>
+                                    {{/if}}
+                                  {{/if}}
 
-                              <p class="user-time">{{../getTime createdAt}}</p>
+                                  <span class="user-message">{{message}}</span>
 
-                              <div class="item-icon-right">
-                                {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
-                              </div>    
-                            </a>
+                                  <p class="user-time">{{../getTime createdAt}}</p>
+
+                                  <div class="item-icon-right">
+                                    {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
+                                  </div>
+                                </a>
+                            </div>
                         </div>
 
                     {{/each}}
-                
+
                 {{else}}
-                
+
                     {{#each shouts}}
 
-                        <div class="list card {{productExist}}">
-                            <a class="item item-avatar" href="{{#if ../isTypeShout type}}
-                                                                /shoutout/{{_id}} 
-                                                              {{else}}
-                                                                /listing/search/{{sharedProducts.[0]._id}}?ownerId={{sharedProducts.[0].ownerId}}
-                                                              {{/if}}">
-                              {{#with ../getUser userId}} 
-                                  <img src="{{profile.avatar}}">
-                                  <span class="user-name">{{profile.name}}</span> 
-                              {{/with}}
+                        <div class="list col-xs-12 col-sm-12 col-md-6 col-lg-4 {{productExist}}">
+                            <div class="card">
+                                <a class="item item-avatar" href="{{#if ../isTypeShout type}}
+                                                                    /shoutout/{{_id}}
+                                                                  {{else}}
+                                                                    /listing/search/{{sharedProducts.[0]._id}}?ownerId={{sharedProducts.[0].ownerId}}
+                                                                  {{/if}}">
+                                  {{#with ../getUser userId}}
+                                      <img src="{{profile.avatar}}">
+                                      <span class="user-name">{{profile.name}}</span>
+                                  {{/with}}
 
-                              {{#if ../isTypeShout type}}
-                                {{#if ../hasSharedProducts sharedProducts.length}}
-                                    <span class="badge badge-energized badge-items">{{../getSharedProductsBadge sharedProducts.length}}</span>
-                                {{/if}}
-                              {{/if}}
-                                
-                              <span class="user-message">{{message}}</span>
+                                  {{#if ../isTypeShout type}}
+                                    {{#if ../hasSharedProducts sharedProducts.length}}
+                                        <span class="badge badge-energized badge-items">{{../getSharedProductsBadge sharedProducts.length}}</span>
+                                    {{/if}}
+                                  {{/if}}
 
-                              <p class="user-time">{{../getTime createdAt}}</p>
+                                  <span class="user-message">{{message}}</span>
 
-                              <div class="item-icon-right">
-                                {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
-                              </div>    
-                            </a>
+                                  <p class="user-time">{{../getTime createdAt}}</p>
+
+                                  <div class="item-icon-right">
+                                    {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
+                                  </div>
+                                </a>
+                            </div>
                         </div>
 
                     {{/each}}
-                
+
                 {{/if}}
-                
+
             </div>
-    
+
             {{>loader}}
-    
+
         {{/ionContent}}
-    
+
         <div class="tabs-background-royal tabs-color-light {{ hideClass }} tabs-icon-top">
             <div class="tabs darken-element">
                 <a class="tab-item tab-shout-out {{isActivated 0}}" id="tabShoutOut"><i class="icon ion-speakerphone"></i>SHOUT OUT</a>

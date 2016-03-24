@@ -15,11 +15,11 @@
           <img id="spinner-logo-simple" src="{{ getImage 'spinner-logo' }}" />
         </a>
     {{/contentFor}}
-    
+
     {{#ionView class="my-items"}}
-    
+
         {{#ionContent class="overflow-scroll"}}
-    
+
             {{#unless tabBorrowed}}
                 <div class="tabs tabs-top">
                   <a class="tab-item {{#unless tabRequests}} tab-bg {{/unless}}" id="tabInventory">
@@ -30,63 +30,65 @@
                   </a>
                 </div>
             {{/unless}}
-    
+
             <div class="loadbox" style="{{#unless tabBorrowed}} margin-top:50px {{/unless}}">
                 {{>loader}}
             </div>
-    
+
             <div class="list items-list" style="{{#unless tabBorrowed}} margin-top:50px {{/unless}}">
-                
+
                 {{#if isConnections}}
-                
+
                     {{#each connections}}
-                
-                        <div class="list card">
-                            <a class="item item-avatar" href="{{#if tabBorrowed}} /items/connect-rent/{{_id}} {{else}} /items/connect/{{_id}} {{/if}}">
-<!--                            {{#ionItem path="connect" _id=productData._id class="item-avatar"}}-->
-                                <img src="{{productData.image}}"/>
-                                <p class="main-title">{{productData.title}}</p>
-                                <p class="main-sub-text">
-                                    {{productData.category}} | {{../getCondition productData.conditionId}}
-                                </p>
-                            
-                                {{#unless ../isPurchasing state}}
-                            
+
+                        <div class="list col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                            <div class="card">
+                                <a class="item item-avatar" href="{{#if tabBorrowed}} /items/connect-rent/{{_id}} {{else}} /items/connect/{{_id}} {{/if}}">
+    <!--                            {{#ionItem path="connect" _id=productData._id class="item-avatar"}}-->
+                                    <img src="{{productData.image}}"/>
+                                    <p class="main-title">{{productData.title}}</p>
                                     <p class="main-sub-text">
-                                      <i class="icon ion-ios-calendar-outline"></i>
-                                      {{../getTotalDays borrowDetails.date.totalDays}}
-                                      ({{../getStartDate borrowDetails.date.start}} to {{../getEndDate borrowDetails.date.end}})
+                                        {{productData.category}} | {{../getCondition productData.conditionId}}
                                     </p>
-                                    <p class="main-sub-text">
-                                      {{#if ../isTimeOver borrowDetails.date.start borrowDetails.date.end}}
-                                          <span style="color:red">
+
+                                    {{#unless ../isPurchasing state}}
+
+                                        <p class="main-sub-text">
+                                          <i class="icon ion-ios-calendar-outline"></i>
+                                          {{../getTotalDays borrowDetails.date.totalDays}}
+                                          ({{../getStartDate borrowDetails.date.start}} to {{../getEndDate borrowDetails.date.end}})
+                                        </p>
+                                        <p class="main-sub-text">
+                                          {{#if ../isTimeOver borrowDetails.date.start borrowDetails.date.end}}
+                                              <span style="color:red">
+                                                  <i class="icon ion-ios-clock-outline"></i>
+                                                  {{../getDaysLeft borrowDetails.date.start borrowDetails.date.end}}
+                                              </span>
+                                          {{else}}
                                               <i class="icon ion-ios-clock-outline"></i>
                                               {{../getDaysLeft borrowDetails.date.start borrowDetails.date.end}}
-                                          </span>
-                                      {{else}}
-                                          <i class="icon ion-ios-clock-outline"></i>
-                                          {{../getDaysLeft borrowDetails.date.start borrowDetails.date.end}}
-                                      {{/if}}
+                                          {{/if}}
+                                        </p>
+
+                                    {{/unless}}
+
+                                    <p class="main-sub-text">
+                                        <i class="icon ion-cash"></i>
+                                        <span class="price">${{borrowDetails.price.total}}</span>
                                     </p>
-                            
-                                {{/unless}}
-                            
-                                <p class="main-sub-text">
-                                    <i class="icon ion-cash"></i>
-                                    <span class="price">${{borrowDetails.price.total}}</span>
-                                </p>
-                                <span class="badge status">{{../labelState state}}</span>
-                                <div class="item-icon-right">
-                                  {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
-                                </div>
-                            </a>
+                                    <span class="badge status">{{../labelState state}}</span>
+                                    <div class="item-icon-right">
+                                      {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
+                                    </div>
+                                </a>
+                            </div>
                         </div>
-                
+
                     {{/each}}
-                
+
                     {{#if ../hasNoConnections}}
                         {{#if tabBorrowed}}
-                            <div class="card center padding not-yet">
+                            <div class="card card-limited center padding not-yet">
                                 <div style="width:100%">
                                   <i class="{{iconRandom}}" style="font-size: 210px;"></i>
                                   <a href="/listing" class="button button-block button-energized">START BORROWING!</a>
@@ -94,7 +96,7 @@
                                 </div>
                             </div>
                         {{else}}
-                            <div class="card list padding">
+                            <div class="card card-limited list padding">
                                 <div class="item item-icon-left alerts">
                                   <i class="icon energized ion-alert-circled"></i>
                                   <p class="energized">You have no requests.</p>
@@ -102,42 +104,44 @@
                             </div>
                         {{/if}}
                     {{/if}}
-                
+
                 {{else}}
-                
+
                     {{#each myProducts}}
 
-                        <div class="list card">
-                            {{#ionItem path='inventoryDetail' _id=_id class="item-avatar"}}
-                                    <img src="{{image}}"/>
-                                    <p class="main-title">{{title}}</p>
-                                    <p class="main-sub-text">{{category}} | {{../getCondition conditionId}}</p>
-                                    <table class="rent-table">
-                                      <tbody>
-                                          <tr>
-                                              <th class="one"><i class="icon">DAY</i></th>
-                                              <th class="two"><i class="icon">WEEK</i></th>
-                                              <th class="three"><i class="icon">MONTH</i></th>
-                                              <th class="four"><i class="icon">SEMESTER</i></th>
-                                          </tr>
-                                          <tr>
-                                              <td>{{rentPrice.day}}</td>
-                                              <td>{{rentPrice.week}}</td>
-                                              <td>{{rentPrice.month}}</td>
-                                              <td>{{rentPrice.semester}}</td>
-                                          </tr>
-                                      </tbody>
-                                  </table>
-                                  <div class="item-icon-right">
-                                  {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
-                                  </div>
-                            {{/ionItem}}
+                        <div class="list col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                            <div class="card">
+                                {{#ionItem path='inventoryDetail' _id=_id class="item-avatar"}}
+                                        <img src="{{image}}"/>
+                                        <p class="main-title">{{title}}</p>
+                                        <p class="main-sub-text">{{category}} | {{../getCondition conditionId}}</p>
+                                        <table class="rent-table">
+                                          <tbody>
+                                              <tr>
+                                                  <th class="one"><i class="icon">DAY</i></th>
+                                                  <th class="two"><i class="icon">WEEK</i></th>
+                                                  <th class="three"><i class="icon">MONTH</i></th>
+                                                  <th class="four"><i class="icon">SEMESTER</i></th>
+                                              </tr>
+                                              <tr>
+                                                  <td>{{rentPrice.day}}</td>
+                                                  <td>{{rentPrice.week}}</td>
+                                                  <td>{{rentPrice.month}}</td>
+                                                  <td>{{rentPrice.semester}}</td>
+                                              </tr>
+                                          </tbody>
+                                      </table>
+                                      <div class="item-icon-right">
+                                      {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
+                                      </div>
+                                {{/ionItem}}
+                            </div>
                         </div>
 
                     {{/each}}
-                
+
                     {{#if ../hasNoProducts}}
-                        <div class="card center padding not-yet">
+                        <div class="card card-limited center padding not-yet">
                             <div style="width:100%">
                               <i class="{{iconRandom}}" style="font-size: 210px;"></i>
                               <a href="/lend" class="button button-block button-energized">START SHARING!</a>
@@ -145,15 +149,15 @@
                             </div>
                         </div>
                     {{/if}}
-                
+
                 {{/if}}
-                
-    
+
+
             </div>
-           
-    
+
+
         {{/ionContent}}
-    
+
         <div class="tabs-background-royal tabs-color-light {{ hideClass }} tabs-icon-top">
             <div class="tabs tabs-bottom darken-element">
                 <a class="tab-item tab-sharedItems {{#if tabBorrowed}} {{else}} active {{/if}}" id="tabShared"><i class="icon mdi mdi-basket-unfill"></i>SHARED</a>
@@ -161,5 +165,5 @@
             </div>
         </div>
     {{/ionView}}
-    
+
 </template>
