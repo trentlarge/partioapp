@@ -13,7 +13,7 @@
         <script>
           Meteor.setTimeout(function(){
             $('.loadbox').fadeOut('medium',function(){
-                $('.loading-wrapper').fadeIn('medium');  
+                $('.loading-wrapper').fadeIn('medium');
             });
           }, 500);
         </script>
@@ -22,12 +22,12 @@
       {{>loader}}
 
       <div class="loading-wrapper">
-        <div class="card padding-horizontal padding-vertical list">
+        <div class="card card-limited padding-horizontal padding-vertical list">
           <div class="item item-divider product-details"><h2>Product Details <i class="chevron-icon icon ion-chevron-up"></i></h2>
           </div>
 
           <div class="item product-details-item">
-              
+
             <div class="item">
                 <span class="product-title">{{connectData.productData.title}}</span>
                 <div class="image-container">
@@ -36,7 +36,7 @@
                     </a>
                 </div>
             </div>
-              
+
             <div class="item product-features no-padding-top">
                 <div class="col col-50">
                     <p><i class="icon {{../getCategoryIcon}}"></i> {{connectData.productData.amazonCategory}}</p>
@@ -45,7 +45,7 @@
                    <p><i class="icon ion-clipboard"></i> {{../getCondition}}</p>
                 </div>
             </div>
-              
+
           </div>
 
           <div class="item item-divider profile-details"><h2>Renting Details </h2></div>
@@ -132,8 +132,8 @@
             <div style="padding-bottom:16px;"></div>
 
           <!--  RENTING  -->
-          {{#if ../isNotPurchasing}}  
-            
+          {{#if ../isNotPurchasing}}
+
               {{#if alreadyApproved}}
                 {{#if returnItem}}
                     <div class="item button-divider ">
@@ -150,13 +150,13 @@
                         </div>
                     {{/if}}
                 {{/if}}
-            
+
                 {{#if ../itemReported}}
                     <div class="item self-check-item no-padding-top">
                         <span class="item-reported">ITEM REPORTED</span>
                         <span class="item-reported-message center">The requestor has 24h to return the item and receive your confirmation</span>
                         <span class="time-left">{{../getReportTimeLeft}}</span>
-                    </div>           
+                    </div>
                 {{/if}}
 
               {{else}}
@@ -170,7 +170,7 @@
                         </div>
                     {{/if}}
               {{/if}}
-            
+
            <!--  PURCHASING  -->
            {{else}}
                 {{#if alreadyApproved}}
@@ -179,37 +179,37 @@
                             <div class="item button-divider ">
                                 <button id="giveFeedback" class="button button-block">CONFIRM RETURN</button>
                             </div>
-            
+
                             <div class="item self-check-item no-padding-top">
                                 <span class="item-reported">ITEM REPORTED</span>
                                 <span class="item-reported-message center">The requestor has 24h to return the item and receive your confirmation</span>
                                 <span class="time-left">{{../getReportTimeLeft}}</span>
-                            </div>      
-            
+                            </div>
+
                         {{else}}
                             <div class="item button-divider ">
                                 <button id="giveFeedback" class="button button-block">GIVE THE FEEDBACK</button>
                             </div>
                         {{/if}}
-            
+
                     {{else}}
                         {{#if ../paymentPending}}
                             <div class="item button-divider ">
                                 <button class="button button-block" disabled>WAITING PAYMENT</button>
                             </div>
-            
+
                         {{else}}
                             {{#if ../itemReported}}
                                 <div class="item button-divider ">
                                     <button class="button button-block" disabled>WAITING RETURN</button>
                                 </div>
-            
+
                                 <div class="item self-check-item no-padding-top">
                                     <span class="item-reported">ITEM REPORTED</span>
                                     <span class="item-reported-message center">The requestor has 24h to return the item and receive your confirmation</span>
                                     <span class="time-left">{{../getReportTimeLeft}}</span>
-                                </div>  
-            
+                                </div>
+
                             {{else}}
                                 <div class="item button-divider ">
                                     <button class="button button-block" disabled>SOLD - WAITING CONFIRMATION</button>
@@ -222,7 +222,7 @@
                         <button id="ownerPurchasingAccept" class="button button-block button-energized">ALLOW PURCHASING</button>
                     </div>
                 {{/if}}
-            
+
             {{/if}}
         </div>
 

@@ -1,5 +1,5 @@
 <template name="shoutoutDetails">
-    
+
     {{#contentFor "headerButtonLeft"}}
       {{>ionNavBackButton}}
     {{/contentFor}}
@@ -15,33 +15,33 @@
     {{/contentFor}}
 
     {{#ionView class="shout-out-details"}}
-    
+
         {{#ionContent class="overflow-scroll"}}
-    
+
             {{#with shout}}
-    
-                <div class="list card">
+
+                <div class="list card card-limited">
                     <div class="item item-avatar">
                       {{#with ../getUser userId}}
                         <img src="{{profile.avatar}}">
-                        <span class="user-name">{{profile.name}}</span> 
+                        <span class="user-name">{{profile.name}}</span>
                       {{/with}}
                       <span class="user-message">{{message}}</span>
                       <p class="user-time">{{../getTime createdAt}}</p>
                     </div>
-                    
+
                     {{#if ../isOwner}}
                         <div class="item center no-border no-padding-top">
-                            <a class="delete-shout">REMOVE</a>     
+                            <a class="delete-shout">REMOVE</a>
                         </div>
                     {{else}}
                         <div class="item center no-border no-padding-top">
                             <h2>Have this product?</h2>
-                            <a class="share-it" data-ion-modal="shoutoutShare">SHARE</a> 
+                            <a class="share-it" data-ion-modal="shoutoutShare">SHARE</a>
                             <a href="/lend" class="add-it">ADD</a>
                         </div>
                     {{/if}}
-                    
+
                     {{#each sharedProducts}}
                         <a class="item product-item" href="/listing/search/{{_id}}?ownerId={{ownerData._id}}">
                             <div class="product-image">
@@ -49,30 +49,30 @@
                             </div>
                             <div class="product-content">
                                 <p>
-                                    <span class="shared-name">{{ownerData.profile.name}}</span>  
+                                    <span class="shared-name">{{ownerData.profile.name}}</span>
                                     shared <b> {{title}}.</b>
                                 </p>
                             </div>
                             <div class="item-icon-right">
                                 {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
-                            </div>   
+                            </div>
                         </a>
                     {{/each}}
-                    
+
                 </div>
-    
+
             {{/with}}
-    
+
         {{/ionContent}}
-    
+
     {{/ionView}}
-    
+
 </template>
 
 <template name="shoutoutShare">
 
     {{#ionModal title="Share Item" class="shout-out-share-item"}}
-    
+
         {{#each getProducts}}
             <a class="item item-avatar-2 share-item">
                 <div class="product-avatar my-products">
@@ -99,9 +99,9 @@
                 </table>
                 </p>
             </a>
-    
+
         {{/each}}
-    
+
     {{/ionModal}}
-    
+
 </template>
