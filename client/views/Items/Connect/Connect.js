@@ -28,7 +28,7 @@ Template.connect.events({
 
 		IonPopup.confirm({
 			cancelText: 'No',
-			okText: 'Received',
+			okText: 'Yes',
 			title: 'Confirmation',
 			template: 'Is your product returned?' +
             '<span class="popup-sub-message">The product will now be available for others to borrow.</span>',
@@ -36,7 +36,9 @@ Template.connect.events({
 
 			},
 			onOk: function() {
+                PartioLoad.show();
 				Meteor.call('confirmReturn', connection._id, productId, function(err, res) {
+                    PartioLoad.hide();
 					IonPopup.close();
 					if(err) {
 						var errorMessage = err.reason || err.message;
@@ -54,21 +56,34 @@ Template.connect.events({
 	},
     
     'click #giveFeedback': function() {
-		var connection = this.connectData;
-        var requestor = Users.findOne({ _id: connection.requestor });
-		var productTitle = connection.productData.title;
-		var searchCollectionId = Search.findOne({title: productTitle});
+		var connection = this.connectData,
+            requestor = Users.findOne({ _id: connection.requestor }),
+		    productTitle = connection.productData.title,
+		    searchCollectionId = Search.findOne({title: productTitle}),
+            message = {
+                title: 'Feedback',
+                template: 'The delivery confirmation has been made. Please give us your feedback.'
+            };
+        
+        if(connection.report && connection.report.status) {
+            message = {
+                title: 'Confirmation',
+                template: 'Is your product returned?'
+            };
+        }
 
 		IonPopup.confirm({
 			cancelText: 'No',
 			okText: 'Yes',
-			title: 'Feedback',
-			template: 'The delivery confirmation has been made. Please give us your feedback.',
+			title: message.title,
+			template: message.template,
 			onCancel: function() {
 
 			},
 			onOk: function() {
+                PartioLoad.show();
 				Meteor.call('giveFeedback', searchCollectionId, connection._id, function(err, res) {
+                    PartioLoad.hide();
 					IonPopup.close();
 					if(err) {
 						var errorMessage = err.reason || err.message;
@@ -194,10 +209,8 @@ var currentPosition;
 
 var CheckLocationOn = function(){
 
+//	console.log(Geolocation.currentLocation());
 
-	console.log(Geolocation.currentLocation());
-
-	
 	//navigator.geolocation.getCurrentPosition(onSuccess, onError);
 
 	checkUserLocation(function(result){

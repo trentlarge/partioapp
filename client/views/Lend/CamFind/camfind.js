@@ -87,7 +87,6 @@ Template.camfind.rendered = function() {
     $('.darken-element').css({'opacity': '1'});
     $('.view').css({'background': '#eceff1'});
     //$('.search-share-header-input').val('');
-    $('.search-share-header-input').focus();
 }
 
 Template.camfind.events({
@@ -132,19 +131,19 @@ Template.camfind.events({
             MeteorCamera.getPicture(options, function(err, data) {
                 if(err) {
                 
-                  IonPopup.show({
-                        title: 'Get picture',
-                        template: '<div class="dark">Sorry, cannot get picture.</div>',
-                        buttons:
-                        [{
-                            text: 'OK',
-                            type: 'button-energized',
-                            onTap: function() {
-                                IonPopup.close();
-                                resetImageCamFind();
-                            }
-                        }]
-                  });
+//                  IonPopup.show({
+//                        title: 'Get picture',
+//                        template: '<div class="dark">Sorry, cannot get picture.</div>',
+//                        buttons:
+//                        [{
+//                            text: 'OK',
+//                            type: 'button-energized',
+//                            onTap: function() {
+//                                IonPopup.close();
+//                                resetImageCamFind();
+//                            }
+//                        }]
+//                  });
                   return false;
                 }
                 processPicture(data);

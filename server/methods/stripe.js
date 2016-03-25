@@ -443,7 +443,7 @@ Meteor.methods({
                 if(userAmount > 0) {
                     return ((Number(userAmount) + Number(stripeFee))*100).toFixed(0);
                 }
-                // not partia
+                // not partial
                 else {
                     return 0;
                 }
@@ -663,6 +663,10 @@ Meteor.methods({
                   selfCheck: {
                       status: true,
                       timestamp: Date.now()
+                  },
+                  promotion: {
+                      status: promotion,
+                      value: partioAmount
                   }
                 }});
 

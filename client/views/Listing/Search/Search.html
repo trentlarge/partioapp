@@ -11,12 +11,12 @@
     {{#ionContent class="listing-search overflow-scroll"}}
 
 <!--    <div class="item item-divider product-header-title"><h2>{{ product.title }}</h2></div>-->
-    
+
     {{#if Template.subscriptionsReady}}
         <script>
             Meteor.setTimeout(function(){
                 $('.loadbox').fadeOut('medium',function(){
-                    $('.loading-wrapper').fadeIn('medium');  
+                    $('.loading-wrapper').fadeIn('medium');
                 });
             }, 1000);
         </script>
@@ -27,7 +27,7 @@
     <div class="loading-wrapper">
         <div class="card list">
 <!--            <div class="item item-divider">Product Details</div>-->
-            
+
             <div class="item">
                 <span class="product-title">{{product.title}}</span>
                 <div class="image-container">
@@ -36,8 +36,8 @@
                     </a>
                 </div>
             </div>
-            
-            
+
+
 <!--
             <div class="item product">
                 <div class="product-avatar">
@@ -46,45 +46,72 @@
                     </a>
                 </div>
             </div>
-            
+
             <div class="item title">
                 <div class="card">
                     <p class="product-title-text">{{product.title}}</p>
                 </div>
             </div>
 -->
-            
+
 <!--            <div class="item item-divider">Rent Details</div>-->
-            
+
             <div class="item">
 
                 <div class="profile-image-box">
-                    <a href="/profile/items/{{ product.ownerData._id }}" class="profile-avatar-box"> 
+                    <a href="/profile/items/{{ product.ownerData._id }}" class="profile-avatar-box">
                         <div style="background: url({{ product.ownerData.profile.avatar }}) no-repeat; background-size:cover; background-position: 50% 50%;" class="profile-avatar"></div>
                     </a>
                     <p class="main-title-text"> {{ product.ownerData.profile.name }} </p>
                     <span class="rating-box">{{ > rating}}</span>
-                </div> 
+                </div>
                 <div class="rent-details-box">
-                    <p class="price"> <i class="icon ion-cash"></i> Rent Price: </p>
-                    <table class="rent-table">
-                        <tbody>
-                            <tr>
-                                <th class="one"><i class="icon">DAY</i></th>
-                                <th class="two"><i class="icon">WEEK</i></th>
-                                <th class="three"><i class="icon">MONTH</i></th>
-                                <th class="four"><i class="icon">SEMESTER</i></th>
-                            </tr>
-                            <tr>
-                                <td>{{product.rentPrice.day}}</td>
-                                <td>{{product.rentPrice.week}}</td>
-                                <td>{{product.rentPrice.month}}</td>
-                                <td>{{product.rentPrice.semester}}</td>
-                            </tr>
-                        </tbody>
-                    </table>
+
+                    {{#if listingProduct}}
+                        {{#if tabBuy}}
+                            <p class="price"> <i class="icon ion-cash"></i> Buy Price: </p>
+                            <p class="buy-price">${{product.selling.price}}</p>
+                        {{else}}
+                            <p class="price"> <i class="icon ion-cash"></i> Rent Price: </p>
+                            <table class="rent-table">
+                                <tbody>
+                                    <tr>
+                                        <th class="one"><i class="icon">DAY</i></th>
+                                        <th class="two"><i class="icon">WEEK</i></th>
+                                        <th class="three"><i class="icon">MONTH</i></th>
+                                        <th class="four"><i class="icon">SEMESTER</i></th>
+                                    </tr>
+                                    <tr>
+                                        <td>{{product.rentPrice.day}}</td>
+                                        <td>{{product.rentPrice.week}}</td>
+                                        <td>{{product.rentPrice.month}}</td>
+                                        <td>{{product.rentPrice.semester}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        {{/if}}
+                    {{else}}
+                        <p class="price"> <i class="icon ion-cash"></i> Rent Price: </p>
+                        <table class="rent-table">
+                            <tbody>
+                                <tr>
+                                    <th class="one"><i class="icon">DAY</i></th>
+                                    <th class="two"><i class="icon">WEEK</i></th>
+                                    <th class="three"><i class="icon">MONTH</i></th>
+                                    <th class="four"><i class="icon">SEMESTER</i></th>
+                                </tr>
+                                <tr>
+                                    <td>{{product.rentPrice.day}}</td>
+                                    <td>{{product.rentPrice.week}}</td>
+                                    <td>{{product.rentPrice.month}}</td>
+                                    <td>{{product.rentPrice.semester}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    {{/if}}
+
                     <p class="condition">Condition: <b>{{ ../getCondition }}</b></p>
-                    
+
                     {{#if ../requestSent ownerId _id}}
                         {{#if ../isBorrowedByUser ownerId _id}}
                             <button class="button button-block" disabled>
@@ -92,11 +119,11 @@
                             </button>
                         {{else}}
                             {{#if isPurchasingByUser}}
-                                <button class="button button-block" disabled> 
+                                <button class="button button-block" disabled>
                                     PURCHASING
                                 </button>
                             {{else}}
-                                <button class="button button-block" disabled> 
+                                <button class="button button-block" disabled>
                                     BORROWED
                                 </button>
                             {{/if}}
@@ -105,26 +132,39 @@
                         {{#if ../isNotOwner _id}}
                             {{#if ../isUnavailable ownerId _id}}
                                 <button class="button button-block" disabled>
-                                    UNAVAILABLE 
+                                    UNAVAILABLE
                                 </button>
                             {{else}}
-                                <button id="requestProduct" class="button button-block button-energized">
-                                    REQUEST 
-                                </button>
-                    
-                                {{#if ../isSellingStatusOn}}
-                                    <a id="buyProduct" class="button-energized"> 
-                                        BUY FOR ${{product.selling.price}} 
-                                    </a>
+                                {{#if listingProduct}}
+                                    {{#if tabBuy}}
+                                        <button id="buyProduct" class="button button-block button-energized">
+                                            REQUEST
+                                        </button>
+                                    {{else}}
+                                        <button id="requestProduct" class="button button-block button-energized">
+                                            REQUEST
+                                        </button>
+                                    {{/if}}
+                                {{else}}
+                                    {{#if ../isRentingStatusOn}}
+                                        <button id="buyProduct" class="button button-block button-energized">
+                                            REQUEST
+                                        </button>
+                                    {{/if}}
+                                    {{#if ../isSellingStatusOn}}
+                                        <a id="buyProduct" class="button-energized">
+                                            BUY FOR ${{product.selling.price}}
+                                        </a>
+                                    {{/if}}
                                 {{/if}}
                             {{/if}}
                         {{/if}}
-                    {{/if}}    
+                    {{/if}}
                 </div>
             </div>
         </div>
     </div>
-    
+
     {{/ionContent}}
   {{/ionView}}
 
@@ -133,7 +173,7 @@
 <template name="slideImages">
 
     {{#ionModal title="Images" class="listing-search slide-images"}}
-    
+
         {{#ionSlideBox}}
             {{#each slideElements}}
                 {{#ionSlide}}
@@ -143,6 +183,6 @@
                 {{/ionSlide}}
             {{/each}}
         {{/ionSlideBox}}
-    
+
     {{/ionModal}}
 </template>

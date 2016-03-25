@@ -118,6 +118,15 @@
         font-size: 50px;
     }
     
+    .product-borrowed {
+        font-size: 80px;
+        text-align: center;
+        
+        .percent {
+            font-size: 18px;   
+        }
+    }
+    
     // CONNECTIONS
     
     .average-price {
@@ -131,6 +140,12 @@
     .average-borrow-price,
     .average-purchasing-price {
         font-size: 25px;
+        text-align: center;
+        
+        .total {
+            margin-top: 5px;
+            min-height: 15px;
+        }
     }
     
     .connections-table {
@@ -171,6 +186,12 @@
     
     .total-spending {
         font-size: 25px;
+        text-align: center;
+        
+        .average {
+            margin-top: 5px;
+            min-height: 15px;
+        }
     }
     
     .transaction-table {

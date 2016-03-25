@@ -127,15 +127,27 @@ Template.connectRent.events({
 	},
     
     'click #confirmReceived': function() {
-		var connectionData = this.connectData;
-		var requestorName = this.connectData.requestorData.profile.name;
-		var ownerId	= this.connectData.productData.ownerId;
+		var connectionData = this.connectData,
+		    requestorName = this.connectData.requestorData.profile.name,
+		    ownerId	= this.connectData.productData.ownerId,
+            message = {
+                title: 'Confirmation',
+                template: 'Is your product delivered?',
+            };
+            
+        if(connectionData.report && connectionData.report.status) {
+            message = {
+                title: 'Return Item',
+			    template: 'Are you sure you want to return this item?' +
+            '<span class="popup-sub-message">Please make sure the item is passed back to the owner</span>'
+            };
+        }
 
 		IonPopup.confirm({
 			cancelText: 'Cancel',
 			okText: 'Yes',
-			title: 'Confirmation',
-			template: 'Is your product delivered?',
+			title: message.title,
+			template: message.template,
 			onCancel: function() {
         	IonPopup.close();
 			},

@@ -100,10 +100,10 @@ AdminPromotionsController = RouteController.extend({
 						earningArray.forEach(function(item) {
 							total += (item.receivedAmount || 0);
 						});
-						return Number(total);
+						return Number(total).toFixed(2);
 					}
 					
-					return Number(0);				
+					return Number(0).toFixed(2);				
 				}
 			},
 
@@ -118,12 +118,12 @@ AdminPromotionsController = RouteController.extend({
 						spendingArray.forEach(function(item) {
 							total += (item.paidAmount || 0);
 						});
-						return Number(total);
-						//return Number(total).toFixed(2);
+						//return Number(total);
+						return Number(total).toFixed(2);
 					}
 					
-					//return Number(0).toFixed(2);				
-					return Number(0);				
+					return Number(0).toFixed(2);				
+					//return Number(0);				
 				}
 			},
 
@@ -141,10 +141,10 @@ AdminPromotionsController = RouteController.extend({
 								total += (item.receivedAmount || 0);	
 							}
 						});
-						return Number(total);
+						return Number(total).toFixed(2);
 					}
 					
-					return Number(0);				
+					return Number(0).toFixed(2);				
 				}
 			},
 
@@ -162,10 +162,10 @@ AdminPromotionsController = RouteController.extend({
 								total += (item.paidAmount || 0);
 							}
 						});
-						return Number(total);
+						return Number(total).toFixed(2);
 					}
 							
-					return Number(0);				
+					return Number(0).toFixed(2);				
 				}
 			},
 
@@ -179,10 +179,10 @@ AdminPromotionsController = RouteController.extend({
 
 					_usersByArea.map(function(user){
 						//console.log(user._id);
-						total += (thiz.transactionEarnByUserId(user._id) || 0);
+						total += (Number(thiz.transactionEarnByUserId(user._id)) || 0);
 				    });
 
-				    return Number(total);
+				    return Number(total).toFixed(2);
 				}
 				
 			},

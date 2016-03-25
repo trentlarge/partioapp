@@ -60,9 +60,18 @@
 </template>
 
 <template name="searchResult">
-    
-    <div id='search-result' class="list">
-    
+
+    <div class="listing tabs tabs-top">
+      <a class="tab-item {{#unless tabBuy}} tab-bg {{/unless}}" id="Borrow">
+        BORROW
+      </a>
+      <a class="tab-item {{#if tabBuy}} tab-bg {{/if}}" id="Buy">
+        BUY
+      </a>
+    </div>
+
+    <div id='search-result' class="list list-products">
+
 <!--
         <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 center margin-vertical">
             <a class="status-filter filter-borrow padding">BORROWED</a>
@@ -77,16 +86,16 @@
                 {{#each searchProducts}}
                     <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
                         <div class="product-box">
-                            {{#if ../isSellingStatusOn selling.status}}
+                            <!-- {{#if ../isSellingStatusOn selling.status}}
                                 <span class="selling-badge">${{selling.price}}</span>
-                            {{/if}}
+                            {{/if}} -->
                             {{#if borrow}}
                                 <span class="borrow-badge">BORROWED</span>
                             {{/if}}
                             {{#if purchasing}}
                                 <span class="borrow-badge">PURCHASING</span>
                             {{/if}}
-                            <a href="/listing/search/{{_id}}?ownerId={{ownerId}}">
+                            <a href="/listing/search/{{_id}}?ownerId={{ownerId}}" class="product">
                                 <div class="product-content">
                                     <div class="product-avatar">
                                       <img class="product-avatar-inner" src="{{image}}"/>
@@ -94,24 +103,31 @@
                                     <div class="ellipsis">
                                         <p class="main-title-text">{{title}}</p>
                                     </div>
-                                    <div class="item-rent-table">
-                                        <table class="rent-table">
-                                            <tbody>
-                                                <tr>
-                                                    <th class="one"><i class="icon">DAY</i></th>
-                                                    <th class="two"><i class="icon">WEEK</i></th>
-                                                    <th class="three"><i class="icon">MONTH</i></th>
-                                                    <th class="four"><i class="icon">SEMESTER</i></th>
-                                                </tr>
-                                                <tr>
-                                                    <td>{{rentPrice.day}}</td>
-                                                    <td>{{rentPrice.week}}</td>
-                                                    <td>{{rentPrice.month}}</td>
-                                                    <td>{{rentPrice.semester}}</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                    {{#if tabBuy}}
+                                        <div class="item-buy">
+                                            <span class="buy text">Price</span>
+                                            <span class="buy price">${{selling.price}}</span>
+                                        </div>
+                                    {{else}}
+                                        <div class="item-rent-table">
+                                            <table class="rent-table">
+                                                <tbody>
+                                                    <tr>
+                                                        <th class="one"><i class="icon">DAY</i></th>
+                                                        <th class="two"><i class="icon">WEEK</i></th>
+                                                        <th class="three"><i class="icon">MONTH</i></th>
+                                                        <th class="four"><i class="icon">SEMESTER</i></th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>{{rentPrice.day}}</td>
+                                                        <td>{{rentPrice.week}}</td>
+                                                        <td>{{rentPrice.month}}</td>
+                                                        <td>{{rentPrice.semester}}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    {{/if}}
                                 </div>
                             </a>
                         </div>
@@ -119,10 +135,9 @@
                 {{/each}}
             </div>
 
-            {{>loader}}
         {{else}}
 
-            <div class="card padding list no-items">
+            <div class="card padding list">
                 <div class="item item-icon-left alerts">
                   <i class="icon energized ion-alert-circled"></i>
                   <p class="energized">No items available.</p>
@@ -131,13 +146,17 @@
         {{/if}}
 
     </div>
-        
+
+    <div style="margin-top:55px;">
+        {{>loader}}
+    </div>
+
     {{> partioTutorial}}
-    
+
 <!--
     <a class="fab-button" href="/shoutout">
-        <i id="shoutOut" class="icon ion-speakerphone"></i>   
+        <i id="shoutOut" class="icon ion-speakerphone"></i>
     </a>
 -->
-    
+
 </template>

@@ -9,28 +9,27 @@ AnalyticsController = RouteController.extend({
 
 	waitOn: function() {
         
-        var analyticsId = this.params._id;
-        var subscribeElement;
+        var analyticsId = this.params._id,
+            user = Users.findOne({_id: Meteor.userId()}),
+            subscribeElement = [
+                Meteor.subscribe("userAdmin", user.emails[0].address),
+                Meteor.subscribe("users")
+            ];
         
         switch(analyticsId) {
             case 'products': 
-                subscribeElement = Meteor.subscribe("products");
+                subscribeElement.push(Meteor.subscribe("products"));
                 break;
             case 'connections': 
-                subscribeElement = Meteor.subscribe("allConnections");
+                subscribeElement.push(Meteor.subscribe("allConnections"));
                 break;
             case 'transactions': 
-                subscribeElement = Meteor.subscribe("transactions");
+                subscribeElement.push(Meteor.subscribe("transactions"));
+                subscribeElement.push(Meteor.subscribe("allConnections"));
                 break;
         }
         
-        var user = Users.findOne({_id: Meteor.userId()});
-        
-		return [
-            Meteor.subscribe("userAdmin", user.emails[0].address),
-            Meteor.subscribe("users"),
-			subscribeElement
-		];
+		return subscribeElement;
 	},
     
 	data: function() {
@@ -325,6 +324,42 @@ AnalyticsController = RouteController.extend({
                 return products;
             },
             
+            getAvailableProducts: function() {
+                
+                var products = this.products.filter(function(product) {
+                    return (product.borrow !== true && product.purchasing !== true && product.sold !== true)
+                });
+                
+                return products.length;
+            },
+            
+            getAvailablePercentProducts: function() {
+              
+                var products = this.products.filter(function(product) {
+                    return (product.borrow !== true && product.purchasing !== true && product.sold !== true)
+                });
+                
+                return Number((products.length*100)/this.products.length).toFixed(2);
+            },
+            
+            getBorrowedProducts: function() {
+              
+                var products = this.products.filter(function(product) {
+                    return (product.borrow === true)
+                });
+                
+                return products.length;
+            },
+            
+            getBorrowedPercentProducts: function() {
+              
+                var products = this.products.filter(function(product) {
+                    return (product.borrow === true)
+                });
+                
+                return Number((products.length*100)/this.products.length).toFixed(2);
+            },
+            
             getSoldProducts: function() {
                 
                 var products = this.products.filter(function(product) {
@@ -361,25 +396,25 @@ AnalyticsController = RouteController.extend({
                 
                 var connections = this.connections.filter(function(connection) {
                    return ($.inArray(connection.state, states) >= 0); 
-                });
-                
-                var totalDays = 0;
-                var totalPrice = 0.00
+                }),
+                    totalDays = 0,
+                    totalPrice = 0.00,
+                    average = {
+                        days: 0,
+                        price: 0.00,
+                        totalPrice: 0.00
+                    }
                 
                 $.each(connections, function(index, connection) {
                     totalDays += connection.borrowDetails.date.totalDays;
                     totalPrice += parseFloat(connection.borrowDetails.price.total);
                 });
                 
-                var average = {
-                    days: 0,
-                    price: 0.00
-                }
-                
-                if(connections.lenght > 0) {
+                if(connections.length > 0) {
                     average = {
                         days: Number(totalDays/connections.length).toFixed(0),
-                        price: Number(totalPrice/connections.length).toFixed(2)
+                        price: Number(totalPrice/connections.length).toFixed(2),
+                        totalPrice: Number(totalPrice).toFixed(2),
                     }
                 }
                 
@@ -394,22 +429,22 @@ AnalyticsController = RouteController.extend({
                    return ($.inArray(connection.state, states) >= 0); 
                 });
                 
-                var totalPrice = 0.00;
+                var totalPrice = 0.00,
+                    average = {
+                        price: 0.00,
+                        totalPrice: 0.00
+                    };
                 
                 $.each(connections, function(index, connection) {
                     totalPrice += parseFloat(connection.borrowDetails.price.total);
                 });
                 
-                var averagePrice;
-                
-                if(totalPrice === 0.00) {
-                    averagePrice = totalPrice;
-                }
-                else {
-                    averagePrice = Number(totalPrice/connections.length).toFixed(2)
+                if(totalPrice > 0) {
+                    average.price = Number(totalPrice/connections.length).toFixed(2);
+                    average.totalPrice = Number(totalPrice).toFixed(2);
                 }
                 
-                return averagePrice;
+                return average;
             },
             
             getConnectionsFinished: function() {
@@ -572,8 +607,8 @@ AnalyticsController = RouteController.extend({
             
             getAverageSpending: function() {
                 
-                var averageSpending = 0.00;
-                var numberTransactions = 0;
+                var averageSpending = 0.00,
+                    numberTransactions = 0;
                 
                 $.each(this.transactions, function(index, transaction) {
                    
@@ -590,12 +625,46 @@ AnalyticsController = RouteController.extend({
                 return averageSpending;
             },
             
+            getTotalPartioEarning: function() {
+                
+                var averageEarning = 0;
+                
+                $.each(this.connections, function(index, connection) {
+                    if(connection.charge) {
+                        averageEarning += connection.charge.amount;
+                    }
+                });
+                
+                averageEarning = Number(averageEarning*0.001).toFixed(2);
+                
+                return averageEarning;
+            },
+            
+            
+            getAveragePartioEarning: function() {
+                
+                var averageEarning = 0,
+                    numberTransactions = 0;
+                
+                $.each(this.connections, function(index, connection) {
+                    if(connection.charge) {
+                        averageEarning += connection.charge.amount;
+                        numberTransactions++;
+                    }
+                });
+                
+                averageEarning = Number((averageEarning/numberTransactions)*0.001).toFixed(2);
+                
+                return averageEarning;
+                
+            },
+            
             getTransactionsWithPagination: function() {
                 
                 if(!Session.get('pages')) return;
                 
-                var transactions = [];
-                var self = this;
+                var transactions = [],
+                    self = this;
                 
                 $.each(this.transactions, function(index, transaction) {
                    
@@ -622,10 +691,9 @@ AnalyticsController = RouteController.extend({
                     });
                 });
                 
-                var trans = [];
-                
-                var pages = Session.get('pages');
-                var page = pages.transactions;
+                var trans = [],
+                    pages = Session.get('pages'),
+                    page = pages.transactions;
                 
                 for(var i = (page*10); i < ((page+1)*10); i++) {
                     if(transactions[i]) {
@@ -635,30 +703,6 @@ AnalyticsController = RouteController.extend({
                 
                 return trans;
             },
-            
-//            getTransactionsEarning: function() {
-//                
-//                var transactions = [];
-//                var self = this;
-//                
-//                $.each(this.transactions, function(index, transaction) {
-//                   
-//                    var user = self.getUserById(transaction.userId)
-//                    
-//                    $.each(transaction.earning, function(key, spend) {
-//
-//                        transactions.push({
-//                            'name': (function() {
-//                                return (user.profile) ? user.profile.name : 'User Deleted';
-//                            })(),
-//                            'product': spend.productName,
-//                            'value': spend.receivedAmount
-//                        });
-//                    });
-//                });
-//                
-//                return transactions;
-//            },
             
 		};
 	},

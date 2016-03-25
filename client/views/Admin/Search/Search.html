@@ -1,12 +1,12 @@
 <template name="adminSearch">
     {{#contentFor "headerButtonLeft"}}
         {{>ionNavBackButton}}
-    
+
         {{>adminSearchBox}}
     {{/contentFor}}
 
     {{#contentFor "headerTitle"}}
-        <h1 class="title" style="text-align:center;"></h1>    
+        <h1 class="title" style="text-align:center;"></h1>
     {{/contentFor}}
 
     {{#contentFor "headerButtonRight"}}
@@ -14,23 +14,23 @@
             <img id="spinner-logo-simple" src="{{ getImage 'spinner-logo' }}" />
         </a>
     {{/contentFor}}
-    
+
     {{#ionView}}
-        {{#ionContent class="admin-search overflow-scroll"}}    
+        {{#ionContent class="admin-search overflow-scroll"}}
 
         {{#if isUserPermited}}
-    
+
             <div class="list">
 
                 {{#if ../isUserSearch}}
-                
+
                     {{#each users}}
 
                         <div class="list card">
                             <a class="item item-avatar" href="/admin/search/users/{{_id}}">
                               <img src="{{profile.avatar}}">
-                              <span class="user-name">{{profile.name}}</span> 
-                              <span class="user-email">{{emails.[0].address}}</span> 
+                              <span class="user-name">{{profile.name}}</span>
+                              <span class="user-email">{{emails.[0].address}}</span>
 
                               <div class="item-icon-right">
                                 {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
@@ -39,35 +39,56 @@
                         </div>
 
                     {{/each}}
-                
+
                 {{/if}}
-                
+
                 {{#if ../isProductSearch}}
-                
+
                     {{#each products}}
 
                         <div class="list card">
                             <a class="item item-avatar" href="/admin/search/products/{{_id}}">
                               <img src="{{image}}">
-                              <span class="user-name">{{title}}</span> 
+                              <span class="user-name">{{title}}</span>
 
                               <div class="item-icon-right">
                                 {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
-                              </div>    
+                              </div>
                             </a>
                         </div>
 
                     {{/each}}
-                
-                
+
+
                 {{/if}}
                 
+                {{#if ../isConnectionSearch}}
+
+                    {{#each connections}}
+
+                        <div class="list card">
+                            <a class="item item-avatar" href="/admin/search/connections/{{_id}}">
+                              <img src="{{productData.image}}">
+                              <span class="date">{{../formatDate requestDate}}</span>    
+                              <span class="user-name">{{productData.title}}</span>
+                              <span class="user-email">{{requestorData.profile.name}} -> {{productData.ownerData.profile.name}}</span>
+                              <div class="item-icon-right">
+                                {{> ionIcon icon="ios-arrow-right" class="energized right-arrow"}}
+                              </div>
+                            </a>
+                        </div>
+
+                    {{/each}}
+
+
+                {{/if}}
+
             </div>
-    
+
             {{>loader}}
-    
+
         {{/if}}
-    
+
         {{/ionContent}}
     {{/ionView}}
 

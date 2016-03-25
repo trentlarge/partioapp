@@ -3,10 +3,10 @@ Meteor.publish("adminSearchOwnerProducts", function(ownerId) {
 });
 
 Meteor.publish("adminSearchProducts", function(text, limit) {
-	return Products.find({ 
-        'title': { $regex: ".*"+text+".*", $options: 'i' }, 
-    }, { 
-        limit: limit, 
+	return Products.find({
+        'title': { $regex: ".*"+text+".*", $options: 'i' },
+    }, {
+        limit: limit,
         sort: { 'title': 1 }
     });
 });
@@ -53,6 +53,38 @@ Meteor.publish("productsData", function(ownerId, ownerArea, pageNumber, text, ca
         category: { $in: categories },
         sold: { $ne: true }
     }, {
+        limit: pageNumber * pageSize
+    });
+});
+
+Meteor.publish("listingProducts", function(data) {
+
+    var pageNumber = data.pageNumber || 1,
+        pageSize = 15,
+        filter = {
+            ownerId: { $ne: data.ownerId },
+            ownerArea: data.ownerArea.toString(),
+            title: { $regex: ".*" + data.text + ".*", $options: 'i' },
+            category: { $in: data.categories },
+            sold: { $ne: true }
+        }
+
+    if(data.borrow) {
+        filter.borrow = { $ne: true };
+    }
+
+    if(data.purchasing) {
+        filter.purchasing = { $ne: true };
+    }
+
+	if(data.buy) {
+		filter['selling.status'] = 'ON';
+	}
+	else {
+		filter['rentPrice.status'] = { $ne: 'OFF' };
+	}
+
+    return Products.find(filter, {
         limit: pageNumber * pageSize
     });
 });

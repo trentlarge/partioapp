@@ -52,7 +52,17 @@
             </label>
 
             <div class="item item-divider">
-                Rent Price <a class="calculate-prices">CALCULATE PRICES</a>
+                Rent
+
+				<label class="toggle toggle-assertive toggle-rent">
+				  <input type="checkbox" checked>
+				  <div class="track">
+					<div class="handle"></div>
+				  </div>
+				</label>
+				<span class="enableRent">ON</span>
+
+				<a class="calculate-prices">CALCULATE PRICES</a>
             </div>
             <div class="item row">
                 <div class="col col-50">
@@ -76,22 +86,20 @@
             </div>
 
             <div class="item item-divider">
-                Selling
+                Sell
+				<label class="toggle toggle-assertive toggle-purchasing">
+				  <input type="checkbox">
+				  <div class="track">
+					<div class="handle"></div>
+				  </div>
+				</label>
+				<span class="enablePurchasing">OFF</span>
             </div>
 
             <li class="item row">
-                <div class="col col-50">
+                <div class="col col-100">
                     <div class="priceLabel">PRICE</div>
                     <input type="number" class="userPrice sellingPrice" value="{{sellingPrice}}" placeholder="0.00">
-                </div>
-                <div class="col col-50">
-                     <label class="toggle toggle-assertive">
-                       <input type="checkbox">
-                       <div class="track">
-                         <div class="handle"></div>
-                       </div>
-                     </label>
-                     <span class="enablePurchasing">OFF</span>
                 </div>
             </li>
 

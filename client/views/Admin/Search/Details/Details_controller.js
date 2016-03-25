@@ -51,6 +51,11 @@ AdminSearchDetailsController = RouteController.extend({
             return product;
         }
     },
+    
+    getConnection: function(connectionId) {
+        Meteor.subscribe('adminSingleConnection', connectionId);
+        return Connections.findOne(connectionId);
+    },
 
 	data: function() {
 
@@ -73,19 +78,25 @@ AdminSearchDetailsController = RouteController.extend({
                 },  
                 
                 userCanUpdate: function() {
-                    var admin = Admins.findOne({email: this.user.emails[0].address, admin: true});
-                    if(!admin) {
-                        return this.userAdmin.permissions.update;
+                    //check if user is not admin
+                    if(this.user.emails[0]) {
+                        var admin = Admins.findOne({email: this.user.emails[0].address, admin: true});
+                        if(!admin) {
+                            return this.userAdmin.permissions.update;
+                        }
+                        return false;
                     }
-                    return false;
                 },
                 
                 userCanDelete: function() {
-                    var admin = Admins.findOne({email: this.user.emails[0].address, admin: true});
-                    if(!admin) {
-                        return this.userAdmin.permissions.delete;
+                    //check if user is not admin
+                    if(this.user.emails[0]) {
+                        var admin = Admins.findOne({email: this.user.emails[0].address, admin: true});
+                        if(!admin) {
+                            return this.userAdmin.permissions.delete;
+                        }
+                        return false;
                     }
-                    return false;
                 },
 
                 isUserDetails: function() {
@@ -188,6 +199,49 @@ AdminSearchDetailsController = RouteController.extend({
                         }
                     }  
                 },
+
+            }
+            
+        }
+        
+        else if(this.params._id === 'connections') {
+            
+             return {
+                
+                searchId: this.params._id,
+                productId: this.params.elementId,
+                userAdmin: this.getUserAdmin(), 
+                
+                connection: this.getConnection(this.params.elementId),
+
+                isUserPermited: function() {
+                    return (this.userAdmin) ? true : false;
+                },  
+                
+                getUser: function(userId) {
+                    return Users.findOne(userId);    
+                },
+                
+                isConnectionDetails: function() {
+                    return (this.searchId === 'connections') ? true : false;
+                },
+                 
+                formatDate: function(date) {
+                    return formatDate(date);
+                },
+                 
+                getTime: function(date) {
+                    var time = new Date(date),
+                        hours = time.getHours(),
+                        minutes = time.getMinutes(),
+                        seconds = time.getSeconds();
+                        
+                    if(hours < 10) { hours = '0' + hours; }
+                    if(minutes < 10) { minutes = '0' + minutes; }
+                    if(seconds < 10) { seconds = '0' + seconds; }
+                    
+                    return '(' + hours + ':' + minutes + ':' + seconds + ')';
+                }
 
             }
             
