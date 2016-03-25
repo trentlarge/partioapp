@@ -1,5 +1,5 @@
 
-FOR LOCALHOST TESTING
+##FOR LOCALHOST TESTING
 - meteor run --settings settings-dev.json
 
 Sample Debit Card:
@@ -8,13 +8,12 @@ Sample Debit Card:
 Sample Credit Card:
 4242 4242 4242 4242 
 
-BUILD
-- meteor build [dir] --server https://[version].partiodemo.com --mobile-settings settings.json
-
-Build Android
-- cd [dir]
-- jarsigner -digestalg SHA1 release-unsigned.apk partioapp 
-- [android-sdk-dir]/build-tools/[build-tools-vr]/zipalign 4 release-unsigned.apk partioapp-release-signed.apk
+##BUILD TO ANDOID (pwd: partio123)
+- create a appbuild folder outside partio folder at same level... ex.:  ~/Partio is your repository, then create ~/appbuild folder. (Make sure you have jdk7 and android sdk 22 android tools installed and the android directory is ~/Android/Sdk, as )
+- go to repository folder and execute the commands:
+- meteor build ../appbuild --server https://v1-5-4.partiodemo.com --mobile-settings settings.json
+- jarsigner -digestalg SHA1 --keystore partioapp-release-key.keystore ../appbuild/android/release-unsigned.apk partioapp
+- ~/Android/Sdk/build-tools/23.0.2/zipalign 4 ../appbuild/android/release-unsigned.apk ../appbuild/android/partioapp-release-signed.apk
 
 DEPLOY SERVER (ssh key must exists on server)
 - mupx deploy
