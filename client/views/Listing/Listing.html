@@ -19,10 +19,18 @@
 
   {{> searchBox}}
 
-  {{#ionView}}
+  {{#ionView class="listing"}}
     {{#ionContent class="has-subheader overflow-scroll"}}
       {{> searchResult}}
     {{/ionContent}}
+
+    <div class="tabs-background-royal tabs-color-light {{ hideClass }} tabs-icon-top">
+        <div class="tabs darken-element">
+            <a class="tab-item {{isActivated 0}}" id="Borrow"><i class="icon ion-android-contacts"></i>BORROW</a>
+            <a class="tab-item {{isActivated 1}}" id="Buy"><i class="icon ion-ios-cart"></i>BUY</a>
+        </div>
+    </div>
+
   {{/ionView}}
 </template>
 
@@ -60,15 +68,6 @@
 </template>
 
 <template name="searchResult">
-
-    <div class="listing tabs tabs-top">
-      <a class="tab-item {{#unless tabBuy}} tab-bg {{/unless}}" id="Borrow">
-        BORROW
-      </a>
-      <a class="tab-item {{#if tabBuy}} tab-bg {{/if}}" id="Buy">
-        BUY
-      </a>
-    </div>
 
     <div id='search-result' class="list list-products">
 
@@ -147,9 +146,7 @@
 
     </div>
 
-    <div style="margin-top:55px;">
-        {{>loader}}
-    </div>
+    {{>loader}}
 
     {{> partioTutorial}}
 

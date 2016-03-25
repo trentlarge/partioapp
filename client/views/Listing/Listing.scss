@@ -83,39 +83,31 @@
 
 //*, *:before, *:after {box-sizing:  border-box !important;}
 
-.listing.tabs.tabs-top {
-    top: 0px !important;
-    background-color: #E0E0E0;
-    background-size: 0;
-    color: $royal;
+.listing {
+
+    .content {
+        padding-bottom: 10px;
+        height: calc(100% - 135px);
+    }
+
+    .tabs.tabs-top {
+        top: 0px !important;
+        background-color: #E0E0E0;
+        background-size: 0;
+        color: $royal;
+    }
 
     .tab-item {
-        -webkit-box-shadow: inset 0px -1px 2px 0px rgba(0,0,0,0.2);
-        -moz-box-shadow: inset 0px -1px 2px 0px rgba(0,0,0,0.2);
-        box-shadow: inset 0px -1px 2px 0px rgba(0,0,0,0.2);
+        background-color: #353535;
 
-        &:hover {
-            color: $royal;
-        }
-
-        &.tab-bg {
-            -webkit-transition: all 0.3s ease, border 1ms;
-            -moz-transition: all 0.3s ease, border 1ms;
-            -o-transition: all 0.3s ease, border 1ms;
-            -ms-transition: all 0.3s ease, border 1ms;
-            transition: all 0.3s ease, border 1ms;
-            background-color: #F9F9F9;
-            opacity: 1;
-            -webkit-box-shadow: none;
-            -moz-box-shadow: none;
-            box-shadow: none;
+        &.active {
+            background-color: $royal;
         }
     }
+
 }
 
 #search-result {
-
-    margin-top: 52px;
 
     &.list-products {
         display: none;
@@ -207,13 +199,14 @@
         .product-avatar {
             max-height: 130px;
             overflow: hidden;
-            border-bottom: 2px solid #ddd;
+            border-bottom: 1px solid #ddd;
             width: 100%;
             text-align: center;
         }
 
         .product-avatar-inner {
-            max-width: 100%;
+            max-height: 130px;
+            // max-width: 100%;
         }
 
         .selling-badge {

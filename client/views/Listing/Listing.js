@@ -29,7 +29,49 @@ Template.listing.rendered = function() {
     });
 };
 
+Template.listing.helpers({
+
+    isActivated: function(index) {
+        if(index == 0 && !Session.get('tabBuy')) {
+            return 'active';
+        }
+        else if(index == 1 && Session.get('tabBuy')) {
+            return 'active';
+        }
+        return '';
+    },
+
+})
+
 Template.listing.events({
+
+    "click #Buy": function(e, template) {
+
+        if(Session.get('tabBuy')) return;
+
+        $('#Borrow').removeClass('active');
+        $('#Buy').addClass('active');
+
+        $('.list-products').fadeOut(function() {
+            $('.loadbox').fadeIn('fast', function() {
+                Session.set('tabBuy', true);
+            });
+        });
+    },
+
+    "click #Borrow": function(e, template) {
+
+        if(!Session.get('tabBuy')) return;
+
+        $('#Buy').removeClass('active');
+        $('#Borrow').addClass('active');
+
+        $('.list-products').fadeOut(function() {
+            $('.loadbox').fadeIn('fast', function() {
+                Session.set('tabBuy', false);
+            });
+        });
+    },
 
     "click .filter-borrow": function(e, t) {
         $(e.target).toggleClass('active');
@@ -151,32 +193,11 @@ Template.searchResult.helpers({
     tabBuy: function() {
         return Session.get('tabBuy');
     }
-
 });
 
 Template.searchResult.events({
 
     "click .product" : function(e, template) {
-
         Session.set('listingProduct', true);
-
     },
-
-    "click .tab-item": function(e, template) {
-
-        var tab = $(e.target).attr('id'),
-            buy = false;
-
-        if(tab === 'Buy') {
-            buy = true;
-        }
-
-        $('.list-products').fadeOut(function() {
-            $('.loadbox').fadeIn('fast', function() {
-                Session.set('tabBuy', buy);
-            });
-        });
-
-    }
-
 });
