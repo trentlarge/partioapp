@@ -85,7 +85,7 @@ Template.lend.events({
                 }
             });
 
-            //BAR CODE & CAMFIND ---------------------------------------------
+        //BAR CODE & CAMFIND ---------------------------------------------
         } else {
             PartioLoad.hide();
             IonPopup.show({
