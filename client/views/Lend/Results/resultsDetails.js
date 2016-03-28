@@ -195,10 +195,12 @@ Template.resultsDetails.events({
     'click .toggle-purchasing': function(e, template) {
         if($('.enablePurchasing').text() === 'OFF') {
             $('.enablePurchasing').text('ON');
+            $('.item-sell-price').show();
             Session.set('purchasing', true);
         }
         else {
             $('.enablePurchasing').text('OFF');
+            $('.item-sell-price').hide();
             Session.set('purchasing', false);
         }
     },
@@ -206,14 +208,15 @@ Template.resultsDetails.events({
     'click .toggle-rent': function(e, template) {
         if($('.enableRent').text() === 'OFF') {
             $('.enableRent').text('ON');
+            $('.item-rent-prices').show();
             Session.set('rent', true);
         }
         else {
             $('.enableRent').text('OFF');
+            $('.item-rent-prices').hide();
             Session.set('rent', false);
         }
     },
-
     'change .userPrice': function(e, template){
         var rentPrice = {
             "day": template.find('.dayPrice').value,
@@ -288,7 +291,7 @@ Template.resultsDetails.events({
 
                     Lend.addProductToInventory(product);
                     Lend.latestProduct = undefined;
-                    
+
                 }
             });
         }

@@ -47,6 +47,8 @@
                         </select>
                     </label>
 
+                    {{>itemLocation}}
+
                     <div class="item item-divider">
                         Rent
 
@@ -59,7 +61,7 @@
         				<span class="enableRent">ON</span>
                     </div>
 
-                    <div class="item row">
+                    <div class="item row item-rent-prices">
                         <div class="col col-50">
                             <div class="priceLabel">DAY</div>
                             <input type="number" class="userPrice dayPrice" value="{{calculatedPriceDay}}" placeholder="0.00">
@@ -69,7 +71,7 @@
                             <input type="number" class="userPrice weekPrice" value="{{calculatedPriceWeek}}" placeholder="0.00">
                         </div>
                     </div>
-                    <div class="item row">
+                    <div class="item row item-rent-prices">
                         <div class="col col-50">
                             <div class="priceLabel">MONTH</div>
                             <input type="number" class="userPrice monthPrice" value="{{calculatedPriceMonth}}" placeholder="0.00">
@@ -92,14 +94,12 @@
         				<span class="enablePurchasing">OFF</span>
                     </div>
 
-                    <li class="item row">
+                    <div class="item row item-sell-price">
                         <div class="col col-100">
                             <div class="priceLabel">PRICE</div>
                             <input type="number" class="userPrice sellingPrice" value="{{sellingPrice}}" placeholder="0.00">
                         </div>
-                    </li>
-
-                    {{>itemLocation}}
+                    </div>
 
                     <label class="item item-button">
                         <button class="submitProduct button button-block button-energized" {{waitingForPrices}}>
