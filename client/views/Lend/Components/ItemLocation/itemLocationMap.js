@@ -1,21 +1,39 @@
+Template.itemLocationMap.created = function() {
+    GoogleMaps.ready('itemMap', function(map) {
+        map.instance.geocoder = new google.maps.Geocoder;
+    });
+
+    Session.set('inputlocked', false);
+    Session.set('inputMapsearch', '');
+
+    if(!Session.get('view')) {
+        $('.content').removeClass('has-header');
+    }
+};
+
+Template.itemLocationMap.rendered = function() {
+    if(!Session.get('view')) {
+        $('.content').removeClass('has-header');
+    }
+};
+
 Template.itemLocationMap.events({
     'click #item-location-update': function(e,t) {
         var map = GoogleMaps.maps.itemMap,
             mapCenter = map.instance.getCenter(),
-            latLng = {
+            location = {
                 lat: mapCenter.lat(),
                 lng: mapCenter.lng()
             };
 
-        $('input[name=item_lat]').val(latLng.lat);
-        $('input[name=item_lng]').val(latLng.lng);
+        Session.set('location', location);
     },
 
-    "input #item-map-search": function(e, t) {        
+    "input #item-map-search": function(e, t) {
         var editBox = $(e.currentTarget).val();
 
         Session.set('inputMapsearch', editBox);
-        
+
 
         if(!Session.get('inputlocked')){
             Session.set('inputlocked', true);
@@ -45,16 +63,18 @@ Template.itemLocationMap.events({
 
         // } else {
 
-        // }      
+        // }
     },
 });
 
 Template.itemLocationMap.helpers({
+
+    view: function() {
+        return Session.get('view');
+    },
+
     "itemLocationMapOptions": function() {
-        var coords = {
-            lat: parseFloat($('input[name=item_lat]').val()),
-            lng: parseFloat($('input[name=item_lng]').val())
-        }
+        var coords = Session.get('location');
 
         if (GoogleMaps.loaded()) {
             return {
@@ -64,15 +84,6 @@ Template.itemLocationMap.helpers({
         }
     }
 });
-
-Template.itemLocationMap.created = function() {
-    GoogleMaps.ready('itemMap', function(map) {
-        map.instance.geocoder = new google.maps.Geocoder;
-    });
-
-    Session.set('inputlocked', false);
-    Session.set('inputMapsearch', '');
-};
 
 function seekOnMap() {
     var map = GoogleMaps.maps.itemMap;
@@ -87,13 +98,13 @@ function seekOnMap() {
             if (results[0]) {
                 //console.log(results[0].geometry.location)
                 GoogleMaps.maps.itemMap.instance.setCenter(results[0].geometry.location);
-                
+
             } else {
                 console.log(results);
                 console.log('Maps > No results found');
             }
             //location);
-            
+
         } else {
             console.log("Geocode was not successful for the following reason: " + status);
         }

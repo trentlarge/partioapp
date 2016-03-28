@@ -1,119 +1,18 @@
 <!-- RESULTS -->
 <template name="resultsDetails">
 {{#ionView}}
-    {{#if scanResult}}
-        {{#with scanResult}}
-            {{#contentFor "headerButtonLeft"}}
-                <button class="back button button-clear" style="z-index:100;">
-                    {{>ionNavBackButton path="lend"}}
-                </button>
-            {{/contentFor}}
 
-            {{#contentFor "headerTitle"}}
-                <h1 class="title" style="text-align:center;">Share Details</h1>
-            {{/contentFor}}
+    {{#contentFor "headerButtonLeft"}}
+        <button class="back button button-clear" style="z-index:100;">
+            {{>ionNavBackButton}}
+        </button>
+    {{/contentFor}}
 
-            {{#ionContent class="results-details-content"}}
-                <div class="list list-inset card card-limited results-details">
-                    <div class="item no-padding">
-                        <div class="center">
-                            <img class="scanResult-thumbnail" src="{{image}}">
-                        </div>
-                    </div>
+    {{#contentFor "headerTitle"}}
+        <h1 class="title" style="text-align:center;">Share Details</h1>
+    {{/contentFor}}
 
-                    <label class="item item-input">
-                        <input type="text" class="productTitle" placeholder="Title" value="{{title}}">
-                    </label>
+    {{> manual}}
 
-                    <div class="item item-input item-select">
-                        <div class="input-label">
-                          <p style="height:16px;">Category:</p>
-                        </div>
-                        <select class="category" disabled>
-                            {{#each getCategories}}
-                                <option {{selectedCategory text}}>{{text}}</option>
-                            {{/each}}
-                        </select>
-                    </div>
-
-                    <label class="item item-input item-select">
-                        <div class="input-label">
-                            <p>Condition:</p>
-                        </div>
-                        <select name="condition" class="fieldConditionLend">
-                            {{#each getConditions}}
-                                <option value="{{index}}" {{selectedCondition index}}>{{value}}</option>
-                            {{/each}}
-                        </select>
-                    </label>
-
-                    {{>itemLocation}}
-
-                    <div class="item item-divider">
-                        Rent
-
-        				<label class="toggle toggle-assertive toggle-rent">
-        				  <input type="checkbox" checked>
-        				  <div class="track">
-        					<div class="handle"></div>
-        				  </div>
-        				</label>
-        				<span class="enableRent">ON</span>
-                    </div>
-
-                    <div class="item row item-rent-prices">
-                        <div class="col col-50">
-                            <div class="priceLabel">DAY</div>
-                            <input type="number" class="userPrice dayPrice" value="{{calculatedPriceDay}}" placeholder="0.00">
-                        </div>
-                        <div class="col col-50">
-                            <div class="priceLabel">WEEK</div>
-                            <input type="number" class="userPrice weekPrice" value="{{calculatedPriceWeek}}" placeholder="0.00">
-                        </div>
-                    </div>
-                    <div class="item row item-rent-prices">
-                        <div class="col col-50">
-                            <div class="priceLabel">MONTH</div>
-                            <input type="number" class="userPrice monthPrice" value="{{calculatedPriceMonth}}" placeholder="0.00">
-                        </div>
-                        <div class="col col-50">
-                            <div class="priceLabel">SEMESTER</div>
-                            <input type="number" class="userPrice semesterPrice" value="{{calculatedPrice4Months}}" placeholder="0.00">
-                        </div>
-                    </div>
-
-                    <div class="item item-divider">
-                        Sell
-
-                        <label class="toggle toggle-assertive toggle-purchasing">
-        				  <input type="checkbox">
-        				  <div class="track">
-        					<div class="handle"></div>
-        				  </div>
-        				</label>
-        				<span class="enablePurchasing">OFF</span>
-                    </div>
-
-                    <div class="item row item-sell-price">
-                        <div class="col col-100">
-                            <div class="priceLabel">PRICE</div>
-                            <input type="number" class="userPrice sellingPrice" value="{{sellingPrice}}" placeholder="0.00">
-                        </div>
-                    </div>
-
-                    <label class="item item-button">
-                        <button class="submitProduct button button-block button-energized" {{waitingForPrices}}>
-                            {{#if validatePrices}}
-                                Share this item!
-                            {{else}}
-                                Enter your price above
-                            {{/if}}
-                        </button>
-                    </label>
-                </div>
-            {{/ionContent}}
-
-        {{/with}}
-    {{/if}}
 {{/ionView}}
 </template>

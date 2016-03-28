@@ -2,83 +2,83 @@
 // RENDERED
 
 Template.results.rendered = function() {
-//    Session.set('orderByRanking', true);
+    //    Session.set('orderByRanking', true);
     Lend.currentCategory = '';
 }
 
 // HELPERS
 
 Template.results.helpers({
-  'orderByRanking': function() {
-    return Session.get('orderByRanking');
-  },
-  'isTabRankingActive': function() {
-      if(Session.get('orderByRanking')) {
-         return 'active';
-      }
-      return '';
-  },
-  'isTabCategoriesActive': function() {
-      if(!Session.get('orderByRanking')) {
-         return 'active';
-      }
-      return '';
-  },
-  allResults: function(){
-    return Session.get('allResults');
-  },
-  allResultsByCategory: function(){
-    var results = Session.get('allResults');
-    var amazonCategory = this.amazonCategory;
-    return results.filter(function(result) {
-        return result.amazonCategory === amazonCategory;
-    });
-  },
-  isDifferentCategory: function() {
-      if(Lend.currentCategory !== this.amazonCategory) {
-          Lend.currentCategory = this.amazonCategory;
-          return true;
-      }
-      return false;
-  },
-  splitCategory: function() {
-    if(this.amazonCategory){
-      return this.amazonCategory.replace(/\s/g,"").replace(/\&/g,"");
-    }
-    return false;
-  },
-  getCategoryIcon: function() {
-    return Categories.getCategoryIconByText(this.category);
-  },
-  isOnlyOneCategory: function() {
-
-    if(Session.get('isOnlyOneCategory'))  {
-        return Session.get('isOnlyOneCategory');
-    }
-    else {
-        var result = Session.get('allResults');
-
-        var currentCategory = '';
-        var nCategory = 0;
-
-        $.each(result, function(index, r) {
-            if(r.amazonCategory !== currentCategory) {
-                currentCategory = r.amazonCategory;
-                nCategory++;
-            }
+    'orderByRanking': function() {
+        return Session.get('orderByRanking');
+    },
+    'isTabRankingActive': function() {
+        if(Session.get('orderByRanking')) {
+            return 'active';
+        }
+        return '';
+    },
+    'isTabCategoriesActive': function() {
+        if(!Session.get('orderByRanking')) {
+            return 'active';
+        }
+        return '';
+    },
+    allResults: function(){
+        return Session.get('allResults');
+    },
+    allResultsByCategory: function(){
+        var results = Session.get('allResults');
+        var amazonCategory = this.amazonCategory;
+        return results.filter(function(result) {
+            return result.amazonCategory === amazonCategory;
         });
-
-        if(nCategory == 1) {
-            Session.set('isOnlyOneCatgory', true);
+    },
+    isDifferentCategory: function() {
+        if(Lend.currentCategory !== this.amazonCategory) {
+            Lend.currentCategory = this.amazonCategory;
             return true;
         }
-        else {
-            Session.set('isOnlyOneCatgory', false);
-            return false;
+        return false;
+    },
+    splitCategory: function() {
+        if(this.amazonCategory){
+            return this.amazonCategory.replace(/\s/g,"").replace(/\&/g,"");
         }
-    }
+        return false;
+    },
+    getCategoryIcon: function() {
+        return Categories.getCategoryIconByText(this.category);
+    },
+    isOnlyOneCategory: function() {
 
-  },
+        if(Session.get('isOnlyOneCategory'))  {
+            return Session.get('isOnlyOneCategory');
+        }
+        else {
+            var result = Session.get('allResults');
+
+            var currentCategory = '';
+            var nCategory = 0;
+
+            $.each(result, function(index, r) {
+                if(r.amazonCategory !== currentCategory) {
+                    currentCategory = r.amazonCategory;
+                    nCategory++;
+                }
+            });
+
+            if(nCategory == 1) {
+                Session.set('isOnlyOneCatgory', true);
+                return true;
+            }
+            else {
+                Session.set('isOnlyOneCatgory', false);
+                return false;
+            }
+        }
+
+    },
 
 });
 
@@ -94,28 +94,28 @@ Template.results.events({
 
         var categories = [
             {
-               text: 'Textbooks',
-               occurrences: 0,
+                text: 'Textbooks',
+                occurrences: 0,
             },
             {
-               text: 'Technology',
-               occurrences: 0,
+                text: 'Technology',
+                occurrences: 0,
             },
             {
-               text: 'Music',
-               occurrences: 0,
+                text: 'Music',
+                occurrences: 0,
             },
             {
-               text: 'Home',
-               occurrences: 0,
+                text: 'Home',
+                occurrences: 0,
             },
             {
-               text: 'Sports',
-               occurrences: 0,
+                text: 'Sports',
+                occurrences: 0,
             },
             {
-               text: 'Miscellaneous',
-               occurrences: 0,
+                text: 'Miscellaneous',
+                occurrences: 0,
             }
         ]
 
@@ -143,7 +143,7 @@ Template.results.events({
 
         var averageFinalPrice = (averagePrice/resultsLenght).toFixed(2);
 
-        var itemNotFound = {
+        var shareProduct = {
             'image' : Session.get('camfindImage'),
             'title' : $('.search-share-header-input').val(),
             'category' : categories[0].text,
@@ -156,7 +156,7 @@ Template.results.events({
             }
         }
 
-        Session.set('itemNotFound', itemNotFound);
+        Session.set('shareProduct', shareProduct);
         Session.set('lendTab', 'manual');
     },
 
@@ -170,9 +170,23 @@ Template.results.events({
 
     'click .product': function(e, template) {
 
-        var _this = this;
-        
-        Session.set('scanResult', _this);
+        console.log(this);
+
+        var shareProduct = {
+            'image' : this.image,
+            'title' : this.title,
+            'category' : this.category,
+            'price' : {
+                'averagePrice' : this.price,
+                'day' : Lend.calculatePrice('ONE_DAY', this.price),
+                'week' : Lend.calculatePrice('ONE_WEEK', this.price),
+                'month' : Lend.calculatePrice('ONE_MONTH', this.price),
+                'semester' : Lend.calculatePrice('FOUR_MONTHS', this.price)
+            }
+        }
+
+        Session.set('shareProduct', shareProduct);
+
         Router.go('/lend/details');
         Session.set('lendTab', 'resultDetails');
     },

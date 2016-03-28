@@ -1,3 +1,5 @@
+@import '../../../../styles/app-variables';
+
 .locationSwitch {
     margin-top: -3px;
     margin-left: 10px;
@@ -20,5 +22,17 @@
     p {
         font-size: 12px;
         padding-top: 5px;
+    }
+}
+
+.modal {
+
+    .item-input-inset.map-search-header {
+        background-color: $royal;
+        border: 0;
+
+        h6 {
+            color: #ffffff;
+        }
     }
 }

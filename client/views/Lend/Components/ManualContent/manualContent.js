@@ -1,28 +1,19 @@
-Template.manual.rendered = function() {
+Template.manualContent.rendered = function() {
 
-    if(IonSideMenu && IonSideMenu.snapper) {
-        IonSideMenu.snapper.settings({touchToDrag: false});
-    }
-
+    IonSideMenu.snapper.settings({touchToDrag: false});
     Session.set('rent', true);
     Session.set('purchasing', false);
 
-    Session.set('allResults', null);
+    var itemNotFound = Session.get('itemNotFound');
 
-    if(Session.get('lendTab') === 'resultDetails') {
-        $('.manual-entry').css({'margin-bottom': '0'});
-    }
-
-    var shareProduct = Session.get('shareProduct');
-
-    if(shareProduct) {
-        Session.set('photoTaken', shareProduct.image);
-        Session.set('manualTitle', shareProduct.title);
-        Session.set('selectedCategory', shareProduct.category);
-        Session.set('dayPrice', shareProduct.price.day);
-        Session.set('weekPrice', shareProduct.price.week);
-        Session.set('monthPrice', shareProduct.price.month);
-        Session.set('semesterPrice', shareProduct.price.semester);
+    if(itemNotFound) {
+        Session.set('photoTaken', itemNotFound.image);
+        Session.set('manualTitle', itemNotFound.title);
+        Session.set('selectedCategory', itemNotFound.category);
+        Session.set('dayPrice', itemNotFound.price.day);
+        Session.set('weekPrice', itemNotFound.price.week);
+        Session.set('monthPrice', itemNotFound.price.month);
+        Session.set('semesterPrice', itemNotFound.price.semester);
     } else {
         Session.set('manualTitle', null);
         Session.set('dayPrice', null);
@@ -44,6 +35,7 @@ Template.manual.rendered = function() {
             }
         }
         Session.get('slideElements', slideElements);
+        //      Session.set('photoTaken', manualProduct.image);
         Session.set('manualTitle', manualProduct.title);
         Session.set('selectedCategory', manualProduct.category);
         Session.set('selectedCondition', manualProduct.conditionId);
@@ -52,6 +44,9 @@ Template.manual.rendered = function() {
         Session.set('monthPrice', manualProduct.rentPrice.month);
         Session.set('semesterPrice', manualProduct.rentPrice.semester);
     }
+
+    Session.set('scanResult', null);
+    Session.set('allResults', null);
 
     $('.darken-element').css({'opacity': '1'});
     $('.view').css({'background': '#eceff1'});
@@ -66,23 +61,22 @@ Template.manual.rendered = function() {
 
 }
 
-Template.manual.destroyed = function() {
+Template.manualContent.destroyed = function() {
 
     IonSideMenu.snapper.settings({touchToDrag: true});
 
-    Session.set('shareProduct', null);
+    Session.set('itemNotFound', null);
     Session.set('photoTaken', null);
     Session.set('slideElements', null);
     Session.set('camfindImage', null);
     Session.set('selectedCategory', null);
     Session.set('selectedCondition', null);
-    Session.set('location', null);
 
     Session.set('rent', null);
     Session.set('purchasing', null);
 }
 
-Template.manual.helpers({
+Template.manualContent.helpers({
     photoTaken: function() {
         return Session.get('photoTaken');
     },
@@ -151,7 +145,33 @@ Template.manual.helpers({
     }
 })
 
-Template.manual.events({
+Template.manualContent.events({
+
+    'click .close': function(e, template) {
+        //      Session.set("photoTaken", null);
+        var slideElements = Session.get('slideElements');
+        var index = $('.slick-active').attr('data-slick-index');
+        slideElements[index].photo = '';
+        Session.set('slideElements', slideElements);
+
+        $('#browser-file-upload').val('');
+    },
+
+    'change #browser-file-upload': function(input) {
+
+        var slideElements = Session.get('slideElements');
+        var FR = new FileReader();
+        FR.onload = function(e) {
+            var newImage = e.target.result;
+
+            var index = $('.slick-active').attr('data-slick-index');
+            slideElements[index].photo = newImage;
+            Session.set('slideElements', slideElements);
+
+            //Session.set("photoTaken", newImage);
+        };
+        FR.readAsDataURL(input.target.files[0]);
+    },
 
     'click .toggle-purchasing': function(e, template) {
         if($('.enablePurchasing').text() === 'OFF') {
@@ -195,32 +215,6 @@ Template.manual.events({
         Session.set('semesterPrice', rentPrice.semester);
 
         Session.set('sellingPrice', sellingPrice);
-    },
-
-    'click .close': function(e, template) {
-        //      Session.set("photoTaken", null);
-        var slideElements = Session.get('slideElements');
-        var index = $('.slick-active').attr('data-slick-index');
-        slideElements[index].photo = '';
-        Session.set('slideElements', slideElements);
-
-        $('#browser-file-upload').val('');
-    },
-
-    'change #browser-file-upload': function(input) {
-
-        var slideElements = Session.get('slideElements');
-        var FR = new FileReader();
-        FR.onload = function(e) {
-            var newImage = e.target.result;
-
-            var index = $('.slick-active').attr('data-slick-index');
-            slideElements[index].photo = newImage;
-            Session.set('slideElements', slideElements);
-
-            //Session.set("photoTaken", newImage);
-        };
-        FR.readAsDataURL(input.target.files[0]);
     },
 
     'click .scanResult-thumbnail2': function(event, template) {
@@ -349,101 +343,15 @@ Template.manual.events({
         }
 
 
-    },
-
-    'click .submitProduct': function(e, template) {
-
-        PartioLoad.show();
-
-        console.log(Session.get('location'));
-
-        var images = (function() {
-            var images = [];
-            if(Session.get('slideElements')) {
-                var slideElements = Session.get('slideElements');
-                $.each(slideElements, function(index, slideElement) {
-                    if(slideElement.photo !== '') {
-                        images.push(slideElement);
-                    }
-                })
-            }
-            return images;
-        })();
-
-        var product = {
-            "title": $('.manualTitle').val().toLowerCase().replace(/\b[a-z]/g, function(letter) {
-                return letter.toUpperCase();
-            }),
-            "price": '--',
-            "conditionId": $('.manualCondition').val(),
-            "manualEntry": true,
-            "ownerId": Meteor.userId(),
-            "location": Session.get('location'),
-            //"ownerArea": Meteor.user().profile.area,
-            "category": $('.manualCategory').val(),
-            "amazonCategory": $('.manualCategory').val(),
-            "image": (function() {
-                if(images[0]) {
-                    return images[0].photo;
-                } else {
-                    return base64imgs('image-not-available');
-                }
-            })(),
-            "images": images,
-            "rentPrice": {
-                "day": Number(Session.get('dayPrice')).toFixed(2) || Number(0.00).toFixed(2),
-                "week": Number(Session.get('weekPrice')).toFixed(2) || Number(0.00).toFixed(2),
-                "month": Number(Session.get('monthPrice')).toFixed(2) || Number(0.00).toFixed(2),
-                "semester": Number(Session.get('semesterPrice')).toFixed(2) || Number(0.00).toFixed(2),
-                "status": $('.enableRent').text()
-            },
-            "selling": {
-                "price": Number(Session.get('sellingPrice')).toFixed(2) || Number(0.00).toFixed(2),
-                "status": $('.enablePurchasing').text()
-            }
-        }
-
-        Meteor.call('userCanShare', function(error, result){
-            PartioLoad.hide();
-
-            if(!result) {
-                Session.set('cardManualEntry', product);
-
-                IonPopup.show({
-                    title: 'Update profile',
-                    template: 'Please, update your debit card to share this item.',
-                    buttons: [{
-                        text: 'OK',
-                        type: 'button-energized',
-                        onTap: function() {
-                            IonPopup.close();
-                            Router.go('/profile/savedcards/');
-                        }
-                    }]
-                });
-                return false;
-
-            } else {
-                if(!validateInputs(product)){
-                    PartioLoad.hide();
-                    return;
-                }
-
-                Lend.addProductToInventory(product);
-                Lend.latestProduct = undefined;
-
-            }
-        });
-
-    },
+    }
 
 });
 
 
 function setResultPrices(results) {
 
-    var resultsLenght = 0,
-        averagePrice = 0.0;
+    var resultsLenght = 0;
+    var averagePrice = 0.0;
 
     //get category from number of occurrences
     $.each(results, function(index, result) {
@@ -474,34 +382,4 @@ function setResultPrices(results) {
     Session.set('monthPrice', price.month);
     Session.set('semesterPrice', price.semester);
 
-}
-
-function validateInputs(product) {
-    if(!product.title || product.title.length < 1) {
-        showInvalidPopUp('Invalid Inputs', 'Please enter a valid Title.');
-        return false;
-    }
-
-    if(!product.conditionId || product.conditionId < 1) {
-        showInvalidPopUp('Invalid Inputs', 'Please enter a valid Condition of the item.');
-        return false;
-    }
-
-    return true;
-}
-
-function showInvalidPopUp(strTitle, strMessage) {
-    IonPopup.show({
-        title: strTitle,
-        template: strMessage,
-        buttons:
-        [{
-            text: 'OK',
-            type: 'button-energized',
-            onTap: function()
-            {
-                IonPopup.close();
-            }
-        }]
-    });
 }

@@ -17,7 +17,7 @@ Template.searchShareHeader.rendered = function(){
 };
 
 Template.searchShareHeader.destroyed = function() {
-    if(!Session.get('scanResult')) {
+    if(Session.get('lendTab') !== 'resultDetails') {
         Lend.latestProduct = undefined;
     }
 };
@@ -203,7 +203,7 @@ function callResultDetails(results) {
             image = results[0].image;
         }
 
-        var itemNotFound = {
+        var shareProduct = {
             'image' : image,
             'title' : title,
             'category' : categories[0].text,
@@ -216,13 +216,13 @@ function callResultDetails(results) {
             }
         }
 
-        Session.set('itemNotFound', itemNotFound);
+        Session.set('shareProduct', shareProduct);
         Session.set('lendTab', 'manual');
 
 }
 
 function resetImageCamFind(){
-  $(".modal").css("background-image", "");
-  $("#cam-find").show();
-  $(".item-input-inset").slideDown();
+    $(".modal").css("background-image", "");
+    $("#cam-find").show();
+    $(".item-input-inset").slideDown();
 }
