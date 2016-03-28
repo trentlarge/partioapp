@@ -11,10 +11,10 @@ Template.itemLocation.events({
       }
 
       IonModal.open('itemLocationMap', coords);
-      $('.locationSwitch').text('NO')
+      $('.locationSwitch').text('NEW LOCATION')
     } else {
     	getCurrentLocation();
-      $('.locationSwitch').text('YES')
+      $('.locationSwitch').text('CURRENT')
     }
   },
 });

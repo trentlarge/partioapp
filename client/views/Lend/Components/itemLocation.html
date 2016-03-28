@@ -1,29 +1,21 @@
 <template name="itemLocation">
 	<div class="item item-divider item-location">
-	    <!-- Item Location -->                       
-	    <div style="width: 100%; align-items: center; display: flex;">
-		    Is this product on your current location?
+	    <!-- Item Location -->
+		Product Location
+	   	<p>This location wont be shown to other users</p>
+	</div>
+	<div class="item padding item-location">
+		<label class="toggle toggle-assertive toggle-location">
+		  <input type="checkbox" checked>
+		  <div class="track">
+			<div class="handle"></div>
+		  </div>
+	  	</label>
 
-		    <label class="toggle toggle-assertive toggle-location">
-		      <input type="checkbox" checked>
-		      <div class="track">
-		        <div class="handle"></div>
-		      </div>
-		    </label>
+		<span class="locationSwitch">CURRENT</span>
 
-		    <span class="locationSwitch">YES</span>
-		</div>
-
-	    <input type="hidden" name="item_lat" />
+		<input type="hidden" name="item_lat" />
 	    <input type="hidden" name="item_lng" />
-
-	   <!--  <div style="text-align: left; width: 100%">
-	    	<p class="item_address"><strong>Location:</strong> <span></span></p>
-	    </div>
-	    <br> -->
-	    <div style="text-align:left; width: 100%;font-style: italic">
-	   		<p>This location wont be shown to other users</p>
-	    </div>
 	</div>
 
 </template>

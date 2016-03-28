@@ -25,11 +25,11 @@
 
             </div>
 
-            <label class="item item-input">
+            <div class="item item-input">
                 <input class="manualTitle" type="text" value="{{manualTitle}}" placeholder="Title">
-            </label>
+            </div>
 
-            <label class="item item-input item-select">
+            <div class="item item-input item-select">
                 <div class="input-label">
                   Category
                 </div>
@@ -38,9 +38,9 @@
                         <option {{selectedCategory text}}>{{text}}</option>
                     {{/each}}
                 </select>
-            </label>
+            </div>
 
-             <label class="item item-input item-select">
+             <div class="item item-input item-select">
                 <div class="input-label">
                   <p>Condition:</p>
                 </div>
@@ -49,7 +49,9 @@
                         <option value="{{index}}" {{selectedCondition index}}>{{value}}</option>
                     {{/each}}
                 </select>
-            </label>
+            </div>
+
+			{{>itemLocation}}
 
             <div class="item item-divider">
                 Rent
@@ -64,7 +66,7 @@
 
 				<a class="calculate-prices">CALCULATE PRICES</a>
             </div>
-            <div class="item row">
+            <div class="item row item-rent-prices">
                 <div class="col col-50">
                     <div class="priceLabel">DAY</div>
                     <input type="number" class="userPrice dayPrice" value="{{dayPrice}}" placeholder="0.00">
@@ -74,7 +76,7 @@
                     <input type="number" class="userPrice weekPrice" value="{{weekPrice}}" placeholder="0.00">
                 </div>
             </div>
-            <div class="item row">
+            <div class="item row item-rent-prices">
                 <div class="col col-50">
                     <div class="priceLabel">MONTH</div>
                     <input type="number" class="userPrice monthPrice" value="{{monthPrice}}" placeholder="0.00">
@@ -96,14 +98,12 @@
 				<span class="enablePurchasing">OFF</span>
             </div>
 
-            <li class="item row">
+            <div class="item row item-sell-price">
                 <div class="col col-100">
                     <div class="priceLabel">PRICE</div>
                     <input type="number" class="userPrice sellingPrice" value="{{sellingPrice}}" placeholder="0.00">
                 </div>
-            </li>
-
-            {{>itemLocation}}
+            </div>
 
             <div class="padding-horizontal">
                 <button class="submitProduct button button-block button-energized" {{waitingForPrices}}>

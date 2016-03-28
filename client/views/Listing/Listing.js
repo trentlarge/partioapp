@@ -54,6 +54,7 @@ Template.listing.events({
 
         $('.list-products').fadeOut(function() {
             $('.loadbox').fadeIn('fast', function() {
+                Session.set("pageNumber", 1);
                 Session.set('tabBuy', true);
             });
         });
@@ -68,6 +69,7 @@ Template.listing.events({
 
         $('.list-products').fadeOut(function() {
             $('.loadbox').fadeIn('fast', function() {
+                Session.set("pageNumber", 1);
                 Session.set('tabBuy', false);
             });
         });

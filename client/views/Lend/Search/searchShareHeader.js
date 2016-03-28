@@ -7,7 +7,7 @@ Template.searchShareHeader.rendered = function(){
         'width': '100%'
     });
 //    inputBox.focus();
-    
+
     //if back button is clicked, trigger enter button on search bar with latest product
     if(Lend.latestProduct) {
         inputBox.val(Lend.latestProduct);
@@ -25,24 +25,24 @@ Template.searchShareHeader.destroyed = function() {
 Template.searchShareHeader.events({
 
     'focusout .search-share-header-input': function(e, template) {
-        
+
         if(Session.get('allResults')) {
             var inputSearch = $('.search-share-header-input');
-            
+
             if(inputSearch.val().length > 0) {
-                inputSearch.addClass('has-text');    
+                inputSearch.addClass('has-text');
             }
-            
+
             $('.darken-element').css({'opacity': '1'}, function() {
-                $('.view').css({'background': '#eceff1'});    
+                $('.view').css({'background': '#eceff1'});
             });
-            
-        }     
-        
+
+        }
+
     },
     'focus .search-share-header-input': function(e, template) {
         $('.search-share-header-input').removeClass('has-text');
-        
+
         if(Session.get('allResults')) {
             $('.view').css({'background': '#000000'});
             $('.darken-element').css({'opacity': '.5'});
@@ -52,10 +52,10 @@ Template.searchShareHeader.events({
 
         if(Session.get('allResults')) {
             $('.darken-element').css({'opacity': '1'}, function() {
-                $('.view').css({'background': '#eceff1'});    
+                $('.view').css({'background': '#eceff1'});
             });
         }
-        
+
         if (e.charCode == 13 || e.keyCode == 13) {
             //reset sessions
             Session.set('scanResult', null);
@@ -78,17 +78,17 @@ Template.searchShareHeader.events({
             if(Lend.allResultsCache[key]) {
 
 //                callResultDetails(Lend.allResultsCache[key]);
-                
+
                 Session.set('allResults', Lend.allResultsCache[key]);
                 Session.set('lendTab', 'results');
-                
+
                 Lend.latestProduct = key;
-                
+
                 PartioLoad.hide();
                 $(".modal").css("background-image", "");
-             
+
                 $('.search-share-header-input').blur();
-                
+
             }
             else {
                 Meteor.call('AllItemsFromAmazon', key, function(error, result) {
@@ -113,15 +113,15 @@ Template.searchShareHeader.events({
                         //add on cache
                         Lend.allResultsCache[key] = result;
                         Lend.latestProduct = key;
-                        
+
 //                        callResultDetails(result);
-                        
+
                         Session.set('allResults', result);
                         Session.set('lendTab', 'results');
-                        
+
                         PartioLoad.hide();
                         $(".modal").css("background-image", "");
-                        
+
                         $('.search-share-header-input').blur();
                     }
                 });
@@ -139,7 +139,7 @@ Template.searchShareHeader.helpers({
 
 
 function callResultDetails(results) {
-    
+
         var resultsLenght = 0;
         var averagePrice = 0.0;
 
@@ -169,7 +169,7 @@ function callResultDetails(results) {
                occurrences: 0,
             }
         ]
-        
+
         //get category from number of occurrences
         $.each(results, function(index, result) {
 
@@ -202,7 +202,7 @@ function callResultDetails(results) {
             title = results[0].title;
             image = results[0].image;
         }
-    
+
         var itemNotFound = {
             'image' : image,
             'title' : title,
@@ -218,7 +218,7 @@ function callResultDetails(results) {
 
         Session.set('itemNotFound', itemNotFound);
         Session.set('lendTab', 'manual');
-    
+
 }
 
 function resetImageCamFind(){
