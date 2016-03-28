@@ -14,7 +14,7 @@ Template.itemLocation.events({
       $('.locationSwitch').text('NEW LOCATION')
     } else {
     	getCurrentLocation();
-      $('.locationSwitch').text('CURRENT')
+      $('.locationSwitch').text('CURRENT LOCATION')
     }
   },
 });

@@ -135,6 +135,10 @@
 
     .toggle {
         margin-left: 10px;
+
+        &.toggle-purchasing {
+            margin-left: 18px;
+        }
     }
 
     .enablePurchasing, .enableRent {
