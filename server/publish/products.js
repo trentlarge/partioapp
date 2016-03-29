@@ -66,32 +66,28 @@ Meteor.publish("listingProducts", function(data) {
         pageNumber = data.pageNumber || 1,
         pageSize = 15,
         filter = {
-            ownerId: { $ne: data.ownerId },
-            //ownerArea: data.ownerArea.toString(),
-            title: { $regex: ".*" + data.text + ".*", $options: 'i' },
-            category: { $in: data.categories },
-            sold: { $ne: true }
+          ownerId: { $ne: data.ownerId },
+          //ownerArea: data.ownerArea.toString(),
+          title: { $regex: ".*" + data.text + ".*", $options: 'i' },
+          category: { $in: data.categories },
+          sold: { $ne: true }
         }
 
     if(userLocation) {
-      console.log(userLocation);
-
       if(userLocation.lat && userLocation.lng) {
-          filter['location.point'] =  { $near :
-                                        {
-                                          $geometry: { 
-                                            type: "Point",  
-                                            coordinates: userLocation.point
-                                          }
-                                        },
+        filter['location.point'] =  { $near :
+                                      {
+                                        $geometry: { 
+                                          type: "Point",  
+                                          coordinates: userLocation.point
+                                        }
+                                      },
 
-                                        //$minDistance: 1000,
-                                        //$maxDistance: inMeters
-                                      };
+                                      //$minDistance: 1000,
+                                      //$maxDistance: inMeters
+                                    };
       }
     }
-
-
 
     if(data.borrow) {
         filter.borrow = { $ne: true };

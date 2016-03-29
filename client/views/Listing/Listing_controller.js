@@ -29,7 +29,7 @@ ListingController = RouteController.extend({
 
         var data = {
             ownerId: user._id,
-            ownerArea: user.profile.area,
+            //ownerArea: user.profile.area,
             pageNumber: pageNumber,
             text: text,
             categories: categories,
@@ -60,7 +60,7 @@ ListingController = RouteController.extend({
 
         var filter = {
                 ownerId: { $ne: data.ownerId },
-                ownerArea: data.ownerArea.toString(),
+                //ownerArea: data.ownerArea.toString(),
                 title: { $regex: ".*" + data.text + ".*", $options: 'i' },
                 category: { $in: data.categories },
                 sold: { $ne: true }
