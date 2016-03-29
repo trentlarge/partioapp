@@ -60,38 +60,34 @@ Meteor.publish("productsData", function(ownerId, ownerArea, pageNumber, text, ca
 Meteor.publish("listingProducts", function(data) {
 
     var miles = 15,
-        inMeters = miles*1609.34;
-
-
-    var pageNumber = data.pageNumber || 1,
+        inMeters = Math.round(miles*1609.34),
+        user = Users.findOne({ _id: this.userId }),
+        userLocation = user.profile.location,
+        pageNumber = data.pageNumber || 1,
         pageSize = 15,
         filter = {
-            ownerId: { $ne: data.ownerId },
-            //ownerArea: data.ownerArea.toString(),
-            title: { $regex: ".*" + data.text + ".*", $options: 'i' },
-            category: { $in: data.categories },
-            sold: { $ne: true }
+          ownerId: { $ne: data.ownerId },
+          //ownerArea: data.ownerArea.toString(),
+          title: { $regex: ".*" + data.text + ".*", $options: 'i' },
+          category: { $in: data.categories },
+          sold: { $ne: true }
         }
 
-       // console.log(data.location.lat, data.location.lng, Number(data.location.lat), Number(data.location.lng))
+    if(userLocation) {
+      if(userLocation.lat && userLocation.lng) {
+        filter['location.point'] =  { $near :
+                                      {
+                                        $geometry: { 
+                                          type: "Point",  
+                                          coordinates: userLocation.point
+                                        }
+                                      },
 
-    if(data.location) {
-        if(data.location.lat && data.location.lng) {
-            filter['location.point'] =  { $near :
-                                          {
-                                            $geometry: { 
-                                              type: "Point",  
-                                              coordinates: [ Number(data.location.lat), Number(data.location.lng) ] 
-                                            }
-                                          },
-
-                                          //$minDistance: 1000,
-                                          $maxDistance: inMeters
-                                        };
-        }
+                                      //$minDistance: 1000,
+                                      //$maxDistance: inMeters
+                                    };
+      }
     }
-
-
 
     if(data.borrow) {
         filter.borrow = { $ne: true };
