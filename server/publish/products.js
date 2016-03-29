@@ -60,10 +60,10 @@ Meteor.publish("productsData", function(ownerId, ownerArea, pageNumber, text, ca
 Meteor.publish("listingProducts", function(data) {
 
     var miles = 15,
-        inMeters = miles*1609.34;
-
-
-    var pageNumber = data.pageNumber || 1,
+        inMeters = Math.round(miles*1609.34),
+        user = Users.findOne({ _id: this.userId }),
+        userLocation = user.profile.location,
+        pageNumber = data.pageNumber || 1,
         pageSize = 15,
         filter = {
             ownerId: { $ne: data.ownerId },
@@ -73,22 +73,22 @@ Meteor.publish("listingProducts", function(data) {
             sold: { $ne: true }
         }
 
-       // console.log(data.location.lat, data.location.lng, Number(data.location.lat), Number(data.location.lng))
+    if(userLocation) {
+      console.log(userLocation);
 
-    if(data.location) {
-        if(data.location.lat && data.location.lng) {
-            filter['location.point'] =  { $near :
-                                          {
-                                            $geometry: { 
-                                              type: "Point",  
-                                              coordinates: [ Number(data.location.lat), Number(data.location.lng) ] 
-                                            }
-                                          },
+      if(userLocation.lat && userLocation.lng) {
+          filter['location.point'] =  { $near :
+                                        {
+                                          $geometry: { 
+                                            type: "Point",  
+                                            coordinates: userLocation.point
+                                          }
+                                        },
 
-                                          //$minDistance: 1000,
-                                          $maxDistance: inMeters
-                                        };
-        }
+                                        //$minDistance: 1000,
+                                        //$maxDistance: inMeters
+                                      };
+      }
     }
 
 
