@@ -22,6 +22,28 @@ InventoryDetailController = RouteController.extend({
 			if(product.location) {
 				Session.set('location', product.location);
 			}
+			else {
+				var user = Meteor.user(),
+					updateProduct = {
+						location: user.profile.location
+					};
+
+				if(user && user.profile.location) {
+					//update product location
+					Meteor.call("updateProduct", product._id, updateProduct, function(err, res) {
+						if(err) {
+							var errorMessage = err.reason || err.message;
+							if(err.details) {
+								errorMessage = errorMessage + "\nDetails:\n" + err.details;
+							}
+							sAlert.error(errorMessage);
+							return;
+						}
+					});
+
+					Session.set('location', updateProduct.location);
+				}
+			}
 			return product;
 		}
 	},
