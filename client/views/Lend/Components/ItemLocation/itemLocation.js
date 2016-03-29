@@ -27,19 +27,34 @@ Template.itemLocation.events({
     }
 });
 
-var currentLocation;
-
 function getCurrentLocation() {
 
-    if(currentLocation) {
-        Session.set('location', currentLocation);
+    var user = Meteor.user();
+
+    if(user && user.profile.location) {
+        Session.set('location', user.profile.location);
     }
     else {
         checkUserLocation(function(location){
             location.point = [location.lat, location.lng];
-
             Session.set('location', location);
-            currentLocation = location;
+
+            var updatedProfile = {
+                location: location
+            }
+            
+            Meteor.call("updateUserProfile", updatedProfile, function(err, res) {
+
+                if(err) {
+                    var errorMessage = err.reason || err.message;
+                    if(err.details) {
+                        errorMessage = errorMessage + "\nDetails:\n" + err.details;
+                    }
+                    sAlert.error(errorMessage);
+                    return;
+                }
+            });
+
         });
     }
 }

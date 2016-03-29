@@ -481,6 +481,7 @@ function setResultPrices(results) {
 }
 
 function validateInputs(product) {
+    
     if(!product.title || product.title.length < 1) {
         showInvalidPopUp('Invalid Inputs', 'Please enter a valid Title.');
         return false;
@@ -488,6 +489,11 @@ function validateInputs(product) {
 
     if(!product.conditionId || product.conditionId < 1) {
         showInvalidPopUp('Invalid Inputs', 'Please enter a valid Condition of the item.');
+        return false;
+    }
+
+    if(!product.location) {
+        showInvalidPopUp('Invalid Inputs', 'Please enter a valid Location of the item.');
         return false;
     }
 

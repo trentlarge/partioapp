@@ -4,13 +4,13 @@ Template.register.rendered = function() {
       startView: 'decade',
       endDate: '-16y',
     });
-    
+
     if(window.plugins && window.plugins.sim) {
         window.plugins.sim.getSimInfo(successCallback, errorCallback);
     }
-    
+
 }
- 
+
 function successCallback(result) {
   console.log(result);
   if(result.phoneNumber) {
@@ -18,7 +18,7 @@ function successCallback(result) {
   }
     //alert(JSON.stringify(result));
 }
- 
+
 function errorCallback(error) {
   console.log(error);
 }
@@ -66,19 +66,17 @@ Template.register.events({
         var password = template.find('[name=password]').value;
         var profileDetails = {
             name: template.find('[name=name]').value,
-            //mobile: template.find('[name=mobile]').value,
             mobile: '',
-            area: template.find('#college').value,
+            // area: template.find('#college').value,
             birthDate: template.find('[name=birthDate]').value,
             avatar: base64imgs('profile-image-placeholder')
-//            location: Session.get('newLocation')
     };
 
-    if(email && password && profileDetails.name && profileDetails.area && profileDetails.area !== 'Select') {
+    if(email && password && profileDetails.name) {
       //if (emailCheck(profileDetails.college, email)) {
 
       PartioLoad.show('Please wait, we\'re creating your account....');
-      
+
       Accounts.createUser({email: email, password: password, telephone: profileDetails.telephone, profileDetails: profileDetails}, function(error) {
         if (error) {
           PartioLoad.hide();
@@ -128,4 +126,3 @@ Template.modalPrivacyPolicy.events({
   },
 
 });
-

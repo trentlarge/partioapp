@@ -6,14 +6,14 @@
     font-size: 10px;
 }
 
-.item.item-location {
+.item.item-map-location {
     display: flex;
     display: -webkit-flex;
     align-items: center;
     -webkit-aling-items: center;
 }
 
-.item.item-divider.item-location {
+.item.item-divider.item-map-location {
     flex-direction: column;
     -webkit-flex-direction: column;
     align-items: flex-start;

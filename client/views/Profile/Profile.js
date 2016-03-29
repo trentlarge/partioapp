@@ -18,7 +18,21 @@ Template.appLayout.events({
             //college: $('#profileuniversity').val(),
             mobile: $('#profilemobile').val(),
             birthDate: $('#birthDate').val(),
-            area: $('#college').val()    
+            location: (function() {
+                if(Session.get('profileLocation')) {
+                    return Session.get('profileLocation');
+                }
+                else {
+                    var user = Meteor.user();
+                    if(user && user.profile.location) {
+                        return user.profile.location;
+                    }
+                    else {
+                        return false;
+                    }
+                }
+            })(),
+            //area: $('#college').val()
         };
 
         Meteor.call("updateUserProfile", updatedProfile, function(err, res) {
@@ -61,10 +75,20 @@ Template.profile.events({
         Session.set('profileEdit', true);
     },
 
-    'change #college': function(e, template) {
-        e.preventDefault();
-        Session.set('profileEdit', true);
+    'click .location': function(e, template) {
+
+        getCurrentLocation();
+
+        if(Session.get('profileLocation')) {
+            IonModal.open('profileLocationMap');
+            Session.set('profileEdit', true);
+        }
     },
+
+    // 'change #college': function(e, template) {
+    //     e.preventDefault();
+    //     Session.set('profileEdit', true);
+    // },
 
     'click #birthDate': function(e, template) {
         e.preventDefault();
@@ -124,6 +148,42 @@ Template.profile.events({
         logout();
     }
 });
+
+function getCurrentLocation() {
+
+    var user = Meteor.user();
+
+    if(user && user.profile.location) {
+        var location = user.profile.location;
+        location.point = [location.lat, location.lng];
+
+        Session.set('profileLocation', location);
+    }
+    else {
+        checkUserLocation(function(location){
+            location.point = [location.lat, location.lng];
+            Session.set('profileLocation', location);
+
+            var updatedProfile = {
+                location: location
+            }
+
+            Meteor.call("updateUserProfile", updatedProfile, function(err, res) {
+
+                if(err) {
+                    var errorMessage = err.reason || err.message;
+                    if(err.details) {
+                        errorMessage = errorMessage + "\nDetails:\n" + err.details;
+                    }
+                    sAlert.error(errorMessage);
+                    return;
+                }
+            });
+        });
+    }
+}
+
+
 
 Template.settingsProfileImage.helpers({
     'noProfileYet': function() {

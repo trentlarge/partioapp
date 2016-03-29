@@ -90,17 +90,17 @@ Router.onBeforeAction(function(pause){
 				} else {
 
 					//FACEBOOK comes with area -1
-					if(_user.profile.area == '-1' && Tracker.currentComputation.firstRun) {
-
-						//define which area user is with GPS coords, if return nothing, his area is 'Others'
-						areaFinder(function(area){
-							if(!area) {
-								area = '0';
-							}
-
-							Meteor.call('userAreaUpdate', area);
-						})
-					}
+					// if(_user.profile.area == '-1' && Tracker.currentComputation.firstRun) {
+					//
+					// 	//define which area user is with GPS coords, if return nothing, his area is 'Others'
+					// 	areaFinder(function(area){
+					// 		if(!area) {
+					// 			area = '0';
+					// 		}
+					// 
+					// 		Meteor.call('userAreaUpdate', area);
+					// 	})
+					// }
 
 					//on first time, create transaction id and open tutorial
 					if(!_user.private.viewTutorial) {
@@ -109,20 +109,20 @@ Router.onBeforeAction(function(pause){
 
 						//check tutorial ok
 						//Meteor.call('checkTutorial');
-                        
-                        //start tutorial  
+
+                        //start tutorial
                         if(!Session.get('tutorialEnabled')) {
                             Router.go('/');
                             Session.set('tutorialPart', 1);
-                            Session.set('tutorialEnabled', true);   
+                            Session.set('tutorialEnabled', true);
                         }
 //						IonModal.open('tutorial');
 					}
                     else {
                         if(!_user.private.viewProfileTutorial) {
-                            //start tutorial  
+                            //start tutorial
                             if(!Session.get('profileTutorialEnabled')) {
-                                Session.set('profileTutorialEnabled', true);   
+                                Session.set('profileTutorialEnabled', true);
                             }
                         }
                     }
