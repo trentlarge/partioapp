@@ -134,7 +134,7 @@
             {{/if}}
           </div>
 
-          <div class="item row">
+          <div class="item row item-rent-prices" style="display:{{#if isRentingStatusOn}} normal {{else}} none {{/if}}">
             <div class="col col-50">
                 <div class="priceLabel">DAY</div>
                 <input type="number" class="price dayPrice" value="{{product.rentPrice.day}}" placeholder="0.00" {{../isEditMode}}>
@@ -144,7 +144,7 @@
                 <input type="number" class="price weekPrice" value="{{product.rentPrice.week}}" placeholder="0.00" {{../isEditMode}}>
             </div>
          </div>
-        <div class="item row no-border">
+        <div class="item row no-border item-rent-prices" style="display:{{#if isRentingStatusOn}} normal {{else}} none {{/if}}">
             <div class="col col-50">
                 <div class="priceLabel">MONTH</div>
                 <input type="number" class="price monthPrice" value="{{product.rentPrice.month}}" placeholder="0.00" {{../isEditMode}}>
@@ -171,7 +171,7 @@
                 {{/if}}
             </div>
 
-            <li class="item row">
+            <li class="item row item-sell-price" style="display:{{#if isSellingStatusOn}} normal {{else}} none {{/if}}">
                 <div class="col col-100">
                     <div class="priceLabel">PRICE</div>
                     <input type="number" class="price sellingPrice" value="{{product.selling.price}}" placeholder="0.00" {{../isEditMode}}>

@@ -68,7 +68,7 @@ Template.inventoryEditImages.helpers({
 		if(Session.get('slideElementsCache')) {
 			return (Session.get('slideElementsCache').length >= 2) ? true : false;
 		}
-	}
+	},
 });
 
 Template.inventoryEditImages.events({
@@ -218,7 +218,6 @@ Template.inventoryDetail.rendered = function() {
 			Session.set('slideElements', slideElements);
 		}
 	}
-
 }
 
 Template.inventoryDetail.destroyed = function () {
@@ -388,18 +387,22 @@ Template.inventoryDetail.events({
 	'click .toggle-purchasing': function(e, template) {
         if($('.enablePurchasing').text() === 'OFF') {
             $('.enablePurchasing').text('ON');
+			$('.item-sell-price').show();
         }
         else {
             $('.enablePurchasing').text('OFF');
+			$('.item-sell-price').hide();
         }
     },
 
     'click .toggle-rent': function(e, template) {
         if($('.enableRent').text() === 'OFF') {
             $('.enableRent').text('ON');
+			$('.item-rent-prices').show();
         }
         else {
             $('.enableRent').text('OFF');
+			$('.item-rent-prices').hide();
         }
     },
 
