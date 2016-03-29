@@ -1,36 +1,36 @@
 Template.main.events({
     'click .skipTutorial': function(e, template) {
         finishTutorial()
-    } 
+    }
 });
 
 Template.lend.events({
-    'click .skipTutorial': function(e, template) { 
+    'click .skipTutorial': function(e, template) {
         finishTutorial()
-    } 
+    }
 });
 
 Template.listing.events({
-    'click .skipTutorial': function(e, template) { 
+    'click .skipTutorial': function(e, template) {
         finishTutorial()
-    } 
+    }
 });
 
 Template.transactions.events({
-    'click .skipTutorial': function(e, template) { 
+    'click .skipTutorial': function(e, template) {
         finishTutorial()
-    } 
+    }
 });
 
 function finishTutorial() {
-    
+
     Router.go('/profile');
-    
+
     //check tutorial on database
     Meteor.call('checkTutorial', function() {
-        Session.set('tutorialEnabled', false); 
-        $('body').removeClass('block-background');  
-    }); 
+        Session.set('tutorialEnabled', false);
+        $('body').removeClass('block-background');
+    });
 }
 
 // PART 1
@@ -42,7 +42,7 @@ tutorialSteps = {
     '1': [
           {
             template: Template.tutorial_p1_step1,
-            onLoad: function() { 
+            onLoad: function() {
                  setTimeout(function(){
                     $('.action-tutorial-next').text('Start Tour');
                     if(!$('.skipTutorial').is(':visible')) {
@@ -109,7 +109,7 @@ tutorialSteps = {
     '3': [
           {
             template: Template.tutorial_p3_step1,
-            onLoad: function() { 
+            onLoad: function() {
                 setTimeout(function(){
                     if(!$('.skipTutorial').is(':visible')) {
                         $('.modal-footer').append('<a class="skipTutorial">SKIP TOUR</a>');
@@ -151,7 +151,7 @@ tutorialSteps = {
     '5': [
           {
             template: Template.tutorial_p5_step1,
-            onLoad: function() { 
+            onLoad: function() {
                 setTimeout(function(){
                     if(!$('.skipTutorial').is(':visible')) {
                         $('.modal-footer').append('<a class="skipTutorial">SKIP TOUR</a>');
@@ -167,64 +167,64 @@ Template.partioTutorial.helpers({
         if(Session.get('tutorialEnabled')) {
             $('body').addClass('block-background');
         }
-        return Session.get('tutorialEnabled');    
+        return Session.get('tutorialEnabled');
     },
     tutorialPart: function(part) {
         return (Session.get('tutorialPart') == part) ? true : false;
     },
     options: function(part) {
-        
+
         var option = {
             id: "tutorialPart" + part,
             steps: tutorialSteps[part],
             emitter: new EventEmitter(),
         }
-        
+
         switch(part) {
-            case 1: 
-                option.onFinish = function() { 
+            case 1:
+                option.onFinish = function() {
                     Session.set('tutorialPart', 2);
                     Router.go('/lend');
                 }
                 break;
-            case 2: 
-                option.onFinish = function() { 
+            case 2:
+                option.onFinish = function() {
                     Session.set('tutorialPart', 3);
                     Router.go('/');
                 }
                 break;
             case 3:
-                option.onFinish = function() { 
+                option.onFinish = function() {
                     Session.set('tutorialPart', 4);
                     Router.go('/listing');
                 }
                 break;
             case 4:
-                option.onFinish = function() { 
+                option.onFinish = function() {
                     Session.set('tutorialPart', 5);
                     Router.go('/transactions');
                 }
                 break;
             case 5:
-                option.onFinish = function() { 
+                option.onFinish = function() {
                     //check tutorial on database
                     finishTutorial();
                 }
                 break;
             default:
-                
+
         }
 
         return option;
     }
 })
-    
+
 // PROFILE TUTORIAL
 
 profileTutorialSteps = [
    {
        template: Template.profileTutorial_step1,
-       onLoad: function() { 
+       onLoad: function() {
            setTimeout(function(){
                $('.action-tutorial-next').click();
            }, 500);
@@ -242,17 +242,17 @@ profileTutorialSteps = [
   },
   {
       template: Template.profileTutorial_step3,
-      spot: ".item-college",
+      spot: ".item-location",
       onLoad: function() {
           $('.overflow-scroll').scrollTop(0);
           setTimeout(function(){
               $('.action-tutorial-next').css({
-                  'border-radius': '0px', 
-                  'border-top-right-radius': '5px', 
+                  'border-radius': '0px',
+                  'border-top-right-radius': '5px',
                   'border-bottom-right-radius': '5px'
               });
               $('.action-tutorial-back').show();
-          }, 10); 
+          }, 10);
       }
   },
   {
@@ -266,14 +266,14 @@ profileTutorialSteps = [
       template: Template.profileTutorial_step5,
       spot: ".item-promotions",
       onLoad: function() {
-          
+
       }
   },
   {
       template: Template.profileTutorial_step6,
       spot: ".item-contact-us",
       onLoad: function() {
-          
+
       }
   }
 ];
@@ -283,24 +283,24 @@ Template.partioProfileTutorial.helpers({
         if(Session.get('profileTutorialEnabled')) {
             $('body').addClass('block-background');
         }
-        return Session.get('profileTutorialEnabled');    
+        return Session.get('profileTutorialEnabled');
     },
     options: function() {
         return {
             id: "profileTutorial",
             steps: profileTutorialSteps,
             emitter: new EventEmitter(),
-            onFinish: function() { 
+            onFinish: function() {
                 //check profile tutorial on database
                 Meteor.call('checkProfileTutorial', function() {
                     Session.set('profileTutorialEnabled', false);
                     $('body').removeClass('block-background');
-                }); 
+                });
             }
         };
     }
 });
-                                
+
 
 
 
@@ -315,21 +315,21 @@ Template.appTutorial.rendered = function() {
 };
 
 Template.appTutorial.helpers({
-    
+
     isTutorialStarted: function() {
         return Session.get('tutorialStarted');
     }
-    
+
 });
 
 Template.appTutorial.events({
-    
+
     'click #startTutorial': function() {
         Session.set('tutorialStarted', true);
     },
-    
+
     'click #jumpTutorial': function() {
         $('.modal .bar button').click();
     },
-    
+
 });

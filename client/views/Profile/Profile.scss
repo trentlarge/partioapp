@@ -11,7 +11,7 @@
 //    z-index: 2;
 //    width: 100%;
     box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.26);
-    
+
     &.item {
         padding: 0;
     }
@@ -23,7 +23,7 @@
         background-color: #ffffff;
         opacity: .6;
     }
-    
+
     .activation-title {
         white-space: normal;
         display: block;
@@ -44,19 +44,31 @@
         margin-top: -20px;
     }
 
-    a.item {
+    .profile-name {
+        display: block;
+        padding-bottom: 5px;
+    }
+
+    .location {
+        font-size: 14px;
+    }
+
+    .item {
         margin-right: 2px;
-        
+
         &.item-icon-right {
             p {
                 height: 15px;
             }
         }
-    }
 
-    .profile-name {
-        display: block;
-        padding-bottom: 5px;
+        &.item-input .icon {
+            min-width: 25px !important;
+        }
+
+        &.item-location {
+            padding: 16px;
+        }
     }
 
     .item-input {
@@ -75,7 +87,7 @@
                 background-color: #ffffff;
                 opacity: .6;
             }
-            
+
             &:read-only {
                 background-color: #ffffff;
                 opacity: .6;
@@ -86,7 +98,7 @@
     #logout {
         cursor: pointer;
     }
-    
+
 }
 
 #changePassword {

@@ -9,7 +9,7 @@ Accounts.onCreateUser(function(options,user) {
 		//facebooklogin
         if (service == 'facebook') {
         	var email = user.services[service].email;
-        
+
 		//manualregister
         } else {
         	var email = user.emails[0].address;
@@ -17,16 +17,16 @@ Accounts.onCreateUser(function(options,user) {
 
      	// see if any existing user has this email address, otherwise create new
         var existingUser = Meteor.users.findOne({'emails.address': email});
-        
+
         if (existingUser) {
-        
+
             // copy across new service info
             existingUser.services[service] = user.services[service];
- 
+
             // even worse hackery
             Meteor.users.remove({_id: existingUser._id}); // remove existing record
             return existingUser;                          // record is re-inserted
-        
+
         } else {
 
         	user.profile = {};
@@ -50,24 +50,24 @@ Accounts.onCreateUser(function(options,user) {
 				//user.profile.birthDate = user.services.facebook.birthday
 				//FOR NO APPARENT REASON FACEBOOK REFUSED TO SEND AVATAR AFTER LOGIN
 				// user.profile.avatar = options.profile.avatar;
-				
+
 				user.private.mobile = '';
-				user.profile.area = '-1'; //to get after this on client
+				// user.profile.area = '-1'; //to get after this on client
 
 				// if(user.profile.area == 0) {
 
 				// 	//Check By Email
 				// 	if (email.split("@")[1] === "duke.edu") {
 				// 		user.profile.area = 1;
-				// 	} 
-					
+				// 	}
+
 				// 	if (email.split("@")[1] === "yale.edu") {
 				// 		user.profile.area = 2;
 				// 	}
 				// }
-				
+
 				user.emails = [{"address": email, "verified": true}]
-	        
+
 	        //manual creating
 	        } else {
 	        	user.profile.name = options.profileDetails.name;
@@ -79,7 +79,7 @@ Accounts.onCreateUser(function(options,user) {
 				Meteor.setTimeout(function() {
 					Accounts.sendVerificationEmail(user._id);
 				}, 4 * 1000);
-	        }	        
+	        }
 
 			return user;
         }

@@ -76,7 +76,11 @@
             <i class="icon ion-ios-calendar"></i>
             <input id="birthDate" data-date-format="mm/dd/yyyy" type="text" value="{{ currentUser.profile.birthDate }}" readonly>
           </label>
-          <label class="item item-input item-select item-college">
+          <div class="item item-input item-location">
+            <i class="icon ion-ios-location"></i>
+            <a class="location"> DEFAULT LOCATION </a>
+          </div>
+          <!-- <label class="item item-input item-select item-college">
             <i class="icon ion-android-locate"></i>
             <div class="input-label border-radius-20"><p>Location</p></div>
             <select id="college" class="border-radius-20">
@@ -84,7 +88,7 @@
               <option value="2" {{isLocationSelected 2}}>Yale University</option>
               <option value="0" {{isLocationSelected 0}}>Other</option>
             </select>
-           </label>
+           </label> -->
         </form>
 
         <label class="item item-input">
