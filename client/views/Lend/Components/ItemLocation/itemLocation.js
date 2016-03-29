@@ -36,6 +36,8 @@ function getCurrentLocation() {
     }
     else {
         checkUserLocation(function(location){
+            location.point = [location.lat, location.lng];
+
             Session.set('location', location);
             currentLocation = location;
         });

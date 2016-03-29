@@ -355,7 +355,7 @@ Template.manual.events({
 
         PartioLoad.show();
 
-        console.log(Session.get('location'));
+        var amazonProduct = Session.get('amazonProduct');
 
         var images = (function() {
             var images = [];
@@ -376,7 +376,6 @@ Template.manual.events({
             }),
             "price": '--',
             "conditionId": $('.manualCondition').val(),
-            "manualEntry": true,
             "ownerId": Meteor.userId(),
             "location": Session.get('location'),
             //"ownerArea": Meteor.user().profile.area,
@@ -403,6 +402,11 @@ Template.manual.events({
             }
         }
 
+        if(amazonProduct) {
+            product.price = amazonProduct.price;
+            product.amazonCategory = amazonProduct.amazonCategory;
+        }
+
         Meteor.call('userCanShare', function(error, result){
             PartioLoad.hide();
 
@@ -426,7 +430,7 @@ Template.manual.events({
             } else {
                 if(!validateInputs(product)){
                     PartioLoad.hide();
-                    return;
+                    return false;
                 }
 
                 Lend.addProductToInventory(product);

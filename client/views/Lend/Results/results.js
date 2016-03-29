@@ -170,8 +170,6 @@ Template.results.events({
 
     'click .product': function(e, template) {
 
-        console.log(this);
-
         var shareProduct = {
             'image' : this.image,
             'title' : this.title,
@@ -185,6 +183,7 @@ Template.results.events({
             }
         }
 
+        Session.set('amazonProduct', this);
         Session.set('shareProduct', shareProduct);
 
         Router.go('/lend/details');

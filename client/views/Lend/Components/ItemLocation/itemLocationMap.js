@@ -5,15 +5,11 @@ Template.itemLocationMap.created = function() {
 
     Session.set('inputlocked', false);
     Session.set('inputMapsearch', '');
-
-    if(!Session.get('view')) {
-        $('.content').removeClass('has-header');
-    }
 };
 
 Template.itemLocationMap.rendered = function() {
     if(!Session.get('view')) {
-        $('.content').removeClass('has-header');
+        $('.modal .content').removeClass('has-header');
     }
 };
 
@@ -23,7 +19,8 @@ Template.itemLocationMap.events({
             mapCenter = map.instance.getCenter(),
             location = {
                 lat: mapCenter.lat(),
-                lng: mapCenter.lng()
+                lng: mapCenter.lng(),
+                point: [mapCenter.lat(), mapCenter.lng()]
             };
 
         Session.set('location', location);
