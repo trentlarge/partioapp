@@ -19,6 +19,9 @@ InventoryDetailController = RouteController.extend({
 		var product = Products.findOne(this.params._id);
 		if(product) {
 			Session.set('productId', product._id);
+			if(product.location) {
+				Session.set('location', product.location);
+			}
 			return product;
 		}
 	},
@@ -52,6 +55,35 @@ InventoryDetailController = RouteController.extend({
 			selectCondition: function(index) {
 				if(this.product) {
 					return (index == this.product.conditionId) ? 'selected' : '';
+				}
+			},
+
+			defaultLocationChecked: function() {
+				if(this.product) {
+					var productLocation = this.product.location,
+						user = Meteor.user(),
+						userLocation = user.profile.location;
+
+
+					if(!userLocation || !productLocation) {
+						return '';
+					}
+
+					return (userLocation.lat === productLocation.lat && userLocation.lng === productLocation.lng) ? 'checked' : '';
+				}
+			},
+
+			isDefaultLocation: function() {
+				if(this.product) {
+					var user = Meteor.user(),
+						userLocation = user.profile.location,
+						productLocation = this.product.location;
+
+					if(!userLocation || !productLocation) {
+						return false;
+					}
+
+					return (userLocation.lat === productLocation.lat && userLocation.lng === productLocation.lng) ? true: false;
 				}
 			},
 

@@ -223,6 +223,8 @@ Template.inventoryDetail.rendered = function() {
 Template.inventoryDetail.destroyed = function () {
 	Session.set('slideElements', null);
 	Session.set('productId', null);
+	Session.set('view', null);
+	Session.set('location', null);
 };
 
 Template.inventoryDetail.onCreated(function () {
@@ -230,6 +232,37 @@ Template.inventoryDetail.onCreated(function () {
 });
 
 Template.inventoryDetail.events({
+
+	'change .toggle-location input[type=checkbox]': function(e) {
+        if(!e.currentTarget.checked) {
+            Session.set('view', false);
+            IonModal.open('itemLocationMap');
+            $('.locationSwitch').text('NEW LOCATION')
+        } else {
+            getCurrentLocation();
+            $('.locationSwitch').text('DEFAULT LOCATION')
+        }
+    },
+
+    'click .locationSwitch': function(e, template) {
+        if($('.locationSwitch').text() === 'DEFAULT LOCATION') {
+            Session.set('view', true);
+        }
+		else {
+			Session.set('view', false);
+		}
+		
+		IonModal.open('itemLocationMap');
+    },
+
+	'click .locationDisabled': function(e, template) {
+		Session.set('view', true);
+		IonModal.open('itemLocationMap');
+
+		if(Session.get('location')) {
+			IonModal.open('itemLocationMap');
+		}
+	},
 
 	'click .features': function(e, template) {
 		var features = $('.features');
@@ -245,6 +278,9 @@ Template.inventoryDetail.events({
 	},
 
 	'click #editSave': function(e, template) {
+
+		var self = this;
+
 		var dayPrice = parseFloat(template.find('.dayPrice').value, 10) || 0,
 			weekPrice = parseFloat(template.find('.weekPrice').value, 10) || 0,
 			monthPrice = parseFloat(template.find('.monthPrice').value, 10) || 0,
@@ -281,6 +317,10 @@ Template.inventoryDetail.events({
 				'rentPrice': editedPrices,
 				'selling': selling
 			};
+
+		if(Session.get('location')) {
+			product.location = Session.get('location');
+		}
 
 		// check title
 		if(title.length == 0) {
@@ -333,7 +373,7 @@ Template.inventoryDetail.events({
 		}
 
 		//update product
-		Meteor.call("updateProduct", this.product._id, product, function(err, res) {
+		Meteor.call("updateProduct", self.product._id, product, function(err, res) {
 			if(err) {
 				var errorMessage = err.reason || err.message;
 				if(err.details) {
@@ -407,6 +447,38 @@ Template.inventoryDetail.events({
     },
 
 });
+
+function getCurrentLocation() {
+
+    var user = Meteor.user();
+
+    if(user && user.profile.location) {
+        Session.set('location', user.profile.location);
+    }
+    else {
+        checkUserLocation(function(location){
+            location.point = [location.lat, location.lng];
+            Session.set('location', location);
+
+            var updatedProfile = {
+                location: location
+            }
+
+            Meteor.call("updateUserProfile", updatedProfile, function(err, res) {
+
+                if(err) {
+                    var errorMessage = err.reason || err.message;
+                    if(err.details) {
+                        errorMessage = errorMessage + "\nDetails:\n" + err.details;
+                    }
+                    sAlert.error(errorMessage);
+                    return;
+                }
+            });
+
+        });
+    }
+}
 
 function showInvalidPopUp(strTitle, strMessage){
 	IonPopup.show({

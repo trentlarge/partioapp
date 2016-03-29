@@ -1,16 +1,20 @@
 @import '../../../../styles/app-variables';
 
-.locationSwitch {
-    margin-top: -3px;
-    margin-left: 10px;
-    font-size: 10px;
-}
-
 .item.item-map-location {
     display: flex;
     display: -webkit-flex;
     align-items: center;
     -webkit-aling-items: center;
+
+    a {
+        margin-top: -3px;
+        margin-left: 10px;
+        font-size: 10px;
+
+        &.locationDisabled {
+            color: $royal;
+        }
+    }
 }
 
 .item.item-divider.item-map-location {

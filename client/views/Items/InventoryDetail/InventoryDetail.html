@@ -61,17 +61,6 @@
           {{/if}}
 
           <div class="item item-input item-select">
-            <div class="input-label">
-              <p>Condition:</p>
-            </div>
-            <select class="condition" {{../isEditMode}}>
-              {{#each ../getConditions}}
-                <option value="{{index}}" {{../selectCondition index}}>{{value}}</option>
-              {{/each}}
-            </select>
-          </div>
-
-          <div class="item item-input item-select no-border">
                 <div class="input-label">
                   <p style="height:16px;">Category:</p>
                 </div>
@@ -82,41 +71,57 @@
                 </select>
           </div>
 
-<!--
-          <div class="item item-divider features">
-            <h2>Features <i class="chevron-icon icon ion-chevron-up"></i></h2>
+          <div class="item item-input item-select no-border">
+            <div class="input-label">
+              <p>Condition:</p>
+            </div>
+            <select class="condition" {{../isEditMode}}>
+              {{#each ../getConditions}}
+                <option value="{{index}}" {{../selectCondition index}}>{{value}}</option>
+              {{/each}}
+            </select>
           </div>
 
-          <div class="features-details" style="display: none">
-            <div class="item no-padding row-details">
-              <div class="col col-50">
-                <div class="details-box">
-                  <i class="icon {{getCategoryIcon}} bk-energized"></i>
-                  <span class="detail">{{product.amazonCategory}}</span>
-                </div>
-              </div>
-              <div class="col col-50">
-                <div class="details-box">
-                  <i class="icon ion-cash bk-energized"></i>
-                  <span class="detail">{{product.price}}</span>
-                </div>
-              </div>
-            </div>
+         <div class="item item-divider item-map-location">
+            <!-- Item Location -->
+        	Product Location
+           	<p>This location wont be shown to other users</p>
+         </div>
 
-            <div class="row item attributes">
-              <div class="col col-33">
-                {{#each product.attributes}}
-                  <p><b>{{key}}</b></p>
-                {{/each}}
-              </div>
-              <div class="col col-67 scan-result">
-                {{#each product.attributes}}
-                  <p>{{value}}</p>
-                {{/each}}
-              </div>
-            </div>
-          </div>
--->
+            {{#if editMode product._id}}
+                <div class="item padding item-map-location">
+                    <label class="toggle toggle-assertive toggle-location">
+                        <input type="checkbox" {{../defaultLocationChecked}}>
+                        <div class="track">
+                            <div class="handle"></div>
+                        </div>
+                    </label>
+
+
+                    {{#if ../isDefaultLocation}}
+                        <a class="locationSwitch">DEFAULT LOCATION</a>
+                    {{else}}
+                        <a class="locationSwitch">NEW LOCATION</a>
+                    {{/if}}
+                </div>
+
+            {{else}}
+                <div class="item padding item-map-location">
+                    <label class="toggle toggle-assertive toggle-location">
+                        <input type="checkbox" {{../defaultLocationChecked}} disabled>
+                        <div class="track">
+                            <div class="handle"></div>
+                        </div>
+                    </label>
+
+                    {{#if ../isDefaultLocation}}
+                        <a class="locationDisabled">DEFAULT LOCATION</a>
+                    {{else}}
+                        <a class="locationDisabled">NEW LOCATION</a>
+                    {{/if}}
+                </div>
+
+             {{/if}}
 
           <div class="item item-divider">
             Rent
