@@ -137,6 +137,7 @@ Template.listing.destroyed = function() {
     Session.set('selectedCategories', null);
     Session.set("borrowFilter", null);
     Session.set("purchasingFilter", null);
+    Session.set("distance", null);
 };
 
 // SEARCH BOX
