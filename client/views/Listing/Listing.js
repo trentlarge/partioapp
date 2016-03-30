@@ -258,15 +258,20 @@ Template.listingFilter.events({
 
     'click #submitFilter': function() {
 
-        PartioLoad.show();
+        if(Session.get('distance') === Session.get('filterDistanceValue')) {
+            $('.ion-ios-close-empty').click();
+        }
+        else {
+            PartioLoad.show();
 
-        $('.list-products').fadeOut(function() {
-            $('.loadbox').fadeIn('fast', function() {
-                PartioLoad.hide();
-                Session.set('distance', Session.get('filterDistanceValue'));
-                $('.ion-ios-close-empty').click();
+            $('.list-products').fadeOut(function() {
+                $('.loadbox').fadeIn('fast', function() {
+                    PartioLoad.hide();
+                    Session.set('distance', Session.get('filterDistanceValue'));
+                    $('.ion-ios-close-empty').click();
+                });
             });
-        });
+        }
 
     }
 
