@@ -17,4 +17,6 @@ Meteor.startup(function() {
   Users._ensureIndex({ "private.promotions.friendShare.parent": 1 });
 
   Products._ensureIndex({ "location.point" : "2dsphere" });
+  //Users._ensureIndex({ "profile.location.point" : "2dsphere" });
+  //Connections._ensureIndex({ "location.coords.point" : "2dsphere" });
 });

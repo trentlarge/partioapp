@@ -251,13 +251,12 @@ Template.inventoryDetail.events({
 		else {
 			Session.set('view', false);
 		}
-		
+
 		IonModal.open('itemLocationMap');
     },
 
 	'click .locationDisabled': function(e, template) {
 		Session.set('view', true);
-		IonModal.open('itemLocationMap');
 
 		if(Session.get('location')) {
 			IonModal.open('itemLocationMap');
