@@ -14,6 +14,9 @@ Template.listing.rendered = function() {
     Session.set("pageNumber", 1);
     Session.set("pageNumberLoaded", 0);
 
+    // distance default in miles
+    Session.set("distance", 10);
+
     Session.set('listing', true);
 
     var inputBox = $('.search-header-input'),
@@ -202,4 +205,68 @@ Template.searchResult.events({
     "click .product" : function(e, template) {
         Session.set('listingProduct', true);
     },
+});
+
+
+// LISTING FILTER
+
+Template.listingFilter.rendered = function() {
+
+    Session.set('filterDistanceValue', Session.get('distance'));
+
+    var filter = $('#filterDistance'),
+        val = (Session.get('filterDistanceValue') - filter.attr('min')) / (filter.attr('max') - filter.attr('min'));
+
+    filter.css('background-image',
+                '-webkit-gradient(linear, left top, right top, '
+                + 'color-stop(' + val + ', #DF5707), '
+                + 'color-stop(' + val + ', #EEEEEE)'
+                + ')'
+                );
+
+};
+
+Template.listingFilter.destroyed = function() {
+    Session.set('filterDistanceValue', null);
+}
+
+Template.listingFilter.helpers({
+
+    filterDistanceValue: function() {
+        return Session.get('filterDistanceValue');
+    }
+
+});
+
+Template.listingFilter.events({
+
+    'change #filterDistance': function(e, template) {
+
+        var filter = $(e.target),
+            val = (filter.val() - filter.attr('min')) / (filter.attr('max') - filter.attr('min'));
+
+        filter.css('background-image',
+                    '-webkit-gradient(linear, left top, right top, '
+                    + 'color-stop(' + val + ', #DF5707), '
+                    + 'color-stop(' + val + ', #EEEEEE)'
+                    + ')'
+                    );
+
+        Session.set('filterDistanceValue', filter.val());
+    },
+
+    'click #submitFilter': function() {
+
+        PartioLoad.show();
+
+        $('.list-products').fadeOut(function() {
+            $('.loadbox').fadeIn('fast', function() {
+                PartioLoad.hide();
+                Session.set('distance', Session.get('filterDistanceValue'));
+                $('.ion-ios-close-empty').click();
+            });
+        });
+
+    }
+
 });

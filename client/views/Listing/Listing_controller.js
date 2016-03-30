@@ -19,6 +19,7 @@ ListingController = RouteController.extend({
         var pageNumber = Session.get('pageNumber') || 1,
             text = Session.get('searchText'),
             categories = Session.get('selectedCategories'),
+            distance = Session.get("distance"),
             user = Meteor.user();
 
         if(!user) { return; }
@@ -29,6 +30,7 @@ ListingController = RouteController.extend({
 
         var data = {
             ownerId: user._id,
+            distance: distance,
             //ownerArea: user.profile.area,
             pageNumber: pageNumber,
             text: text,

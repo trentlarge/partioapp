@@ -12,9 +12,13 @@
   {{/contentFor}}
 
   {{#contentFor "headerButtonRight"}}
-    <a href="/" class="button button-clear">
+      <button class="button button-clear filter-modal" data-ion-modal="listingFilter">
+          <i class="icon fa fa-filter energized"></i>
+          <!-- {{> ionIcon icon='funnel' class="energized"}} -->
+      </button>
+    <!-- <a href="/" class="button button-clear">
       <img id="spinner-logo-simple" src="{{ getImage 'spinner-logo' }}" />
-    </a>
+    </a> -->
   {{/contentFor}}
 
   {{> searchBox}}
@@ -105,7 +109,8 @@
                                     {{#if tabBuy}}
                                         <div class="item-buy">
                                             <!-- <span class="buy text">Price</span> -->
-                                            <span class="buy price">${{selling.price}}</span>
+                                            <span class="buy format">$</span>
+                                            <span class="buy price">{{selling.price}}</span>
                                         </div>
                                     {{else}}
                                         <div class="item-rent-table">
@@ -155,5 +160,31 @@
         <i id="shoutOut" class="icon ion-speakerphone"></i>
     </a>
 -->
+
+</template>
+
+
+<template name="listingFilter">
+
+    {{#ionModal title="Filter"}}
+        {{#ionView class="listing-filter"}}
+            <div class="card card-limited">
+                <div class="item item-divider">
+                    Distance
+                    <p class="subtext">
+                        The distance is calculated based in your default distance. You can change that in "My Profile" screen.
+                    </p>
+                </div>
+                <div class="item">
+                    <input type="range" id="filterDistance" min="1" max="100" step="1" value="{{filterDistanceValue}}">
+                    <p class="miles">{{filterDistanceValue}} miles</p>
+                </div>
+                <div class="item no-border">
+                    <button id="submitFilter" class="button button-block button-energized">FILTER!</button>
+                </div>
+            </div>
+
+        {{/ionView}}
+    {{/ionModal}}
 
 </template>

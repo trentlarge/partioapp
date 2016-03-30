@@ -4,11 +4,11 @@ Meteor.publish("adminSearchOwnerProducts", function(ownerId) {
 
 Meteor.publish("adminSearchProducts", function(text, limit) {
 	return Products.find({
-        'title': { $regex: ".*"+text+".*", $options: 'i' },
-    }, {
-        limit: limit,
-        sort: { 'title': 1 }
-    });
+		'title': { $regex: ".*"+text+".*", $options: 'i' },
+	}, {
+		limit: limit,
+		sort: { 'title': 1 }
+	});
 });
 
 Meteor.publish("products", function() {
@@ -36,75 +36,72 @@ Meteor.publish("productsInArray", function(productsId) {
 });
 
 Meteor.publish("productsByTitle", function(_title) {
-  var cursor = Products.find({ title: _title });
-  return Products.publishJoinedCursors(cursor);
+	var cursor = Products.find({ title: _title });
+	return Products.publishJoinedCursors(cursor);
 });
 
-Meteor.publish("productsData", function(ownerId, ownerArea, pageNumber, text, categories) {
-    var pageSize = 15;
-    pageNumber = pageNumber || 1;
-
-    var _ownerArea = ownerArea.toString();
-
-    return Products.find({
-        ownerId: { $ne: ownerId },
-        ownerArea: _ownerArea,
-        title: { $regex: ".*"+text+".*", $options: 'i' },
-        category: { $in: categories },
-        sold: { $ne: true }
-    }, {
-        limit: pageNumber * pageSize
-    });
-});
+// Meteor.publish("productsData", function(ownerId, ownerArea, pageNumber, text, categories) {
+// 	var pageSize = 15;
+// 	pageNumber = pageNumber || 1;
+//
+// 	var _ownerArea = ownerArea.toString();
+//
+// 	return Products.find({
+// 		ownerId: { $ne: ownerId },
+// 		ownerArea: _ownerArea,
+// 		title: { $regex: ".*"+text+".*", $options: 'i' },
+// 		category: { $in: categories },
+// 		sold: { $ne: true }
+// 	}, {
+// 		limit: pageNumber * pageSize
+// 	});
+// });
 
 Meteor.publish("listingProducts", function(data) {
 
-    var miles = 15,
-        inMeters = Math.round(miles*1609.34),
-        user = Users.findOne({ _id: this.userId }),
-        userLocation = user.profile.location,
-        pageNumber = data.pageNumber || 1,
-        pageSize = 15,
-        filter = {
-          ownerId: { $ne: data.ownerId },
-          //ownerArea: data.ownerArea.toString(),
-          title: { $regex: ".*" + data.text + ".*", $options: 'i' },
-          category: { $in: data.categories },
-          sold: { $ne: true }
-        }
+	var distanceMiles = data.distance || 10,
+		distanceMeters = Math.round( distanceMiles * 1609.34),
+		user = Users.findOne({ _id: this.userId }),
+		userLocation = user.profile.location,
+		pageNumber = data.pageNumber || 1,
+		pageSize = 15,
+		filter = {
+			ownerId: { $ne: data.ownerId },
+			//ownerArea: data.ownerArea.toString(),
+			title: { $regex: ".*" + data.text + ".*", $options: 'i' },
+			category: { $in: data.categories },
+			sold: { $ne: true }
+		};
 
-    if(userLocation) {
-      if(userLocation.lat && userLocation.lng) {
-        filter['location.point'] =  { $near :
-                                      {
-                                        $geometry: { 
-                                          type: "Point",  
-                                          coordinates: userLocation.point
-                                        }
-                                      },
+	if(userLocation && userLocation.lat && userLocation.lng) {
+		filter['location.point'] = {
+			$near: {
+				$geometry: {
+					type: "Point",
+					coordinates: userLocation.point
+				},
+				//$minDistance: 1000,
+				$maxDistance: distanceMeters
+			},
+		};
+	}
 
-                                      //$minDistance: 1000,
-                                      //$maxDistance: inMeters
-                                    };
-      }
-    }
+	if(data.borrow) {
+		filter.borrow = { $ne: true };
+	}
 
-    if(data.borrow) {
-        filter.borrow = { $ne: true };
-    }
+	if(data.purchasing) {
+		filter.purchasing = { $ne: true };
+	}
 
-    if(data.purchasing) {
-        filter.purchasing = { $ne: true };
-    }
+	if(data.buy) {
+		filter['selling.status'] = 'ON';
+	}
+	else {
+		filter['rentPrice.status'] = { $ne: 'OFF' };
+	}
 
-  	if(data.buy) {
-  		filter['selling.status'] = 'ON';
-  	}
-  	else {
-  		filter['rentPrice.status'] = { $ne: 'OFF' };
-  	}
-
-    return Products.find(filter, {
-        limit: pageNumber * pageSize
-    });
+	return Products.find(filter, {
+		limit: pageNumber * pageSize
+	});
 });
