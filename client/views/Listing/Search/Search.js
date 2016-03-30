@@ -93,12 +93,16 @@ Template.search.events({
     'click #buyProduct': function() {
 
         var ownerId = this.product.ownerId,
-        productId = this.product._id,
-        sellingDetails = {
-            price : {
-                total : this.product.selling.price,
-            }
-        };
+            productId = this.product._id,
+            location = {
+                type: 'product',
+                coords: this.location
+            },
+            sellingDetails = {
+                price : {
+                    total : this.product.selling.price,
+                }
+            };
 
         Meteor.call('userCanBorrow', function(error, result){
             if(!result) {
@@ -125,7 +129,7 @@ Template.search.events({
                     template: 'You\'ll receive a notification once the owner accepts your request',
                     onOk: function() {
                         PartioLoad.show();
-                        Meteor.call('requestOwnerPurchasing', Meteor.userId(), productId, ownerId, sellingDetails, function(err, res) {
+                        Meteor.call('requestOwnerPurchasing', Meteor.userId(), productId, location, ownerId, sellingDetails, function(err, res) {
                             PartioLoad.hide();
                             IonPopup.close();
 

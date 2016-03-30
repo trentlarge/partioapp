@@ -119,13 +119,23 @@
             {{else}}
               <div class="item details">
                   <i class="icon ion-location"></i>
-                  <a id="changeMeetupLocation" href="#">
-                    {{#if ../locationSetted}}
-                        <p>{{preferredLocation}}</p>
+                    {{#if ../isProductLocation}}
+                      <div class="connect-location-box">
+                          <a class="location">PRODUCT LOCATION</a>
+                          <p class="sublocation">CURRENT LOCATION</p>
+                      </div>
+                      <i class="icon ion-loop change-location"></i>
                     {{else}}
-                        <p class="set-location">SET LOCATION</p>
+                        {{#if ../isUserLocation}}
+                        <div class="connect-location-box">
+                            <a class="location">CURRENT LOCATION</a>
+                            <p class="sublocation">PRODUCT LOCATION</p>
+                        </div>
+                        <i class="icon ion-loop change-location"></i>
+                        {{else}}
+                          <p>NO LOCATION</p>
+                        {{/if}}
                     {{/if}}
-                  </a>
               </div>
             {{/if}}
 

@@ -1,11 +1,21 @@
 Meteor.methods({
-	updateMeetupLocation: function(connectionId, address, latLng) {
+	// updateMeetupLocation: function(connectionId, address, latLng) {
+	// 	Connections.update({
+	// 		_id: connectionId
+	// 	}, {
+	// 		$set: {
+	// 			meetupLocation: address,
+	// 			meetupLatLong: latLng
+	// 		}
+	// 	});
+	// },
+
+	updateLocation: function(connectionId, location) {
 		Connections.update({
 			_id: connectionId
 		}, {
 			$set: {
-				meetupLocation: address,
-				meetupLatLong: latLng
+				location: location
 			}
 		});
 	},
@@ -13,30 +23,30 @@ Meteor.methods({
     removeConnection: function(idConnection) {
         Connections.remove(idConnection);
     },
-    
+
 	updateConnection: function(idConnection, productId) {
         Connections.update({ _id: idConnection }, { $set: { finished: true }})
         if(productId) {
             Products.update({_id: productId}, {$set: {"borrow": false, "purchasing": false}});
         }
 	},
-    
+
     declineConnection: function(idConnection, productId) {
         Connections.update({ _id: idConnection }, { $set: { finished: true }})
         if(productId) {
             Products.update({_id: productId}, {$set: {"borrow": false, "purchasing": false}});
         }
     },
-    
+
     /* =============
         RENTING
     ============= */
 
-	requestOwner: function(requestorId, productId, ownerId, borrowDetails) {
+	requestOwner: function(requestorId, productId, location, ownerId, borrowDetails) {
 
 		var requestor = Meteor.users.findOne({ _id: requestorId }),
 		    requestorName = requestor.profile.name,
-            
+
             owner = Meteor.users.findOne({ _id: ownerId }),
 		    ownerEmail = owner && owner.emails && owner.emails.length ? owner.emails[0].address : "",
 
@@ -46,12 +56,13 @@ Meteor.methods({
                 owner: ownerId,
                 requestor: requestorId,
                 state: 'WAITING',
+				location: location,
                 requestDate: new Date(),
                 borrowDetails: borrowDetails,
                 productData: product,
                 chat: [  ],
-                meetupLocation: "Location not set",
-                meetupLatLong: "Location not set"
+                // meetupLocation: "Location not set",
+                // meetupLatLong: "Location not set"
             },
 
             httpHeaders = this.connection.httpHeaders;
@@ -69,7 +80,7 @@ Meteor.methods({
 				}
 			}
 		});
-        
+
         Products.update({_id: productId}, {$set: {"borrow": true}});
 
 		Meteor.call('checkTransaction', requestorId);
@@ -78,7 +89,7 @@ Meteor.methods({
 		return true;
 
 	},
-    
+
     'ownerAccept': function(connectionId) {
 		Meteor._sleepForMs(1000);
 		console.log("changing status from Waiting to Payment");
@@ -95,7 +106,7 @@ Meteor.methods({
 
 		return true;
 	},
-    
+
     returnItem: function(connectionId) {
 		var connect = Connections.findOne({ _id: connectionId, finished: { $ne: true }}),
 		    borrowerName = Meteor.users.findOne(connect.requestor).profile.name,
@@ -107,31 +118,31 @@ Meteor.methods({
         if(connect.selfCheck && connect.selfCheck.status) {
             Meteor.call('ignoreSelfCheck', connect._id);
         }
-        
+
         if(connect.report && connect.report.status) {
             Meteor.call('returnItemReported', connect._id);
         }
-        
+
 		sendPush(connect.productData.ownerId, message);
 		sendNotification(connect.productData.ownerId, connect.requestor, message, "info", connectionId);
 	},
-    
+
 	confirmReturn: function(connectionId, productId) {
 		var connect = Connections.findOne({ _id: connectionId, finished: { $ne: true }}),
 		    ownerName = Meteor.users.findOne(connect.productData.ownerId).profile.name,
             message = ownerName + " confirmed your return of " + connect.productData.title;
-        
+
         Products.update({_id: productId}, {$set: {"borrow": false}});
-        
+
         if(connect.report && connect.report.status) {
             Meteor.call('confirmItemReported', connect._id);
             Meteor.call('refundCharge', connect._id);
         }
-        
+
 		sendPush(connect.requestor, message);
 		sendNotification(connect.requestor, connect.productData.ownerId, message, "info", connectionId);
 	},
-    
+
 	'submitRating': function(rating, personId, ratedBy) {
 		Meteor.users.update({_id: personId}, {$push: {"profile.rating": rating}});
 		var ratedByName = Meteor.users.findOne(ratedBy).profile.name,
@@ -140,13 +151,13 @@ Meteor.methods({
 		sendPush(personId, message)
 		sendNotification(personId, ratedBy, message, "info")
 	},
-    
-    
+
+
     /* =============
         PURCHASING
     ============= */
-    
-    requestOwnerPurchasing: function(requestorId, productId, ownerId, borrowDetails) {
+
+    requestOwnerPurchasing: function(requestorId, productId, location, ownerId, borrowDetails) {
 
 		var requestor = Meteor.users.findOne({ _id: requestorId }),
 		    requestorName = requestor.profile.name,
@@ -160,12 +171,13 @@ Meteor.methods({
                 owner: ownerId,
                 requestor: requestorId,
                 state: 'WAITING PURCHASING',
+				location: location,
                 requestDate: new Date(),
                 borrowDetails: borrowDetails,
                 productData: product,
                 chat: [  ],
-                meetupLocation: "Location not set",
-                meetupLatLong: "Location not set"
+                // meetupLocation: "Location not set",
+                // meetupLatLong: "Location not set"
             },
 
 		    httpHeaders = this.connection.httpHeaders;
@@ -185,7 +197,7 @@ Meteor.methods({
 		});
 
         Products.update({_id: productId}, {$set: {"purchasing": true}});
-        
+
 		Meteor.call('checkTransaction', requestorId);
 		Meteor.call('checkTransaction', ownerId);
 
@@ -205,12 +217,12 @@ Meteor.methods({
         if(connect.selfCheck && connect.selfCheck.status) {
             Meteor.call('ignoreSelfCheck', connect._id);
         }
-        
+
         if(connect.report && connect.report.status) {
             Meteor.call('returnItemReported', connect._id);
             message = borrowerName + " return the reported item " + connect.productData.title;
         }
-        
+
 		sendPush(connect.productData.ownerId, message);
 		sendNotification(connect.productData.ownerId, connect.requestor, message, "info", connectionId);
 	},
@@ -219,18 +231,18 @@ Meteor.methods({
 		var connect = Connections.findOne({ _id: connectionId, finished: { $ne: true }}),
 		    ownerName = Meteor.users.findOne(connect.productData.ownerId).profile.name,
             message = ownerName + " give the feedback about " + connect.productData.title;
-        
+
         if(connect.report && connect.report.status) {
             Meteor.call('confirmItemReported', connect._id);
             Meteor.call('refundCharge', connect._id);
-            
+
             Products.update({_id: connect.productData._id}, {$set: {"purchasing": false, "sold": false}});
         }
-        
+
 		sendPush(connect.requestor, message);
 		sendNotification(connect.requestor, connect.productData.ownerId, message, "info", connectionId);
 	},
-    
+
     'ownerPurchasingAccept': function(connectionId) {
 		Meteor._sleepForMs(1000);
 		//console.log("changing status from Waiting to Payment");
@@ -251,27 +263,27 @@ Meteor.methods({
 
 //	'ownerDecline': function(connectionId) {
 //		Meteor._sleepForMs(1000);
-//        
+//
 //		var connect = Connections.findOne({ _id: connectionId, finished: { $ne: true }}),
 //		    ownerName = Meteor.users.findOne(connect.productData.ownerId).profile.name,
 //		    message =  "Your request for " + connect.productData.title + " has been declined.";
-//        
+//
 //		sendPush(connect.requestor, message);
 //		sendNotification(connect.requestor, connect.productData.ownerId, message, "declined", connectionId);
-//        
+//
 //        Connections.remove(connectionId);
 //
 //		return true;
 //	},
-    
+
     /* =============
         REPORTING
     ============= */
-    
+
     'ignoreSelfCheck': function(connectionId) {
-      
+
         var connect = Connections.findOne({ _id: connectionId, finished: { $ne: true }});
-        
+
         Connections.update({
             _id: connectionId
         }, {
@@ -286,18 +298,18 @@ Meteor.methods({
                 }
             }
         });
-        
+
     },
-    
-    
+
+
     'ignoreReport': function(connectionId) {
-      
+
         var connect = Connections.findOne({ _id: connectionId, finished: { $ne: true }}),
             report = connect.report;
-        
+
         report.status = false;
         report.ignored = true;
-        
+
         Connections.update({
             _id: connectionId
         }, {
@@ -305,19 +317,19 @@ Meteor.methods({
                 report: report
             }
         });
-        
+
     },
-    
+
     'returnItemReported': function(connectionId) {
-      
+
         var connect = Connections.findOne({ _id: connectionId, finished: { $ne: true }}),
             report = connect.report;
-        
+
         report.returned = {
             status: true,
             timestamp: Date.now()
         }
-            
+
         Connections.update({
             _id: connectionId
         }, {
@@ -325,19 +337,19 @@ Meteor.methods({
                 report: report
             }
         });
-        
+
     },
-    
+
     'confirmItemReported': function(connectionId) {
-      
+
         var connect = Connections.findOne({ _id: connectionId, finished: { $ne: true }}),
             report = connect.report;
-        
+
         report.confirmed = {
             status: true,
             timestamp: Date.now()
         }
-            
+
         Connections.update({
             _id: connectionId
         }, {
@@ -345,34 +357,34 @@ Meteor.methods({
                 report: report
             }
         });
-        
+
         // add earning refund if promotion exist
         if(connect.promotion && connect.promotion.status) {
-            
+
             var earning = {
                 userId: connect.requestor,
                 value: connect.promotion.value,
                 from: 'refund',
             }
-            
+
             Meteor.call('addEarningPromotionValue', connect.requestor, earning);
         }
-        
+
     },
-    
+
     'reportItem': function(connectionId, problems) {
-      
+
         var connect = Connections.findOne({ _id: connectionId, finished: { $ne: true }}),
             ownerName = Meteor.users.findOne(connect.productData.ownerId).profile.name,
 		    message =  "Your request for " + connect.productData.title + " has been reported.";
-        
+
         Connections.update({
             _id: connectionId
         }, {
             $set: {
                 selfCheck: {
                     status: false,
-                    timestamp: connect.selfCheck.timestamp, 
+                    timestamp: connect.selfCheck.timestamp,
                 },
                 report: {
                     status: true,
@@ -381,25 +393,25 @@ Meteor.methods({
                 }
             }
         });
-        
+
 		sendPush(connect.requestor, message);
 		sendNotification(connect.productData.ownerId, connect.requestor, message, "reported", connectionId);
-        
+
     },
-    
-    
+
+
     /* ================================
         PAYMENT -> Look 'stripe.js'
     ================================== */
-    
-    
+
+
 //    'payPurchasingNow': function(payer) {
 //		console.log(payer);
 //		Meteor._sleepForMs(1000);
 //		Connections.update(
 //            {
 //                _id: payer
-//            }, 
+//            },
 //            {
 //                $set: {
 //                    state: "SOLD",
@@ -411,17 +423,17 @@ Meteor.methods({
 //            });
 //		return "yes, payment done"
 //	},
-//    
+//
 //	'payNow': function(payer) {
 //		console.log(payer);
 //		Meteor._sleepForMs(1000);
 //		Connections.update(
 //            {
 //                _id: payer
-//            }, 
+//            },
 //            {
 //                $set: {
-//                    state: "IN USE", 
+//                    state: "IN USE",
 //                    selfCheck: {
 //                        status: true,
 //                        timestamp: Date.now()
@@ -431,15 +443,15 @@ Meteor.methods({
 //		return "yes, payment done"
 //	},
 //	 'updateTerms': function() {
-//	
-//	
+//
+//
 //	 	console.log('updateTerms');
-//	
+//
 //	 	Meteor.users.update({"_id": Meteor.userId() }, {$set: {
 //	 		"profile.stripeTerms": true,
 //	 		//"profile.stripeCustomer": customerResult.id,
 //	 		//"profile.transactionsId": userTransId
 //	 	}})
-//	
+//
 //	 },
 });

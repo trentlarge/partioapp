@@ -1,44 +1,44 @@
 @import '../../../styles/app-variables';
 
 .connectRent, .report-item {
-    
+
     .item-checkbox {
-        
+
         .checkbox {
             padding-left: 9px !important;
-            
+
             input {
                 margin: 0 !important;
             }
         }
-        
+
         .checkbox input:checked:before, .checkbox input:checked + .checkbox-icon:before {
             background: $assertive;
             border-color: $assertive;
         }
-        
+
         .check-coupon {
             margin: 0 !important;
         }
-        
+
         .coupon-text {
             margin-left:-5px;
-            
+
             .cupon-value {
                 font-size: 18px;
                 color: $energized;
-                
+
                 &.old {
                     color: #757575;
                     text-decoration: line-through;
                 }
             }
-        }   
-        
+        }
+
         .main-text {
             white-space: normal;
         }
-        
+
         .problem {
             height: 15px;
         }
@@ -115,7 +115,7 @@
         z-index: 10;
         width: calc(100% - 32px);
     }
-    
+
     .image-container {
         width: 100%;
         height: 200px;
@@ -126,7 +126,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        
+
         img {
             max-width: 100%;
             opacity: .7;
@@ -134,17 +134,17 @@
             -moz-transition: all 200ms ease-in;
             transition: all 200ms ease-in;
         }
-        
+
         &:hover {
             img {
                 -webkit-transform: scale(1.1);
-                -ms-transform: scale(1.1);   
+                -ms-transform: scale(1.1);
                 -moz-transform: scale(1.1);
                 transform: scale(1.1);
             }
         }
     }
-        
+
     .product-features {
 
         p {
@@ -169,7 +169,7 @@
             box-shadow: inset 0px -10px 0px 0px rgba(255,255,255,0.1);
         }
     }
-    
+
     .item.profile {
         padding-bottom: 0;
     }
@@ -232,14 +232,14 @@
         border: 0;
         background-size: 0;
         margin-top: 5px;
-        margin-bottom: 5px;      
+        margin-bottom: 5px;
         color: $royal;
-        
+
         a.tab-item {
             font-size: 12px;
             color: $royal;
-            text-decoration: none;    
-            
+            text-decoration: none;
+
             &:hover {
                 text-decoration: none;
             }
@@ -273,18 +273,24 @@
             &.ion-location {
                 background-color: $assertive;
             }
+
+            &.ion-loop {
+                background-color: #ffffff;
+                color: $royal;
+                cursor: pointer;
+            }
         }
 
         .price {
             font-size: 18px;
             color: $energized;
             text-align: center;
-            
+
             &.old {
                 color: #757575;
                 text-decoration: line-through;
             }
-            
+
             .fee {
                 font-size: 10px;
             }
@@ -301,29 +307,38 @@
             background-color: #ffffff;
         }
 
-        a#showMap, a#changeMeetupLocation {
+        // a#showMap, a#changeMeetupLocation {
+        //
+        //     cursor: pointer;
+        //     text-decoration: none;
+        //
+        //     &:hover {
+        //         opacity: .7;
+        //     }
+        //
+        //     &.activated {
+        //         opacity: .8;
+        //     }
+        //
+        //     p {
+        //         white-space: normal;
+        //
+        //         &.set-location {
+        //             color: $assertive;
+        //         }
+        //     }
+        // }
 
-            cursor: pointer;
-            text-decoration: none;
+        .connect-location-box {
+            text-align: center;
 
-            &:hover {
-                opacity: .7;
-            }
-
-            &.activated {
-                opacity: .8;
-            }
-
-            p {
-                white-space: normal;
-
-                &.set-location {
-                    color: $assertive;
-                }
+            .sublocation {
+                font-size: 10px;
             }
         }
+
     }
-        
+
     .connect-thumbnail {
         max-height: 120px;
         max-width: 120px;
@@ -339,7 +354,7 @@
         word-wrap: break-word; /* IE */
         margin-top: 10px;
     }
-    
+
     .self-check-item {
         display: flex;
         display: -webkit-flex;
@@ -349,13 +364,13 @@
         -webkit-justify-content: center;
         flex-direction: column;
         -webkit-flex-direction: column;
-        
+
         .time-left {
             font-size: 12px;
             padding-top: 5px;
             white-space: normal;
         }
-        
+
         .item-reported-message {
             font-size: 11px;
             width: 200px;

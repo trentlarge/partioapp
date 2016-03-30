@@ -1,0 +1,35 @@
+<template name="connectMap">
+
+      {{#ionModal title=""}}
+
+        <!-- <div class="bar bar-header item-input-inset map-search-header">
+          <label class="item-input-wrapper" style="margin-top: 0px">
+            <i class="icon ion-ios-search placeholder-icon"></i>
+            <input type="search" id="item-map-search" placeholder="Search" value="{{currentItemAddress}}">
+          </label>
+          <button data-dismiss="modal" class="button button-clear" id="item-location-update"><h6>DONE</h6></button>
+        </div> -->
+
+        {{#ionView}}
+          <div id="map-box">
+            <div class="centerMarker"></div>
+            {{> googleMap name="connectMap" options=itemLocationMapOptions}}
+          </div>
+        {{/ionView}}
+
+      {{/ionModal}}
+
+</template>
+
+<template name="connectRentMap">
+  {{#ionModal title=""}}
+
+    {{#ionView}}
+        <div id="mapchat-box">
+
+            <!-- <div id="pin"></div> -->
+            {{> googleMap name="connectRentMap" options=onlyMapOptions}}
+        </div>
+    {{/ionView}}
+  {{/ionModal}}
+</template>

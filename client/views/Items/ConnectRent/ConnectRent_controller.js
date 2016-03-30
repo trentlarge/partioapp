@@ -17,25 +17,25 @@ ConnectRentController = RouteController.extend({
 
 	connection : function(){
 		var connection = Connections.findOne({ _id: this.params._id, finished: { $ne: true } });
-        
+
         if(connection && connection.selfCheck) {
             if(connection.selfCheck.status) {
                 setInterval(function() {
-                    Session.set('timeNow', Date.now()); 
+                    Session.set('timeNow', Date.now());
                 }, 1000);
             }
-            
+
             Session.set('connectionId', connection._id);
         }
-         
+
         if(connection && connection.report) {
             if(connection.report.status) {
                 setInterval(function() {
-                    Session.set('timeNow', Date.now()); 
+                    Session.set('timeNow', Date.now());
                 }, 1000);
             }
         }
-        
+
         return connection;
 	},
 
@@ -95,7 +95,7 @@ ConnectRentController = RouteController.extend({
                 if(!this.connectData) { return; }
 				return (this.connectData.state.indexOf('PURCHASING') < 0 && this.connectData.state.indexOf('SOLD') < 0) ? true : false;
             },
-            
+
 			approvedStatus: function() {
                 if(!this.connectData) { return; }
 				return (this.connectData.state.indexOf('WAITING') < 0)  ? true : false;
@@ -106,16 +106,21 @@ ConnectRentController = RouteController.extend({
 				return this.connectData.productData.ownerData.profile.mobile;
 			},
 
-			preferredLocation: function() {
-                if(!this.connectData) { return; }
-				return this.connectData.meetupLocation;
+			// preferredLocation: function() {
+            //     if(!this.connectData) { return; }
+			// 	return this.connectData.meetupLocation;
+			// },
+
+			hasLocation: function() {
+				if(!this.connectData) { return; }
+				return (this.connectData.location) ? true : false;
 			},
 
 			paymentDone: function() {
                 if(!this.connectData) { return; }
 				return ((this.connectData.state.indexOf("PAYMENT") < 0) && (this.connectData.state.indexOf("WAITING")) < 0) ? true : false;
 			},
-            
+
             itemSold: function() {
                 if(!this.connectData) { return; }
 				return (this.connectData.state === "SOLD") ? true : false;
@@ -130,7 +135,7 @@ ConnectRentController = RouteController.extend({
                 if(!this.connectData) { return; }
 				return (this.connectData.state.indexOf("PAYMENT") >= 0) ? true : false;
 			},
-            
+
 			paymentPending: function() {
                 if(!this.connectData) { return; }
 				return ((this.connectData.state.indexOf("PAYMENT") >= 0) || (this.connectData.state.indexOf("WAITING")) >= 0) ? true : false;
@@ -237,13 +242,13 @@ ConnectRentController = RouteController.extend({
 
 			getLocation: function(param) {
 				if(param != 'Location not set') {
-					return '<a id="showMap" href="#"><p>'+param+'</p></a>';	
+					return '<a id="showMap" href="#"><p>'+param+'</p></a>';
 				} else {
 					return '<p style="min-height:15px">Waiting location...</p>';
 				}
-				
+
 			},
-            
+
             selfCheck: function() {
                 if(this.connectData && this.connectData.selfCheck) {
                     var selfCheck = this.connectData.selfCheck;
@@ -252,13 +257,13 @@ ConnectRentController = RouteController.extend({
                     //if(this.connectData.transfer.source_transaction) {
                         if(selfCheck.status && Math.floor((Date.now() - selfCheck.timestamp)/60000) < 120) {
                             return true;
-                        } 
+                        }
                     //}
                 }
 
                 return false;
             },
-            
+
             getSelfCheckTimeLeft: function() {
                 if(this.connectData && this.connectData.selfCheck && Session.get('timeNow')) {
                     var selfCheck = this.connectData.selfCheck,
@@ -274,22 +279,22 @@ ConnectRentController = RouteController.extend({
                         Meteor.call('ignoreSelfCheck', this.connectData._id);
                         return '(time out)'
                     }
-                    
+
                     if(hours < 10) { hours = '0' + hours; }
                     if(minutes < 10) { minutes = '0' + minutes; }
                     if(seconds < 10) { seconds = '0' + seconds; }
-                    
+
                     return '(' + hours + ':' + minutes + ':' + seconds + ' left)';
 
                 }
             },
-            
+
             itemReported: function() {
                 if(this.connectData && this.connectData.report) {
                     return (this.connectData.report.status);
                 }
             },
-            
+
             getReportTimeLeft: function() {
                 if(this.connectData && this.connectData.report && Session.get('timeNow')) {
                     var report = this.connectData.report,
@@ -304,69 +309,69 @@ ConnectRentController = RouteController.extend({
                         Meteor.call('ignoreReport', this.connectData._id);
                         return '(time out)'
                     }
-                    
+
                     if(hours < 10) { hours = '0' + hours; }
                     if(minutes < 10) { minutes = '0' + minutes; }
                     if(seconds < 10) { seconds = '0' + seconds; }
-                    
+
                     return '(' + hours + ':' + minutes + ':' + seconds + ' left)';
 
                 }
             },
-            
-            // PROMOTION 
-            
+
+            // PROMOTION
+
             getPromotionalValue: function() {
-                
+
                 var user = Meteor.user();
-                
+
                 if(user.private.promotions && user.private.promotions.earning) {
-                    
+
                     var value = Number(user.private.promotions.earning.total);
 
                     if(user.private.promotions.spending) {
                         value = value - Number(user.private.promotions.spending.total);
                     }
-                    
+
                     return parseFloat(value).toFixed(2);
                 }
-                
+
                 return 0.00;
-                
+
             },
-            
+
             getTotalPrice: function(price) {
                 return parseFloat((Number(price) + 0.3)/0.971).toFixed(2);
             },
-            
+
             getFee: function(price) {
                 return parseFloat(((Number(price) + 0.3)/0.971) - Number(price)).toFixed(2);
             },
-            
+
             hasCoupon: function() {
                 return (this.getPromotionalValue() > 0) ? true : false;
             },
-            
+
             getNewPrice: function(oldPrice) {
                 var value = this.getPromotionalValue(),
                     newPrice = Number(oldPrice) - Number(value);
-                
+
                 if(value >= Number(oldPrice)) {
                     Session.set('newPrice', parseFloat(0.00).toFixed(2));
                     Session.set('newPriceWithFee', parseFloat(0.00).toFixed(2));
                     return  parseFloat(0.00).toFixed(2);
                 }
-                
+
                 Session.set('newPrice', newPrice);
-                
+
                 //add fee
                 newPrice = parseFloat((Number(newPrice) + 0.3)/0.971).toFixed(2);
-                
+
                 Session.set('newPriceWithFee', newPrice);
-                
+
                 return newPrice;
             },
-            
+
             getNewFee: function(oldPrice) {
                 var value = this.getPromotionalValue(),
                     newPrice = Number(oldPrice) - Number(value);
@@ -374,24 +379,24 @@ ConnectRentController = RouteController.extend({
                 if(value >= Number(oldPrice)) {
                     return  parseFloat(0.00).toFixed(2);
                 }
-                
+
                 //add fee
                 return parseFloat(((Number(newPrice) + 0.3)/0.971) - Number(newPrice)).toFixed(2);
             },
-            
+
             getNewCouponPrice: function(rentPrice) {
                 var value = this.getPromotionalValue();
-                
+
                 if(Number(rentPrice) >= value) {
                     return  parseFloat(0.00).toFixed(2);
                 }
-                
+
                 //add fee
                 //rentPrice = parseFloat(((Number(rentPrice) + 0.3)/0.971)).toFixed(2);
-                
+
                 return  parseFloat(value - Number(rentPrice)).toFixed(2);
             },
-            
+
             getCouponValue: function() {
                 return this.getPromotionalValue();
             }

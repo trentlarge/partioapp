@@ -17,15 +17,19 @@ ConnectController = RouteController.extend({
 
 	connection : function(){
 		var connection = Connections.findOne({ _id: this.params._id, finished: { $ne: true } });
-        
+
         if(connection && connection.report) {
             if(connection.report.status) {
                 setInterval(function() {
-                    Session.set('timeNow', Date.now()); 
+                    Session.set('timeNow', Date.now());
                 }, 1000);
             }
         }
-        
+
+		if(connection && connection.location) {
+			Session.set('connectLocation', connection.location.coords);
+		}
+
         return connection;
 	},
 
@@ -58,7 +62,7 @@ ConnectController = RouteController.extend({
 
                 if(!requestor) { return; }
 
-				
+
 				// if( !requestor ||
 				// 	!requestor.profile ||
 				// 	!requestor.profile.avatar ||
@@ -80,7 +84,7 @@ ConnectController = RouteController.extend({
                 if(!this.connectData) { return; }
 				return (this.connectData.state.indexOf('PURCHASING') < 0 && this.connectData.state.indexOf('SOLD') < 0) ? true : false;
             },
-            
+
 			isBorrowed: function() {
         		if(!this.connectData) { return; }
 				return (this.connectData.state === 'IN USE') ? true : false;
@@ -91,9 +95,21 @@ ConnectController = RouteController.extend({
 				return (this.connectData.state === 'RETURNED') ? true : false;
 			},
 
-			locationSetted: function() {
+			// locationSetted: function() {
+			// 	if(!this.connectData) { return; }
+			// 	return (this.connectData.meetupLocation !== 'Location not set') ? true : false;
+			// },
+
+			isProductLocation: function() {
 				if(!this.connectData) { return; }
-				return (this.connectData.meetupLocation !== 'Location not set') ? true : false;
+				return (this.connectData.location &&
+					this.connectData.location.type === 'product') ? true : false;
+			},
+
+			isUserLocation: function() {
+				if(!this.connectData) { return; }
+				return (this.connectData.location &&
+					this.connectData.location.type === 'user') ? true : false;
 			},
 
 			getRequestDate: function() {
@@ -128,12 +144,12 @@ ConnectController = RouteController.extend({
 				if(!this.connectData) { return; }
 				return this.connectData.state === "RETURNED" ? true : false;
 			},
-            
+
             waitingPayment: function() {
                 if(!this.connectData) { return; }
 				return this.connectData.state === "PAYMENT" ? true : false;
             },
-            
+
             confirmSold: function() {
 				if(!this.connectData) { return; }
 				return this.connectData.state === "SOLD CONFIRMED" ? true : false;
@@ -199,13 +215,13 @@ ConnectController = RouteController.extend({
 				}
 				return false;
       		},
-            
+
             itemReported: function() {
                 if(this.connectData && this.connectData.report) {
                     return  this.connectData.report.status;
                 }
             },
-            
+
             getReportTimeLeft: function() {
                 if(this.connectData && this.connectData.report && Session.get('timeNow')) {
                     var report = this.connectData.report,
@@ -219,16 +235,16 @@ ConnectController = RouteController.extend({
                         Meteor.call('ignoreReport', this.connectData._id);
                         return '(time out)'
                     }
-                    
+
                     if(hours < 10) { hours = '0' + hours; }
                     if(minutes < 10) { minutes = '0' + minutes; }
                     if(seconds < 10) { seconds = '0' + seconds; }
-                    
+
                     return '(' + hours + ':' + minutes + ':' + seconds + ' left)';
 
                 }
             },
-            
+
 		}
 	},
 

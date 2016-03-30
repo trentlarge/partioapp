@@ -4,7 +4,7 @@ Template.connectRent.onCreated(function () {
 
 Template.connectRent.rendered = function() {
     Session.set('isConnectScreen', true);
-    
+
 	var nowTemp = new Date();
 	var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
 
@@ -53,21 +53,21 @@ Template.connectRent.destroyed = function() {
 }
 
 Template.connectRent.helpers({
-   
+
     couponChecked: function() {
         return Session.get('couponChecked');
     },
-    
+
     newPriceWithFee: function() {
         return Session.get('newPriceWithFee');
     }
-    
+
 });
 
 Template.connectRent.events({
-    
+
     'click .check-coupon': function(e, template) {
-        
+
         if(Session.get('couponChecked')) {
             Session.set('couponChecked', false);
         }
@@ -75,7 +75,7 @@ Template.connectRent.events({
             Session.set('couponChecked', true);
         }
     },
-    
+
 	'click .product-details': function(e, template) {
 		var productDetails = $('.product-details');
 		var productDetailsItem = $('.product-details-item');
@@ -125,7 +125,7 @@ Template.connectRent.events({
 			}
 		});
 	},
-    
+
     'click #confirmReceived': function() {
 		var connectionData = this.connectData,
 		    requestorName = this.connectData.requestorData.profile.name,
@@ -134,7 +134,7 @@ Template.connectRent.events({
                 title: 'Confirmation',
                 template: 'Is your product delivered?',
             };
-            
+
         if(connectionData.report && connectionData.report.status) {
             message = {
                 title: 'Return Item',
@@ -170,18 +170,18 @@ Template.connectRent.events({
 	},
 
 	'click #payment': function(e, template) {
-        
+
 		Session.set('payRedirect', false);
 
 		var connectionId = this.connectData._id,
             amount = 0.00,
             amountWithFee = 0.00,
             price = Number(this.connectData.borrowDetails.price.total),
-            priceWithFee = ((price + 0.3)/0.971).toFixed(2), 
+            priceWithFee = ((price + 0.3)/0.971).toFixed(2),
             partioAmount = 0.00,
             type = $(e.target).attr('paymentType'), //'RENTING';
             successMessage = 'A record of this payment is stored under Transactions History.';
-        
+
         //promotion
         if(Session.get('couponChecked')) {
             amount = Session.get('newPrice');
@@ -192,23 +192,23 @@ Template.connectRent.events({
         else {
             amountWithFee = priceWithFee;
         }
-        
+
         //type renting
         if(type === 'RENTING') {
             successMessage += '<span class="popup-sub-message red">Note: You have 2 hours to report the item if you find some problem.</span>';
         }
-        
+
         var askMessage = 'You are about to make a payment of $' + amountWithFee;
-        
+
         //promotion
         if(Session.get('couponChecked')) {
             askMessage += "<span class=\"popup-sub-message red\">Using the coupon you won't be able of ask refund.</span>";
         }
-        
-        
+
+
 //        console.log('amount: ' + amountWithFee);
 //        console.log('partioAmount: ' + partioAmount);
-        
+
         IonPopup.confirm({
             cancelText: 'Cancel',
             okText: 'PAY',
@@ -222,7 +222,7 @@ Template.connectRent.events({
                 Meteor.call('chargeCard', connectionId, type, partioAmount, function(error, result) {
                     PartioLoad.hide();
                     Session.set('couponChecked', null);
-                    
+
                     if(error) {
                         var errorMessage = error.reason || error.message;
                         if(error.details) {
@@ -247,7 +247,7 @@ Template.connectRent.events({
                 });
             }
         });
-        
+
 	},
 
 	'click #cancelRequest': function() {
@@ -281,7 +281,7 @@ Template.connectRent.events({
 		});
 	},
 
-	'click #showMap': function(e, t) {
+	'click .location': function(e, t) {
 		e.preventDefault();
 		PartioLoad.show();
 
@@ -292,7 +292,7 @@ Template.connectRent.events({
 			return false;
 		}
 
-		var meetupLocation = connection.meetupLatLong || "Location not set";
+		var meetupLocation = connection.location.coords || "Location not set";
 
 		if (meetupLocation === "Location not set") {
 			PartioLoad.hide();
@@ -300,7 +300,7 @@ Template.connectRent.events({
 		} else {
 			navigator.geolocation.getCurrentPosition(function(position) {
 				PartioLoad.hide();
-				IonModal.open('onlyMap', {
+				IonModal.open('connectRentMap', {
 					meetupLocation: meetupLocation,
 					takerLocation: {
 					 	lat: position.coords.latitude,
@@ -317,44 +317,44 @@ Template.connectRent.events({
 // REPORT ITEM
 
 Template.reportItem.rendered = function() {
-    
+
     Session.set('sendEnabled', false);
 }
 
 Template.reportItem.helpers({
-    
+
     sendEnabled: function() {
         return Session.get('sendEnabled') ? '' : 'disabled';
     }
-    
+
 });
 
 Template.reportItem.events({
-   
+
     'change .check-problem': function(e, template) {
-        
+
         var broken = $('.broken').prop('checked'),
             working = $('.working').prop('checked'),
             condition = $('.condition').prop('checked');
-        
+
         if(broken || working || condition ) {
             Session.set('sendEnabled', true);
         }
         else {
             Session.set('sendEnabled', false);
         }
-        
+
     },
-    
+
     'click .send-report': function(e, template) {
-        
+
         var problems = {
                 broken: $('.broken').prop('checked'),
                 working: $('.working').prop('checked'),
                 condition: $('.condition').prop('checked')
             },
             connectionId = Session.get('connectionId');
-        
+
         IonPopup.confirm({
           okText: 'Proceed',
           cancelText: 'Cancel',
@@ -364,7 +364,7 @@ Template.reportItem.events({
             Meteor.call('reportItem', connectionId, problems, function(err, res) {
               IonPopup.close();
               $('.ion-ios-close-empty').click();
-                
+
               if(err) {
                 var errorMessage = err.reason || err.message;
                 if(err.details) {
@@ -373,11 +373,11 @@ Template.reportItem.events({
                 sAlert.error(errorMessage);
                 return;
               }
-                
+
               setTimeout(function(){
                 IonPopup.show({
                   title: 'Item reported',
-                  template: 'Item reported successfully!' + 
+                  template: 'Item reported successfully!' +
                     '<span class="popup-sub-message red">Note: You have 24 hours to return the item and receive confirmation from owner.</span>',
                   buttons: [{
                     text: 'OK',
@@ -388,7 +388,7 @@ Template.reportItem.events({
                   }]
                 });
               }, 500);
-                
+
             });
           },
 
@@ -396,8 +396,8 @@ Template.reportItem.events({
             return false;
           }
         });
-        
+
     },
-    
-    
+
+
 });

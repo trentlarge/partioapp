@@ -158,9 +158,16 @@
 
           {{#if ../isReturned}}
           {{else}}
-            <div class="item details">
-              <i class="icon ion-location"></i>{{{ ../getLocation preferredLocation }}}
-            </div>
+              {{#if ../approvedStatus}}
+                <div class="item details">
+                  <i class="icon ion-location"></i>
+                  {{#if ../hasLocation}}
+                      <a class="location">LOCATION</a>
+                  {{else}}
+                      <p>NO LOCATION</p>
+                  {{/if}}
+                </div>
+             {{/if}}
           {{/if}}
 
           <div style="padding-bottom:16px;"></div>

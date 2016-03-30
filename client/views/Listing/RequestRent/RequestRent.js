@@ -136,6 +136,10 @@ Template.requestRent.events({
     'click #sendRequest': function() {
         var ownerId = this.ownerId,
             productId = this._id,
+            location = {
+                type: 'product',
+                coords: this.location
+            },
             borrowDetails = {
                 date : {
                     start : $(".range-start").datepicker("getDate"),
@@ -162,7 +166,7 @@ Template.requestRent.events({
             template: 'You\'ll receive a notification once the owner accepts your request',
             onOk: function() {
                 PartioLoad.show();
-                Meteor.call('requestOwner', Meteor.userId(), productId, ownerId, borrowDetails, function(err, res) {
+                Meteor.call('requestOwner', Meteor.userId(), productId, location, ownerId, borrowDetails, function(err, res) {
                     PartioLoad.hide();
                     IonPopup.close();
 

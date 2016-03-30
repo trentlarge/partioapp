@@ -54,7 +54,7 @@ Template.connect.events({
 			}
 		});
 	},
-    
+
     'click #giveFeedback': function() {
 		var connection = this.connectData,
             requestor = Users.findOne({ _id: connection.requestor }),
@@ -64,7 +64,7 @@ Template.connect.events({
                 title: 'Feedback',
                 template: 'The delivery confirmation has been made. Please give us your feedback.'
             };
-        
+
         if(connection.report && connection.report.status) {
             message = {
                 title: 'Confirmation',
@@ -163,7 +163,7 @@ Template.connect.events({
 			});
 		});
 	},
-    
+
     'click #ownerPurchasingAccept': function() {
 		PartioLoad.show();
 		var requestor = this.requestorInfo();
@@ -194,47 +194,119 @@ Template.connect.events({
 		});
 	},
 
-	'click #changeMeetupLocation': function() {
-        PartioLoad.show();
-		connectionId = this.connectData._id;
+    'click .location': function() {
+        if(Session.get('connectLocation')) {
+            IonModal.open('connectMap');
+        }
+    },
 
-		meetingCoordinates = this.connectData.meetupLatLong;
-		CheckLocationOn();
-	}
+    'click .change-location': function() {
+
+        var connection = this.connectData,
+            connectionType;
+
+        //set user current location
+        if(connection.location.type === 'product') {
+            connectionType = 'user';
+
+            PartioLoad.show();
+            navigator.geolocation.getCurrentPosition(function(position) {
+
+                var location = {
+                    type: connectionType,
+                    coords: {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude,
+                        point: [position.coords.latitude, position.coords.longitude]
+                    }
+                }
+
+                Meteor.call("updateLocation", connection._id, location, function(err, res) {
+                    PartioLoad.hide();
+                    if(err) {
+                        var errorMessage = err.reason || err.message;
+                        if(err.details) {
+                            errorMessage = errorMessage + "\nDetails:\n" + err.details;
+                        }
+                        sAlert.error(errorMessage);
+                        return;
+                    }
+
+                    Session.set('conenctLocation', location.coords);
+                });
+
+            }, function(error) {
+                PartioLoad.hide();
+            });
+        }
+        //set product location
+        else {
+            connectionType = 'product';
+
+            var location = {
+                type: connectionType,
+                coords: connection.productData.location
+            }
+
+            Meteor.call("updateLocation", connection._id, location, function(err, res) {
+                PartioLoad.hide();
+                if(err) {
+                    var errorMessage = err.reason || err.message;
+                    if(err.details) {
+                        errorMessage = errorMessage + "\nDetails:\n" + err.details;
+                    }
+                    sAlert.error(errorMessage);
+                    return;
+                }
+
+                Session.set('conenctLocation', location.coords);
+            });
+
+        }
+
+    }
+
+	// 'click #changeMeetupLocation': function() {
+    //     PartioLoad.show();
+	// 	connectionId = this.connectData._id;
+    //
+	// 	meetingCoordinates = this.connectData.meetupLatLong;
+	// 	CheckLocationOn();
+	// }
 })
 
-var meetingCoordinates;
-var connectionId;
-var currentPosition;
-
-var CheckLocationOn = function(){
-
-//	console.log(Geolocation.currentLocation());
-
-	//navigator.geolocation.getCurrentPosition(onSuccess, onError);
-
-	checkUserLocation(function(result){
-		PartioLoad.hide();
-
-		if(result) {
-			meetingCoordinates = Connections.findOne(connectionId).meetupLatLong;
-			currentPosition = result;
-
-			if(meetingCoordinates.H && JSON.stringify(meetingCoordinates) != 'Location not set') {
-				Session.set('initialLoc', {lat: meetingCoordinates.H, lng: meetingCoordinates.L});
-			} else {
-				Session.set('initialLoc', {lat: currentPosition.lat, lng: currentPosition.long});
-			}
-
-			Session.set('currentLoc', {lat: currentPosition.lat, lng: currentPosition.long});
-
-			var essentialData = {};
-			essentialData.meetupLatLong = Session.get('initialLoc');
-			essentialData.connectionId = connectionId;
-			IonModal.open('map', essentialData);
-		}
-	});
-};
+// var meetingCoordinates;
+// var connectionId;
+// var currentPosition;
+//
+// var CheckLocationOn = function(){
+//
+// //	console.log(Geolocation.currentLocation());
+//
+// 	//navigator.geolocation.getCurrentPosition(onSuccess, onError);
+//
+// 	checkUserLocation(function(result){
+// 		PartioLoad.hide();
+//
+// 		if(result) {
+// 			meetingCoordinates = Connections.findOne(connectionId).meetupLatLong;
+// 			currentPosition = result;
+//
+// 			if(meetingCoordinates.H && JSON.stringify(meetingCoordinates) != 'Location not set') {
+// 				Session.set('initialLoc', {lat: meetingCoordinates.H, lng: meetingCoordinates.L});
+// 			} else {
+// 				Session.set('initialLoc', {lat: currentPosition.lat, lng: currentPosition.long});
+// 			}
+//
+// 			Session.set('currentLoc', {lat: currentPosition.lat, lng: currentPosition.long});
+//
+// 			var essentialData = {};
+// 			essentialData.meetupLatLong = Session.get('initialLoc');
+// 			essentialData.connectionId = connectionId;
+// 			IonModal.open('map', essentialData);
+// 		}
+// 	});
+// };
 
 
 
