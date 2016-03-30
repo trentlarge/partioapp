@@ -33,7 +33,7 @@
             <h3>MANUAL ENTRY</h3>
         </div>
         <p>
-            A product can be added manually using the manual entry. 
+            A product can be added manually using the manual entry.
             You are able to share a product with 4 price options: day, week, month and semester (4 months).
         </p>
         <p>Additionally, you can sell the product adding the price and enabling the selling option.</p>
@@ -165,91 +165,4 @@
     {{#if profileTutorialEnabled}}
         {{> tutorial options}}
     {{/if}}
-</template>
-
-
-<template name="appTutorial">
-  
-  {{#ionModal title="Tutorial" class="tutorial"}}
-      
-      {{#if isTutorialStarted}}
-    
-      {{#ionSlideBox}}
-        {{#ionSlide class="slide-1"}}
-          <div class="slide-item" style="background:url({{ getTutorialImage 'Home-Screen' }})">
-            <div class="obs">Choose whether you want to share an item you own or borrow an item from a peer.</div>
-          </div>
-        {{/ionSlide}}
-
-        {{#ionSlide class="slide-2"}}
-          <div class="slide-item" style="background:url({{ getTutorialImage 'Take-Photo' }})">
-            <div class="obs">To share an item, simply take a picture of the object, scan the barcode, or enter it manually.</div>
-          </div>
-        {{/ionSlide}}
-
-        {{#ionSlide class="slide-3"}}
-          <div class="slide-item" style="background:url({{ getTutorialImage 'Setting-Rental-Prices' }})">
-            <div class="obs">Confirm the details of your item, and set rental prices.</div>
-          </div>
-        {{/ionSlide}}
-
-        {{#ionSlide class="slide-4"}}
-          <div class="slide-item" style="background:url({{ getTutorialImage 'Request-Received' }})">
-            <div class="obs">Then just wait for someone to request your product!</div>
-          </div>
-        {{/ionSlide}}
-
-        {{#ionSlide class="slide-5"}}
-          <div class="slide-item" style="background:url({{ getTutorialImage 'Listing' }})">
-            <div class="obs">To borrow an item, choose the categories you want to search in. Then scroll or enter a description of the product.</div>
-          </div>
-        {{/ionSlide}}
-
-        {{#ionSlide class="slide-6"}}
-          <div class="slide-item" style="background:url({{ getTutorialImage 'Requesting-Product' }})">
-            <div class="obs">Select the product you want to rent and request the item.</div>
-          </div>
-        {{/ionSlide}}
-
-        {{#ionSlide class="slide-7"}}
-          <div class="slide-item" style="background:url({{ getTutorialImage 'Contact-Menu' }})">
-            <div class="obs">Once your request is approved, you can begin to communicate with the owner.</div>
-          </div>
-        {{/ionSlide}}
-
-        {{#ionSlide class="slide-8"}}
-          <div class="slide-item" style="background:url({{ getTutorialImage 'Chat' }})">
-            <div class="obs">Lenders and borrowers can communicate with other users over chat and over a phone call.</div>
-          </div>
-        {{/ionSlide}}
-
-        {{#ionSlide class="slide-9"}}
-          <div class="slide-item" style="background:url({{ getTutorialImage 'Allow-Renting' }})">
-            <div class="obs">Then, you can set a location to exchange the product, and you’re ready to partiO! </div>
-          </div>
-        {{/ionSlide}}
-
-
-        {{#ionSlide class="slide-10" active-slide="finalSlide"}}
-          <div class="slide-item" style="background:url({{ getTutorialImage 'Sidemenu' }})">
-            <div class="obs">Additionally, the menu makes everything easy access. Go ahead, get started!</div>
-          </div>
-        {{/ionSlide}}
-
-      {{/ionSlideBox}}
-    
-      {{else}}
-    
-            <div class="list padding start-tutorial">
-                <div class="logo-container">
-                    <div class="logo"><img src="{{ getImage 'sidemenu-logo' }}"/></div>
-                </div>
-                <button id="startTutorial" class="button button-block button-energized">Start Tutorial!</button>
-                <a id="jumpTutorial">JUMP TUTORIAL</a>
-            </div>
-    
-      {{/if}}
-    
-    
-  {{/ionModal}}
 </template>

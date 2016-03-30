@@ -300,36 +300,3 @@ Template.partioProfileTutorial.helpers({
         };
     }
 });
-
-
-
-
-
-
-
-
-// OLD TUTORIAL
-
-Template.appTutorial.rendered = function() {
-    Session.set('tutorialStarted', false);
-};
-
-Template.appTutorial.helpers({
-
-    isTutorialStarted: function() {
-        return Session.get('tutorialStarted');
-    }
-
-});
-
-Template.appTutorial.events({
-
-    'click #startTutorial': function() {
-        Session.set('tutorialStarted', true);
-    },
-
-    'click #jumpTutorial': function() {
-        $('.modal .bar button').click();
-    },
-
-});
