@@ -37,14 +37,9 @@ Template.listing.rendered = function() {
                 _pageSize = Session.get("pageSize"),
                  products = self.data.searchProducts;
 
-                 console.log('scrolltest');
-                
-
             //load more if does not filled the overflow area
             if(products.count() == _pageSize*_pageNumberLoaded && _pageNumberLoaded > 0){           
                 if($('.list-products').height() <= ($('.overflow-scroll').height()+200)) {
-                    console.log('carrega mais');
-
 
                     $('.loadbox').fadeIn(function(){
                         var loadedPage = Session.get("pageNumberLoaded") || 0;
@@ -52,7 +47,6 @@ Template.listing.rendered = function() {
                     });
                 } else {
                     Meteor.clearInterval(scrollTest);
-                    console.log('limpa');
                 }
             }
         },4000)
