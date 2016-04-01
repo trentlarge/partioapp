@@ -64,7 +64,7 @@ Meteor.publish("listingProducts", function(data) {
 		user = Users.findOne({ _id: this.userId }),
 		userLocation = user.profile.location,
 		pageNumber = data.pageNumber || 1,
-		pageSize = 15,
+		pageSize = 5,
 		filter = {
 			ownerId: { $ne: data.ownerId },
 			//ownerArea: data.ownerArea.toString(),
@@ -81,7 +81,7 @@ Meteor.publish("listingProducts", function(data) {
 					coordinates: userLocation.point
 				},
 				//$minDistance: 1000,
-				$maxDistance: distanceMeters
+				//$maxDistance: distanceMeters
 			},
 		};
 	}
