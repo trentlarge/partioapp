@@ -1,4 +1,4 @@
-var pageSize = 15;
+var pageSize = 5;
 
 ListingController = RouteController.extend({
     onBeforeAction: function() {
@@ -61,26 +61,26 @@ ListingController = RouteController.extend({
         });
 
         var filter = {
-                ownerId: { $ne: data.ownerId },
-                //ownerArea: data.ownerArea.toString(),
-                title: { $regex: ".*" + data.text + ".*", $options: 'i' },
-                category: { $in: data.categories },
-                sold: { $ne: true }
-            }
+            ownerId: { $ne: data.ownerId },
+            //ownerArea: data.ownerArea.toString(),
+            title: { $regex: ".*" + data.text + ".*", $options: 'i' },
+            category: { $in: data.categories },
+            sold: { $ne: true }
+        }
 
         if(data.borrow) {
-            filter.borrow = { $ne: true };
+          filter.borrow = { $ne: true };
         }
 
         if(data.purchasing) {
-            filter.purchasing = { $ne: true };
+          filter.purchasing = { $ne: true };
         }
 
         if(data.buy) {
-            filter['selling.status'] = 'ON';
+          filter['selling.status'] = 'ON';
         }
         else {
-            filter['rentPrice.status'] = { $ne: 'OFF' };
+          filter['rentPrice.status'] = { $ne: 'OFF' };
         }
 
         var products = Products.find(filter);

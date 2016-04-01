@@ -10,7 +10,7 @@ Template.listing.rendered = function() {
         Session.set('searchText', '');
     }
 
-    Session.set("pageSize", 15);
+    Session.set("pageSize", 5);
     Session.set("pageNumber", 1);
     Session.set("pageNumberLoaded", 0);
 
@@ -30,6 +30,33 @@ Template.listing.rendered = function() {
     inputIcon.css({
         'color': '#272727'
     });
+
+    var self = this,
+        scrollTest = Meteor.setInterval(function(){
+            var _pageNumberLoaded = Session.get("pageNumberLoaded"), 
+                _pageSize = Session.get("pageSize"),
+                 products = self.data.searchProducts;
+
+                 console.log('scrolltest');
+                
+
+            //load more if does not filled the overflow area
+            if(products.count() == _pageSize*_pageNumberLoaded && _pageNumberLoaded > 0){           
+                if($('.list-products').height() <= ($('.overflow-scroll').height()+200)) {
+                    console.log('carrega mais');
+
+
+                    $('.loadbox').fadeIn(function(){
+                        var loadedPage = Session.get("pageNumberLoaded") || 0;
+                        Session.set("pageNumber", loadedPage + 1);
+                    });
+                } else {
+                    Meteor.clearInterval(scrollTest);
+                    console.log('limpa');
+                }
+            }
+        },4000)
+    
 };
 
 Template.listing.helpers({
@@ -42,8 +69,7 @@ Template.listing.helpers({
             return 'active';
         }
         return '';
-    },
-
+    }
 })
 
 Template.listing.events({
@@ -195,7 +221,6 @@ Template.searchBox.events({
 // SEARCH RESULT
 
 Template.searchResult.helpers({
-
     tabBuy: function() {
         return Session.get('tabBuy');
     }
