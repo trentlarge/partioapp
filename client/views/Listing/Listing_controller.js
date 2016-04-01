@@ -1,5 +1,3 @@
-var pageSize = 5;
-
 ListingController = RouteController.extend({
     onBeforeAction: function() {
         this.next();
@@ -16,39 +14,12 @@ ListingController = RouteController.extend({
     },
 
     searchProducts: function() {
-        var pageNumber = Session.get('pageNumber') || 1,
-            text = Session.get('searchText'),
-            categories = Session.get('selectedCategories'),
-            distance = Session.get("distance"),
-            user = Meteor.user();
+        var user = Meteor.user(),
+            data = Session.get('listingData');
 
-        if(!user) { return; }
+        if(!user || !data) { return false; }
 
-        if(!categories) {
-            categories = Categories.getAllCategoriesText();
-        }
-
-        var data = {
-            ownerId: user._id,
-            distance: distance,
-            //ownerArea: user.profile.area,
-            pageNumber: pageNumber,
-            text: text,
-            categories: categories,
-            buy: false
-        }
-
-        if(Session.get('tabBuy')) {
-            data.buy = true;
-        }
-
-        if(!Session.get("borrowFilter")) {
-            data.borrow = true;
-        }
-
-        if(!Session.get("purchasingFilter")) {
-            data.purchasing = true;
-        }
+        data.ownerId = user._id;
 
         Meteor.subscribe("listingProducts", data, function() {
             setTimeout(function(){
@@ -62,32 +33,33 @@ ListingController = RouteController.extend({
 
         var filter = {
             ownerId: { $ne: data.ownerId },
-            //ownerArea: data.ownerArea.toString(),
-            title: { $regex: ".*" + data.text + ".*", $options: 'i' },
-            category: { $in: data.categories },
             sold: { $ne: true }
         }
 
+        if(data.text && data.text.length > 0) {
+            filter.title = { $regex: ".*" + data.text + ".*", $options: 'i' };
+        }
+
+        if(data.categories) {
+            filter.category = { $in: data.categories };
+        }
+
         if(data.borrow) {
-          filter.borrow = { $ne: true };
+            filter.borrow = { $ne: true };
         }
 
         if(data.purchasing) {
-          filter.purchasing = { $ne: true };
+            filter.purchasing = { $ne: true };
         }
 
         if(data.buy) {
-          filter['selling.status'] = 'ON';
+            filter['selling.status'] = 'ON';
         }
         else {
-          filter['rentPrice.status'] = { $ne: 'OFF' };
+            filter['rentPrice.status'] = { $ne: 'OFF' };
         }
 
-        var products = Products.find(filter);
-
-        Session.set("pageNumberLoaded", Math.ceil(products.count() / pageSize));
-
-        return products;
+        return Products.find(filter).fetch();
     },
 
     data: function() {
@@ -97,7 +69,9 @@ ListingController = RouteController.extend({
         return {
             searchProducts: prod,
 
-            hasProducts: prod ? !!prod.count() : false,
+            hasProducts: function() {
+                return (prod && prod.length > 0) ? true : false;
+            },
 
             isSellingStatusOn: function(sellingStatus) {
                 return (sellingStatus === 'ON') ? true : false;

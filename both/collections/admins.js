@@ -1,16 +1,28 @@
 Admins = new Meteor.Collection('admins');
 
-Admins.userCanInsert = function(userId, doc) {
-	return true;
-};
+Admins.deny({
+	insert: function() {
+		return true;
+	},
+	update: function() {
+		return true;
+	},
+	remove: function() {
+		return true;
+	}
+});
 
-Admins.userCanUpdate = function(userId, doc, fieldNames, modifier) {
-	return true;
-};
-
-Admins.userCanRemove = function(userId, doc) {
-	return true;
-};
+// Admins.userCanInsert = function(userId, doc) {
+// 	return true;
+// };
+//
+// Admins.userCanUpdate = function(userId, doc, fieldNames, modifier) {
+// 	return true;
+// };
+//
+// Admins.userCanRemove = function(userId, doc) {
+// 	return true;
+// };
 
 if (Meteor.isServer) {
   Meteor.startup(function () {
@@ -102,6 +114,6 @@ if (Meteor.isServer) {
           for (var i = 0; i < admins.length; i++) {
               Admins.insert(admins[i]);
           }
-    }  
+    }
   });
 }

@@ -5,17 +5,18 @@ Template.listing.rendered = function() {
         cordova.plugins.Keyboard.hideKeyboardAccessoryBar(false);
     }
 
+    var data = {
+        pageNumber: 1,
+        pageSize: 10,
+        text: '',
+        categories: undefined,
+        distance: 10, //miles
+        buy: false,
+        borrow: true,
+        purchasing: true
+    };
 
-    if(!Session.get('searchText')) {
-        Session.set('searchText', '');
-    }
-
-    Session.set("pageSize", 5);
-    Session.set("pageNumber", 1);
-    Session.set("pageNumberLoaded", 0);
-
-    // distance default in miles
-    Session.set("distance", 10);
+    Session.set('listingData', data);
 
     Session.set('listing', true);
 
@@ -31,26 +32,17 @@ Template.listing.rendered = function() {
         'color': '#272727'
     });
 
-    var self = this,
-        scrollTest = Meteor.setInterval(function(){
-            var _pageNumberLoaded = Session.get("pageNumberLoaded"), 
-                _pageSize = Session.get("pageSize"),
-                 products = self.data.searchProducts;
+};
 
-            //load more if does not filled the overflow area
-            if(products.count() == _pageSize*_pageNumberLoaded && _pageNumberLoaded > 0){           
-                if($('.list-products').height() <= ($('.overflow-scroll').height()+200)) {
-
-                    $('.loadbox').fadeIn(function(){
-                        var loadedPage = Session.get("pageNumberLoaded") || 0;
-                        Session.set("pageNumber", loadedPage + 1);
-                    });
-                } else {
-                    Meteor.clearInterval(scrollTest);
-                }
-            }
-        },4000)
-    
+Template.listing.destroyed = function() {
+    Session.set('searchText', '');
+    Session.set('listing', false);
+    Session.set('categoryIndex', -1);
+    Session.set('selectedCategories', null);
+    Session.set("borrowFilter", null);
+    Session.set("purchasingFilter", null);
+    Session.set("distance", null);
+    Session.set("active", null)
 };
 
 Template.listing.helpers({
@@ -77,8 +69,15 @@ Template.listing.events({
 
         $('.list-products').fadeOut(function() {
             $('.loadbox').fadeIn('fast', function() {
-                Session.set("pageNumber", 1);
+
                 Session.set('tabBuy', true);
+
+                // SET NEW DATA
+                var data = Session.get('listingData');
+                data.pageNumber = 1;
+                data.buy = true;
+                Session.set('listingData', data);
+
             });
         });
     },
@@ -92,39 +91,15 @@ Template.listing.events({
 
         $('.list-products').fadeOut(function() {
             $('.loadbox').fadeIn('fast', function() {
-                Session.set("pageNumber", 1);
+
                 Session.set('tabBuy', false);
-            });
-        });
-    },
 
-    "click .filter-borrow": function(e, t) {
-        $(e.target).toggleClass('active');
-        var borrow = true;
+                // SET NEW DATA
+                var data = Session.get('listingData');
+                data.pageNumber = 1;
+                data.buy = false;
+                Session.set('listingData', data);
 
-        if(Session.get('borrowFilter')) {
-            borrow = false;
-        }
-
-        $('.list-products').fadeOut(function() {
-            $('.loadbox').fadeIn('fast', function() {
-                Session.set('borrowFilter', borrow);
-            });
-        });
-
-    },
-
-    "click .filter-purchasing": function(e, t) {
-        $(e.target).toggleClass('active');
-        var purchasing = true;
-
-        if(Session.get('purchasingFilter')) {
-            purchasing = false;
-        }
-
-        $('.list-products').fadeOut(function() {
-            $('.loadbox').fadeIn('fast', function() {
-                Session.set('purchasingFilter', purchasing);
             });
         });
     },
@@ -132,33 +107,24 @@ Template.listing.events({
     "scroll .overflow-scroll": function(e, t) {
 
         var parent = t.$(e.currentTarget),
-            pageNumber = Session.get('pageNumber') || 1,
-            pageSize = Session.get('pageSize');
+            data = Session.get('listingData');
 
-        if($('.product-box').length < pageNumber * pageSize) {
+        if($('.product-box').length < data.pageNumber * data.pageSize) {
             return;
         }
 
         //if(parent.scrollTop() + parent.height() >= scrollingElement.innerHeight() + 20) {
         if(parent.scrollTop() + parent.height() >= parent[0].scrollHeight - 300) {
             $('.loadbox').fadeIn(function(){
-                var loadedPage = Session.get("pageNumberLoaded") || 0;
-                Session.set("pageNumber", loadedPage + 1);
+
+                // SET NEW DATA
+                data.pageNumber++;
+                Session.set('listingData', data);
+
             });
         }
     }
 });
-
-
-Template.listing.destroyed = function() {
-    Session.set('searchText', '');
-    Session.set('listing', false);
-    Session.set('categoryIndex', -1);
-    Session.set('selectedCategories', null);
-    Session.set("borrowFilter", null);
-    Session.set("purchasingFilter", null);
-    Session.set("distance", null);
-};
 
 // SEARCH BOX
 
@@ -171,7 +137,12 @@ Template.searchBox.helpers({
         if (Session.get('categoryIndex') === index) {
             var selectedCategories = [];
             selectedCategories.push(Categories.getCategory(index));
-            Session.set('selectedCategories', selectedCategories);
+
+            // SET NEW DATA
+            var data = Session.get('listingData');
+            data.categories = selectedCategories;
+            Session.set('listingData', data);
+
             return "active";
         } else {
             return "";
@@ -200,13 +171,19 @@ Template.searchBox.events({
                 selectedCategories.push($(categoryFilter).find('span').text());
             });
 
-            Session.set("selectedCategories", selectedCategories);
-            Session.set("pageNumber", 1);
+            // SET NEW DATA
+            var data = Session.get('listingData');
+            data.categories = selectedCategories;
+            data.pageNumber = 1;
+            Session.set('listingData', data);
 
         } else {
 
-            Session.set("selectedCategories", null);
-            Session.set("pageNumber", 1);
+            // SET NEW DATA
+            var data = Session.get('listingData');
+            data.categories = undefined;
+            data.pageNumber = 1;
+            Session.set('listingData', data);
 
         }
     }
@@ -227,12 +204,13 @@ Template.searchResult.events({
     },
 });
 
-
 // LISTING FILTER
 
 Template.listingFilter.rendered = function() {
 
-    Session.set('filterDistanceValue', Session.get('distance'));
+    var data = Session.get('listingData');
+
+    Session.set('filterDistanceValue', data.distance);
 
     var filter = $('#filterDistance'),
         val = (Session.get('filterDistanceValue') - filter.attr('min')) / (filter.attr('max') - filter.attr('min'));
@@ -286,7 +264,12 @@ Template.listingFilter.events({
             $('.list-products').fadeOut(function() {
                 $('.loadbox').fadeIn('fast', function() {
                     PartioLoad.hide();
-                    Session.set('distance', Session.get('filterDistanceValue'));
+
+                    // SET NEW DATA
+                    var data = Session.get('listingData');
+                    data.distance = Session.get('filterDistanceValue');
+                    Session.set('listingData', data);
+
                     $('.ion-ios-close-empty').click();
                 });
             });

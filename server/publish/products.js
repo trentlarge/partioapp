@@ -64,12 +64,12 @@ Meteor.publish("listingProducts", function(data) {
 		user = Users.findOne({ _id: this.userId }),
 		userLocation = user.profile.location,
 		pageNumber = data.pageNumber || 1,
-		pageSize = 5,
+		pageSize = data.pageSize,
 		filter = {
 			ownerId: { $ne: data.ownerId },
 			//ownerArea: data.ownerArea.toString(),
-			title: { $regex: ".*" + data.text + ".*", $options: 'i' },
-			category: { $in: data.categories },
+			// title: { $regex: ".*" + data.text + ".*", $options: 'i' },
+			// category: { $in: data.categories },
 			sold: { $ne: true }
 		};
 
@@ -84,6 +84,14 @@ Meteor.publish("listingProducts", function(data) {
 				//$maxDistance: distanceMeters
 			},
 		};
+	}
+
+	if(data.text && data.text.length > 0) {
+		filter.title = { $regex: ".*" + data.text + ".*", $options: 'i' };
+	}
+
+	if(data.categories) {
+		filter.category = { $in: data.categories };
 	}
 
 	if(data.borrow) {
