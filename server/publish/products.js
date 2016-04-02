@@ -80,8 +80,8 @@ Meteor.publish("listingProducts", function(data) {
 					type: "Point",
 					coordinates: userLocation.point
 				},
+				$maxDistance: distanceMeters
 				//$minDistance: 1000,
-				//$maxDistance: distanceMeters
 			},
 		};
 	}

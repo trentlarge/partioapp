@@ -194,6 +194,9 @@ Template.searchBox.events({
 Template.searchResult.helpers({
     tabBuy: function() {
         return Session.get('tabBuy');
+    },
+    searchProducts: function() {
+        return Session.get('searchProducts');
     }
 });
 

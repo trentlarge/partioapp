@@ -13,7 +13,7 @@ ListingController = RouteController.extend({
         return [];
     },
 
-    searchProducts: function() {
+    subscribeProducts: function() {
         var user = Meteor.user(),
             data = Session.get('listingData');
 
@@ -21,7 +21,7 @@ ListingController = RouteController.extend({
 
         data.ownerId = user._id;
 
-        Meteor.subscribe("listingProducts", data, function() {
+        var handle = Meteor.subscribe("listingProducts", data, function() {
             setTimeout(function(){
                 $('.loadbox').fadeOut('fast', function() {
                     if(!$('.list-products').is(':visible')) {
@@ -59,19 +59,23 @@ ListingController = RouteController.extend({
             filter['rentPrice.status'] = { $ne: 'OFF' };
         }
 
-        return Products.find(filter).fetch();
+        Tracker.autorun(function() {
+            if (handle.ready()) {
+                Session.set('searchProducts', Products.find(filter).fetch());
+            }
+        });
     },
 
     data: function() {
 
-        var prod = this.searchProducts();
+        var prod = this.subscribeProducts();
 
         return {
-            searchProducts: prod,
+            //searchProducts: prod,
 
-            hasProducts: function() {
-                return (prod && prod.length > 0) ? true : false;
-            },
+            // hasProducts: function() {
+            //     return (prod && prod.length > 0) ? true : false;
+            // },
 
             isSellingStatusOn: function(sellingStatus) {
                 return (sellingStatus === 'ON') ? true : false;
