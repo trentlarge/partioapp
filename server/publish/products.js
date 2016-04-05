@@ -62,16 +62,23 @@ Meteor.publish("listingProducts", function(data) {
 	var distanceMiles = data.distance || 10,
 		distanceMeters = Math.round( distanceMiles * 1609.34),
 		user = Users.findOne({ _id: this.userId }),
-		userLocation = user.profile.location,
+		userLocation = undefined,
 		pageNumber = data.pageNumber || 1,
 		pageSize = data.pageSize,
 		filter = {
-			ownerId: { $ne: data.ownerId },
-			//ownerArea: data.ownerArea.toString(),
+			// ownerId: { $ne: data.ownerId },
+			// ownerArea: data.ownerArea.toString(),
 			// title: { $regex: ".*" + data.text + ".*", $options: 'i' },
 			// category: { $in: data.categories },
 			sold: { $ne: true }
 		};
+
+	if(user) {
+		userLocation = user.profile.location;
+	}
+	else {
+		userLocation = data.location;
+	}
 
 	if(userLocation && userLocation.lat && userLocation.lng) {
 		filter['location.point'] = {
@@ -84,6 +91,10 @@ Meteor.publish("listingProducts", function(data) {
 				//$minDistance: 1000,
 			},
 		};
+	}
+
+	if(data.ownerId) {
+		filter.ownerId = { $ne: data.ownerId };
 	}
 
 	if(data.text && data.text.length > 0) {
@@ -108,6 +119,8 @@ Meteor.publish("listingProducts", function(data) {
 	else {
 		filter['rentPrice.status'] = { $ne: 'OFF' };
 	}
+
+	console.log(filter);
 
 	return Products.find(filter, {
 		limit: pageNumber * pageSize

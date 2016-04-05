@@ -97,7 +97,7 @@ Router.onBeforeAction(function(pause){
 					// 		if(!area) {
 					// 			area = '0';
 					// 		}
-					// 
+					//
 					// 		Meteor.call('userAreaUpdate', area);
 					// 	})
 					// }
@@ -141,4 +141,4 @@ Router.onBeforeAction(function(pause){
 			//this.render('profile')
 		}
 	}
-}, {except: ['resetpassword', 'emailverification', 'register', 'login', 'contact']} );
+}, {except: ['resetpassword', 'emailverification', 'register', 'login', 'contact', 'listing']} );

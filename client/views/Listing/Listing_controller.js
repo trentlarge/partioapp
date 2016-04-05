@@ -17,9 +17,16 @@ ListingController = RouteController.extend({
         var user = Meteor.user(),
             data = Session.get('listingData');
 
-        if(!user || !data) { return false; }
+        if(!data) { return false; }
 
-        data.ownerId = user._id;
+        if(user) {
+            data.ownerId = user._id;
+        }
+        else {
+            if(Session.get('anonymousUserLocation')) {
+                data.location = Session.get('anonymousUserLocation');
+            }
+        }
 
         var handle = Meteor.subscribe("listingProducts", data, function() {
             setTimeout(function(){
@@ -32,8 +39,11 @@ ListingController = RouteController.extend({
         });
 
         var filter = {
-            ownerId: { $ne: data.ownerId },
             sold: { $ne: true }
+        }
+
+        if(data.ownerId) {
+            filter.ownerId = { $ne: data.ownerId };
         }
 
         if(data.text && data.text.length > 0) {
@@ -58,6 +68,8 @@ ListingController = RouteController.extend({
         else {
             filter['rentPrice.status'] = { $ne: 'OFF' };
         }
+
+        console.log(filter);
 
         Tracker.autorun(function() {
             if (handle.ready()) {

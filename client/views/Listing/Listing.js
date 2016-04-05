@@ -16,6 +16,13 @@ Template.listing.rendered = function() {
         purchasing: true
     };
 
+    if(!Meteor.user()) {
+        checkUserLocation(function(location){
+            location.point = [location.lat, location.lng];
+            Session.set('anonymousUserLocation', location);
+        });
+    }
+
     Session.set('listingData', data);
 
     Session.set('listing', true);
@@ -197,6 +204,9 @@ Template.searchResult.helpers({
     },
     searchProducts: function() {
         return Session.get('searchProducts');
+    },
+    userLogged: function() {
+        return (Meteor.user()) ? true : false;
     }
 });
 

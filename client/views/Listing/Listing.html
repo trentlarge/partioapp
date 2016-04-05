@@ -153,9 +153,11 @@
 
     {{>loader}}
 
-    {{> partioTutorial}}
+    {{#if userLogged}}
+        {{> partioTutorial}}
+    {{/if}}
 
-    {{testing}}
+    <!-- {{testing}} -->
 
 <!--
     <a class="fab-button" href="/shoutout">
