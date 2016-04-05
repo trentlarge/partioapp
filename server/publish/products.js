@@ -120,8 +120,6 @@ Meteor.publish("listingProducts", function(data) {
 		filter['rentPrice.status'] = { $ne: 'OFF' };
 	}
 
-	console.log(filter);
-
 	return Products.find(filter, {
 		limit: pageNumber * pageSize
 	});

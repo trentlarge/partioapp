@@ -69,8 +69,6 @@ ListingController = RouteController.extend({
             filter['rentPrice.status'] = { $ne: 'OFF' };
         }
 
-        console.log(filter);
-
         Tracker.autorun(function() {
             if (handle.ready()) {
                 Session.set('searchProducts', Products.find(filter).fetch());
