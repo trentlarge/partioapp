@@ -4,8 +4,8 @@ App.info({
   description: 'Share. Borrow. Party-o',
   author: 'partiO',
   website: 'http://www.partioapp.com',
-  version: '1.5.5',
-  buildNumber: '108'
+  version: '1.5.6',
+  buildNumber: '109'
 });
 
 App.icons({
