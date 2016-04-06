@@ -13,6 +13,7 @@ Sample Credit Card:
 - go to repository folder and execute the commands:
 - meteor build ../appbuild --server https://v1-5-4.partiodemo.com --mobile-settings settings.json
 - jarsigner -digestalg SHA1 --keystore partioapp-release-key.keystore ../appbuild/android/release-unsigned.apk partioapp
+- remove older partioapp-release-signed.apk if there is one $ rm ../appbuild/android/partioapp-release-signed.apk
 - ~/Android/Sdk/build-tools/23.0.2/zipalign 4 ../appbuild/android/release-unsigned.apk ../appbuild/android/partioapp-release-signed.apk
 
 DEPLOY SERVER (ssh key must exists on server)
