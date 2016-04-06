@@ -1,8 +1,13 @@
 <template name="listing">
   {{#contentFor "headerButtonLeft"}}
-      <button class="button button-clear" data-ion-menu-toggle="left">
-        {{> ionIcon icon='navicon' class="energized"}}
-      </button>
+
+      {{#if userLogged}}
+          <button class="button button-clear" data-ion-menu-toggle="left">
+            {{> ionIcon icon='navicon' class="energized"}}
+          </button>
+      {{else}}
+          {{>ionNavBackButton}}
+      {{/if}}
 
       {{> searchHeader}}
   {{/contentFor}}
@@ -92,6 +97,9 @@
                             <!-- {{#if ../isSellingStatusOn selling.status}}
                                 <span class="selling-badge">${{selling.price}}</span>
                             {{/if}} -->
+
+                            <span class="selling-badge">{{getDistance location}}</span>
+
                             {{#if borrow}}
                                 <span class="borrow-badge">BORROWED</span>
                             {{/if}}

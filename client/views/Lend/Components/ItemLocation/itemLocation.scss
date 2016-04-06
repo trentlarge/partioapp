@@ -1,31 +1,38 @@
 @import '../../../../styles/app-variables';
 
-.item.item-map-location {
-    display: flex;
-    display: -webkit-flex;
-    align-items: center;
-    -webkit-aling-items: center;
-
-    a {
-        margin-top: -3px;
-        margin-left: 10px;
-        font-size: 10px;
-
-        &.locationDisabled {
-            color: $royal;
-        }
-    }
-}
-
-.item.item-divider.item-map-location {
-    flex-direction: column;
-    -webkit-flex-direction: column;
-    align-items: flex-start;
-    -webkit-aling-items: flex-start;
+.item.item-divider.item-divider-location {
+    display: block;
 
     p {
         font-size: 12px;
-        padding-top: 5px;
+    }
+}
+
+.item {
+    .item-map-location {
+        display: flex;
+        -webkit-display: flex;
+        align-items: center;
+        -webkit-aling-items: center;
+
+        p {
+            font-size: 12px;
+            padding-top: 5px;
+        }
+
+        .toggle {
+            margin: 0;
+        }
+
+        a {
+            margin-top: -3px;
+            margin-left: 10px;
+            font-size: 10px;
+
+            &.locationDisabled {
+                color: $royal;
+            }
+        }
     }
 }
 

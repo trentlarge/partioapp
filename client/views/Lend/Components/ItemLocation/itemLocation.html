@@ -1,21 +1,19 @@
 <template name="itemLocation">
-	<div class="item item-divider item-map-location">
+	<div class="item item-divider item-divider-location">
 	    <!-- Item Location -->
 		Product Location
 	   	<p>This location wont be shown to other users</p>
-	</div>
-	<div class="item padding item-map-location">
-		<label class="toggle toggle-assertive toggle-location">
-		  <input type="checkbox" checked>
-		  <div class="track">
-			<div class="handle"></div>
-		  </div>
-	  	</label>
 
-		<a class="locationSwitch">DEFAULT LOCATION</a>
+		<div class="item-map-location">
+			<label class="toggle toggle-assertive toggle-location">
+			  <input type="checkbox" checked>
+			  <div class="track">
+				<div class="handle"></div>
+			  </div>
+		  	</label>
 
-		<input type="hidden" name="item_lat" />
-	    <input type="hidden" name="item_lng" />
+			<a class="locationSwitch">DEFAULT LOCATION</a>
+		</div>
 	</div>
 
 </template>
