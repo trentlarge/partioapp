@@ -1,6 +1,15 @@
 @import '../../../styles/app-variables';
 
-.connectRent, .report-item {
+.connect, .connectRent, .report-item {
+
+    .item-insurance-added {
+        color: green;
+        padding: 12px 16px;
+
+        i {
+            padding: 0 16px 0 10px;
+        }
+    }
 
     .item-checkbox {
 
@@ -15,6 +24,10 @@
         .checkbox input:checked:before, .checkbox input:checked + .checkbox-icon:before {
             background: $assertive;
             border-color: $assertive;
+        }
+
+        .check-insurance {
+            margin: 0 !important;
         }
 
         .check-coupon {

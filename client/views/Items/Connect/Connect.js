@@ -6,7 +6,25 @@ Template.connect.rendered = function() {
     Session.set('isConnectScreen', true);
 };
 
+Template.connectRent.helpers({
+
+    insuranceChecked: function() {
+        return Session.get('insuranceChecked');
+    },
+});
+
 Template.connect.events({
+
+    'click .check-insurance': function(e, template) {
+
+        if(Session.get('insuranceChecked')) {
+            Session.set('insuranceChecked', false);
+        }
+        else {
+            Session.set('insuranceChecked', true);
+        }
+    },
+
 	'click .product-details': function(e, template) {
 		var productDetails = $('.product-details');
 		var productDetailsItem = $('.product-details-item');
@@ -137,7 +155,7 @@ Template.connect.events({
 	'click #ownerAccept': function() {
 		PartioLoad.show();
 		var requestor = this.requestorInfo();
-		Meteor.call('ownerAccept', this.connectData._id, requestor._id, function(err, res) {
+		Meteor.call('ownerAccept', this.connectData._id, Session.get('insuranceChecked'), function(err, res) {
 			PartioLoad.hide();
 
 			if(err) {
@@ -167,7 +185,7 @@ Template.connect.events({
     'click #ownerPurchasingAccept': function() {
 		PartioLoad.show();
 		var requestor = this.requestorInfo();
-		Meteor.call('ownerPurchasingAccept', this.connectData._id, requestor._id, function(err, res) {
+		Meteor.call('ownerPurchasingAccept', this.connectData._id, Session.get('insuranceChecked'), function(err, res) {
 			PartioLoad.hide();
 
 			if(err) {

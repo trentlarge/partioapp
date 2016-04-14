@@ -61,25 +61,7 @@
                 </a>
                 <p class="main-title-text">{{requestorInfo.profile.name}} </p>
               </div>
-  <!--
-              <div class="profile-content">
-                <a class="item" href="{{pathFor 'talk' _id=connectData._id}}">
-                    <i class="icon ion-chatbubbles assertive"></i>
-                    CHAT
-                </a>
-                <a class="item" id="btnCallUser">
-                    <i class="icon ion-ios-telephone assertive"></i>
-                    CALL
-                </a>
 
-                {{#if ../paymentPending}}
-                    <a class="item" id="cancelRequest">
-                        <i class="icon ion-ios-close royal"></i>
-                        CANCEL
-                    </a>
-                {{/if}}
-              </div>
-  -->
             </div>
             <div class="item tabs tabs-icon-left">
                 <a class="tab-item" href="{{pathFor 'talk' _id=connectData._id}}">
@@ -115,6 +97,29 @@
                       <p class="fee">(-10% fee)</p>
                   </span>
             </div>
+
+            {{#if waiting}}
+                <div class="item item-checkbox">
+                 <label class="checkbox">
+                     {{#if insuranceChecked}}
+                          <input type="checkbox" class="check-insurance" checked>
+                     {{else}}
+                          <input type="checkbox" class="check-insurance">
+                     {{/if}}
+                  </label>
+                  <p class="coupon-text">
+                      Add Insurance (${{../getInsurance connectData.borrowDetails.price.total}})
+                  </p>
+                </div>
+            {{else}}
+                {{#if insuranceAdded}}
+                    <div class="item item-insurance-added">
+                        <i class="ion-checkmark-round"></i>
+                        Protected
+                    </div>
+                {{/if}}
+            {{/if}}
+
             {{#if isReturned}}
             {{else}}
               <div class="item details">

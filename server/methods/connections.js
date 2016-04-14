@@ -90,16 +90,20 @@ Meteor.methods({
 
 	},
 
-    'ownerAccept': function(connectionId) {
+    'ownerAccept': function(connectionId, insur) {
 		Meteor._sleepForMs(1000);
 		console.log("changing status from Waiting to Payment");
 
 		var connect = Connections.findOne({ _id: connectionId, finished: { $ne: true }}),
 		    ownerName = Meteor.users.findOne(connect.productData.ownerId).profile.name,
-            message = ownerName + " accepted your request for " + connect.productData.title;
+            message = ownerName + " accepted your request for " + connect.productData.title,
+			insurance = {
+				status: insur,
+				total: Number(connect.borrowDetails.price.total * 0.1).toFixed(2)
+			};
 
 		Connections.remove({"productData._id": connect.productData._id, "requestor": {$ne: connect.requestor}});
-		Connections.update({_id: connectionId}, {$set: {state: "PAYMENT"}});
+		Connections.update({_id: connectionId}, {$set: { state: "PAYMENT", insurance: insurance }});
 
 		sendPush(connect.requestor, message);
 		sendNotification(connect.requestor, connect.productData.ownerId, message, "approved", connectionId);
@@ -107,7 +111,7 @@ Meteor.methods({
 		return true;
 	},
 
-    returnItem: function(connectionId) {
+    returnItem: function(connectionId, insurance) {
 		var connect = Connections.findOne({ _id: connectionId, finished: { $ne: true }}),
 		    borrowerName = Meteor.users.findOne(connect.requestor).profile.name,
             message = borrowerName + " wants to return the " + connect.productData.title;
@@ -205,6 +209,27 @@ Meteor.methods({
 
 	},
 
+	'ownerPurchasingAccept': function(connectionId, insur) {
+		Meteor._sleepForMs(1000);
+		//console.log("changing status from Waiting to Payment");
+
+		var connect = Connections.findOne({ _id: connectionId, finished: { $ne: true }}),
+			ownerName = Meteor.users.findOne(connect.productData.ownerId).profile.name,
+			message = ownerName + " accepted your request for " + connect.productData.title,
+			insurance = {
+				status: insur,
+				total: Number(connect.borrowDetails.price.total * 0.1).toFixed(2)
+			};
+
+		Connections.remove({"productData._id": connect.productData._id, "requestor": {$ne: connect.requestor}});
+		Connections.update({_id: connectionId}, {$set: {state: "PAYMENT PURCHASING", insurance: insurance}});
+
+		sendPush(connect.requestor, message);
+		sendNotification(connect.requestor, connect.productData.ownerId, message, "approved", connectionId);
+
+		return true;
+	},
+
     confirmSold: function(connectionId, productId) {
 		var connect = Connections.findOne({ _id: connectionId, finished: { $ne: true }}),
 		    borrowerName = Meteor.users.findOne(connect.requestor).profile.name,
@@ -241,23 +266,6 @@ Meteor.methods({
 
 		sendPush(connect.requestor, message);
 		sendNotification(connect.requestor, connect.productData.ownerId, message, "info", connectionId);
-	},
-
-    'ownerPurchasingAccept': function(connectionId) {
-		Meteor._sleepForMs(1000);
-		//console.log("changing status from Waiting to Payment");
-
-		var connect = Connections.findOne({ _id: connectionId, finished: { $ne: true }}),
-		    ownerName = Meteor.users.findOne(connect.productData.ownerId).profile.name,
-            message = ownerName + " accepted your request for " + connect.productData.title;
-
-		Connections.remove({"productData._id": connect.productData._id, "requestor": {$ne: connect.requestor}});
-		Connections.update({_id: connectionId}, {$set: {state: "PAYMENT PURCHASING"}});
-
-		sendPush(connect.requestor, message);
-		sendNotification(connect.requestor, connect.productData.ownerId, message, "approved", connectionId);
-
-		return true;
 	},
 
 

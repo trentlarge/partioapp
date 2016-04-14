@@ -135,6 +135,14 @@ ConnectController = RouteController.extend({
 				return Math.round(this.connectData.borrowDetails.date.totalDays) + ' day';
 			},
 
+			getInsurance: function(total) {
+				return (total * 0.1).toFixed(2);
+			},
+
+			insuranceAdded: function() {
+				return(this.connectData && this.connectData.insurance) ? this.connectData.insurance.status  : false;
+			},
+
 			alreadyApproved: function() {
 				if(!this.connectData) { return; }
 				return (this.connectData.state.indexOf("WAITING") < 0) ? true : false;
@@ -144,6 +152,11 @@ ConnectController = RouteController.extend({
 				if(!this.connectData) { return; }
 				return this.connectData.state === "RETURNED" ? true : false;
 			},
+
+			waiting: function() {
+                if(!this.connectData) { return; }
+				return (this.connectData.state.indexOf("WAITING") >= 0) ? true : false;
+            },
 
             waitingPayment: function() {
                 if(!this.connectData) { return; }
