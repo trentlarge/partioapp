@@ -99,6 +99,7 @@ Meteor.methods({
             message = ownerName + " accepted your request for " + connect.productData.title,
 			insurance = {
 				status: insur,
+				date: new Date(),
 				total: Number(connect.borrowDetails.price.total * 0.1).toFixed(2)
 			};
 
@@ -218,6 +219,7 @@ Meteor.methods({
 			message = ownerName + " accepted your request for " + connect.productData.title,
 			insurance = {
 				status: insur,
+				date: new Date(),
 				total: Number(connect.borrowDetails.price.total * 0.1).toFixed(2)
 			};
 
