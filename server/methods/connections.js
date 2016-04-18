@@ -100,6 +100,7 @@ Meteor.methods({
 			insurance = {
 				status: insur,
 				date: new Date(),
+				ticket: "ticket_" + ShortId.generate(),
 				total: Number(connect.borrowDetails.price.total * 0.1).toFixed(2)
 			};
 
@@ -220,6 +221,7 @@ Meteor.methods({
 			insurance = {
 				status: insur,
 				date: new Date(),
+				ticket: "ticket_" + ShortId.generate(),
 				total: Number(connect.borrowDetails.price.total * 0.1).toFixed(2)
 			};
 
