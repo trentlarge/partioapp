@@ -104,6 +104,11 @@ Meteor.methods({
 				total: Number(connect.borrowDetails.price.total * 0.1).toFixed(2)
 			};
 
+		if(insur) {
+			var insuranceMessage = 'Your insurance ticket for "' + connect.productData.title + '" is ' + insurance.ticket;
+			sendEmail(undefined, Meteor.user().emails[0].address, 'Insurance Ticket', insuranceMessage);
+		}
+
 		Connections.remove({"productData._id": connect.productData._id, "requestor": {$ne: connect.requestor}});
 		Connections.update({_id: connectionId}, {$set: { state: "PAYMENT", insurance: insurance }});
 
