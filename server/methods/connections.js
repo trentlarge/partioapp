@@ -95,18 +95,114 @@ Meteor.methods({
 		console.log("changing status from Waiting to Payment");
 
 		var connect = Connections.findOne({ _id: connectionId, finished: { $ne: true }}),
+		    owner = Meteor.users.findOne(connect.productData.ownerId),
 		    ownerName = Meteor.users.findOne(connect.productData.ownerId).profile.name,
             message = ownerName + " accepted your request for " + connect.productData.title,
 			insurance = {
 				status: insur,
 				date: new Date(),
-				ticket: "ticket_" + ShortId.generate(),
-				total: Number(connect.borrowDetails.price.total * 0.1).toFixed(2)
 			};
 
 		if(insur) {
-			var insuranceMessage = 'Your insurance ticket for "' + connect.productData.title + '" is ' + insurance.ticket;
-			sendEmail(undefined, Meteor.user().emails[0].address, 'Insurance Ticket', insuranceMessage);
+
+	        var request = Meteor.npmRequire("request"),
+				firstName = owner.profile.name.substring(0, owner.profile.name.indexOf(" ")),
+				lastName = owner.profile.name.substring(owner.profile.name.indexOf(" "), owner.profile.name.length);
+
+			if(!owner.private.sharetempusId) {
+
+				var data = {
+					"email": owner.emails[0].address,
+					"legalEntity": {
+						"type": "individual",
+						"firstName": firstName,
+						"lastName": lastName,
+						"birthdate": (new Date(owner.profile.birthDate)).getTime(),
+						"ssnLast4": "1234",
+						"address": {
+							"city": "New York City",
+							"country": "US",
+							"line1": "East 169th Street",
+							"line2": "Apt. 2A Bronx",
+							"postalCode": "10456",
+							"state": "New York"
+						}
+					}
+				}
+
+				request.post({
+				    url: "http://localhost:8888/api/customer/create",
+				    method: "POST",
+				    json: true,
+				    headers: {
+				        "content-type": "application/json",
+				    },
+				    body: {
+				        secretKey: "sk_test_2DdwaGsCqG2FQzacxs4MCQzv",
+				        data: data
+					}
+				}, Meteor.bindEnvironment(function (error, response, customer) {
+	                if (!error) {
+						console.log(customer);
+
+						if(customer && customer.id) {
+							owner.private.sharetempusId = customer.id;
+							console.log(owner);
+
+							Meteor.users.update({_id: owner._id },{
+								$set: owner
+							});
+						}
+
+						generateInsurance(customer.id);
+	                }
+	                else {
+	                    console.log(error);
+	                }
+	            }));
+			}
+			else {
+				generateInsurance(owner.private.sharetempusId);
+			}
+
+			function generateInsurance(customerId) {
+
+				var data = {
+					"customer": customerId,
+					"currency": "usd",
+					"startDate": (new Date(connect.borrowDetails.date.start)).getTime(),
+					"endDate": (new Date(connect.borrowDetails.date.end)).getTime(),
+					"product": {
+						"name": connect.productData.title,
+						"manufacturer": connect.productData.amazonCategory,
+						"value": Number((Number(connect.borrowDetails.price.total) * 100).toFixed(0))
+					},
+					"description": "",
+					"metadata": connect.productData
+				}
+
+				request.post({
+				    url: "http://localhost:8888/api/policy/create",
+				    method: "POST",
+				    json: true,
+				    headers: {
+				        "content-type": "application/json",
+				    },
+				    body: {
+				        secretKey: "sk_test_2DdwaGsCqG2FQzacxs4MCQzv",
+				        data: data
+				    }
+				}, Meteor.bindEnvironment(function (error, response, policy) {
+	                if (!error) {
+	                    console.log(policy);
+	                }
+	                else {
+	                    console.log(error);
+	                }
+	            }));
+			}
+
+			// sendEmail(undefined, Meteor.user().emails[0].address, 'Insurance Ticket', insuranceMessage);
 		}
 
 		Connections.remove({"productData._id": connect.productData._id, "requestor": {$ne: connect.requestor}});
