@@ -138,7 +138,7 @@ Meteor.methods({
 				        "content-type": "application/json",
 				    },
 				    body: {
-				        secretKey: "sk_test_2DdwaGsCqG2FQzacxs4MCQzv",
+				        secretKey: "sk_test_bHntEbTLiDkAj7wqptLDwgik",
 				        data: data
 					}
 				}, Meteor.bindEnvironment(function (error, response, customer) {

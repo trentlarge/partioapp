@@ -29,7 +29,7 @@
   // Configure environment
   // ROOT_URL must be set to your correct domain (https or http)
   "env": {
-    "ROOT_URL": "https://v1-5-6.partiodemo.com", 
+    "ROOT_URL": "https://v1-5-6.partiodemo.com",
     "MONGO_URL": "mongodb://partio:zpartio2016#@45.55.195.172:27017/partioapp"
   },
 
