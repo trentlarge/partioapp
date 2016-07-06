@@ -2,7 +2,7 @@
   // Server authentication info
   "servers": [
     {
-     "host": "v1-5-6.partiodemo.com",
+     "host": "107.170.134.49",
      "username": "root",
      //"password": "password",
      // or pem file (ssh based authentication)
@@ -29,19 +29,13 @@
   // Configure environment
   // ROOT_URL must be set to your correct domain (https or http)
   "env": {
-    "ROOT_URL": "https://v1-5-6.partiodemo.com",
+    "ROOT_URL": "http://107.170.134.49",
     "MONGO_URL": "mongodb://partio:zpartio2016#@45.55.195.172:27017/partioapp"
-  },
-
-  "ssl": {
-    "certificate": "./.ssl/v1-5-6.partiodemo.com/1_v1-5-6.partiodemo.com_bundle.crt", // this is a bundle of certificates
-    "key": "./.ssl/v1-5-6.partiodemo.com/v1-5-6.partiodemo.com.key", // this is the private key of the certificate
-    "port": 443 // 443 is the default value and it's the standard HTTPS port
   },
 
   // Meteor Up checks if the app comes online just after the deployment.
   // Before mup checks that, it will wait for the number of seconds configured below.
-  "deployCheckWaitTime": 15,
+  "deployCheckWaitTime": 60,
 
   // show a progress bar while uploading.
   // Make it false when you deploy using a CI box.
