@@ -175,6 +175,8 @@ Meteor.methods({
 					"product": {
 						"name": connect.productData.title,
 						"manufacturer": connect.productData.amazonCategory,
+						"category": "Books",
+						"subcategory": "Entertainment Books",
 						"value": Number((Number(connect.borrowDetails.price.total) * 100).toFixed(0))
 					},
 					"description": "",
