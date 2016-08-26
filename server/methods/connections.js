@@ -131,7 +131,7 @@ Meteor.methods({
 				}
 
 				request.post({
-				    url: "http://107.170.122.181:8888/api/customer/create",
+				    url: "http://104.236.51.249:8888/api/customer/create",
 				    method: "POST",
 				    json: true,
 				    headers: {
@@ -184,7 +184,7 @@ Meteor.methods({
 				}
 
 				request.post({
-				    url: "http://107.170.122.181:8888/api/policy/create",
+				    url: "http://104.236.51.249:8888/api/policy/create",
 				    method: "POST",
 				    json: true,
 				    headers: {
