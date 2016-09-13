@@ -129,18 +129,18 @@ Meteor.methods({
 						}
 					}
 				}
+				
+				var auth = 'Basic ' + new Buffer('sk_test_bHntEbTLiDkAj7wqptLDwgik:').toString('base64');
 
 				request.post({
-				    url: "http://104.236.51.249:8888/api/customer/create",
+				    url: "http://104.236.51.249:8888/api/customers/create",
 				    method: "POST",
 				    json: true,
 				    headers: {
+				    	"Authorization": auth,
 				        "content-type": "application/json",
 				    },
-				    body: {
-				        secretKey: "sk_test_bHntEbTLiDkAj7wqptLDwgik",
-				        data: data
-					}
+				    body: data
 				}, Meteor.bindEnvironment(function (error, response, customer) {
 	                if (!error) {
 						console.log(customer);
@@ -182,18 +182,18 @@ Meteor.methods({
 					"description": "",
 					"metadata": connect.productData
 				}
+				
+				var auth = 'Basic ' + new Buffer('sk_test_bHntEbTLiDkAj7wqptLDwgik:').toString('base64');
 
 				request.post({
-				    url: "http://104.236.51.249:8888/api/policy/create",
+				    url: "http://104.236.51.249:8888/api/policies/create",
 				    method: "POST",
 				    json: true,
 				    headers: {
+				    	"Authorization": auth,
 				        "content-type": "application/json",
 				    },
-				    body: {
-				        secretKey: "sk_test_bHntEbTLiDkAj7wqptLDwgik",
-				        data: data
-				    }
+				    body: data
 				}, Meteor.bindEnvironment(function (error, response, policy) {
 	                if (!error) {
 	                    console.log(policy);
