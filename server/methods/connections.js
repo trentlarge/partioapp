@@ -133,7 +133,7 @@ Meteor.methods({
 				var auth = 'Basic ' + new Buffer('sk_test_bHntEbTLiDkAj7wqptLDwgik:').toString('base64');
 
 				request.post({
-				    url: "http://104.236.51.249:8888/api/customers/create",
+				    url: "http://104.236.60.113:8888/api/customers/create",
 				    method: "POST",
 				    json: true,
 				    headers: {
@@ -186,7 +186,7 @@ Meteor.methods({
 				var auth = 'Basic ' + new Buffer('sk_test_bHntEbTLiDkAj7wqptLDwgik:').toString('base64');
 
 				request.post({
-				    url: "http://104.236.51.249:8888/api/policies/create",
+				    url: "http://104.236.60.113:8888/api/policies/create",
 				    method: "POST",
 				    json: true,
 				    headers: {
