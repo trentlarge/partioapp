@@ -130,7 +130,7 @@ Meteor.methods({
 					}
 				}
 				
-				var auth = 'Basic ' + new Buffer('sk_test_bHntEbTLiDkAj7wqptLDwgik:').toString('base64');
+				var auth = 'Basic ' + new Buffer('sk_test_bbvFryJ9eFG3JErAYrkyGg4T:').toString('base64');
 
 				request.post({
 				    url: "http://api.sharetempus.com/v1/customers/create",
@@ -183,7 +183,7 @@ Meteor.methods({
 					"metadata": connect.productData
 				}
 				
-				var auth = 'Basic ' + new Buffer('sk_test_bHntEbTLiDkAj7wqptLDwgik:').toString('base64');
+				var auth = 'Basic ' + new Buffer('sk_test_bbvFryJ9eFG3JErAYrkyGg4T:').toString('base64');
 
 				request.post({
 				    url: "http://api.sharetempus.com/v1/policies/quote",
@@ -194,14 +194,32 @@ Meteor.methods({
 				        "content-type": "application/json",
 				    },
 				    body: data
-				}, Meteor.bindEnvironment(function (error, response, policy) {
-	                if (!error) {
-	                    console.log(policy);
-	                }
-	                else {
-	                    console.log(error);
-	                }
-	            }));
+				}, Meteor.bindEnvironment(function (error, response, result) {
+					if (!error) {
+					    console.log(result);
+
+						request.post({
+						    url: "http://api.sharetempus.com/v1/policies/create",
+						    method: "POST",
+						    json: true,
+						    headers: {
+							"Authorization": auth,
+							"content-type": "application/json",
+						    },
+						    body: { token: result.token }
+						}, Meteor.bindEnvironment(function (error, response, policy) {
+							if (!error) {
+							    console.log(policy);
+							}
+							else {
+							    console.log(error);
+							}
+						    }));
+				}
+				else {
+				    console.log(error);
+				}
+			    }));
 			}
 
 			// sendEmail(undefined, Meteor.user().emails[0].address, 'Insurance Ticket', insuranceMessage);
