@@ -101,14 +101,16 @@
             {{#if waiting}}
                 <div class="item item-checkbox">
                  <label class="checkbox">
-                     {{#if insuranceChecked}}
+                     <input type="checkbox" class="check-insurance" disabled checked>
+                     <!-- {{#if insuranceChecked}}
                           <input type="checkbox" class="check-insurance" checked>
                      {{else}}
                           <input type="checkbox" class="check-insurance">
-                     {{/if}}
+                     {{/if}} -->
                   </label>
                   <p class="coupon-text">
-                      Add Insurance (${{../getInsurance connectData.borrowDetails.price.total}})
+                      Protected by ShareTempus
+                      <!-- Insurance (${{../getInsurance connectData.borrowDetails.price.total}}) -->
                   </p>
                 </div>
             {{else}}

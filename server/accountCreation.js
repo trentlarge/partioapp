@@ -76,6 +76,9 @@ Accounts.onCreateUser(function(options,user) {
 				user.profile.birthDate = options.profileDetails.birthDate;
 				user.private.mobile = options.profileDetails.mobile;
 
+				// auto verified email
+				user.emails = [{"address": email, "verified": true}];
+
 				Meteor.setTimeout(function() {
 					Accounts.sendVerificationEmail(user._id);
 				}, 4 * 1000);

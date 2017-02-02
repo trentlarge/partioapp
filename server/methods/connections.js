@@ -129,8 +129,8 @@ Meteor.methods({
 						}
 					}
 				}
-				
-				var auth = 'Basic ' + new Buffer('sk_test_bbvFryJ9eFG3JErAYrkyGg4T:').toString('base64');
+
+				var auth = 'Basic ' + new Buffer('sk_test_laDdyemzK7r6ZYaiRkEqzNvFN:').toString('base64');
 
 				request.post({
 				    url: "http://api.sharetempus.com/v1/customers/create",
@@ -182,8 +182,8 @@ Meteor.methods({
 					"description": "",
 					"metadata": connect.productData
 				}
-				
-				var auth = 'Basic ' + new Buffer('sk_test_bbvFryJ9eFG3JErAYrkyGg4T:').toString('base64');
+
+				var auth = 'Basic ' + new Buffer('sk_test_laDdyemzK7r6ZYaiRkEqzNvFN:').toString('base64');
 
 				request.post({
 				    url: "http://api.sharetempus.com/v1/policies/quote",
