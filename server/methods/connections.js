@@ -111,55 +111,88 @@ Meteor.methods({
 
 			if(!owner.private.sharetempusId) {
 
-				var data = {
-					"email": owner.emails[0].address,
-					"legalEntity": {
-						"type": "individual",
-						"firstName": firstName,
-						"lastName": lastName,
-						"birthdate": (new Date(owner.profile.birthDate)).getTime(),
-						"ssnLast4": "1234",
-						"address": {
-							"city": "New York City",
-							"country": "US",
-							"line1": "East 169th Street",
-							"line2": "Apt. 2A Bronx",
-							"postalCode": "10456",
-							"state": "New York"
+				var auth = 'Basic ' + new Buffer('sk_test_laDdyemzK7r6ZYaiRkEqzNvFN:').toString('base64');
+				findCustomer();
+
+				function findCustomer() {
+					request.post({
+						url: "http://api.sharetempus.com/v1/customers/find",
+						method: "POST",
+						json: true,
+						headers: {
+							"Authorization": auth,
+							"content-type": "application/json",
+						},
+						body: { email: owner.emails[0].address }
+					}, Meteor.bindEnvironment(function (error, response, customer) {
+						if (!error && !customer.error) {
+							// console.log(customer);
+
+							if(customer && customer.id) {
+								owner.private.sharetempusId = customer.id;
+								// console.log(owner);
+
+								Meteor.users.update({_id: owner._id },{
+									$set: owner
+								});
+							}
+
+							generateInsurance(customer.id);
+						} else {
+							generateCustomer();
 						}
-					}
+					}));
 				}
 
-				var auth = 'Basic ' + new Buffer('sk_test_laDdyemzK7r6ZYaiRkEqzNvFN:').toString('base64');
-
-				request.post({
-					url: "http://api.sharetempus.com/v1/customers/create",
-					method: "POST",
-					json: true,
-					headers: {
-						"Authorization": auth,
-						"content-type": "application/json",
-					},
-					body: data
-				}, Meteor.bindEnvironment(function (error, response, customer) {
-					if (!error) {
-						// console.log(customer);
-
-						if(customer && customer.id) {
-							owner.private.sharetempusId = customer.id;
-							// console.log(owner);
-
-							Meteor.users.update({_id: owner._id },{
-								$set: owner
-							});
+				function generateCustomer() {
+					var data = {
+						"email": owner.emails[0].address,
+						"legalEntity": {
+							"type": "individual",
+							"firstName": firstName,
+							"lastName": lastName,
+							"birthdate": (new Date(owner.profile.birthDate)).getTime(),
+							"ssnLast4": "1234",
+							"address": {
+								"city": "New York City",
+								"country": "US",
+								"line1": "East 169th Street",
+								"line2": "Apt. 2A Bronx",
+								"postalCode": "10456",
+								"state": "New York"
+							}
 						}
+					}
 
-						generateInsurance(customer.id);
-					}
-					else {
-						console.log(error);
-					}
-				}));
+					request.post({
+						url: "http://api.sharetempus.com/v1/customers/create",
+						method: "POST",
+						json: true,
+						headers: {
+							"Authorization": auth,
+							"content-type": "application/json",
+						},
+						body: data
+					}, Meteor.bindEnvironment(function (error, response, customer) {
+						if (!error) {
+							// console.log(customer);
+
+							if(customer && customer.id) {
+								owner.private.sharetempusId = customer.id;
+								// console.log(owner);
+
+								Meteor.users.update({_id: owner._id },{
+									$set: owner
+								});
+							}
+
+							generateInsurance(customer.id);
+						}
+						else {
+							console.log(error);
+						}
+					}));
+				}
 			}
 			else {
 				generateInsurance(owner.private.sharetempusId);
