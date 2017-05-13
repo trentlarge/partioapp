@@ -111,7 +111,7 @@ Meteor.methods({
 
 			if(!owner.private.sharetempusId) {
 
-				var auth = 'Basic ' + new Buffer('sk_test_laDdyemzK7r6ZYaiRkEqzNvFN:').toString('base64');
+				var auth = 'Basic ' + new Buffer('sk_live_cn6h8H5jKNN2Q2FTiJMKJMLF:').toString('base64');
 				findCustomer();
 
 				function findCustomer() {
@@ -216,7 +216,7 @@ Meteor.methods({
 					"metadata": connect.productData
 				}
 
-				var auth = 'Basic ' + new Buffer('sk_test_laDdyemzK7r6ZYaiRkEqzNvFN:').toString('base64');
+				var auth = 'Basic ' + new Buffer('sk_live_cn6h8H5jKNN2Q2FTiJMKJMLF:').toString('base64');
 
 				request.post({
 					url: "http://api.sharetempus.com/v1/policies/quote",
