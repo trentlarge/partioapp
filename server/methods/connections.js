@@ -213,7 +213,6 @@ Meteor.methods({
 						"value": Number((Number(connect.borrowDetails.price.total) * 100).toFixed(0))
 					},
 					"description": "",
-					"metadata": connect.productData
 				}
 
 				var auth = 'Basic ' + new Buffer('sk_live_cn6h8H5jKNN2Q2FTiJMKJMLF:').toString('base64');
