@@ -1,0 +1,22 @@
+{
+  "name": "partio",
+  "version": "1.0.0",
+  "description": "- meteor run --settings settings-dev.json",
+  "main": "mobile-config.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+		"start": "MONGO_URL='mongodb://admin:admin@ds139939.mlab.com:39939/partio' meteor run --settings settings.json"
+	},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/trentlarge/partioapp.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/trentlarge/partioapp/issues"
+  },
+  "homepage": "https://github.com/trentlarge/partioapp#readme"
+}

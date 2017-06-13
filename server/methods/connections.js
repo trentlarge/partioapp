@@ -105,7 +105,7 @@ Meteor.methods({
 
 		if(insur) {
 
-			var request = Meteor.npmRequire("request"),
+			// var request = Meteor.npmRequire("request"),
 			firstName = owner.profile.name.substring(0, owner.profile.name.indexOf(" ")),
 			lastName = owner.profile.name.substring(owner.profile.name.indexOf(" "), owner.profile.name.length);
 
@@ -115,18 +115,15 @@ Meteor.methods({
 				findCustomer();
 
 				function findCustomer() {
-					request.post({
-						url: "http://api.sharetempus.com/v1/customers/find",
-						method: "POST",
-						json: true,
+					HTTP.post("https://api.sharetempus.com/v1/customers/find", {
 						headers: {
 							"Authorization": auth,
 							"content-type": "application/json",
 						},
-						body: { email: owner.emails[0].address }
-					}, Meteor.bindEnvironment(function (error, response, customer) {
-						if (!error && !customer.error) {
-							// console.log(customer);
+						data: { email: owner.emails[0].address }
+					}, Meteor.bindEnvironment(function (error, response) {
+						var customer = JSON.parse(response.content);
+						if (!error && customer && !customer.error) {
 
 							if(customer && customer.id) {
 								owner.private.sharetempusId = customer.id;
@@ -164,19 +161,15 @@ Meteor.methods({
 						}
 					}
 
-					request.post({
-						url: "http://api.sharetempus.com/v1/customers/create",
-						method: "POST",
-						json: true,
+					HTTP.post( "https://api.sharetempus.com/v1/customers/create", {
 						headers: {
 							"Authorization": auth,
 							"content-type": "application/json",
 						},
-						body: data
-					}, Meteor.bindEnvironment(function (error, response, customer) {
+						data: data
+					}, Meteor.bindEnvironment(function (error, response) {
+						var customer = JSON.parse(response.content);
 						if (!error) {
-							// console.log(customer);
-
 							if(customer && customer.id) {
 								owner.private.sharetempusId = customer.id;
 								// console.log(owner);
@@ -217,29 +210,29 @@ Meteor.methods({
 
 				var auth = 'Basic ' + new Buffer('sk_live_cn6h8H5jKNN2Q2FTiJMKJMLF:').toString('base64');
 
-				request.post({
-					url: "http://api.sharetempus.com/v1/policies/quote",
+				HTTP.post("https://api.sharetempus.com/v1/policies/quote", {
 					method: "POST",
 					json: true,
 					headers: {
 						"Authorization": auth,
 						"content-type": "application/json",
 					},
-					body: data
-				}, Meteor.bindEnvironment(function (error, response, result) {
+					data: data
+				}, Meteor.bindEnvironment(function (error, response) {
+					var result = JSON.parse(response.content);
 					if (!error) {
 						// console.log(result);
 
-						request.post({
-							url: "http://api.sharetempus.com/v1/policies/create",
+						HTTP.post("https://api.sharetempus.com/v1/policies/create", {
 							method: "POST",
 							json: true,
 							headers: {
 								"Authorization": auth,
 								"content-type": "application/json",
 							},
-							body: { token: result.token }
-						}, Meteor.bindEnvironment(function (error, response, policy) {
+							data: { token: result.token }
+						}, Meteor.bindEnvironment(function (error, response) {
+							var policy = JSON.parse(response.content);
 							if (!error) {
 								Connections.update({ _id: connectionId }, { $set: { policy: policy }});
 								// console.log(policy);
