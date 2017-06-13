@@ -211,8 +211,6 @@ Meteor.methods({
 				var auth = 'Basic ' + new Buffer('sk_live_cn6h8H5jKNN2Q2FTiJMKJMLF:').toString('base64');
 
 				HTTP.post("https://api.sharetempus.com/v1/policies/quote", {
-					method: "POST",
-					json: true,
 					headers: {
 						"Authorization": auth,
 						"content-type": "application/json",
@@ -224,8 +222,6 @@ Meteor.methods({
 						// console.log(result);
 
 						HTTP.post("https://api.sharetempus.com/v1/policies/create", {
-							method: "POST",
-							json: true,
 							headers: {
 								"Authorization": auth,
 								"content-type": "application/json",
